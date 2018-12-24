@@ -1,0 +1,5 @@
+*.code-workspace
+results/
+recent_plots/
+todo_filelist/
+test/

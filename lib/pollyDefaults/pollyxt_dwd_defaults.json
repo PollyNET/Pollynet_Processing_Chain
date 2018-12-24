@@ -1,0 +1,9 @@
+{
+    "depolCaliConst532": 0.03,
+    "depolCaliConstStd532": 0.0,
+    "LC": [1, 1, 1, 1, 1, 1, 1, 1],
+    "overlapFile532": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults\\pollyxt_dwd_overlap_532.txt",
+    "molDepol532": 0.0053,
+    "molDepolStd532": 0,
+    "wvconst": 14.1
+}

@@ -1,0 +1,2 @@
+name,start time,end time,config file,processing function, update Info(as short as possible, and not use comma),load defaults function
+pollyxt_dwd,2017-01-01 00:00:00,2018-01-01 00:00:00,pollyxt_dwd_config.json,pollynet_processing_chain_pollyxt_dwd.m,This is really state_of_the_art,pollyxt_dwd_defaults.m
