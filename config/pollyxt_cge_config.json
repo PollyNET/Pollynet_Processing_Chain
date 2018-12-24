@@ -1,0 +1,24 @@
+{
+	"flagCorrectFalseMShots": true,	
+	"flagFilterFalseMShots": false,
+	"flagDTCor": true,
+
+	"dataFileFormat": "(\\d{4})_(\\d{2})_(\\d{2})_\\w*_(\\d{2})_(\\d{2})_(\\d{2}).nc",
+
+	"max_height_bin": 2500,
+	"first_range_gate_indx": [251, 251, 251, 251, 251, 251, 251, 251, 252, 252, 252, 252],
+	"first_range_gate_height": [3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75, 3.75],
+	"dtCorMode": 1,
+	"bgCorRangeIndx": [10, 240],
+	"mask_SNRmin": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+	"depol_cal_ang_p_time": ["02:30:00", "11:30:00", "21:30:00"],
+	"depol_cal_ang_n_time": ["02:35:00", "11:35:00", "21:35:00"],
+	"isFR": [true, true, true, true, true, true, true, true, false, false, false, false], 
+	"isNR": [false, false, false, false, false, false, false, false, true, true, true, true], 
+	"is532nm": [false, false, false, false, true, true, false, false, true, false, false, false], 
+	"is355nm": [true, true, false, false, false, false, false, false, false, false, true, false],
+	"isTot": [true, false, false, false, true, false, false, false, true, true, false, true, false],
+	"isCross": [false, true, false, false, false, true, false, false, false, false, false, false],
+	"minPC_fog": 60,
+	"TR": []
+}
