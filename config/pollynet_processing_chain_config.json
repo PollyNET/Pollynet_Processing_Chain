@@ -9,7 +9,8 @@
 	"pollynet_config_history_file": "C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt",
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
-	"contact": "zhenping@tropos.de",
+	"contact": "Zhenping Yin <zhenping@tropos.de>",
+	"programVersion": "1.0",
 
 	"_pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }

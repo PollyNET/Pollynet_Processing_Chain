@@ -141,23 +141,33 @@ fprintf('[%s] Finish.\n', tNow());
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_dwd_lidar_calibration(data, config);
 data.LC = LC;
-LCUsed = pollyxt_dwd_save_LC(data, config, taskInfo, fullfile(processConfig.results_folder, config.pollyVersion));
+LCUsed = struct();
+[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_dwd_save_LC(data, config, taskInfo, fullfile(processConfig.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-att_beta = pollyxt_dwd_att_beta(data, config);
+[att_beta_355, att_beta_532, att_beta_1064] = pollyxt_dwd_att_beta(data, config);
+data.att_beta_355 = att_beta_355;
+data.att_beta_532 = att_beta_532;
+data.att_beta_1064 = att_beta_1064;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
 [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064] = pollyxt_dwd_quasiretrive(data, config);
+data.quasi_bsc_532 = quasi_bsc_532;
+data.quasi_bsc_1064 = quasi_bsc_1064;
+data.quasi_parDepol_532 = quasi_parDepol_532;
+data.volDepol_532 = volDepol_532;
+data.quasi_angstrexp_532_1064 = quasi_angstrexp_532_1064;
 fprintf('[%s] Finish.\n');
 
 %% target classification
 fprintf('\n[%s] Start to aerosol target classification.\n', tNow());
 tc_mask = pollyxt_dwd_targetclassi(data, config);
+data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
 %% visualization

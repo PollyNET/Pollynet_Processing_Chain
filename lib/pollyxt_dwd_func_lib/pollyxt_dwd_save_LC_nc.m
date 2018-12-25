@@ -1,9 +1,36 @@
 function [] = pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
 %pollyxt_dwd_save_LC_nc save the lidar constants.
 %   Example:
-%       [] = pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
+%       pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
 %   Inputs:
-%       data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri
+%       data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       LCUsed355: float
+%           applied lidar constant at 355 nm for target classification.
+%       LCUsedTag355: integer
+%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
+%       flagLCWarning355: integer
+%           flag to show whether the lidar constants is very unstable.
+%       LCUsed532: float
+%           applied lidar constant at 532 nm for target classification.
+%       LCUsedTag532: integer
+%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
+%       flagLCWarning532: integer
+%           flag to show whether the lidar constants is very unstable.
+%       LCUsed1064: float
+%           applied lidar constant at 1064 nm for target classification.
+%       LCUsedTag1064: integer
+%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
+%       flagLCWarning1064: integer
+%           flag to show whether the lidar constants is very unstable.
+%       file: char
+%           netcdf file to save the results.
+%       globalAttri: struct          
+%           location: char
+%               location of the current polly system.
+%           institute: char
+%           contact: char
+%           version: char
 %   Outputs:
 %       
 %   History:
@@ -11,80 +38,157 @@ function [] = pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarnin
 %   Contact:
 %       zhenping@tropos.de
 
+missingValue = -999;
+
 LC_klett_355 = LC.LC_klett_355;
-LC_klett_355(isnan(LC_klett_355)) = -999;
+LC_klett_355(isnan(LC_klett_355)) = missingValue;
 LC_klett_532 = LC.LC_klett_532;
-LC_klett_532(isnan(LC_klett_532)) = -999;
+LC_klett_532(isnan(LC_klett_532)) = missingValue;
 LC_klett_1064 = LC.LC_klett_1064;
-LC_klett_1064(isnan(LC_klett_1064)) = -999;
+LC_klett_1064(isnan(LC_klett_1064)) = missingValue;
 LC_raman_355 = LC.LC_raman_355;
-LC_raman_355(isnan(LC_raman_355)) = -999;
+LC_raman_355(isnan(LC_raman_355)) = missingValue;
 LC_raman_532 = LC.LC_raman_532;
-LC_raman_532(isnan(LC_raman_532)) = -999;
+LC_raman_532(isnan(LC_raman_532)) = missingValue;
 LC_raman_1064 = LC.LC_raman_1064;
-LC_raman_1064(isnan(LC_raman_1064)) = -999;
+LC_raman_1064(isnan(LC_raman_1064)) = missingValue;
 LC_aeronet_355 = LC.LC_aeronet_355;
-LC_aeronet_355(isnan(LC_aeronet_355)) = -999;
+LC_aeronet_355(isnan(LC_aeronet_355)) = missingValue;
 LC_aeronet_532 = LC.LC_aeronet_532;
-LC_aeronet_532(isnan(LC_aeronet_532)) = -999;
+LC_aeronet_532(isnan(LC_aeronet_532)) = missingValue;
 LC_aeronet_1064 = LC.LC_aeronet_1064;
-LC_aeronet_1064(isnan(LC_aeronet_1064)) = -999;
+LC_aeronet_1064(isnan(LC_aeronet_1064)) = missingValue; 
 
 % Create .nc file by overwriting any existing file with the name filename
 ncID = netcdf.create(file, 'CLOBBER');
 
 % define dimensions
-dimID_height = netcdf.defDim(ncID, 'height', length(height));
-dimID_method = netcdf.defDim(ncID, 'method', 1);
+dimID_time = netcdf.defDim(ncID, 'time', numel(LC_klett_355));
+dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_height = netcdf.defVar(ncID, 'height', 'double', dimID_height);
-varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'double', dimID_height);
-varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'double', dimID_height);
-varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'double', dimID_height);
-varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'double', dimID_height);
-varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'int32', dimID_method);
+varID_datetime = netcdf.defVar(ncID, 'datetime', 'double', dimID_time);
+varID_LC_klett_355 = netcdf.defVar(ncID, 'LC_klett_355nm', 'double', dimID_time);
+varID_LC_klett_532 = netcdf.defVar(ncID, 'LC_klett_532nm', 'double', dimID_time);
+varID_LC_klett_1064 = netcdf.defVar(ncID, 'LC_klett_1064nm', 'double', dimID_time);
+varID_LC_raman_355 = netcdf.defVar(ncID, 'LC_raman_355nm', 'double', dimID_time);
+varID_LC_raman_532 = netcdf.defVar(ncID, 'LC_raman_532nm', 'double', dimID_time);
+varID_LC_raman_1064 = netcdf.defVar(ncID, 'LC_raman_1064nm', 'double', dimID_time);
+varID_LC_aeronet_355 = netcdf.defVar(ncID, 'LC_aeronet_355nm', 'double', dimID_time);
+varID_LC_aeronet_532 = netcdf.defVar(ncID, 'LC_aeronet_532nm', 'double', dimID_time);
+varID_LC_aeronet_1064 = netcdf.defVar(ncID, 'LC_aeronet_1064nm', 'double', dimID_time);
+varID_LC_used_355 = netcdf.defVar(ncID, 'LCMean355nm', 'double', dimID_constant);
+varID_LC_used_532 = netcdf.defVar(ncID, 'LCMean532nm', 'double', dimID_constant);
+varID_LC_used_1064 = netcdf.defVar(ncID, 'LCMean1064nm', 'double', dimID_constant);
+varID_LC_usedtag_355 = netcdf.defVar(ncID, 'LCMean355_flag', 'int32', dimID_constant);
+varID_LC_usedtag_532 = netcdf.defVar(ncID, 'LCMean532_flag', 'int32', dimID_constant);
+varID_LC_usedtag_1064 = netcdf.defVar(ncID, 'LCMean1064_flag', 'int32', dimID_constant);
+varID_LC_warning_355 = netcdf.defVar(ncID, 'LCMean355_warning', 'int32', dimID_constant);
+varID_LC_warning_532 = netcdf.defVar(ncID, 'LCMean532_warning', 'int32', dimID_constant);
+varID_LC_warning_1064 = netcdf.defVar(ncID, 'LCMean1064_warning', 'int32', dimID_constant);
 
 % leave define mode
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_height, height);
-netcdf.putVar(ncID, varID_overlap532, overlap532);
-netcdf.putVar(ncID, varID_overlap355, overlap355);
-netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
-netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
-netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCorMode);
+netcdf.putVar(ncID, varID_datetime, transpose(mean(data.mTime(data.cloudFreeGroups), 2)));
+netcdf.putVar(ncID, varID_LC_klett_355, LC_klett_355);
+netcdf.putVar(ncID, varID_LC_klett_532, LC_klett_532);
+netcdf.putVar(ncID, varID_LC_klett_1064, LC_klett_1064);
+netcdf.putVar(ncID, varID_LC_raman_355, LC_raman_355);
+netcdf.putVar(ncID, varID_LC_raman_532, LC_raman_532);
+netcdf.putVar(ncID, varID_LC_raman_1064, LC_raman_1064);
+netcdf.putVar(ncID, varID_LC_aeronet_355, LC_aeronet_355);
+netcdf.putVar(ncID, varID_LC_aeronet_532, LC_aeronet_532);
+netcdf.putVar(ncID, varID_LC_aeronet_1064, LC_aeronet_1064);
+netcdf.putVar(ncID, varID_LC_used_355, LCUsed355);
+netcdf.putVar(ncID, varID_LC_used_532, LCUsed532);
+netcdf.putVar(ncID, varID_LC_used_1064, LCUsed1064);
+netcdf.putVar(ncID, varID_LC_usedtag_355, LCUsedTag355);
+netcdf.putVar(ncID, varID_LC_usedtag_532, LCUsedTag532);
+netcdf.putVar(ncID, varID_LC_usedtag_1064, LCUsedTag1064);
+netcdf.putVar(ncID, varID_LC_warning_355, LCMean355_warning);
+netcdf.putVar(ncID, varID_LC_warning_532, LCMean532_warning);
+netcdf.putVar(ncID, varID_LC_warning_1064, LCMean1064_warning);
 
 % re enter define mode
 netcdf.reDef(ncID);
 
 % write attributes to the variables
-netcdf.putAtt(ncID, varID_height, 'unit', 'm');
-netcdf.putAtt(ncID, varID_height, 'long_name', 'height (above surface)');
+netcdf.putAtt(ncID, varID_datetime, 'unit', 'datenum');
+netcdf.putAtt(ncID, varID_datetime, 'long_name', 'medium datetime for each calibration period.');
 
-netcdf.putAtt(ncID, varID_overlap532, 'unit', '');
-netcdf.putAtt(ncID, varID_overlap532, 'long_name', 'overlap function for 532nm far-range channel');
+netcdf.putAtt(ncID, varID_LC_klett_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_klett_355, 'long_name', 'Lidar constant at 355 nm based on klett method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_klett_355, 'missing_value', missingValue);
 
-netcdf.putAtt(ncID, varID_overlap355, 'unit', '');
-netcdf.putAtt(ncID, varID_overlap355, 'long_name', 'overlap function for 355nm far-range channel');
+netcdf.putAtt(ncID, varID_LC_klett_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_klett_532, 'long_name', 'Lidar constant at 532 nm based on klett method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_klett_532, 'missing_value', missingValue);
 
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'unit', '');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'long_name', 'Default overlap function for 355nm far-range channel');
+netcdf.putAtt(ncID, varID_LC_klett_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_klett_1064, 'long_name', 'Lidar constant at 1064 nm based on klett method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_klett_1064, 'missing_value', missingValue);
 
-netcdf.putAtt(ncID, varID_overlap532Defaults, 'unit', '');
-netcdf.putAtt(ncID, varID_overlap532Defaults, 'long_name', 'Default overlap function for 532nm far-range channel');
+netcdf.putAtt(ncID, varID_LC_raman_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_raman_355, 'long_name', 'Lidar constant at 355 nm based on raman method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_raman_355, 'missing_value', missingValue);
 
-netcdf.putAtt(ncID, varID_overlapCalMethod, 'unit', '');
-netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', '1: signal ratio of near and far range signal; 2: Raman method (Ulla Wandinger 2002)');
+netcdf.putAtt(ncID, varID_LC_raman_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_raman_532, 'long_name', 'Lidar constant at 532 nm based on raman method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_raman_532, 'missing_value', missingValue);
 
+netcdf.putAtt(ncID, varID_LC_raman_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_raman_1064, 'long_name', 'Lidar constant at 1064 nm based on raman method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_raman_1064, 'missing_value', missingValue);
+
+netcdf.putAtt(ncID, varID_LC_aeronet_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_aeronet_355, 'long_name', 'Lidar constant at 355 nm based on constrained-aod method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_aeronet_355, 'missing_value', missingValue);
+
+netcdf.putAtt(ncID, varID_LC_aeronet_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_aeronet_532, 'long_name', 'Lidar constant at 532 nm based on constrained-aod method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_aeronet_532, 'missing_value', missingValue);
+
+netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'long_name', 'Lidar constant at 1064 nm based on constrained-aod method. The constant value is aimed at 30-s profile.');
+netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'missing_value', missingValue);
+
+netcdf.putAtt(ncID, varID_LC_used_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_used_355, 'long_name', 'Actual lidar constant at 355 nm in application. The constant value is aimed at 30-s profile.');
+
+netcdf.putAtt(ncID, varID_LC_used_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_used_532, 'long_name', 'Actual lidar constant at 532 nm in application. The constant value is aimed at 30-s profile.');
+
+netcdf.putAtt(ncID, varID_LC_used_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_used_1064, 'long_name', 'Actual lidar constant at 1064 nm in application. The constant value is aimed at 30-s profile.');
+
+netcdf.putAtt(ncID, varID_LC_usedtag_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_usedtag_355, 'long_name', 'The source of applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)');
+
+netcdf.putAtt(ncID, varID_LC_usedtag_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_usedtag_532, 'long_name', 'The source of applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)');
+
+netcdf.putAtt(ncID, varID_LC_usedtag_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_usedtag_1064, 'long_name', 'The source of applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)');
+
+netcdf.putAtt(ncID, varID_LC_warning_355, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_warning_355, 'long_name', 'flag to show whether it is unstalbe for the calibration constants. (1: yes; 0: no)');
+
+netcdf.putAtt(ncID, varID_LC_warning_532, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_warning_532, 'long_name', 'flag to show whether it is unstalbe for the calibration constants. (1: yes; 0: no)');
+
+netcdf.putAtt(ncID, varID_LC_warning_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_warning_1064, 'long_name', 'flag to show whether it is unstalbe for the calibration constants. (1: yes; 0: no)');
+
+% global attributes
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'location', globalAttri.location);
 netcdf.putAtt(ncID, varID_global, 'institution', globalAttri.institution);
-netcdf.putAtt(ncID, varID_global, 'contact', sprintf('If you have any question about the calibration process, please send email to %s', globalAttri.contact));
+netcdf.putAtt(ncID, varID_global, 'version', globalAttri.version);
+netcdf.putAtt(ncID, varID_global, 'contact', sprintf('%s', globalAttri.contact));
  
 % close file
 netcdf.close(ncID);
-
 
 end

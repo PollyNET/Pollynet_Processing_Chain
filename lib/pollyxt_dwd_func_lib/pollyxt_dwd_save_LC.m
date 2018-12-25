@@ -1,11 +1,28 @@
-function [LCUsed, LCUsedTag, flagLCWarning] = pollyxt_dwd_save_LC(data, config, taskInfo, folder)
+function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064] = pollyxt_dwd_save_LC(data, config, taskInfo, folder)
 %pollyxt_dwd_save_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
 %   Example:
 %       [LCUsed] = pollyxt_dwd_save_LC(data, config)
 %   Inputs:
-%       data, config
+%		data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
-%       LCUsed
+%       LCUsed355: float
+%           applied lidar constant at 355 nm. 
+%       LCUsedTag355: integer
+%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning355: integer
+%           flag to show whether the calibration constant is unstable. 
+%       LCUsed532: float
+%           applied lidar constant at 532 nm. 
+%       LCUsedTag532: integer
+%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning532: integer
+%           flag to show whether the calibration constant is unstable. 
+%       LCUsed1064: float
+%           applied lidar constant at 1064 nm. 
+%       LCUsedTag1064: integer
+%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning1064: integer
+%           flag to show whether the calibration constant is unstable. 
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %   Contact:
@@ -110,6 +127,7 @@ globalAttri = struct();
 globalAttri.location = campaignInfo.location;
 globalAttri.institute = processInfo.institute;
 globalAttri.contact = processInfo.contact;
+globalAttri.version = processInfo.programVersion;
 
 pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
 pollyxt_dwd_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
