@@ -33,8 +33,6 @@ if isempty(data.rawSignal)
 end
 
 %% read meteorological data for each cloud-free group
-alt = data.height + campaignInfo.asl;
-
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     switch lower(config.meteorDataSource)
     case 'gdas1'
@@ -48,7 +46,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     case 'websonde'
         searchTRange = [floor(data.mTime(data.cloudFreeGroups(iGroup, 1))), ceil(data.mTime(data.cloudFreeGroups(iGroup, 2)))];
         measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
-        [altRaw, tempRaw, presRaw, ~, globalAttri] = read_websonde(measTime, searchTRange, config.radiosondeSitenum);
+        [altRaw, tempRaw, presRaw, relhRaw, meteorAttri] = read_websonde(measTime, searchTRange, config.radiosondeSitenum);
     case 'radiosonde'
         % define your read function here for reading local launching radiosonde data
         % [altRaw, tempRaw, presRaw, relhRaw] = read_radiosonde(file);
@@ -67,9 +65,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     % interp the parameters
-    thistemp = interp_meteor(altRaw, tempRaw, alt);
-    thispres = interp_meteor(altRaw, presRaw, alt);
-    thisrelh = interp_meteor(altRaw, relhRaw, alt);
+    thistemp = interp_meteor(altRaw, tempRaw, dadta.alt);
+    thispres = interp_meteor(altRaw, presRaw, dadta.alt);
+    thisrelh = interp_meteor(altRaw, relhRaw, dadta.alt);
 
     % concatenate the parameters
     temp = cat(1, temp, thistemp);

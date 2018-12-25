@@ -91,7 +91,8 @@ netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', '1: signal ratio of nea
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'location', globalAttri.location);
 netcdf.putAtt(ncID, varID_global, 'institution', globalAttri.institution);
-netcdf.putAtt(ncID, varID_global, 'contact', sprintf('If you have any question about the calibration process, please send email to %s', globalAttri.contact));
+netcdf.putAtt(ncID, varID_global, 'version', globalAttri.version);
+netcdf.putAtt(ncID, varID_global, 'contact', sprintf('%s', globalAttri.contact));
  
 % close file
 netcdf.close(ncID);

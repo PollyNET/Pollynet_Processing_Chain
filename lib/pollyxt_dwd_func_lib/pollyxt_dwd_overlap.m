@@ -87,6 +87,7 @@ globalAttribute = struct();
 globalAttribute.location = campaignInfo.location;
 globalAttribute.institute = processInfo.institute;
 globalAttribute.contact = processInfo.contact;
+globalAttribute.version = processInfo.programVersion;
 pollyxt_dwd_save_overlap(data.height, overlap532, overlap355, overlap532DefaultInterp, overlap355DefaultInterp, saveFile, config, globalAttribute);
 pollyxt_dwd_display_overlap(data.height, overlap532, overlap355, overlap532DefaultInterp, overlap355DefaultInterp, picFile, config, taskInfo, globalAttribute);
 
