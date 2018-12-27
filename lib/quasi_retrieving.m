@@ -24,13 +24,13 @@ function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, mol
 %       zhenping@tropos.de
 
 diffHeight = repmat(transpose([height, diff(height)]), size(att_beta, 1), numel(att_beta, 2));
-mol_att = exp(- cumsum(molExt .* diffHeight));
+mol_att = exp(- cumsum(molExt .* diffHeight, 1));
 corr_beta = att_beta ./ mol_att.^2;
 
 quasi_par_bsc = corr_beta - molBsc;
 quasi_par_bsc(quasi_par_bsc < 0) = 0;
 quasi_par_ext = quasi_par_bsc * LRaer;
-quasi_par_att = exp(-nancumsum(quasi_par_ext .* diffHeight));
+quasi_par_att = exp(-nancumsum(quasi_par_ext .* diffHeight, 1));
 quasi_par_bsc = att_beta ./ (mol_att .* quasi_par_att).^2 - molBsc;
 quasi_par_bsc(quasi_par_bsc < 0) = 0;
 quasi_par_ext = quasi_par_bsc * LRaer;

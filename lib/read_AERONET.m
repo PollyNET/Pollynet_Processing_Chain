@@ -27,7 +27,7 @@ function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %       wavelength: array
 %           wavelength of each channel. [nm]
 %       IWV: array
-%           Integrated Water Vapor. [cm] 
+%           Integrated Water Vapor. [kg * m^{-2}] 
 %       angstrexp440_870: array
 %           angstroem exponent 440-870 nm
 %       AERONETAttri: struct     
@@ -38,7 +38,7 @@ function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %           status: logical
 %               status to show whether retrieve the data successfully.
 %           IWVUnit: char
-%               unit of integrated water vapor. [cm]
+%               unit of integrated water vapor. [kg * m^{-2}]
 %           location: char
 %               AERONET site
 %           PI: char
@@ -100,7 +100,7 @@ if status == 0
         AOD_440 = T{8}(1:end-1);
         AOD_380 = T{9}(1:end-1);
         AOD_340 = T{10}(1:end-1);
-        IWV = T{11}(1:end-1);
+        IWV = T{11}(1:end-1) / 100 * 1000;   % convert the precipitable water vapor (cm) to integrated water vapor (kg * m^{-2}) by timing the density of liquid water.
         angstrexp440_870 = T{12}(1:end-1);
         for iRow = 1:(numel(T{1}) - 1)
             datetime = [datetime, datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
@@ -110,7 +110,7 @@ if status == 0
         AERONETAttri.URL = aod_url;
         AERONETAttri.level = level;
         AERONETAttri.status = true;
-        AERONETAttri.IWVUnit = 'cm';
+        AERONETAttri.IWVUnit = 'kg * m^{-2}';
         AERONETAttri.location = site;
         AERONETAttri.PI = siteinfo.PI;
         AERONETAttri.contact = siteinfo.Email;
@@ -120,7 +120,7 @@ if status == 0
         AERONETAttri.URL = aod_url;
         AERONETAttri.level = level;
         AERONETAttri.status = false;
-        AERONETAttri.IWVUnit = 'cm';
+        AERONETAttri.IWVUnit = 'kg * m^{-2}';
         AERONETAttri.location = site;
         AERONETAttri.PI = '';
         AERONETAttri.contact = '';
