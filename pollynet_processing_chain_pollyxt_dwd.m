@@ -79,41 +79,22 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% load AERONET data
 fprintf('\n[%s] Start to load AERONET data.\n', tNow());
-[datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = read_AERONET(config.AERONETSite, floor(data.mTime(1)));
-AERONET.datetime = datetime;
-AERONET.AOD_1640 = AOD_1640;
-AERONET.AOD_1020 = AOD_1020;
-AERONET.AOD_870 = AOD_870;
-AERONET.AOD_675 = AOD_675;
-AERONET.AOD_500 = AOD_500;
-AERONET.AOD_440 = AOD_440;
-AERONET.AOD_380 = AOD_380;
-AERONET.AOD_340 = AOD_340;
-AERONET.wavelength = wavelength;
-AERONET.IWV = IWV;
-AERONET.angstrexp440_870 = angstrexp440_870;
-AERONET.AERONETAttri = AERONETAttri;
+AERONET = struct();
+[AERONET.datetime, AERONET.AOD_1640, AERONET.AOD_1020, AERONET.AOD_870, AERONET.AOD_675, AERONET.AOD_500, AERONET.AOD_440, AERONET.AOD_380, AERONET.AOD_340, AERONET.wavelength, AERONET.IWV, AERONET.angstrexp440_870, AERONET.AERONETAttri] = read_AERONET(config.AERONETSite, floor(data.mTime(1)));
+data.AERONET = AERONET;
 fprintf('[%s] Finish.\n', tNow());
 
 %% rayleigh fitting
 fprintf('\n[%s] Start to apply rayleigh fitting.\n', tNow());
 % data.refheight355, refheight532, refheight1064
-[refHIndx355, refHIndx532, refHIndx1064, dpIndx355, dpIndx532, dpIndx1064] = pollyxt_dwd_rayleighfit(data, config);
-data.refHIndx355 = refHIndx355;
-data.refHIndx532 = refHIndx532;
-data.refHIndx1064 = refHIndx1064;
-data.dpIndx355 = dpIndx355;
-data.dpIndx532 = dpIndx532;
-data.dpIndx1064 = dpIndx1064;
+[data.refHIndx355, data.refHIndx532, data.refHIndx1064, data.dpIndx355, data.dpIndx532, data.dpIndx1064] = pollyxt_dwd_rayleighfit(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% optical properties retrieving
 fprintf('\n[%s] Start to retrieve aerosol optical properties.\n', tNow());
 fprintf('Meteorological file from: %s.\n', meteorAttri.dataSource);
 
-[el532, bgEl532] = pollyxt_dwd_transratioCor(data, config);
-data.el532 = el532;
-data.bgEl532 = bgEl532;
+[data.el532, data.bgEl532] = pollyxt_dwd_transratioCor(data, config);
 
 % TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_dwd_klett(data, config);
@@ -126,15 +107,11 @@ fprintf('[%s] Finish.\n', tNow());
 %% water vapor calibration
 % get IWV from other instruments
 fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
-IWV = NaN(1, size(data.cloudFreeGroups, 1));
-for iGroup = 1:size(data.cloudFreeGroups, 1)
-    % aeronet and MWR
-    thisIWV = get_IWV(mean(data.mTime(data.cloudFreeGroups(iGroup, :)), 2), config.instrument_4_IWV);
-end
-
-[wvconst, wvconstTime, meteorSouce, IWVInstrument, wvCaliInfo] = pollyxt_dwd_wv_calibration(data, IWV, config, campaignInfo);
+[data.IWV, data.IWVAttri] = pollyxt_dwd_read_IWV(data, config);
+[wvconst, wvconstStd, wvCaliInfo] = pollyxt_dwd_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-wvconst = pollyxt_dwd_save_wvconst(wvconst, wvconstTime, meteorSouce, IWVInstrument, wvCaliInfo, config, defaults);
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_dwd_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion));
+[data.wvmr, data.rh, data.MVWR, data.RH] = pollyxt_dwd_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
 %% lidar calibration
@@ -156,12 +133,7 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064] = pollyxt_dwd_quasiretrive(data, config);
-data.quasi_bsc_532 = quasi_bsc_532;
-data.quasi_bsc_1064 = quasi_bsc_1064;
-data.quasi_parDepol_532 = quasi_parDepol_532;
-data.volDepol_532 = volDepol_532;
-data.quasi_angstrexp_532_1064 = quasi_angstrexp_532_1064;
+[data.quasi_bsc_532, data.quasi_bsc_1064, data.quasi_parDepol_532, data.volDepol_532, data.quasi_angstrexp_532_1064] = pollyxt_dwd_quasiretrive(data, config);
 fprintf('[%s] Finish.\n');
 
 %% target classification

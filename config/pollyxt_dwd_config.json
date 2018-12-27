@@ -6,6 +6,7 @@
 
 	"dataFileFormat": "(\\d{4})_(\\d{2})_(\\d{2})_\\w*_(\\d{2})_(\\d{2})_(\\d{2}).nc",
 	"gdas1Site": "hbp",
+	"AERONETSite": "HohenpeissenbergDWD",
 
 	"max_height_bin": 2500,
 	"first_range_gate_indx": [251, 251, 251, 251, 251, 251, 251, 251],
@@ -27,15 +28,17 @@
 	"isNR": [false, false, false, false, false, false, true, true], 
 	"is532nm": [false, false, true, true, false, false, true, false], 
 	"is355nm": [true, false, false, false, false, false, false, false],
+	"is1064nm": [false, false, false, false, false, true, false, false],
 	"isTot": [true, false, true, false, false, true, true, false],
 	"isCross": [false, false, false, true, false, false, false, false],
 	"is387nm": [false, true, false, false, false, false, false, false],
+	"is407nm": [false, false, false, false, false, false, false, false],
 	"is607nm": [false, false, false, false, true, false, false, true],
+	"channelTag": ["FR-total-355 nm", "FR-387 nm", "FR-total-532 nm", "FR-cross-532 nm", "FR-607 nm", "FR-total-1064 nm", "NR-total 532 nm", "NR-607 nm"],
 	"minPC_fog": 60,
 	"TR": [1, 1, 1, 500, 1, 1, 1, 1], 
 	"overlapCorMode": 1,
 	"maxSigSlope4FilterCloud": 2e6,
-	"instrument_4_IWV": "AERONET",
 	"saturate_thresh": 100,
 	"heightFullOverlap": [500, 500, 500, 500, 500, 500, 500, 500],
 	"minSNR_4_sigNorm": [3],
@@ -43,6 +46,8 @@
 	"minIntNProfiles": 90,
 	"meteorDataSource": "gdas1",
 	"radiosondeSitenum": 10962,
+	"IWV_instrument": "AERONET",
+	"maxIWVTLag": 0.0833,
 	"minDecomLogDist355": 0.2,
 	"minDecomLogDist532": 0.2,
 	"minDecomLogDist1064": 0.2,
@@ -87,6 +92,7 @@
 	"LCMeanMaxIndx": 1000,
 	"quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1],
 	"quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10],
+	"hWVCaliBase": 120,
 
 	"clear_thres_par_beta_1064": 1e-8,
 	"turbid_thres_par_beta_1064": 2e-7,
@@ -108,5 +114,6 @@
 
 	"depolCaliFile": "pollyxt_dwd_depolcali_results.txt",
 	"wvCaliFile": "pollyxt_dwd_wvcali_results.txt",
-	"lcCaliFile": "pollyxt_dwd_lccali_results.txt"
+	"lcCaliFile": "pollyxt_dwd_lccali_results.txt",
+	"WMRFolder": "/lacroshome/hatpro/data/pta/data/level2"
 }
