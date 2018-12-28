@@ -21,8 +21,8 @@ function [flag] = polly_saturationdetect(signal, height, hBase, hTop, sigThresh,
 %   Contact:
 %       zhenping@tropos.de
 
-flag = flase(size(signal));
-if isempty(signal) || (length(signal < 2))
+flag = false(size(signal));
+if isempty(signal) || (numel(signal) < 2)
     warning('The length of signal is less than 2.');
     return;
 end
@@ -35,8 +35,10 @@ if isempty(hBaseIndx) || isempty(hTopIndx)
 end
 
 indxSaturate = find((signal(hBaseIndx:(hTopIndx - 1)) - sigThresh) .* (signal((hBaseIndx + 1):hTopIndx) - sigThresh) <= 0);
-if isempty(indxSaturate) || (length(indxSaturate == 1))
-    break;
+if isempty(indxSaturate) || (numel(indxSaturate) == 1)
+    return;
+else
+    indxSaturate = indxSaturate + hBaseIndx - 1;
 end
 
 indx = 1;

@@ -1,7 +1,7 @@
-function [] = pollyxt_dwd_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, taskInfo, globalAttri)
-%pollyxt_dwd_display_overlap display the overlap function.
+function [] = pollyxt_lacros_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, taskInfo, globalAttri)
+%pollyxt_lacros_display_overlap display the overlap function.
 %   Example:
-%       [] = pollyxt_dwd_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri)
+%       [] = pollyxt_lacros_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri)
 %   Inputs:
 %       height: array
 %           height above surface. [m]
@@ -56,11 +56,11 @@ xlim([-0.05, 1.1]);
 ylim([0, 3000]);
 xlabel('Overlap');
 ylabel('Height (m)');
-title(sprintf('%s-%s-%s', taskInfo.pollyVersion, globalAttri.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 7, 'FontWeight', 'bold');
+title(sprintf('%s - %s - %s', taskInfo.pollyVersion, globalAttri.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 7, 'FontWeight', 'bold');
 
 set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000);
 
-set(findall('-property', 'FontName'), 'FontName', 'Times New Roman');
+set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
 
 %% save figure
 saveas(gcf, file);

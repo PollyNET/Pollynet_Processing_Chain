@@ -28,7 +28,7 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %   Contact:
 %       zhenping@tropos.de
 
-global defaults, campaignInfo, processInfo.institute
+global defaults campaignInfo processInfo.institute
 
 LCUsed355 = [];
 LCUsed532 = [];

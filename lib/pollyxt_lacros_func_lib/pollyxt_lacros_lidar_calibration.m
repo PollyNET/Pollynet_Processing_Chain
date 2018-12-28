@@ -1,7 +1,7 @@
-function [LC] = pollyxt_dwd_lidar_calibration(data, config)
-%pollyxt_dwd_lidar_calibration calibrate the lidar system
+function [LC] = pollyxt_lacros_lidar_calibration(data, config)
+%pollyxt_lacros_lidar_calibration calibrate the lidar system
 %   Example:
-%       [LC] = pollyxt_dwd_lidar_calibration(data, config)
+%       [LC] = pollyxt_lacros_lidar_calibration(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

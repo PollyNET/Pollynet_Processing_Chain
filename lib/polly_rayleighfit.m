@@ -45,7 +45,7 @@ molCorSig = sigPCR .* distance0.^2 ./ molsig;
 dpIndx = DouglasPeucker(molCorSig, distance0, minDecomLogDist, searchBase, searchTop, maxDecomThickness, decomSmoothWin);
 
 RCS = sigPCR .* distance0.^2;
-[hBIndx, hTIndx] = rayleighfit(distance0, RCS, sig, bg, molsig, dpIndx, minRefThickness, minRefDeltaExt, minRefSNR, false);
+[hBIndx, hTIndx] = rayleighfit(distance0, RCS, sig, bg, molsig, dpIndx, minRefThickness, minRefDeltaExt, minRefSNR, true);
 
 refHIndx = [hBIndx, hTIndx];
 

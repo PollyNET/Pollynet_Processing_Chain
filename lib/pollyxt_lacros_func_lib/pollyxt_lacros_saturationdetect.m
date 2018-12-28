@@ -1,12 +1,10 @@
-function [flag] = pollyxt_dwd_saturationdetect(signal, height, config)
-%pollyxt_dwd_saturationdetect detect the bins which is fully saturated by the clouds. The description about the detection algorithm can be found in doc/polly_defaults.md
+function [flag] = pollyxt_lacros_saturationdetect(data, config)
+%pollyxt_lacros_saturationdetect detect the bins which is fully saturated by the clouds. The description about the detection algorithm can be found in doc/polly_defaults.md
 %   Example:
-%       [flag] = pollyxt_dwd_saturationdetect(data, height, config)
+%       [flag] = pollyxt_lacros_saturationdetect(data, height, config)
 %   Inputs:
 %       data: struct
 %           More detailed information can be found in doc\pollynet_processing_program.md
-%       height: array
-%           height of each range bin. [m]
 %       config: struct
 %           processing configurations. Deatiled information can be found in doc\polly_config.md
 %   Outputs:
@@ -17,13 +15,13 @@ function [flag] = pollyxt_dwd_saturationdetect(signal, height, config)
 %   Contact:
 %       zhenping@tropos.de
 
-nChannels = size(signal, 1);
-nProfiles = size(signal, 3);
+nChannels = size(data.signal, 1);
+nProfiles = size(data.signal, 3);
 
-flag = false(size(signal));
+flag = false(size(data.signal));
 for iChannel = 1:nChannels
     for iProfile = 1:nProfiles
-        flagSaturation = polly_saturationdetect(squeeze(signal(iChannel, :, iProfile)), height, config.saturate_thresh, 500);
+        flagSaturation = polly_saturationdetect(squeeze(data.signal(iChannel, :, iProfile)), data.height, config.heightFullOverlap(iChannel), 10000, config.saturate_thresh, 500);
         flag(iChannel, :, iProfile) = flagSaturation;
     end
 end

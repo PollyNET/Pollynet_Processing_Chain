@@ -1,7 +1,7 @@
-function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mask_RH] = pollyxt_dwd_wv_retrieve(data, config, IWVIntRangeIndx)
-%pollyxt_dwd_wv_retrieve retrieve the water vapor mixing ratio and relative humidity.
+function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mask_RH] = pollyxt_lacros_wv_retrieve(data, config, IWVIntRangeIndx)
+%pollyxt_lacros_wv_retrieve retrieve the water vapor mixing ratio and relative humidity.
 %   Example:
-%       [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_dwd_wv_retrieve(data, config, IWVIntRangeIndx)
+%       [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_lacros_wv_retrieve(data, config, IWVIntRangeIndx)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -74,8 +74,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         % calculate the molecule optical properties
         [~, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [~, molExt407] = rayleigh_scattering(407, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
-        trans387 = exp(- cumsum(molExt387 .* [data.distance0, diff(data.distance0)]));
-        trans407 = exp(- cumsum(molExt407 .* [data.distance0, diff(data.distance0)]));
+        trans387 = exp(- cumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]));
+        trans407 = exp(- cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
         % calculate the saturation water vapor pressure
         es = saturated_vapor_pres(data.temperature(iGroup, :));
@@ -83,10 +83,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
 
         % calculate wvmr and rh
-        thiswvmr = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
-        thisrh = wvmr_2_rh(thiswvmr, es, data.pressure(iGroup, :));
-        IWVInt = IWVIntRangeIndx(iGroup, 1):IWVIntRangeIndx(iGroup, 2);
-        thisIWV = sum(thiswvmr(IWVInt) .* rhoAir(IWVInt) ./ 1e6 .* [data.height(IWVInt(1)), diff(data.height(IWVInt))]);   % kg*m^{-2}
+        if ~ isnan(IWVIntRangeIndx(iGroup, 1))
+            thiswvmr = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
+            thisrh = wvmr_2_rh(thiswvmr, es, data.pressure(iGroup, :));
+            IWVInt = IWVIntRangeIndx(iGroup, 1):IWVIntRangeIndx(iGroup, 2);
+            thisIWV = sum(thiswvmr(IWVInt) .* rhoAir(IWVInt) ./ 1e6 .* [data.height(IWVInt(1)), diff(data.height(IWVInt))]);   % kg*m^{-2}
+        end
     end
 
     % concatenate the results
@@ -116,13 +118,13 @@ SIG387 = smooth2(SIG387, config.quasi_smooth_h(flagChannel387), config.quasi_smo
 SIG407 = smooth2(SIG407, config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407));
 
 % redistribute the meteorological data to 30-s intervals.
-[temperature, pressure, ~] = repmat_meteor(data.mTime, data.alt, config.gdas1site, processInfo.gdas1_folder);
+[temperature, pressure, ~] = repmat_meteor(data.mTime, data.alt, config.gdas1Site, processInfo.gdas1_folder);
 
 % calculate the molecule optical properties
 [~, molExt387] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
 [~, molExt407] = rayleigh_scattering(407, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
-trans387 = exp(- cumsum(molExt387 .* [data.distance0, diff(data.distance0)]));
-trans407 = exp(- cumsum(molExt407 .* [data.distance0, diff(data.distance0)]));
+trans387 = exp(- cumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]));
+trans407 = exp(- cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 TRANS387 = repmat(transpose(trans387), 1, numel(data.mTime));
 TRANS407 = repmat(transpose(trans407), 1, numel(data.mTime));
 

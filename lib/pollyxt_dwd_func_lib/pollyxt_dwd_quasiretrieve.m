@@ -31,7 +31,7 @@ function [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo, defaults
+global processInfo defaults
 
 quasi_bsc_532 = [];
 quasi_bsc_1064 = [];

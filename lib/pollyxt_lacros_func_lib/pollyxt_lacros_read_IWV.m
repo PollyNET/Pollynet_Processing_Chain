@@ -1,7 +1,7 @@
-function [IWV, globalAttri] = pollyxt_dwd_read_IWV(data, config)
-%pollyxt_dwd_read_IWV read integrated water vapor from external instruments, like Cimel sunphotometer and MWR.
+function [IWV, globalAttri] = pollyxt_lacros_read_IWV(data, config)
+%pollyxt_lacros_read_IWV read integrated water vapor from external instruments, like Cimel sunphotometer and MWR.
 %   Example:
-%       [IWV, globalAttri] = pollyxt_dwd_read_IWV(data, config)
+%       [IWV, globalAttri] = pollyxt_lacros_read_IWV(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -75,7 +75,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         end
     case 'mwr'
         % [thisIWV, thisDatetime] = read_hatpro(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), config.WMRFolder, campaignInfo.location);
-    else
+    otherwise
         thisIWV = NaN;
         thisDatetime = NaN;
     end

@@ -1,7 +1,7 @@
-function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064] = pollyxt_dwd_save_LC(data, config, taskInfo, folder)
-%pollyxt_dwd_save_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
+function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064] = pollyxt_lacros_save_LC(data, config, taskInfo, folder)
+%pollyxt_lacros_save_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
 %   Example:
-%       [LCUsed] = pollyxt_dwd_save_LC(data, config)
+%       [LCUsed] = pollyxt_lacros_save_LC(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -28,7 +28,7 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %   Contact:
 %       zhenping@tropos.de
 
-global defaults, campaignInfo, processInfo.institute
+global defaults campaignInfo processInfo.institute
 
 LCUsed355 = [];
 LCUsed532 = [];

@@ -52,8 +52,8 @@ snrCro = polly_SNR(sum(sigCro), sum(bgCro));
 flagValidPointTot = snrTot >= minSNR;
 flagValidPointCro = snrCro >= minSNR;
 
-if flagValidPointCro & flagValidPointTot
-    fprintf('Too noisy in the reference heigh to calculate the molecular depol ratio.');
+if (~ flagValidPointCro) || (~ flagValidPointTot)
+    fprintf('Too noisy in the reference heigh to calculate the molecular depol ratio.\n');
     return;
 end
 

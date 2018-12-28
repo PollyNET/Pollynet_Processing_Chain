@@ -11,7 +11,7 @@ function [data] = pollyxt_dwd_overlap(data, config, taskInfo, saveFolder)
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo, campaignInfo, defaults
+global processInfo campaignInfo defaults
 
 if isempty(data.rawSignal)
     return;

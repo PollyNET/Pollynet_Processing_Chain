@@ -1,7 +1,7 @@
-function [wvconst, wvconstStd, globalAttri] = pollyxt_dwd_wv_calibration(data, config)
-%pollyxt_dwd_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
+function [wvconst, wvconstStd, globalAttri] = pollyxt_lacros_wv_calibration(data, config)
+%pollyxt_lacros_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
 %   Example:
-%       [wvconst, wvconstStd, globalAttri] = pollyxt_dwd_wv_calibration(data, config)
+%       [wvconst, wvconstStd, globalAttri] = pollyxt_lacros_wv_calibration(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -52,6 +52,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     flagWVCali = false(size(flag407On));
     wvCaliIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagWVCali(wvCaliIndx) = true;
+    flagNotEnough407Profiles = false;
+    flagLowSNR = false;
+    flagNoIWVMeas = false;
+    flagNotMeteorStable = false;
 
     %% determine whether 407 is on during the calibration period
     if sum(flag407On & flagWVCali) < 10
@@ -91,8 +95,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % search the index of low SNR
     hIntTopIndx = hIntBaseIndx;   % initialize hIntTopIndx
-    hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.mask_SNRmin(flagChannel387));
-    hIndxLowSNR407 = find(snr407(hIndxFullOverlap407:end) <= config.mask_SNRmin(flagChannel407));
+    hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.mask_SNRmin(flagChannel387), 1);
+    hIndxLowSNR407 = find(snr407(hIndxFullOverlap407:end) <= config.mask_SNRmin(flagChannel407), 1);
     if isempty(hIndxLowSNR387) || isempty(hIndxLowSNR407)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
@@ -113,7 +117,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         E_tot_1064_IWV = sum(squeeze(data.signal(flagChannel1064, :, closestIndx) .* data.height.^2));
         E_tot_1064_cali = sum(squeeze(mean(data.signal(flagChannel1064, :, flag407On & flagWVCali), 3)) .* data.height.^2);
 
-        if abs(E_tot_1064_IWV - E_tot_1064_cali) ./ E_tot_1064_IWV > 0.2
+        if abs(E_tot_1064_IWV - E_tot_1064_cali) / E_tot_1064_IWV > 0.2
             fprintf('Meteorological condition is not stable enough for the calibration at %s during %s to %s.\n', campaignInfo.location, datestr(min([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'yyyymmdd HH:MM'), datestr(max([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'HH:MM'));
             flagNotMeteorStable = true;
             thisWVCaliInfo = 'Meteorological condition is not stable.';
@@ -121,7 +125,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% wv calibration
-    if (~ flagLowSNR) & (~ flagNoIWVMeas) & (~ flagNotEnough407Profiles) & (~ flagNotMeteorStable)
+    if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Profiles) && (~ flagNotMeteorStable)
         IWV_Cali = data.IWV(iGroup);   % kg*m{-2}
 
         [~, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);

@@ -1,8 +1,8 @@
-function health = polly_read_laserlogbook(file, config)
-%POLLY_READ_LASERLOGBOOK read the health parameters of the lidar from 
+function health = polly_lacros_read_laserlogbook(file, config)
+%POLLY_lacros_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
 %   Usage:
-%       health = polly_read_laserlogbook(file)
+%       health = polly_lacros_read_laserlogbook(file)
 %   Inputs:
 %       file: char
 %           the full filename.

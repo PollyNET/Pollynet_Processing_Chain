@@ -86,7 +86,7 @@ aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' ...
     '&month2=' thisMonthStr '&day2=' thisDayStr '&LEV' level '=1&AVG=10'];
 
 % call the system command 'wget' to download the html text
-[status, html_text] = system(['wget -qO- "' aod_url '"']);
+[status, html_text] = system(['curl -s "' aod_url '"']);
 
 if status == 0
     TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), '%f', '%*s %*s', '%f', '%*s', '%f %f %f', repmat('%*s', 1, 17), '%s', repmat('%*s', 1, 28)];

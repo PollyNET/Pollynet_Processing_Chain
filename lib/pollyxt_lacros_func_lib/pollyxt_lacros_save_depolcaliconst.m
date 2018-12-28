@@ -1,7 +1,7 @@
-function [] = pollyxt_dwd_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
-%pollyxt_dwd_save_depolcaliconst save the depolarization calibration results.
+function [] = pollyxt_lacros_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
+%pollyxt_lacros_save_depolcaliconst save the depolarization calibration results.
 %   Example:
-%       [] = pollyxt_dwd_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
+%       [] = pollyxt_lacros_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
 %   Inputs:
 %       depolConst: array
 %           depolarization factor at each calibration period. 

@@ -1,7 +1,7 @@
-function [att_beta_355, att_beta_532, att_beta_1064] = pollyxt_dwd_att_beta(data, config)
-%pollyxt_dwd_att_beta Calculate the attenuated backscatter.
+function [att_beta_355, att_beta_532, att_beta_1064] = pollyxt_lacros_att_beta(data, config)
+%pollyxt_lacros_att_beta Calculate the attenuated backscatter.
 %   Example:
-%       [att_beta_355, att_beta_532, att_beta_1064] = pollyxt_dwd_att_beta(data, config)
+%       [att_beta_355, att_beta_532, att_beta_1064] = pollyxt_lacros_att_beta(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

@@ -23,6 +23,10 @@ function [ pressure, altitude, temperature, relh ] = ceilo_bsc_ModelSonde( filen
 %   History:
 %       2018-12-15. Add ouput of relh
 
+pressure    = NaN;
+altitude    = NaN;
+temperature = NaN;
+relh        = NaN;
 
 % in automated version filename is passed with wildcard character instead
 % of lon/lat information. to get exact filename, list files first. filename
@@ -31,10 +35,6 @@ function [ pressure, altitude, temperature, relh ] = ceilo_bsc_ModelSonde( filen
 [filepath,~,~] = fileparts(filename);
 filenameList = dir(filename);
 if numel(filenameList) == 0
-    pressure    = NaN;
-    altitude    = NaN;
-    temperature = NaN;
-    relh        = NaN;
     fprintf('gdas File (%s) does not exist.\n', filename);
     return;
 end
@@ -44,10 +44,6 @@ fid = fopen(filename);
 
 % if file does not exist or cannot be opened
 if fid == -1
-    pressure    = NaN;
-    altitude    = NaN;
-    temperature = NaN;
-    relh        = NaN;
     fprintf('File (%s) does not exist or cannot be opened.\n', filename);
     return;
 end

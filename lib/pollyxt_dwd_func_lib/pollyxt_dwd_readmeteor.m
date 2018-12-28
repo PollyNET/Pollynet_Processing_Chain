@@ -1,7 +1,7 @@
-function [temp, pres, relh, meteorAttri] = pollyx_dwd_readmeteor(data, config)
-%pollyx_dwd_readmeteor Read meteorological data.
+function [temp, pres, relh, meteorAttri] = pollyxt_dwd_readmeteor(data, config)
+%pollyxt_dwd_readmeteor Read meteorological data.
 %   Example:
-%       [temp, pres, relh, meteorAttri] = pollyx_dwd_readmeteor(data, config)
+%       [temp, pres, relh, meteorAttri] = pollyxt_dwd_readmeteor(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -22,7 +22,7 @@ function [temp, pres, relh, meteorAttri] = pollyx_dwd_readmeteor(data, config)
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo, campaignInfo, defaults
+global processInfo campaignInfo defaults
 
 temp = [];
 pres = [];
