@@ -1,4 +1,4 @@
-function [alt, temp, pres, relh] = read_gdas1(tRange, gdas1site, folder)
+function [alt, temp, pres, relh, gdas1file] = read_gdas1(tRange, gdas1site, folder)
 %read_gdas1 read the gdas1 file for 
 %   Example:
 %       [alt, temp, pres, relh] = read_gdas1(tRange, gdas1site, folder)
@@ -16,6 +16,8 @@ function [alt, temp, pres, relh] = read_gdas1(tRange, gdas1site, folder)
 %           pressure for each range bin. If no valid data, NaN will be filled. [hPa]
 %       rh: array
 %           relative humidity for each range bin. If no valid data, NaN will be filled. [%]
+%       gdas1file: char
+%           filename of gdas1 file. 
 %   History:
 %       2018-12-22. First Edition by Zhenping
 %   Contact:

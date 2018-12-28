@@ -11,11 +11,11 @@ function [] = pollynet_processing_chain_pollyxt_dwd(taskInfo, config)
 %	Contact:
 %		zhenping@tropos.de
 
-global processInfo, campaignInfo, defaults
+global processInfo campaignInfo defaults
 
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), taskInfo.pollyVersion, taskInfo.dataFilename);
-data = pollyxt_dwd_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config);
+data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config);
 fprintf('[%s] Finish reading data.\n', tNow());
 
 %% read laserlogbook file

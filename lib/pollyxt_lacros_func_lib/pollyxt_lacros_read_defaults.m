@@ -1,7 +1,7 @@
-function [defaults] = pollyxt_dwd_read_defaults(file)
-%pollyxt_dwd_read_defaults read default settings for pollyxt_dwd
+function [defaults] = pollyxt_lacros_read_defaults()
+%pollyxt_lacros_read_defaults read default settings for pollyxt_dwd
 %   Example:
-%       [defaults] = pollyxt_dwd_read_defaults(file)
+%       [defaults] = pollyxt_lacros_read_defaults(file)
 %   Inputs:
 %       file: char
 %   Outputs:
@@ -12,10 +12,12 @@ function [defaults] = pollyxt_dwd_read_defaults(file)
 %   Contact:
 %       zhenping@tropos.de
 
-if ~ exist(file, 'file')
-    error('Default file for pollyxt_dwd does not exist!\n%s\n', file);
+defaultFile = 'pollyxt_lacros_defaults.json';
+
+if ~ exist(defaultFile, 'file')
+    error('Default file for pollyxt_dwd does not exist!\n%s\n', defaultFile);
 end
 
-defaults = loadjson(file);
+defaults = loadjson(defaultFile);
 
 end

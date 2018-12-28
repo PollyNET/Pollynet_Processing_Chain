@@ -30,6 +30,6 @@ if sum(validIndx) <= 3
     return
 end
 
-yOut = interp1(x(validIndx), y(validIndx), xOut, method);
+yOut = interp1(x(validIndx), y(validIndx), xOut, method, 'extrap');
 
 end

@@ -2,7 +2,7 @@
 	"fileinfo_new": "C:\\Users\\zhenping\\Desktop\\Picasso\\todo_filelist\\fileinfo_new.txt",
 	"pollynet_history_of_places_new": "C:\\Users\\zhenping\\Desktop\\Picasso\\todo_filelist\\pollynet_history_of_places_new.txt",
 	"polly_config_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\config",
-	"log_folder": "C:\\Users\\zhengping\\Desktop\\Picasso\\results\\log",
+	"log_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\results\\log",
 	"gdas1_folder": "C:\\Users\\zhenping\\Documents\\Data\\GDAS",
 	"defaultsFile_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults",
 	"results_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\results", 
@@ -12,5 +12,5 @@
 	"contact": "Zhenping Yin <zhenping@tropos.de>",
 	"programVersion": "1.0",
 
-	"_pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
+	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }

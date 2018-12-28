@@ -1,7 +1,7 @@
-function [] = pollyxt_dwd_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri)
-%pollyxt_dwd_save_overlap Save the overlap file.
+function [] = pollyxt_lacros_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri)
+%pollyxt_lacros_save_overlap Save the overlap file.
 %   Example:
-%       [] = pollyxt_dwd_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri);
+%       [] = pollyxt_lacros_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri);
 %   Inputs:
 %       height: array
 %           height above surface. [m]
@@ -48,12 +48,12 @@ dimID_height = netcdf.defDim(ncID, 'height', length(height));
 dimID_method = netcdf.defDim(ncID, 'method', 1);
 
 % define variables
-varID_height = netcdf.defVar(ncID, 'height', 'double', dimID_height);
-varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'double', dimID_height);
-varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'double', dimID_height);
-varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'double', dimID_height);
-varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'double', dimID_height);
-varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'int32', dimID_method);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
+varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_DOUBLE', dimID_height);
+varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_DOUBLE', dimID_height);
+varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_DOUBLE', dimID_height);
+varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_DOUBLE', dimID_height);
+varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -90,7 +90,7 @@ netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', '1: signal ratio of nea
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'location', globalAttri.location);
-netcdf.putAtt(ncID, varID_global, 'institution', globalAttri.institution);
+netcdf.putAtt(ncID, varID_global, 'institute', globalAttri.institute);
 netcdf.putAtt(ncID, varID_global, 'version', globalAttri.version);
 netcdf.putAtt(ncID, varID_global, 'contact', sprintf('%s', globalAttri.contact));
  

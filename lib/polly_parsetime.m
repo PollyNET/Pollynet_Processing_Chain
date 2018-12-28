@@ -17,8 +17,8 @@ function [time] = polly_parsetime(file, textFormat)
 
 time = [];
 try
-	data = textscan(file, textFormat, 'tokens');
-	time = datenum(data{1}{1}, data{1}{2}, data{1}{3}, data{1}{4}, data{1}{5}, data{1}{6});
+	data = regexp(file, textFormat, 'names');
+	time = datenum(str2num(data.year), str2num(data.month), str2num(data.day), str2num(data.hour), str2num(data.minute), str2num(data.second));
 catch
 	warning('Failure in parsing time from %s with parsing format %s.\n', file, textFormat);
 	return;

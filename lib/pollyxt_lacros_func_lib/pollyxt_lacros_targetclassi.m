@@ -1,7 +1,7 @@
-function [tc_mask] = pollyxt_dwd_targetclassi(data, config)
-%pollyxt_dwd_targetclassi Aerosol target classification based on algorithms presented in H.Baar et al, 2017, ATM.
+function [tc_mask] = pollyxt_lacros_targetclassi(data, config)
+%pollyxt_lacros_targetclassi Aerosol target classification based on algorithms presented in H.Baar et al, 2017, ATM.
 %   Example:
-%       [tc_mask] = pollyxt_dwd_targetclassi(data, config)
+%       [tc_mask] = pollyxt_lacros_targetclassi(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

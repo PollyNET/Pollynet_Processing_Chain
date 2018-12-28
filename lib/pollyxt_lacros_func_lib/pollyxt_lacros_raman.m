@@ -1,7 +1,7 @@
-function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_dwd_raman(data, config)
-%pollyxt_dwd_raman Retrieve aerosol optical properties with raman method
+function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_lacros_raman(data, config)
+%pollyxt_lacros_raman Retrieve aerosol optical properties with raman method
 %   Example:
-%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman] = pollyxt_dwd_raman(data, config)
+%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman] = pollyxt_lacros_raman(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -53,8 +53,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         
         if ~ isnan(data.refHIndx355(iGroup, 1))
             flagChannel355 = config.isFR & config.isTot & config.is355nm;
-            sig355 = squeeze(sum(data.signal(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-            bg355 = squeeze(sum(data.bg(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+            sig355 = transpose(squeeze(sum(data.el355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+            bg355 = transpose(squeeze(sum(data.bgEl355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             refH = [data.distance0(data.refHIndx355(iGroup, 1)), data.distance0(data.refHIndx355(iGroup, 2))];
             [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
@@ -67,7 +67,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             
             if snr387 >= config.minRamanRefSNR387
                 thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :), config.smoothWin_raman_355, 380, 70, 'moving');
-                [thisAerBsc355_raman, thisLR355] = polly_raman_bsc(data.distance0, sig355, sig387, thisAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, false);
+                [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, thisAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, false);
                 % TODO: uncertainty analysis
             end
         end
@@ -75,7 +75,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         % concatenate the results
         aerBsc355_raman = cat(1, aerBsc355_raman, thisAerBsc355_raman);
         aerExt355_raman = cat(1, aerExt355_raman, thisAerExt355_raman);
-        LR355_raman = cat(1, LR355_raman, thisLR355);
+        LR355_raman = cat(1, LR355_raman, thisLR355_raman);
     end
 
     %% 532 nm
@@ -86,8 +86,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         
         if ~ isnan(data.refHIndx532(iGroup, 1))
             flagChannel532 = config.isFR & config.isTot & config.is532nm;
-            sig532 = squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-            bg532 = squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+            sig532 = transpose(squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+            bg532 = transpose(squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
             [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
@@ -100,7 +100,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             
             if snr607 >= config.minRamanRefSNR607
                 thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :), config.smoothWin_raman_532, 380, 70, 'moving');
-                [thisAerBsc532_raman, thisLR532] = polly_raman_bsc(data.distance0, sig532, sig607, thisAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, false);
+                [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, thisAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, false);
                 % TODO: uncertainty analysis
             end
         end
@@ -108,7 +108,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         % concatenate the results
         aerBsc532_raman = cat(1, aerBsc532_raman, thisAerBsc532_raman);
         aerExt532_raman = cat(1, aerExt532_raman, thisAerExt532_raman);
-        LR532_raman = cat(1, LR532_raman, thisLR532);
+        LR532_raman = cat(1, LR532_raman, thisLR532_raman);
     end
 
     %% 1064 nm
@@ -142,7 +142,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         % concatenate the results
         aerBsc1064_raman = cat(1, aerBsc1064_raman, thisAerBsc1064_raman);
         aerExt1064_raman = cat(1, aerExt1064_raman, thisAerExt1064_raman);
-        LR1064_raman = cat(1, LR1064_raman, thisLR1064);
+        LR1064_raman = cat(1, LR1064_raman, thisLR1064_raman);
     end
 
 end

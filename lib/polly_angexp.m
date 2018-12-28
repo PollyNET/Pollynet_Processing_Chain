@@ -19,7 +19,7 @@ function [angexp, angexpStd] = Polly_angexp(param1, param1_std, param2, param2_s
     param1(param1 <= 0) = NaN;
     param2(param2 <= 0) = NaN;
     
-    ratio = smoothWin(param1, smoothWindow) ./ smoothWin(param2, smoothWindow);
+    ratio = transpose(smoothWin(param1, smoothWindow) ./ smoothWin(param2, smoothWindow));
     
     angexp = log(ratio) ./ log(wavelength2 ./ wavelength1);
     

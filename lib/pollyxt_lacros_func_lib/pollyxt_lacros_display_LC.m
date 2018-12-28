@@ -1,7 +1,7 @@
-function [] = pollyxt_dwd_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri)
-%pollyxt_dwd_display_LC display the lidar constants.
+function [] = pollyxt_lacros_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri)
+%pollyxt_lacros_display_LC display the lidar constants.
 %   Example:
-%       [] = pollyxt_dwd_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri)
+%       [] = pollyxt_lacros_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri)
 %   Inputs:
 %       data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri
 %   Outputs:

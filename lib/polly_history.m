@@ -42,28 +42,32 @@ pollyHistory.depolConst = [];
 pollyHistory.molDepol = [];
 pollyHistory.caption = '';
 
+dataTime = datenum(task.dataFilename(1:10), 'yyyy_mm_dd');
 isCurrentPolly = strcmpi(task.pollyVersion, pollynetHistory.name);
-isWithinMeasPeriod = (task.dataTime < pollynetHistory.endTime) & (task.dataTime >= pollynetHistory.startTime);
+isWithinMeasPeriod = (dataTime < pollynetHistory.endTime) & (dataTime >= pollynetHistory.startTime);
 
 if (sum(isCurrentPolly) == 0) || (sum(isWithinMeasPeriod) == 0) || (sum(isCurrentPolly & isWithinMeasPeriod) == 0)
-	error('Failure in searching the history info for %s.\nPlease check the pollynet history file.\n', task.dataFilename);
+	warning('Failure in searching the history info for %s.\nPlease check the pollynet history file.\n', task.dataFilename);
+	return;
 elseif sum(isWithinMeasPeriod & isCurrentPolly) > 1
 	lineOutputStr = sprintf('%d, ', find(isWithinMeasPeriod & isCurrentPolly) + 1);
-	error('More than one history info was found.\nSee line %s\nPlease check the pollynet_history file.\nOr check the data file: %s\n', lineOutputStr, task.dataFilename);
+	warning('More than one history info was found.\nSee line %s\nPlease check the pollynet_history file.\nOr check the data file: %s\n', lineOutputStr, task.dataFilename);
+	return;
 elseif sum(isCurrentPolly & isWithinMeasPeriod) == 1
 	flag = isCurrentPolly & isWithinMeasPeriod;
 	pollyHistory.name = pollynetHistory.name{flag};
 	pollyHistory.location = pollynetHistory.location{flag};
-	pollyHistory.startTime = pollynetHistory.startTime[flag];
-	pollyHistory.endTime = pollynetHistory.endTime[flag];
-	pollyHistory.lon = pollynetHistory.lon[flag];
-	pollyHistory.lat = pollynetHistory.lat[flag];
-	pollyHistory.asl = pollynetHistory.asl[flag];
-	pollyHistory.depolConst = pollynetHistory.depolConst[flag];
-	pollyHistory.molDepol = pollynetHistory.molDepol[flag];
-	pollyHistory.caption = pollynetHistory.caption{flag};
+	pollyHistory.startTime = pollynetHistory.startTime(flag);
+	pollyHistory.endTime = pollynetHistory.endTime(flag);
+	pollyHistory.lon = pollynetHistory.lon(flag);
+	pollyHistory.lat = pollynetHistory.lat(flag);
+	pollyHistory.asl = pollynetHistory.asl(flag);
+	pollyHistory.depolConst = pollynetHistory.depolConst(flag);
+	pollyHistory.molDepol = pollynetHistory.molDepol(flag);
+	pollyHistory.caption = pollynetHistory.caption{flag}(3:end);
 else
-	error('Unknown error in searching the history info for %s.\n', task.dataFilename);
+	warning('Unknown error in searching the history info for %s.\n', task.dataFilename);
+	return;
 end
 
 end

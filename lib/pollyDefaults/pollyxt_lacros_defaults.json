@@ -1,0 +1,15 @@
+{
+    "depolCaliConst532": 0.035,
+    "depolCaliConstStd532": 0.0,
+    "depolCaliConst355": 0.032,
+    "depolCaliConstStd355": 0.0,
+    "LC": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    "overlapFile532": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults\\pollyxt_lacros_overlap_532.txt",
+    "overlapFile355": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults\\pollyxt_lacros_overlap_355.txt",
+    "molDepol532": 0.0053,
+    "molDepolStd532": 0,
+    "molDepol355": 0.0075,
+    "molDepolStd355": 0,
+    "wvconst": 14.1,
+    "wvconstStd": 0
+}

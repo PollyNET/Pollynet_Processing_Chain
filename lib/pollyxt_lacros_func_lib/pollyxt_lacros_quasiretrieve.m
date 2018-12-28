@@ -1,7 +1,7 @@
-function [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_dwd_quasiretrieve(data, config)
-%pollyxt_dwd_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+function [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_lacros_quasiretrieve(data, config)
+%pollyxt_lacros_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
-%       [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_dwd_quasiretrieve(data, config)
+%       [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi_angstrexp_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_lacros_quasiretrieve(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -31,7 +31,7 @@ function [quasi_bsc_532, quasi_bsc_1064, quasi_parDepol_532, volDepol_532, quasi
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo, defaults
+global processInfo defaults
 
 quasi_bsc_532 = [];
 quasi_bsc_1064 = [];

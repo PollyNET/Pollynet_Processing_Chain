@@ -1,57 +1,57 @@
 function [depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time, depol_cali_nAng_time, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, folder, wavelength)
-    %DEPOL_CALI depolarization calibration for PollyXT lidar system.
-    %	Example:
-    %		[depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time, depol_cali_nAng_time, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults, folder, wavelength)
-    %	Inputs:
-    %		signal_t: matrix
-    %			background removed photon count signal at total channel. (nBins * nProfiles)
-    %		bg_t: matrix
-    %			background at total channel. (nBins * nProfiles)
-    %		signal_x: matrix
-    %			background removed photon count signal at cross channel. (nBins * nProfiles)
-    %		bg_x: matrix
-    %			background at cross channel. (nBins * nProfiles)
-    %		time: array
-    %			datenum array states the measurement time of each profile.
-    %		depol_cali_pAng_time: array
-    %			datenum array states the start time that the polarizer rotates to the positive angle.
-    %		depol_cali_nAng_time: array
-    %			datenum array states the end time that the polarizer rotates to the negative angle.
-    %		TR_t: float
-    %			tranmission at total channel.
-    %		TR_x: float
-    %			transmision at cross channel.
-    %		caliHIndxRange: 2-element array
-    %			range of height indexes which the signal can be used for depolarization calibration in.
-    %		SNRmin: array
-    %			minimum SNR that signal should have to assure the stability of the calibration results.
-    %		sigMax: array
-    %			maximum signal strength that could be used in the calibration in case of pulse pileup effects. (Photon Count)
-    %		rel_std_dplus: float
-    %			maximum relative std of dplus that is allowed.
-    %		rel_std_dplus: float
-    %			maximum relative std of dminus that is allowed.
-    %		segmentLen: integer
-    %			length of the segement to test the variability of the calibration results to filter the effects from cloud layers.
-    %		smoothWin: integer
-    %			width of the sliding smooth window for smoothing the signal.
-    %		flagShowResults: boolean
-    %			flag to control whether to save the intermediate results.
-    %		folder: char
-    %			folder for saving the intermediate results.
-    %		wavelength: integer
-    %			depolarization calibration wavelength. [nm]
-    %	Outputs:
-    %		depol_cal_fac: array
-    %			depolarization calibration factor.
-    %		depol_cal_fac_std
-    %			std of depolarization calibration factor.
-    %		depol_cal_time
-    %			time for each successful calibration.
-    %	History:
-    %		2018-07-25. First edition by Zhenping.
-    %	Contact:
-    %		zhenping@tropos.de
+%DEPOL_CALI depolarization calibration for PollyXT lidar system.
+%	Example:
+%		[depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time, depol_cali_nAng_time, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults, folder, wavelength)
+%	Inputs:
+%		signal_t: matrix
+%			background removed photon count signal at total channel. (nBins * nProfiles)
+%		bg_t: matrix
+%			background at total channel. (nBins * nProfiles)
+%		signal_x: matrix
+%			background removed photon count signal at cross channel. (nBins * nProfiles)
+%		bg_x: matrix
+%			background at cross channel. (nBins * nProfiles)
+%		time: array
+%			datenum array states the measurement time of each profile.
+%		depol_cali_pAng_time: array
+%			datenum array states the start time that the polarizer rotates to the positive angle.
+%		depol_cali_nAng_time: array
+%			datenum array states the end time that the polarizer rotates to the negative angle.
+%		TR_t: float
+%			tranmission at total channel.
+%		TR_x: float
+%			transmision at cross channel.
+%		caliHIndxRange: 2-element array
+%			range of height indexes which the signal can be used for depolarization calibration in.
+%		SNRmin: array
+%			minimum SNR that signal should have to assure the stability of the calibration results.
+%		sigMax: array
+%			maximum signal strength that could be used in the calibration in case of pulse pileup effects. (Photon Count)
+%		rel_std_dplus: float
+%			maximum relative std of dplus that is allowed.
+%		rel_std_dplus: float
+%			maximum relative std of dminus that is allowed.
+%		segmentLen: integer
+%			length of the segement to test the variability of the calibration results to filter the effects from cloud layers.
+%		smoothWin: integer
+%			width of the sliding smooth window for smoothing the signal.
+%		flagShowResults: boolean
+%			flag to control whether to save the intermediate results.
+%		folder: char
+%			folder for saving the intermediate results.
+%		wavelength: integer
+%			depolarization calibration wavelength. [nm]
+%	Outputs:
+%		depol_cal_fac: array
+%			depolarization calibration factor.
+%		depol_cal_fac_std
+%			std of depolarization calibration factor.
+%		depol_cal_time
+%			time for each successful calibration.
+%	History:
+%		2018-07-25. First edition by Zhenping.
+%	Contact:
+%		zhenping@tropos.de
 
     if ~ exist(folder, 'dir')
         fprintf('Create folder to save depolarization calibration results.\n%s\n', folder);
@@ -161,43 +161,41 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_
             std_dminus = [std_dminus, std_dminus_tmp(segIndx)];
     
             % visualize calibration process
-            if flagShowResults
-                figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
-    
-                subplot(121);
-                p1 = semilogx(sig_t_p, 1:length(sig_t_p), '-b', 'LineWidth', 1, 'DisplayName', 'Sig_{el, +45\circ}'); hold on;
-                p2 = semilogx(sig_t_m, 1:length(sig_t_m), '--b', 'LineWidth', 1, 'DisplayName', 'Sig_{el, -45\circ}');
-                p3 = semilogx(sig_x_p, 1:length(sig_x_p), '-r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, +45\circ}'); 
-                p4 = semilogx(sig_x_m, 1:length(sig_x_m), '--r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, -45\circ}');
-                ylim(caliHIndxRange);
-                ylabel('index');
-                xlabel('Signal (.a.u)');
-                title(sprintf('%s - %s', datestr(time(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')));
-                grid();
-                l1 = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
-    
-                subplot(122);
-                p1 = plot(dplus, caliHIndxRange(1):caliHIndxRange(2), '-b', 'LineWidth', 1, 'DisplayName', 'Ratio_{+45\circ}'); hold on;
-                p2 = plot(dminus, caliHIndxRange(1):caliHIndxRange(2), '-r', 'LineWidth', 1, 'DisplayName', 'Ratio_{-45\circ}'); hold on;
-                l1 = plot([0, 1e10], [indx + caliHIndxRange(1) - 1, indx + caliHIndxRange(1) - 1], '--k');
-                l2 = plot([0, 1e10], [indx + segmentLen + caliHIndxRange(1) - 1, indx + segmentLen + caliHIndxRange(1) - 1], '--k');
-                ylim(caliHIndxRange);
-                xlim([0.1*min([dplus; dminus]), 3*max([dplus; dminus])]);
-                xlabel('Ratio');
-                text(0.2, 0.8, sprintf('mean_{dplus}=%6.2f, std_{dplus}=%5.2f\nmean_{dminus}=%6.2f, std_{dminus}=%5.2f\nK=%6.4f, delta_K=%8.6f', ...
-                     mean_dplus_tmp(segIndx), std_dplus_tmp(segIndx), mean_dminus_tmp(segIndx), ...
-                     std_dminus_tmp(segIndx), (1 + TR_t) ./ (1 + TR_x) .* sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)), ...
-                     (1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)) .* 0.5 .* (mean_dplus_tmp(segIndx) .* std_dminus_tmp(segIndx) + mean_dminus_tmp(segIndx) .* std_dplus_tmp(segIndx))), ...
-                     'Units', 'Normalized', 'fontsize', 8);
-                grid();
-                l2 = legend([p1, p2], 'Location', 'NorthEast');
-    
-                saveas(gcf, fullfile(folder, sprintf('%s_%3d.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength)));
-                close;
+            figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
 
-                %% saving calibration results
+            subplot(121);
+            p1 = semilogx(sig_t_p, 1:length(sig_t_p), '-b', 'LineWidth', 1, 'DisplayName', 'Sig_{el, +45\circ}'); hold on;
+            p2 = semilogx(sig_t_m, 1:length(sig_t_m), '--b', 'LineWidth', 1, 'DisplayName', 'Sig_{el, -45\circ}');
+            p3 = semilogx(sig_x_p, 1:length(sig_x_p), '-r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, +45\circ}'); 
+            p4 = semilogx(sig_x_m, 1:length(sig_x_m), '--r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, -45\circ}');
+            ylim(caliHIndxRange);
+            ylabel('index');
+            xlabel('Signal (.a.u)');
+            title(sprintf('%s - %s', datestr(time(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')));
+            grid();
+            legend([p1, p2, p3, p4], 'Location', 'NorthEast');
+
+            subplot(122);
+            p1 = plot(dplus, caliHIndxRange(1):caliHIndxRange(2), '-b', 'LineWidth', 1, 'DisplayName', 'Ratio_{+45\circ}'); hold on;
+            p2 = plot(dminus, caliHIndxRange(1):caliHIndxRange(2), '-r', 'LineWidth', 1, 'DisplayName', 'Ratio_{-45\circ}'); hold on;
+            plot([0, 1e10], [indx + caliHIndxRange(1) - 1, indx + caliHIndxRange(1) - 1], '--k');
+            plot([0, 1e10], [indx + segmentLen + caliHIndxRange(1) - 1, indx + segmentLen + caliHIndxRange(1) - 1], '--k');
+            ylim(caliHIndxRange);
+            xlim([0.1*min([dplus; dminus]), 3*max([dplus; dminus])]);
+            xlabel('Ratio');
+            text(0.2, 0.8, sprintf('mean_{dplus}=%6.2f, std_{dplus}=%5.2f\nmean_{dminus}=%6.2f, std_{dminus}=%5.2f\nK=%6.4f, delta_K=%8.6f', ...
+                 mean_dplus_tmp(segIndx), std_dplus_tmp(segIndx), mean_dminus_tmp(segIndx), ...
+                 std_dminus_tmp(segIndx), (1 + TR_t) ./ (1 + TR_x) .* sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)), ...
+                 (1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)) .* 0.5 .* (mean_dplus_tmp(segIndx) .* std_dminus_tmp(segIndx) + mean_dminus_tmp(segIndx) .* std_dplus_tmp(segIndx))), ...
+                 'Units', 'Normalized', 'fontsize', 8);
+            grid();
+            legend([p1, p2], 'Location', 'NorthEast');
+
+            saveas(gcf, fullfile(folder, sprintf('%s_%3d.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength)));
+            close;
+
+            %% saving calibration results
     
-            end
         end
     end
     

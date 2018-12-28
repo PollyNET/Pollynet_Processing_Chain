@@ -1,7 +1,7 @@
-function [cloudFreeSubContGroup] = pollyxt_dwd_splitcloudfree(data, config)
-%pollyxt_dwd_splitcloudfree split the continous cloud free profiles into several small groups.
+function [cloudFreeSubContGroup] = pollyxt_lacros_splitcloudfree(data, config)
+%pollyxt_lacros_splitcloudfree split the continous cloud free profiles into several small groups.
 %   Example:
-%       [cloudFreeSubContGroup] = pollyxt_dwd_splitcloudfree(data, config)
+%       [cloudFreeSubContGroup] = pollyxt_lacros_splitcloudfree(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

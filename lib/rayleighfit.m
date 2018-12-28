@@ -90,7 +90,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
         if sum(sig_aer(iDpBIndx:iDpTIndx)) == 0   % not a valid signal profile
             continue;
         end
-        sig_factor = nanmean_copied(sig_mol(iDpBIndx:iDpTIndx)) / nanmean_copied(sig_aer(iDpBIndx:iDpTIndx));
+        sig_factor = nanmean(sig_mol(iDpBIndx:iDpTIndx)) / nanmean(sig_aer(iDpBIndx:iDpTIndx));
         sig_aer_norm = sig_aer * sig_factor;
         std_aer_norm = sig_aer_norm ./ sqrt(pc + bg);
     
@@ -127,11 +127,11 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
             warning('layerThickConstrain is too small.');
             winLen = 5;
         end
-        for jIndx = 1:winLen:(length(sig_aer) - winLen)
-            deltaSig_aer = nanstd_copied(sig_aer_norm(jIndx:(jIndx + winLen)));
-            meanSig_aer = nanmean_copied(sig_aer_norm(jIndx:(jIndx + winLen)));
-            meanSig_mol = nanmean_copied(sig_mol(jIndx:(jIndx + winLen)));
-            SNRTmp = nansum_copied(pc(jIndx:(jIndx + winLen))) ./ sqrt(nansum_copied(pc(jIndx:(jIndx + winLen)) + bg(jIndx:(jIndx + winLen))));
+        for jIndx = dpIndx(1):winLen:(length(sig_aer) - winLen - dpIndx(1) + 1)
+            deltaSig_aer = nanstd(sig_aer_norm(jIndx:(jIndx + winLen)));
+            meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
+            meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));
+            SNRTmp = nansum(pc(jIndx:(jIndx + winLen))) ./ sqrt(nansum(pc(jIndx:(jIndx + winLen)) + bg(jIndx:(jIndx + winLen))));
             SNRTmp(isinf(SNRTmp)) = 0;
             if SNRTmp < sqrt(winLen)
                 continue;
@@ -188,8 +188,8 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
     
         % Quality test 4: SNR check
         % which is assured in Douglas-Peucker algorithm
-        SNR = nansum_copied(pc(dpIndx(iIndx):dpIndx(iIndx + 1))) ./ ...
-               sqrt(nansum_copied(pc(dpIndx(iIndx):dpIndx(iIndx + 1)) + bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
+        SNR = nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))) ./ ...
+               sqrt(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1)) + bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
         if isinf(SNR) || isnan(SNR)
             SNR = 0;
         end
@@ -243,13 +243,13 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
         numTest = numTest + 1;
         hIndxB_Test(numTest) = dpIndx(iIndx);
         hIndxT_Test(numTest) = dpIndx(iIndx + 1);
-        mean_resid(numTest) = nanmean_copied(residual);
-        std_resid(numTest) = nanstd_copied(residual);
+        mean_resid(numTest) = nanmean(residual);
+        std_resid(numTest) = nanstd(residual);
         slope_resid(numTest) = thisSlope;
         msre_resid(numTest) =  sum(et.^2);
     
         % Anderson Darling test after wikipedia.org  
-        normP = normpdf_copied((residual - mean_resid(numTest)) / std_resid(numTest));
+        normP = normpdf((residual - mean_resid(numTest)) / std_resid(numTest));
         A = sum((2*(1:length(residual)) - 1) .* log(normP) + (2 * (length(residual)-1:-1:0) + 1) .* log(1 - normP));
         A = (length(residual) * (-1)) - A/length(residual);
         Astat(numTest) = A * (1+ 0.75/length(residual) + 2.25/length(residual)^2);

@@ -35,12 +35,11 @@ function flagCloudFree = polly_cloudscreen(height, signal, slope_thres, search_r
     flagCloudFree = false(1, size(signal, 2));
     
     % Range Corrected Signal
-    RCS = signal .* repmat(height', 1, size(signal, 2)).^2;
+    RCS = signal .* repmat(transpose(height), 1, size(signal, 2)).^2;
     
     search_indx = int32((search_region - height(1))/(height(2) - height(1))) + 1;
     
     for indx = 1:size(signal, 2)
-        
         if isnan(RCS(1, indx))
             continue;
         end

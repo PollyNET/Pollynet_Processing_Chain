@@ -1,7 +1,7 @@
-function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_dwd_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
-%pollyxt_dwd_save_wvconst  save the water vapor calibration results. And select the most appropriate water vapor calibration constant to calculate the WVMR and RH.
+function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+%pollyxt_lacros_save_wvconst  save the water vapor calibration results. And select the most appropriate water vapor calibration constant to calculate the WVMR and RH.
 %   Example:
-%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_dwd_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
 %   Inputs:
 %       wvconst: array
 %           water vapor calibration constants. [g*kg^{-1}] 

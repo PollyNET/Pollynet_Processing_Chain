@@ -1,8 +1,8 @@
-function [ data ] = polly_preprocess(data, config)
-%POLLY_PREPROCESS deadtime correction, background correction, 
+function [ data ] = pollyxt_lacros_preprocess(data, config)
+%pollyxt_lacros_preprocess deadtime correction, background correction, 
 %first-bin shift, mask for low-SNR and mask for depolarization-calibration process.
 %   Usage:
-%       [ data ] = polly_preprocess(data, config)
+%       [ data ] = pollyxt_lacros_preprocess(data, config)
 %   Inputs:
 %       data: struct
 %           rawSignal: array
@@ -75,27 +75,27 @@ end
 %% deadtime correction
 rawSignal = data.rawSignal;
 if config.flagDTCor
-    PCR = data.rawSignal ./ repmat(reshape(data.mShots, 1, 1, length(data.mShots)), ...
-        [size(data.rawSignal, 1), size(data.rawSignal, 2), 1]) * 150.0 / data.hRes;   % [MHz]
+    PCR = data.rawSignal ./ repmat(reshape(data.mShots, size(data.mShots, 1), 1, size(data.mShots, 2)), ...
+        [1, size(data.rawSignal, 2), 1]) * 150.0 ./ data.hRes;   % [MHz]
     if config.dtCorMode == 1   % polynomial correction with parameters saved in netcdf file
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = polyval(data.deadtime(iChannel, end:-1:1), PCR(iChannel, :, :));
             rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
-                repmat(reshape(data.mShots, 1,1, length(data.mShots)), ...
+                repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
     elseif config.dtCorMode == 2   % nonparalyzable correction
     	for iChannel = 1:size(data.rawSignal, 1)
     		PCR_Cor = PCR(iChannel, :, :) ./ (1.0 - config.dt(iChannel) * 1e-3 * PCR(iChannel, :, :));
     		rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
-                repmat(reshape(data.mShots, 1,1, length(data.mShots)), ...
+                repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
     elseif config.dtCorMode == 3 && isfield(config, 'dt')
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = polyval(config.dt(iChannel, end:-1:1), PCR(iChannel, :, :));
             rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
-                repmat(reshape(data.mShots, 1,1, length(data.mShots)), ...
+                repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
     end
@@ -103,16 +103,16 @@ end
 
 %% Background Substraction
 bg = repmat(mean(rawSignal(:, config.bgCorRangeIndx(1):config.bgCorRangeIndx(2), :), 2), [1, config.max_height_bin, 1]);
-data.signal = NaN(size(rawSignal, 1), 1:config.max_height_bin, size(rawSignal, 3));
+data.signal = NaN(size(rawSignal, 1), config.max_height_bin, size(rawSignal, 3));
 for iChannel = 1:size(rawSignal, 1)
     data.signal(iChannel, :, :) = rawSignal(iChannel, config.first_range_gate_indx(iChannel):config.max_height_bin + config.first_range_gate_indx(iChannel) - 1, :) - bg(iChannel, :, :);
 end
 data.bg = bg;
 
 %% height (first bin height correction)
-data.height = (0:(size(data.signal, 2)-1)) * data.hRes * cos(data.zenithAng/180*pi) + config.first_range_gate_height;   % [m]
-data.alt = data.height + campaignInfo.asl;   % geopotential height
-data.distance = data.height ./ cos(data,zenithAng/180*pi);   % the distance between range bin and system.
+data.height = double((0:(size(data.signal, 2)-1)) * data.hRes * cos(data.zenithAng/180*pi) + config.first_range_gate_height);   % [m]
+data.alt = double(data.height + campaignInfo.asl);   % geopotential height
+data.distance0 = double(data.height ./ cos(data.zenithAng/180*pi));   % the distance between range bin and system.
 
 %% mask for low SNR region
 SNR = polly_SNR(data.signal, data.bg);
@@ -124,7 +124,7 @@ end
 %% mask for depolarization calibration
 data.depCalMask = false(1, size(data.signal, 3));
 for iDepCal = 1:length(config.depol_cal_ang_p_time)
-    data.depCalMask = data.depCalMask | (((rem(data.mTime, 1) >= config.depol_cal_ang_p_time(iDepCal)) & (rem(data.mTime, 1) < config.depol_cal_ang_p_time(iDepCal) + datenum(0, 0, 0, 0, 10, 30)));
+    data.depCalMask = data.depCalMask | ((rem(data.mTime, 1) >= config.depol_cal_ang_p_time(iDepCal)) & (rem(data.mTime, 1) < config.depol_cal_ang_p_time(iDepCal) + datenum(0, 0, 0, 0, 10, 30)));
 end
 
 %% mask for fog profiles

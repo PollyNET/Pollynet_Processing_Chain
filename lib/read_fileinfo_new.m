@@ -37,7 +37,7 @@ try
 	testSpec = '%s %s %s %s %s %s';
 	data = textscan(fid, testSpec, 'Delimiter', ',', 'Headerlines', 0);
 	fileinfo_new.todoPath = transpose(data{1});
-	fileinfo_new.dataPath = cellfun(@(x,y) fullfile(x, y), transpose(data{1}), transpose(data{2}), 'UniformOutput', false);
+	fileinfo_new.dataPath = transpose(data{2});
 	fileinfo_new.dataFilename = transpose(data{3});
 	fileinfo_new.zipFile = transpose(data{4});
 	fileinfo_new.pollyVersion = transpose(data{6});

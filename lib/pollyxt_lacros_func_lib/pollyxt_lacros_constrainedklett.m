@@ -1,7 +1,7 @@
-function [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet, deltaAOD355, deltaAOD532, deltaAOD1064] = pollyxt_dwd_constrainedklett(data, AERONET, config)
-%pollyxt_dwd_constrainedklett Retrieve the aerosol optical properties with the constrains from AERONET.
+function [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet, deltaAOD355, deltaAOD532, deltaAOD1064] = pollyxt_lacros_constrainedklett(data, AERONET, config)
+%pollyxt_lacros_constrainedklett Retrieve the aerosol optical properties with the constrains from AERONET.
 %   Example:
-%       [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet] = pollyxt_dwd_constrainedklett(data, AERONET, config)
+%       [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet] = pollyxt_lacros_constrainedklett(data, AERONET, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
