@@ -14,13 +14,13 @@ function [] = pollyxt_lacros_display_quasiretrieving(data, taskInfo, config)
 global defaults processInfo campaignInfo
 
 %% parameter initialize
-file_quasi_bsc_532 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
-file_quasi_bsc_1064 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_1064.png', rmext(taskInfo.dataFilename)));
-file_quasi_parDepol_532 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename)));
-file_quasi_AngExp_532_1064 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_ANGEXP_532_1064.png', rmext(taskInfo.dataFilename)));
+file_quasi_bsc_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
+file_quasi_bsc_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_1064.png', rmext(taskInfo.dataFilename)));
+file_quasi_parDepol_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename)));
+file_quasi_AngExp_532_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_ANGEXP_532_1064.png', rmext(taskInfo.dataFilename)));
 
 %% visualization
-load('myjet_colormap.mat')
+load('chiljet_colormap.mat')
 
 % Quasi Bsc 532 nm 
 figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -50,7 +50,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -85,7 +85,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -120,7 +120,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -141,7 +141,7 @@ xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
 ylabel('Altitude (m)');
-title(sprintf('Quasi BSC Angstroem Exponent 532-1064 for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+title(sprintf('Quasi BSC Angstroem Exponent 532-1064 for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -155,7 +155,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 

@@ -8,11 +8,11 @@ function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_3
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
-%       quasi_bsc_532: matrix
+%       quasi_par_bsc_355: matrix
 %           quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
-%       quasi_bsc_1064: matrix
+%       quasi_par_bsc_1064: matrix
 %           quasi particle backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
-%       quasi_parDepol_532: matrix
+%       quasi_par_depol_532: matrix
 %           quasi particle depolarization ratio at 532 nm.
 %       volDepol_355: matrix
 %           volume depolarization ratio at 355 nm.
@@ -37,12 +37,12 @@ function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_3
 
 global processInfo defaults
 
-quasi_bsc_532 = [];
-quasi_bsc_1064 = [];
-quasi_parDepol_532 = [];
+quasi_par_bsc_355 = [];
+quasi_par_bsc_1064 = [];
+quasi_par_depol_532 = [];
 volDepol_532 = [];
 volDepol_355 = [];
-quasi_angstrexp_532_1064 = [];
+quasi_ang_532_1064 = [];
 quality_mask_355 = [];
 quality_mask_532 = [];
 quality_mask_1064 = [];
@@ -77,11 +77,11 @@ SNR = polly_SNR(data.signal, data.bg);
 % 0 in quality_mask means good data
 % 1 in quality_mask means low-SNR data
 % 2 in quality_mask means depolarization calibration periods
-quality_mask_355(nanrunmedian(squeeze(SNR(flagChannel355Tot, :, :)), config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot)) < config.mask_SNRmin(flagChannel355Tot)) = 1;
-quality_mask_532(nanrunmedian(squeeze(SNR(flagChannel532Tot, :, :)), config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)) < config.mask_SNRmin(flagChannel532Tot)) = 1;
-quality_mask_1064(nanrunmedian(squeeze(SNR(flagChannel1064, :, :)), config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064)) < config.mask_SNRmin(flagChannel1064)) = 1;
-quality_mask_voldepol532((nanrunmedian(squeeze(SNR(flagChannel532Cro, :, :)), config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro)) < config.mask_SNRmin(flagChannel532Cro)) | (nanrunmedian(squeeze(SNR(flagChannel532Tot, :, :)), config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
-quality_mask_voldepol355((nanrunmedian(squeeze(SNR(flagChannel355Cro, :, :)), config.quasi_smooth_h(flagChannel355Cro), config.quasi_smooth_t(flagChannel355Cro)) < config.mask_SNRmin(flagChannel355Cro)) | (nanrunmedian(squeeze(SNR(flagChannel355Tot, :, :)), config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot)) < config.mask_SNRmin(flagChannel355Tot))) = 1;
+quality_mask_355(squeeze(SNR(flagChannel355Tot, :, :)) < config.mask_SNRmin(flagChannel355Tot)) = 1;
+quality_mask_532(squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot)) = 1;
+quality_mask_1064(squeeze(SNR(flagChannel1064, :, :)) < config.mask_SNRmin(flagChannel1064)) = 1;
+quality_mask_voldepol532((squeeze(SNR(flagChannel532Cro, :, :)) < config.mask_SNRmin(flagChannel532Cro)) | (squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
+quality_mask_voldepol355((squeeze(SNR(flagChannel355Cro, :, :)) < config.mask_SNRmin(flagChannel355Cro)) | (squeeze(SNR(flagChannel355Tot, :, :)) < config.mask_SNRmin(flagChannel355Tot))) = 1;
 quality_mask_355(:, data.depCalMask) = 2;
 quality_mask_355(:, data.depCalMask) = 2;
 quality_mask_532(:, data.depCalMask) = 2;
@@ -112,18 +112,13 @@ mol_att_355 = exp(- cumsum(molExt355 .* repmat(transpose([data.height(1), diff(d
 mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 mol_att_1064 = exp(- cumsum(molExt1064 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 
-% correct calibration backscatter
-corr_beta_355 = data.att_beta_355 ./ mol_att_355.^2;
-corr_beta_532 = data.att_beta_532 ./ mol_att_532.^2;
-corr_beta_1064 = data.att_beta_1064 ./ mol_att_1064.^2;
-
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, data.att_beta_355, molExt355, molBsc355, config.LR355);
-[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, data.att_beta_532, molExt532, molBsc532, config.LR532);
-[quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, data.att_beta_1064, molExt1064, molBsc1064, config.LR1064);
+[quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, att_beta_355, molExt355, molBsc355, config.LR355);
+[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532);
+[quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, att_beta_1064, molExt1064, molBsc1064, config.LR1064);
 
 % quasi particle depolarization ratio and Ångström exponents
-quasi_par_depol_532 = (volDepol_532 + 1) ./ (molBsc532 .* (defaults.molDepol532 - volDepol_532) ./ (quasi_par_bsc_532 .* (1 + defaults.molDepol532)) + 1) - 1;
+quasi_par_depol_532 = (volDepol_532_smooth + 1) ./ (molBsc532 .* (defaults.molDepol532 - volDepol_532_smooth) ./ (quasi_par_bsc_532 .* (1 + defaults.molDepol532)) + 1) - 1;
 quasi_ang_355_532 = log(quasi_par_bsc_532 ./ quasi_par_bsc_355) ./ log(355/532);
 quasi_ang_532_1064 = log(quasi_par_bsc_1064 ./ quasi_par_bsc_532) ./ log(532/1064);
 quasi_ang_355_1064 = log(quasi_par_bsc_1064 ./ quasi_par_bsc_355) ./ log(355/1064);

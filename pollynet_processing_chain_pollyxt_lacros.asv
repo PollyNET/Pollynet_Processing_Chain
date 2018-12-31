@@ -1,14 +1,13 @@
-% function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
-% function [report = pollynet_processing_chain_pollyxt_lacros()
+% function [] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
+% function [] = pollynet_processing_chain_pollyxt_lacros()
 
 %POLLYNET_PROCESSING_CHAIN_POLLYXT_lacros processing the data from pollyxt_lacros
 %	Example:
-%		[report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config, campaignInfo)
+%		[] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config, campaignInfo)
 %	Inputs:
 %		taskInfo, config, campaignInfo
 %	Outputs:
-%		report: cell array
-%           information about each figure.
+%		
 %	History:
 %		2018-12-17. First edition by Zhenping   
 %	Contact:
@@ -128,7 +127,7 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_lacros_klett(data, config);
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_lacros_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_lacros_raman(data, config);
-[data.voldepol355, data.pardepol355_klett, data.pardepolStd355_klett, data.pardepol355_raman, data.pardepolStd355_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355, data.voldepol532, data.pardepol532_klett, data.pardepolStd532_klett, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_lacros_depolratio(data, config);
+[data.voldepol355, data.pardepol355_klett, data.pardepol355_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355, data.voldepol532, data.pardepol532_klett, data.pardepol532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_lacros_depolratio(data, config);
 [data.ang_ext_355_532_raman, data.ang_bsc_355_532_raman, data.ang_bsc_532_1064_raman, data.ang_bsc_355_532_klett, data.ang_bsc_532_1064_klett] = pollyxt_lacros_angstrexp(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -140,7 +139,7 @@ data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_lacros_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
 [data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_lacros_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
-[data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_lacros_wv_retrieve(data, config, wvCaliInfo.IntRange);
+[data.wvmr, data.rh, data.MVWR, data.RH] = pollyxt_lacros_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
 %% lidar calibration
@@ -191,9 +190,6 @@ pollyxt_lacros_display_retrieving(data, taskInfo, config);
 %% display attenuated backscatter
 pollyxt_lacros_display_att_beta(data, taskInfo, config);
 
-%% display WVMR and RH
-pollyxt_lacros_display_WV(data, taskInfo, config);
-
 %% display quasi backscatter, particle depol and angstroem exponent 
 pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
 
@@ -226,8 +222,5 @@ pollyxt_lacros_save_retrieving_results(data, taskInfo, config);
 %% save quasi results
 %% save target classification results
 pollyxt_lacros_save_tc(data, taskInfo, config);
-
-%% get report
-report{iTask} = pollynet_processing_chain_report(data, taskInfo, config);
 
 % end

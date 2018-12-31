@@ -1,7 +1,7 @@
-function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults, saveFolder)
+function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults)
 %pollyxt_lacros_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
 %	Example:
-%		[data] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults, saveFolder)
+%		[data] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults)
 %	Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -11,8 +11,6 @@ function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, 
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       defaults: struct
 %           More detailed information can be found in doc/polly_defaults.md
-%       saveFolder: char
-%           folder to save the calibration results
 %	Outputs:
 %		data: struct
 %           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md

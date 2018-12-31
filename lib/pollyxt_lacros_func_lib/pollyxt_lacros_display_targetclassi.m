@@ -14,7 +14,7 @@ function [] = pollyxt_lacros_display_targetclassi(data, taskInfo, config)
 global processInfo defaults campaignInfo
 
 %% initialization 
-fileTC = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
+fileTC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
 
 %% visualization
 load('TC_colormap.mat')

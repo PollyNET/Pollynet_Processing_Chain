@@ -56,6 +56,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             sig355 = transpose(squeeze(sum(data.el355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             bg355 = transpose(squeeze(sum(data.bgEl355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             refH = [data.distance0(data.refHIndx355(iGroup, 1)), data.distance0(data.refHIndx355(iGroup, 2))];
+            hBaseIndx355 = find(data.height >= config.heightFullOverlap(flagChannel355) + config.smoothWin_raman_355/2 * data.hRes, 1);
+            if isempty(hBaseIndx355)
+                warning('Warning in %s: Failure in searching the index of minHeight. Set the index of the minimum integral range to be 100', mfilename);
+                hBaseIndx355 = 100;
+            end
             [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
             flagChannel387 = config.isFR & config.is387nm;
@@ -67,7 +72,10 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             
             if snr387 >= config.minRamanRefSNR387
                 thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
-                [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, thisAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, false);
+                tmpAerExt355_raman = thisAerExt355_raman;
+                tmpAerExt355_raman(1:hBaseIndx355) = tmpAerExt355_raman(hBaseIndx355);
+                [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, true);
+                thisLR355_raman(1:hBaseIndx355) = NaN;
                 % TODO: uncertainty analysis
             end
         end
@@ -89,6 +97,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             sig532 = transpose(squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             bg532 = transpose(squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
             refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
+            hBaseIndx532 = find(data.height >= config.heightFullOverlap(flagChannel532) + config.smoothWin_raman_532/2 * data.hRes, 1);
+            if isempty(hBaseIndx532)
+                warning('Warning in %s: Failure in searching the index of minHeight. Set the index of the minimum integral range to be 100', mfilename);
+                hBaseIndx532 = 100;
+            end
             [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
             flagChannel607 = config.isFR & config.is607nm;
@@ -100,7 +113,10 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             
             if snr607 >= config.minRamanRefSNR607
                 thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
-                [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, thisAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, false);
+                tmpAerExt532_raman = thisAerExt532_raman;
+                tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
+                [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
+                thisLR532_raman(1:hBaseIndx532) = NaN;
                 % TODO: uncertainty analysis
             end
         end
@@ -122,6 +138,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             sig1064 = squeeze(sum(data.signal(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             bg1064 = squeeze(sum(data.bg(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refH = [data.distance0(data.refHIndx1064(iGroup, 1)), data.distance0(data.refHIndx1064(iGroup, 2))];
+            hBaseIndx1064 = find(data.height >= config.heightFullOverlap(flagChannel1064) + config.smoothWin_raman_1064/2 * data.hRes, 1);
+            if isempty(hBaseIndx1064)
+                warning('Warning in %s: Failure in searching the index of minHeight. Set the index of the minimum integral range to be 100', mfilename);
+                hBaseIndx1064 = 100;
+            end
             [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
             flagChannel607 = config.isFR & config.is607nm;
@@ -134,7 +155,10 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             if snr607 >= config.minRamanRefSNR607
                 thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
                 thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^config.angstrexp;
-                [thisAerBsc1064_raman, ~] = polly_raman_bsc(data.distance0, sig1064, sig607, thisAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, false);
+                tmpAerExt1064_raman = thisAerExt1064_raman;
+                tmpAerExt1064_raman(1:hBaseIndx1064) = tmpAerExt1064_raman(hBaseIndx1064);
+                [thisAerBsc1064_raman, ~] = polly_raman_bsc(data.distance0, sig1064, sig607, tmpAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, true);
+                thisAerBsc1064_raman(1:hBaseIndx1064) = NaN;
                 % TODO: uncertainty analysis
             end
         end

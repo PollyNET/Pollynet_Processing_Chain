@@ -10,6 +10,7 @@ fprintf('%%------------------------------------------------------%%\n');
 projectDir = fileparts(mfilename('fullpath'));
 % add lib path
 run(fullfile(projectDir, 'lib', 'addlibpath.m'));
+run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 
 configFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
 if ~ exist(configFile, 'file')
@@ -46,6 +47,18 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	taskInfo.zipFile = fileinfo_new.zipFile{iTask};
 	taskInfo.dataSize = fileinfo_new.dataSize(iTask);
 	taskInfo.pollyVersion = fileinfo_new.pollyVersion{iTask};
+
+	%% create folder for this instrument
+	results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion);
+	pic_folder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion);
+	if ~ exist(results_folder, 'dir')
+		fprintf('Create a new folder to saving the results for %s\n%s\n', taskInfo.pollyVersion, results_folder);
+		mkdir(results_folder);
+	end
+	if ~ exist(pic_folder, 'dir')
+		fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, pic_folder);
+		mkdir(pic_folder);
+	end
 
 	%% turn on the diary to log all the command output for future debugging
 	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', taskInfo.dataFilename(1:end-3), taskInfo.pollyVersion));
@@ -95,9 +108,6 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('\n[%s] Stasktart to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
 	eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
 	fprintf('[%s]Finish.\n', tNow());
-
-	%% get report
-	report{iTask} = pollynet_processing_chain_report(taskInfo, pollyConfig);
 
 	%% cleanup
 	diaryoff;
