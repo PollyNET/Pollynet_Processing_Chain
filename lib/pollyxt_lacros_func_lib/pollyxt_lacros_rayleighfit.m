@@ -36,16 +36,20 @@ if isempty(data.rawSignal)
     return;
 end
 
+flagChannel355 = config.isFR & config.is355nm & config.isTot;
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+
 %% search reference height 
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
-    nShots = nansum(data.mShots(proIndx));
     temperature = data.temperature(iGroup, :);
     pressure = data.pressure(iGroup, :);
 
     % rayleigh fitting for 355 nm
     sig355PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is355nm, :, proIndx), 3));   % photon count
-    sig355PCR = sig355PC / nShots * (150 / data.hRes);
+    nShots355 = nansum(data.mShots(flagChannel355, proIndx), 2);
+    sig355PCR = sig355PC / nShots355 * (150 / data.hRes);
     bg355PC = squeeze(sum(data.bg(config.isFR & config.isTot & config.is355nm, :, proIndx), 3));   % photon count
     [molBsc355, molExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
     molSig355 = molBsc355 .* exp(-2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]));
@@ -54,7 +58,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     % rayleigh fitting for 532 nm
     sig532PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is532nm, :, proIndx), 3));   % photon count
-    sig532PCR = sig532PC / nShots * (150 / data.hRes);
+    nShots532 = nansum(data.mShots(flagChannel532, proIndx), 2);
+    sig532PCR = sig532PC / nShots532 * (150 / data.hRes);
     bg532PC = squeeze(sum(data.bg(config.isFR & config.isTot & config.is532nm, :, proIndx), 3));   % photon count
     [molBsc532, molExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     molSig532 = molBsc532 .* exp(-2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
@@ -63,7 +68,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     % rayleigh fitting for 1064 nm
     sig1064PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is1064nm, :, proIndx), 3));   % photon count
-    sig1064PCR = sig1064PC / nShots * (150 / data.hRes);
+    nShots1064 = nansum(data.mShots(flagChannel1064, proIndx), 2);
+    sig1064PCR = sig1064PC / nShots1064 * (150 / data.hRes);
     bg1064PC = squeeze(sum(data.bg(config.isFR & config.isTot & config.is1064nm, :, proIndx), 3));   % photon count
     [molBsc1064, molExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
     molSig1064 = molBsc1064 .* exp(-2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));

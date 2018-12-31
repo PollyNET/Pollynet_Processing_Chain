@@ -66,7 +66,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             snr387 = polly_SNR(refSig387, refBg387);
             
             if snr387 >= config.minRamanRefSNR387
-                thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :), config.smoothWin_raman_355, 380, 70, 'moving');
+                thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
                 [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, thisAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, false);
                 % TODO: uncertainty analysis
             end
@@ -99,7 +99,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             snr607 = polly_SNR(refSig607, refBg607);
             
             if snr607 >= config.minRamanRefSNR607
-                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :), config.smoothWin_raman_532, 380, 70, 'moving');
+                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
                 [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, thisAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, false);
                 % TODO: uncertainty analysis
             end
@@ -132,7 +132,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             snr607 = polly_SNR(refSig607, refBg607);
             
             if snr607 >= config.minRamanRefSNR607
-                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :), config.smoothWin_raman_1064, 380, 70, 'moving');
+                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
                 thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^config.angstrexp;
                 [thisAerBsc1064_raman, ~] = polly_raman_bsc(data.distance0, sig1064, sig607, thisAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, false);
                 % TODO: uncertainty analysis

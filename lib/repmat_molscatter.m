@@ -60,11 +60,11 @@ pressure = interp_meteor(altRaw, presRaw, alt);
 [thisMolBsc1064, thisMolExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
 
 % repmat the signal profile to the whole lidar grid
-molBsc355 = repmat(transpose(thisMolBsc355), numel(alt), numel(mTime));
-molExt355 = repmat(transpose(thisMolExt355), numel(alt), numel(mTime));
-molBsc532 = repmat(transpose(thisMolBsc532), numel(alt), numel(mTime));
-molExt532 = repmat(transpose(thisMolExt532), numel(alt), numel(mTime));
-molBsc1064 = repmat(transpose(thisMolBsc1064), numel(alt), numel(mTime));
-molExt1064 = repmat(transpose(thisMolExt1064), numel(alt), numel(mTime));
+molBsc355 = repmat(transpose(thisMolBsc355), 1, numel(mTime));
+molExt355 = repmat(transpose(thisMolExt355), 1, numel(mTime));
+molBsc532 = repmat(transpose(thisMolBsc532), 1, numel(mTime));
+molExt532 = repmat(transpose(thisMolExt532), 1, numel(mTime));
+molBsc1064 = repmat(transpose(thisMolBsc1064), 1, numel(mTime));
+molExt1064 = repmat(transpose(thisMolExt1064), 1, numel(mTime));
 
 end

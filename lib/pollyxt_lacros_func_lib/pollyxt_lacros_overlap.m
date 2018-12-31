@@ -1,17 +1,44 @@
-function [data] = pollyxt_lacros_overlap(data, config, taskInfo, saveFolder)
+function [data, overlapAttri] = pollyxt_lacros_overlap(data, config)
 %pollyxt_lacros_overlap description
 %   Example:
-%       [data] = pollyxt_lacros_overlap(data, config, taskInfo, defaults, saveFolder)
+%       [data] = pollyxt_lacros_overlap(data, config)
 %   Inputs:
-%       data, config, taskInfo, defaults, saveFolder
+%		data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
-%       data
+%       data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       overlapAttri: struct
+%           All information about overlap.
 %   History:
 %       2018-12-19. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
 
 global processInfo campaignInfo defaults
+
+overlapAttri = struct();
+overlapAttri.location = campaignInfo.location;
+overlapAttri.institute = processInfo.institute;
+overlapAttri.contact = processInfo.contact;
+overlapAttri.version = processInfo.programVersion;
+overlapAttri.height = [];
+overlapAttri.overlap355 = [];
+overlapAttri.overlap532 = [];
+overlapAttri.overlap355_std = [];
+overlapAttri.overlap532_std = [];
+overlapAttri.overlap355DefaultInterp = [];
+overlapAttri.overlap532DefaultInterp = [];
+overlapAttri.sig355FR = [];   % Photon count rate [MHz]
+overlapAttri.sig355NR = [];   % Photon count rate [MHz]
+overlapAttri.sigRatio355 = [];
+overlapAttri.normRange355 = [];
+overlapAttri.sig532FR = [];   % Photon count rate [MHz]
+overlapAttri.sig532NR = [];   % Photon count rate [MHz]
+overlapAttri.sigRatio532 = [];
+overlapAttri.normRange532 = [];
 
 if isempty(data.rawSignal)
     return;
@@ -52,19 +79,19 @@ case 1   % ratio of near and far range signal
     lowSNRBaseIndx = lowSNRBaseIndx + fullOverlapIndx - 1;
 
     % calculate the channel ratio of near range and far range total signal
-    [sigRatio, normRange, ~] = mean_stable(sig355NR./sig355FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
+    [sigRatio355, normRange355, ~] = mean_stable(sig355NR./sig355FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
 
     % calculate the overlap of FR channel
-    if isempty(normRange)
+    if isempty(normRange355)
         return;
     else
-        SNRNormRangeFR = polly_SNR(sum(sig355FR(normRange)), sum(bg355FR(normRange)));
-        SNRNormRangeNR = polly_SNR(sum(sig355NR(normRange)), sum(bg355NR(normRange)));
-        sigRatioStd = sigRatio * sqrt(1 / SNRNormRangeFR.^2 + 1 / SNRNormRangeNR.^2);
+        SNRNormRange355FR = polly_SNR(sum(sig355FR(normRange355)), sum(bg355FR(normRange355)));
+        SNRNormRange355NR = polly_SNR(sum(sig355NR(normRange355)), sum(bg355NR(normRange355)));
+        sigRatio355Std = sigRatio355 * sqrt(1 / SNRNormRange355FR.^2 + 1 / SNRNormRange355NR.^2);
     end
 
-    overlap355 = sig355FR ./ sig355NR * sigRatio;
-    overlap355_std = overlap355 .* sqrt(sigRatioStd.^2/sigRatio.^2 + 1./sig355FR.^2 + 1./sig355NR.^2);
+    overlap355 = sig355FR ./ sig355NR * sigRatio355;
+    overlap355_std = overlap355 .* sqrt(sigRatio355Std.^2/sigRatio355.^2 + 1./sig355FR.^2 + 1./sig355NR.^2);
 
 
     % 532 nm
@@ -92,19 +119,19 @@ case 1   % ratio of near and far range signal
     lowSNRBaseIndx = lowSNRBaseIndx + fullOverlapIndx - 1;
 
     % calculate the channel ratio of near range and far range total signal
-    [sigRatio, normRange, ~] = mean_stable(sig532NR./sig532FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
+    [sigRatio532, normRange532, ~] = mean_stable(sig532NR./sig532FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
 
     % calculate the overlap of FR channel
-    if isempty(normRange)
+    if isempty(normRange532)
         return;
     else
-        SNRNormRangeFR = polly_SNR(sum(sig532FR(normRange)), sum(bg532FR(normRange)));
-        SNRNormRangeNR = polly_SNR(sum(sig532NR(normRange)), sum(bg532NR(normRange)));
-        sigRatioStd = sigRatio * sqrt(1 / SNRNormRangeFR.^2 + 1 / SNRNormRangeNR.^2);
+        SNRNormRangeFR = polly_SNR(sum(sig532FR(normRange532)), sum(bg532FR(normRange532)));
+        SNRNormRangeNR = polly_SNR(sum(sig532NR(normRange532)), sum(bg532NR(normRange532)));
+        sigRatio532Std = sigRatio532 * sqrt(1 / SNRNormRangeFR.^2 + 1 / SNRNormRangeNR.^2);
     end
 
-    overlap532 = sig532FR ./ sig532NR * sigRatio;
-    overlap532_std = overlap532 .* sqrt(sigRatioStd.^2/sigRatio.^2 + 1./sig532FR.^2 + 1./sig532NR.^2);
+    overlap532 = sig532FR ./ sig532NR * sigRatio532;
+    overlap532_std = overlap532 .* sqrt(sigRatio532Std.^2/sigRatio532.^2 + 1./sig532FR.^2 + 1./sig532NR.^2);
 
 case 2   % raman method
 end
@@ -122,15 +149,25 @@ if ~ isempty(overlap532Default)
 end
 
 %% saving the results
-saveFile = fullfile(saveFolder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_overlap.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
-picFile = fullfile(saveFolder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_overlap.png', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
-globalAttribute = struct();
-globalAttribute.location = campaignInfo.location;
-globalAttribute.institute = processInfo.institute;
-globalAttribute.contact = processInfo.contact;
-globalAttribute.version = processInfo.programVersion;
-pollyxt_lacros_save_overlap(data.height, overlap532, overlap355, overlap532DefaultInterp, overlap355DefaultInterp, saveFile, config, globalAttribute);
-pollyxt_lacros_display_overlap(data.height, overlap532, overlap355, overlap532DefaultInterp, overlap355DefaultInterp, picFile, config, taskInfo, globalAttribute);
+overlapAttri.location = campaignInfo.location;
+overlapAttri.institute = processInfo.institute;
+overlapAttri.contact = processInfo.contact;
+overlapAttri.version = processInfo.programVersion;
+overlapAttri.height = data.height;
+overlapAttri.overlap355 = overlap355;
+overlapAttri.overlap532 = overlap532;
+overlapAttri.overlap355_std = overlap355_std;
+overlapAttri.overlap532_std = overlap532_std;
+overlapAttri.overlap355DefaultInterp = overlap355DefaultInterp;
+overlapAttri.overlap532DefaultInterp = overlap532DefaultInterp;
+overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+overlapAttri.sigRatio355 = sigRatio355;
+overlapAttri.normRange355 = normRange355;
+overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+overlapAttri.sigRatio532 = sigRatio532;
+overlapAttri.normRange532 = normRange532;
 
 %% append the overlap to data
 if isempty(overlap532)

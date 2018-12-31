@@ -131,8 +131,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
             deltaSig_aer = nanstd(sig_aer_norm(jIndx:(jIndx + winLen)));
             meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
             meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));
-            SNRTmp = nansum(pc(jIndx:(jIndx + winLen))) ./ sqrt(nansum(pc(jIndx:(jIndx + winLen)) + bg(jIndx:(jIndx + winLen))));
-            SNRTmp(isinf(SNRTmp)) = 0;
+            SNRTmp = polly_SNR(nansum(pc(jIndx:(jIndx + winLen))),  nansum(bg(jIndx:(jIndx + winLen))));
             if SNRTmp < sqrt(winLen)
                 continue;
             end
@@ -188,11 +187,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
     
         % Quality test 4: SNR check
         % which is assured in Douglas-Peucker algorithm
-        SNR = nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))) ./ ...
-               sqrt(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1)) + bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
-        if isinf(SNR) || isnan(SNR)
-            SNR = 0;
-        end
+        SNR = polly_SNR(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))), nansum(bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
         if SNR < SNRConstrain && flagShowDetail
             fprintf('Region %d: %f - %f fails in SNR criterion.\n', iIndx, height(iDpBIndx), height(iDpTIndx));
             test4 = false;

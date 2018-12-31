@@ -28,7 +28,7 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %   Contact:
 %       zhenping@tropos.de
 
-global defaults campaignInfo processInfo.institute
+global defaults campaignInfo processInfo
 
 LCUsed355 = [];
 LCUsed532 = [];
@@ -45,19 +45,19 @@ if isempty(data.rawSignal)
 end
 
 % mean and std values of lidar constants
-LC_raman_355_mean = nanmean(data.LC_raman_355);
-LC_raman_532_mean = nanmean(data.LC_raman_532);
-LC_raman_1064_mean = nanmean(data.LC_raman_1064);
-LC_klett_355_mean = nanmean(data.LC_klett_355);
-LC_klett_532_mean = nanmean(data.LC_klett_532);
-LC_klett_1064_mean = nanmean(data.LC_klett_1064);
+LC_raman_355_mean = nanmean(data.LC.LC_raman_355);
+LC_raman_532_mean = nanmean(data.LC.LC_raman_532);
+LC_raman_1064_mean = nanmean(data.LC.LC_raman_1064);
+LC_klett_355_mean = nanmean(data.LC.LC_klett_355);
+LC_klett_532_mean = nanmean(data.LC.LC_klett_532);
+LC_klett_1064_mean = nanmean(data.LC.LC_klett_1064);
 
-LC_raman_355_std = nanstd(data.LC_raman_355);
-LC_raman_532_std = nanstd(data.LC_raman_532);
-LC_raman_1064_std = nanstd(data.LC_raman_1064);
-LC_klett_355_std = nanstd(data.LC_klett_355);
-LC_klett_532_std = nanstd(data.LC_klett_532);
-LC_klett_1064_std = nanstd(data.LC_klett_1064);
+LC_raman_355_std = nanstd(data.LC.LC_raman_355);
+LC_raman_532_std = nanstd(data.LC.LC_raman_532);
+LC_raman_1064_std = nanstd(data.LC.LC_raman_1064);
+LC_klett_355_std = nanstd(data.LC.LC_klett_355);
+LC_klett_532_std = nanstd(data.LC.LC_klett_532);
+LC_klett_1064_std = nanstd(data.LC.LC_klett_1064);
 
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
@@ -121,15 +121,15 @@ else
 end
 
 %% save lidar constants
-saveFile = fullfile(folder, sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS', taskInfo.pollyVersion)));
-picFile = fullfile(folder, sprintf('%s_%s_lc.png', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS', taskInfo.pollyVersion)));
+saveFile = fullfile(folder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
+picFile = fullfile(folder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.png', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
 globalAttri = struct();
 globalAttri.location = campaignInfo.location;
 globalAttri.institute = processInfo.institute;
 globalAttri.contact = processInfo.contact;
 globalAttri.version = processInfo.programVersion;
 
-pollyxt_dwd_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
-pollyxt_dwd_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
+pollyxt_lacros_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
+pollyxt_lacros_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, picFile, globalAttri);
 
 end

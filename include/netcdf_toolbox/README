@@ -1,0 +1,51 @@
+$Name: netcdf_toolbox-1_0_11 $
+
+After unpacking the netcdf toolbox, you should adjust your matlab path
+as follows.  
+
+addpath /path/to/wherever/you/installed/this/netcdf 
+addpath /path/to/wherever/you/installed/this/netcdf/nctype
+addpath /path/to/wherever/you/installed/this/netcdf/ncutility
+
+or if on Windows, 
+
+addpath C:\path\to\wherever\you\installed\this\netcdf 
+addpath C:\gpath\to\wherever\you\installed\this\netcdf\nctype
+addpath C:\path\to\wherever\you\installed\this\netcdf\ncutility
+
+It could reside on another drive as well.
+
+And remember to remove any previous version of the netcdf toolbox from
+your path as well.
+
+Windows Users Take Note:
+========================================================================
+The "netcdf.dll" file from the mexnc distribution needs to be on your 
+in order for mexnc to work, but this causes a namespace clash with the
+"netcdf.m" file in the netcdf toolbox.  You need to make sure that
+"netcdf.m" PRECEDES "netcdf.dll", or else the netcdf toolbox will not
+work.  In other words, from the matlab command line, type
+
+    >> which ( 'netcdf', '-all' );
+
+You should see something to the effect of 
+
+    C:\path\to\netcdf_toolbox\netcdf\@netcdf\netcdf.m
+    C:\path\to\MATLAB\bin\netcdf.dll                    % Shadowed 
+    C:\path\to\MATLAB\bin\win32\netcdf.dll.
+
+So "netcdf.m" MUST come first.
+
+
+AUTOSCALING
+========================================================================
+If you wish to automatically scale your data and have fill values replaced
+by NaNs, you should define a global structure called "nctbx_options"
+as follows:
+
+    >> global nctbx_options;
+    >> nctbx_options.theAutoscale = 1;
+    >> nctbx_options.theAutoNaN = 1;
+
+You can place this code in your startup.m if you don't want to continually
+have to do this upon starting matlab.

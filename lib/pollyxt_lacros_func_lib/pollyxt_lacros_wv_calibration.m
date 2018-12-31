@@ -109,6 +109,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
         hIndxLowSNR407 = hIndxLowSNR407 + hIndxFullOverlap407 - 1;
         hIntTopIndx = min([hIndxLowSNR387, hIndxLowSNR407]);
+        thisIntRange = [hIntBaseIndx, hIntTopIndx];
     end
 
     %% determine meteorological stability
@@ -139,7 +140,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
         wvconst = IWV_Cali ./ IWVRaw;   % g*kg^{-1}
         wvconstStd = 0;   % TODO: this can be done by taking into account the uncertainty of IWV by AERONET and the signal uncertainty by lidar.
-        thisIntRange = [hIntBaseIndx, hIntTopIndx];
         thisDatetime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
     end
 

@@ -1,24 +1,24 @@
-function [] = pollyxt_lacros_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri)
+function [] = pollyxt_lacros_save_overlap(height, config, globalAttri, file)
 %pollyxt_lacros_save_overlap Save the overlap file.
 %   Example:
 %       [] = pollyxt_lacros_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri);
 %   Inputs:
 %       height: array
 %           height above surface. [m]
-%       overlap532: array
-%           calculated overlap for 532 nm far range total channel.
-%       overlap355: array
-%           calculated overlap for 355 nm far range total channel.
-%       overlap532Defaults: array
-%           default overlap for 532 nm far range total channel.
-%       overlap355Defaults: array
-%           default overlap for 355 nm far range total channel.
-%       file: char
-%           netcdf file to save the overlap parameters.
 %       config: struct
 %           polly processing configuration. More detailed information can be found in doc/polly_config.md
 %       globalAttri: struct
-%           global attribute.
+%           overlap532: array
+%               calculated overlap for 532 nm far range total channel.
+%           overlap355: array
+%               calculated overlap for 355 nm far range total channel.
+%           overlap532Defaults: array
+%               default overlap for 532 nm far range total channel.
+%           overlap355Defaults: array
+%               default overlap for 355 nm far range total channel.
+%       file: char
+%           netcdf file to save the overlap parameters.
+%       
 %   Outputs:
 %       
 %   History:
@@ -27,6 +27,10 @@ function [] = pollyxt_lacros_save_overlap(height, overlap532, overlap355, overla
 %       zhenping@tropos.de
 
 % convert empty array to defaults
+overlap355 = globalAttri.overlap355;
+overlap532 = globalAttri.overlap532;
+overlap355Defaults = globalAttri.overlap355DefaultInterp;
+overlap532Defaults = globalAttri.overlap532DefaultInterp;
 if isempty(overlap532)
     overlap532 = -999 * ones(size(height));
 end

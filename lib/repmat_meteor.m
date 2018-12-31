@@ -43,7 +43,7 @@ temp = interp_meteor(altRaw, tempRaw, alt);
 pres = interp_meteor(altRaw, presRaw, alt);
 
 % repmat the signal profile to the whole lidar grid
-temperature = repmat(transpose(temp), numel(alt), numel(mTime));
-pressure = repmat(transpose(pres), numel(alt), numel(mTime));
+temperature = repmat(transpose(temp), 1, numel(mTime));
+pressure = repmat(transpose(pres), 1, numel(mTime));
 
 end
