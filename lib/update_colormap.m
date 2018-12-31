@@ -98,8 +98,11 @@ chiljet = [...
 127    0  127]./256
 
 libFolder = fileparts(mfilename('fullpath'));
+disp('Saving status_colormap: OK');
 save(fullfile(libFolder, 'status_colormap.mat'), 'status_colormap');
+disp('Saving TC_colormap: OK');
 save(fullfile(libFolder, 'TC_colormap.mat'), 'TC_colormap');
+disp('Saving chiljet_colormap: OK');
 save(fullfile(libFolder, 'chiljet_colormap.mat'));
 
 end

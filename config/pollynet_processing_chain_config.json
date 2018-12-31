@@ -6,6 +6,7 @@
 	"gdas1_folder": "C:\\Users\\zhenping\\Documents\\Data\\GDAS",
 	"defaultsFile_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults",
 	"results_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\results", 
+	"pic_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots", 
 	"pollynet_config_history_file": "C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt",
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",

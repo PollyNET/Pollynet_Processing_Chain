@@ -17,19 +17,19 @@ function [] = pollyxt_lacros_display_rcs(data, taskInfo, config)
 global defaults processInfo campaignInfo
 
 %% parameter initialize
-fileRCS355FR = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
-fileRCS532FR = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
-fileRCS1064FR = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_1064.png', rmext(taskInfo.dataFilename)));
-fileRCS532NR = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
-fileVolDepol355 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
-fileVolDepol532 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
+fileRCS355FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
+fileRCS532FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
+fileRCS1064FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_1064.png', rmext(taskInfo.dataFilename)));
+fileRCS532NR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
+fileVolDepol355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
+fileVolDepol532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 
 %% visualization
-load('myjet_colormap.mat')
+load('chiljet_colormap.mat')
 
 % 355 nm FR
 figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -59,7 +59,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '[a.u]');
 
-colormap(myjet);
+colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
 export_fig(gcf, fileRCS355FR, '-transparent', '-r300', '-painters');
@@ -93,7 +93,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '[a.u]');
 
-colormap(myjet);
+colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
 export_fig(gcf, fileRCS532FR, '-transparent', '-r300', '-painters');
@@ -129,7 +129,7 @@ set(titleHandle, 'string', '[a.u]');
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
-colormap(myjet);
+colormap(chiljet);
 export_fig(gcf, fileRCS1064FR, '-transparent', '-r300', '-painters');
 close()
 
@@ -161,7 +161,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '[a.u]');
 
-colormap(myjet);
+colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
 export_fig(gcf, fileRCS532NR, '-transparent', '-r300', '-painters');
@@ -193,7 +193,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '[%]');
 
-colormap(myjet);
+colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
 export_fig(gcf, fileVolDepol532, '-transparent', '-r300', '-painters');
@@ -225,7 +225,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', '[%]');
 
-colormap(myjet);
+colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
 export_fig(gcf, fileVolDepol355, '-transparent', '-r300', '-painters');

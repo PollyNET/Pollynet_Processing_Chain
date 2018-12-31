@@ -14,12 +14,12 @@ function [] = pollyxt_lacros_display_att_beta(data, taskInfo, config)
 global defaults processInfo campaignInfo
 
 %% parameter initialize
-fileATT_BETA_355 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
-fileATT_BETA_532 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
-fileATT_BETA_1064 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
+fileATT_BETA_355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
+fileATT_BETA_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
+fileATT_BETA_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
 
 %% visualization
-load('myjet_colormap.mat')
+load('chiljet_colormap.mat')
 
 % 355 nm FR
 figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -49,7 +49,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -84,7 +84,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -119,7 +119,7 @@ set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
 set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-colormap(myjet);
+colormap(chiljet);
 
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 

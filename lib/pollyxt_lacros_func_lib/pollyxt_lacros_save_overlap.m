@@ -93,6 +93,9 @@ netcdf.putAtt(ncID, varID_overlapCalMethod, 'unit', '');
 netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', '1: signal ratio of near and far range signal; 2: Raman method (Ulla Wandinger 2002)');
 
 varID_global = netcdf.getConstant('GLOBAL');
+netcdf.putAtt(ncID, varID_global, 'latitude', -53.1346);
+netcdf.putAtt(ncID, varID_global, 'longtitude', -70.8834);
+netcdf.putAtt(ncID, varID_global, 'elev', 90);
 netcdf.putAtt(ncID, varID_global, 'location', globalAttri.location);
 netcdf.putAtt(ncID, varID_global, 'institute', globalAttri.institute);
 netcdf.putAtt(ncID, varID_global, 'version', globalAttri.version);

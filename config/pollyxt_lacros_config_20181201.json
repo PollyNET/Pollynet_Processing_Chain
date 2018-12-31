@@ -9,11 +9,11 @@
 	"AERONETSite": "Punta_Arenas_UMAG",
 
 	"max_height_bin": 2500,
-	"first_range_gate_indx": [251, 251, 251, 251, 251, 251, 251, 251, 252, 252, 252, 252, 252],
-	"first_range_gate_height": 3.75,
+	"first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],
+	"first_range_gate_height": 78.75,
 	"dtCorMode": 1,
 	"bgCorRangeIndx": [10, 240],
-	"mask_SNRmin": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+	"mask_SNRmin": [1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1], 
 	"depol_cal_ang_p_time": ["02:30:15", "16:30:15", "21:30:15"],
 	"depol_cal_ang_n_time": ["02:35:15", "16:35:15", "21:35:15"],
 	"depol_cal_minbin_532": 40,
@@ -99,7 +99,7 @@
 	"LCMeanMinIndx": 70,
 	"LCMeanMaxIndx": 1000,
 	"quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	"quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+	"quasi_smooth_t": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	"hWVCaliBase": 120,
 
 	"clear_thres_par_beta_1064": 1e-8,
