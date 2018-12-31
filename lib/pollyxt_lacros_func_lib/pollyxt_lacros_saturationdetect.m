@@ -19,6 +19,11 @@ nChannels = size(data.signal, 1);
 nProfiles = size(data.signal, 3);
 
 flag = false(size(data.signal));
+
+if isempty(data.rawSignal)
+    return;
+end
+
 for iChannel = 1:nChannels
     for iProfile = 1:nProfiles
         flagSaturation = polly_saturationdetect(squeeze(data.signal(iChannel, :, iProfile)), data.height, config.heightFullOverlap(iChannel), 10000, config.saturate_thresh, 500);

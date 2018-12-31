@@ -54,7 +54,7 @@ SNRTot = polly_SNR(sigTot, bgTot);
 hIndxLowSNR = (SNRCross < 1) | (SNRTot < 1);
 sigCross(hIndxLowSNR) = NaN;
 sigTot(hIndxLowSNR) = NaN;
-sigRatio = transpose(smoothWin(sigCross./sigTot, smoothWindow));
+sigRatio = transpose(smoothWin(sigCross, smoothWindiw)./ smoothWin(sigTot, smoothWindow));
 sigCrossStd = signalStd(sigCross, bgCross, smoothWindow, 2);
 sigTotStd = signalStd(sigTot, bgTot, smoothWindow, 2);
 

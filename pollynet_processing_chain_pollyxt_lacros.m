@@ -1,4 +1,4 @@
-% function [] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
+function [] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 % function [] = pollynet_processing_chain_pollyxt_lacros()
 
 %POLLYNET_PROCESSING_CHAIN_POLLYXT_lacros processing the data from pollyxt_lacros
@@ -13,7 +13,7 @@
 %	Contact:
 %		zhenping@tropos.de
 
-load('debug.mat')
+% load('debug.mat')
 
 global processInfo campaignInfo defaults
 % save('debug.mat', 'taskInfo', 'config', 'processInfo', 'campaignInfo', 'defaults')
@@ -21,6 +21,10 @@ global processInfo campaignInfo defaults
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), taskInfo.pollyVersion, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config);
+if isempty(data.rawSignal)
+    warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, taskInfo.pollyVersion);
+    return;
+end
 fprintf('[%s] Finish reading data.\n', tNow());
 
 %% read laserlogbook file
@@ -37,15 +41,13 @@ fprintf('[%s] Finish signal preprocessing.\n', tNow());
 
 %% saturation detection
 fprintf('\n[%s] Start to detect signal saturation.\n', tNow());
-if isfield(data, 'signal')
-    flagSaturation = pollyxt_lacros_saturationdetect(data, config);
-    data.flagSaturation = flagSaturation;
-end
+flagSaturation = pollyxt_lacros_saturationdetect(data, config);
+data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
-data = pollyxt_lacros_depolcali(data, config, taskInfo, defaults, fullfile(processInfo.results_folder, config.pollyVersion));
+[data, depCaliAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults, fullfile(processInfo.results_folder, config.pollyVersion));
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
 %% cloud screening
@@ -61,7 +63,7 @@ fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
 fprintf('\n[%s] Start to estimate the overlap function.\n', tNow());
-data = pollyxt_lacros_overlap(data, config, taskInfo, fullfile(processInfo.results_folder, taskInfo.pollyVersion));
+[data, overlapAttri] = pollyxt_lacros_overlap(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% split the cloud free profiles into continuous subgroups
@@ -81,6 +83,7 @@ fprintf('\n[%s] Start to load meteorological data.\n', tNow());
 data.temperature = temperature;
 data.pressure = pressure;
 data.relh = relh;
+data.meteorAttri = meteorAttri;
 fprintf('[%s] Finish.\n', tNow());
 
 %% load AERONET data
@@ -119,10 +122,11 @@ fprintf('[%s] Finish.\n', tNow());
 %% water vapor calibration
 % get IWV from other instruments
 fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
-[data.IWV, data.IWVAttri] = pollyxt_lacros_read_IWV(data, config);
+[data.IWV, IWVAttri] = pollyxt_lacros_read_IWV(data, config);
+data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_lacros_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_lacros_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
 [data.wvmr, data.rh, data.MVWR, data.RH] = pollyxt_lacros_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -131,7 +135,7 @@ fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_lacros_lidar_calibration(data, config);
 data.LC = LC;
 LCUsed = struct();
-[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_lacros_save_LC(data, config, taskInfo, fullfile(processConfig.results_folder, config.pollyVersion));
+[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_lacros_save_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 
@@ -145,7 +149,7 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[data.quasi_bsc_532, data.quasi_bsc_1064, data.quasi_parDepol_532, data.volDepol_532, data.quasi_angstrexp_532_1064] = pollyxt_lacros_quasiretrive(data, config);
+[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_355, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, data.quality_mask_volDepol_532] = pollyxt_lacros_quasiretrieve(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% target classification
@@ -155,13 +159,54 @@ data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
 %% visualization
-% display signal, volDepol and water vapor (add the cloud free flag), display low SNR and signal saturation
+fprintf('\n[%s] Start to visualize results.\n', tNow());
+% display signal
+pollyxt_lacros_display_rcs(data, taskInfo, config);
+
+% display depol calibration results
+pollyxt_lacros_display_depolcali(data, taskInfo, depCaliAttri);
+
+% display saturation and cloud free tags
+pollyxt_lacros_display_saturation(data, taskInfo, config);
+
 % display overlap
-% display wv calibration profiles and wv calibration constants
-% display rayleigh fit, raman and klett profiles, volDepol532 and parDepol532, lidar ratio, angstroem exponent and meteorological profiles
+pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
+
+% optical profiles
+pollyxt_lacros_display_retrieving(data, taskInfo, config);
+
 % display attenuated backscatter
-% display quasi backscatter, particle depol and angstroem exponent and target classification
+pollyxt_lacros_display_att_beta(data, taskInfo, config);
+
+% display quasi backscatter, particle depol and angstroem exponent 
+pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
+
+% target classification
+pollyxt_lacros_display_targetclassi(data, taskInfo, config);
+
 % display lidar calibration constants
+pollyxt_lacros_display_lidarconst(data, taskInfo, config);
+
+fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
-% end
+%% save depol cali results
+pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
+
+%% save overlap results
+saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+pollyxt_lacros_save_overlap(data.height, config, overlapAttri, saveFile);
+
+%% save meteorological results
+%% save water vapor calibration results
+pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+
+%% save aerosol optical results
+%% save lidar calibration results
+%% save attenuated backscatter
+%% save quasi results
+%% save target classification results
+pollyxt_lacros_save_tc(data, taskInfo, config);
+
+end

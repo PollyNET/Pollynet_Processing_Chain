@@ -41,8 +41,6 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wv
 %               the instrument for external standard IWV measurement 
 %           nIWVCali: integer
 %               number of successful water vapor calibration.
-%   Note: 
-%       The depolarization calibration results will be saved to "file". If there is no depolarization calibration results, defaults results will be used as replacement.
 %   History:
 %       2018-12-19. First Edition by Zhenping
 %   Contact:

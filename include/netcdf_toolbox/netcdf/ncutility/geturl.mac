@@ -1,0 +1,25 @@
+--	geturl Get and store a URL for Matlab
+--	geturl theURL theFilename
+
+--	Version of long ago.
+--	Updated    12-Oct-1999 22:30:05.
+
+--	The following does not work:
+
+--	set theApplication to "alba:WWW:Internet:Netscape:Netscape"
+--	tell application theApplication
+
+--	So, use the full path to Netscape explicitly.
+
+tell application "alba:WWW:Internet:Netscape:Netscape"
+	if theFilename is "" then
+		activate
+		GetURL theURL
+		--		OpenURL theURL flags 1
+	else
+		GetURL theURL to file theFilename
+		--		OpenURL theURL to file theFilename
+		--		OpenURL theURL to file theFilename flags 1
+		close window 1
+	end if
+end tell

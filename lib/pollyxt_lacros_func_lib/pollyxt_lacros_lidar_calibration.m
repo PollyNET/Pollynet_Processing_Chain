@@ -100,12 +100,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc355 = molBsc355 + aerBsc355_klett;
 
         % lidar calibration
-        LC_klett_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans;
+        LC_klett_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans355;
         [LC_klett_355, ~] = mean_stable(LC_klett_355_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_klett_355 = cat(1, LC.LC_klett_355, LC_klett_355);
     end
+
+    % concatenate the results
+    LC.LC_klett_355 = cat(1, LC.LC_klett_355, LC_klett_355);
 
     % 532 nm
     if ~ isnan(data.aerBsc532_klett(iGroup, 80))
@@ -125,12 +126,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc532 = molBsc532 + aerBsc532_klett;
 
         % lidar calibration
-        LC_klett_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans;
+        LC_klett_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans532;
         [LC_klett_532, ~] = mean_stable(LC_klett_532_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_klett_532 = cat(1, LC.LC_klett_532, LC_klett_532);
     end
+    
+    % concatenate the results
+    LC.LC_klett_532 = cat(1, LC.LC_klett_532, LC_klett_532);
 
     % 1064 nm
     if ~ isnan(data.aerBsc1064_klett(iGroup, 80))
@@ -150,12 +152,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc1064 = molBsc1064 + aerBsc1064_klett;
 
         % lidar calibration
-        LC_klett_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans;
+        LC_klett_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans1064;
         [LC_klett_1064, ~] = mean_stable(LC_klett_1064_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_klett_1064 = cat(1, LC.LC_klett_1064, LC_klett_1064);
     end
+    
+    % concatenate the results
+    LC.LC_klett_1064 = cat(1, LC.LC_klett_1064, LC_klett_1064);
 end
     
 %% calibrate with raman-retrieved profiles
@@ -185,12 +188,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc355 = molBsc355 + aerBsc355_raman;
 
         % lidar calibration
-        LC_raman_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans;
+        LC_raman_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans355;
         [LC_raman_355, ~] = mean_stable(LC_raman_355_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_raman_355 = cat(1, LC.LC_raman_355, LC_raman_355);
     end
+    
+    % concatenate the results
+    LC.LC_raman_355 = cat(1, LC.LC_raman_355, LC_raman_355);
 
     % 532 nm
     if ~ isnan(data.aerBsc532_raman(iGroup, 80))
@@ -210,12 +214,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc532 = molBsc532 + aerBsc532_raman;
 
         % lidar calibration
-        LC_raman_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans;
+        LC_raman_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans532;
         [LC_raman_532, ~] = mean_stable(LC_raman_532_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_raman_532 = cat(1, LC.LC_raman_532, LC_raman_532);
     end
+    
+    % concatenate the results
+    LC.LC_raman_532 = cat(1, LC.LC_raman_532, LC_raman_532);
 
     % 1064 nm
     if ~ isnan(data.aerBsc1064_raman(iGroup, 80))
@@ -235,12 +240,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc1064 = molBsc1064 + aerBsc1064_raman;
 
         % lidar calibration
-        LC_raman_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans;
+        LC_raman_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans1064;
         [LC_raman_1064, ~] = mean_stable(LC_raman_1064_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_raman_1064 = cat(1, LC.LC_raman_1064, LC_raman_1064);
     end
+    
+    % concatenate the results
+    LC.LC_raman_1064 = cat(1, LC.LC_raman_1064, LC_raman_1064);
 end
 
         
@@ -271,12 +277,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc355 = molBsc355 + aerBsc355_aeronet;
 
         % lidar calibration
-        LC_aeronet_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans;
+        LC_aeronet_355_Profile = sig355 .* data.distance0.^2 ./ totBsc355 ./ trans355;
         [LC_aeronet_355, ~] = mean_stable(LC_aeronet_355_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_aeronet_355 = cat(1, LC.LC_aeronet_355, LC_aeronet_355);
     end
+    
+    % concatenate the results
+    LC.LC_aeronet_355 = cat(1, LC.LC_aeronet_355, LC_aeronet_355);
 
     % 532 nm
     if ~ isnan(data.aerBsc532_aeronet(iGroup, 80))
@@ -296,12 +303,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc532 = molBsc532 + aerBsc532_aeronet;
 
         % lidar calibration
-        LC_aeronet_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans;
+        LC_aeronet_532_Profile = sig532 .* data.distance0.^2 ./ totBsc532 ./ trans532;
         [LC_aeronet_532, ~] = mean_stable(LC_aeronet_532_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_aeronet_532 = cat(1, LC.LC_aeronet_532, LC_aeronet_532);
     end
+    
+    % concatenate the results
+    LC.LC_aeronet_532 = cat(1, LC.LC_aeronet_532, LC_aeronet_532);
 
     % 1064 nm
     if ~ isnan(data.aerBsc1064_aeronet(iGroup, 80))
@@ -321,12 +329,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         totBsc1064 = molBsc1064 + aerBsc1064_aeronet;
 
         % lidar calibration
-        LC_aeronet_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans;
+        LC_aeronet_1064_Profile = sig1064 .* data.distance0.^2 ./ totBsc1064 ./ trans1064;
         [LC_aeronet_1064, ~] = mean_stable(LC_aeronet_1064_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
 
-        % concatenate the results
-        LC.LC_aeronet_1064 = cat(1, LC.LC_aeronet_1064, LC_aeronet_1064);
     end
+    
+    % concatenate the results
+    LC.LC_aeronet_1064 = cat(1, LC.LC_aeronet_1064, LC_aeronet_1064);
 end
 
 end

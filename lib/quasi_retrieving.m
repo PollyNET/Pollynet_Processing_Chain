@@ -23,7 +23,7 @@ function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, mol
 %   Contact:
 %       zhenping@tropos.de
 
-diffHeight = repmat(transpose([height, diff(height)]), size(att_beta, 1), numel(att_beta, 2));
+diffHeight = repmat(transpose([height(1), diff(height)]), 1, size(att_beta, 2));
 mol_att = exp(- cumsum(molExt .* diffHeight, 1));
 corr_beta = att_beta ./ mol_att.^2;
 

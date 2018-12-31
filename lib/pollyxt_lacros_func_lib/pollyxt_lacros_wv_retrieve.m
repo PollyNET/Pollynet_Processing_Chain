@@ -83,9 +83,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
 
         % calculate wvmr and rh
+        thiswvmr = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
+        thisrh = wvmr_2_rh(thiswvmr, es, data.pressure(iGroup, :));
         if ~ isnan(IWVIntRangeIndx(iGroup, 1))
-            thiswvmr = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
-            thisrh = wvmr_2_rh(thiswvmr, es, data.pressure(iGroup, :));
             IWVInt = IWVIntRangeIndx(iGroup, 1):IWVIntRangeIndx(iGroup, 2);
             thisIWV = sum(thiswvmr(IWVInt) .* rhoAir(IWVInt) ./ 1e6 .* [data.height(IWVInt(1)), diff(data.height(IWVInt))]);   % kg*m^{-2}
         end
@@ -130,7 +130,7 @@ TRANS407 = repmat(transpose(trans407), 1, numel(data.mTime));
 
 % calculate the saturation water vapor pressure
 es = saturated_vapor_pres(temperature(:, 1));
-ES = repmat(es, numel(data.alt), 1);
+ES = repmat(es, 1, numel(data.mTime));
 
 rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.17);
 RHOAIR = repmat(rhoAir, 1, numel(data.mTime));

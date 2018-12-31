@@ -1,0 +1,41 @@
+* Fri Feb 24 2006 John Evans <john.g.evans.ne@gmail.com> 1.0.10
+- Added old "parts.m" m-file to ncutility directory.
+- Other old m-files added to CVS tree, but not made visible.
+
+* Tue Feb 21 2006 John Evans <john.g.evans.ne@gmail.com> 1.0.9
+- Added old "partnames.m" m-file to ncutility directory.
+
+* Fri Sep 09 2005 John Evans <john.g.evans.ne@gmail.com> 
+- Removed inquire.m from netcdf/@netcdf.
+
+* Mon Aug 25 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.8
+- Bug fix for uigetfile and uiputfile order of arguments in nc2mat.m
+
+* Thu Aug 11 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.7
+- Better explanation of the nctbx_options global structure.
+- Autoscale bug in netcdf/@netcdf/subsref.m.
+
+* Tue Jul 12 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.6
+- Fixed a confusing line in the README, "ncsource".
+
+* Wed Jun 15 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.4
+- 1.0.4 Released
+
+* Fri May 06 2005 John Evans <john.g.evans.ne@gmail.com>
+- Identified namespace clash for nc2mat.m with SNCTOOLS.
+
+* Mon Apr 25 2005 John Evans <john.g.evans.ne@gmail.com>
+- Error in README about how to alter path.
+
+* Wed Apr 20 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.3
+- Autoscaling and autonanning turned back off.
+- nctbx_options introduced instead.
+
+* Fri Jan 14 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.2
+- Automatic scaling and nanning.
+
+* Wed Nov 10 2004 John Evans <john.g.evans.ne@gmail.com> 1.0.1
+- removed netcdf_install.m
+
+* Wed Nov 10 2005 John Evans <john.g.evans.ne@gmail.com> 1.0.0
+- Original code as retrieved from USGS website put into CVS.
