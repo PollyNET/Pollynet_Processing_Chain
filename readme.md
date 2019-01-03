@@ -26,9 +26,9 @@ The program has been tested in matlab 2014a. And it can run on both window 10 an
 ### Usage
 
 **Attention**
-'''
 The program is high sensitive to the folder structure of the Lidar and [GDAS1](ftp://arlftp.arlhq.noaa.gov/pub/archives/gdas1) folder and also relied on the GDAS1 meteorological profile. So this program is specified for our internal use. Feel free to contact us with the GDAS1 and Lidar data. You can find the contact information in [PollyNET homepage](http://polly.rsd.tropos.de/?p=home) and please follow our [Data policy](http://polly.rsd.tropos.de/?p=data_policy)
-'''
+
+For interal users, please click [here](/doc/pollynet_processing_program.md)
 
 ### Author
 
