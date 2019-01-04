@@ -126,8 +126,8 @@ for iDay = 1:nDays
         SNR_x_m = polly_SNR(sig_x_m, bg_x_m);
         sig_x_m(SNR_x_m <= SNRmin(4) | sig_x_m >= sigMax(4)) = NaN;
 
-        dplus = smooth(sig_x_p(caliHIndxRange(1):caliHIndxRange(2))./ sig_t_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
-        dminus = smooth(sig_x_m(caliHIndxRange(1):caliHIndxRange(2)) ./ sig_t_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
+        dplus = smooth(sig_x_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ smooth(sig_t_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
+        dminus = smooth(sig_x_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ smooth(sig_t_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
         dplus(isinf(dplus)) = NaN;
         dminus(isinf(dminus)) = NaN;
 

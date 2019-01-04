@@ -1,4 +1,4 @@
-clc; clear all;
+clc; clear;
 
 fprintf('\n%%------------------------------------------------------%%');
 fprintf('\nStart the pollynet processing chain\n');
@@ -6,11 +6,11 @@ tStart = cputime();
 fprintf('%%------------------------------------------------------%%\n');
 
 %------------------------------------------------------%
-[USER, HOME, OS] = getsysinfo();
-projectDir = fileparts(mfilename('fullpath'));
 % add lib path
+projectDir = fileparts(mfilename('fullpath'));
 run(fullfile(projectDir, 'lib', 'addlibpath.m'));
 run(fullfile(projectDir, 'lib', 'addincludepath.m'));
+[USER, HOME, OS] = getsysinfo();
 
 configFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
 if ~ exist(configFile, 'file')
@@ -51,6 +51,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	%% create folder for this instrument
 	results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion);
 	pic_folder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion);
+	log_folder = fullfile(processInfo.log_folder);
 	if ~ exist(results_folder, 'dir')
 		fprintf('Create a new folder to saving the results for %s\n%s\n', taskInfo.pollyVersion, results_folder);
 		mkdir(results_folder);
@@ -59,9 +60,13 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 		fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, pic_folder);
 		mkdir(pic_folder);
 	end
+	if ~ exist(log_folder, 'dir')
+		fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, log_folder);
+		mkdir(log_folder);
+	end
 
 	%% turn on the diary to log all the command output for future debugging
-	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', taskInfo.dataFilename(1:end-3), taskInfo.pollyVersion));
+	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', rmext(taskInfo.dataFilename), taskInfo.pollyVersion));
 	fprintf('[%s] Turn on the Diary to record the execution results\n', tNow());
 	
     diaryon(logFile);
@@ -124,4 +129,4 @@ fprintf('Time Usage: %fs\n', tUsage);
 fprintf('%%------------------------------------------------------%%\n');
 
 %% publish the report
-publish_report(report, config);
+% publish_report(report, config);

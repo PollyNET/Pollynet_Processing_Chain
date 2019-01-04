@@ -54,6 +54,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     [molBsc355, molExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
     molSig355 = molBsc355 .* exp(-2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]));
 
+    fprintf('\nStart to search reference height for 355 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
     [thisRefH355, thisDpIndx355] = polly_rayleighfit(data.distance0, sig355PC, sig355PCR, bg355PC, molSig355, config.minDecomLogDist355, config.heightFullOverlap(config.isFR & config.isTot & config.is355nm), config.maxDecomHeight355, config.maxDecomThickness355, config.decomSmoothWin355, config.minRefThickness355, config.minRefDeltaExt355, config.minRefSNR355);
     
     % rayleigh fitting for 532 nm
@@ -64,6 +65,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     [molBsc532, molExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     molSig532 = molBsc532 .* exp(-2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
 
+    fprintf('\nStart to search reference height for 532 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
     [thisRefH532, thisDpIndx532] = polly_rayleighfit(data.distance0, sig532PC, sig532PCR, bg532PC, molSig532, config.minDecomLogDist532, config.heightFullOverlap(config.isFR & config.isTot & config.is532nm), config.maxDecomHeight532, config.maxDecomThickness532, config.decomSmoothWin532, config.minRefThickness532, config.minRefDeltaExt532, config.minRefSNR532);
     
     % rayleigh fitting for 1064 nm
@@ -74,6 +76,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     [molBsc1064, molExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
     molSig1064 = molBsc1064 .* exp(-2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));
 
+    fprintf('\nStart to search reference height for 1064 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
     [thisRefH1064, thisDpIndx1064] = polly_rayleighfit(data.distance0, sig1064PC, sig1064PCR, bg1064PC, molSig1064, config.minDecomLogDist1064, config.heightFullOverlap(config.isFR & config.isTot & config.is1064nm), config.maxDecomHeight1064, config.maxDecomThickness1064, config.decomSmoothWin1064, config.minRefThickness1064, config.minRefDeltaExt1064, config.minRefSNR1064);
 
     % concatenate the results

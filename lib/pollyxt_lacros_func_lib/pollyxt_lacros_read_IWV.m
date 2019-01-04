@@ -70,7 +70,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                 fprintf('No temporal close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
             else
                 thisIWV = data.AERONET.IWV(IWVIndx);
-                thisDatetime = data.datetime(IWVIndx);
+                thisDatetime = data.AERONET.datetime(IWVIndx);
             end
         end
     case 'mwr'

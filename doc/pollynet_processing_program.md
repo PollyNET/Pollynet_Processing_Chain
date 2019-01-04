@@ -1,6 +1,5 @@
-## PollyNET Processing Program
+# PollyNET Processing Program
 
-- [PollyNET Processing Program](#pollynet-processing-program)
   - [Description](#description)
   - [Workflow](#workflow)
     - [data](#data)
@@ -12,6 +11,8 @@
   - [Products](#products)
   - [Error Analysis](#error-analysis)
   - [Visualization](#visualization)
+  - [Howto](#howto)
+    - [](#)
 
 ### Description
 
@@ -36,3 +37,11 @@ This part should cover the explaination of each of the field of data struct.
 ### Error Analysis
 
 ### Visualization
+
+### Howto
+
+#### How to add a new polly process function
+
+#### How to add a new defaults file
+
+#### How to add a new water vapor calibration instrument

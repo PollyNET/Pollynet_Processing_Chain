@@ -120,16 +120,4 @@ else
     flagLCWarning1064 = false;
 end
 
-%% save lidar constants
-saveFile = fullfile(folder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
-picFile = fullfile(folder, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.png', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
-globalAttri = struct();
-globalAttri.location = campaignInfo.location;
-globalAttri.institute = processInfo.institute;
-globalAttri.contact = processInfo.contact;
-globalAttri.version = processInfo.programVersion;
-
-pollyxt_lacros_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, saveFile, globalAttri);
-pollyxt_lacros_display_LC(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, picFile, globalAttri);
-
 end

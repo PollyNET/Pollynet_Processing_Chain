@@ -1,42 +1,29 @@
-function [] = pollyxt_lacros_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
+function [] = pollyxt_lacros_save_LC_nc(data, taskInfo, config)
 %pollyxt_lacros_save_LC_nc save the lidar constants.
 %   Example:
 %       pollyxt_lacros_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
 %   Inputs:
-%       data: struct
+%		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
-%       LCUsed355: float
-%           applied lidar constant at 355 nm for target classification.
-%       LCUsedTag355: integer
-%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
-%       flagLCWarning355: integer
-%           flag to show whether the lidar constants is very unstable.
-%       LCUsed532: float
-%           applied lidar constant at 532 nm for target classification.
-%       LCUsedTag532: integer
-%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
-%       flagLCWarning532: integer
-%           flag to show whether the lidar constants is very unstable.
-%       LCUsed1064: float
-%           applied lidar constant at 1064 nm for target classification.
-%       LCUsedTag1064: integer
-%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults)
-%       flagLCWarning1064: integer
-%           flag to show whether the lidar constants is very unstable.
-%       file: char
-%           netcdf file to save the results.
-%       globalAttri: struct          
-%           location: char
-%               location of the current polly system.
-%           institute: char
-%           contact: char
-%           version: char
+%       taskInfo: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
+
+global processInfo defaults campaignInfo
+
+saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
+globalAttri = struct();
+globalAttri.location = campaignInfo.location;
+globalAttri.institute = processInfo.institute;
+globalAttri.contact = processInfo.contact;
+globalAttri.version = processInfo.programVersion;
 
 missingValue = -999;
 
@@ -59,8 +46,12 @@ LC_aeronet_532(isnan(LC_aeronet_532)) = missingValue;
 LC_aeronet_1064 = data.LC.LC_aeronet_1064;
 LC_aeronet_1064(isnan(LC_aeronet_1064)) = missingValue; 
 
+if isempty(data.cloudFreeGroups)
+    return;
+end
+
 % Create .nc file by overwriting any existing file with the name filename
-ncID = netcdf.create(file, 'CLOBBER');
+ncID = netcdf.create(saveFile, 'CLOBBER');
 
 % define dimensions
 dimID_time = netcdf.defDim(ncID, 'time', numel(LC_klett_355));
@@ -101,15 +92,15 @@ netcdf.putVar(ncID, varID_LC_raman_1064, LC_raman_1064);
 netcdf.putVar(ncID, varID_LC_aeronet_355, LC_aeronet_355);
 netcdf.putVar(ncID, varID_LC_aeronet_532, LC_aeronet_532);
 netcdf.putVar(ncID, varID_LC_aeronet_1064, LC_aeronet_1064);
-netcdf.putVar(ncID, varID_LC_used_355, LCUsed355);
-netcdf.putVar(ncID, varID_LC_used_532, LCUsed532);
-netcdf.putVar(ncID, varID_LC_used_1064, LCUsed1064);
-netcdf.putVar(ncID, varID_LC_usedtag_355, LCUsedTag355);
-netcdf.putVar(ncID, varID_LC_usedtag_532, LCUsedTag532);
-netcdf.putVar(ncID, varID_LC_usedtag_1064, LCUsedTag1064);
-netcdf.putVar(ncID, varID_LC_warning_355, int32(flagLCWarning355));
-netcdf.putVar(ncID, varID_LC_warning_532, int32(flagLCWarning532));
-netcdf.putVar(ncID, varID_LC_warning_1064, int32(flagLCWarning1064));
+netcdf.putVar(ncID, varID_LC_used_355, data.LCUsed.LCUsed355);
+netcdf.putVar(ncID, varID_LC_used_532, data.LCUsed.LCUsed532);
+netcdf.putVar(ncID, varID_LC_used_1064, data.LCUsed.LCUsed1064);
+netcdf.putVar(ncID, varID_LC_usedtag_355, data.LCUsed.LCUsedTag355);
+netcdf.putVar(ncID, varID_LC_usedtag_532, data.LCUsed.LCUsedTag532);
+netcdf.putVar(ncID, varID_LC_usedtag_1064, data.LCUsed.LCUsedTag1064);
+netcdf.putVar(ncID, varID_LC_warning_355, int32(data.LCUsed.flagLCWarning355));
+netcdf.putVar(ncID, varID_LC_warning_532, int32(data.LCUsed.flagLCWarning532));
+netcdf.putVar(ncID, varID_LC_warning_1064, int32(data.LCUsed.flagLCWarning1064));
 
 % re enter define mode
 netcdf.reDef(ncID);

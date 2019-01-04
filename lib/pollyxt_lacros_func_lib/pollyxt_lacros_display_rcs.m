@@ -191,7 +191,7 @@ text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'N
 c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
 set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
-set(titleHandle, 'string', '[%]');
+set(titleHandle, 'string', '');
 
 colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
@@ -223,7 +223,7 @@ text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'N
 c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
 set(gca, 'TickDir', 'out', 'Box', 'on');
 titleHandle = get(c, 'Title');
-set(titleHandle, 'string', '[%]');
+set(titleHandle, 'string', '');
 
 colormap(chiljet);
 set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');

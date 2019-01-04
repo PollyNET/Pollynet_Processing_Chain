@@ -43,7 +43,7 @@ else
             % if the profiles of ith cloud free group it too many, more than what we need, split it into small groups
             if rem(length(iCloudFreeContGroupIndx), config.intNProfiles) >= config.minIntNProfiles
                 nCloudFreeSubContGroup = nCloudFreeContGroup + ceil(length(iCloudFreeContGroupIndx) / config.intNProfiles);
-                splitCloudFreeGroup = [(0:ceil(length(iCloudFreeContGroupIndx) / config.intNProfiles) - 1) * config.intNProfiles + iCloudFreeContGroupIndx(1); [(1:ceil(length(iCloudFreeContGroupIndx) / config.intNProfiles) - 1) * cpmfog.intNProfiles - 1 + iCloudFreeContGroupIndx(1), iCloudFreeContGroupIndx(end)]];
+                splitCloudFreeGroup = [(0:ceil(length(iCloudFreeContGroupIndx) / config.intNProfiles) - 1) * config.intNProfiles + iCloudFreeContGroupIndx(1); [(1:ceil(length(iCloudFreeContGroupIndx) / config.intNProfiles) - 1) * config.intNProfiles - 1 + iCloudFreeContGroupIndx(1), iCloudFreeContGroupIndx(end)]];
                 cloudFreeSubContGroup = [cloudFreeSubContGroup; transpose(splitCloudFreeGroup)];
             else
                 nCloudFreeSubContGroup = nCloudFreeSubContGroup + floor(length(iCloudFreeContGroupIndx) / config.intNProfiles);
