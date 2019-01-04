@@ -42,6 +42,7 @@ set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
 set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
 text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
 text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+text(0.90, -0.18, sprintf('Calibration %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag355 + 1}), 'Units', 'Normal');
 
 % colorbar
 c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
@@ -77,6 +78,7 @@ set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
 set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
 text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
 text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+text(0.90, -0.18, sprintf('Calibration %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1}), 'Units', 'Normal');
 
 % colorbar
 c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
@@ -112,6 +114,7 @@ set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
 set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
 text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
 text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+text(0.90, -0.18, sprintf('Calibration %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1}), 'Units', 'Normal');
 
 % colorbar
 c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);

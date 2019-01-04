@@ -89,13 +89,17 @@ fid = fopen(file, 'a');
 try
     for iWVCali = 1:length(wvconst)
 
-        if isnan(IWVAttri.datetime(iWVCali))
+        if isempty(IWVAttri.datetime)
+            IWVMeasTimeStr = '-999';
+        elseif isnan(IWVAttri.datetime(iWVCali))
             IWVMeasTimeStr = '-999';
         else 
             IWVMeasTimeStr = datestr(IWVAttri.datetime(iWVCali), 'yyyymmdd HH:MM');
         end
 
-        if isnan(WVCaliInfo.datetime(iWVCali))
+        if isempty(WVCaliInfo.datetime)
+            wvCaliTimeStr = '-999';
+        elseif isnan(WVCaliInfo.datetime(iWVCali))
             wvCaliTimeStr = '-999';
         else
             wvCaliTimeStr = datestr(WVCaliInfo.datetime(iWVCali), 'yyyymmdd HH:MM');

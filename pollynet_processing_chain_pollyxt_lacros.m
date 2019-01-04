@@ -1,11 +1,11 @@
-% function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
+function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 % function [report = pollynet_processing_chain_pollyxt_lacros()
 
 %POLLYNET_PROCESSING_CHAIN_POLLYXT_lacros processing the data from pollyxt_lacros
 %	Example:
-%		[report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config, campaignInfo)
+%		[report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 %	Inputs:
-%		taskInfo, config, campaignInfo
+%		taskInfo, config
 %	Outputs:
 %		report: cell array
 %           information about each figure.
@@ -14,10 +14,10 @@
 %	Contact:
 %		zhenping@tropos.de
 
-load('debug.mat')
+% load('debug.mat')
 
 global processInfo campaignInfo defaults
-% save('debug.mat', 'taskInfo', 'config', 'processInfo', 'campaignInfo', 'defaults')
+save('debug.mat', 'taskInfo', 'config', 'processInfo', 'campaignInfo', 'defaults')
 
 %% create folder
 results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
@@ -65,9 +65,13 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 
 %% cloud screening
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
-flagCloudFree2km = polly_cloudscreen(data.height, squeeze(data.signal(config.isNR & config.is532nm & config.isTot, :, :)), config.maxSigSlope4FilterCloud*5, [5, 2000]);
+flagChannel532NR = config.isNR & config.is532nm & config.isTot;
+flagChannel532FR = config.isFR & config.is532nm & config.isTot;
+PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
+PCR532NR = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / data.hRes;
+flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud/3, [config.heightFullOverlap(flagChannel532NR), 3000]);
 
-flagCloudFree8km_FR = polly_cloudscreen(data.height, squeeze(data.signal(config.isFR & config.is532nm & config.isTot, :, :)), config.maxSigSlope4FilterCloud*50, [1000, 7000]);
+flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
 
 data.flagCloudFree2km = flagCloudFree2km;
@@ -109,9 +113,9 @@ fprintf('[%s] Finish.\n', tNow());
 %% rayleigh fitting
 fprintf('\n[%s] Start to apply rayleigh fitting.\n', tNow());
 [data.refHIndx355, data.refHIndx532, data.refHIndx1064, data.dpIndx355, data.dpIndx532, data.dpIndx1064] = pollyxt_lacros_rayleighfit(data, config);
-fprintf('Number of reference height for 355 nm: %d\n', sum(~ isnan(data.refHIndx355(:, 1))));
-fprintf('Number of reference height for 532 nm: %d\n', sum(~ isnan(data.refHIndx532(:, 1))));
-fprintf('Number of reference height for 1064 nm: %d\n', sum(~ isnan(data.refHIndx1064(:, 1))));
+fprintf('Number of reference height for 355 nm: %2d\n', sum(~ isnan(data.refHIndx355(:)))/2);
+fprintf('Number of reference height for 532 nm: %2d\n', sum(~ isnan(data.refHIndx532(:)))/2);
+fprintf('Number of reference height for 1064 nm: %2d\n', sum(~ isnan(data.refHIndx1064(:)))/2);
 fprintf('[%s] Finish.\n', tNow());
 
 %% optical properties retrieving
@@ -148,7 +152,7 @@ fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_lacros_lidar_calibration(data, config);
 data.LC = LC;
 LCUsed = struct();
-[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_lacros_save_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
+[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_lacros_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 
@@ -173,6 +177,7 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% visualization
 fprintf('\n[%s] Start to visualize results.\n', tNow());
+
 %% display signal
 pollyxt_lacros_display_rcs(data, taskInfo, config);
 
@@ -222,12 +227,15 @@ pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, task
 pollyxt_lacros_save_retrieving_results(data, taskInfo, config);
 
 %% save lidar calibration results
+pollyxt_lacros_save_LC_nc(data, taskInfo, config);
+pollyxt_lacros_save_LC_txt(data, taskInfo, config);
+
 %% save attenuated backscatter
 %% save quasi results
 %% save target classification results
 pollyxt_lacros_save_tc(data, taskInfo, config);
 
 %% get report
-report{iTask} = pollynet_processing_chain_report(data, taskInfo, config);
+% report{iTask} = pollynet_processing_chain_report(data, taskInfo, config);
 
 % end

@@ -533,7 +533,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     grid();
     
-    text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Calibrated?: %s'], processInfo.programVersion, data.wvconstUsedInfo.flagCalibrated), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
+    flagCalibratedStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+    text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Calibrated?: %s'], processInfo.programVersion, flagCalibratedStr{1}), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
     set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
     export_fig(gcf, picFile, '-transparent', '-r300');

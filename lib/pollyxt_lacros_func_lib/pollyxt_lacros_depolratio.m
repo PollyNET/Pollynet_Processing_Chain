@@ -84,7 +84,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     flagChannel355Cro = config.isFR & config.is355nm & config.isCross;
 
     if ~ isnan(data.refHIndx355(iGroup, 1))
-        % TODO calculate voldepol and calibrate the molDepol
         sig355Tot = squeeze(sum(data.signal(flagChannel355Tot, :, proIndx), 3));
         bg355Tot = squeeze(sum(data.bg(flagChannel355Tot, :, proIndx), 3));
         sig355Cro = squeeze(sum(data.signal(flagChannel355Cro, :, proIndx), 3));
@@ -110,16 +109,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                 [thisPardepol355_raman, thisPardepolStd355_raman] = polly_parDepol(thisVoldepol355, thisVoldepoStdl355, data.aerBsc355_raman(iGroup, :), ones(size(data.aerBsc355_raman(iGroup, :))) * 1e-7, molBsc355, thisMoldepol355, thisMoldepolStd355);
             end
         end
-        
-        voldepol355 = cat(1, voldepol355, thisVoldepol355);
-        pardepol355_klett = cat(1, pardepol355_klett, thisPardepol355_klett);
-        pardepol355_raman = cat(1, pardepol355_raman, thisPardepol355_raman);
-        pardepolStd355_klett = cat(1, pardepolStd355_klett, thisPardepolStd355_klett);
-        pardepolStd355_raman = cat(1, pardepolStd355_raman, thisPardepolStd355_raman);
-        moldepol355 = cat(1, moldepol355, thisMoldepol355);
-        moldepolStd355 = cat(1, moldepolStd355, thisMoldepolStd355);
-        flagDefaultMoldepol355 = cat(1, flagDefaultMoldepol355, thisFlagDefaultMoldepol355);
     end
+    voldepol355 = cat(1, voldepol355, thisVoldepol355);
+    pardepol355_klett = cat(1, pardepol355_klett, thisPardepol355_klett);
+    pardepol355_raman = cat(1, pardepol355_raman, thisPardepol355_raman);
+    pardepolStd355_klett = cat(1, pardepolStd355_klett, thisPardepolStd355_klett);
+    pardepolStd355_raman = cat(1, pardepolStd355_raman, thisPardepolStd355_raman);
+    moldepol355 = cat(1, moldepol355, thisMoldepol355);
+    moldepolStd355 = cat(1, moldepolStd355, thisMoldepolStd355);
+    flagDefaultMoldepol355 = cat(1, flagDefaultMoldepol355, thisFlagDefaultMoldepol355);
 end
 
 %% 532 nm
@@ -164,16 +162,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                 [thisPardepol532_raman, thisPardepolStd532_raman] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_raman(iGroup, :), ones(size(data.aerBsc532_raman(iGroup, :))) * 1e-7, molBsc532, thisMoldepol532, thisMoldepolStd532);
             end
         end
-        
-        voldepol532 = cat(1, voldepol532, thisVoldepol532);
-        pardepol532_klett = cat(1, pardepol532_klett, thisPardepol532_klett);
-        pardepol532_raman = cat(1, pardepol532_raman, thisPardepol532_raman);
-        pardepolStd532_klett = cat(1, pardepolStd532_klett, thisPardepolStd532_klett);
-        pardepolStd532_raman = cat(1, pardepolStd532_raman, thisPardepolStd532_raman);
-        moldepol532 = cat(1, moldepol532, thisMoldepol532);
-        moldepolStd532 = cat(1, moldepolStd532, thisMoldepolStd532);
-        flagDefaultMoldepol532 = cat(1, flagDefaultMoldepol532, thisFlagDefaultMoldepol532);
     end
+    voldepol532 = cat(1, voldepol532, thisVoldepol532);
+    pardepol532_klett = cat(1, pardepol532_klett, thisPardepol532_klett);
+    pardepol532_raman = cat(1, pardepol532_raman, thisPardepol532_raman);
+    pardepolStd532_klett = cat(1, pardepolStd532_klett, thisPardepolStd532_klett);
+    pardepolStd532_raman = cat(1, pardepolStd532_raman, thisPardepolStd532_raman);
+    moldepol532 = cat(1, moldepol532, thisMoldepol532);
+    moldepolStd532 = cat(1, moldepolStd532, thisMoldepolStd532);
+    flagDefaultMoldepol532 = cat(1, flagDefaultMoldepol532, thisFlagDefaultMoldepol532);
 end
 
 end

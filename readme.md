@@ -5,11 +5,15 @@ This repository provides an automatic processing chain for [PollyNET](http://pol
 
 ### Content
 
-- [Description](#Description)
-- [Requirement](#Requrement)
-- [Usage](#Usage)
-- [Author](#Author)
-- [Acknowledgement](#Acknowledgements)
+- [PollyNET Automatic Processing Program](#pollynet-automatic-processing-program)
+    - [Content](#content)
+    - [Description](#description)
+    - [Requirement](#requirement)
+    - [Download](#download)
+    - [Usage](#usage)
+    - [Author](#author)
+    - [Acknowledgements](#acknowledgements)
+    - [Cooperation](#cooperation)
 
 ### Description
 
@@ -22,6 +26,13 @@ Detailed information about the program and the algorithms used inside can be fou
 ### Requirement
 
 The program has been tested in matlab 2014a. And it can run on both window 10 and centos 6, which has been fully tested. 
+
+### Download
+
+You can download the whole repository by
+'''
+git clone https://github.com/ZPYin/Pollynet_Processing_Chain.git
+'''
 
 ### Usage
 

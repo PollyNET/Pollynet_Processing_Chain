@@ -3,7 +3,12 @@ function [] = pollyxt_lacros_save_retrieving_results(data, taskInfo, config)
 %   Example:
 %       [] = pollyxt_lacros_save_retrieving_results(data, taskInfo, config)
 %   Inputs:
-%       data, taskInfo, config
+%		data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       taskInfo: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       
 %   History:

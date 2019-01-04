@@ -44,7 +44,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         meteorAttri.dataSource{end + 1} = config.meteorDataSource;
         meteorAttri.URL{end + 1} = gdas1File;
     case 'standard_atmosphere'
-        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height)+1, 0.03, 1);;
+        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height)+1, 0.03, 1);
         relhRaw = NaN(size(tempRaw));
         altRaw = altRaw * 1e3;   % convert to [m]
         meteorAttri.dataSource{end + 1} = config.meteorDataSource;

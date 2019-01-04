@@ -157,8 +157,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^config.angstrexp;
                 tmpAerExt1064_raman = thisAerExt1064_raman;
                 tmpAerExt1064_raman(1:hBaseIndx1064) = tmpAerExt1064_raman(hBaseIndx1064);
-                [thisAerBsc1064_raman, ~] = polly_raman_bsc(data.distance0, sig1064, sig607, tmpAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, true);
-                thisAerBsc1064_raman(1:hBaseIndx1064) = NaN;
+                [thisAerBsc1064_raman, thisLR1064_raman] = polly_raman_bsc(data.distance0, sig1064, sig607, tmpAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, true);
+                thisLR1064_raman(1:hBaseIndx1064) = NaN;
                 % TODO: uncertainty analysis
             end
         end

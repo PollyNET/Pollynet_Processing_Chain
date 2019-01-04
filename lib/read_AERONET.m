@@ -106,7 +106,7 @@ if status == 0
             datetime = [datetime, datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
         end
 
-        siteinfo = regexp(html_text, '\w*,PI=(?<PI>\w*),Email=(?<Email>\S*)<br', 'names');
+        siteinfo = regexp(html_text, '\w*,PI=(?<PI>.*),Email=(?<Email>\S*)<br', 'names');
         AERONETAttri.URL = aod_url;
         AERONETAttri.level = level;
         AERONETAttri.status = true;
