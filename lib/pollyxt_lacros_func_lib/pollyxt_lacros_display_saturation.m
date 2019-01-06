@@ -33,13 +33,13 @@ subplot('Position', [0.1, 0.15, 0.7, 0.75]);   % mainframe
 
 SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
 SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;
-p1 = pcolor(data.mTime, data.alt, SAT_FR_355); hold on;
+p1 = pcolor(data.mTime, data.height, SAT_FR_355); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Signal Status at %snm %s for %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -71,13 +71,13 @@ subplot('Position', [0.1, 0.15, 0.7, 0.75]);   % mainframe
 
 SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
 SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
-p1 = pcolor(data.mTime, data.alt, SAT_FR_532); hold on;
+p1 = pcolor(data.mTime, data.height, SAT_FR_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Signal Status at %snm %s for %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -110,13 +110,13 @@ subplot('Position', [0.1, 0.15, 0.7, 0.75]);   % mainframe
 
 SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
 SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
-p1 = pcolor(data.mTime, data.alt, SAT_FR_1064); hold on;
+p1 = pcolor(data.mTime, data.height, SAT_FR_1064); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Signal Status at %snm %s for %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -149,13 +149,13 @@ subplot('Position', [0.1, 0.15, 0.7, 0.75]);   % mainframe
 
 SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
 SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
-p1 = pcolor(data.mTime, data.alt, SAT_NR_532); hold on;
+p1 = pcolor(data.mTime, data.height, SAT_NR_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 3000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Signal Status at %snm %s for %s at %s', '532', 'Near-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:500:3000, 'yminortick', 'on');

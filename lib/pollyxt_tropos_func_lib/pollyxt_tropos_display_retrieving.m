@@ -43,33 +43,33 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = semilogx(rcs355 / 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
-    p2 = semilogx(rcs532 / 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
-    p3 = semilogx(rcs1064 / 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', 'FR 1064nm'); hold on;
-    p4 = semilogx(molRCS355 / 1e6, data.alt, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 355nm'); hold on;
-    p5 = semilogx(molRCS532 / 1e6, data.alt, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 532nm'); hold on;
-    p6 = semilogx(molRCS1064 / 1e6, data.alt, 'Color', 'r', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 1064nm'); hold on;
+    p1 = semilogx(rcs355 / 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
+    p2 = semilogx(rcs532 / 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
+    p3 = semilogx(rcs1064 / 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', 'FR 1064nm'); hold on;
+    p4 = semilogx(molRCS355 / 1e6, data.height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 355nm'); hold on;
+    p5 = semilogx(molRCS532 / 1e6, data.height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 532nm'); hold on;
+    p6 = semilogx(molRCS1064 / 1e6, data.height, 'Color', 'r', 'LineStyle', '--', 'LineWidth', 0.5, 'DisplayName', 'mol 1064nm'); hold on;
 
     % highlight reference height
     p7 = semilogx([1], [1], 'Color', 'k', 'LineWidth', 1, 'DisplayName', 'Reference Height');
     if ~ isnan(data.refHIndx355(iGroup, 1))
         refHIndx = data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2);
-        refL = semilogx(rcs355(refHIndx) / 1e6, data.alt(refHIndx), 'Color', 'k', 'LineWidth', 1);
+        refL = semilogx(rcs355(refHIndx) / 1e6, data.height(refHIndx), 'Color', 'k', 'LineWidth', 1);
     end
     if ~ isnan(data.refHIndx532(iGroup, 1))
         refHIndx = data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2);
-        refL = semilogx(rcs532(refHIndx) / 1e6, data.alt(refHIndx), 'Color', 'k', 'LineWidth', 1);
+        refL = semilogx(rcs532(refHIndx) / 1e6, data.height(refHIndx), 'Color', 'k', 'LineWidth', 1);
     end
     if ~ isnan(data.refHIndx1064(iGroup, 1))
         refHIndx = data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2);
-        refL = semilogx(rcs1064(refHIndx) / 1e6, data.alt(refHIndx), 'Color', 'k', 'LineWidth', 1);
+        refL = semilogx(rcs1064(refHIndx) / 1e6, data.height(refHIndx), 'Color', 'k', 'LineWidth', 1);
     end
 
     xlim(config.RCSProfileRange);
     ylim([0, 15000]);
 
     xlabel('Range-Corrected Signal [MHz*m^2 (10^6)]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -100,15 +100,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerBsc355_klett * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerBsc532_klett * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
-    p3 = plot(aerBsc1064_klett * 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
+    p1 = plot(aerBsc355_klett * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerBsc532_klett * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p3 = plot(aerBsc1064_klett * 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
 
     xlim(config.aerBscProfileRange);
     ylim([0, 15000]);
 
     xlabel('Backscatter Coefficient [Mm^{-1}*Sr^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -138,15 +138,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerBsc355_raman * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerBsc532_raman * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
-    p3 = plot(aerBsc1064_raman * 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
+    p1 = plot(aerBsc355_raman * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerBsc532_raman * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p3 = plot(aerBsc1064_raman * 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
 
     xlim(config.aerBscProfileRange);
     ylim([0, 15000]);
 
     xlabel('Backscatter Coefficient [Mm^{-1}*Sr^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -176,15 +176,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerBsc355_aeronet * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerBsc532_aeronet * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
-    p3 = plot(aerBsc1064_aeronet * 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
+    p1 = plot(aerBsc355_aeronet * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerBsc532_aeronet * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p3 = plot(aerBsc1064_aeronet * 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
 
     xlim(config.aerBscProfileRange);
     ylim([0, 15000]);
 
     xlabel('Backscatter Coefficient [Mm^{-1}*Sr^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -214,15 +214,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerExt355_klett * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerExt532_klett * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
-    p3 = plot(aerExt1064_klett * 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
+    p1 = plot(aerExt355_klett * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerExt532_klett * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p3 = plot(aerExt1064_klett * 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
 
     xlim(config.aerExtProfileRange);
     ylim([0, 15000]);
 
     xlabel('Extinction Coefficient [Mm^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -251,14 +251,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerExt355_raman * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerExt532_raman * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p1 = plot(aerExt355_raman * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerExt532_raman * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
 
     xlim(config.aerExtProfileRange);
     ylim([0, 15000]);
 
     xlabel('Extinction Coefficient [Mm^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -288,15 +288,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(aerExt355_aeronet * 1e6, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(aerExt532_aeronet * 1e6, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
-    p3 = plot(aerExt1064_aeronet * 1e6, data.alt, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
+    p1 = plot(aerExt355_aeronet * 1e6, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(aerExt532_aeronet * 1e6, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p3 = plot(aerExt1064_aeronet * 1e6, data.height, 'Color', 'r', 'LineWidth', 1, 'DisplayName', '1064nm'); hold on;
 
     xlim(config.aerExtProfileRange);
     ylim([0, 15000]);
 
     xlabel('Extinction Coefficient [Mm^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -325,14 +325,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(LR355_raman, data.alt, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
-    p2 = plot(LR532_raman, data.alt, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
+    p1 = plot(LR355_raman, data.height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355nm'); hold on;
+    p2 = plot(LR532_raman, data.height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532nm'); hold on;
 
     xlim(config.aerLRProfileRange);
     ylim([0, 5000]);
 
     xlabel('Lidar Ratio [Sr]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:500:5000);
@@ -361,14 +361,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(ang_bsc_355_532_klett, data.alt, 'Color', [255, 128, 0]/255, 'LineWidth', 1, 'DisplayName', 'BSC-355-532'); hold on;
-    p2 = plot(ang_bsc_532_1064_klett, data.alt, 'Color', [255, 0, 255]/255, 'LineWidth', 1, 'DisplayName', 'BSC-532-1064'); hold on;
+    p1 = plot(ang_bsc_355_532_klett, data.height, 'Color', [255, 128, 0]/255, 'LineWidth', 1, 'DisplayName', 'BSC-355-532'); hold on;
+    p2 = plot(ang_bsc_532_1064_klett, data.height, 'Color', [255, 0, 255]/255, 'LineWidth', 1, 'DisplayName', 'BSC-532-1064'); hold on;
 
     xlim([-1, 2]);
     ylim([0, 5000]);
 
     xlabel('Angtroem Exponent');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:500:5000, 'xtick', -1:0.5:2);
@@ -398,15 +398,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(ang_bsc_355_532_raman, data.alt, 'Color', [255, 128, 0]/255, 'LineWidth', 1, 'DisplayName', 'BSC-355-532'); hold on;
-    p2 = plot(ang_bsc_532_1064_raman, data.alt, 'Color', [255, 0, 255]/255, 'LineWidth', 1, 'DisplayName', 'BSC-532-1064'); hold on;
-    p3 = plot(ang_ext_355_532_raman, data.alt, 'Color', [0, 0, 0]/255, 'LineWidth', 1, 'DisplayName', 'EXT-355-532'); hold on;
+    p1 = plot(ang_bsc_355_532_raman, data.height, 'Color', [255, 128, 0]/255, 'LineWidth', 1, 'DisplayName', 'BSC-355-532'); hold on;
+    p2 = plot(ang_bsc_532_1064_raman, data.height, 'Color', [255, 0, 255]/255, 'LineWidth', 1, 'DisplayName', 'BSC-532-1064'); hold on;
+    p3 = plot(ang_ext_355_532_raman, data.height, 'Color', [0, 0, 0]/255, 'LineWidth', 1, 'DisplayName', 'EXT-355-532'); hold on;
 
     xlim([-1, 2]);
     ylim([0, 5000]);
 
     xlabel('Angtroem Exponent');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:500:5000, 'xtick', -1:0.5:2);
@@ -441,16 +441,16 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(voldepol355, data.alt, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 355}'); hold on;
-    p2 = plot(voldepol532, data.alt, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 532}'); hold on;
-    p3 = plot(pardepol355_klett, data.alt, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 355}'); hold on;
-    p4 = plot(pardepol532_klett, data.alt, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
+    p1 = plot(voldepol355, data.height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 355}'); hold on;
+    p2 = plot(voldepol532, data.height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 532}'); hold on;
+    p3 = plot(pardepol355_klett, data.height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 355}'); hold on;
+    p4 = plot(pardepol532_klett, data.height, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
 
     xlim([-0.01, 0.4]);
     ylim([0, 15000]);
 
     xlabel('Depolarization Ratio');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -485,16 +485,16 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(voldepol355, data.alt, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 355}'); hold on;
-    p2 = plot(voldepol532, data.alt, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 532}'); hold on;
-    p3 = plot(pardepol355_raman, data.alt, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 355}'); hold on;
-    p4 = plot(pardepol532_raman, data.alt, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
+    p1 = plot(voldepol355, data.height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 355}'); hold on;
+    p2 = plot(voldepol532, data.height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', '\delta_{vol, 532}'); hold on;
+    p3 = plot(pardepol355_raman, data.height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 355}'); hold on;
+    p4 = plot(pardepol532_raman, data.height, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
 
     xlim([-0.01, 0.4]);
     ylim([0, 15000]);
 
     xlabel('Depolarization Ratio');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -522,13 +522,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(wvmr, data.alt, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1); hold on;
+    p1 = plot(wvmr, data.height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1); hold on;
 
     xlim(config.WVMRProfileRange);
     ylim([0, 7000]);
 
     xlabel('Water Vapor Mixing Ratio [g*kg^{-1}]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:1000:7000);
@@ -557,14 +557,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(rh, data.alt, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', taskInfo.pollyVersion); hold on;
-    p2 = plot(rh_meteor, data.alt, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', data.meteorAttri.dataSource{iGroup});
+    p1 = plot(rh, data.height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', taskInfo.pollyVersion); hold on;
+    p2 = plot(rh_meteor, data.height, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', data.meteorAttri.dataSource{iGroup});
 
     xlim([0, 100]);
     ylim([0, 7000]);
 
     xlabel('Relative Humidity [%]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:1000:7000);
@@ -593,13 +593,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(temperature, data.alt, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
+    p1 = plot(temperature, data.height, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
 
     xlim([-100, 50]);
     ylim([0, 15000]);
 
     xlabel('Temperature [\circC]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['Meteorological Parameters at %s' char(10) '%s-%s'], campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);
@@ -626,13 +626,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % visualization
     figure('Position', [0, 0, 400, 600], 'Units', 'Pixels', 'Visible', 'off');
-    p1 = plot(pressure, data.alt, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
+    p1 = plot(pressure, data.height, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
 
     xlim([0, 1000]);
     ylim([0, 15000]);
 
     xlabel('Pressure [hPa]');
-    ylabel('Altitude (m)');
+    ylabel('Height (m)');
     title(sprintf(['Meteorological Parameters at %s' char(10) '%s-%s'], campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000);

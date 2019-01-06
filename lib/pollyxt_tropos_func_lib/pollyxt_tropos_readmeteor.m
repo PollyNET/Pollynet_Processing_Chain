@@ -15,10 +15,12 @@ function [temp, pres, relh, meteorAttri] = pollyxt_tropos_readmeteor(data, confi
 %       rh: matrix (cloudfreegroups * height)
 %           relative humidity for each range bin. [%]
 %       meteorAttri: struct
-%           dataSource: char
-%               The data source used in the data processing.
-%           URL: char
-%               The data file info.
+%           dataSource: cell
+%               The data source used in the data processing for each cloud-free group.
+%           URL: cell
+%               The data file info for each cloud-free group.
+%           datetime: array
+%               datetime label for the meteorlogical data.
 %   History:
 %       2018-12-22. First Edition by Zhenping
 %   Contact:
@@ -31,6 +33,7 @@ pres = [];
 relh = [];
 meteorAttri.dataSource = cell(0);
 meteorAttri.URL = cell(0);
+meteorAttri.datetime = [];
 
 if isempty(data.rawSignal)
     return;
@@ -41,23 +44,38 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     switch lower(config.meteorDataSource)
     case 'gdas1'
         [altRaw, tempRaw, presRaw, relhRaw, gdas1File] = read_gdas1(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), config.gdas1Site, processInfo.gdas1_folder);
-        meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-        meteorAttri.URL{end + 1} = gdas1File;
+        if isnan(altRaw(1))
+            altRaw = [];
+            tempRaw = [];
+            presRaw = [];
+            relhRaw = [];
+        else
+            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
+            meteorAttri.URL{end + 1} = gdas1File;
+            meteorAttri.datetime = [meteorAttri.datetime, gdas1FileTimestamp(basename(gdas1File))];
+        end
     case 'standard_atmosphere'
-        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height)+1, 0.03, 1);;
+        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
         relhRaw = NaN(size(tempRaw));
         altRaw = altRaw * 1e3;   % convert to [m]
+        presRaw = presRaw / 1e2;   % convert to [hPa]
+        tempRaw = tempRaw - 273.17;   % convert to [\circC]
         meteorAttri.dataSource{end + 1} = config.meteorDataSource;
         meteorAttri.URL{end + 1} = '';
+        meteorAttri.datetime = [datetime, datenum(0,1,0,0,0,0)];
     case 'websonde'
         searchTRange = [floor(data.mTime(data.cloudFreeGroups(iGroup, 1))), ceil(data.mTime(data.cloudFreeGroups(iGroup, 2)))];
         measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
         [altRaw, tempRaw, presRaw, relhRaw, webSondeInfo] = read_websonde(measTime, searchTRange, config.radiosondeSitenum);
-        meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-        meteorAttri.URL{end + 1} = webSondeInfo.URL;
+        
+        if ~ isempty(altRaw)
+            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
+            meteorAttri.URL{end + 1} = webSondeInfo.URL;
+            meteorAttri.datetime = [meteorAttri.datetime, webSondeInfo.datetime];
+        end
     case 'radiosonde'
         % define your read function here for reading local launching radiosonde data
-        % [altRaw, tempRaw, presRaw, relhRaw] = read_radiosonde(file);
+        % [altRaw, tempRaw, presRaw, relhRaw, datetime] = read_radiosonde(file);
     otherwise
         error('Unknown meteorological data source.\n%s\n', config.meteorDataSource)
     end
@@ -67,9 +85,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         fprintf('The meteorological data of websonde or gdas1 is not ready.\nUse standard_atmosphere data as a replacement.\n');
         meteorAttri.dataSource{end + 1} = 'standard_atmosphere';
         meteorAttri.URL{end + 1} = '';
+        meteorAttri.datetime = [meteorAttri.datetime, datenum(0,1,0,0,0,0)];
         % read standard_atmosphere data as the default values.
-        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height)+1, 0.03, 1);
+        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
         altRaw = altRaw * 1e3;
+        presRaw = presRaw / 1e2;   % convert to [hPa]
+        tempRaw = tempRaw - 273.17;   % convert to [\circC]
         relhRaw = NaN(size(tempRaw));
     end
 

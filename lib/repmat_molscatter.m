@@ -27,6 +27,8 @@ function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, gl
 %       globalAttri: struct
 %           source: char
 %               the source of meteorological data.
+%           datetime: float
+%               the time stamp for the meteorological data.
 %   History:
 %       2018-12-25. First Edition by Zhenping
 %   Contact:
@@ -40,14 +42,16 @@ molBsc1064 = [];
 molExt1064 = [];
 globalAttri = struct();
 globalAttri.source = 'none';
+globalAttri.datetime = [];
 
-[altRaw, tempRaw, presRaw, ~] = read_gdas1(mean(mTime), gdas1site, gdas1folder);
+[altRaw, tempRaw, presRaw, ~, gdas1File] = read_gdas1(mean(mTime), gdas1site, gdas1folder);
 if isempty(altRaw)
     [altRaw, ~, ~, tempRaw, presRaw] = atmo(alt(end) + 1, 0.03, 1);
     altRaw = altRaw * 1e3;
     globalAttri.source = 'standard_atmosphere';
 else
     globalAttri.source = 'gdas1';
+    globalAttri.datetime = gdas1FileTimestamp(gdas1File);
 end
 
 % interp the meteorological parameters to lidar grid

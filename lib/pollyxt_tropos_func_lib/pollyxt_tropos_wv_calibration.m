@@ -122,7 +122,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         [minLag, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGroup)));
         E_tot_1064_IWV = sum(squeeze(data.signal(flagChannel1064, :, closestIndx)));
         E_tot_1064_cali = sum(squeeze(mean(data.signal(flagChannel1064, :, flag407On & flagWVCali), 3)));
-        E_tot_1064_cali_std = std(squeeze(sum(data.signal(flagChannel1064, :, flag407On & flagWVCali), 3)));
+        E_tot_1064_cali_std = std(squeeze(sum(data.signal(flagChannel1064, :, flag407On & flagWVCali), 2)));
 
         if (abs(E_tot_1064_IWV - E_tot_1064_cali) / E_tot_1064_IWV > 0.2) || ((E_tot_1064_cali_std / E_tot_1064_cali) > 0.2)
             fprintf('Meteorological condition is not stable enough for the calibration at %s during %s to %s.\n', campaignInfo.location, datestr(min([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'yyyymmdd HH:MM'), datestr(max([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'HH:MM'));

@@ -38,13 +38,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 RCS_FR_355 = squeeze(data.signal(flagChannel355, :, :)) ./ repmat(data.mShots(flagChannel355, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_FR_355(:, data.depCalMask) = NaN;
-p1 = pcolor(data.mTime, data.alt, RCS_FR_355); hold on;
+p1 = pcolor(data.mTime, data.height, RCS_FR_355); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([3e5, 2e7]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -72,13 +72,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(flagChannel532, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_FR_532(:, data.depCalMask) = NaN;
-p1 = pcolor(data.mTime, data.alt, RCS_FR_532); hold on;
+p1 = pcolor(data.mTime, data.height, RCS_FR_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([3e5, 2e7]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -106,13 +106,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 RCS_FR_1064 = squeeze(data.signal(flagChannel1064, :, :)) ./ repmat(data.mShots(flagChannel1064, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_FR_1064(:, data.depCalMask) = NaN;
-p1 = pcolor(data.mTime, data.alt, RCS_FR_1064); hold on;
+p1 = pcolor(data.mTime, data.height, RCS_FR_1064); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([3e5, 2e7]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -140,13 +140,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_NR_532(:, data.depCalMask) = NaN;
-p1 = pcolor(data.mTime, data.alt, RCS_NR_532); hold on;
+p1 = pcolor(data.mTime, data.height, RCS_NR_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([1e5, 2e6]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 3000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Near-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:500:3000, 'yminortick', 'on');
@@ -172,13 +172,13 @@ figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 
 subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
-p1 = pcolor(data.mTime, data.alt, data.volDepol_532); hold on;
+p1 = pcolor(data.mTime, data.height, data.volDepol_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 0.4]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -204,13 +204,13 @@ figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 
 subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
-p1 = pcolor(data.mTime, data.alt, data.volDepol_355); hold on;
+p1 = pcolor(data.mTime, data.height, data.volDepol_355); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 0.4]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');

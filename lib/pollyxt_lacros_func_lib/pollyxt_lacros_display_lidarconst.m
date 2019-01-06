@@ -35,7 +35,7 @@ p2 = plot(thisTime, LC355_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*',
 p3 = plot(thisTime, LC355_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
 xlim([data.mTime(1), data.mTime(end)]);
-ylim([0.5e13, 1e14]);
+ylim(config.LC355Range);
 
 xlabel('UTC');
 ylabel('C');
@@ -67,7 +67,7 @@ p2 = plot(thisTime, LC532_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*',
 p3 = plot(thisTime, LC532_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
 xlim([data.mTime(1), data.mTime(end)]);
-ylim([1e13, 2e14]);
+ylim(config.LC532Range);
 
 xlabel('UTC');
 ylabel('C');
@@ -99,7 +99,7 @@ p2 = plot(thisTime, LC1064_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*'
 p3 = plot(thisTime, LC1064_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
 xlim([data.mTime(1), data.mTime(end)]);
-ylim([1e13, 7e14]);
+ylim(config.LC1064Range);
 
 xlabel('UTC');
 ylabel('C');

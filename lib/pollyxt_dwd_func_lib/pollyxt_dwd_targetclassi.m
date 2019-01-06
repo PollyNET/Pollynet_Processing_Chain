@@ -77,7 +77,7 @@ for iTime = 1:length(data.mTime)
 end
 
 % set mask to 0 below full overlap height
-hIndxFullOverlap = find(data.height >= config.heighFullOverlap, 1);
+hIndxFullOverlap = find(data.height >= config.heightFullOverlap(config.isFR & config.is532nm & config.isTot), 1);
 if isempty(hIndxFullOverlap)
 	hIndxFullOverlap = 70;
 end
@@ -89,7 +89,6 @@ data.quasi_par_beta_1064(1:hIndxFullOverlap, :) = NaN;
 %% set the value during the depolarization calibration period or in fog conditions to 0
 tc_mask(:, data.depCalMask | data.fogMask) = 0;
 
-end
 
 function flag_cloud = flag_cloud_search(height, beta_1064, config)
 

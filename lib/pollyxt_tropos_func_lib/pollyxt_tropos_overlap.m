@@ -46,7 +46,9 @@ end
 
 %% calculate the overlap
 overlap532 = [];   
+overlap532_std = [];
 overlap355 = [];
+overlap355_std = [];
 
 if ~ sum(data.flagCloudFree2km) == 0
 
@@ -164,7 +166,7 @@ overlapAttri.normRange532 = normRange532;
 
 %% append the overlap to data
 if isempty(overlap532)
-    data.overlap532 = interp2(height532, overlap532Default, data.height, 'linear');
+    data.overlap532 = interp1(height532, overlap532Default, data.height, 'linear');
     data.flagOverlapUseDefault = true;
 else
     data.overlap532 = overlap532;
@@ -172,7 +174,7 @@ else
 end
 
 if isempty(overlap355)
-    data.overlap355 = interp2(height355, overlap355Default, data.height, 'linear');
+    data.overlap355 = interp1(height355, overlap355Default, data.height, 'linear');
     data.flagOverlapUseDefault = true;
 else
     data.overlap355 = overlap355;

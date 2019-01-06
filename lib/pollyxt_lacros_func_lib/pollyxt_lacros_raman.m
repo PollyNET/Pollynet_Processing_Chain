@@ -70,8 +70,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             refBg387 = sum(bg387(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
             snr387 = polly_SNR(refSig387, refBg387);
             
+            thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
             if snr387 >= config.minRamanRefSNR387
-                thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
                 tmpAerExt355_raman = thisAerExt355_raman;
                 tmpAerExt355_raman(1:hBaseIndx355) = tmpAerExt355_raman(hBaseIndx355);
                 [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, true);
@@ -111,8 +111,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             refBg607 = sum(bg607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
             snr607 = polly_SNR(refSig607, refBg607);
             
+            thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
             if snr607 >= config.minRamanRefSNR607
-                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
                 tmpAerExt532_raman = thisAerExt532_raman;
                 tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
                 [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
@@ -152,8 +152,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             refBg607 = sum(bg607(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
             snr607 = polly_SNR(refSig607, refBg607);
             
+            thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
             if snr607 >= config.minRamanRefSNR607
-                thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
                 thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^config.angstrexp;
                 tmpAerExt1064_raman = thisAerExt1064_raman;
                 tmpAerExt1064_raman(1:hBaseIndx1064) = tmpAerExt1064_raman(hBaseIndx1064);

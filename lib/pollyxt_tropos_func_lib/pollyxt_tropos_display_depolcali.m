@@ -19,7 +19,7 @@ global processInfo defaults campaignInfo
 for iCali = 1:length(attri.depCalAttri355.thisCaliTime)  
 	wavelength = 355; 
 	time = data.mTime;
-	alt = data.alt;
+	alt = data.height;
 	sig_t_p = attri.depCalAttri355.sig_t_p{iCali};
 	sig_t_m = attri.depCalAttri355.sig_t_m{iCali};
 	sig_x_p = attri.depCalAttri355.sig_x_p{iCali};
@@ -51,7 +51,7 @@ for iCali = 1:length(attri.depCalAttri355.thisCaliTime)
 	p3 = semilogx(sig_x_p, alt, '-r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, +45\circ}'); 
 	p4 = semilogx(sig_x_m, alt, '--r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, -45\circ}');
 	ylim(alt(caliHIndxRange));
-	ylabel('Altitude (m)');
+	ylabel('Height (m)');
 	xlabel('Signal (.a.u)');
 	text(1.2, 1.03, sprintf('Depolarization Calibration for %dnm at %s - %s', wavelength, datestr(data.mTime(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')), 'fontweight', 'bold', 'Units', 'Normal', 'HorizontalAlignment', 'center');
 	grid();
@@ -91,7 +91,7 @@ end
 for iCali = 1:length(attri.depCalAttri532.thisCaliTime)  
 	wavelength = 532; 
 	time = data.mTime;
-	alt = data.alt;
+	alt = data.height;
 	sig_t_p = attri.depCalAttri532.sig_t_p{iCali};
 	sig_t_m = attri.depCalAttri532.sig_t_m{iCali};
 	sig_x_p = attri.depCalAttri532.sig_x_p{iCali};
@@ -123,7 +123,7 @@ for iCali = 1:length(attri.depCalAttri532.thisCaliTime)
 	p3 = semilogx(sig_x_p, alt, '-r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, +45\circ}'); 
 	p4 = semilogx(sig_x_m, alt, '--r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, -45\circ}');
 	ylim(alt(caliHIndxRange));
-	ylabel('Altitude (m)');
+	ylabel('Height (m)');
 	xlabel('Signal (.a.u)');
 	text(1.2, 1.03, sprintf('Depolarization Calibration for %dnm at %s - %s', wavelength, datestr(data.mTime(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')), 'fontweight', 'bold', 'Units', 'Normal', 'HorizontalAlignment', 'center');
 	grid();

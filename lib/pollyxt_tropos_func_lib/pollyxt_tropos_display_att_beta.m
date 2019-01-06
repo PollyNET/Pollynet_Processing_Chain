@@ -28,13 +28,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 ATT_BETA_355 = data.att_beta_355;
 ATT_BETA_355(data.quality_mask_355 > 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, ATT_BETA_355 * 1e6); hold on;
+p1 = pcolor(data.mTime, data.height, ATT_BETA_355 * 1e6); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 15]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -64,13 +64,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 ATT_BETA_532 = data.att_beta_532;
 ATT_BETA_532(data.quality_mask_532 > 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, ATT_BETA_532 * 1e6); hold on;
+p1 = pcolor(data.mTime, data.height, ATT_BETA_532 * 1e6); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 5]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
@@ -100,13 +100,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 ATT_BETA_1064 = data.att_beta_1064;
 ATT_BETA_1064(data.quality_mask_1064 > 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, ATT_BETA_1064 * 1e6); hold on;
+p1 = pcolor(data.mTime, data.height, ATT_BETA_1064 * 1e6); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 15000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');

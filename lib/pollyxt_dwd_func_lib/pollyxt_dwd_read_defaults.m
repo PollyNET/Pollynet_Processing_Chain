@@ -1,4 +1,4 @@
-function [defaults] = pollyxt_dwd_read_defaults(file)
+function [defaults] = pollyxt_dwd_read_defaults()
 %pollyxt_dwd_read_defaults read default settings for pollyxt_dwd
 %   Example:
 %       [defaults] = pollyxt_dwd_read_defaults(file)

@@ -52,8 +52,7 @@ wvconstUsedStd = NaN;
 
 if isempty(wvconst)
     wvconst = defaults.wvconst;
-    thisWVconst = defaults.wvconst;
-    thisWVconstStd = defaults.wvconstStd;
+    wvconstStd = defaults.wvconstStd;
     wvconstUsed = defaults.wvconst;
     wvconstUsedStd = defaults.wvconstStd;
     wvCaliTimeStr = '-999';
@@ -108,6 +107,9 @@ try
         if isnan(wvconst(iWVCali))
             thisWVconst = -999;
             thisWVconstStd = -999;
+        else
+            thisWVconst = wvconst(iWVCali);
+            thisWVconstStd = wvconstStd(iWVCali);
         end
 
         fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, (~ isnan(wvconst(iWVCali))), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
@@ -117,7 +119,5 @@ catch
 end
 
 fclose(fid);
-
-
 
 end

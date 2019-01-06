@@ -102,7 +102,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             AOD_355_aeronet = interp_AERONET_AOD(340, AERONET.AOD_340(AERONETIndx), 380, AERONET.AOD_380(AERONETIndx), 355);
 
             % constrained klett method
-            [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, thisNIters355] = polly_constrainedfernald(data.distance0, sig355, snr355, refH, config.refBeta355, molBsc355, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_355_aeronet, minDeltaAOD, config.heightFullOverlap(flagChannel355), config.mask_SNRmin(flagChannel355), config.smoothWin_klett_355);
+            [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, thisNIters355] = polly_constrainedfernald(data.distance0, sig355, snr355, refH, config.refBeta355, molBsc355, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_355_aeronet, config.minDeltaAOD, config.heightFullOverlap(flagChannel355), config.mask_SNRmin(flagChannel355), config.smoothWin_klett_355);
             thisAerExt355_aeronet = thisAerBsc355_aeronet * thisLR_355;
         end
     end
@@ -124,8 +124,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     if ~ isnan(data.refHIndx532(iGroup, 1))
         flagChannel532 = config.isFR & config.isTot & config.is532nm;
-        sig532 = squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg532 = squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        sig532 = squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2));
+        bg532 = squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2));
         snr532 = polly_SNR(sig532, bg532);
         refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
@@ -136,7 +136,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETIndx), 675, AERONET.AOD_675(AERONETIndx), 532);
 
             % constrained klett method
-            [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, thisNIters532] = polly_constrainedfernald(data.distance0, sig532, snr532, refH, config.refBeta532, molBsc532, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_532_aeronet, minDeltaAOD, config.heightFullOverlap(flagChannel532), config.mask_SNRmin(flagChannel532), config.smoothWin_klett_532);
+            [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, thisNIters532] = polly_constrainedfernald(data.distance0, sig532, snr532, refH, config.refBeta532, molBsc532, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_532_aeronet, config.minDeltaAOD, config.heightFullOverlap(flagChannel532), config.mask_SNRmin(flagChannel532), config.smoothWin_klett_532);
             thisAerExt532_aeronet = thisAerBsc532_aeronet * thisLR_532;
         end
     end
@@ -170,7 +170,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             AOD_1064_aeronet = interp_AERONET_AOD(1020, AERONET.AOD_1020(AERONETIndx), 1640, AERONET.AOD_1640(AERONETIndx), 1064);
 
             % constrained klett method
-            [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, thisNIters1064] = polly_constrainedfernald(data.distance0, sig1064, snr1064, refH, config.refBeta1064, molBsc1064, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_1064_aeronet, minDeltaAOD, config.heightFullOverlap(flagChannel1064), config.mask_SNRmin(flagChannel1064), config.smoothWin_klett_1064);
+            [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, thisNIters1064] = polly_constrainedfernald(data.distance0, sig1064, snr1064, refH, config.refBeta1064, molBsc1064, config.maxIterConstrainFernald, config.minLRConstrainFernald, config.maxLRConstrainFernald, AOD_1064_aeronet, config.minDeltaAOD, config.heightFullOverlap(flagChannel1064), config.mask_SNRmin(flagChannel1064), config.smoothWin_klett_1064);
             thisAerExt1064_aeronet = thisAerBsc1064_aeronet * thisLR_1064;
         end
     end

@@ -25,7 +25,7 @@ function [alt, temp, pres, relh, gdas1file] = read_gdas1(tRange, gdas1site, fold
 
 midTime = mean(tRange);
 [thisyear, thismonth, thisday, thishour, ~, ~] =  datevec(round(midTime/datenum(0, 1, 0, 3, 0, 0)) * datenum(0, 1, 0, 3, 0, 0));
-gdas1file = fullfile(folder, gdas1site, sprintf('%04d', thisyear), sprintf('%02d', thismonth), sprintf('%s_%04d%02d%02d_%02d_*.gdas1', gdas1site, thisyear, thismonth, thisday, thishour));
+gdas1file = fullfile(folder, gdas1site, sprintf('%04d', thisyear), sprintf('%02d', thismonth), sprintf('*_%04d%02d%02d_%02d_*.gdas1', thisyear, thismonth, thisday, thishour));
 
 [pres, alt, temp, relh] = ceilo_bsc_ModelSonde(gdas1file);
 

@@ -1,10 +1,10 @@
 function [] = pollyxt_lacros_display_overlap(data, taskInfo, attri, config)
 %pollyxt_lacros_display_overlap display the overlap function.
 %   Example:
-%       [] = pollyxt_lacros_display_overlap(alt, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, campaignInfo)
+%       [] = pollyxt_lacros_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, campaignInfo)
 %   Inputs:
-%       alt: array
-%           alt above surface. [m]
+%       height: array
+%           height above surface. [m]
 %       overlap532: array
 %           calculated overlap for 532 nm far range total channel.
 %       overlap355: array
@@ -43,7 +43,7 @@ sig532FR = attri.sig532FR;
 sig532NR = attri.sig532NR;
 sigRatio532 = attri.sigRatio532;
 normRange532 = attri.normRange532;
-alt = data.alt;
+height = data.height;
 
 %% convert the empty array to default filled values
 if isempty(overlap532)
@@ -87,21 +87,22 @@ figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
 
 % overlap
 subplot(121);
-p1 = plot(overlap532, alt, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 532'); hold on;
-p2 = plot(overlap355, alt, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 355'); hold on;
-p3 = plot(overlap532Defaults, alt, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 532'); hold on;
-p4 = plot(overlap355Defaults, alt, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 355'); hold on;
+p1 = plot(overlap532, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 532'); hold on;
+p2 = plot(overlap355, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 355'); hold on;
+p3 = plot(overlap532Defaults, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 532'); hold on;
+p4 = plot(overlap355Defaults, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 355'); hold on;
 
-l1 = plot([1, 1], [alt(1), alt(end)], 'LineWidth', 1, 'LineStyle', '--', 'Color', 'k');
+l1 = plot([1, 1], [height(1), height(end)], 'LineWidth', 1, 'LineStyle', '--', 'Color', 'k');
 
 xlim([-0.05, 1.1]);
 ylim([0, 3000]);
 xlabel('Overlap');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', taskInfo.pollyVersion, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
 
 set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on');
 l = legend([p1, p2, p3, p4], 'Location', 'NorthWest');
+set(l, 'FontSize', 6);
 
 % signal gluing
 subplot(122)
@@ -111,20 +112,20 @@ sig355Gl(sig355Gl <= 0) = NaN;
 sig532FR(sig532FR <= 0) = NaN;
 sig532NR(sig532NR <= 0) = NaN;
 sig532Gl(sig532Gl <= 0) = NaN;
-p1 = semilogx(sig355FR, alt, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
-p2 = semilogx(sig355NR, alt, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 355nm'); hold on;
-p3 = semilogx(sig355Gl, alt, 'Color', 'b', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 355nm'); hold on;
-p4 = semilogx(sig532FR, alt, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
-p5 = semilogx(sig532NR, alt, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 532nm'); hold on;
-p6 = semilogx(sig532Gl, alt, 'Color', 'g', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 532nm'); hold on;
+p1 = semilogx(sig355FR, height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
+p2 = semilogx(sig355NR, height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 355nm'); hold on;
+p3 = semilogx(sig355Gl, height, 'Color', 'b', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 355nm'); hold on;
+p4 = semilogx(sig532FR, height, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
+p5 = semilogx(sig532NR, height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 532nm'); hold on;
+p6 = semilogx(sig532Gl, height, 'Color', 'g', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 532nm'); hold on;
 
 if ~ isempty(attri.normRange355)
-    l1 = plot([1e-2, 1e3], [alt(normRange355(1)), alt(normRange355(1))], '--b');
-    l2 = plot([1e-2, 1e3], [alt(normRange355(end)), alt(normRange355(end))], '--b');
+    l1 = plot([1e-2, 1e3], [height(normRange355(1)), height(normRange355(1))], '--b');
+    l2 = plot([1e-2, 1e3], [height(normRange355(end)), height(normRange355(end))], '--b');
 end
 if ~ isempty(attri.normRange532)
-    l1 = plot([1e-2, 1e3], [alt(normRange532(1)), alt(normRange532(1))], '--g');
-    l2 = plot([1e-2, 1e3], [alt(normRange532(end)), alt(normRange532(end))], '--g');
+    l1 = plot([1e-2, 1e3], [height(normRange532(1)), height(normRange532(1))], '--g');
+    l2 = plot([1e-2, 1e3], [height(normRange532(end)), height(normRange532(end))], '--g');
 end
 
 xlim([1e-2, 1e3]);
@@ -134,6 +135,7 @@ text(0.2, 0.2, sprintf('Cloud-free assured'), 'Units', 'normal', 'color', 'r', '
 
 set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000, 'YMinorTick', 'on');
 l = legend([p1, p2, p3, p4, p5, p6], 'Location', 'NorthEast');
+set(l, 'FontSize', 6);
 
 text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
 

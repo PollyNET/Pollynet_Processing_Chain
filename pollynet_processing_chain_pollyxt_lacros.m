@@ -1,6 +1,4 @@
 function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
-% function [report = pollynet_processing_chain_pollyxt_lacros()
-
 %POLLYNET_PROCESSING_CHAIN_POLLYXT_lacros processing the data from pollyxt_lacros
 %	Example:
 %		[report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
@@ -14,10 +12,7 @@ function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 %	Contact:
 %		zhenping@tropos.de
 
-% load('debug.mat')
-
 global processInfo campaignInfo defaults
-save('debug.mat', 'taskInfo', 'config', 'processInfo', 'campaignInfo', 'defaults')
 
 %% create folder
 results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
@@ -41,11 +36,11 @@ end
 fprintf('[%s] Finish reading data.\n', tNow());
 
 %% read laserlogbook file
-% TODO: search the unzipping laserlogbook file
-% laserlogbookFile = sprintf('%s.laserlogbook.txt', taskInfo.dataFilename);
-% fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), taskInfo.pollyVersion, laserlogbookFile);
-% health = pollyxt_lacros_read_laserlogbook(laserlogbookFile, config);
-% fprintf('[%s] Finish reading laserlogbook.\n', tNow);
+laserlogbookFile = fullfile(taskInfo.todoPath, taskInfo.dataPath, sprintf('%s.laserlogbook.txt', taskInfo.dataFilename));
+fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), taskInfo.pollyVersion, laserlogbookFile);
+monitorStatus = pollyxt_lacros_read_laserlogbook(laserlogbookFile, config);
+data.monitorStatus = monitorStatus;
+fprintf('[%s] Finish reading laserlogbook.\n', tNow);
 
 %% pre-processing
 fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), taskInfo.pollyVersion);
@@ -61,6 +56,7 @@ fprintf('\n[%s] Finish.\n', tNow());
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
 [data, depCaliAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults);
+data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
 %% cloud screening
@@ -166,7 +162,8 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_355, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, data.quality_mask_volDepol_532] = pollyxt_lacros_quasiretrieve(data, config);
+[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_355, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_lacros_quasiretrieve(data, config);
+data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
 %% target classification
@@ -178,37 +175,40 @@ fprintf('[%s] Finish.\n', tNow());
 %% visualization
 fprintf('\n[%s] Start to visualize results.\n', tNow());
 
+%% display monitor status
+pollyxt_lacros_display_monitor(data, taskInfo, config);
+
 %% display signal
-pollyxt_lacros_display_rcs(data, taskInfo, config);
+% pollyxt_lacros_display_rcs(data, taskInfo, config);
 
-%% display depol calibration results
-pollyxt_lacros_display_depolcali(data, taskInfo, depCaliAttri);
+% %% display depol calibration results
+% pollyxt_lacros_display_depolcali(data, taskInfo, depCaliAttri);
 
-%% display saturation and cloud free tags
-pollyxt_lacros_display_saturation(data, taskInfo, config);
+% %% display saturation and cloud free tags
+% pollyxt_lacros_display_saturation(data, taskInfo, config);
 
-%% display overlap
-pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
+% %% display overlap
+% pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
 
-%% optical profiles
-pollyxt_lacros_display_retrieving(data, taskInfo, config);
+% %% optical profiles
+% pollyxt_lacros_display_retrieving(data, taskInfo, config);
 
-%% display attenuated backscatter
-pollyxt_lacros_display_att_beta(data, taskInfo, config);
+% %% display attenuated backscatter
+% pollyxt_lacros_display_att_beta(data, taskInfo, config);
 
-%% display WVMR and RH
-pollyxt_lacros_display_WV(data, taskInfo, config);
+% %% display WVMR and RH
+% pollyxt_lacros_display_WV(data, taskInfo, config);
 
-%% display quasi backscatter, particle depol and angstroem exponent 
-pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
+% %% display quasi backscatter, particle depol and angstroem exponent 
+% pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
 
-%% target classification
-pollyxt_lacros_display_targetclassi(data, taskInfo, config);
+% %% target classification
+% pollyxt_lacros_display_targetclassi(data, taskInfo, config);
 
-%% display lidar calibration constants
-pollyxt_lacros_display_lidarconst(data, taskInfo, config);
+% %% display lidar calibration constants
+% pollyxt_lacros_display_lidarconst(data, taskInfo, config);
 
-fprintf('[%s] Finish.\n', tNow());
+% fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
 %% save depol cali results
@@ -236,6 +236,6 @@ pollyxt_lacros_save_LC_txt(data, taskInfo, config);
 pollyxt_lacros_save_tc(data, taskInfo, config);
 
 %% get report
-% report{iTask} = pollynet_processing_chain_report(data, taskInfo, config);
+report = pollyxt_lacros_results_report(data, taskInfo, config);
 
-% end
+end
