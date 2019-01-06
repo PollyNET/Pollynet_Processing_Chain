@@ -1,7 +1,7 @@
 *.code-workspace
 results/
 recent_plots/
-todo_filelist/*
+todo_filelist/
 !todo_filelist/fileinfo_new.txt
 !todo_filelist/pollynet_history_of_places_new.txt
 test/
