@@ -30,9 +30,9 @@ The program has been tested in matlab 2014a. And it can run on both window 10 an
 ### Download
 
 You can download the whole repository by
-'''
+```
 git clone https://github.com/ZPYin/Pollynet_Processing_Chain.git
-'''
+```
 
 ### Usage
 
