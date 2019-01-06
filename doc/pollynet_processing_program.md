@@ -23,9 +23,9 @@ This document will show you how the pollynet processing program works and how to
 ### Workflow
 
 **PollyNET processing program flowchart**
-<div style="text-align:center">
+<p align='center'>
   <img src="../img/pollynet_processing_program_flowchart.png" height="900" width="500" alt="pollynet processing program flowchart">
-</div>
+</p>
 
 Top is the flowchart of the processing program. It includes three main processing parts, create processing task, find processing function and activate processing.
 
@@ -55,11 +55,11 @@ Also we will make a depol-calibration mask and fog mask by inspecting the angle 
 
 For pollyxt systems, the depol-calibration is implemented by using the $\pm\Delta45°$ method. Polly will start serveral automatic calibration processes everyday. We can extract the calibration profiles by comparing the angle of the polarizer or we can pre-defined the calibration time in the configuration file (Default way).
 
-<div style="text-align:center">
+<p align='center'>
   <img src='../img/20181214-0235_532.png' width='400' height='400' caption='Depol-Calibration-Results'>
   <br>
   <b>Depol-Calibration-Results</b>
-</div>
+</p>
 
 #### cloud-screen
 
@@ -69,11 +69,11 @@ There are different ways to realize cloud-screen, gradient method, wavelet metho
 
 There are two basic ways to estimate the overlap function for polly system. Firstly, using the Raman signal and tuning the overlap to achieve the convergence between Klett retrieving results and Raman retrieving results. But this method is controlled by the assumed lidar ratio and not easy to be implemented in an automatic way. Secondly, we can take advantage of the Near-Range and Far-Range channel, as the full overlap height for the Near-Range channel is only 120 m, we can easily estimate the overlap of Far-Range channel down to 120m by comparing the signal ratio between Near-Range and Far-Range signal.
 
-<div style="text-align:center">
-  <img src='../img/2018_12_14_Fri_LACROS_06_00_01_overlap.png' width='400' height='400' caption='Overlap'>
-  <br>
-  <b>Overlap</b>
-</div>
+<p align='center'>
+<img src='../img/2018_12_14_Fri_LACROS_06_00_01_overlap.png' width='400' height='350' caption='Overlap'>
+<br>
+<b>Overlap</b>
+</p>
 
 #### period-splitting
 
