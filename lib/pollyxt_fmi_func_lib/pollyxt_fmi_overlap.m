@@ -167,18 +167,18 @@ overlapAttri.normRange532 = normRange532;
 %% append the overlap to data
 if isempty(overlap532)
     data.overlap532 = interp1(height532, overlap532Default, data.height, 'linear');
-    data.flagOverlapUseDefault = true;
+    data.flagOverlapUseDefault532 = true;
 else
     data.overlap532 = overlap532;
-    data.flagOverlapUseDefault = false;
+    data.flagOverlapUseDefault532 = false;
 end
 
 if isempty(overlap355)
     data.overlap355 = interp1(height355, overlap355Default, data.height, 'linear');
-    data.flagOverlapUseDefault = true;
+    data.flagOverlapUseDefault355 = true;
 else
     data.overlap355 = overlap355;
-    data.flagOverlapUseDefault = false;
+    data.flagOverlapUseDefault355 = false;
 end
 
 end
