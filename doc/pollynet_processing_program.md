@@ -356,7 +356,11 @@ data: struct
     LCUsed{wavelength}: float
       appiled lidar constant.
     LCUsedTage{wavelength}: int
-      lidar constant status. [0: 'no calibration'; '1': klett method; '2': raman method; '3': defaults]
+      lidar constant status. 
+        0: 'no calibration'; 
+        1: klett method; 
+        2: raman method; 
+        3: defaults
     flagLCWarning{wavelength}: int
       whether there is a strong fluctuation of the lidar constants.
   att_beta_{wavelength}: matrix [bin×time]
@@ -368,14 +372,29 @@ data: struct
   quasi_ang_532_1064: matrix [bin×time]
     quasi Ångstroem exponent 532-1064.
   quality_mask_{wavelength}: matrix [bin×time]
-    signal quality mask. This mask is calculated with the smoothed signal. [0: good signal; 1: low SNR; 2: depolarization calibration]
+    signal quality mask. This mask is calculated with the smoothed signal. 
+      0: good signal; 
+      1: low SNR; 
+      2: depolarization calibration
   quasiAttri: struct
     flagGDAS1: int
       flag to show whetehr GDAS1 data was used.
     timestamp: float
       time stamp of the appled GDAS1 data.
   tc_mask: matrix [bin×time]
-    target classification mask.[0: No signal; 1: Clean atmosphere; 2: Non-typed particles/low conc.; 3: Aerosol: small; 4: Aerosol: large, spherical; 5: Aerosol: mixture, partly non-spherical; 6: Aerosol: large, non-spherical; 7: Cloud: non-typed; 8: Cloud: water droplets; 9: Cloud: likely water droplets; 10: Cloud: ice crystals; 11: Cloud: likely ice crystals]  
+    target classification mask.
+      0: No signal; 
+      1: Clean atmosphere; 
+      2: Non-typed particles/low conc.; 
+      3: Aerosol: small; 
+      4: Aerosol: large, spherical; 
+      5: Aerosol: mixture, partly non-spherical; 
+      6: Aerosol: large, non-spherical; 
+      7: Cloud: non-typed; 
+      8: Cloud: water droplets; 
+      9: Cloud: likely water droplets; 
+      10: Cloud: ice crystals; 
+      11: Cloud: likely ice crystals  
 ```
 
 #### defaults
