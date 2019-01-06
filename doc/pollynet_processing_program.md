@@ -23,9 +23,9 @@ This document will show you how the pollynet processing program works and how to
 ### Workflow
 
 **PollyNET processing program flowchart**
-<center>
+<div style="text-align:center">
   <img src="../img/pollynet_processing_program_flowchart.png" height="900" width="500" alt="pollynet processing program flowchart">
-</center>
+</div>
 
 Top is the flowchart of the processing program. It includes three main processing parts, create processing task, find processing function and activate processing.
 
@@ -55,11 +55,11 @@ Also we will make a depol-calibration mask and fog mask by inspecting the angle 
 
 For pollyxt systems, the depol-calibration is implemented by using the $\pm\Delta45°$ method. Polly will start serveral automatic calibration processes everyday. We can extract the calibration profiles by comparing the angle of the polarizer or we can pre-defined the calibration time in the configuration file (Default way).
 
-<center>
-  <img src='../img/20181214-0235_532.png' caption='Depol-Calibration-Results'>
+<div style="text-align:center">
+  <img src='../img/20181214-0235_532.png' width='400' height='400' caption='Depol-Calibration-Results'>
   <br>
   <b>Depol-Calibration-Results</b>
-</center>
+</div>
 
 #### cloud-screen
 
@@ -69,11 +69,11 @@ There are different ways to realize cloud-screen, gradient method, wavelet metho
 
 There are two basic ways to estimate the overlap function for polly system. Firstly, using the Raman signal and tuning the overlap to achieve the convergence between Klett retrieving results and Raman retrieving results. But this method is controlled by the assumed lidar ratio and not easy to be implemented in an automatic way. Secondly, we can take advantage of the Near-Range and Far-Range channel, as the full overlap height for the Near-Range channel is only 120 m, we can easily estimate the overlap of Far-Range channel down to 120m by comparing the signal ratio between Near-Range and Far-Range signal.
 
-<center>
-  <img src='../img/2018_12_14_Fri_LACROS_06_00_01_overlap.png' caption='Overlap'>
+<div style="text-align:center">
+  <img src='../img/2018_12_14_Fri_LACROS_06_00_01_overlap.png' width='400' height='400' caption='Overlap'>
   <br>
   <b>Overlap</b>
-</center>
+</div>
 
 #### period-splitting
 
@@ -110,6 +110,8 @@ O'Connor method has been tested. But for the photon counting system, it's not so
 ```
 
 ### Variables
+
+#### data
 
 ```
 data: struct
@@ -378,11 +380,107 @@ data: struct
 
 #### defaults
 
+```
+defaults: struct
+  depolCaliConst{wavelength}: float
+    default depolariazation constant.
+  depolCaliConstStd{wavelength}: float
+    default uncertainty of depolarization constant.  
+  LC: array
+    lidar constant for each channel.
+  LCStd: array
+    uncertainty of lidar constant.
+  overlapFile{wavelength}: char
+    absolute directory of the default overlap file. 
+  molDepol{wavelength}: float
+    molecule depolarization ratio.
+  molDepolStd{wavelength}: float
+    uncertainty of molecule depolarization ratio.
+  wvconst: float
+    water vapor calibration constant. [g*kg^{-1}]
+  wvconstStd: float
+    uncertainty of water vapor calibration constant. [g*kg^{-1}]
+```
+
 #### taskInfo
+
+```
+taskInfo: struct
+  todoPath: char
+    the todo path which saves the polly data and fileinfo_new.txt
+  dataPath: char
+    the relative folder of the polly data to the todo path.
+  dataFilename: char
+    filename of the polly data. You can construct the absolute path of the polly data by combining todoPath, dataPath and dataFilename.
+  zipFile: char
+    filename of the zipped polly data.
+  dataSize: single
+    the size of the polly data file.
+  pollyVersion: char
+    polly version. Detailed information can be found in [polly version](pollynet.md)
+  startTime: float
+    start time for processing the task. [datenum]
+  dataTime: float
+    date and time for the creation of the current polly data. [datenum]
+```
 
 #### campaignInfo
 
+```
+campaignInfo: struct
+  name: char
+    polly version. Detailed information can be found in [polly version](pollynet.md)
+  location: char
+    location of the current measurement campaign. Detailed information can be found in [pollynet history info](../todo_filelist/pollynet_history_of_places_new.txt)
+  startTime: float
+    start time for the current campaign. [datenum]
+  endTime: float
+    end time for the current campaign. [datenum]
+  lon: float
+    longitude of the campaign. [°]
+  lat: float
+    latitude of the campaign. [°]
+  asl: float
+    height above average sea level. [m]
+  depolConst: float
+    depolarization constant for 532 nm.
+  molDepol: float
+    molecule depolarization ratio for 532 nm.
+  caption: char
+    some description about the campaign.
+```
+
 #### processInfo
+
+```
+processInfo: struct
+  fileinfo_new: char
+    filename of the fileinfo_new.txt. This is the collection of all present polly data from PollyNER which is waited for processing.
+  doneListFile: char
+    done list file which contains all the information of generated figures by the program.
+  pollynet_history_of_places_new: char
+    pollynet history file which contains all the history information about different finished or ongoing campaigns.
+  log_folder: char
+    folder to save the log file.
+  gdas1_folder: char
+    the root folder of GDAS1 profiles.
+  defaultsFile_folder: char
+    folder of defaults files.
+  results_folder: char
+    folder to save the processing results and calibration results.
+  pic_folder: char
+    folder to save the figures.
+  pollynet_config_history_file: char
+    history file to log all the configuration files, defaults_reading function and processing function for all polly systems.
+  institue: char
+    institute full-name.
+  contact: char
+    contact.
+  programVersion: char
+    program version.
+  pollyVersions: cell
+    label of all polly versions.
+```
 
 ### Algorithm
 
@@ -397,6 +495,14 @@ data: struct
 ### Howto
 
 #### How to add a new polly process function
+
+You can follow the below steps to create a new process procedure for a new polly systems.
+
+- add a new configuration file in config folder to save all the related configurations. You can copy the content from other similar polly systems to speed up this process
+- add a default file in `/lib/pollyDefaults`. Don't forget to add the default overlap files.
+- create a new folder, named with `{polly Version}_func_lib`. Write all the related processing functions inside or copy all the functions from the folder of other polly systems. If you copy all the functions from other folder, don't forget to change the function definitions inside.
+- create a new main processing function in the root folder and name it with `pollynet_processing_chain_{polly version}.m`. Write all the processing part here.
+- add a new entry in `/config/pollynet_processing_config_history.txt`.
 
 #### How to add a new defaults file
 
