@@ -56,7 +56,7 @@ function [ data ] = pollyxt_lacros_preprocess(data, config)
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %   Copyright:
-%       Ground-based remote sensing (TROPOS)
+%       Ground-based remote sensing (lacros)
 
 global campaignInfo
 
@@ -91,7 +91,7 @@ if config.flagDTCor
                 repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
-    elseif config.dtCorMode == 3 && isfield(config, 'dt')
+    elseif config.dtCorMode == 3 && isfield(config, 'dt')   % user defined deadtime. Regarding the format of dt, please go to /doc/polly_config.md
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = polyval(config.dt(iChannel, end:-1:1), PCR(iChannel, :, :));
             rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...

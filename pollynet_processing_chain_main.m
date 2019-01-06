@@ -47,6 +47,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	taskInfo.zipFile = fileinfo_new.zipFile{iTask};
 	taskInfo.dataSize = fileinfo_new.dataSize(iTask);
 	taskInfo.pollyVersion = fileinfo_new.pollyVersion{iTask};
+	taskInfo.startTime = now();
 
 	%% create folder for this instrument
 	results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion);
@@ -111,7 +112,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
 	%% realtime process
 	fprintf('\n[%s] Stasktart to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
-	eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
+	report{end + 1} = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
 	fprintf('[%s]Finish.\n', tNow());
 
 	%% cleanup

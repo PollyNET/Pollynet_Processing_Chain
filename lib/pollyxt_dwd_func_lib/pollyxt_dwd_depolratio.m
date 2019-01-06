@@ -1,4 +1,4 @@
-function [voldepol532, pardepol532_klett, pardepol532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_dwd_depolratio(data, config)
+function [voldepol532, pardepol532_klett, pardepolStd532_klett, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_dwd_depolratio(data, config)
 %pollyxt_dwd_depolratio retrieve volume depolarization ratio and particle depolarization ratio.
 %   Example:
 %       [voldepol532, pardepol532_klett, pardepol532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_dwd_depolratio(data, config)
@@ -12,8 +12,12 @@ function [voldepol532, pardepol532_klett, pardepol532_raman, moldepol532, moldep
 %           volume depolarization ratio at 532 nm for each cloud free group. 
 %       pardepol532_klett: matrix
 %           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%       pardepol532Std_klett: matrix
+%           uncertainty of particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
 %       pardepol532_raman: matrix
 %           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%       pardepol532Std_raman: matrix
+%           uncertainty of particle depolarization ratio at 532 nm based on raman-retrieved backscatter coefficient.
 %       moldepol532: array
 %           molecular volume depolarization ratio at 532nm. 
 %       moldepolStd532: array
@@ -30,6 +34,8 @@ global defaults
 voldepol532 = [];
 pardepol532_klett = [];
 pardepol532_raman = [];
+pardepolStd532_klett = [];
+pardepolStd532_raman = [];
 moldepol532 = [];
 moldepolStd532 = [];
 flagDefaultMoldepol532 = [];
@@ -43,9 +49,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisVoldepol532 = NaN(size(data.height));
     thisPardepol532_klett = NaN(size(data.height));
     thisPardepol532_raman = NaN(size(data.height));
+    thisPardepolStd532_klett = NaN(size(data.height));
+    thisPardepolStd532_raman = NaN(size(data.height));
     thisMoldepol532 = NaN;
     thisMoldepolStd532 = NaN;
-    flagDefaultMoldepol532 = false;
+    thisFlagDefaultMoldepol532 = false;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel532Tot = config.isFR & config.is532nm & config.isTot;
@@ -67,25 +75,26 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
             refHIndx532 = data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2);
 
-            [thisMoldepol532, thisMoldepolStd532, thisFlagDefaultMoldepol532] = polly_molDepol(sig532Tot(refHIndx532), bg532Tot(refHIndx532), sig532Cro(refHIndx532), bg532Cro(refHIndx532), data.depol_cal_fac_532, data.depol_cal_fac_std_532, 50, defaults.molDepol532, defaults.molDepolStd532);
+            fprintf('Calibrate the molecule depol.ratio for the %d cloud free period at 532 nm.\n', iGroup);
+            [thisMoldepol532, thisMoldepolStd532, thisFlagDefaultMoldepol532] = polly_molDepol(sig532Tot(refHIndx532), bg532Tot(refHIndx532), sig532Cro(refHIndx532), bg532Cro(refHIndx532), config.TR(flagChannel532Tot), 0, config.TR(flagChannel532Cro), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532, 80, defaults.molDepol532, defaults.molDepolStd532);
 
             % based with klett retrieved bsc
-            [thisPardepol532_klett, ~] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_klett(iGroup, :), zeros(size(data.aerBsc532_klett(iGroup, :))), molBsc532, molDepol532, molDepolStd532);
+            [thisPardepol532_klett, thisPardepolStd532_klett] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_klett(iGroup, :), ones(size(data.aerBsc532_klett(iGroup, :))) * 1e-7, molBsc532, thisMoldepol532, thisMoldepolStd532);
 
             % based with raman retrieved bsc
             if ~ isnan(data.aerBsc532_raman(iGroup, 80))
-                [thisPardepol532_raman, ~] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_raman(iGroup, :), zeros(size(data.aerBsc532_raman(iGroup, :))), molBsc532, thisMoldepol532, thisMoldepolStd532);
+                [thisPardepol532_raman, thisPardepolStd532_raman] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_raman(iGroup, :), ones(size(data.aerBsc532_raman(iGroup, :))) * 1e-7, molBsc532, thisMoldepol532, thisMoldepolStd532);
             end
         end
-
-        
+    end
     voldepol532 = cat(1, voldepol532, thisVoldepol532);
     pardepol532_klett = cat(1, pardepol532_klett, thisPardepol532_klett);
     pardepol532_raman = cat(1, pardepol532_raman, thisPardepol532_raman);
+    pardepolStd532_klett = cat(1, pardepolStd532_klett, thisPardepolStd532_klett);
+    pardepolStd532_raman = cat(1, pardepolStd532_raman, thisPardepolStd532_raman);
     moldepol532 = cat(1, moldepol532, thisMoldepol532);
     moldepolStd532 = cat(1, moldepolStd532, thisMoldepolStd532);
     flagDefaultMoldepol532 = cat(1, flagDefaultMoldepol532, thisFlagDefaultMoldepol532);
-    end
 end
 
 end

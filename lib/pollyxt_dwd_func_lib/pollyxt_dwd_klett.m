@@ -66,8 +66,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     if ~ isnan(data.refHIndx532(iGroup, 1))
         flagChannel532 = config.isFR & config.isTot & config.is532nm;
-        sig532 = squeeze(sum(el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg532 = squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        sig532 = transpose(squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+        bg532 = transpose(squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
         refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
@@ -101,8 +101,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     % concatenate the results
-    aerBsc355_klett = cat(1, aerBsc355_klett, thisAerBsc355_klett);
-    aerExt355_klett = cat(1, aerExt355_klett, thisAerExt355_klett);
+    aerBsc1064_klett = cat(1, aerBsc1064_klett, thisAerBsc1064_klett);
+    aerExt1064_klett = cat(1, aerExt1064_klett, thisAerExt1064_klett);
 end
 
 end

@@ -30,13 +30,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 WVMR = data.WVMR;
 WVMR(squeeze(data.lowSNRMask(flagChannel387, :, :) | data.lowSNRMask(flagChannel407, :, :))) = NaN;
-p1 = pcolor(data.mTime, data.alt, WVMR); hold on;
+p1 = pcolor(data.mTime, data.height, WVMR); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 8]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 8000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Water vapor mixing ratio from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');
@@ -67,13 +67,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 RH = data.RH;
 RH(squeeze(data.lowSNRMask(flagChannel387, :, :) | data.lowSNRMask(flagChannel407, :, :))) = NaN;
-p1 = pcolor(data.mTime, data.alt, RH); hold on;
+p1 = pcolor(data.mTime, data.height, RH); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 100]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 8000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Relative humidity from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');

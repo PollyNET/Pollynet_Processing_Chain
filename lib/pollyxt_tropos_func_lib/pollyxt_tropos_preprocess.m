@@ -56,7 +56,7 @@ function [ data ] = pollyxt_tropos_preprocess(data, config)
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %   Copyright:
-%       Ground-based remote sensing (TROPOS)
+%       Ground-based remote sensing (tropos)
 
 global campaignInfo
 

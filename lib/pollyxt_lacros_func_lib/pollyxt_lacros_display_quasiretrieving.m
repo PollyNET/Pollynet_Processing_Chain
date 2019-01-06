@@ -29,13 +29,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 quasi_bsc_532 = data.quasi_par_beta_532;
 quasi_bsc_532(data.quality_mask_532 ~= 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, quasi_bsc_532 * 1e6); hold on;
+p1 = pcolor(data.mTime, data.height, quasi_bsc_532 * 1e6); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 3]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
@@ -64,13 +64,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 quasi_bsc_1064 = data.quasi_par_beta_1064;
 quasi_bsc_1064(data.quality_mask_1064 ~= 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, quasi_bsc_1064 * 1e6); hold on;
+p1 = pcolor(data.mTime, data.height, quasi_bsc_1064 * 1e6); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 3]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '1064', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
@@ -99,13 +99,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 quasi_pardepol_532 = data.quasi_parDepol_532;
 quasi_pardepol_532(data.quality_mask_532 ~= 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, quasi_pardepol_532); hold on;
+p1 = pcolor(data.mTime, data.height, quasi_pardepol_532); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 0.4]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Quasi Particle Depolarization Ratio at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
@@ -134,13 +134,13 @@ subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
 quasi_ang_532_1064 = data.quasi_ang_532_1064;
 quasi_ang_532_1064(data.quality_mask_532 ~= 0) = NaN;
-p1 = pcolor(data.mTime, data.alt, quasi_ang_532_1064); hold on;
+p1 = pcolor(data.mTime, data.height, quasi_ang_532_1064); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 2]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Quasi BSC Angstroem Exponent 532-1064 for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');

@@ -46,10 +46,23 @@ case 'aeronet'
     globalAttri.PI = data.AERONET.AERONETAttri.PI;
     globalAttri.contact = data.AERONET.AERONETAttri.contact;
 case 'mwr'
-    globalAttri.source = 'MWR';
-    globalAttri.site = campaignInfo.location;
-    globalAttri.PI = 'Patric Seifert';
-    globalAttri.contact = 'seifert@tropos.de';
+    mwrResFileSearch = dir(fullfile(config.MWRFolder, sprintf('ioppta_lac_mwr00_l2_prw_v00_%s*.nc', datestr(data.mTime(1), 'yyyymmdd'))));
+    if isempty(mwrResFileSearch)
+        mwrResFile = '';
+    elseif length(mwrResFileSearch) >= 2
+        warning('More than two mwr products were found.\n%s\n%s\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
+        return;
+    else
+        mwrResFile = fullfile(config.MWRFolder, mwrResFileSearch(1).name);
+    end
+    
+    [tIWV_mwr, IWV_mwr, ~, attri_mwr] = read_MWR_IWV(mwrResFile);
+
+    globalAttri.source = attri_mwr.source;
+    globalAttri.site = attri_mwr.site;
+    contactInfo = regexp(attri_mwr.contact, '(?<PI>.*) \((?<contact>.*)\)', 'names');
+    globalAttri.PI = contactInfo.PI;
+    globalAttri.contact = contactInfo.contact;
 end
 
 %% retrieve data
@@ -60,21 +73,36 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     switch lower(config.IWV_instrument)
     case 'aeronet'
         if isempty(data.AERONET.IWV)
-            fprintf('No IWV data at %s, %s.\n', datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
+            fprintf('No IWV measurement for AERONET at %s, %s.\n', datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
             IWV = NaN(1, size(data.cloudFreeGroups, 1));
-            globalAttri.datetime = NaN(1, site(data.cloudFreeGroups, 1));
+            globalAttri.datetime = NaN(1, size(data.cloudFreeGroups, 1));
             return;
         else
             [tLag, IWVIndx] = min(abs(data.AERONET.datetime - mean(data.mTime(data.cloudFreeGroups(iGroup, :)))));
             if tLag > config.maxIWVTLag
-                fprintf('No temporal close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+                fprintf('No close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
             else
                 thisIWV = data.AERONET.IWV(IWVIndx);
                 thisDatetime = data.AERONET.datetime(IWVIndx);
             end
         end
-    case 'mwr'
-        % [thisIWV, thisDatetime] = read_hatpro(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), config.WMRFolder, campaignInfo.location);
+    case 'mwr'        
+        if isempty(tIWV_mwr)
+            fprintf('No IWV measurement for HATPRO at %s, %s.\n', datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
+            IWV = NaN(1, size(data.cloudFreeGroups, 1));
+            globalAttri.datetime = NaN(1, size(data.cloudFreeGroups, 1));
+            return;
+        else
+            [tLagStart, tStartIndx] = min(abs(tIWV_mwr - data.mTime(data.cloudFreeGroups(iGroup, 1))));
+            [tLagEnd, tEndIndx] = min(abs(tIWV_mwr - data.mTime(data.cloudFreeGroups(iGroup, 2))));
+            
+            if (tLagStart > config.maxIWVTLag) || (tLagEnd > config.maxIWVTLag)
+                fprintf('No close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+            else
+                thisIWV = nanmean(IWV_mwr(tStartIndx:tEndIndx));
+                thisDatetime = mean(tIWV_mwr(tStartIndx:tEndIndx));
+            end
+        end
     otherwise
         thisIWV = NaN;
         thisDatetime = NaN;

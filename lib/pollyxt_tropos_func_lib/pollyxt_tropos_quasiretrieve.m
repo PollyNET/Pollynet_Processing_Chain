@@ -1,4 +1,4 @@
-function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_tropos_quasiretrieve(data, config)
+function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri] = pollyxt_tropos_quasiretrieve(data, config)
 %pollyxt_tropos_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
 %       [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_tropos_quasiretrieve(data, config)
@@ -48,6 +48,9 @@ quality_mask_532 = [];
 quality_mask_1064 = [];
 quality_mask_volDepol_532 = [];
 quality_mask_volDepol_355 = [];
+quasiAttri = struct();
+quasiAttri.flagGDAS1 = false;
+quasiAttri.timestamp = [];
 
 if isempty(data.rawSignal)
     return;
@@ -83,7 +86,6 @@ quality_mask_1064(squeeze(SNR(flagChannel1064, :, :)) < config.mask_SNRmin(flagC
 quality_mask_voldepol532((squeeze(SNR(flagChannel532Cro, :, :)) < config.mask_SNRmin(flagChannel532Cro)) | (squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
 quality_mask_voldepol355((squeeze(SNR(flagChannel355Cro, :, :)) < config.mask_SNRmin(flagChannel355Cro)) | (squeeze(SNR(flagChannel355Tot, :, :)) < config.mask_SNRmin(flagChannel355Tot))) = 1;
 quality_mask_355(:, data.depCalMask) = 2;
-quality_mask_355(:, data.depCalMask) = 2;
 quality_mask_532(:, data.depCalMask) = 2;
 quality_mask_1064(:, data.depCalMask) = 2;
 quality_mask_voldepol532(:, data.depCalMask) = 2;
@@ -106,6 +108,8 @@ volDepol_355_smooth(quality_mask_voldepol355 > 0) = NaN;
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
 [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config.gdas1Site, processInfo.gdas1_folder);
+quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
+quasiAttri.timestamp = globalAttri.datetime;
 
 % molecule attenuation
 mol_att_355 = exp(- cumsum(molExt355 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));

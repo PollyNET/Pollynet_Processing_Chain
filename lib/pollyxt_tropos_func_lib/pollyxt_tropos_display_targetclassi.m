@@ -25,13 +25,13 @@ figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 subplot('Position', [0.1, 0.15, 0.6, 0.6]);   % mainframe
 
 TC_mask = double(data.tc_mask);
-p1 = pcolor(data.mTime, data.alt, TC_mask); hold on;
+p1 = pcolor(data.mTime, data.height, TC_mask); hold on;
 set(p1, 'EdgeColor', 'none');
 caxis([0, 11]);
 xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
-ylabel('Altitude (m)');
+ylabel('Height (m)');
 title(sprintf('Target Classification for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');

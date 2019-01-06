@@ -128,7 +128,7 @@ for iIndx = 1:length(dpIndx) - 1
         warning('layerThickConstrain is too small.');
         winLen = 5;
     end
-    for jIndx = dpIndx(1):(dpIndx(end) - winLen)
+    for jIndx = dpIndx(1):winLen:(dpIndx(end) - winLen)
         deltaSig_aer = nanstd(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));

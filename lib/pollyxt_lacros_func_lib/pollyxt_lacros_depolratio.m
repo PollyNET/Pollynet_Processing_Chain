@@ -77,7 +77,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisPardepolStd355_raman = NaN(size(data.height));
     thisMoldepol355 = NaN;
     thisMoldepolStd355 = NaN;
-    flagDefaultMoldepol355 = false;
+    thisFlagDefaultMoldepol355 = false;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel355Tot = config.isFR & config.is355nm & config.isTot;
@@ -129,7 +129,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisPardepolStd532_raman = NaN(size(data.height));
     thisMoldepol532 = NaN;
     thisMoldepolStd532 = NaN;
-    flagDefaultMoldepol532 = false;
+    thisFlagDefaultMoldepol532 = false;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel532Tot = config.isFR & config.is532nm & config.isTot;

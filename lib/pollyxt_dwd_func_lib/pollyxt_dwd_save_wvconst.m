@@ -41,8 +41,6 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_dwd_save_wvcon
 %               the instrument for external standard IWV measurement 
 %           nIWVCali: integer
 %               number of successful water vapor calibration.
-%   Note: 
-%       The depolarization calibration results will be saved to "file". If there is no depolarization calibration results, defaults results will be used as replacement.
 %   History:
 %       2018-12-19. First Edition by Zhenping
 %   Contact:
@@ -54,8 +52,7 @@ wvconstUsedStd = NaN;
 
 if isempty(wvconst)
     wvconst = defaults.wvconst;
-    thisWVconst = defaults.wvconst;
-    thisWVconstStd = defaults.wvconstStd;
+    wvconstStd = defaults.wvconstStd;
     wvconstUsed = defaults.wvconst;
     wvconstUsedStd = defaults.wvconstStd;
     wvCaliTimeStr = '-999';
@@ -91,13 +88,17 @@ fid = fopen(file, 'a');
 try
     for iWVCali = 1:length(wvconst)
 
-        if isnan(IWVAttri.datetime(iWVCali))
+        if isempty(IWVAttri.datetime)
+            IWVMeasTimeStr = '-999';
+        elseif isnan(IWVAttri.datetime(iWVCali))
             IWVMeasTimeStr = '-999';
         else 
             IWVMeasTimeStr = datestr(IWVAttri.datetime(iWVCali), 'yyyymmdd HH:MM');
         end
 
-        if isnan(WVCaliInfo.datetime(iWVCali))
+        if isempty(WVCaliInfo.datetime)
+            wvCaliTimeStr = '-999';
+        elseif isnan(WVCaliInfo.datetime(iWVCali))
             wvCaliTimeStr = '-999';
         else
             wvCaliTimeStr = datestr(WVCaliInfo.datetime(iWVCali), 'yyyymmdd HH:MM');
@@ -106,6 +107,9 @@ try
         if isnan(wvconst(iWVCali))
             thisWVconst = -999;
             thisWVconstStd = -999;
+        else
+            thisWVconst = wvconst(iWVCali);
+            thisWVconstStd = wvconstStd(iWVCali);
         end
 
         fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, (~ isnan(wvconst(iWVCali))), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
@@ -115,7 +119,5 @@ catch
 end
 
 fclose(fid);
-
-
 
 end
