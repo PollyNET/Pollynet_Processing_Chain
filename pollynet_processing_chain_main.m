@@ -70,7 +70,14 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', rmext(taskInfo.dataFilename), taskInfo.pollyVersion));
 	fprintf('[%s] Turn on the Diary to record the execution results\n', tNow());
 	
-    diaryon(logFile);
+	diaryon(logFile);
+	
+	%% determine the data size
+	if taskInfo.dataSize <= config.minDataSize
+		fprintf('The current data size is not large enough\n%s\n. Jump over the task.\n', taskInfo.dataFilename);
+		diaryoff;
+		continue;
+	end
 
 	%% search for polly history info
 	fprintf('\n[%s] Start to search for polly history info.\n', tNow());
