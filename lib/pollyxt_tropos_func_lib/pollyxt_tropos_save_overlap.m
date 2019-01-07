@@ -68,7 +68,7 @@ netcdf.putVar(ncID, varID_overlap532, overlap532);
 netcdf.putVar(ncID, varID_overlap355, overlap355);
 netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
 netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
-netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCorMode);
+netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCalMode);
 
 % re enter define mode
 netcdf.reDef(ncID);

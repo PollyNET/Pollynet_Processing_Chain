@@ -52,7 +52,7 @@ overlap355_std = [];
 
 if ~ sum(data.flagCloudFree2km) == 0
 
-    switch config.overlapCorMode
+    switch config.overlapCalMode
     case 1   % ratio of near and far range signal
 
         % 355 nm
@@ -127,8 +127,17 @@ if ~ sum(data.flagCloudFree2km) == 0
             end
         end
 
+        overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sigRatio355 = sigRatio355;
+        overlapAttri.normRange355 = normRange355;
+        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sigRatio532 = sigRatio532;
+        overlapAttri.normRange532 = normRange532;
     case 2   % raman method
     end
+    
 end
 
 %% read default overlap function to compare with the estimated ones.
@@ -155,14 +164,6 @@ overlapAttri.overlap355_std = overlap355_std;
 overlapAttri.overlap532_std = overlap532_std;
 overlapAttri.overlap355DefaultInterp = overlap355DefaultInterp;
 overlapAttri.overlap532DefaultInterp = overlap532DefaultInterp;
-overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-overlapAttri.sigRatio355 = sigRatio355;
-overlapAttri.normRange355 = normRange355;
-overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-overlapAttri.sigRatio532 = sigRatio532;
-overlapAttri.normRange532 = normRange532;
 
 %% append the overlap to data
 if isempty(overlap532)

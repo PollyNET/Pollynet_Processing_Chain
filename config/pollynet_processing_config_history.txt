@@ -7,3 +7,5 @@ pollyxt_fmi,2018-03-31 00:00:00,2019-06-01 00:00:00,pollyxt_fmi_config_20180201.
 pollyxt_noa,2018-06-01 00:00:00,2019-02-20 00:00:00,pollyxt_noa_config_20180601.json,pollynet_processing_chain_pollyxt_noa.m,Move to Greece,pollyxt_noa_read_defaults.m
 pollyxt_uw,2013-06-27 00:00:00,2030-01-01 00:00:00,pollyxt_uw_config_20130627.json,pollynet_processing_chain_pollyxt_uw.m,Move to Warsaw,pollyxt_uw_read_defaults.m
 arielle,2018-05-07 00:00:00,2018-06-11 00:00:00,arielle_config_20180507.json,pollynet_processing_chain_arielle.m,PS113,arielle_read_defaults.m
+arielle,2017-05-22 00:00:00,2017-07-11 00:00:00,arielle_config_20170522.json,pollynet_processing_chain_arielle.m,PS106,arielle_read_defaults.m
+polly_1v2,2018-10-25 00:00:00,2021-02-16 00:00:00,polly_1v2_config_20181025.json,pollynet_processing_chain_polly_1v2.m,Move to Leipzig,polly_1v2_read_defaults.m
