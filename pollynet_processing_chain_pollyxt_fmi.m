@@ -172,32 +172,32 @@ tc_mask = pollyxt_fmi_targetclassi(data, config);
 data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
-%% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+% %% visualization
+% fprintf('\n[%s] Start to visualize results.\n', tNow());
 
 % %% display monitor status
 % pollyxt_fmi_display_monitor(data, taskInfo, config);
 
-%% display signal
+% % display signal
 % pollyxt_fmi_display_rcs(data, taskInfo, config);
 
-%% display depol calibration results
-pollyxt_fmi_display_depolcali(data, taskInfo, depCaliAttri);
+% %% display depol calibration results
+% pollyxt_fmi_display_depolcali(data, taskInfo, depCaliAttri);
 
 % %% display saturation and cloud free tags
 % pollyxt_fmi_display_saturation(data, taskInfo, config);
 
-%% display overlap
-pollyxt_fmi_display_overlap(data, taskInfo, overlapAttri, config);
+% %% display overlap
+% pollyxt_fmi_display_overlap(data, taskInfo, overlapAttri, config);
 
-%% optical profiles
-pollyxt_fmi_display_retrieving(data, taskInfo, config);
+% %% optical profiles
+% pollyxt_fmi_display_retrieving(data, taskInfo, config);
 
 % %% display attenuated backscatter
 % pollyxt_fmi_display_att_beta(data, taskInfo, config);
 
-%% display WVMR and RH
-pollyxt_fmi_display_WV(data, taskInfo, config);
+% %% display WVMR and RH
+% pollyxt_fmi_display_WV(data, taskInfo, config);
 
 % %% display quasi backscatter, particle depol and angstroem exponent 
 % pollyxt_fmi_display_quasiretrieving(data, taskInfo, config);

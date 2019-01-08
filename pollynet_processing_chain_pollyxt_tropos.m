@@ -172,13 +172,13 @@ tc_mask = pollyxt_tropos_targetclassi(data, config);
 data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
-%% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+% %% visualization
+% fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-pollyxt_tropos_display_monitor(data, taskInfo, config);
+% %% display monitor status
+% pollyxt_tropos_display_monitor(data, taskInfo, config);
 
-%% display signal
+% %% display signal
 % pollyxt_tropos_display_rcs(data, taskInfo, config);
 
 % %% display depol calibration results

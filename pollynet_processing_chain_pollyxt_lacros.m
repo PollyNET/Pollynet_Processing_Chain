@@ -173,12 +173,12 @@ data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
 %% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+% fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-pollyxt_lacros_display_monitor(data, taskInfo, config);
+% %% display monitor status
+% pollyxt_lacros_display_monitor(data, taskInfo, config);
 
-%% display signal
+% % display signal
 % pollyxt_lacros_display_rcs(data, taskInfo, config);
 
 % %% display depol calibration results
