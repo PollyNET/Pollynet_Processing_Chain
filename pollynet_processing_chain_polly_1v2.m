@@ -145,13 +145,13 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
-%% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+% %% visualization
+% fprintf('\n[%s] Start to visualize results.\n', tNow());
 
 % %% display monitor status
 % polly_1v2_display_monitor(data, taskInfo, config);
 
-%% display signal
+% % display signal
 % polly_1v2_display_rcs(data, taskInfo, config);
 
 % %% display saturation and cloud free tags
@@ -163,11 +163,11 @@ fprintf('\n[%s] Start to visualize results.\n', tNow());
 % %% display attenuated backscatter
 % polly_1v2_display_att_beta(data, taskInfo, config);
 
-% %% display quasi backscatter, particle depol and angstroem exponent 
-polly_1v2_display_quasiretrieving(data, taskInfo, config);
+% % %% display quasi backscatter, particle depol and angstroem exponent 
+% polly_1v2_display_quasiretrieving(data, taskInfo, config);
 
-% %% display lidar calibration constants
-polly_1v2_display_lidarconst(data, taskInfo, config);
+% % %% display lidar calibration constants
+% polly_1v2_display_lidarconst(data, taskInfo, config);
 
 % fprintf('[%s] Finish.\n', tNow());
 

@@ -175,40 +175,40 @@ fprintf('[%s] Finish.\n', tNow());
 %% visualization
 fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-arielle_display_monitor(data, taskInfo, config);
+% %% display monitor status
+% arielle_display_monitor(data, taskInfo, config);
 
-%% display signal
+% % display signal
 % arielle_display_rcs(data, taskInfo, config);
 
-%% display depol calibration results
-arielle_display_depolcali(data, taskInfo, depCaliAttri);
+% %% display depol calibration results
+% arielle_display_depolcali(data, taskInfo, depCaliAttri);
 
 % %% display saturation and cloud free tags
 % arielle_display_saturation(data, taskInfo, config);
 
-%% display overlap
-arielle_display_overlap(data, taskInfo, overlapAttri, config);
+% %% display overlap
+% arielle_display_overlap(data, taskInfo, overlapAttri, config);
 
-%% optical profiles
-arielle_display_retrieving(data, taskInfo, config);
+% %% optical profiles
+% arielle_display_retrieving(data, taskInfo, config);
 
 % %% display attenuated backscatter
 % arielle_display_att_beta(data, taskInfo, config);
 
-%% display WVMR and RH
-arielle_display_WV(data, taskInfo, config);
+% %% display WVMR and RH
+% arielle_display_WV(data, taskInfo, config);
 
-%% display quasi backscatter, particle depol and angstroem exponent 
-arielle_display_quasiretrieving(data, taskInfo, config);
+% %% display quasi backscatter, particle depol and angstroem exponent 
+% arielle_display_quasiretrieving(data, taskInfo, config);
 
-%% target classification
-arielle_display_targetclassi(data, taskInfo, config);
+% %% target classification
+% arielle_display_targetclassi(data, taskInfo, config);
 
-%% display lidar calibration constants
-arielle_display_lidarconst(data, taskInfo, config);
+% %% display lidar calibration constants
+% arielle_display_lidarconst(data, taskInfo, config);
 
-% fprintf('[%s] Finish.\n', tNow());
+fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
 %% save depol cali results

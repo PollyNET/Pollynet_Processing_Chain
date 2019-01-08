@@ -164,10 +164,10 @@ fprintf('[%s] Finish.\n', tNow());
 %% visualization
 fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-pollyxt_dwd_display_monitor(data, taskInfo, config);
+% %% display monitor status
+% pollyxt_dwd_display_monitor(data, taskInfo, config);
 
-%% display signal
+% % display signal
 % pollyxt_dwd_display_rcs(data, taskInfo, config);
 
 % %% display depol calibration results
@@ -179,20 +179,20 @@ pollyxt_dwd_display_monitor(data, taskInfo, config);
 % %% display overlap
 % pollyxt_dwd_display_overlap(data, taskInfo, overlapAttri, config);
 
-% %% optical profiles
-pollyxt_dwd_display_retrieving(data, taskInfo, config);
+% % %% optical profiles
+% pollyxt_dwd_display_retrieving(data, taskInfo, config);
 
 % %% display attenuated backscatter
 % pollyxt_dwd_display_att_beta(data, taskInfo, config);
 
-% %% display quasi backscatter, particle depol and angstroem exponent 
-pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
+% % %% display quasi backscatter, particle depol and angstroem exponent 
+% pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
 
-% %% target classification
-pollyxt_dwd_display_targetclassi(data, taskInfo, config);
+% % %% target classification
+% pollyxt_dwd_display_targetclassi(data, taskInfo, config);
 
-% %% display lidar calibration constants
-pollyxt_dwd_display_lidarconst(data, taskInfo, config);
+% % %% display lidar calibration constants
+% pollyxt_dwd_display_lidarconst(data, taskInfo, config);
 
 % fprintf('[%s] Finish.\n', tNow());
 
