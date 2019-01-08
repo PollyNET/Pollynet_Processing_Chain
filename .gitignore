@@ -6,5 +6,7 @@ todo_filelist/
 !todo_filelist/fileinfo_new.txt
 !todo_filelist/pollynet_history_of_places_new.txt
 !config/pollynet_processing_chain_config.json
+!lib/download_aeronet_list.m
+!lib/download_radiosonde_list.m
 test/
 debug.mat

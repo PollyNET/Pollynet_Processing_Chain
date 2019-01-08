@@ -12,6 +12,7 @@ function [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %	Contact:
 %		zhenping@tropos.de
 
+report = cell(0);
 global processInfo campaignInfo defaults
 
 %% create folder
