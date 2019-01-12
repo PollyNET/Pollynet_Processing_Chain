@@ -1,4 +1,4 @@
-function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_532, quasi_ang_532_1064, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532, quasiAttri] = pollyxt_dwd_quasiretrieve(data, config)
+function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532, quasiAttri] = pollyxt_dwd_quasiretrieve(data, config)
 %pollyxt_dwd_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
 %       [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_dwd_quasiretrieve(data, config)
@@ -16,6 +16,8 @@ function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_5
 %           volume depolarization ratio at 532 nm.
 %       quasi_angstrexp_532_1064: matrix
 %           quasi backscatter related Ångström exponent at 532-1064.
+%       quality_mask_355: matrix
+%           quality mask for attenuated backscatter at 355 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
 %       quality_mask_532: matrix
 %           quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
 %       quality_mask_1064: matrix
@@ -33,6 +35,7 @@ quasi_par_bsc_1064 = [];
 quasi_par_depol_532 = [];
 volDepol_532 = [];
 quasi_ang_532_1064 = [];
+quality_mask_355 = [];
 quality_mask_532 = [];
 quality_mask_1064 = [];
 quality_mask_volDepol_532 = [];
@@ -47,12 +50,14 @@ end
 flagChannel532Tot = config.isFR & config.is532nm & config.isTot;
 flagChannel532Cro = config.isFR & config.is532nm & config.isCross;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel355 = config.isFR & config.is355nm & config.isTot;
 
 %% calculate volDepol 532 and 355 nm
 volDepol_532 = polly_volDepol2(squeeze(data.signal(flagChannel532Tot, :, :)), squeeze(data.signal(flagChannel532Cro, :, :)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
 volDepol_532(:, data.depCalMask) = NaN;
 
 %% calculate the quality mask to filter the points with high SNR
+quality_mask_355 = zeros(size(data.att_beta_355));
 quality_mask_532 = zeros(size(data.att_beta_355));
 quality_mask_1064 = zeros(size(data.att_beta_355));
 quality_mask_volDepol_532 = zeros(size(data.att_beta_355));
@@ -62,9 +67,11 @@ SNR = polly_SNR(data.signal, data.bg);
 % 0 in quality_mask means good data
 % 1 in quality_mask means low-SNR data
 % 2 in quality_mask means depolarization calibration periods
+quality_mask_355(squeeze(SNR(flagChannel355, :, :)) < config.mask_SNRmin(flagChannel355)) = 1;
 quality_mask_532(squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot)) = 1;
 quality_mask_1064(squeeze(SNR(flagChannel1064, :, :)) < config.mask_SNRmin(flagChannel1064)) = 1;
 quality_mask_voldepol532((squeeze(SNR(flagChannel532Cro, :, :)) < config.mask_SNRmin(flagChannel532Cro)) | (squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
+quality_mask_355(:, data.depCalMask) = 2;
 quality_mask_532(:, data.depCalMask) = 2;
 quality_mask_1064(:, data.depCalMask) = 2;
 quality_mask_voldepol532(:, data.depCalMask) = 2;

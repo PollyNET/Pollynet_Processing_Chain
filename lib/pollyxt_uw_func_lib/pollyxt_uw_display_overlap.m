@@ -81,68 +81,94 @@ else
     sig532Gl = sig532FR ./ overlap532;
 end
 
-overlapPicFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
+if strcmpi(processInfo.visualizationMode, 'matlab')
 
-figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
+    overlapPicFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
 
-% overlap
-subplot(121);
-p1 = plot(overlap532, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 532'); hold on;
-p2 = plot(overlap355, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 355'); hold on;
-p3 = plot(overlap532Defaults, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 532'); hold on;
-p4 = plot(overlap355Defaults, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 355'); hold on;
+    figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
 
-l1 = plot([1, 1], [height(1), height(end)], 'LineWidth', 1, 'LineStyle', '--', 'Color', 'k');
+    % overlap
+    subplot(121);
+    p1 = plot(overlap532, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 532'); hold on;
+    p2 = plot(overlap355, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 355'); hold on;
+    p3 = plot(overlap532Defaults, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 532'); hold on;
+    p4 = plot(overlap355Defaults, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 355'); hold on;
 
-xlim([-0.05, 1.1]);
-ylim([0, 3000]);
-xlabel('Overlap');
-ylabel('Height (m)');
-text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', taskInfo.pollyVersion, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
+    l1 = plot([1, 1], [height(1), height(end)], 'LineWidth', 1, 'LineStyle', '--', 'Color', 'k');
 
-set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on');
-l = legend([p1, p2, p3, p4], 'Location', 'NorthWest');
-set(l, 'FontSize', 6);
+    xlim([-0.05, 1.1]);
+    ylim([0, 3000]);
+    xlabel('Overlap');
+    ylabel('Height (m)');
+    text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', taskInfo.pollyVersion, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
 
-% signal gluing
-subplot(122)
-sig355FR(sig355FR <= 0) = NaN;
-sig355NR(sig355NR <= 0) = NaN;
-sig355Gl(sig355Gl <= 0) = NaN;
-sig532FR(sig532FR <= 0) = NaN;
-sig532NR(sig532NR <= 0) = NaN;
-sig532Gl(sig532Gl <= 0) = NaN;
-p1 = semilogx(sig355FR, height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
-p2 = semilogx(sig355NR, height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 355nm'); hold on;
-p3 = semilogx(sig355Gl, height, 'Color', 'b', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 355nm'); hold on;
-p4 = semilogx(sig532FR, height, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
-p5 = semilogx(sig532NR, height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 532nm'); hold on;
-p6 = semilogx(sig532Gl, height, 'Color', 'g', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 532nm'); hold on;
+    set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on');
+    l = legend([p1, p2, p3, p4], 'Location', 'NorthWest');
+    set(l, 'FontSize', 6);
 
-if ~ isempty(attri.normRange355)
-    l1 = plot([1e-2, 1e3], [height(normRange355(1)), height(normRange355(1))], '--b');
-    l2 = plot([1e-2, 1e3], [height(normRange355(end)), height(normRange355(end))], '--b');
+    % signal gluing
+    subplot(122)
+    sig355FR(sig355FR <= 0) = NaN;
+    sig355NR(sig355NR <= 0) = NaN;
+    sig355Gl(sig355Gl <= 0) = NaN;
+    sig532FR(sig532FR <= 0) = NaN;
+    sig532NR(sig532NR <= 0) = NaN;
+    sig532Gl(sig532Gl <= 0) = NaN;
+    p1 = semilogx(sig355FR, height, 'Color', 'b', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 355nm'); hold on;
+    p2 = semilogx(sig355NR, height, 'Color', 'b', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 355nm'); hold on;
+    p3 = semilogx(sig355Gl, height, 'Color', 'b', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 355nm'); hold on;
+    p4 = semilogx(sig532FR, height, 'Color', 'g', 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', 'FR 532nm'); hold on;
+    p5 = semilogx(sig532NR, height, 'Color', 'g', 'LineStyle', '--', 'LineWidth', 1, 'DisplayName', 'NR 532nm'); hold on;
+    p6 = semilogx(sig532Gl, height, 'Color', 'g', 'LineStyle', '-.', 'LineWidth', 1, 'DisplayName', 'FR Glued 532nm'); hold on;
+
+    if ~ isempty(attri.normRange355)
+        l1 = plot([1e-2, 1e3], [height(normRange355(1)), height(normRange355(1))], '--b');
+        l2 = plot([1e-2, 1e3], [height(normRange355(end)), height(normRange355(end))], '--b');
+    end
+    if ~ isempty(attri.normRange532)
+        l1 = plot([1e-2, 1e3], [height(normRange532(1)), height(normRange532(1))], '--g');
+        l2 = plot([1e-2, 1e3], [height(normRange532(end)), height(normRange532(end))], '--g');
+    end
+
+    xlim([1e-2, 1e3]);
+    ylim([0, 3000]);
+    xlabel('Signal [MHz]');
+    text(0.2, 0.2, sprintf('Cloud-free assured'), 'Units', 'normal', 'color', 'r', 'fontsize', 5);
+
+    set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000, 'YMinorTick', 'on');
+    l = legend([p1, p2, p3, p4, p5, p6], 'Location', 'NorthEast');
+    set(l, 'FontSize', 6);
+
+    text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
+
+    set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
+
+    %% save figure
+    export_fig(gcf, overlapPicFile, '-transparent', '-r300', '-painters');
+    close();
+elseif strcmpi(processInfo.visualizationMode, 'python')
+        
+    fprintf('Display the results with Python.\n');
+    pyFolder = fileparts(mfilename('fullpath'));
+    tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+
+    % create tmp folder by force, if it does not exist.
+    if ~ exist(tmpFolder, 'dir')
+        fprintf('Create the tmp folder to save the temporary results.\n');
+        mkdir(tmpFolder);
+    end
+
+    save(fullfile(tmpFolder, 'tmp.mat'), 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
+    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'pollyxt_uw_display_overlap.py'), tmpFile, saveFolder));
+    if flag ~= 0
+        warning('Error in executing %s', 'pollyxt_uw_display_overlap.py');
+    end
+    delete(fullfile(tmpFolder, 'tmp.mat'));
+
+else
+    error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end
-if ~ isempty(attri.normRange532)
-    l1 = plot([1e-2, 1e3], [height(normRange532(1)), height(normRange532(1))], '--g');
-    l2 = plot([1e-2, 1e3], [height(normRange532(end)), height(normRange532(end))], '--g');
-end
-
-xlim([1e-2, 1e3]);
-ylim([0, 3000]);
-xlabel('Signal [MHz]');
-text(0.2, 0.2, sprintf('Cloud-free assured'), 'Units', 'normal', 'color', 'r', 'fontsize', 5);
-
-set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000, 'YMinorTick', 'on');
-l = legend([p1, p2, p3, p4, p5, p6], 'Location', 'NorthEast');
-set(l, 'FontSize', 6);
-
-text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
-
-set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
-
-%% save figure
-export_fig(gcf, overlapPicFile, '-transparent', '-r300', '-painters');
-close();
 
 end

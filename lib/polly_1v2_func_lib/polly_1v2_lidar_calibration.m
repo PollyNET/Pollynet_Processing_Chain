@@ -105,7 +105,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     LC.LC_raman_532 = cat(1, LC.LC_raman_532, LC_raman_532);
 end
 
-        
 %% calibrate with constrained-AOD-retrieved profiles
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     LC_aeronet_532 = NaN;

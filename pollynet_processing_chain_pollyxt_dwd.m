@@ -152,7 +152,7 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_dwd_quasiretrieve(data, config);
+[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_dwd_quasiretrieve(data, config);
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
@@ -164,38 +164,6 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% visualization
 fprintf('\n[%s] Start to visualize results.\n', tNow());
-
-% %% display monitor status
-% pollyxt_dwd_display_monitor(data, taskInfo, config);
-
-% % display signal
-% pollyxt_dwd_display_rcs(data, taskInfo, config);
-
-% %% display depol calibration results
-% pollyxt_dwd_display_depolcali(data, taskInfo, depCaliAttri);
-
-% %% display saturation and cloud free tags
-% pollyxt_dwd_display_saturation(data, taskInfo, config);
-
-% %% display overlap
-% pollyxt_dwd_display_overlap(data, taskInfo, overlapAttri, config);
-
-% % %% optical profiles
-% pollyxt_dwd_display_retrieving(data, taskInfo, config);
-
-% %% display attenuated backscatter
-% pollyxt_dwd_display_att_beta(data, taskInfo, config);
-
-% % %% display quasi backscatter, particle depol and angstroem exponent 
-% pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
-
-% % %% target classification
-% pollyxt_dwd_display_targetclassi(data, taskInfo, config);
-
-% % %% display lidar calibration constants
-% pollyxt_dwd_display_lidarconst(data, taskInfo, config);
-
-% fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
 %% save depol cali results
@@ -213,12 +181,62 @@ pollyxt_dwd_save_LC_nc(data, taskInfo, config);
 pollyxt_dwd_save_LC_txt(data, taskInfo, config);
 
 %% save attenuated backscatter
+pollyxt_dwd_save_att_bsc(data, taskInfo, config);
 
 %% save quasi results
 pollyxt_dwd_save_quasi_results(data, taskInfo, config);
 
 %% save target classification results
 pollyxt_dwd_save_tc(data, taskInfo, config);
+
+%% saving results
+%% save depol cali results
+pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+
+%% visualization
+fprintf('\n[%s] Start to visualize results.\n', tNow());
+
+%% display monitor status
+disp('Display housekeeping')
+pollyxt_dwd_display_monitor(data, taskInfo, config);
+
+% display signal
+disp('Display RCS and volume depolarization ratio')
+pollyxt_dwd_display_rcs(data, taskInfo, config);
+
+%% display depol calibration results
+disp('Display depolarization calibration results')
+pollyxt_dwd_display_depolcali(data, taskInfo, depCaliAttri);
+
+%% display saturation and cloud free tags
+disp('Display signal flags')
+pollyxt_dwd_display_saturation(data, taskInfo, config);
+
+%% display overlap
+disp('Display overlap')
+pollyxt_dwd_display_overlap(data, taskInfo, overlapAttri, config);
+
+%% optical profiles
+disp('Display profiles')
+pollyxt_dwd_display_retrieving(data, taskInfo, config);
+
+%% display attenuated backscatter
+disp('Display attuated backscatter')
+pollyxt_dwd_display_att_beta(data, taskInfo, config);
+
+%% display quasi backscatter, particle depol and angstroem exponent 
+disp('Display quasi parameters')
+pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
+
+%% target classification
+disp('Display target classifications')
+pollyxt_dwd_display_targetclassi(data, taskInfo, config);
+
+%% display lidar calibration constants
+disp('Display Lidar constants.')
+pollyxt_dwd_display_lidarconst(data, taskInfo, config);
+
+fprintf('[%s] Finish.\n', tNow());
 
 %% get report
 report = pollyxt_dwd_results_report(data, taskInfo, config);

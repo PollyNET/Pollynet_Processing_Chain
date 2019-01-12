@@ -173,44 +173,6 @@ tc_mask = pollyxt_tropos_targetclassi(data, config);
 data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
-% %% visualization
-% fprintf('\n[%s] Start to visualize results.\n', tNow());
-
-% %% display monitor status
-% pollyxt_tropos_display_monitor(data, taskInfo, config);
-
-% %% display signal
-% pollyxt_tropos_display_rcs(data, taskInfo, config);
-
-% %% display depol calibration results
-% pollyxt_tropos_display_depolcali(data, taskInfo, depCaliAttri);
-
-% %% display saturation and cloud free tags
-% pollyxt_tropos_display_saturation(data, taskInfo, config);
-
-% %% display overlap
-% pollyxt_tropos_display_overlap(data, taskInfo, overlapAttri, config);
-
-% %% optical profiles
-% pollyxt_tropos_display_retrieving(data, taskInfo, config);
-
-% %% display attenuated backscatter
-% pollyxt_tropos_display_att_beta(data, taskInfo, config);
-
-% %% display WVMR and RH
-% pollyxt_tropos_display_WV(data, taskInfo, config);
-
-% %% display quasi backscatter, particle depol and angstroem exponent 
-% pollyxt_tropos_display_quasiretrieving(data, taskInfo, config);
-
-% %% target classification
-% pollyxt_tropos_display_targetclassi(data, taskInfo, config);
-
-% %% display lidar calibration constants
-% pollyxt_tropos_display_lidarconst(data, taskInfo, config);
-
-% fprintf('[%s] Finish.\n', tNow());
-
 %% saving results
 %% save depol cali results
 pollyxt_tropos_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
@@ -232,12 +194,62 @@ pollyxt_tropos_save_LC_nc(data, taskInfo, config);
 pollyxt_tropos_save_LC_txt(data, taskInfo, config);
 
 %% save attenuated backscatter
+pollyxt_tropos_save_att_bsc(data, taskInfo, config);
 
 %% save quasi results
 pollyxt_tropos_save_quasi_results(data, taskInfo, config);
 
 %% save target classification results
 pollyxt_tropos_save_tc(data, taskInfo, config);
+
+%% visualization
+fprintf('\n[%s] Start to visualize results.\n', tNow());
+
+%% display monitor status
+disp('Display housekeeping')
+pollyxt_tropos_display_monitor(data, taskInfo, config);
+
+% display signal
+disp('Display RCS and volume depolarization ratio')
+pollyxt_tropos_display_rcs(data, taskInfo, config);
+
+%% display depol calibration results
+disp('Display depolarization calibration results')
+pollyxt_tropos_display_depolcali(data, taskInfo, depCaliAttri);
+
+%% display saturation and cloud free tags
+disp('Display signal flags')
+pollyxt_tropos_display_saturation(data, taskInfo, config);
+
+%% display overlap
+disp('Display overlap')
+pollyxt_tropos_display_overlap(data, taskInfo, overlapAttri, config);
+
+%% optical profiles
+disp('Display profiles')
+pollyxt_tropos_display_retrieving(data, taskInfo, config);
+
+%% display attenuated backscatter
+disp('Display attuated backscatter')
+pollyxt_tropos_display_att_beta(data, taskInfo, config);
+
+%% display WVMR and RH
+disp('Display WVMR and RH')
+pollyxt_tropos_display_WV(data, taskInfo, config);
+
+%% display quasi backscatter, particle depol and angstroem exponent 
+disp('Display quasi parameters')
+pollyxt_tropos_display_quasiretrieving(data, taskInfo, config);
+
+%% target classification
+disp('Display target classifications')
+pollyxt_tropos_display_targetclassi(data, taskInfo, config);
+
+%% display lidar calibration constants
+disp('Display Lidar constants.')
+pollyxt_tropos_display_lidarconst(data, taskInfo, config);
+
+fprintf('[%s] Finish.\n', tNow());
 
 %% get report
 report = pollyxt_tropos_results_report(data, taskInfo, config);

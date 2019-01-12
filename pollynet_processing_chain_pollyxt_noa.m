@@ -173,44 +173,6 @@ tc_mask = pollyxt_noa_targetclassi(data, config);
 data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
-% %% visualization
-% fprintf('\n[%s] Start to visualize results.\n', tNow());
-
-% %% display monitor status
-% pollyxt_noa_display_monitor(data, taskInfo, config);
-
-% % display signal
-% pollyxt_noa_display_rcs(data, taskInfo, config);
-
-% %% display depol calibration results
-% pollyxt_noa_display_depolcali(data, taskInfo, depCaliAttri);
-
-% %% display saturation and cloud free tags
-% pollyxt_noa_display_saturation(data, taskInfo, config);
-
-% %% display overlap
-% pollyxt_noa_display_overlap(data, taskInfo, overlapAttri, config);
-
-% %% optical profiles
-% pollyxt_noa_display_retrieving(data, taskInfo, config);
-
-% %% display attenuated backscatter
-% pollyxt_noa_display_att_beta(data, taskInfo, config);
-
-% %% display WVMR and RH
-% pollyxt_noa_display_WV(data, taskInfo, config);
-
-% %% display quasi backscatter, particle depol and angstroem exponent 
-% pollyxt_noa_display_quasiretrieving(data, taskInfo, config);
-
-% %% target classification
-% pollyxt_noa_display_targetclassi(data, taskInfo, config);
-
-% %% display lidar calibration constants
-% pollyxt_noa_display_lidarconst(data, taskInfo, config);
-
-% fprintf('[%s] Finish.\n', tNow());
-
 %% saving results
 %% save depol cali results
 pollyxt_noa_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
@@ -232,12 +194,62 @@ pollyxt_noa_save_LC_nc(data, taskInfo, config);
 pollyxt_noa_save_LC_txt(data, taskInfo, config);
 
 %% save attenuated backscatter
+pollyxt_noa_save_att_bsc(data, taskInfo, config);
 
 %% save quasi results
 pollyxt_noa_save_quasi_results(data, taskInfo, config);
 
 %% save target classification results
 pollyxt_noa_save_tc(data, taskInfo, config);
+
+%% visualization
+fprintf('\n[%s] Start to visualize results.\n', tNow());
+
+%% display monitor status
+disp('Display housekeeping')
+pollyxt_noa_display_monitor(data, taskInfo, config);
+
+% display signal
+disp('Display RCS and volume depolarization ratio')
+pollyxt_noa_display_rcs(data, taskInfo, config);
+
+%% display depol calibration results
+disp('Display depolarization calibration results')
+pollyxt_noa_display_depolcali(data, taskInfo, depCaliAttri);
+
+%% display saturation and cloud free tags
+disp('Display signal flags')
+pollyxt_noa_display_saturation(data, taskInfo, config);
+
+%% display overlap
+disp('Display overlap')
+pollyxt_noa_display_overlap(data, taskInfo, overlapAttri, config);
+
+%% optical profiles
+disp('Display profiles')
+pollyxt_noa_display_retrieving(data, taskInfo, config);
+
+%% display attenuated backscatter
+disp('Display attuated backscatter')
+pollyxt_noa_display_att_beta(data, taskInfo, config);
+
+%% display WVMR and RH
+disp('Display WVMR and RH')
+pollyxt_noa_display_WV(data, taskInfo, config);
+
+%% display quasi backscatter, particle depol and angstroem exponent 
+disp('Display quasi parameters')
+pollyxt_noa_display_quasiretrieving(data, taskInfo, config);
+
+%% target classification
+disp('Display target classifications')
+pollyxt_noa_display_targetclassi(data, taskInfo, config);
+
+%% display lidar calibration constants
+disp('Display Lidar constants.')
+pollyxt_noa_display_lidarconst(data, taskInfo, config);
+
+fprintf('[%s] Finish.\n', tNow());
 
 %% get report
 report = pollyxt_noa_results_report(data, taskInfo, config);
