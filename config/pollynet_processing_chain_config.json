@@ -16,5 +16,7 @@
 	"contact": "Zhenping Yin <zhenping@tropos.de>",
 	"programVersion": "1.0",
 
+	"visualizationMode": "python",
+
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }

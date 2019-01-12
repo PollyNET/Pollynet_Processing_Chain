@@ -54,7 +54,7 @@
 	"maxSigSlope4FilterCloud": 3e6,
 	"saturate_thresh": 80,
 	"heightFullOverlap": [500, 500, 500, 500, 500, 500, 150, 150],
-	"minSNR_4_sigNorm": [3],
+	"minSNR_4_sigNorm": [10],
 	"intNProfiles": 120,
 	"minIntNProfiles": 90,
 	"meteorDataSource": "gdas1",

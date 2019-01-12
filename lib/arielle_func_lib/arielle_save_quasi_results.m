@@ -43,10 +43,10 @@ netcdf.endDef(ncID);
 % write data to .nc file
 netcdf.putVar(ncID, varID_altitude, data.alt);
 netcdf.putVar(ncID, varID_time, data.mTime);
-netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_bsc_532);
-netcdf.putVar(ncID, varID_quasi_bsc_1064, data.quasi_par_bsc_1064);
-netcdf.putVar(ncID, varID_quasi_pardeol_532, data.quasi_par_depol_532);
-netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.quasi_par_ang_532_1064);
+netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532);
+netcdf.putVar(ncID, varID_quasi_bsc_1064, data.quasi_par_beta_1064);
+netcdf.putVar(ncID, varID_quasi_pardepol_532, data.quasi_parDepol_532);
+netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.quasi_ang_532_1064);
 netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532);
 netcdf.putVar(ncID, varID_quality_mask_1064, data.quality_mask_1064);
 netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_volDepol_532);
@@ -57,11 +57,11 @@ netcdf.reDef(ncID);
 % write attributes to the variables
 netcdf.putAtt(ncID, varID_altitude, 'unit', 'm');
 netcdf.putAtt(ncID, varID_altitude, 'long_name', 'height (above surface)');
-netcdf.putAtt(ncID, varID_altitude, 'stardard_name', 'altitude');
+netcdf.putAtt(ncID, varID_altitude, 'standard_name', 'altitude');
 
 netcdf.putAtt(ncID, varID_time, 'unit', 'days after Jan 0000');
 netcdf.putAtt(ncID, varID_time, 'long_name', 'Time UTC');
-netcdf.putAtt(ncID, varID_time, 'stardard_name', 'time');
+netcdf.putAtt(ncID, varID_time, 'standard_name', 'time');
 
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'm^{-1}*Sr^{-1}');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
@@ -84,9 +84,9 @@ netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'retrieved_info', sprintf('Fixed L
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. Be careful about that!');
 
 varID_global = netcdf.getConstant('GLOBAL');
-netcdf.putAtt(ncID, varID_global, 'latitude', -53.1346);
-netcdf.putAtt(ncID, varID_global, 'longtitude', -70.8834);
-netcdf.putAtt(ncID, varID_global, 'elev', 90);
+netcdf.putAtt(ncID, varID_global, 'latitude', data.lat);
+netcdf.putAtt(ncID, varID_global, 'longtitude', data.lon);
+netcdf.putAtt(ncID, varID_global, 'elev', data.alt0);
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);

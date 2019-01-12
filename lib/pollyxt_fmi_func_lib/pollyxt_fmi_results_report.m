@@ -119,13 +119,13 @@ write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignI
 % 355 depol cali
 for iCali = 1:length(data.depCaliAttri.depCalAttri355.thisCaliTime) 
     thisCaliTime = data.depCaliAttri.depCalAttri355.thisCaliTime{iCali};
-    write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), '355')), '0', '355 nm depolarization calibration results. (+- 45 \degree method)', taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
+    write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_355.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), '355')), '0', '355 nm depolarization calibration results. (+- 45 \degree method)', taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
 end
 
 % 532 depol cali
 for iCali = 1:length(data.depCaliAttri.depCalAttri532.thisCaliTime) 
     thisCaliTime = data.depCaliAttri.depCalAttri532.thisCaliTime{iCali};
-    write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), '532')), '0', '532 nm depolarization calibration results.  (+- 45 \degree method)', taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
+    write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), '532')), '0', '532 nm depolarization calibration results.  (+- 45 \degree method)', taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
 end
 
 % 355 nm signal status

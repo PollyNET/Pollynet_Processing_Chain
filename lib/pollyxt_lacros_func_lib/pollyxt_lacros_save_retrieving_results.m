@@ -126,9 +126,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % write attributes to the variables
     varID_global = netcdf.getConstant('GLOBAL');
-    netcdf.putAtt(ncID, varID_global, 'latitude', -53.1346);
-    netcdf.putAtt(ncID, varID_global, 'longtitude', -70.8834);
-    netcdf.putAtt(ncID, varID_global, 'elev', 90);
+    netcdf.putAtt(ncID, varID_global, 'latitude', data.lat);
+    netcdf.putAtt(ncID, varID_global, 'longtitude', data.lon);
+    netcdf.putAtt(ncID, varID_global, 'elev', data.alt0);
     netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
     netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
     netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
