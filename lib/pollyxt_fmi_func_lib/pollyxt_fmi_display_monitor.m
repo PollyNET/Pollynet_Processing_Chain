@@ -31,7 +31,7 @@ p1 = plot(data.monitorStatus.time(flagQaulity), data.monitorStatus.ExtPyro(flagQ
 ylabel('ExtPyro [mJ]');
 ylim([0, 40]);
 xlim([data.mTime(1), data.mTime(end)]);
-title(sprintf('%s embedded sensors data at %s', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
+title(sprintf('Housekeeping data from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 set(gca, 'xtick', xtick, 'xticklabel', '');
 set(gca, 'YMinorTick', 'on', 'YTick', 5:5:35);

@@ -45,11 +45,11 @@ netcdf.reDef(ncID);
 % write attributes to the variables
 netcdf.putAtt(ncID, varID_altitude, 'unit', 'm');
 netcdf.putAtt(ncID, varID_altitude, 'long_name', 'height (above surface)');
-netcdf.putAtt(ncID, varID_altitude, 'stardard_name', 'altitude');
+netcdf.putAtt(ncID, varID_altitude, 'standard_name', 'altitude');
 
 netcdf.putAtt(ncID, varID_time, 'unit', 'days after Jan 0000');
 netcdf.putAtt(ncID, varID_time, 'long_name', 'Time UTC');
-netcdf.putAtt(ncID, varID_time, 'stardard_name', 'time');
+netcdf.putAtt(ncID, varID_time, 'standard_name', 'time');
 
 netcdf.putAtt(ncID, varID_tc_mask, 'long_name', 'Target classification');
 netcdf.putAtt(ncID, varID_tc_mask, 'comment', 'This variable provides 11 atmospheric target classifications that can be distinguished by multiwavelength raman lidar.');
@@ -59,9 +59,9 @@ netcdf.putAtt(ncID, varID_tc_mask, 'color_green', [1.00, 0.90, 0.60, 0.80, 0.43,
 netcdf.putAtt(ncID, varID_tc_mask, 'color_blue', [1.00, 0.90, 0.60, 0.47, 0.18, 0.00, 0.00, 0.51, 0.79, 0.97, 0.20, 0.42]);
 
 varID_global = netcdf.getConstant('GLOBAL');
-netcdf.putAtt(ncID, varID_global, 'latitude', -53.1346);
-netcdf.putAtt(ncID, varID_global, 'longtitude', -70.8834);
-netcdf.putAtt(ncID, varID_global, 'elev', 90);
+netcdf.putAtt(ncID, varID_global, 'latitude', data.lat);
+netcdf.putAtt(ncID, varID_global, 'longtitude', data.lon);
+netcdf.putAtt(ncID, varID_global, 'elev', data.alt0);
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);

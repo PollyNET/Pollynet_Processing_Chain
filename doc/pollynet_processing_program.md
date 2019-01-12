@@ -131,6 +131,12 @@ data: struct
     location of the system.
   deadtime: matrix [channel×orders]
     parameters for deadtime correction which are stored in the netcdf file.
+  lat: float
+    latitude of measurement site. [degree]
+  lon: float
+    longtitude of measurement site. [degree]
+  alt: float
+    altitude of measurement site. [m]
   monitorStatus: struct
     time: array
       date and time for each monitor data. [datenum]

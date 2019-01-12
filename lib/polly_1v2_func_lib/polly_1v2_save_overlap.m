@@ -1,10 +1,10 @@
-function [] = polly_1v2_save_overlap(height, config, globalAttri, file)
+function [] = polly_1v2_save_overlap(data, config, globalAttri, file)
 %polly_1v2_save_overlap Save the overlap file.
 %   Example:
-%       [] = polly_1v2_save_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri);
+%       [] = polly_1v2_save_overlap(data, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, globalAttri);
 %   Inputs:
-%       height: array
-%           height above surface. [m]
+%		data: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           polly processing configuration. More detailed information can be found in doc/polly_config.md
 %       globalAttri: struct
@@ -23,6 +23,12 @@ function [] = polly_1v2_save_overlap(height, config, globalAttri, file)
 %       2018-12-21. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
+
+if isempty(data.rawSignal)
+    return;
+end
+
+height = data.height;
 
 % convert empty array to defaults
 overlap532 = globalAttri.overlap532;
@@ -82,9 +88,9 @@ netcdf.putAtt(ncID, varID_overlapCalMethod, 'unit', '');
 netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', '1: signal ratio of near and far range signal; 2: Raman method (Ulla Wandinger 2002)');
 
 varID_global = netcdf.getConstant('GLOBAL');
-netcdf.putAtt(ncID, varID_global, 'latitude', -53.1346);
-netcdf.putAtt(ncID, varID_global, 'longtitude', -70.8834);
-netcdf.putAtt(ncID, varID_global, 'elev', 90);
+netcdf.putAtt(ncID, varID_global, 'latitude', data.lat);
+netcdf.putAtt(ncID, varID_global, 'longtitude', data.lon);
+netcdf.putAtt(ncID, varID_global, 'elev', data.alt0);
 netcdf.putAtt(ncID, varID_global, 'location', globalAttri.location);
 netcdf.putAtt(ncID, varID_global, 'institute', globalAttri.institute);
 netcdf.putAtt(ncID, varID_global, 'version', globalAttri.version);

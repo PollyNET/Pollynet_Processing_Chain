@@ -24,6 +24,12 @@ function [ data ] = polly_read_rawdata(file, config)
 %               spatial resolution [m]
 %           mSite: char
 %               measurement site.
+%           lat: float
+%               latitude of measurement site. [degree]
+%           lon: float
+%               longitude of measurement site. [degree]
+%           alt: float
+%               altitude of measurement site. [degree]
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %   Copyright:
@@ -39,6 +45,9 @@ data.hRes = [];
 data.zenithAng = [];
 data.mSite = [];
 data.deadtime = [];
+data.lat = [];
+data.lon = [];
+data.alt0 = [];
 
 if ~ exist(file, 'file')
     warning('polly data file does not exist.\n%s\n', file);
@@ -54,6 +63,8 @@ try
     depCalAng = ncread(file, 'depol_cal_angle');
     hRes = ncread(file, 'measurement_height_resolution') * 0.15; % Unit: m
     zenithAng = ncread(file, 'zenithangle'); % Unit: deg
+    coordinates = ncread(file, 'location_coordinates');
+    alt = ncread(file, 'location_height');
     fileInfo = ncinfo(file);
     mSite = fileInfo.Attributes(1, 1).Value;
 catch
@@ -85,5 +96,8 @@ data.mShots = mShots;
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;
 data.deadtime = deadtime;
+data.lon = coordinates(1, 1);
+data.lat = coordinates(2, 1);
+data.alt0 = alt;
 
 end

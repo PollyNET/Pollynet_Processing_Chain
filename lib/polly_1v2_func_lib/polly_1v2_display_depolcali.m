@@ -39,7 +39,7 @@ for iCali = 1:length(attri.depCalAttri532.thisCaliTime)
 	segIndx = attri.depCalAttri532.segIndx{iCali};
 	thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
 
-	fileOverlap532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+	fileDepolCali532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
 
 	% visualize calibration process
 	figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -78,7 +78,7 @@ for iCali = 1:length(attri.depCalAttri532.thisCaliTime)
 
 	set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
-	export_fig(gcf, fileOverlap532, '-transparent', '-r300');
+	export_fig(gcf, fileDepolCali532, '-transparent', '-r300');
 	close();
 
 end
