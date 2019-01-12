@@ -1,6 +1,7 @@
 *.code-workspace
 .vscode/
 results/
+tmp/
 recent_plots/
 todo_filelist/
 !todo_filelist/fileinfo_new.txt
