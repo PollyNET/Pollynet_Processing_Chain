@@ -17,7 +17,6 @@ flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 
-
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% signal
     for iGroup = 1:size(data.cloudFreeGroups, 1)

@@ -129,6 +129,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     export_fig(gcf, fileATT_BETA_1064, '-transparent', '-r300', '-painters');
     close();
+    
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');

@@ -70,7 +70,7 @@ while ~ feof(fid)
         health.OutsideT = [health.OutsideT, str2num(res.OutsideT)]; 
         health.roof = [health.roof, str2num(res.roof)]; 
         health.rain = [health.rain, str2num(res.rain)]; 
-        health.shutter = [health.rain, str2num(res.shutter)];
+        health.shutter = [health.shutter, str2num(res.shutter)];
     catch
         warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
         fclose(fid);
