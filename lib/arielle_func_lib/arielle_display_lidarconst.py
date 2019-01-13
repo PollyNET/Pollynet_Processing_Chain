@@ -1,8 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -98,12 +98,12 @@ def arielle_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 355mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.75])
     p1, = ax.plot(thisTime, LC355_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC355_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC355_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim(yLim355.tolist())
@@ -111,23 +111,22 @@ def arielle_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location))
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 
     # display lidar constants at 532mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.75])
     p1, = ax.plot(thisTime, LC532_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC532_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC532_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim(yLim532.tolist())
@@ -135,23 +134,22 @@ def arielle_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location))
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
     
     # display lidar constants at 1064mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.75])
     p1, = ax.plot(thisTime, LC1064_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC1064_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC1064_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim(yLim1064.tolist())
@@ -159,12 +157,11 @@ def arielle_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location))
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 

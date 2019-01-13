@@ -1,9 +1,9 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -114,8 +114,9 @@ def pollyxt_lacros_display_depolcali(tmpFile, saveFolder):
     p4, = ax1.plot(overlap532Defaults, height, color='#58B13F', linestyle='--', label=r'default overlap 532 FR')
     ax1.set_ylim([0, 3000])
     ax1.set_xlim([-0.05, 1.1])
-    ax1.set_ylabel('Height (m)')
-    ax1.set_xlabel('Overlap')
+    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax1.set_xlabel('Overlap', fontweight='semibold', fontsize=12)
+    ax1.grid(True)
     ax1.yaxis.set_major_locator(MultipleLocator(500))
     ax1.yaxis.set_minor_locator(MultipleLocator(100))
     start = parse_polly_filename(dataFilename)
@@ -143,15 +144,18 @@ def pollyxt_lacros_display_depolcali(tmpFile, saveFolder):
         ax2.plot([1e-10, 1e10], [height[normRange532[-1] - 1], height[normRange532[-1] - 1]], linestyle='--', color='#58B13F')
     
     ax2.set_xlim([1e-2, 1e3])
-    ax2.set_xlabel('Signal [MHz]')
+    ax2.set_xlabel('Signal [MHz]', fontweight='semibold', fontsize=12)
+    ax2.grid(True)
     l = ax2.legend(handles=[p1, p2, p3, p4, p5, p6], loc='upper right', fontsize=10)
 
-    fig.text(0.9, 0.02, 'Version {version}'.format(version=version), fontweight='bold', fontsize=10)
+    fig.text(0.85, 0.02, 'Version {version}'.format(version=version), fontsize=10)
 
-    plt.tight_layout()
+    fig.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
  
+    plt.close()
+
 def main():
     pollyxt_lacros_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
 

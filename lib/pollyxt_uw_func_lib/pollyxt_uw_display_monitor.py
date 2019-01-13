@@ -1,8 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -114,17 +114,20 @@ def pollyxt_uw_display_monitor(tmpFile, saveFolder):
     ax1.set_xlim([mTime[0], mTime[-1]])
     ax1.set_title('Housekeeping data for {polly} at {site}'.format(polly=pollyVersion, site=location), fontweight='bold', fontsize=17)
     ax1.set_ylabel("ExtPyro [mJ]", fontweight='semibold', fontsize=15)
+    ax1.grid(True)
 
     ax2.plot(time, Temp1, color='#ff8000', label='Temp1')
     ax2.plot(time, Temp2, color='#008000', label='Temp2')
     ax2.plot(time, OutsideT, color='#800080', label='Outside T')
     ax2.set_xlim([mTime[0], mTime[-1]])
     ax2.set_ylim([-30, 50])
+    ax2.grid(True)
     ax2.set_ylabel(r'Temperature [$^\circ C$]', fontweight='semibold', fontsize=15)
     ax2.legend(loc='upper left')
 
     ax3.plot(time, Temp1064, color='#ff0080')
     ax3.set_ylim([-38, -20])
+    ax3.grid(True)
     ax3.set_ylabel(r'Temp 1064 [$^\circ C$]', fontweight='semibold', fontsize=15)
     ax3.set_xlim([mTime[0], mTime[-1]])
 
@@ -151,10 +154,12 @@ def pollyxt_uw_display_monitor(tmpFile, saveFolder):
 
     ax4.set_xlabel('UTC', fontweight='semibold', fontsize=15)
     fig.text(0.05, 0.01, datenum_to_datetime(time[0][0]).strftime("%Y-%m-%d"), fontsize=14)
-    fig.text(0.9, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
+    fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
 
-    plt.tight_layout()
+    fig.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+
+    plt.close()
 
 def main():
     pollyxt_uw_display_monitor('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_UW\\20180517')

@@ -545,7 +545,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         %% display rcs 
         save(fullfile(tmpFolder, 'tmp.mat'), 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim');
         tmpFile = fullfile(tmpFolder, 'tmp.mat');
-        flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
+        flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'polly_1v2_display_retrieving.py');
         end

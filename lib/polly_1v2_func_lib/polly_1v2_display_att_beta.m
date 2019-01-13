@@ -79,7 +79,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_att_beta.py');
     end

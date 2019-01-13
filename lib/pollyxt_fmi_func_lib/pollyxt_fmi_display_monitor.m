@@ -98,7 +98,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     mTime = data.mTime;
     save(fullfile(tmpFolder, 'tmp.mat'), 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'pollyxt_fmi_display_monitor.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_fmi_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_fmi_display_monitor.py');
     end

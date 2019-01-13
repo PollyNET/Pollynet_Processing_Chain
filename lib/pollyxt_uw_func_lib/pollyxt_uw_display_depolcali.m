@@ -197,7 +197,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 	    %% display rcs 
 	    save(fullfile(tmpFolder, 'tmp.mat'), 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo');
 	    tmpFile = fullfile(tmpFolder, 'tmp.mat');
-	    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'pollyxt_uw_display_depolcali.py'), tmpFile, saveFolder));
+	    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_depolcali.py'), tmpFile, saveFolder));
 	    if flag ~= 0
 	        warning('Error in executing %s', 'pollyxt_uw_display_depolcali.py');
 	    end
@@ -232,7 +232,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 	    %% display rcs 
 	    save(fullfile(tmpFolder, 'tmp.mat'), 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo');
 	    tmpFile = fullfile(tmpFolder, 'tmp.mat');
-	    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'pollyxt_uw_display_depolcali.py'), tmpFile, saveFolder));
+	    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_depolcali.py'), tmpFile, saveFolder));
 	    if flag ~= 0
 	        warning('Error in executing %s', 'pollyxt_uw_display_depolcali.py');
 	    end
