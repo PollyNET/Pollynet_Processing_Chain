@@ -103,15 +103,15 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, WVMR, vmin=0, vmax=10, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 8001, 1000).tolist())
     ax.set_ylim([0, 8000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
+    ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 10.1, 2), orientation='vertical')
@@ -128,15 +128,15 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RH, vmin=0, vmax=100, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 8001, 1000).tolist())
     ax.set_ylim([0, 8000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Relative humidity from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
+    ax.set_title('Relative humidity from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 100.1, 20), orientation='vertical')

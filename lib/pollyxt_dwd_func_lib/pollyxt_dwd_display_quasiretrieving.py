@@ -190,7 +190,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Quasi BSC Angstoem Exponent 532-1064 from {instrument} at {location}'.format(instrument=pollyVersion, location=location))
+    ax.set_title('Quasi BSC Angstoem Exponent 532-1064 from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.5), orientation='vertical')

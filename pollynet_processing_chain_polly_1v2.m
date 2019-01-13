@@ -29,7 +29,7 @@ end
 
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), taskInfo.pollyVersion, taskInfo.dataFilename);
-data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config);
+data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config, processInfo.flagDeleteData);
 if isempty(data.rawSignal)
     warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, taskInfo.pollyVersion);
     return;

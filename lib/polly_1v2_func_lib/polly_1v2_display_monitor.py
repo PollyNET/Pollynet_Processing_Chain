@@ -134,7 +134,8 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
     ax2.set_ylim([-30, 50])
     ax2.grid(True)
     ax2.set_ylabel(r'Temperature [$^\circ C$]', fontweight='semibold', fontsize=15)
-    ax2.legend(loc='upper left')
+    if len(time):
+        ax2.legend(loc='upper left')
 
     ax3.plot(time, Temp1064, color='#ff0080')
     ax3.set_ylim([-38, -20])
@@ -167,7 +168,7 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
     fig.text(0.05, 0.01, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=14)
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
 
-    fig.tight_layout()
+    # ig.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
 
     plt.close()

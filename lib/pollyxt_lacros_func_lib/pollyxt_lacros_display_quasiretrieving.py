@@ -107,8 +107,8 @@ def pollyxt_lacros_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_532 * 1e6, vmin=0, vmax=5, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 12001, 2000).tolist())
     ax.set_ylim([0, 12000])
@@ -132,8 +132,8 @@ def pollyxt_lacros_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_1064 * 1e6, vmin=0, vmax=3, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 12001, 2000).tolist())
     ax.set_ylim([0, 12000])
@@ -157,8 +157,8 @@ def pollyxt_lacros_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_pardepol_532, vmin=0, vmax=0.4, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 12001, 2000).tolist())
     ax.set_ylim([0, 12000])
@@ -182,15 +182,15 @@ def pollyxt_lacros_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_ang_532_1064, vmin=0, vmax=2, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 12001, 2000).tolist())
     ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Quasi BSC Angstoem Exponent 532-1064 from {instrument} at {location}'.format(instrument=pollyVersion, location=location))
+    ax.set_title('Quasi BSC Angstoem Exponent 532-1064 from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.5), orientation='vertical')
