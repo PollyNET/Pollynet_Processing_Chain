@@ -102,7 +102,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     # display status of 355 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
@@ -114,7 +114,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
@@ -128,7 +128,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     # display status of 532 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
@@ -140,7 +140,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
@@ -154,7 +154,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
     
     # display status of 1064 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
@@ -166,7 +166,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
@@ -180,7 +180,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
     
     # display status of 355 NR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
@@ -192,7 +192,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
@@ -206,7 +206,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
     
     # display status of 532 NR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
@@ -218,7 +218,7 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
