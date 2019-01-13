@@ -1,8 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -109,15 +109,15 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_355 * 1e6, vmin=0, vmax=15, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location))
+    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 15.1, 3), orientation='vertical')
@@ -127,7 +127,6 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC355), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 
@@ -135,15 +134,15 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=0, vmax=5, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location))
+    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
@@ -153,7 +152,6 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
     
@@ -161,15 +159,15 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_1064 * 1e6, vmin=0, vmax=5, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location))
+    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
@@ -179,7 +177,6 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC1064), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 

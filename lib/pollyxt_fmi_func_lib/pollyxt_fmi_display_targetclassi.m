@@ -87,7 +87,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'TC_mask', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'pollyxt_fmi_display_targetclassi.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_fmi_display_targetclassi.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_fmi_display_targetclassi.py');
     end

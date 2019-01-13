@@ -1,8 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -110,7 +110,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location))
+    ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
@@ -120,7 +120,6 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 
@@ -136,7 +135,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Quasi particle depolarization ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location))
+    ax.set_title('Quasi particle depolarization ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
@@ -146,7 +145,6 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 

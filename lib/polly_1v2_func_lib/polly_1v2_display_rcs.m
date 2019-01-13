@@ -155,7 +155,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'polly_1v2_display_rcs.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_rcs.py');
     end

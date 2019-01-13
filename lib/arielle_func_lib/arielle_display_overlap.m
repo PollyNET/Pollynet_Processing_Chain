@@ -161,7 +161,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     save(fullfile(tmpFolder, 'tmp.mat'), 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'arielle_display_overlap.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'arielle_display_overlap.py');
     end

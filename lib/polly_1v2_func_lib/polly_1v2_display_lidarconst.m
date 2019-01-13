@@ -79,7 +79,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('python %s %s %s', fullfile(pyFolder, 'polly_1v2_display_lidarconst.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_lidarconst.py');
     end

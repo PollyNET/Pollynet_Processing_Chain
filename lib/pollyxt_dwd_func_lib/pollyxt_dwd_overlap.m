@@ -93,8 +93,8 @@ if ~ sum(data.flagCloudFree2km) == 0
 end
 
 %% read default overlap function to compare with the estimated ones.
-[height532, overlap532Default] = read_default_overlap(defaults.overlapFile532);
-[height355, overlap355Default] = read_default_overlap(defaults.overlapFile355);
+[height532, overlap532Default] = read_default_overlap(fullfile(processInfo.defaultsFile_folder, defaults.overlapFile532));
+[height355, overlap355Default] = read_default_overlap(fullfile(processInfo.defaultsFile_folder, defaults.overlapFile355));
 
 %% interpolate the default overlap
 if ~ isempty(overlap355Default)

@@ -1,9 +1,9 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -159,24 +159,24 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     if not np.isnan(refHIndx532[0]):
         ax.semilogx(rcs532[refHIndx532[0]:refHIndx532[1]] / 1e6, height[refHIndx532[0]:refHIndx532[1]], color='#000000', zorder=8)
     if not np.isnan(refHIndx1064[0]):
-        ax.semilogx(rcs1064[refHIndx1064[0]:refHIndx355[1]] / 1e6, height[refHIndx1064[0]:refHIndx355[1]], color='#000000', zorder=9)
+        ax.semilogx(rcs1064[refHIndx1064[0]:refHIndx1064[1]] / 1e6, height[refHIndx1064[0]:refHIndx1064[1]], color='#000000', zorder=9)
 
-    ax.set_xlabel('Range-Corrected Signal [$MHz*m^2 (10^6)$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Range-Corrected Signal [$MHz*m^2 (10^6)$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4, p5, p6, p7], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(rcsLim.tolist())
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
     fig.text(0.05, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -187,8 +187,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
@@ -198,11 +198,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -213,8 +212,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
@@ -224,11 +223,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -239,8 +237,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
@@ -250,11 +248,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -265,8 +262,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -276,11 +273,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -291,8 +287,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -302,11 +298,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -317,8 +312,8 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -328,11 +323,10 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -342,22 +336,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(LR355_raman, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
-    ax.set_xlabel('Lidar Ratio [$Sr$]', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Lidar Ratio [$Sr$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim(aerLRLim.tolist())
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -367,22 +361,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
 
-    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim([-1, 2])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -393,22 +387,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
     p3, = ax.plot(ang_ext_355_532_raman, height, color='#000000', linestyle='-', label='EXT 355-532', zorder=2)
 
-    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim([-1, 2])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -420,22 +414,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p3, = ax.plot(pardepol355_klett, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pardepol532_klett, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
-    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -447,22 +441,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p3, = ax.plot(pardepol355_raman, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pardepol532_raman, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
-    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 15000])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -471,21 +465,21 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(wvmr, height, color='#2492ff', linestyle='-', zorder=2)
 
-    ax.set_xlabel('Water Vapor Mixing Ratio ($g*kg^{-1}$)', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Water Vapor Mixing Ratio ($g*kg^{-1}$)', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_ylim([0, 7000])
     ax.yaxis.set_major_locator(MultipleLocator(1500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(wvmrLim.tolist())
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nCalibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nCalibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_WVMR.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -495,22 +489,22 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(rh, height, color='#2492ff', linestyle='-', label=pollyVersion, zorder=2)
     p2, = ax.plot(rh_meteor, height, color='#ff0080', linestyle='-', label=meteorSource, zorder=2)
 
-    ax.set_xlabel('Relative Humidity ($\%$)', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Relative Humidity ($\%$)', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 7000])
     ax.yaxis.set_major_locator(MultipleLocator(1500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 100])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nCalibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nCalibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_RH.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -519,21 +513,21 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(temperature, height, color='#ff0000', linestyle='-', zorder=2)
 
-    ax.set_xlabel('Temperature ($^\circ C$)', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Temperature ($^\circ C$)', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_ylim([0, 15000])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-100, 50])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 
@@ -542,21 +536,21 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(pressure, height, color='#ff0000', linestyle='-', zorder=2)
 
-    ax.set_xlabel('Pressure ($hPa$)', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('Pressure ($hPa$)', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_ylim([0, 15000])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 1000])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')))
+    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=14)
 
-    fig.text(0.8, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10, fontweight='bold')
+    fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=150)
     plt.close()
 

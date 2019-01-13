@@ -1,8 +1,8 @@
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-from matplotlib import use
-use('Agg')
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -100,15 +100,15 @@ def pollyxt_dwd_display_targetclassi(tmpFile, saveFolder):
     fig = plt.figure(figsize=[12, 5])
     ax = fig.add_axes([0.1, 0.15, 0.6, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, TC_mask, vmin=-0.5, vmax=11.5, cmap=target_classification_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
     ax.set_yticks(np.arange(0, 12001, 2000).tolist())
     ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
-    ax.set_title('Target classifications from {instrument} at {location}'.format(instrument=pollyVersion, location=location))
+    ax.set_title('Target classifications from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
 
     cb_ax = fig.add_axes([0.72, 0.15, 0.015, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 12, 1), orientation='vertical')
@@ -129,7 +129,6 @@ def pollyxt_dwd_display_targetclassi(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.64, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
     plt.close()
 
