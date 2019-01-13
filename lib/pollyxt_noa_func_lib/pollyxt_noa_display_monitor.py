@@ -123,7 +123,8 @@ def pollyxt_noa_display_monitor(tmpFile, saveFolder):
     ax2.set_ylim([-30, 50])
     ax2.grid(True)
     ax2.set_ylabel(r'Temperature [$^\circ C$]', fontweight='semibold', fontsize=15)
-    ax2.legend(loc='upper left')
+    if len(time):
+        ax2.legend(loc='upper left')
 
     ax3.plot(time, Temp1064, color='#ff0080')
     ax3.set_ylim([-38, -20])
@@ -131,11 +132,12 @@ def pollyxt_noa_display_monitor(tmpFile, saveFolder):
     ax3.set_ylabel(r'Temp 1064 [$^\circ C$]', fontweight='semibold', fontsize=15)
     ax3.set_xlim([mTime[0], mTime[-1]])
 
-    cmap = ListedColormap(['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine'])
-    pcmesh = ax4.pcolormesh(np.transpose(time), np.arange(flags.shape[0] + 1), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
-    cb_ax = fig.add_axes([0.84, 0.19, 0.12, 0.016])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2, 3, 4], orientation='horizontal')
-    cbar.ax.tick_params(labeltop=True, direction='in', labelbottom=False, bottom=False, top=True, labelsize=9, pad=0.00)
+    if len(time):
+        cmap = ListedColormap(['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine'])
+        pcmesh = ax4.pcolormesh(np.transpose(time), np.arange(flags.shape[0] + 1), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
+        cb_ax = fig.add_axes([0.84, 0.19, 0.12, 0.016])
+        cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2, 3, 4], orientation='horizontal')
+        cbar.ax.tick_params(labeltop=True, direction='in', labelbottom=False, bottom=False, top=True, labelsize=9, pad=0.00)
 
     ax4.set_ylim([0, flags.shape[0]])
     ax4.set_yticks([0.5, 1.5, 2.5])
@@ -153,10 +155,10 @@ def pollyxt_noa_display_monitor(tmpFile, saveFolder):
         ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     ax4.set_xlabel('UTC', fontweight='semibold', fontsize=15)
-    fig.text(0.05, 0.01, datenum_to_datetime(time[0][0]).strftime("%Y-%m-%d"), fontsize=14)
+    fig.text(0.05, 0.01, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=14)
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
 
-    fig.tight_layout()
+    # ig.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
 
     plt.close()

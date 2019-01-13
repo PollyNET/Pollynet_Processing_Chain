@@ -1,4 +1,4 @@
-function [ data ] = polly_read_rawdata(file, config)
+function [ data ] = polly_read_rawdata(file, config, flagDelete)
 %polly_read_rawdata read polly data.
 %   Usage:
 %       data = polly_read_rawdata(file, config)
@@ -7,6 +7,8 @@ function [ data ] = polly_read_rawdata(file, config)
 %           fullpath of polly data file.
 %       config: struct
 %           configuration. Detailed information can be found in doc/polly_config.md.
+%       flagDelete: logical
+%           flag to control whether to delete the data files after extracting the data.
 %   Outputs:
 %       data: struct
 %           rawSignal: array
@@ -71,6 +73,9 @@ catch
     warning('Failure in read polly data file.\n%s\n', file);
     return;
 end
+
+if flagDelete
+    delete(file);
 
 % filter non 30s profiles
 if config.flagFilterFalseMShots

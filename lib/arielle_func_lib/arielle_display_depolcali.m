@@ -15,7 +15,7 @@ global processInfo defaults campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 	%% 355 nm
-	% interate over the cali periods
+	% iterate over the cali periods
 	for iCali = 1:length(attri.depCalAttri355.thisCaliTime)  
 		wavelength = 355; 
 		time = data.mTime;
@@ -226,8 +226,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 		std_dminus_tmp = attri.depCalAttri355.std_dminus_tmp{iCali};
 		TR_t = attri.depCalAttri355.TR_t{iCali};
 		TR_x = attri.depCalAttri355.TR_x{iCali};
-		segIndx = attri.depCalAttri532.segIndx{iCali};
-		thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
+		segIndx = attri.depCalAttri355.segIndx{iCali};
+		thisCaliTime = attri.depCalAttri355.thisCaliTime{iCali};
 
 	    %% display rcs 
 	    save(fullfile(tmpFolder, 'tmp.mat'), 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo');

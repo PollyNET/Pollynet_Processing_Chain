@@ -102,8 +102,9 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=14)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location))
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
