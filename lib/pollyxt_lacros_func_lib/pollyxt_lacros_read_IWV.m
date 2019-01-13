@@ -46,23 +46,25 @@ case 'aeronet'
     globalAttri.PI = data.AERONET.AERONETAttri.PI;
     globalAttri.contact = data.AERONET.AERONETAttri.contact;
 case 'mwr'
-    mwrResFileSearch = dir(fullfile(config.MWRFolder, sprintf('ioppta_lac_mwr00_l2_prw_v00_%s*.nc', datestr(data.mTime(1), 'yyyymmdd'))));
+    mwrResFileSearch = dir(fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), sprintf('ioppta_lac_mwr00_l2_prw_v00_%s*.nc', datestr(data.mTime(1), 'yyyymmdd'))));
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
         warning('More than two mwr products were found.\n%s\n%s\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
         return;
     else
-        mwrResFile = fullfile(config.MWRFolder, mwrResFileSearch(1).name);
+        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     end
     
     [tIWV_mwr, IWV_mwr, ~, attri_mwr] = read_MWR_IWV(mwrResFile);
 
     globalAttri.source = attri_mwr.source;
     globalAttri.site = attri_mwr.site;
-    contactInfo = regexp(attri_mwr.contact, '(?<PI>.*) \((?<contact>.*)\)', 'names');
-    globalAttri.PI = contactInfo.PI;
-    globalAttri.contact = contactInfo.contact;
+    if ~ isempty(attri_mwr.contact)
+        contactInfo = regexp(attri_mwr.contact, '(?<PI>.*) \((?<contact>.*)\)', 'names');
+        globalAttri.PI = contactInfo.PI;
+        globalAttri.contact = contactInfo.contact;
+    end
 end
 
 %% retrieve data

@@ -95,7 +95,7 @@
 	"minLRConstrainFernald": 1,
 	"maxLRConstrainFernald": 150,
 	"minDeltaAOD": 0.01,
-	"minRamanRefSNR387": 5,
+	"minRamanRefSNR387": 10,
 	"minRamanRefSNR607": 5,
 	"angstrexp": 0.9,
 	"smoothWin_raman_355": 61,
