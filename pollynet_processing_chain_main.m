@@ -46,7 +46,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	taskInfo.dataFilename = fileinfo_new.dataFilename{iTask};
 	taskInfo.zipFile = fileinfo_new.zipFile{iTask};
 	taskInfo.dataSize = fileinfo_new.dataSize(iTask);
-	taskInfo.pollyVersion = fileinfo_new.pollyVersion{iTask};
+	taskInfo.pollyVersion = lower(fileinfo_new.pollyVersion{iTask});
 	taskInfo.startTime = now();
 
 	%% create folder for this instrument

@@ -37,7 +37,7 @@ function [ p ] = phase_function(theta, wavelength, pressure, temperature, C, rh)
     gamma = r ./ (2 - r);
 
     % first part of the equation
-    f1 = 3 / (4 * (1 + 2 * gamma));
+    f1 = 3 ./ (4 * (1 + 2 * gamma));
     % second part of the equation
     f2 = (1 + 3 * gamma) + (1 - gamma) .* (cos(theta)) .^ 2;
     % results

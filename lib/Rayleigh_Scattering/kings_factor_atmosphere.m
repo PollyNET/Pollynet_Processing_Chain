@@ -17,7 +17,7 @@ function [ k ] = kings_factor_atmosphere(wavelength, C, p_e, p_t)
 %   References:
 %       https://bitbucket.org/iannis_b/lidar_molecular
 %   Copyright:
-%       Group of Ground-based Remote Sensing (Leibniz-Institut für Troposphärenforschung)
+%       Group of Ground-based Remote Sensing (Leibniz-Institut fï¿½r Troposphï¿½renforschung)
 
     if ~ ((wavelength < 4000) && (wavelength > 200))   % if wavelength is not in the range of 0.2um~4um
         error('King''s factor formula is only valid from 0.2 to 4um.');
@@ -25,7 +25,7 @@ function [ k ] = kings_factor_atmosphere(wavelength, C, p_e, p_t)
 
     % Calculate wavenumber
     lamda_cm = wavelength * 10 ^ -7;
-    wavenumber = 1 / lamda_cm;
+    wavenumber = 1 ./ lamda_cm;
 
     % Individual kings factors
     F_N2 = kings_factor_N2(wavenumber);
@@ -38,13 +38,13 @@ function [ k ] = kings_factor_atmosphere(wavelength, C, p_e, p_t)
     c_n2 = 0.78084;
     c_o2 = 0.20946;
     c_ar = 0.00934;
-    c_co2 = 1e-6 * C;
-    c_h2o = p_e / p_t;
+    c_co2 = 1e-6 .* C;
+    c_h2o = p_e ./ p_t;
 
     % Total concentration
     c_tot = c_n2 + c_o2 + c_ar + c_co2 + c_h2o;
 
-    k = (c_n2 * F_N2 + c_o2 * F_O2 + c_ar * F_ar + c_co2 * F_CO2 + c_h2o * F_H2O) / c_tot;
+    k = (c_n2 .* F_N2 + c_o2 .* F_O2 + c_ar .* F_ar + c_co2 .* F_CO2 + c_h2o .* F_H2O) ./ c_tot;
 end
 
     function [ k ] =  kings_factor_N2(wavenumber)

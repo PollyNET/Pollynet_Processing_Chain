@@ -45,9 +45,11 @@ globalAttri.source = 'none';
 globalAttri.datetime = [];
 
 [altRaw, tempRaw, presRaw, ~, gdas1File] = read_gdas1(mean(mTime), gdas1site, gdas1folder);
-if isempty(altRaw)
-    [altRaw, ~, ~, tempRaw, presRaw] = atmo(alt(end) + 1, 0.03, 1);
+if isnan(altRaw(1))
+    [altRaw, ~, ~, tempRaw, presRaw] = atmo((alt(end) + 1)/1000, 0.03, 1);
     altRaw = altRaw * 1e3;
+    presRaw = presRaw / 1e2;   % convert to hPa
+    tempRaw = tempRaw - 273.17;   % convert to C
     globalAttri.source = 'standard_atmosphere';
 else
     globalAttri.source = 'gdas1';

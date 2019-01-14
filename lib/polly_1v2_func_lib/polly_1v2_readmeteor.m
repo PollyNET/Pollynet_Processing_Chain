@@ -58,7 +58,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
         relhRaw = NaN(size(tempRaw));
         altRaw = altRaw * 1e3;   % convert to [m]
-        presRaw = presRaw / 1e2;   % convert to [hPa]
+        presRaw = presRaw / 1e2;   % convert to hPa
+        tempRaw = tempRaw - 273.17   % convert to C
         meteorAttri.dataSource{end + 1} = config.meteorDataSource;
         meteorAttri.URL{end + 1} = '';
         meteorAttri.datetime = [datetime, datenum(0,1,0,0,0,0)];
@@ -88,7 +89,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         % read standard_atmosphere data as the default values.
         [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
         altRaw = altRaw * 1e3;
-        presRaw = presRaw / 1e2;   % convert to [hPa]
+        presRaw = presRaw / 1e2;   % convert to hPa
+        tempRaw = tempRaw - 273.17   % convert to C
         relhRaw = NaN(size(tempRaw));
     end
 

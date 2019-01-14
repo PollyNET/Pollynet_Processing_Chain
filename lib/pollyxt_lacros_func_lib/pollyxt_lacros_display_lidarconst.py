@@ -155,10 +155,9 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim(yLim1064.tolist())
+    ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
-
-    ax.set_titlelabels(celltolist(xticklabel))
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
