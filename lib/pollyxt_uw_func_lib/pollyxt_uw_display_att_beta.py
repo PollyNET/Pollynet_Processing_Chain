@@ -116,7 +116,6 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
@@ -142,7 +141,6 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
@@ -164,11 +162,10 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 2500, 5000,
+    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
+    ax.set_ylim([0, 15000])
+    ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
-
-    ax.set_titlelabels(celltolist(xticklabel))
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 

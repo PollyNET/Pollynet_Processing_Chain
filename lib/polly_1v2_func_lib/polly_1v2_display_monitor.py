@@ -168,7 +168,7 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
     fig.text(0.05, 0.01, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=14)
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
 
-    # ig.tight_layout()
+    fig.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
 
     plt.close()
