@@ -137,4 +137,4 @@ fprintf('Time Usage: %fs\n', tUsage);
 fprintf('%%------------------------------------------------------%%\n');
 
 %% publish the report
-% publish_report(report, config);
+publish_report(report, config);
