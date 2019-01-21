@@ -14,7 +14,7 @@
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
 	"contact": "Zhenping Yin <zhenping@tropos.de>",
-	"programVersion": "1.0",
+	"programVersion": "1.1",
 
 	"visualizationMode": "python",
 	"pyBinDir": "C:\\Users\\zhenping\\Software",

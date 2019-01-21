@@ -1,5 +1,5 @@
 function [report] = pollynet_processing_chain_arielle(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_POLLYXT_fmi processing the data from arielle
+%POLLYNET_PROCESSING_CHAIN_ARIELLE processing the data from arielle
 %	Example:
 %		[report] = pollynet_processing_chain_arielle(taskInfo, config)
 %	Inputs:

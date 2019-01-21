@@ -85,8 +85,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         sig532 = squeeze(sum(data.signal(flagChannel532, :, proIndx), 3)) / nPros;
 
         % AOD
-        aerExt532_raman = data.aerExt532_raman(iGroup, :);
-        aerExt532_raman(1:hIndxBaseRaman532) = aerExt532_raman(hIndxBaseRaman532);
+        aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;
+        % aerExt532_raman(1:hIndxBaseRaman532) = aerExt532_raman(hIndxBaseRaman532);
         aerBsc532_raman = data.aerBsc532_raman(iGroup, :);
         aerAOD532 = nancumsum(aerExt532_raman .* [data.distance0(1), diff(data.distance0)]);
         molAOD532 = nancumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]);
