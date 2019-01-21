@@ -177,8 +177,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         sig355 = squeeze(sum(data.signal(flagChannel355, :, proIndx), 3)) / nPros;
 
         % AOD
-        aerExt355_raman = data.aerExt355_raman(iGroup, :);
-        aerExt355_raman(1:hIndxBaseRaman355) = aerExt355_raman(hIndxBaseRaman355);
+        aerExt355_raman = data.aerBsc355_raman(iGroup, :) * config.LR355;
+        % aerExt355_raman(1:hIndxBaseRaman355) = aerExt355_raman(hIndxBaseRaman355);
         aerBsc355_raman = data.aerBsc355_raman(iGroup, :);
         aerAOD355 = nancumsum(aerExt355_raman .* [data.distance0(1), diff(data.distance0)]);
         molAOD355 = nancumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]);
@@ -203,8 +203,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         sig532 = squeeze(sum(data.signal(flagChannel532, :, proIndx), 3)) / nPros;
 
         % AOD
-        aerExt532_raman = data.aerExt532_raman(iGroup, :);
-        aerExt532_raman(1:hIndxBaseRaman532) = aerExt532_raman(hIndxBaseRaman532);
+        aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;
+        % aerExt532_raman(1:hIndxBaseRaman532) = aerExt532_raman(hIndxBaseRaman532);
         aerBsc532_raman = data.aerBsc532_raman(iGroup, :);
         aerAOD532 = nancumsum(aerExt532_raman .* [data.distance0(1), diff(data.distance0)]);
         molAOD532 = nancumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]);
@@ -229,8 +229,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         sig1064 = squeeze(sum(data.signal(flagChannel1064, :, proIndx), 3)) / nPros;
 
         % AOD
-        aerExt1064_raman = data.aerExt1064_raman(iGroup, :);
-        aerExt1064_raman(1:hIndxBaseRaman1064) = aerExt1064_raman(hIndxBaseRaman1064);
+        aerExt1064_raman = data.aerBsc1064_raman(iGroup, :) * config.LR1064;
+        % aerExt1064_raman(1:hIndxBaseRaman1064) = aerExt1064_raman(hIndxBaseRaman1064);
         aerBsc1064_raman = data.aerBsc1064_raman(iGroup, :);
         aerAOD1064 = nancumsum(aerExt1064_raman .* [data.distance0(1), diff(data.distance0)]);
         molAOD1064 = nancumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]);

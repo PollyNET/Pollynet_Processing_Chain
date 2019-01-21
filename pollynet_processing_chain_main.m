@@ -119,7 +119,8 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
 	%% realtime process
 	fprintf('\n[%s] Stasktart to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
-	report{end + 1} = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
+	reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
+	report = cat(2, report, reportTmp);
 	fprintf('[%s]Finish.\n', tNow());
 
 	%% cleanup
