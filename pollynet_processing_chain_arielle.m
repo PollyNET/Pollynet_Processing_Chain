@@ -39,7 +39,7 @@ fprintf('[%s] Finish reading data.\n', tNow());
 %% read laserlogbook file
 laserlogbookFile = fullfile(taskInfo.todoPath, taskInfo.dataPath, sprintf('%s.laserlogbook.txt', taskInfo.dataFilename));
 fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), taskInfo.pollyVersion, laserlogbookFile);
-monitorStatus = arielle_read_laserlogbook(laserlogbookFile, config);
+monitorStatus = arielle_read_laserlogbook(laserlogbookFile, config, processInfo.flagDeleteData);
 data.monitorStatus = monitorStatus;
 fprintf('[%s] Finish reading laserlogbook.\n', tNow);
 

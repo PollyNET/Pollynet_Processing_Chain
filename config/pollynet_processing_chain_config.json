@@ -10,7 +10,7 @@
 	"pic_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots", 
 	"pollynet_config_history_file": "C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt",
 
-	"minDataSize": 50000,
+	"minDataSize": 1000000,
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
 	"contact": "Zhenping Yin <zhenping@tropos.de>",

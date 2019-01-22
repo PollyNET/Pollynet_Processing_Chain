@@ -1,13 +1,15 @@
-function health = polly_fmi_read_laserlogbook(file, config)
-%POLLY_fmi_READ_LASERLOGBOOK read the health parameters of the lidar from 
+function health = arielle_read_laserlogbook(file, config, flagDeleteData)
+%arielle_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
 %   Usage:
-%       health = polly_fmi_read_laserlogbook(file)
+%       health = arielle_read_laserlogbook(file)
 %   Inputs:
 %       file: char
 %           the full filename.
 %		config: struct
 %			polly configuration file. Detailed information can be found in doc/polly_config.md
+%		flagDeleteData: logical
+%			flag to control whether to delete the laserlogbook file.
 %   Outputs:
 %		health: struct
 %   	    time: datenum array
@@ -33,6 +35,10 @@ function health = polly_fmi_read_laserlogbook(file, config)
 %       2018-08-05. First edition by Zhenping.
 %   Contact:
 %       zhenping@tropos.de
+
+if ~ exist('flagDeleteData', 'var')
+	flagDeleteData = false;
+end
 
 %% initialize parameters
 health = struct();
@@ -72,6 +78,12 @@ try
 	health.roof = T{13}; 
 	health.rain = T{14}; 
 	health.shutter = T{15};
+
+	% delete the laserlogbook file
+	if flagDeleteData
+		delete(file);
+	end
+
 catch
 	warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
 	return

@@ -1,5 +1,5 @@
-function health = polly_fmi_read_laserlogbook(file, config)
-%POLLY_fmi_READ_LASERLOGBOOK read the health parameters of the lidar from 
+function health = polly_fmi_read_laserlogbook(file, config, flagDeleteData)
+%polly_fmi_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
 %   Usage:
 %       health = polly_fmi_read_laserlogbook(file)
@@ -8,6 +8,8 @@ function health = polly_fmi_read_laserlogbook(file, config)
 %           the full filename.
 %		config: struct
 %			polly configuration file. Detailed information can be found in doc/polly_config.md
+%		flagDeleteData: logical
+%			flag to control whether to delete the laserlogbook file.
 %   Outputs:
 %		health: struct
 %   	    time: datenum array
@@ -34,6 +36,10 @@ function health = polly_fmi_read_laserlogbook(file, config)
 %   Contact:
 %       zhenping@tropos.de
 
+if ~ exist('flagDeleteData', 'var')
+	flagDeleteData = false;
+end
+
 %% initialize parameters
 health = struct();
 health.time = []; 
@@ -54,7 +60,7 @@ end
 
 %% read log
 textSpec = ['%04d-%02d-%02d %02d:%02d:%02d%*s %f mJ	Temp1064: %f C, Temp1: %f C, ', ...
-           'Temp2: %f C, OutsideRH: %f %*[^,], OutsideT: %f C, roof: %d, rain: %d, shutter: %d'];
+			'Temp2: %f C, OutsideRH: %f %*[^,], OutsideT: %f C, roof: %d, rain: %d, shutter: %d'];
 
 fid = fopen(file, 'r');
 
@@ -72,6 +78,12 @@ try
 	health.roof = T{13}; 
 	health.rain = T{14}; 
 	health.shutter = T{15};
+
+	% delete the laserlogbook file
+	if flagDeleteData
+		delete(file);
+	end
+
 catch
 	warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
 	return
