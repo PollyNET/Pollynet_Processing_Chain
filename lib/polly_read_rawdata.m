@@ -76,28 +76,41 @@ end
 
 if flagDelete
     delete(file);
+end
+
+% search the profiles with invalid mshots
+flagFalseShots = false(1, size(mShots, 2));
+for iChannel = 1:size(mShots, 1)
+    tmp = (mShots(iChannel, :) > 650) | (mShots(iChannel, :) < 550);
+    flagFalseShots = flagFalseShots | tmp;
+end
 
 % filter non 30s profiles
 if config.flagFilterFalseMShots
-    indx = find(mShots > 500);
-    if isempty(indx)
-        fprintf('No profile with mshots > 500 is found.\nPlease take a look inside %s\n', file);
+
+    if sum(~ flagFalseShots) == 0
+        fprintf('No profile with mshots > 500 or mshots < 700 is found.\nPlease take a look inside %s\n', file);
         return;
     else
-        rawSignal = rawSignal(:, :, indx);
-        mShots = mShots(indx);
-        mTime = mTime(indx);
-        depCalAng = depCalAng(indx);
+        rawSignal = rawSignal(:, :, ~ flagFalseShots);
+        mShots = mShots(~ flagFalseShots);
+        mTime = mTime(~ flagFalseShots);
+        depCalAng = depCalAng(~ flagFalseShots);
     end
+
 elseif config.flagCorrectFalseMShots
-    mShots = ones(size(mShots)) * 600;
+    mShots(:, flagFalseShots) = 600;
+    mTimeStart = floor(polly_parsetime(file, config.dataFileFormat) / datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
+    [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = datevec(mTimeStart);
+    mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
+    mTime(2, :) = thisHour * 3600 + thisMinute * 60 + thisSecond + 30 .* (0:(size(mTime, 2) - 1));
 end
 
 data.zenithAng = zenithAng;
 data.hRes = hRes;
 data.mSite = mSite;
 data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
-data.mShots = mShots;
+data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;
 data.deadtime = deadtime;

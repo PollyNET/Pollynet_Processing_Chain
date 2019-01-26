@@ -156,6 +156,7 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_ylim(yLim1064.tolist())
     ax.set_xticks(xtick.tolist())
+    ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 

@@ -1,4 +1,4 @@
-clc; clear;
+clc;
 
 fprintf('\n%%------------------------------------------------------%%');
 fprintf('\nStart the pollynet processing chain\n');
