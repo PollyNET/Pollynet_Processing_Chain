@@ -132,10 +132,10 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_ylim(yLim532.tolist())
     ax.set_xticks(xtick.tolist())
+    ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -156,6 +156,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_ylim(yLim1064.tolist())
     ax.set_xticks(xtick.tolist())
+    ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
@@ -168,7 +169,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_lacros_display_lidarconst('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_lacros_display_lidarconst('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20170227')
 
 if __name__ == '__main__':
     # main()

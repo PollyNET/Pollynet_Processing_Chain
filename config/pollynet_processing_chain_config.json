@@ -18,7 +18,7 @@
 
 	"visualizationMode": "python",
 	"pyBinDir": "C:\\Users\\zhenping\\Software",
-	"flagDeleteData": true,
+	"flagDeleteData": false,
 
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }
