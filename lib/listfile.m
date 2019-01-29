@@ -40,15 +40,15 @@ function [files] = listfile(path, exppat, depth)
 			if exist('exppat', 'var')
 				if regexp(tmp(iItem).name, exppat)
                     indx = indx + 1;
-					files{indx} = fullfile(tmp(iItem).folder, tmp(iItem).name);
+					files{indx} = fullfile(path, tmp(iItem).name);
 				end
             else
                 indx = indx + 1;
-				files{indx} = fullfile(tmp(iItem).folder, tmp(iItem).name);
+				files{indx} = fullfile(path, tmp(iItem).name);
 			end
         else
             if depth > 1
-                files = cat(2, files, listfile(fullfile(tmp(iItem).folder, tmp(iItem).name), exppat, depth - 1));
+                files = cat(2, files, listfile(fullfile(path, tmp(iItem).name), exppat, depth - 1));
             end
 		end
 	end

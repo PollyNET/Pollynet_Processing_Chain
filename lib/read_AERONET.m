@@ -99,7 +99,7 @@ if ispc
         error('Error in calling curl in window cmd. Please make sure curl is in the searching path.');
     end
 elseif isunix
-    [status, html_text] = system(['wget -qO "' aod_url '"']);
+    [status, html_text] = system(['wget -qO- "' aod_url '"']);
 end
 
 if status == 0

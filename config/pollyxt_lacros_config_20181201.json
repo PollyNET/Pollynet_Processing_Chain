@@ -93,8 +93,8 @@
 	"minLRConstrainFernald": 1,
 	"maxLRConstrainFernald": 150,
 	"minDeltaAOD": 0.01,
-	"minRamanRefSNR387": 40,
-	"minRamanRefSNR607": 20,
+	"minRamanRefSNR387": 70,
+	"minRamanRefSNR607": 40,
 	"angstrexp": 0.9,
 	"smoothWin_raman_355": 61,
 	"smoothWin_raman_532": 61,
@@ -133,7 +133,8 @@
 	"LC355Range": [0, 3e13],
 	"LC532Range": [0, 1e14],
 	"LC1064Range": [0, 1e14],
-
+	"LC387Range": [0, 1e14],
+	"LC607Range": [0, 3e14],
 
 	"depolCaliFile532": "pollyxt_lacros_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_lacros_depolcali_355_results.txt",
