@@ -130,6 +130,8 @@
 	"LC355Range": [0, 1e14],
 	"LC532Range": [0, 2e14],
 	"LC1064Range": [0, 6e14],
+	"LC387Range": [0, 1e14],
+	"LC607Range": [0, 3e14],
 
 	"depolCaliFile532": "pollyxt_fmi_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_fmi_depolcali_355_results.txt",

@@ -27,8 +27,13 @@ function [LC] = pollyxt_noa_lidar_calibration(data, config)
 %               lidar calibration constants for 30s profile.
 %           LC_aeronet_1064: array
 %               lidar calibration constants for 30s profile.
+%           LC_raman_387: array
+%               lidar calibration constants for 30s profile.
+%           LC_raman_607: array
+%               lidar calibration constants for 30s profile.
 %   History:
 %       2018-12-24. First Edition by Zhenping
+%       2019-01-28. Add calibration for Raman channels.
 %   Contact:
 %       zhenping@tropos.de
     
@@ -42,10 +47,14 @@ LC.LC_raman_1064 = [];
 LC.LC_aeronet_355 = [];
 LC.LC_aeronet_532 = [];
 LC.LC_aeronet_1064 = [];
+LC.LC_raman_607 = [];
+LC.LC_raman_387 = [];
 
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel607 = config.isFR & config.is607nm;
+flagChannel387 = config.isFR & config.is387nm;
 
 % index of full overlap adding half of the smoothing window for klett method
 hIndxFullOverlap355 = find(data.height >= config.heightFullOverlap(flagChannel355), 1);
@@ -166,6 +175,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     LC_raman_355 = NaN;
     LC_raman_532 = NaN;
     LC_raman_1064 = NaN;
+    LC_raman_387 = NaN;
+    LC_raman_607 = NaN;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     nPros = numel(proIndx);
@@ -247,6 +258,62 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     % concatenate the results
     LC.LC_raman_1064 = cat(1, LC.LC_raman_1064, LC_raman_1064);
+
+    % 387 nm
+    if ~ isnan(data.aerBsc355_raman(iGroup, 80))
+        [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+        [molBsc387, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+    
+        sig387 = squeeze(sum(data.signal(flagChannel387, :, proIndx), 3)) / nPros;
+    
+        % AOD
+        aerExt355_raman = data.aerBsc355_raman(iGroup, :) * config.LR355;
+        aerExt387_raman = aerExt355_raman * (355/387) .^ config.angstrexp;
+        aerAOD355 = nancumsum(aerExt355_raman .* [data.distance0(1), diff(data.distance0)]);
+        aerAOD387 = nancumsum(aerExt387_raman .* [data.distance0(1), diff(data.distance0)]);
+        molAOD355 = nancumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]);
+        molAOD387 = nancumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]);
+    
+        % round-trip transmission
+        trans_355_387 = exp(- (aerAOD355 + molAOD355 + aerAOD387 + molAOD387));
+        totBsc387 = molBsc387;
+    
+        % lidar calibration
+        LC_raman_387_Profile = sig387 .* data.distance0.^2 ./ totBsc387 ./ trans_355_387;
+        [LC_raman_387, ~] = mean_stable(LC_raman_387_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
+    
+    end
+    
+    % concatenate the results
+    LC.LC_raman_387 = cat(1, LC.LC_raman_387, LC_raman_387);
+    
+    % 607 nm
+    if ~ isnan(data.aerBsc532_raman(iGroup, 80))
+        [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+        [molBsc607, molExt607] = rayleigh_scattering(607, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+    
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx), 3)) / nPros;
+    
+        % AOD
+        aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;
+        aerExt607_raman = aerExt532_raman * (532/607) .^ config.angstrexp;
+        aerAOD532 = nancumsum(aerExt532_raman .* [data.distance0(1), diff(data.distance0)]);
+        aerAOD607 = nancumsum(aerExt607_raman .* [data.distance0(1), diff(data.distance0)]);
+        molAOD532 = nancumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]);
+        molAOD607 = nancumsum(molExt607 .* [data.distance0(1), diff(data.distance0)]);
+    
+        % round-trip transmission
+        trans_532_607 = exp(- (aerAOD532 + molAOD532 + aerAOD607 + molAOD607));
+        totBsc607 = molBsc607;
+    
+        % lidar calibration
+        LC_raman_607_Profile = sig607 .* data.distance0.^2 ./ totBsc607 ./ trans_532_607;
+        [LC_raman_607, ~] = mean_stable(LC_raman_607_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
+    
+    end
+    
+    % concatenate the results
+    LC.LC_raman_607 = cat(1, LC.LC_raman_607, LC_raman_607);
 end
 
         
@@ -336,6 +403,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     % concatenate the results
     LC.LC_aeronet_1064 = cat(1, LC.LC_aeronet_1064, LC_aeronet_1064);
+    
 end
 
 end

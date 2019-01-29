@@ -8,6 +8,7 @@ function [] = pollyxt_lacros_display_lidarconst(data, taskInfo, config)
 %       
 %   History:
 %       2018-12-30. First Edition by Zhenping
+%       2019-01-28. Add support for 387 and 607 channels.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -27,12 +28,16 @@ LC532_aeronet = data.LC.LC_aeronet_532;
 LC1064_klett = data.LC.LC_klett_1064;
 LC1064_raman = data.LC.LC_raman_1064;
 LC1064_aeronet = data.LC.LC_aeronet_1064;
+LC387_raman = data.LC.LC_raman_387;
+LC607_raman = data.LC.LC_raman_607;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization
     fileLC355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_355.png', rmext(taskInfo.dataFilename)));
     fileLC532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
     fileLC1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename)));
+    fileLC387 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_387.png', rmext(taskInfo.dataFilename)));
+    fileLC607 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_607.png', rmext(taskInfo.dataFilename)));
 
     %% 355 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
@@ -114,7 +119,57 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
     export_fig(gcf, fileLC1064, '-transparent', '-r300');
     close();
+    
+    %% 387 nm
+    figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
+
+    p1 = plot(thisTime, LC387_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+
+    xlim([data.mTime(1), data.mTime(end)]);
+    ylim(config.LC387Range);
+
+    xlabel('UTC');
+    ylabel('C');
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '387', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+
+    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
+    set(gca, 'YMinorTick', 'on');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+
+    l = legend([p1], 'Location', 'NorthEast');
+    set(l, 'FontSize', 7);
+
+    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    export_fig(gcf, fileLC387, '-transparent', '-r300');
+    close();
  
+    %% 607 nm
+    figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
+
+    p1 = plot(thisTime, LC607_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+
+    xlim([data.mTime(1), data.mTime(end)]);
+    ylim(config.LC607Range);
+
+    xlabel('UTC');
+    ylabel('C');
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '607', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+
+    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
+    set(gca, 'YMinorTick', 'on');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+
+    l = legend([p1], 'Location', 'NorthEast');
+    set(l, 'FontSize', 7);
+
+    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    export_fig(gcf, fileLC607, '-transparent', '-r300');
+    close();
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
@@ -126,6 +181,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     yLim355 = config.LC355Range;
     yLim532 = config.LC532Range;
     yLim1064 = config.LC1064Range;
+    yLim387 = config.LC387Range;
+    yLim607 = config.LC607Range;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
@@ -135,7 +192,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'yLim355', 'yLim532', 'yLim1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_lacros_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0

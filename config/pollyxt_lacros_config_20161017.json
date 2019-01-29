@@ -133,7 +133,8 @@
 	"LC355Range": [0, 3e13],
 	"LC532Range": [0, 1e14],
 	"LC1064Range": [0, 1e14],
-
+	"LC387Range": [0, 1e14],
+	"LC607Range": [0, 1e14],
 
 	"depolCaliFile532": "pollyxt_lacros_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_lacros_depolcali_355_results.txt",

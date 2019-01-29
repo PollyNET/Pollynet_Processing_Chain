@@ -66,7 +66,7 @@ flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
 PCR532NR = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / data.hRes;
-flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud/3, [config.heightFullOverlap(flagChannel532NR), 3000]);
+flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud/5, [config.heightFullOverlap(flagChannel532NR), 3000]);
 
 flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
@@ -149,7 +149,7 @@ fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = arielle_lidar_calibration(data, config);
 data.LC = LC;
 LCUsed = struct();
-[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = arielle_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
+[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064, LCUsed.LCUsed387, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = arielle_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 

@@ -2,7 +2,7 @@ clc;
 
 fprintf('\n%%------------------------------------------------------%%');
 fprintf('\nStart the pollynet processing chain\n');
-tStart = cputime();
+tStart = now();
 fprintf('%%------------------------------------------------------%%\n');
 
 %------------------------------------------------------%
@@ -131,7 +131,7 @@ end
 %% cleanup
 fprintf('\n%%------------------------------------------------------%%\n');
 fprintf('Finish the pollynet processing\n');
-tUsage = cputime() - tStart;
+tUsage = (now() - tStart) * 24 * 3600;
 report{end + 1} = tStart;
 report{end + 1} = tUsage;
 fprintf('Time Usage: %fs\n', tUsage);

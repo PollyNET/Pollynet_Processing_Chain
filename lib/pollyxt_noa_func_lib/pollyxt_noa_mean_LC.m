@@ -1,4 +1,4 @@
-function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064] = pollyxt_noa_mean_LC(data, config, taskInfo, folder)
+function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, LCUsed387, LCUsedTag387, flagLCWarning387, LCUsed607, LCUsedTag607, flagLCWarning607] = pollyxt_noa_mean_LC(data, config, taskInfo, folder)
 %pollyxt_noa_mean_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
 %   Example:
 %       [LCUsed] = pollyxt_noa_mean_LC(data, config)
@@ -30,8 +30,21 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
 %      flagLCWarning1064: integer
 %           flag to show whether the calibration constant is unstable. 
+%       LCUsed387: float
+%           applied lidar constant at 387 nm. 
+%       LCUsedTag387: integer
+%           source of the applied lidar constant at 387 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%      flagLCWarning387: integer
+%           flag to show whether the calibration constant is unstable. 
+%       LCUsed607: float
+%           applied lidar constant at 607 nm. 
+%       LCUsedTag607: integer
+%           source of the applied lidar constant at 607 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%      flagLCWarning607: integer
+%           flag to show whether the calibration constant is unstable. 
 %   History:
 %       2018-12-24. First Edition by Zhenping
+%       2019-01-28. Add support for 387 and 607 channels
 %   Contact:
 %       zhenping@tropos.de
 
@@ -42,19 +55,25 @@ global defaults campaignInfo processInfo
 LCUsed355 = [];
 LCUsed532 = [];
 LCUsed1064 = [];
+LCUsed387 = [];
+LCUsed607 = [];
 LCUsedTag355 = 0;   % 0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history
 LCUsedTag532 = 0;
 LCUsedTag1064 = 0;
+LCUsedTag387 = 0;
+LCUsedTag607 = 0;
 flagLCWarning355 = false;   % if there is large uncertainty of lidar constants, throw a warning.
 flagLCWarning532 = false;
 flagLCWarning1064 = false;
+flagLCWarning387 = false;
+flagLCWarning607 = false;
 LCCaliFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.lcCaliFile);
 
 %% create the LC file if not exist
 if ~ exist(LCCaliFile, 'file')
     fprintf('Create the file to save the lidar constants.\n%s\n', LCCaliFile);
     fid = fopen(LCCaliFile, 'w');
-    fprintf(fid, 'polly data, LC355, LC355Std, Calibration status 355, LC532, LC532Std, Calibration status 532, LC1064, LC1064Std, Calibration status 1064\n');
+    fprintf(fid, 'polly data, LC355, LC355Std, Calibration status 355, LC532, LC532Std, Calibration status 532, LC1064, LC1064Std, Calibration status 1064, LC387, LC387Std, Calibration status 387, LC607, LC607Std, Calibration status 607\n');
     fclose(fid);
 end
 
@@ -69,6 +88,8 @@ LC_raman_1064_mean = nanmean(data.LC.LC_raman_1064);
 LC_klett_355_mean = nanmean(data.LC.LC_klett_355);
 LC_klett_532_mean = nanmean(data.LC.LC_klett_532);
 LC_klett_1064_mean = nanmean(data.LC.LC_klett_1064);
+LC_raman_387_mean = nanmean(data.LC.LC_raman_387);
+LC_raman_607_mean = nanmean(data.LC.LC_raman_607);
 
 LC_raman_355_std = nanstd(data.LC.LC_raman_355);
 LC_raman_532_std = nanstd(data.LC.LC_raman_532);
@@ -76,13 +97,17 @@ LC_raman_1064_std = nanstd(data.LC.LC_raman_1064);
 LC_klett_355_std = nanstd(data.LC.LC_klett_355);
 LC_klett_532_std = nanstd(data.LC.LC_klett_532);
 LC_klett_1064_std = nanstd(data.LC.LC_klett_1064);
+LC_raman_387_std = nanstd(data.LC.LC_raman_387);
+LC_raman_607_std = nanstd(data.LC.LC_raman_607);
 
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel387 = config.isFR & config.is387nm;
+flagChannel607 = config.isFR & config.is607nm;
 
 %% read history lidar constants
-[LC355History, LC532History, LC1064History, LCStd355History, LCStd532History, LCStd1064History] = pollyxt_noa_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
+[LC355History, LC532History, LC1064History, LC387History, LC607History, LCStd355History, LCStd532History, LCStd1064History, LCStd387History, LCStd607History] = pollyxt_noa_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
 
 % choose the most suitable lidar constants for 355 nm
 if ~ isnan(LC_raman_355_mean)
@@ -156,6 +181,44 @@ else
         LCUsed1064 = defaults.LC(flagChannel1064);
         LCUsedTag1064 = 3;
         flagLCWarning1064 = false;
+    end
+end
+
+% choose the most suitable lidar constants for 387 nm
+if ~ isnan(LC_raman_387_mean)
+    LCUsed387 = LC_raman_387_mean;
+    LCUsedTag387 = 2;
+    if (LC_raman_387_std / LC_raman_387_mean) >= 0.1
+        flagLCWarning387 = true;
+    end
+else
+    if ~ isempty(LC387History)
+        LCUsed387 = LC387History;
+        LCUsedTag387 = 4;
+        flagLCWarning387 = false;
+    else
+        LCUsed387 = defaults.LC(flagChannel387);
+        LCUsedTag387 = 3;
+        flagLCWarning387 = false;
+    end
+end
+
+% choose the most suitable lidar constants for 607 nm
+if ~ isnan(LC_raman_607_mean)
+    LCUsed607 = LC_raman_607_mean;
+    LCUsedTag607 = 2;
+    if (LC_raman_607_std / LC_raman_607_mean) >= 0.1
+        flagLCWarning607 = true;
+    end
+else
+    if ~ isempty(LC607History)
+        LCUsed607 = LC607History;
+        LCUsedTag607 = 4;
+        flagLCWarning607 = false;
+    else
+        LCUsed607 = defaults.LC(flagChannel607);
+        LCUsedTag607 = 3;
+        flagLCWarning607 = false;
     end
 end
 
