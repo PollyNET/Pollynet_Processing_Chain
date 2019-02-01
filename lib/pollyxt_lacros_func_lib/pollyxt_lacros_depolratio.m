@@ -82,15 +82,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel355Tot = config.isFR & config.is355nm & config.isTot;
     flagChannel355Cro = config.isFR & config.is355nm & config.isCross;
+    sig355Tot = squeeze(sum(data.signal(flagChannel355Tot, :, proIndx), 3));
+    bg355Tot = squeeze(sum(data.bg(flagChannel355Tot, :, proIndx), 3));
+    sig355Cro = squeeze(sum(data.signal(flagChannel355Cro, :, proIndx), 3));
+    bg355Cro = squeeze(sum(data.bg(flagChannel355Cro, :, proIndx), 3));
+
+    % calculate the volume depolarization ratio
+    [thisVoldepol355, thisVoldepoStdl355] = polly_volDepol(sig355Tot, bg355Tot, sig355Cro, bg355Cro, config.TR(flagChannel355Tot), 0, config.TR(flagChannel355Cro), 0, data.depol_cal_fac_355, data.depol_cal_fac_std_355, config.smoothWin_klett_355);
 
     if ~ isnan(data.refHIndx355(iGroup, 1))
-        sig355Tot = squeeze(sum(data.signal(flagChannel355Tot, :, proIndx), 3));
-        bg355Tot = squeeze(sum(data.bg(flagChannel355Tot, :, proIndx), 3));
-        sig355Cro = squeeze(sum(data.signal(flagChannel355Cro, :, proIndx), 3));
-        bg355Cro = squeeze(sum(data.bg(flagChannel355Cro, :, proIndx), 3));
-
-        % calculate the volume depolarization ratio
-        [thisVoldepol355, thisVoldepoStdl355] = polly_volDepol(sig355Tot, bg355Tot, sig355Cro, bg355Cro, config.TR(flagChannel355Tot), 0, config.TR(flagChannel355Cro), 0, data.depol_cal_fac_355, data.depol_cal_fac_std_355, config.smoothWin_klett_355);
 
         % calculate the particle depolarization ratio
         if ~ isnan(data.aerBsc355_klett(iGroup, 80))
@@ -134,16 +134,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel532Tot = config.isFR & config.is532nm & config.isTot;
     flagChannel532Cro = config.isFR & config.is532nm & config.isCross;
+    sig532Tot = squeeze(sum(data.signal(flagChannel532Tot, :, proIndx), 3));
+    bg532Tot = squeeze(sum(data.bg(flagChannel532Tot, :, proIndx), 3));
+    sig532Cro = squeeze(sum(data.signal(flagChannel532Cro, :, proIndx), 3));
+    bg532Cro = squeeze(sum(data.bg(flagChannel532Cro, :, proIndx), 3));
+
+    % calculate the volume depolarization ratio
+    [thisVoldepol532, thisVoldepoStdl532] = polly_volDepol(sig532Tot, bg532Tot, sig532Cro, bg532Cro, config.TR(flagChannel532Tot), 0, config.TR(flagChannel532Cro), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532, config.smoothWin_klett_532);
 
     if ~ isnan(data.refHIndx532(iGroup, 1))
-        % TODO calculate voldepol and calibrate the molDepol
-        sig532Tot = squeeze(sum(data.signal(flagChannel532Tot, :, proIndx), 3));
-        bg532Tot = squeeze(sum(data.bg(flagChannel532Tot, :, proIndx), 3));
-        sig532Cro = squeeze(sum(data.signal(flagChannel532Cro, :, proIndx), 3));
-        bg532Cro = squeeze(sum(data.bg(flagChannel532Cro, :, proIndx), 3));
-
-        % calculate the volume depolarization ratio
-        [thisVoldepol532, thisVoldepoStdl532] = polly_volDepol(sig532Tot, bg532Tot, sig532Cro, bg532Cro, config.TR(flagChannel532Tot), 0, config.TR(flagChannel532Cro), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532, config.smoothWin_klett_532);
 
         % calculate the particle depolarization ratio
         if ~ isnan(data.aerBsc532_klett(iGroup, 80))
