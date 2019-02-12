@@ -56,51 +56,24 @@ flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 flagChannel387 = config.isFR & config.is387nm;
 flagChannel607 = config.isFR & config.is607nm;
 
-if ~ exist(LCFile, 'file')
-    warning('Lidar constant results file does not exist!\n%s\n', LCFile);
-    return;
-end
-
 %% read LCFile
-fid = fopen(LCFile, 'r');
-data = textscan(fid, '%s %f %f %d %f %f %d %f %f %d %f %f %d %f %f %d', 'delimiter', ',', 'Headerlines', 1);
-
-LCTime = NaN(1, length(data{1}));
-LC355History = NaN(1, length(data{1}));
-LCStd355History = NaN(1, length(data{1}));
-LC355Status = NaN(1, length(data{1}));
-LC532History = NaN(1, length(data{1}));
-LCStd532History = NaN(1, length(data{1}));
-LC532Status = NaN(1, length(data{1}));
-LC1064History = NaN(1, length(data{1}));
-LCStd1064History = NaN(1, length(data{1}));
-LC1064Status = NaN(1, length(data{1}));
-LC387History = NaN(1, length(data{1}));
-LCStd387History = NaN(1, length(data{1}));
-LC387Status = NaN(1, length(data{1}));
-LC607History = NaN(1, length(data{1}));
-LCStd607History = NaN(1, length(data{1}));
-LC607Status = NaN(1, length(data{1}));
-for iRow = 1:length(data{1})
-    LCTime(iRow) = polly_parsetime(data{1}{iRow}, config.dataFileFormat);
-end
-LC355History = data{2};
-LCStd355History = data{3};
-LC355Status = data{4};
-LC532History = data{5};
-LCStd532History = data{6};
-LC532Status = data{7};
-LC1064History = data{8};
-LCStd1064History = data{9};
-LC1064Status = data{10};
-LC387History = data{11};
-LCStd387History = data{12};
-LC387Status = data{13};
-LC607History = data{14};
-LCStd607History = data{15};
-LC607Status = data{16};
-
-fclose(fid);
+LC = pollyxt_lacros_read_LC(LCFile, config.dataFileFormat);
+LCTime = LC.LCTime;
+LC355History = LC.LC355History;
+LCStd355History = LC.LCStd355History;
+LC355Status = LC.LC355Status;
+LC532History = LC.LC532History;
+LCStd532History = LC.LCStd532History;
+LC532Status = LC.LC532Status;
+LC1064History = LC.LC1064History;
+LCStd1064History = LC.LCStd1064History;
+LC1064Status = LC.LC1064Status;
+LC387History = LC.LC387History;
+LCStd387History = LC.LCStd387History;
+LC387Status = LC.LC387Status;
+LC607History = LC.LC607History;
+LCStd607History = LC.LCStd607History;
+LC607Status = LC.LC607Status;
 
 %% find the most closest calibrated value in the +- week.
 index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))));

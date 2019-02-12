@@ -260,4 +260,7 @@ write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignI
 % lidar constant at 1064 nm
 write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '1064', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename))), '0', sprintf('%s. Lidar constant is sensible to the system condition, like temperature, humidity.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
 
+% long term lidar constant
+write_2_donelist(processInfo.doneListFile, 'a', taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '1064', fullfile(datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_long_term_LC.png', datestr(data.mTime(1), 'yyyymmdd'))), '0', sprintf('%s. Lidar constant is sensible to the system condition, like temperature, humidity.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr(data.quasiAttri.timestamp, 'yyyymmddHH'), '50', processInfo.programVersion);
+
 end

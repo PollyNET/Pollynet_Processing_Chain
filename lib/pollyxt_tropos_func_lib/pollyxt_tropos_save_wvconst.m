@@ -112,7 +112,7 @@ try
             thisWVconstStd = wvconstStd(iWVCali);
         end
 
-        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, (~ isnan(wvconst(iWVCali))), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
+        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, int32(wvconstUsedInfo.flagCalibrated), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
     end
 catch
     error('Error in %s: Failure in writing water vapor calibration results to %s\n', mfilename, file);

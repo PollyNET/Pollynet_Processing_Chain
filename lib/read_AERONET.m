@@ -1,4 +1,4 @@
-function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = read_AERONET(site, mdate, level)
+function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = read_AERONET(site, mdate, level, flagFilterNegAOD)
 %read_AERONET 
 %   This function determines the Aerosol Optical Depth (AOD) from a
 %   collocated photometer. Available AOD values for a specified day are returned. 
@@ -19,6 +19,8 @@ function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %           the measurement day. 
 %       level: char
 %           product level. ('10', '15', '20')
+%       flagFilterNegAOD: logical
+%           flag to control whether to filter out the negative AOD values. (default: true)
 %   Outputs:
 %       datetime: array
 %           time of each measurment point.
@@ -52,8 +54,13 @@ function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %       2018-06-22. Add 'TreatAsEmpty' keyword to textscan function to filter
 %       N/A field in AERONET data.
 %       2018-12-23. Second Edition by Zhenping
+%       2019-02-06. Add 'flagFilterNegAOD' to keyword to enable filtering out negative AOD values.
 %   Contact:
 %       zhenping@tropos.de
+
+if ~ exist('flagFilterNegAOD', 'var')
+    flagFilterNegAOD = true;
+end
 
 datetime = [];
 AOD_1640 = [];
@@ -118,6 +125,20 @@ if status == 0
         angstrexp440_870 = T{12}(1:end-1);
         for iRow = 1:(numel(T{1}) - 1)
             datetime = [datetime, datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
+        end
+
+        if flagFilterNegAOD
+            flagNegValue = (AOD_1640 <= 0) | (AOD_1020 <= 0) | (AOD_870 <= 0) | (AOD_675 <= 0) | (AOD_500 <= 0) | (AOD_440 <= 0) | (AOD_380 <= 0) | (AOD_340 <= 0) | (IWV <= 0);
+            datetime = datetime(~ flagNegValue);
+            AOD_1640 = AOD_1640(~ flagNegValue);
+            AOD_1020 = AOD_1020(~ flagNegValue);
+            AOD_870 = AOD_870(~ flagNegValue);
+            AOD_675 = AOD_675(~ flagNegValue);
+            AOD_500 = AOD_500(~ flagNegValue);
+            AOD_440 = AOD_440(~ flagNegValue);
+            AOD_380 = AOD_380(~ flagNegValue);
+            AOD_340 = AOD_340(~ flagNegValue);
+            IWV = IWV(~ flagNegValue);
         end
 
         siteinfo = regexp(html_text, '\w*,PI=(?<PI>.*),Email=(?<Email>\S*)<br', 'names');
