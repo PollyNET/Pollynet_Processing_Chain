@@ -350,10 +350,10 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     ax8.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax8.grid(False)
     ax8.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
-    fig.text(0.1, 0.07, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.8, 0.07, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.1, 0.09, startTime.strftime("%Y"), fontsize=12)
+    fig.text(0.8, 0.09, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_LC.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=150)
     plt.close()
 
 def main():
