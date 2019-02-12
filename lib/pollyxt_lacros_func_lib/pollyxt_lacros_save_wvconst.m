@@ -43,6 +43,7 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wv
 %               number of successful water vapor calibration.
 %   History:
 %       2018-12-19. First Edition by Zhenping
+%       2019-02-12. Remove the bug for saving flagCalibration at some time with no calibration constants.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -112,7 +113,7 @@ try
             thisWVconstStd = wvconstStd(iWVCali);
         end
 
-        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, (~ isnan(wvconst(iWVCali))), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
+        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, int32(wvconstUsedInfo.flagCalibrated), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
     end
 catch
     error('Error in %s: Failure in writing water vapor calibration results to %s\n', mfilename, file);
