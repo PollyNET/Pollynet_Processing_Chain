@@ -187,23 +187,23 @@ data: struct
   depCaliAttri: struct
     depCalAttri532 or depCalAttri355: struct
       sig_t_p: cell
-        mean signal at total channel at positive calbiration angleinr each calibration period.
+        mean signal at total channel at positive calibration angle in each calibration period.
       sig_t_m: cell
-        mean signal at total channel at negative calibration angleinr each calibration period.
+        mean signal at total channel at negative calibration angle in each calibration period.
       sig_x_p: cell
-        mean signal at cross channel at positive calbiration angleinr each calibration period.
+        mean signal at cross channel at positive calibration angle in each calibration period.
       sig_x_m: cell
-        mean signal at cross channel at negative calibration angleinr each calibration period.
+        mean signal at cross channel at negative calibration angle in each calibration period.
       caliHIndxRange: cell
         index of calibration range along the height axisinr each calibration period.
       indx_45m: cell
-        index of the profiles at negative calibration angleinr each calibration period.
+        index of the profiles at negative calibration angle in each calibration period.
       indx_45p: cell
-        index of the profiles at positive calibration angleinr each calibration period.
+        index of the profiles at positive calibration angle in each calibration period.
       dplus: cell
-        signal ratio at positive calibration angleinr each calibration period.
+        signal ratio at positive calibration angle in each calibration period.
       dminus: cell
-        signal ratio at negative calibration angleinr each calibration period.
+        signal ratio at negative calibration angle in each calibration period.
       segmentLen: cell
         segment length to calculate the mean value of signal ratioinr each calibration period.
       indx: cell
@@ -497,12 +497,24 @@ processInfo: struct
     folder to save the figures.
   pollynet_config_history_file: char
     history file to log all the configuration files, defaults_reading function and processing function for all polly systems.
+  minDataSize: int32
+    Mininmum data size that was accepted for the data processing.
   institue: char
     institute full-name.
   contact: char
     contact.
   programVersion: char
     program version.
+  visualizationMode: char
+    visualization mode, 'matlab' or 'python'. Python is better supported in the server than matlab.
+  pyBinDir: char
+    path for the appled python interpreter.
+  flagDeleteData: logical
+    flag bit to control whether to delete the data file after finishing the processing.
+  flagEnableResultsOutput: logical
+    flag bit to control whether to save the processing results.
+  flagEnableDataVisualization: logical
+    flag bit to control whether to visualize the results.
   pollyVersions: cell
     label of all polly versions.
 ```
