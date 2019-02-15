@@ -162,81 +162,87 @@ tc_mask = pollyxt_dwd_targetclassi(data, config);
 data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
-%% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
-
 %% saving results
-%% save depol cali results
-pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+if processInfo.flagEnableResultsOutput
 
-%% save overlap results
-saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-pollyxt_dwd_save_overlap(data, config, overlapAttri, saveFile);
+    fprintf('\n[%s] Start to save results.\n', tNow());
+    %% save depol cali results
+    pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
 
-%% save aerosol optical results
-pollyxt_dwd_save_retrieving_results(data, taskInfo, config);
+    %% save overlap results
+    saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+    pollyxt_dwd_save_overlap(data, config, overlapAttri, saveFile);
 
-%% save lidar calibration results
-pollyxt_dwd_save_LC_nc(data, taskInfo, config);
-pollyxt_dwd_save_LC_txt(data, taskInfo, config);
+    %% save aerosol optical results
+    pollyxt_dwd_save_retrieving_results(data, taskInfo, config);
 
-%% save attenuated backscatter
-pollyxt_dwd_save_att_bsc(data, taskInfo, config);
+    %% save lidar calibration results
+    pollyxt_dwd_save_LC_nc(data, taskInfo, config);
+    pollyxt_dwd_save_LC_txt(data, taskInfo, config);
 
-%% save quasi results
-pollyxt_dwd_save_quasi_results(data, taskInfo, config);
+    %% save attenuated backscatter
+    pollyxt_dwd_save_att_bsc(data, taskInfo, config);
 
-%% save target classification results
-pollyxt_dwd_save_tc(data, taskInfo, config);
+    %% save quasi results
+    pollyxt_dwd_save_quasi_results(data, taskInfo, config);
 
-%% saving results
-%% save depol cali results
-pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+    %% save target classification results
+    pollyxt_dwd_save_tc(data, taskInfo, config);
+
+    %% saving results
+    %% save depol cali results
+    pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+
+    fprintf('[%s] Finish.\n', tNow());
+end
 
 %% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+if processInfo.flagEnableDataVisualization
+    
+    fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-disp('Display housekeeping')
-pollyxt_dwd_display_monitor(data, taskInfo, config);
+    %% display monitor status
+    disp('Display housekeeping')
+    pollyxt_dwd_display_monitor(data, taskInfo, config);
 
-% display signal
-disp('Display RCS and volume depolarization ratio')
-pollyxt_dwd_display_rcs(data, taskInfo, config);
+    % display signal
+    disp('Display RCS and volume depolarization ratio')
+    pollyxt_dwd_display_rcs(data, taskInfo, config);
 
-%% display depol calibration results
-disp('Display depolarization calibration results')
-pollyxt_dwd_display_depolcali(data, taskInfo, depCaliAttri);
+    %% display depol calibration results
+    disp('Display depolarization calibration results')
+    pollyxt_dwd_display_depolcali(data, taskInfo, depCaliAttri);
 
-%% display saturation and cloud free tags
-disp('Display signal flags')
-pollyxt_dwd_display_saturation(data, taskInfo, config);
+    %% display saturation and cloud free tags
+    disp('Display signal flags')
+    pollyxt_dwd_display_saturation(data, taskInfo, config);
 
-%% display overlap
-disp('Display overlap')
-pollyxt_dwd_display_overlap(data, taskInfo, overlapAttri, config);
+    %% display overlap
+    disp('Display overlap')
+    pollyxt_dwd_display_overlap(data, taskInfo, overlapAttri, config);
 
-%% optical profiles
-disp('Display profiles')
-pollyxt_dwd_display_retrieving(data, taskInfo, config);
+    %% optical profiles
+    disp('Display profiles')
+    pollyxt_dwd_display_retrieving(data, taskInfo, config);
 
-%% display attenuated backscatter
-disp('Display attuated backscatter')
-pollyxt_dwd_display_att_beta(data, taskInfo, config);
+    %% display attenuated backscatter
+    disp('Display attuated backscatter')
+    pollyxt_dwd_display_att_beta(data, taskInfo, config);
 
-%% display quasi backscatter, particle depol and angstroem exponent 
-disp('Display quasi parameters')
-pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
+    %% display quasi backscatter, particle depol and angstroem exponent 
+    disp('Display quasi parameters')
+    pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
 
-%% target classification
-disp('Display target classifications')
-pollyxt_dwd_display_targetclassi(data, taskInfo, config);
+    %% target classification
+    disp('Display target classifications')
+    pollyxt_dwd_display_targetclassi(data, taskInfo, config);
 
-%% display lidar calibration constants
-disp('Display Lidar constants.')
-pollyxt_dwd_display_lidarconst(data, taskInfo, config);
+    %% display lidar calibration constants
+    disp('Display Lidar constants.')
+    pollyxt_dwd_display_lidarconst(data, taskInfo, config);
 
-fprintf('[%s] Finish.\n', tNow());
+    fprintf('[%s] Finish.\n', tNow());
+end
 
 %% get report
 report = pollyxt_dwd_results_report(data, taskInfo, config);

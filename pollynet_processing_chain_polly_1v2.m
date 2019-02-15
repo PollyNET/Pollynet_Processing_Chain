@@ -148,44 +148,52 @@ fprintf('[%s] Finish.\n', tNow());
 
 % saving results
 
-%% save aerosol optical results
-polly_1v2_save_retrieving_results(data, taskInfo, config);
+if processInfo.flagEnableResultsOutput
 
-%% save lidar calibration results
-polly_1v2_save_LC_nc(data, taskInfo, config);
-polly_1v2_save_LC_txt(data, taskInfo, config);
+    %% save aerosol optical results
+    polly_1v2_save_retrieving_results(data, taskInfo, config);
 
-%% save attenuated backscatter
-polly_1v2_save_att_bsc(data, taskInfo, config);
+    %% save lidar calibration results
+    polly_1v2_save_LC_nc(data, taskInfo, config);
+    polly_1v2_save_LC_txt(data, taskInfo, config);
 
-%% save quasi results
-polly_1v2_save_quasi_results(data, taskInfo, config);
+    %% save attenuated backscatter
+    polly_1v2_save_att_bsc(data, taskInfo, config);
+
+    %% save quasi results
+    polly_1v2_save_quasi_results(data, taskInfo, config);
+ 
+    fprintf('[%s] Finish.\n', tNow());
+end   
 
 %% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+if processInfo.flagEnableDataVisualization
+        
+    fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-polly_1v2_display_monitor(data, taskInfo, config);
+    %% display monitor status
+    polly_1v2_display_monitor(data, taskInfo, config);
 
-% display signal
-polly_1v2_display_rcs(data, taskInfo, config);
+    % display signal
+    polly_1v2_display_rcs(data, taskInfo, config);
 
-%% display saturation and cloud free tags
-polly_1v2_display_saturation(data, taskInfo, config);
+    %% display saturation and cloud free tags
+    polly_1v2_display_saturation(data, taskInfo, config);
 
-% %% optical profiles
-polly_1v2_display_retrieving(data, taskInfo, config);
+    % %% optical profiles
+    polly_1v2_display_retrieving(data, taskInfo, config);
 
-%% display attenuated backscatter
-polly_1v2_display_att_beta(data, taskInfo, config);
+    %% display attenuated backscatter
+    polly_1v2_display_att_beta(data, taskInfo, config);
 
-% %% display quasi backscatter, particle depol and angstroem exponent 
-polly_1v2_display_quasiretrieving(data, taskInfo, config);
+    % %% display quasi backscatter, particle depol and angstroem exponent 
+    polly_1v2_display_quasiretrieving(data, taskInfo, config);
 
-% %% display lidar calibration constants
-polly_1v2_display_lidarconst(data, taskInfo, config);
+    % %% display lidar calibration constants
+    polly_1v2_display_lidarconst(data, taskInfo, config);
 
-fprintf('[%s] Finish.\n', tNow());
+    fprintf('[%s] Finish.\n', tNow());
+end
 
 %% get report
 report = polly_1v2_results_report(data, taskInfo, config);

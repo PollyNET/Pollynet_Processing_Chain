@@ -52,8 +52,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         thisLR355_raman = NaN(size(data.height));
 
         flagChannel355 = config.isFR & config.isTot & config.is355nm;
+        flagChannel387 = config.isFR & config.is387nm;
         sig355 = transpose(squeeze(sum(data.el355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
         bg355 = transpose(squeeze(sum(data.bgEl355(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+        sig387 = squeeze(sum(data.signal(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        bg387 = squeeze(sum(data.bg(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
 
         % retrieve extinction
         thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
@@ -67,10 +70,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-            flagChannel387 = config.isFR & config.is387nm;
-            sig387 = squeeze(sum(data.signal(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refSig387 = sum(sig387(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
-            bg387 = squeeze(sum(data.bg(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refBg387 = sum(bg387(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
             snr387 = polly_SNR(refSig387, refBg387);
             
@@ -96,8 +96,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         thisLR532_raman = NaN(size(data.height));
 
         flagChannel532 = config.isFR & config.isTot & config.is532nm;
+        flagChannel607 = config.isFR & config.is607nm;
         sig532 = transpose(squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
         bg532 = transpose(squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
 
         % retrieve extinction
         thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
@@ -111,10 +114,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-            flagChannel607 = config.isFR & config.is607nm;
-            sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refSig607 = sum(sig607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
-            bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refBg607 = sum(bg607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
             snr607 = polly_SNR(refSig607, refBg607);
             
@@ -140,8 +140,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         thisLR1064_raman = NaN(size(data.height));
 
         flagChannel1064 = config.isFR & config.isTot & config.is1064nm;
+        flagChannel607 = config.isFR & config.is607nm;
         sig1064 = squeeze(sum(data.signal(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         bg1064 = squeeze(sum(data.bg(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
 
         % retrieve extinction
         thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
@@ -155,10 +158,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-            flagChannel607 = config.isFR & config.is607nm;
-            sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refSig607 = sum(sig607(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
-            bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
             refBg607 = sum(bg607(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
             snr607 = polly_SNR(refSig607, refBg607);
             

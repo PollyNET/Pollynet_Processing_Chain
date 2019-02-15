@@ -174,86 +174,94 @@ data.tc_mask = tc_mask;
 fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
-%% save depol cali results
-pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
-pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
+if processInfo.flagEnableResultsOutput
 
-%% save overlap results
-saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-pollyxt_lacros_save_overlap(data, config, overlapAttri, saveFile);
+    %% save depol cali results
+    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
 
-%% save meteorological results
-%% save water vapor calibration results
-pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+    %% save overlap results
+    saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+    pollyxt_lacros_save_overlap(data, config, overlapAttri, saveFile);
 
-%% save aerosol optical results
-pollyxt_lacros_save_retrieving_results(data, taskInfo, config);
+    %% save meteorological results
+    %% save water vapor calibration results
+    pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
 
-%% save lidar calibration results
-pollyxt_lacros_save_LC_nc(data, taskInfo, config);
-pollyxt_lacros_save_LC_txt(data, taskInfo, config);
+    %% save aerosol optical results
+    pollyxt_lacros_save_retrieving_results(data, taskInfo, config);
 
-%% save attenuated backscatter
-pollyxt_lacros_save_att_bsc(data, taskInfo, config);
+    %% save lidar calibration results
+    pollyxt_lacros_save_LC_nc(data, taskInfo, config);
+    pollyxt_lacros_save_LC_txt(data, taskInfo, config);
 
-%% save quasi results
-pollyxt_lacros_save_quasi_results(data, taskInfo, config);
+    %% save attenuated backscatter
+    pollyxt_lacros_save_att_bsc(data, taskInfo, config);
 
-%% save target classification results
-pollyxt_lacros_save_tc(data, taskInfo, config);
+    %% save quasi results
+    pollyxt_lacros_save_quasi_results(data, taskInfo, config);
+
+    %% save target classification results
+    pollyxt_lacros_save_tc(data, taskInfo, config);
+
+    
+end
 
 %% visualization
-fprintf('\n[%s] Start to visualize results.\n', tNow());
+if processInfo.flagEnableDataVisualization
+    fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-%% display monitor status
-disp('Display housekeeping')
-pollyxt_lacros_display_monitor(data, taskInfo, config);
+    %% display monitor status
+    disp('Display housekeeping')
+    pollyxt_lacros_display_monitor(data, taskInfo, config);
 
-% display signal
-disp('Display RCS and volume depolarization ratio')
-pollyxt_lacros_display_rcs(data, taskInfo, config);
+    % display signal
+    disp('Display RCS and volume depolarization ratio')
+    pollyxt_lacros_display_rcs(data, taskInfo, config);
 
-%% display depol calibration results
-disp('Display depolarization calibration results')
-pollyxt_lacros_display_depolcali(data, taskInfo, depCaliAttri);
+    %% display depol calibration results
+    disp('Display depolarization calibration results')
+    pollyxt_lacros_display_depolcali(data, taskInfo, depCaliAttri);
 
-%% display saturation and cloud free tags
-disp('Display signal flags')
-pollyxt_lacros_display_saturation(data, taskInfo, config);
+    %% display saturation and cloud free tags
+    disp('Display signal flags')
+    pollyxt_lacros_display_saturation(data, taskInfo, config);
 
-%% display overlap
-disp('Display overlap')
-pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
+    %% display overlap
+    disp('Display overlap')
+    pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
 
-%% optical profiles
-disp('Display profiles')
-pollyxt_lacros_display_retrieving(data, taskInfo, config);
+    %% optical profiles
+    disp('Display profiles')
+    pollyxt_lacros_display_retrieving(data, taskInfo, config);
 
-%% display attenuated backscatter
-disp('Display attuated backscatter')
-pollyxt_lacros_display_att_beta(data, taskInfo, config);
+    %% display attenuated backscatter
+    disp('Display attuated backscatter')
+    pollyxt_lacros_display_att_beta(data, taskInfo, config);
 
-%% display WVMR and RH
-disp('Display WVMR and RH')
-pollyxt_lacros_display_WV(data, taskInfo, config);
+    %% display WVMR and RH
+    disp('Display WVMR and RH')
+    pollyxt_lacros_display_WV(data, taskInfo, config);
 
-%% display quasi backscatter, particle depol and angstroem exponent 
-disp('Display quasi parameters')
-pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
+    %% display quasi backscatter, particle depol and angstroem exponent 
+    disp('Display quasi parameters')
+    pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
 
-%% target classification
-disp('Display target classifications')
-pollyxt_lacros_display_targetclassi(data, taskInfo, config);
+    %% target classification
+    disp('Display target classifications')
+    pollyxt_lacros_display_targetclassi(data, taskInfo, config);
 
-%% display lidar calibration constants
-disp('Display Lidar constants.')
-pollyxt_lacros_display_lidarconst(data, taskInfo, config);
+    %% display lidar calibration constants
+    disp('Display Lidar constants.')
+    pollyxt_lacros_display_lidarconst(data, taskInfo, config);
 
-%% display Long-term lidar constant with logbook
-disp('Display Long-Term lidar cosntants.')
-pollyxt_lacros_display_longterm_cali(taskInfo, config);
+    %% display Long-term lidar constant with logbook
+    disp('Display Long-Term lidar cosntants.')
+    pollyxt_lacros_display_longterm_cali(taskInfo, config);
 
-fprintf('[%s] Finish.\n', tNow());
+    fprintf('[%s] Finish.\n', tNow());
+
+end
 
 %% get report
 report = pollyxt_lacros_results_report(data, taskInfo, config);
