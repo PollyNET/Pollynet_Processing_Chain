@@ -134,7 +134,8 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     lineColor = {'overlap': '#f48f42', 'windowwipe': '#ff66ff', 'flashlamps': '#993333', 'pulsepower': '#990099', 'restart': '#ffff00', 'NDChange': '#333300', 'else': '#00ff00'}
 
     # display lidar constants at 355mn
-    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8) = plt.subplots(8, figsize=(10,24), sharex=True, gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1], 'hspace': 0.1})
+    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8) = plt.subplots(8, figsize=(10,18), sharex=True, gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1], 'hspace': 0.1})
+    plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
 
     # lidar constants at 355 nm
     p1 = ax1.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if LC355Status[indx] == 2], LC355History[LC355Status == 2], s=7, c='#0000ff', marker='o', label='lidar constant')
@@ -350,8 +351,8 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     ax8.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax8.grid(False)
     ax8.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
-    fig.text(0.1, 0.09, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.8, 0.09, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
+    fig.text(0.90, 0.03, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=150)
     plt.close()
