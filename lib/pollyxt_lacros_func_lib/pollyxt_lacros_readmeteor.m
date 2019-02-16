@@ -95,8 +95,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     % interp the parameters
+    fprintf('Interpolate temperature data.\n');
     thistemp = interp_meteor(altRaw, tempRaw, data.alt);
+    fprintf('Interpolate pressure data.\n');
     thispres = interp_meteor(altRaw, presRaw, data.alt);
+    fprintf('Interpolate relative humidity data.\n');
     thisrelh = interp_meteor(altRaw, relhRaw, data.alt);
 
     % concatenate the parameters
