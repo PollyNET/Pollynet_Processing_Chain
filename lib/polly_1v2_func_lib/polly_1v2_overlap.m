@@ -51,6 +51,8 @@ if ~ sum(data.flagCloudFree8km) == 0
         bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree8km), 3));
         sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree8km), 3));
         bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree8km), 3));
+        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
+        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
 
         % calculate the SNR
         snr532NR = polly_SNR(sig532NR, bg532NR);
@@ -64,7 +66,7 @@ if ~ sum(data.flagCloudFree8km) == 0
         
         % find the top boundary for signal normalization
         lowSNRBaseIndx = find(snr532NR(fullOverlapIndx:end) < config.minSNR_4_sigNorm, 1);
-        if isempty(lowSNRBaseIndx)
+        if (lowSNRBaseIndx - fullOverlapIndx) <= 40
             warning('Signal is too noisy to perform signal normalization for 532 nm.');
         else
             lowSNRBaseIndx = lowSNRBaseIndx + fullOverlapIndx - 1;
@@ -79,13 +81,11 @@ if ~ sum(data.flagCloudFree8km) == 0
                 sigRatio532Std = sigRatio532 * sqrt(1 / SNRNormRangeFR.^2 + 1 / SNRNormRangeNR.^2);
                 overlap532 = sig532FR ./ sig532NR * sigRatio532;
                 overlap532_std = overlap532 .* sqrt(sigRatio532Std.^2/sigRatio532.^2 + 1./sig532FR.^2 + 1./sig532NR.^2);
+                overlapAttri.sigRatio532 = sigRatio5
+                32;
+                overlapAttri.normRange532 = normRange532;
             end
         end
-        
-        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
-        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
-        overlapAttri.sigRatio532 = sigRatio532;
-        overlapAttri.normRange532 = normRange532;
 
     case 2   % raman method
     end

@@ -1,19 +1,19 @@
-function [datetime, wvconst, wvconstStd] = pollyxt_lacros_read_wvconst(wvFile)
-%pollyxt_lacros_read_wvconst read the water vapor calibration results from the file.
+function [datetime, wvconst, wvconstStd] = pollyxt_lacros_read_wvconst(wvconstFile)
+%pollyxt_lacros_read_wvconst read the depolarization calibration results from the file.
 %   Example:
-%       [datetime, wvconst, wvconstStd] = pollyxt_lacros_read_wvconst(wvFile)
+%       [datetime, wvconst, wvconstStd] = pollyxt_lacros_read_wvconst(wvconstFile)
 %   Inputs:
-%       wvFile: char
-%           water vapor calibration file. Detailed information about this file can be found in /doc/pollynet_processing_program.md
+%       wvconstFile: char
+%           depolarization calibration file. Detailed information about this file can be found in /doc/pollynet_processing_program.md
 %   Outputs:
 %       datetime: array
 %           calibration time for each calibration period. 
 %       wvconst: array
-%           water vapor calibration constant. [g*kg^{-1}] 
+%           water vapor calibration constant (the same to V*)
 %       wvconstStd: array
-%           standard deviation of water vapor calibration constant. [g*kg^{-1}]
+%           standard deviation of water vapor calibration constant. 
 %   History:
-%       2019-02-12. First Edition by Zhenping
+%       2019-02-26. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
 
@@ -21,12 +21,12 @@ datetime = [];
 wvconst = [];
 wvconstStd = [];
 
-if ~ exist(wvFile, 'file')
-    warning('Lidar water vapor calibration results file does not exist!\n%s\n', wvFile);
+if ~ exist(wvconstFile, 'file')
+    warning('Water vapor calibration results file does not exist!\n%s\n', wvconstFile);
     return;
 end
-fid = fopen(wvFile, 'r');
-data = textscan(fid, '%s %f %s %s %s %f %f', 'delimiter', ',', 'Headerlines', 1);
+fid = fopen(wvconstFile, 'r');
+data = textscan(fid, '%s %d %s %s %s %f %f', 'delimiter', ',', 'Headerlines', 1);
 fclose(fid);
 
 for iRow = 1:length(data{1})

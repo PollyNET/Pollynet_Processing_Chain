@@ -1,7 +1,7 @@
-function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = arielle_select_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = arielle_select_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, currentTime, defaults, file)
 %arielle_select_wvconst  select the most appropriate water vapor calibration constant to calculate the WVMR and RH.
 %   Example:
-%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = arielle_select_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = arielle_select_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, currentTime, defaults, file)
 %   Inputs:
 %       wvconst: array
 %           water vapor calibration constants. [g*kg^{-1}] 
@@ -23,8 +23,8 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = arielle_select_wvconst
 %               calibration information for each calibration period.
 %           IntRange: matrix
 %               index of integration range for calculate the raw IWV from lidar. 
-%       dataFilename: char
-%           the polly netcdf data file.
+%       currentTime: datenum
+%           The creation time for the data netCDF file.
 %       defaults: struct
 %           defaults configuration. Detailed information can be found in doc/polly_defaults.md 
 %       file: char
@@ -51,9 +51,7 @@ wvconstUsed = NaN;
 wvconstUsedStd = NaN;
 
 if isempty(wvconst)
-    wvconst = defaults.wvconst;
-    thisWVconst = defaults.wvconst;
-    thisWVconstStd = defaults.wvconstStd;
+    [wvconstUsed, wvconstUsedStd] = arielle_search_wvconst(currentTime, file, datenum(0,1,7), defaults);
     wvconstUsed = defaults.wvconst;
     wvconstUsedStd = defaults.wvconstStd;
     wvCaliTimeStr = '-999';
@@ -64,7 +62,7 @@ if isempty(wvconst)
     wvconstUsedInfo.IWVInstrument = 'none';
     wvconstUsedInfo.nIWVCali = 0;
 elseif sum(~ isnan(wvconst)) == 0
-    wvconstUsed = defaults.wvconst;
+    [wvconstUsed, wvconstUsedStd] = arielle_search_wvconst(currentTime, file, datenum(0,1,7), defaults);
     wvconstUsedStd = defaults.wvconstStd;
     wvconstUsedInfo.flagCalibrated = false;
     wvconstUsedInfo.IWVInstrument = IWVAttri.source;

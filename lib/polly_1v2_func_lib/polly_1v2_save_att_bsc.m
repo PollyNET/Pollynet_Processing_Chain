@@ -46,7 +46,7 @@ netcdf.putAtt(ncID, varID_time, 'unit', 'days after Jan 0000');
 netcdf.putAtt(ncID, varID_time, 'long_name', 'Time UTC');
 netcdf.putAtt(ncID, varID_time, 'standard_name', 'time');
 
-netcdf.putAtt(ncID, varID_att_bsc_532, 'uni', 'Mm^{-1}*Sr^{-1}');
+netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'Mm^{-1}*Sr^{-1}');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter coefficient at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculate with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');

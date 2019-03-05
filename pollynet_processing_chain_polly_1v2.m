@@ -159,6 +159,9 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     polly_1v2_save_att_bsc(data, taskInfo, config);
+    
+    %% save volume depolarization ratio
+    polly_1v2_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     polly_1v2_save_quasi_results(data, taskInfo, config);

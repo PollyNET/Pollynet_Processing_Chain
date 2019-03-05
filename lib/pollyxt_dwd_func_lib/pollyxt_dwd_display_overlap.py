@@ -81,14 +81,14 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
-        overlap532 = np.concatenate(mat['overlap532'])
-        overlap532Defaults = np.concatenate(mat['overlap532Defaults'])
-        sig532FR = np.concatenate(mat['sig532FR'])
-        sig532NR = np.concatenate(mat['sig532NR'])
-        sig532Gl = np.concatenate(mat['sig532Gl'])
-        sigRatio532 = np.concatenate(mat['sigRatio532'])
-        normRange532 = np.concatenate(mat['normRange532'])
-        height = np.concatenate(mat['height'])
+        overlap532 = mat['overlap532'].reshape(-1)
+        overlap532Defaults = mat['overlap532Defaults'].reshape(-1)
+        sig532FR = mat['sig532FR'].reshape(-1)
+        sig532NR = mat['sig532NR'].reshape(-1)
+        sig532Gl = mat['sig532Gl'].reshape(-1)
+        sigRatio532 = mat['sigRatio532'].reshape(-1)
+        normRange532 = mat['normRange532'].reshape(-1)
+        height = mat['height'].reshape(-1)
         pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -117,9 +117,9 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     sig532FR = np.ma.masked_where(sig532FR <= 0, sig532FR)
     sig532NR = np.ma.masked_where(sig532NR <= 0, sig532NR)
     sig532Gl = np.ma.masked_where(sig532Gl <= 0, sig532Gl)
-    p3, = ax2.semilogx(sig532FR, height, color='#58B13F', linestyle='-.', label=r'FR 532')
-    p4, = ax2.semilogx(sig532NR, height, color='#58B13F', linestyle=':', label=r'NR 532')
-    p5, = ax2.semilogx(sig532Gl, height, color='#58B13F', linestyle='-', label=r'FR Glued 532')
+    p1, = ax2.semilogx(sig532FR, height, color='#58B13F', linestyle='-.', label=r'FR 532')
+    p2, = ax2.semilogx(sig532NR, height, color='#58B13F', linestyle=':', label=r'NR 532')
+    p3, = ax2.semilogx(sig532Gl, height, color='#58B13F', linestyle='-', label=r'FR Glued 532')
 
     if normRange532.size != 0:
         ax2.plot([1e-10, 1e10], [height[normRange532[0] - 1], height[normRange532[0] - 1]], linestyle='--', color='#58B13F')
@@ -139,8 +139,8 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_dwd_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_DWD\\20180517')
+    pollyxt_dwd_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_DWD\\20190219')
 
 if __name__ == '__main__':
-    # main()
-    pollyxt_dwd_display_depolcali(sys.argv[1], sys.argv[2])
+    main()
+    # pollyxt_dwd_display_depolcali(sys.argv[1], sys.argv[2])

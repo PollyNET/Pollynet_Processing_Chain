@@ -90,7 +90,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
         altRaw = altRaw * 1e3;
         presRaw = presRaw / 1e2;   % convert to hPa
-        tempRaw = tempRaw - 273.17   % convert to C
+        tempRaw = tempRaw - 273.17;   % convert to C
         relhRaw = NaN(size(tempRaw));
     end
 

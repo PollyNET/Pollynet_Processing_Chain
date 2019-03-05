@@ -31,10 +31,14 @@ alt = [];
 temp = [];
 pres = [];
 rh = [];
+globalAttri = struct();
+globalAttri.URL = '';
+globalAttri.datetime = [];
+globalAttri.sitenum = [];
 
 [thisYear, thisMonth, day1] = datevec(tRange(1)); 
 [~, ~, day2] = datevec(tRange(2)); 
-URL = sprintf('http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=%04d&MONTH=%02d&FROM=%02d00&TO=%02d00&STNM=%5d', thisYear, thisMonth, day1, day2, sitenum);
+URL = sprintf('http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%%3ALIST&YEAR=%04d&MONTH=%02d&FROM=%02d00&TO=%02d00&STNM=%5d', thisYear, thisMonth, day1, day2, sitenum);
 
 [pressure, altitude, temperature, relh, mTime] = ceilo_bsc_WebSonde(URL);
 

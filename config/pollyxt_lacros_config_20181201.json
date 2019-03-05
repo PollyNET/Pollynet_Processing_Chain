@@ -2,7 +2,9 @@
 	"flagCorrectFalseMShots": true,	
 	"flagFilterFalseMShots": false,
 	"flagDTCor": true,
-	"flagWVCalibration": true,	
+	"flagWVCalibration": true,
+	"flagUsePreviousDepolCali": true,
+	"flagUsePreviousWVconst": true,	
 
 	"MWRFolder": "C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR",
 

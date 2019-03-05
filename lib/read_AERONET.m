@@ -101,16 +101,16 @@ aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' ...
 
 % call the system command 'wget' to download the html text
 if ispc
-    [status, html_text] = system(['curl -s "' aod_url '"']);
+    [status, html_text] = system(['wget -qO- "' aod_url '"']);
     if status ~= 0
-        error('Error in calling curl in window cmd. Please make sure curl is in the searching path.');
+        error('Error in calling wget in window cmd. Please make sure wget is available and it is in the searching path of window. \nOtherwise, you need to download the suitable version online and add the path to the environment variables manually.\n You can go to https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows for detailed information');
     end
 elseif isunix
     [status, html_text] = system(['wget -qO- "' aod_url '"']);
 end
 
 if status == 0
-    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), '%f', '%*s %*s', '%f', '%*s', '%f %f %f', repmat('%*s', 1, 17), '%s', repmat('%*s', 1, 28)];
+    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), '%f', '%*s %*s', '%f', '%*s', '%f %f %f', repmat('%*s', 1, 17), '%f', repmat('%*s', 1, 28)];
     T = textscan(html_text, TextSpec, 'Delimiter', ',', 'HeaderLines', 9, 'TreatAsEmpty', 'N/A');
     if numel(T{1}) > 1
         AOD_1640 = T{3}(1:end-1);
@@ -124,7 +124,7 @@ if status == 0
         IWV = T{11}(1:end-1) / 100 * 1000;   % convert the precipitable water vapor (cm) to integrated water vapor (kg * m^{-2}) by timing the density of liquid water.
         angstrexp440_870 = T{12}(1:end-1);
         for iRow = 1:(numel(T{1}) - 1)
-            datetime = [datetime, datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
+            datetime = [datetime; datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
         end
 
         if flagFilterNegAOD
@@ -139,6 +139,7 @@ if status == 0
             AOD_380 = AOD_380(~ flagNegValue);
             AOD_340 = AOD_340(~ flagNegValue);
             IWV = IWV(~ flagNegValue);
+            angstrexp440_870 = angstrexp440_870(~ flagNegValue);
         end
 
         siteinfo = regexp(html_text, '\w*,PI=(?<PI>.*),Email=(?<Email>\S*)<br', 'names');

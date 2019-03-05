@@ -3,9 +3,11 @@
 	"flagFilterFalseMShots": false,
 	"flagDTCor": true,
 	"flagWVCalibration": true,
+	"flagUsePreviousDepolCali": true,
+	"flagUsePreviousWVconst": true,
 
 	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc",
-	"gdas1Site": "polarstern",
+	"gdas1Site": "davos",
 	"AERONETSite": "",
 
 	"max_height_bin": 2500,
@@ -136,5 +138,5 @@
 	"depolCaliFile532": "pollyxt_arielle_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_arielle_depolcali_355_results.txt",
 	"wvCaliFile": "pollyxt_arielle_wvcali_results.txt",
-	"lcCaliFile": "pollyxt_arielle_lccali_results.txt",
+	"lcCaliFile": "pollyxt_arielle_lccali_results.txt"
 }
