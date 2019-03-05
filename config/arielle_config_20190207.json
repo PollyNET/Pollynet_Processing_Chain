@@ -3,10 +3,12 @@
 	"flagFilterFalseMShots": false,
 	"flagDTCor": true,
 	"flagWVCalibration": true,
+	"flagUsePreviousDepolCali": true,
+	"flagUsePreviousWVconst": true,
 
 	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc",
 	"gdas1Site": "davos",
-	"AERONETSite": "",
+	"AERONETSite": "Davos",
 
 	"max_height_bin": 2500,
 	"first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],

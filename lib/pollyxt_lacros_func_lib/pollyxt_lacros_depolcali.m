@@ -1,7 +1,7 @@
-function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults)
+function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo)
 %pollyxt_lacros_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
 %	Example:
-%		[data] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults)
+%		[data] = pollyxt_lacros_depolcali(data, config)
 %	Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -9,15 +9,17 @@ function [data, depCalAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, 
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
-%       defaults: struct
-%           More detailed information can be found in doc/polly_defaults.md
 %	Outputs:
 %		data: struct
 %           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md
+%       depCalAttri: struct
+%           depolarization calibration information for each calibration period.
 %	History:
 %		2018-12-17. First edition by Zhenping
 %	Contact:
 %		zhenping@tropos.de
+
+global processInfo campaignInfo defaults
 
 depCalAttri = struct();
 
@@ -47,13 +49,21 @@ depCalAttri.depol_cal_fac_532 = depol_cal_fac_532;
 depCalAttri.depol_cal_fac_std_532 = depol_cal_fac_std_532;
 depCalAttri.depol_cal_time_532 = depol_cal_time_532;
 
-% if no successful calibration, set the calibration factor to be default
+% if no successful calibration, set the calibration factor to default
 % values or other values as you like    
-if sum(~ isnan(depol_cal_fac_532)) < 1
+if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali
+    % Apply historical calibration results
+    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = arielle_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
+    data.depol_cal_fac_532 = depol_cal_fac_532;
+    data.depol_cal_fac_std_532 = depol_cal_fac_std_532;
+    data.depol_cal_time_532 = depol_cal_time_532;
+elseif sum(~ isnan(depol_cal_fac_532)) < 1 && ~ config.flagUsePreviousDepolCali
+    % Apply default settings
     data.depol_cal_fac_532 = defaults.depolCaliConst532;
     data.depol_cal_fac_std_532 = defaults.depolCaliConstStd532;
-    data.depol_cal_time_532 = '-999';
+    data.depol_cal_time_532 = 0;
 else
+    % Apply current calibration results
     [~, indx] = min(depol_cal_fac_std_532);
     data.depol_cal_fac_532 = depol_cal_fac_532(indx);
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532(indx);
@@ -79,13 +89,21 @@ depCalAttri.depol_cal_fac_355 = depol_cal_fac_355;
 depCalAttri.depol_cal_fac_std_355 = depol_cal_fac_std_355;
 depCalAttri.depol_cal_time_355 = depol_cal_time_355;
 
-% if no successful calibration, set the calibration factor to be default
+% if no successful calibration, set the calibration factor to default
 % values or other values as you like    
-if sum(~ isnan(depol_cal_fac_355)) < 1
+if sum(~ isnan(depol_cal_fac_355)) < 1 && config.flagUsePreviousDepolCali
+    % Apply historical calibration results
+    [depol_cal_fac_355, depol_cal_fac_std_355, depol_cal_time_355] = arielle_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355), datenum(0,1,7,0,0,0), defaults, 355);
+    data.depol_cal_fac_355 = depol_cal_fac_355;
+    data.depol_cal_fac_std_355 = depol_cal_fac_std_355;
+    data.depol_cal_time_355 = depol_cal_time_355;
+elseif sum(~ isnan(depol_cal_fac_355)) < 1 && ~ config.flagUsePreviousDepolCali
+    % Apply default settings
     data.depol_cal_fac_355 = defaults.depolCaliConst355;
     data.depol_cal_fac_std_355 = defaults.depolCaliConstStd355;
-    data.depol_cal_time_355 = '-999';
+    data.depol_cal_time_355 = 0;
 else
+    % Apply current calibration results
     [~, indx] = min(depol_cal_fac_std_355);
     data.depol_cal_fac_355 = depol_cal_fac_355(indx);
     data.depol_cal_fac_std_355 = depol_cal_fac_std_355(indx);

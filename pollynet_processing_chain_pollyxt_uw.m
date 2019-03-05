@@ -1,5 +1,5 @@
 function [report] = pollynet_processing_chain_pollyxt_uw(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_POLLYXT_uw processing the data from pollyxt_uw
+%POLLYNET_PROCESSING_CHAIN_pollyxt_uw processing the data from pollyxt_uw
 %	Example:
 %		[report] = pollynet_processing_chain_pollyxt_uw(taskInfo, config)
 %	Inputs:
@@ -56,7 +56,7 @@ fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
-[data, depCaliAttri] = pollyxt_uw_depolcali(data, config, taskInfo, defaults);
+[data, depCaliAttri] = pollyxt_uw_depolcali(data, config, taskInfo);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
@@ -124,8 +124,6 @@ end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
 [data.el355, data.bgEl355, data.el532, data.bgEl532] = pollyxt_uw_transratioCor(data, config);
-
-% TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_uw_klett(data, config);
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_uw_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_uw_raman(data, config);
@@ -140,7 +138,7 @@ fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
 data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_uw_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_uw_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_uw_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
 [data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_uw_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -177,10 +175,9 @@ fprintf('[%s] Finish.\n', tNow());
 if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save results.\n', tNow());
-        
     %% save depol cali results
-    pollyxt_uw_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
-    pollyxt_uw_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
+    pollyxt_uw_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+    pollyxt_uw_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -199,6 +196,9 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     pollyxt_uw_save_att_bsc(data, taskInfo, config);
+    
+    %% save volume depolarization ratio
+    pollyxt_uw_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_uw_save_quasi_results(data, taskInfo, config);
@@ -211,7 +211,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-
+        
     fprintf('\n[%s] Start to visualize results.\n', tNow());
 
     %% display monitor status

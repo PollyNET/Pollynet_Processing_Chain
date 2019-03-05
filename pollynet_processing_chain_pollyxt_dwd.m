@@ -56,7 +56,7 @@ fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
-[data, depCaliAttri] = pollyxt_dwd_depolcali(data, config, taskInfo, defaults);
+[data, depCaliAttri] = pollyxt_dwd_depolcali(data, config, taskInfo);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
@@ -167,7 +167,7 @@ if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save results.\n', tNow());
     %% save depol cali results
-    pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+    pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -182,16 +182,15 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     pollyxt_dwd_save_att_bsc(data, taskInfo, config);
+    
+    %% save volume depolarization ratio
+    pollyxt_dwd_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_dwd_save_quasi_results(data, taskInfo, config);
 
     %% save target classification results
     pollyxt_dwd_save_tc(data, taskInfo, config);
-
-    %% saving results
-    %% save depol cali results
-    pollyxt_dwd_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
 
     fprintf('[%s] Finish.\n', tNow());
 end

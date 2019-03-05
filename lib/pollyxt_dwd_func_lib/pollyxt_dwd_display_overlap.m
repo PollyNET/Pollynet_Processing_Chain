@@ -82,7 +82,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(l, 'FontSize', 6);
 
     % signal gluing
-    subplot(122)
+    subplot(122);
     sig532FR(sig532FR <= 0) = NaN;
     sig532NR(sig532NR <= 0) = NaN;
     sig532Gl(sig532Gl <= 0) = NaN;

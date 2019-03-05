@@ -1,4 +1,4 @@
-function [] = pollyxt_noa_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
+function [] = pollyxt_noa_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, depol_cal_fac, depol_cal_fac_std, file)
 %pollyxt_noa_save_depolcaliconst save the depolarization calibration results.
 %   Example:
 %       [] = pollyxt_noa_save_depolcaliconst(depolConst, depolConstStd, depolCaliTime, dataFilename, defaults, file)
@@ -11,8 +11,10 @@ function [] = pollyxt_noa_save_depolcaliconst(depolConst, depolConstStd, depolCa
 %           time for depolarization calibration. [datenum] 
 %       dataFilename: char
 %           the polly netcdf data file.
-%       defaults: struct
-%           defaults configuration. Detailed information can be found in doc/polly_defaults.md 
+%       depol_cal_fac: double
+%           applied depolarization calibration factor.
+%       depol_cal_fac_std: double
+%           standard deviation of applied depolarization calibration factor.
 %       file: char
 %           file for saving depolarization calibration results.
 %   Outputs:
@@ -21,12 +23,13 @@ function [] = pollyxt_noa_save_depolcaliconst(depolConst, depolConstStd, depolCa
 %       The depolarization calibration results will be saved to "file". If there is no depolarization calibration results, defaults results will be used as replacement.
 %   History:
 %       2018-12-19. First Edition by Zhenping
+%       2019-02-26. Replace the defaults calibration constant with applied depol calibration factor. The latter takes into account of previous calibration results.
 %   Contact:
 %       zhenping@tropos.de
 
 if isempty(depolConst)
-    depolConst = defaults.depolCaliConst532;
-    depolConstStd = defaults.depolCaliConstStd532;
+    depolConst = depol_cal_fac;
+    depolConstStd = depol_cal_fac_std;
     depolCaliTimeStr = '-999';
     flagDepolCali = false;
 else

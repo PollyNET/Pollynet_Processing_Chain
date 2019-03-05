@@ -56,7 +56,7 @@ fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
-[data, depCaliAttri] = pollyxt_lacros_depolcali(data, config, taskInfo, defaults);
+[data, depCaliAttri] = pollyxt_lacros_depolcali(data, config, taskInfo);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
@@ -140,7 +140,7 @@ fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
 data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_lacros_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_lacros_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_lacros_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
 [data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_lacros_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -177,8 +177,8 @@ fprintf('[%s] Finish.\n', tNow());
 if processInfo.flagEnableResultsOutput
 
     %% save depol cali results
-    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
-    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
+    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
+    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -198,13 +198,15 @@ if processInfo.flagEnableResultsOutput
     %% save attenuated backscatter
     pollyxt_lacros_save_att_bsc(data, taskInfo, config);
 
+    %% save volume depolarization ratio
+    pollyxt_lacros_save_voldepol(data, taskInfo, config);
+
     %% save quasi results
     pollyxt_lacros_save_quasi_results(data, taskInfo, config);
 
     %% save target classification results
     pollyxt_lacros_save_tc(data, taskInfo, config);
-
-    
+ 
 end
 
 %% visualization

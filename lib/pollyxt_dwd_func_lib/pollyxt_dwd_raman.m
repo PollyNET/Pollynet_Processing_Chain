@@ -53,8 +53,8 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
 
         flagChannel355 = config.isFR & config.isTot & config.is355nm;
         flagChannel387 = config.isFR & config.is387nm;
-        sig355 = transpose(squeeze(sum(data.signal(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
-        bg355 = transpose(squeeze(sum(data.bg(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
+        sig355 = squeeze(sum(data.signal(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        bg355 = squeeze(sum(data.bg(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         sig387 = squeeze(sum(data.signal(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         bg387 = squeeze(sum(data.bg(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
 
