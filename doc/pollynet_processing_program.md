@@ -519,6 +519,63 @@ processInfo: struct
     label of all polly versions.
 ```
 
+#### done_filelist
+
+|ident|Name|
+|:---:|:---|
+|ANGEXP_Raman|     averaged angstrÃ¶m exponent profile|
+|ANGEXP|     averaged angstrÃ¶m exponent profile|
+|ANGEXP_Klett|     averaged angstrÃ¶m exponent profile|
+|~~Bsc~~ Bsc_AERONET|     averaged backscatter profile from AOD-Constrained method|
+|Bsc_Klett|     averaged backscatter profile from Klett method|
+|Bsc_Raman|     averaged backscatter profile from Raman method|
+|~~DepRatio~~|     averaged depolarization ratio profile|
+|DepRatio_Raman|     averaged depolarization ratio profile|
+|DepRatio_Klett|     averaged depolarization ratio profile|
+|Ext_Klett|     averaged extinction profile from Klett method|
+|Ext_Raman|     averaged extinction profile from Raman method|
+|~~Ext_Klett~~ Ext_AERONET|     averaged extinction profile from AOD-Constrained method|
+|LR|     averaged lidar ratio profile|
+|Meteor_P|     averaged pressure profile from input|
+|SIG|     averaged range-corrected signals|
+|RH_av|     averaged relative humidity profile|
+|Meteor_T|     averaged temperature profile from input|
+|WVMR_av|     averaged water vapour mixing ratio profile|
+|ATT_BETA_1064|     Calibrated attenuated backscatter coefficient at 1064 nm|
+|ATT_BETA_355|     Calibrated attenuated backscatter coefficient at 355 nm|
+|ATT_BETA_532|     Calibrated attenuated backscatter coefficient at 532 nm|
+|monitor|     houskeeping data|
+|LC_1064|     Lidar constant of 1064 FR channel|
+|LC_1064_NF|     Lidar constant of 1064 NR channel|
+|LC_355|     Lidar constant of 355 FR channel|
+|LC_355_NF|     Lidar constant of 355 NR channel|
+|LC_532|     Lidar constant of 532 FR channel|
+|LC_532_NF|     Lidar constant of 532 NR channel|
+|TC|     Lidar Target Categoriaztion|
+|Quasi_ANGEXP_532_1064|     Quasi angström exponent 532/1064 nm|
+|Quasi_Bsc_1064|     Quasi particle backscatter coefficient at 1064 nm|
+|Quasi_Bsc_355|     Quasi particle backscatter coefficient at 355 nm|
+|Quasi_Bsc_532|     Quasi particle backscatter coefficient at 532 nm|
+|Quasi_PDR_532|     Quasi particle depolarization ratio at 532 nm|
+|RCS_FR_1064|     Range-corrected signal far-range at 1064 nm|
+|RCS_FR_355|     Range-corrected signal far-range at 355 nm|
+|RCS_FR_532|     Range-corrected signal far-range at 532 nm|
+|RCS_NR_355|     Range-corrected signal near-range at 355 nm|
+|RCS_NR_532|     Range-corrected signal near-range at 532 nm|
+|RH|     relative humidity|
+|overlap|     Retrieved overlap function of the channels|
+|SAT_NR_1064|     Signal status FR 1064 nm|
+|SAT_FR_1064|     Signal status FR 1064 nm|
+|SAT_NR_355|     Signal status FR 355 nm|
+|SAT_FR_355|     Signal status FR 355 nm|
+|SAT_FR_532|     Signal status FR 532 nm|
+|SAT_NR_532|     Signal status FR 532 nm|
+|VDR_1064|     Volume depolarization ratio at 1064 nm|
+|VDR_355|     Volume depolarization ratio at 355 nm|
+|VDR_532|     Volume depolarization ratio at 532 nm|
+|WVMR|     water vapour mixing ratio |
+|LT_CaliRes| long term lidar calibration results|
+
 ### Algorithm
 
 #### saturation detection
@@ -527,7 +584,13 @@ processInfo: struct
 
 #### retrieving results
 
-#### calibration results
+#### depolarization calibration
+
+#### water vapor calibration
+
+#### lidar calibration
+
+#### aerosol categorization
 
 ### Error Analysis
 

@@ -32,22 +32,22 @@ function [parDepol, parDepolStd] = polly_parDepol(volDepol, volDepolStd, aerBsc,
 %		2018-09-05. First edition by Zhenping
 %	Contact:
 %		zhenping@tropos.de
-    
-    
-    parDepol = (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ ...
-                aerBsc ./ (1 + molDepol) + 1) - 1;
-    
-    % partial derivative
-    parDepol_volDepol_func = @(x) (x + 1) ./ (molBsc .* (molDepol - x) ./ aerBsc ./ (1 + molDepol) + 1) - 1;
-    deriv_parDepol_volDepol = (parDepol_volDepol_func(volDepol + 0.005) - parDepol_volDepol_func(volDepol)) ./ 0.005;
-    
-    parDepol_molDepol_func = @(x) (volDepol + 1) ./ (molBsc .* (x - volDepol) ./ aerBsc ./ (1 + x) + 1) - 1;
-    deriv_parDepol_molDepol = (parDepol_molDepol_func(molDepol + 0.0005) - (parDepol_molDepol_func(molDepol))) ./ 0.0005;
-    
-    parDepol_aerBsc_func = @(x) (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ x ./ (1 + molDepol) + 1) - 1;
-    deriv_parDepol_aerBsc = (parDepol_aerBsc_func(aerBsc + 5e-8) - parDepol_aerBsc_func(aerBsc)) ./ 5e-8;
-    
-    % standard deviation
-    parDepolStd = sqrt(deriv_parDepol_volDepol.^2 .* volDepolStd.^2 + deriv_parDepol_molDepol.^2 .* molDepolStd.^2 + deriv_parDepol_aerBsc.^2 .* aerBscStd.^2);
-    
-    end
+
+
+parDepol = (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ ...
+            aerBsc ./ (1 + molDepol) + 1) - 1;
+
+% partial derivative
+parDepol_volDepol_func = @(x) (x + 1) ./ (molBsc .* (molDepol - x) ./ aerBsc ./ (1 + molDepol) + 1) - 1;
+deriv_parDepol_volDepol = (parDepol_volDepol_func(volDepol + 0.005) - parDepol_volDepol_func(volDepol)) ./ 0.005;
+
+parDepol_molDepol_func = @(x) (volDepol + 1) ./ (molBsc .* (x - volDepol) ./ aerBsc ./ (1 + x) + 1) - 1;
+deriv_parDepol_molDepol = (parDepol_molDepol_func(molDepol + 0.0005) - (parDepol_molDepol_func(molDepol))) ./ 0.0005;
+
+parDepol_aerBsc_func = @(x) (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ x ./ (1 + molDepol) + 1) - 1;
+deriv_parDepol_aerBsc = (parDepol_aerBsc_func(aerBsc + 5e-8) - parDepol_aerBsc_func(aerBsc)) ./ 5e-8;
+
+% standard deviation
+parDepolStd = sqrt(deriv_parDepol_volDepol.^2 .* volDepolStd.^2 + deriv_parDepol_molDepol.^2 .* molDepolStd.^2 + deriv_parDepol_aerBsc.^2 .* aerBscStd.^2);
+
+end
