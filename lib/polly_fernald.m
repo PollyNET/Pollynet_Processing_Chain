@@ -103,4 +103,5 @@ for iAlt = indRefMid+1: 1: nAlt
 end
 
 aerBSC = aerBSC / 1e3;   % convert the unit to m^{-1}*Sr^{-1}
+
 end

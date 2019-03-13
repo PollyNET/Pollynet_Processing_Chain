@@ -1,4 +1,4 @@
-function [] = write_2_donelist(file, permission, lidar, location, startTime, stopTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, software_version, product_starttime, product_stoptime)
+function [] = write_2_donelist(file, permission, lidar, location, startTime, stopTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, software_version, product_type, product_starttime, product_stoptime)
 %write_2_donelist Write info of each generated pic to donelist file.
 %   Example:
 %       [] = write_2_donelist(file, permission, lidar, location, startTime, endTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, software_version, comment)
@@ -39,6 +39,8 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, sto
 %           lidar ratio. 
 %       software_version: char
 %           software version
+%       product_type: char
+%           identification for different lidar product. (Detailed information can be found in /doc/pollynet_processing_program.md)
 %       product_starttime: char
 %           the start time for the current product. (yyyymmdd HH:MM:SS)
 %       product_stoptime: char
@@ -48,6 +50,7 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, sto
 %   History:
 %       2019-01-04. First Edition by Zhenping
 %       2019-02-15. Add two params of 'product_starttime' and 'nproduct_stoptime'.
+%       2019-03-12. Add input parameter of 'product_type' according to the requirement of new pollyWebApplication.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -57,7 +60,7 @@ end
 
 fid = fopen(file, permission);
 
-fprintf(fid, 'lidar=%s\nlocation=%s\nstarttime=%s\nstoptime=%s\nlast_update=%s\nlambda=%s\nimage=%s\nlevel=%s\ninfo=%s\nnc_zip_file=%s\nnc_zip_file_size=%s\nactive=%s\nGDAS=%s\nGDAS_timestamp=%s\nlidar_ratio=%s\nsoftware_version=%s\nproduct_starttime=%s\nproduct_stoptime=%s\n------\n', lidar, location, startTime, stopTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, software_version, product_starttime, product_stoptime);
+fprintf(fid, 'lidar=%s\nlocation=%s\nstarttime=%s\nstoptime=%s\nlast_update=%s\nlambda=%s\nimage=%s\nlevel=%s\ninfo=%s\nnc_zip_file=%s\nnc_zip_file_size=%s\nactive=%s\nGDAS=%s\nGDAS_timestamp=%s\nlidar_ratio=%s\nsoftware_version=%s\nproduct_type=%s\nproduct_starttime=%s\nproduct_stoptime=%s\n------\n', lidar, location, startTime, stopTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, software_version, product_type, product_starttime, product_stoptime);
 
 fclose(fid);
 
