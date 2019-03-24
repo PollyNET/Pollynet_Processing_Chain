@@ -1,4 +1,5 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_dwd\data_zip, 2019_02_19_Tue_DWD_00_00_31.nc, pollyxt_dwd\data_zip\201902\2019_02_19_Tue_DWD_00_00_31.nc.zip, 147491280, POLLYXT_DWD
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_dwd\data_zip, 2019_02_19_Tue_DWD_06_00_31.nc, pollyxt_dwd\data_zip\201902\2019_02_19_Tue_DWD_06_00_31.nc.zip, 147491280, POLLYXT_DWD
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_dwd\data_zip, 2019_02_19_Tue_DWD_12_00_31.nc, pollyxt_dwd\data_zip\201902\2019_02_19_Tue_DWD_12_00_31.nc.zip, 147491280, POLLYXT_DWD
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_dwd\data_zip, 2019_02_19_Tue_DWD_18_00_31.nc, pollyxt_dwd\data_zip\201902\2019_02_19_Tue_DWD_18_00_31.nc.zip, 22946128, POLLYXT_DWD
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_05_11_Fri_ARI_00_00_03.nc, arielle\data_zip\201805\2018_05_11_Fri_ARI_00_00_03.nc.zip, 221236860, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_05_11_Fri_ARI_06_00_03.nc, arielle\data_zip\201805\2018_05_11_Fri_ARI_06_00_03.nc.zip, 221236860, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_05_11_Fri_ARI_12_00_03.nc, arielle\data_zip\201805\2018_05_11_Fri_ARI_12_00_03.nc.zip, 72211880, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_05_11_Fri_ARI_17_11_26.nc, arielle\data_zip\201805\2018_05_11_Fri_ARI_17_11_26.nc.zip, 29194360, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_05_11_Fri_ARI_18_00_03.nc, arielle\data_zip\201805\2018_05_11_Fri_ARI_18_00_03.nc.zip, 221236860, ARIELLE

@@ -26,7 +26,7 @@ function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heigh
 %       2018-07-29. Add the height range for the searching instead of SNR restriction.
 %       2018-07-31. Add the maxHThick argument to control the maximum thickness
 %       of each output segment.x
-%   Copywrite:
+%   Copyright:
 %       Ground-based remote sensing (TROPOS)
 
 % input check
