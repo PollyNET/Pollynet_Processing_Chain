@@ -57,6 +57,19 @@ while ~ feof(fid)
     [CH_NDChange] = regexpND(thisLogInfo.ND);
     thisFlag_CH_NDChange = zeros(1, nChannel);
     thisFlag_CH_NDChange(CH_NDChange) = true;
+    
+    % fill 0 at the end for those old Polly systems with less channels.
+    if size(logbook.flag_CH_NDChange, 2) ~= size(thisFlag_CH_NDChange, 2)
+        maxCh = max([size(logbook.flag_CH_NDChange, 2), size(thisFlag_CH_NDChange, 2)]);
+        tmp = zeros(size(logbook.flag_CH_NDChange, 1), maxCh);
+        tmp(:, 1:size(logbook.flag_CH_NDChange, 2)) = logbook.flag_CH_NDChange;
+        logbook.flag_CH_NDChange = tmp;
+
+        tmp = zeros(1, maxCh);
+        tmp(1:size(thisFlag_CH_NDChange, 2)) = thisFlag_CH_NDChange;
+        thisFlag_CH_NDChange = tmp;
+    end
+
     logbook.flag_CH_NDChange = [logbook.flag_CH_NDChange; thisFlag_CH_NDChange];
 
 end
