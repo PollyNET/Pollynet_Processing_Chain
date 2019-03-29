@@ -44,6 +44,7 @@ function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, si
 %           number of iterations to achieve the minimun AOD deviation.
 %	History:
 %		2018-02-03. First edition by Zhenping
+%       2019-03-29. Fix the bug of returning NaN for lidar ratio.
 %	Copyright:
 %		Ground-based remote sensing. (TROPOS)
 
@@ -127,4 +128,7 @@ while AODDev > minAODDev
         maxLR = midLR;
     end
 end
+
+bestLR = midLR;
+
 end

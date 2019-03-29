@@ -58,7 +58,7 @@ quality_mask_voldepol532(:, data.depCalMask) = 2;
 
 % smooth the data
 att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
-volDepol_532_smooth = smooth2(volDepol_532, config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro));
+volDepol_532_smooth = polly_volDepol2(smooth2(squeeze(data.signal(flagChannel532Tot, :, :)), config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)), smooth2(squeeze(data.signal(flagChannel532Cro, :, :)), config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
 
 % set low-SNR data or calibration data to NaN
 att_beta_532(quality_mask_532 > 0) = NaN;
@@ -72,6 +72,14 @@ quasiAttri.timestamp = globalAttri.datetime;
 
 % molecule attenuation
 mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
+
+% set the attenuated signal below the full overlap to be constant.
+fullOvlpIndx532 = find(data.height >= config.heightFullOverlap(flagChannel532Tot), 1);
+if ~ isempty(fullOvlpIndx532)
+    att_beta_532(1:fullOvlpIndx532, :) = repmat(att_beta_532(fullOvlpIndx532, :), fullOvlpIndx532, 1);
+else
+    warning('The full overlap height is too high. Please check the configuration file.');
+end
 
 % quasi particle backscatter and extinction coefficents
 [quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532);

@@ -74,20 +74,23 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     %% determine SNR
     sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali), 3));
     bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali), 3));
-    snr387 = polly_SNR(sig387, bg387);
     sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali), 3));
     bg407 = squeeze(sum(data.bg(flagChannel407, :, flag407On & flagWVCali), 3));
-    snr407 = polly_SNR(sig407, bg407);
+    
+    % smooth the signal
+    smoothWidth = 10;
+    sig387 = transpose(smooth(sig387, smoothWidth));   % according to Guangyao's calibration program.
+    bg387 = transpose(smooth(bg387, smoothWidth));
+    sig407 = transpose(smooth(sig407, smoothWidth));
+    bg407 = transpose(smooth(bg407, smoothWidth));
+    
+    snr407 = polly_SNR(sig407, bg407) * sqrt(smoothWidth);
+    snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
+    
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
     if isempty(hIntBaseIndx)
         hIntBaseIndx = 3;
     end
-
-    % smooth the signal
-    sig387 = smooth(sig387, 7);   % according to Guangyao's calibration program.
-    bg387 = smooth(bg387, 7);
-    sig407 = smooth(sig407, 7);
-    bg407 = smooth(bg407, 7);
 
     % index of full overlap
     hIndxFullOverlap387 = find(data.height >= config.heightFullOverlap(flagChannel387), 1);
@@ -101,8 +104,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % search the index of low SNR
     hIntTopIndx = hIntBaseIndx;   % initialize hIntTopIndx
-    hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.mask_SNRmin(flagChannel387), 1);
-    hIndxLowSNR407 = find(snr407(hIndxFullOverlap407:end) <= config.mask_SNRmin(flagChannel407), 1);
+    hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.minSNRWVCali, 1);
+    hIndxLowSNR407 = find(snr407(hIndxFullOverlap407:end) <= config.minSNRWVCali, 1);
     if isempty(hIndxLowSNR387) || isempty(hIndxLowSNR407)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
@@ -112,9 +115,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
     else
-        hIntTopIndx = find(data.height >= config.hWVCaliTop, 1);
-        if isempty(hIntTopIndx)
-            hIntTopIndx = length(data.height);
+        hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
+        hIndxLowSNR407 = hIndxLowSNR407 + hIndxFullOverlap407 - 1;
+        hIntTopIndx = min([hIndxLowSNR387, hIndxLowSNR407]);
+        if data.height(hIntTopIndx) <= config.hWVCaliTop
+            fprintf('Integration top is less than %dm to perform water calibration at %s during %s to %s.\n', config.hWVCaliTop, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+            flagLowSNR = true;
+            thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
         end
         thisIntRange = [hIntBaseIndx, hIntTopIndx];
     end
@@ -143,12 +150,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
         intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
-        intFlag(sig387 > 0.1) = true;
+        intFlag((sig387 > 0.1) & (sig407 > 0.1)) = true;
             
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
-        wvmrRaw(~ intFlag) = 0;
+        wvmrRaw(~ intFlag) = nan;
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
-        IWVRaw = sum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
+        IWVRaw = nansum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
 
         thisWVconst = IWV_Cali ./ IWVRaw;   % g*kg^{-1}
         thisWVconstStd = 0;   % TODO: this can be done by taking into account the uncertainty of IWV by AERONET and the signal uncertainty by lidar.
