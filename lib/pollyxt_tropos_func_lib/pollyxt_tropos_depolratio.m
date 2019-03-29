@@ -99,7 +99,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             refHIndx355 = data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2);
 
             fprintf('Calibrate the molecule depol.ratio for the %d cloud free period at 355 nm.\n', iGroup);
-            [thisMoldepol355, thisMoldepolStd355, thisFlagDefaultMoldepol355] = polly_molDepol(sig355Tot(refHIndx355), bg355Tot(refHIndx355), sig355Cro(refHIndx355), bg355Cro(refHIndx355), config.TR(flagChannel355Tot), 0, config.TR(flagChannel355Cro), 0, data.depol_cal_fac_355, data.depol_cal_fac_std_355, 80, defaults.molDepol355, defaults.molDepolStd355);
+            [thisMoldepol355, thisMoldepolStd355, thisFlagDefaultMoldepol355] = polly_molDepol(sig355Tot(refHIndx355), bg355Tot(refHIndx355), sig355Cro(refHIndx355), bg355Cro(refHIndx355), config.TR(flagChannel355Tot), 0, config.TR(flagChannel355Cro), 0, data.depol_cal_fac_355, data.depol_cal_fac_std_355, 10, defaults.molDepol355, defaults.molDepolStd355);
 
             % based with klett retrieved bsc
             [thisPardepol355_klett, thisPardepolStd355_klett] = polly_parDepol(thisVoldepol355, thisVoldepoStdl355, data.aerBsc355_klett(iGroup, :), ones(size(data.aerBsc355_klett(iGroup, :))) * 1e-7, molBsc355, thisMoldepol355, thisMoldepolStd355);
@@ -151,7 +151,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             refHIndx532 = data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2);
 
             fprintf('Calibrate the molecule depol.ratio for the %d cloud free period at 532 nm.\n', iGroup);
-            [thisMoldepol532, thisMoldepolStd532, thisFlagDefaultMoldepol532] = polly_molDepol(sig532Tot(refHIndx532), bg532Tot(refHIndx532), sig532Cro(refHIndx532), bg532Cro(refHIndx532), config.TR(flagChannel532Tot), 0, config.TR(flagChannel532Cro), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532, 80, defaults.molDepol532, defaults.molDepolStd532);
+            [thisMoldepol532, thisMoldepolStd532, thisFlagDefaultMoldepol532] = polly_molDepol(sig532Tot(refHIndx532), bg532Tot(refHIndx532), sig532Cro(refHIndx532), bg532Cro(refHIndx532), config.TR(flagChannel532Tot), 0, config.TR(flagChannel532Cro), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532, 10, defaults.molDepol532, defaults.molDepolStd532);
 
             % based with klett retrieved bsc
             [thisPardepol532_klett, thisPardepolStd532_klett] = polly_parDepol(thisVoldepol532, thisVoldepoStdl532, data.aerBsc532_klett(iGroup, :), ones(size(data.aerBsc532_klett(iGroup, :))) * 1e-7, molBsc532, thisMoldepol532, thisMoldepolStd532);

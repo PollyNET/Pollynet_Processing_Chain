@@ -83,6 +83,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         hIntBaseIndx = 3;
     end
 
+    % smooth the signal
+    sig387 = smooth(sig387, 7);   % according to Guangyao's calibration program.
+    bg387 = smooth(bg387, 7);
+    sig407 = smooth(sig407, 7);
+    bg407 = smooth(bg407, 7);
+
     % index of full overlap
     hIndxFullOverlap387 = find(data.height >= config.heightFullOverlap(flagChannel387), 1);
     hIndxFullOverlap407 = find(data.height >= config.heightFullOverlap(flagChannel407), 1);
@@ -106,13 +112,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
     else
-        hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
-        hIndxLowSNR407 = hIndxLowSNR407 + hIndxFullOverlap407 - 1;
-        hIntTopIndx = min([hIndxLowSNR387, hIndxLowSNR407]);
-        if data.height(hIntTopIndx) <= config.minHWVCaliTop
-            fprintf('Integration top is less than %dm to perform water calibration at %s during %s to %s.\n', config.minHWVCaliTop, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
-            flagLowSNR = true;
-            thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
+        hIntTopIndx = find(data.height >= config.hWVCaliTop, 1);
+        if isempty(hIntTopIndx)
+            hIntTopIndx = length(data.height);
         end
         thisIntRange = [hIntBaseIndx, hIntTopIndx];
     end
@@ -140,7 +142,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         trans387 = exp(-cumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
+        intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
+        intFlag(sig387 > 0.1) = true;
+            
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
+        wvmrRaw(~ intFlag) = 0;
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
         IWVRaw = sum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
 
