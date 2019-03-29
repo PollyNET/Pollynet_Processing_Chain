@@ -95,8 +95,8 @@ quality_mask_voldepol355(:, data.depCalMask) = 2;
 att_beta_355 = smooth2(data.att_beta_355, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
 att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
 att_beta_1064 = smooth2(data.att_beta_1064, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
-volDepol_532_smooth = smooth2(volDepol_532, config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro));
-volDepol_355_smooth = smooth2(volDepol_355, config.quasi_smooth_h(flagChannel355Cro), config.quasi_smooth_t(flagChannel355Cro));
+volDepol_532_smooth = polly_volDepol2(smooth2(squeeze(data.signal(flagChannel532Tot, :, :)), config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)), smooth2(squeeze(data.signal(flagChannel532Cro, :, :)), config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
+volDepol_355_smooth = polly_volDepol2(smooth2(squeeze(data.signal(flagChannel355Tot, :, :)), config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot)), smooth2(squeeze(data.signal(flagChannel355Cro, :, :)), config.quasi_smooth_h(flagChannel355Cro), config.quasi_smooth_t(flagChannel355Cro)), config.TR(flagChannel355Tot), config.TR(flagChannel355Cro), data.depol_cal_fac_355);
 
 % set low-SNR data or calibration data to NaN
 att_beta_355(quality_mask_355 > 0) = NaN;
@@ -115,6 +115,26 @@ quasiAttri.timestamp = globalAttri.datetime;
 mol_att_355 = exp(- cumsum(molExt355 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 mol_att_1064 = exp(- cumsum(molExt1064 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
+
+% set the attenuated signal below the full overlap to be constant.
+fullOvlpIndx355 = find(data.height >= config.heightFullOverlap(flagChannel355Tot), 1);
+fullOvlpIndx532 = find(data.height >= config.heightFullOverlap(flagChannel532Tot), 1);
+fullOvlpIndx1064 = find(data.height >= config.heightFullOverlap(flagChannel1064), 1);
+if ~ isempty(fullOvlpIndx355)
+    att_beta_355(1:fullOvlpIndx355, :) = repmat(att_beta_355(fullOvlpIndx355, :), fullOvlpIndx355, 1);
+else
+    warning('The full overlap height is too high. Please check the configuration file.');
+end
+if ~ isempty(fullOvlpIndx532)
+    att_beta_532(1:fullOvlpIndx532, :) = repmat(att_beta_532(fullOvlpIndx532, :), fullOvlpIndx532, 1);
+else
+    warning('The full overlap height is too high. Please check the configuration file.');
+end
+if ~ isempty(fullOvlpIndx1064)
+    att_beta_1064(1:fullOvlpIndx1064, :) = repmat(att_beta_1064(fullOvlpIndx1064, :), fullOvlpIndx1064, 1);
+else
+    warning('The full overlap height is too high. Please check the configuration file.');
+end
 
 % quasi particle backscatter and extinction coefficents
 [quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, att_beta_355, molExt355, molBsc355, config.LR355);

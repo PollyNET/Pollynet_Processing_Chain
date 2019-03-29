@@ -74,20 +74,23 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     %% determine SNR
     sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali), 3));
     bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali), 3));
-    snr387 = polly_SNR(sig387, bg387);
     sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali), 3));
     bg407 = squeeze(sum(data.bg(flagChannel407, :, flag407On & flagWVCali), 3));
-    snr407 = polly_SNR(sig407, bg407);
+    
+    % smooth the signal
+    smoothWidth = 10;
+    sig387 = transpose(smooth(sig387, smoothWidth));   % according to Guangyao's calibration program.
+    bg387 = transpose(smooth(bg387, smoothWidth));
+    sig407 = transpose(smooth(sig407, smoothWidth));
+    bg407 = transpose(smooth(bg407, smoothWidth));
+    
+    snr407 = polly_SNR(sig407, bg407) * sqrt(smoothWidth);
+    snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
+    
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
     if isempty(hIntBaseIndx)
         hIntBaseIndx = 3;
     end
-
-    % smooth the signal
-    sig387 = transpose(smooth(sig387, 10));   % according to Guangyao's calibration program.
-    bg387 = transpose(smooth(bg387, 10));
-    sig407 = transpose(smooth(sig407, 10));
-    bg407 = transpose(smooth(bg407, 10));
 
     % index of full overlap
     hIndxFullOverlap387 = find(data.height >= config.heightFullOverlap(flagChannel387), 1);

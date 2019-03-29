@@ -105,8 +105,8 @@
 	"LCMeanMinIndx": 70,
 	"LCMeanMaxIndx": 1000,
 	"LCCalibrationStatus": ["none", "Klett", "Raman", "Defaults", "History"],
-	"quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	"quasi_smooth_t": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	"quasi_smooth_h": [4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4],
+	"quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
 	"hWVCaliBase": 120,
 	"hWVCaliTop": 4000,
 	"minSNRWVCali": 0.03,
@@ -138,9 +138,13 @@
 	"LC1064Range": [0, 1e14],
 	"LC387Range": [0, 1e14],
 	"LC607Range": [0, 1e14],
+	"WVConstRange": [0, 20],
+	"depolConstRange355": [0, 0.2],
+	"depolConstRange532": [0, 0.2],
 
 	"depolCaliFile532": "pollyxt_lacros_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_lacros_depolcali_355_results.txt",
 	"wvCaliFile": "pollyxt_lacros_wvcali_results.txt",
-	"lcCaliFile": "pollyxt_lacros_lccali_results.txt"
+	"lcCaliFile": "pollyxt_lacros_lccali_results.txt",
+	"logbookFile": "C:\\Users\\zhenping\\Documents\\Data\\PollyXT\\pollyxt_lacros\\logbook.csv"
 }

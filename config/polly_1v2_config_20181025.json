@@ -68,7 +68,8 @@
 	"quasi_smooth_h": [1, 1, 1, 1, 1],
 	"quasi_smooth_t": [1, 1, 1, 1, 1],
 	"hWVCaliBase": 120,
-	"hWVCaliTop": 8000,
+	"hWVCaliTop": 4000,
+	"minSNRWVCali": 0.03,
 
 	"overlap532Color": [0, 255, 64],
 	"RCSProfileRange": [1e-2, 1e2],
