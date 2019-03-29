@@ -62,7 +62,7 @@
 	"meteorDataSource": "gdas1",
 	"radiosondeSitenum": 3612,
 	"IWV_instrument": "AERONET",
-	"maxIWVTLag": 0.1666,
+	"maxIWVTLag": 0.0833,
 	"minDecomLogDist355": 0.2,
 	"minDecomLogDist532": 0.2,
 	"minDecomLogDist1064": 0.2,

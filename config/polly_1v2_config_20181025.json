@@ -43,7 +43,7 @@
 	"meteorDataSource": "gdas1",
 	"radiosondeSitenum": 3700,
 	"IWV_instrument": "AERONET",
-	"maxIWVTLag": 0.1666,
+	"maxIWVTLag": 0.0833,
 	"minDecomLogDist532": 0.2,
 	"maxDecomHeight532": 8000,
 	"maxDecomThickness532": 700,
@@ -68,6 +68,7 @@
 	"quasi_smooth_h": [1, 1, 1, 1, 1],
 	"quasi_smooth_t": [1, 1, 1, 1, 1],
 	"hWVCaliBase": 120,
+	"hWVCaliTop": 8000,
 
 	"overlap532Color": [0, 255, 64],
 	"RCSProfileRange": [1e-2, 1e2],

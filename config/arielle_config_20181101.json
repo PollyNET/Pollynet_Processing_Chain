@@ -57,7 +57,7 @@
 	"meteorDataSource": "gdas1",
 	"radiosondeSitenum": 0,
 	"IWV_instrument": "AERONET",
-	"maxIWVTLag": 0.1666,
+	"maxIWVTLag": 0.0833,
 	"minDecomLogDist355": 0.2,
 	"minDecomLogDist532": 0.2,
 	"minDecomLogDist1064": 0.2,
@@ -105,7 +105,7 @@
 	"quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	"quasi_smooth_t": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
 	"hWVCaliBase": 120,
-	"minHWVCaliTop": 2000,
+	"hWVCaliTop": 8000,
 
 	"clear_thres_par_beta_1064": 1e-8,
 	"turbid_thres_par_beta_1064": 2e-7,
