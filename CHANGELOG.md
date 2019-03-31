@@ -12,6 +12,7 @@
 |2019-02-20|Add function to save the volume depolarization ratio|User demands|
 |2019-02-26|Use previous calibrated results with a time lag less than a week as default values instead of pre-set default values in `*_default.json`|Remove the repeated step to set up a new default file in case settings of the lidar were changed|
 |2019-03-28|Change the water vapor calibration function. Remove the SNR determination and replace with fixed integration height|SNR determination can not catch the lofted moist layer and will lead to large calibration error.|
+|2019-03-31|Add more iteration times for the quasi-retrieving method|Make the quasi backscatter at 355 and 532 nm converged to the true values|
 
 ### Version 1.0
 
