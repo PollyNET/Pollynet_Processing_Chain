@@ -79,7 +79,11 @@ quality_mask_voldepol532(:, data.depCalMask) = 2;
 % smooth the data
 att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
 att_beta_1064 = smooth2(data.att_beta_1064, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
-volDepol_532_smooth = polly_volDepol2(smooth2(squeeze(data.signal(flagChannel532Tot, :, :)), config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)), smooth2(squeeze(data.signal(flagChannel532Cro, :, :)), config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
+sig532Tot = squeeze(data.signal(flagChannel532Tot, :, :));
+sig532Tot(:, data.depCalMask) = NaN;
+sig532Cro = squeeze(data.signal(flagChannel532Cro, :, :));
+sig532Cro(:, data.depCalMask) = NaN;
+volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot)), smooth2(sig532Cro, config.quasi_smooth_h(flagChannel532Cro), config.quasi_smooth_t(flagChannel532Cro)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
 
 % set low-SNR data or calibration data to NaN
 att_beta_532(quality_mask_532 > 0) = NaN;
@@ -111,8 +115,8 @@ else
 end
 
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532);
-[quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, att_beta_1064, molExt1064, molBsc1064, config.LR1064);
+[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532, 6);
+[quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, att_beta_1064, molExt1064, molBsc1064, config.LR1064, 2);
 
 % quasi particle depolarization ratio and Ångström exponents
 quasi_par_depol_532 = (volDepol_532_smooth + 1) ./ (molBsc532 .* (defaults.molDepol532 - volDepol_532_smooth) ./ (quasi_par_bsc_532 .* (1 + defaults.molDepol532)) + 1) - 1;
