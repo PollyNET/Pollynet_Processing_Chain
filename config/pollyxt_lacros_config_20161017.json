@@ -13,7 +13,7 @@
 	"AERONETSite": "CUT-TEPAK",
 
 	"max_height_bin": 2500,
-	"first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262],
+	"first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 257, 257, 257, 257],
 	"first_range_gate_height": 78.75,
 	"dtCorModeLabel": ["Polynomial coefficients stores in netcdf file", "nonparalyzable correction", "User defined polynomial cofficients"],
 	"dtCorMode": 1,
