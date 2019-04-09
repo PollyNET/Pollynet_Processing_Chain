@@ -32,7 +32,6 @@ netcdf.endDef(ncID);
 % write data to .nc file
 netcdf.putVar(ncID, varID_altitude, data.alt);
 netcdf.putVar(ncID, varID_time, data.mTime);
-netcdf.putVar(ncID, varID_voldepol_355, data.volDepol_355);
 netcdf.putVar(ncID, varID_voldepol_532, data.volDepol_532);
 
 % re enter define mode

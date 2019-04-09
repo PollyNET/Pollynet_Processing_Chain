@@ -85,7 +85,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	if isempty(campaignInfo.location) || isempty(campaignInfo.name)
 		continue;
 	end
-	fprintf('%s campaign info:\nlocation: %s\nLat: %f\nLon: %f\nasl(m): %f\ncaption: %s\n', campaignInfo.name, campaignInfo.location, campaignInfo.lon, campaignInfo.lat, campaignInfo.asl, campaignInfo.caption);
+	fprintf('%s campaign info:\nlocation: %s\nLat: %f\nLon: %f\nasl(m): %f\nstartTime: %s\ncaption: %s\n', campaignInfo.name, campaignInfo.location, campaignInfo.lon, campaignInfo.lat, campaignInfo.asl, datestr(campaignInfo.startTime, 'yyyy-mm-dd HH:MM'), campaignInfo.caption);
 	fprintf('[%s] Finish.\n', tNow());
 
 	%% search for polly config, process func and load defaults function
@@ -118,7 +118,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('[%s] Finish.\n', tNow());
 
 	%% realtime process
-	fprintf('\n[%s] Stasktart to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
+	fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
 	reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
 	report = cat(2, report, reportTmp);
 	fprintf('[%s]Finish.\n', tNow());
@@ -139,3 +139,4 @@ fprintf('%%------------------------------------------------------%%\n');
 
 %% publish the report
 % publish_report(report, config);
+system(sprintf('%s %s %s %s "%s" "%s" "%s"', fullfile(config.pyBinDir, 'python'), fullfile(projectDir, 'lib', 'sendmail_msg.py'), 'yzp528172875@gmail.com', 'zhenping@tropos.de', sprintf('[%s] PollyNET Processing Report', tNow()), 'Have an overview', config.fileinfo_new));

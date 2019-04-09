@@ -1,4 +1,4 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_06_Thu_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_06_Thu_LACROS_00_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_06_Thu_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_06_Thu_LACROS_06_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_06_Thu_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_06_Thu_LACROS_12_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_06_Thu_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_06_Thu_LACROS_18_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_00_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_06_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_12_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_18_00_01.nc.zip, 221231092, POLLYXT_LACROS

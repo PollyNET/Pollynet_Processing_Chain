@@ -145,8 +145,8 @@ else
 end
 
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, att_beta_355, molExt355, molBsc355, config.LR355, 6);
-[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532, 6);
+[quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, att_beta_355, molExt355, molBsc355, config.LR355, 2);
+[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532, 2);
 [quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, att_beta_1064, molExt1064, molBsc1064, config.LR1064, 2);
 
 % quasi particle depolarization ratio and Ångström exponents

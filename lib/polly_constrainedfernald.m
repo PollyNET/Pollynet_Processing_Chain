@@ -45,6 +45,7 @@ function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, si
 %	History:
 %		2018-02-03. First edition by Zhenping
 %       2019-03-29. Fix the bug of returning NaN for lidar ratio.
+%       2019-04-09. Screen out the negative backscatter coefficient during the calculation.
 %	Copyright:
 %		Ground-based remote sensing. (TROPOS)
 
@@ -83,6 +84,10 @@ while AODDev > minAODDev
     bscMid(1:hBaseIndx) = bscMid(hBaseIndx);
     bscMax(1:hBaseIndx) = bscMax(hBaseIndx);
     bscMin(1:hBaseIndx) = bscMin(hBaseIndx);
+
+    bscMid(bscMid < 0) = 0;
+    bscMax(bscMax < 0) = 0;
+    bscMin(bscMin < 0) = 0;
 
     biasAODMax = sum(bscMax .* [height(1), diff(height)] * maxLR) - AOD_AERONET;
     biasAODMin = sum(bscMin .* [height(1), diff(height)] * minLR) - AOD_AERONET;
