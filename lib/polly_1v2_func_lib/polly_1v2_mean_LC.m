@@ -70,7 +70,7 @@ elseif ~ isnan(LC_klett_532_mean)
         flagLCWarning532 = true;
     end
 else
-    if ~ isempty(LC532History)
+    if (~ isempty(LC532History)) && config.flagUsePreviousLC
         LCUsed532 = LC532History;
         LCUsedTag532 = 4;
         flagLCWarning532 = false;

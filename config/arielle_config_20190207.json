@@ -5,6 +5,7 @@
 	"flagWVCalibration": true,
 	"flagUsePreviousDepolCali": true,
 	"flagUsePreviousWVconst": true,
+	"flagUsePreviousLC": true,
 
 	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc",
 	"gdas1Site": "davos",

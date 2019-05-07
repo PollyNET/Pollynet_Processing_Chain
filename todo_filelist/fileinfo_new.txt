@@ -1,4 +1,5 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_00_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_06_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_12_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2017_04_05_Wed_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201704\2017_04_05_Wed_LACROS_18_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_12_08_Sat_ARI_00_00_02.nc, arielle\data_zip\201812\2018_12_08_Sat_ARI_00_00_02.nc.zip, 239671816, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_12_08_Sat_ARI_06_00_02.nc, arielle\data_zip\201812\2018_12_08_Sat_ARI_06_00_02.nc.zip, 37951384, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_12_08_Sat_ARI_07_10_06.nc, arielle\data_zip\201812\2018_12_08_Sat_ARI_07_10_06.nc.zip, 92209520, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_12_08_Sat_ARI_14_07_14.nc, arielle\data_zip\201812\2018_12_08_Sat_ARI_14_07_14.nc.zip, 154123712, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, arielle\data_zip, 2018_12_08_Sat_ARI_18_00_03.nc, arielle\data_zip\201812\2018_12_08_Sat_ARI_18_00_03.nc.zip, 239671816, ARIELLE

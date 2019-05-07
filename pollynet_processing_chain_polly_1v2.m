@@ -201,4 +201,11 @@ end
 %% get report
 report = polly_1v2_results_report(data, taskInfo, config);
 
+%% debug output
+if isfield(processInfo, 'flagDebugOutput')
+    if processInfo.flagDebugOutput
+        save(fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'), [rmext(taskInfo.dataFilename), '.mat']));
+    end
+end
+
 end

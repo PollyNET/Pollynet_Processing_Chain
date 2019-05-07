@@ -4,7 +4,8 @@
 	"flagDTCor": true,
 	"flagWVCalibration": true,
 	"flagUsePreviousDepolCali": true,
-	"flagUsePreviousWVconst": true,	
+	"flagUsePreviousWVconst": true,
+	"flagUsePreviousLC": true,
 
 	"MWRFolder": "C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR",
 

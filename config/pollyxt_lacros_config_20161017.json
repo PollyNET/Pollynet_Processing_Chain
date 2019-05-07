@@ -5,6 +5,7 @@
 	"flagWVCalibration": true,
 	"flagUsePreviousDepolCali": true,
 	"flagUsePreviousWVconst": true,	
+	"flagUsePreviousLC": true,
 
 	"MWRFolder": "",
 
