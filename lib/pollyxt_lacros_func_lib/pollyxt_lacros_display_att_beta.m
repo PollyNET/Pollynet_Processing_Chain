@@ -31,7 +31,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ATT_BETA_355(data.quality_mask_355 > 0) = NaN;
     p1 = pcolor(data.mTime, data.height, ATT_BETA_355 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 15]);
+    caxis(config.att_beta_cRange_355);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 15000]);
     xlabel('UTC');
@@ -67,7 +67,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ATT_BETA_532(data.quality_mask_532 > 0) = NaN;
     p1 = pcolor(data.mTime, data.height, ATT_BETA_532 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 5]);
+    caxis(config.att_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 15000]);
     xlabel('UTC');
@@ -103,7 +103,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ATT_BETA_1064(data.quality_mask_1064 > 0) = NaN;
     p1 = pcolor(data.mTime, data.height, ATT_BETA_1064 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 2]);
+    caxis(config.att_beta_cRange_1064);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 15000]);
     xlabel('UTC');
@@ -148,6 +148,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     flagLC532 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1};
     flagLC1064 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1};
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    att_beta_cRange_355 = config.att_beta_cRange_355;
+    att_beta_cRange_532 = config.att_beta_cRange_532;
+    att_beta_cRange_1064 = config.att_beta_cRange_1064;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -156,7 +159,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_lacros_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0

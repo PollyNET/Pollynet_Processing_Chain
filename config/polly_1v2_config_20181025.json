@@ -78,6 +78,7 @@
 	"aerExtProfileRange": [-1, 150],
 	"aerLRProfileRange": [0, 120],
 	"LC532Range": [0, 2e14],
+	"att_beta_cRange_532": [0, 5],
 
 	"lcCaliFile": "pollyxt_arielle_lccali_results.txt"
 }
