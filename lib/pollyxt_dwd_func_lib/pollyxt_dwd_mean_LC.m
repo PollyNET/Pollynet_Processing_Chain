@@ -98,7 +98,7 @@ elseif ~ isnan(LC_klett_355_mean)
         flagLCWarning355 = true;
     end
 else
-    if ~ isempty(LC355History)
+    if (~ isempty(LC355History)) && config.flagUsePreviousLC
         LCUsed355 = LC355History;
         LCUsedTag355 = 4;
         flagLCWarning355 = false;
@@ -123,7 +123,7 @@ elseif ~ isnan(LC_klett_532_mean)
         flagLCWarning532 = true;
     end
 else
-    if ~ isempty(LC532History)
+    if (~ isempty(LC532History)) && config.flagUsePreviousLC
         LCUsed532 = LC532History;
         LCUsedTag532 = 4;
         flagLCWarning532 = false;
@@ -148,7 +148,7 @@ elseif ~ isnan(LC_klett_1064_mean)
         flagLCWarning1064 = true;
     end
 else
-    if ~ isempty(LC1064History)
+    if (~ isempty(LC1064History)) && config.flagUsePreviousLC
         LCUsed1064 = LC1064History;
         LCUsedTag1064 = 4;
         flagLCWarning1064 = false;

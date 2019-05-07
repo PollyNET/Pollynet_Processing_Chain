@@ -49,7 +49,7 @@ sigmaB = NaN;
 Q = NaN;
 
 if isempty(xN) || length(xN) <= 1
-	warning('Not enough data for chi2 regression or too much NaN values inside.');
+	% warning('Not enough data for chi2 regression or too much NaN values inside.');
 	return;
 end
 

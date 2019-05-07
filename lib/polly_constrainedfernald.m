@@ -85,13 +85,9 @@ while AODDev > minAODDev
     bscMax(1:hBaseIndx) = bscMax(hBaseIndx);
     bscMin(1:hBaseIndx) = bscMin(hBaseIndx);
 
-    bscMid(bscMid < 0) = 0;
-    bscMax(bscMax < 0) = 0;
-    bscMin(bscMin < 0) = 0;
-
-    biasAODMax = sum(bscMax .* [height(1), diff(height)] * maxLR) - AOD_AERONET;
-    biasAODMin = sum(bscMin .* [height(1), diff(height)] * minLR) - AOD_AERONET;
-    biasAODMid = sum(bscMid .* [height(1), diff(height)] * midLR) - AOD_AERONET;
+    biasAODMax = sum(bscMax(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * maxLR) - AOD_AERONET;
+    biasAODMin = sum(bscMin(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * minLR) - AOD_AERONET;
+    biasAODMid = sum(bscMid(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * midLR) - AOD_AERONET;
 
     AODDev = abs(biasAODMid);
 
