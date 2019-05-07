@@ -149,6 +149,9 @@
 	"LC1064Range": [0, 6e14],
 	"LC387Range": [0, 1e14],
 	"LC607Range": [0, 3e14],
+	"att_beta_cRange_355": [0, 15],
+	"att_beta_cRange_532": [0, 5],
+	"att_beta_cRange_1064": [0, 2],
 
 	"depolCaliFile532": "pollyxt_tropos_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_tropos_depolcali_355_results.txt",

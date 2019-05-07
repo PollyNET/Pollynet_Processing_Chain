@@ -135,6 +135,9 @@
 	"LC355Range": [0, 1e13],
 	"LC532Range": [0, 1e13],
 	"LC1064Range": [0, 1e13],
+	"att_beta_cRange_355": [0, 15],
+	"att_beta_cRange_532": [0, 5],
+	"att_beta_cRange_1064": [0, 2],
 
 	"depolCaliFile532": "pollyxt_dwd_depolcali_532_results.txt",
 	"lcCaliFile": "pollyxt_dwd_lccali_results.txt"
