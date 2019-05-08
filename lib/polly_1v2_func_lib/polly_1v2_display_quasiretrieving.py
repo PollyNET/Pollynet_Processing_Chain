@@ -77,6 +77,8 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
         quasi_pardepol_532 = mat['quasi_pardepol_532'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
+        quasi_Par_DR_cRange_532 = mat['quasi_Par_DR_cRange_532'][0][:]
         pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -101,7 +103,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     # display quasi backscatter at 532 nm
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_532 * 1e6, vmin=0, vmax=5, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_532 * 1e6, vmin=quasi_beta_cRange_532[0], vmax=quasi_beta_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
 
@@ -126,7 +128,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     # display quasi particle depolarization ratio at 532 nm
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, quasi_pardepol_532, vmin=0, vmax=0.4, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, quasi_pardepol_532, vmin=quasi_Par_DR_cRange_532[0], vmax=quasi_Par_DR_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=14)
 
