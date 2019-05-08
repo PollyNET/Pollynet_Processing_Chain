@@ -113,8 +113,8 @@
 	"minSNRWVCali": 0.03,
 
 	"clear_thres_par_beta_1064": 1e-8,
-	"turbid_thres_par_beta_1064": 2e-7,
-	"turbid_thres_par_beta_532": 2e-7,
+	"turbid_thres_par_beta_1064": 0.5e-7,
+	"turbid_thres_par_beta_532": 0.5e-7,
 	"droplet_thres_par_depol": 0.05,
 	"spheroid_thres_par_depol": 0.07,
 	"unspheroid_thres_par_depol": 0.2,
@@ -143,8 +143,11 @@
 	"depolConstRange355": [0, 0.2],
 	"depolConstRange532": [0, 0.2],
 	"att_beta_cRange_355": [0, 15],
-	"att_beta_cRange_532": [0, 5],
+	"att_beta_cRange_532": [0, 2],
 	"att_beta_cRange_1064": [0, 0.8],
+	"quasi_beta_cRange_532": [0, 2],
+	"quasi_beta_cRange_1064": [0, 0.8],
+	"quasi_Par_DR_cRange_532": [0, 0.4],
 
 	"depolCaliFile532": "pollyxt_lacros_depolcali_532_results.txt",
 	"depolCaliFile355": "pollyxt_lacros_depolcali_355_results.txt",

@@ -32,7 +32,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     quasi_bsc_532(data.quality_mask_532 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_bsc_532 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 3]);
+    caxis(config.quasi_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 12000]);
     xlabel('UTC');
@@ -67,7 +67,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     quasi_bsc_1064(data.quality_mask_1064 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_bsc_1064 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 3]);
+    caxis(config.quasi_beta_cRange_1064);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 12000]);
     xlabel('UTC');
@@ -102,7 +102,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     quasi_pardepol_532(data.quality_mask_532 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_pardepol_532); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 0.4]);
+    caxis(config.quasi_Par_DR_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 12000]);
     xlabel('UTC');
@@ -178,6 +178,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     quasi_ang_532_1064 = data.quasi_ang_532_1064;
     height = data.height;
     time = data.mTime;
+    quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
+    quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
+    quasi_beta_cRange_1064 = config.quasi_beta_cRange_1064;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
@@ -186,8 +189,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
     
-    %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    %% display quasi results
+    save(fullfile(tmpFolder, 'tmp.mat'), 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
