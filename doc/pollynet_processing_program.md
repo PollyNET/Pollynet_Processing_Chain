@@ -582,6 +582,8 @@ processInfo: struct
 
 ### Products
 
+After each run, the aerosol and water vapor products will be processed and be saved to netCDF files. 
+
 #### retrieving results
 
 #### depolarization calibration
