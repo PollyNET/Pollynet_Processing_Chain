@@ -198,6 +198,9 @@ if processInfo.flagEnableResultsOutput
     %% save attenuated backscatter
     pollyxt_lacros_save_att_bsc(data, taskInfo, config);
 
+    %% save water vapor mixing ratio and relative humidity
+    pollyxt_lacros_save_WVMR_RH(data, taskInfo, config);
+
     %% save volume depolarization ratio
     pollyxt_lacros_save_voldepol(data, taskInfo, config);
 
