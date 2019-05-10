@@ -13,6 +13,7 @@ function [] = pollyxt_tropos_save_retrieving_results(data, taskInfo, config)
 %       
 %   History:
 %       2018-12-31. First Edition by Zhenping
+%       2019-05-10. Add one field of start&end time to be compatible with larda ncReader.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -22,6 +23,8 @@ missing_value = -999;
 
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     ncFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_%s_profiles.nc', rmext(taskInfo.dataFilename), datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HHMM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HHMM')));
+    startTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
+    endTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
 
     % filling missing values for reference height
     if isnan(data.refHIndx355(iGroup, 1))
@@ -49,6 +52,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     dimID_refHeight = netcdf.defDim(ncID, 'reference_height', 2);
 
     % define variables
+    varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_method);
+    varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_method);
     varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_altitude);
     varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_altitude);
     varID_aerBsc_klett_355 = netcdf.defVar(ncID, 'aerBsc_klett_355', 'NC_DOUBLE', dimID_altitude);
@@ -87,6 +92,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.endDef(ncID);
 
     % write data to .nc file
+    netcdf.putVar(ncID, varID_startTime, startTime);
+    netcdf.putVar(ncID, varID_endTime, endTime);
     netcdf.putVar(ncID, varID_height, data.height);
     netcdf.putVar(ncID, varID_altitude, data.alt);
     netcdf.putVar(ncID, varID_aerBsc_klett_355, fillmissing(data.aerBsc355_klett(iGroup, :)) * 1e6);
@@ -133,6 +140,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
     netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
     netcdf.putAtt(ncID, varID_global, 'contact', sprintf('%s', processInfo.contact));
+
+    netcdf.putAtt(ncID, varID_startTime, 'unit', '');
+    netcdf.putAtt(ncID, varID_startTime, 'long_name', 'start time for the profile (matlab datenum)');
+    netcdf.putAtt(ncID, varID_startTime, 'standard_name', 'startTime');
+
+    netcdf.putAtt(ncID, varID_endTime, 'unit', '');
+    netcdf.putAtt(ncID, varID_endTime, 'long_name', 'end time for the profile (matlab datenum)');
+    netcdf.putAtt(ncID, varID_endTime, 'standard_name', 'endTime');
 
     netcdf.putAtt(ncID, varID_height, 'unit', 'm');
     netcdf.putAtt(ncID, varID_height, 'long_name', 'height (above surface)');

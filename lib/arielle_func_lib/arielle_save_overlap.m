@@ -18,7 +18,6 @@ function [] = arielle_save_overlap(data, config, globalAttri, file)
 %               default overlap for 355 nm far range total channel.
 %       file: char
 %           netcdf file to save the overlap parameters.
-%       
 %   Outputs:
 %       
 %   History:
