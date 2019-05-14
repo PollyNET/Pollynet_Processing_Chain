@@ -155,7 +155,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     startIndx = data.cloudFreeGroups(iGroup, 1);
     endIndx = data.cloudFreeGroups(iGroup, 2);
 
-    % gdas timestamp or standar atmosphere
+    % gdas timestamp or standard atmosphere
     meteorStr = '';
     if strcmpi(data.meteorAttri.dataSource{iGroup}, 'gdas1')
         meteorStr = sprintf('Meteorological data from %s at %s on %s UTC', upper(config.meteorDataSource), config.gdas1Site, datestr(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH'));
