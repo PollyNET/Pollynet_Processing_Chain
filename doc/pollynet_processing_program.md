@@ -135,7 +135,7 @@ data: struct
     latitude of measurement site. [degree]
   lon: float
     longtitude of measurement site. [degree]
-  alt: float
+  alt0: float
     altitude of measurement site. [m]
   monitorStatus: struct
     time: array

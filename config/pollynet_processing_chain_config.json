@@ -13,6 +13,7 @@
 	"minDataSize": 1000000,
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
+	"homepage": "http://polly.rsd.tropos.de/",
 	"contact": "Zhenping Yin <zhenping@tropos.de>",
 	"programVersion": "1.1",
 
@@ -21,8 +22,8 @@
 	"flagDeleteData": false,
 
 	"flagEnableResultsOutput": true,
-	"flagEnableDataVisualization": true,	
-	"flagDebugOutput": true,
+	"flagEnableDataVisualization": false,	
+	"flagDebugOutput": false,
 
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }
