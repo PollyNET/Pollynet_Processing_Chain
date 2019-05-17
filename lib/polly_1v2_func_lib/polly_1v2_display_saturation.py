@@ -72,6 +72,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         mTime = mat['time'][0][:]
         height = mat['height'][0][:]
         SAT_FR_532 = mat['SAT_FR_532'][:]
@@ -120,7 +121,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display status of 532 NR
@@ -146,7 +147,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

@@ -138,7 +138,7 @@ fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_dwd_lidar_calibration(data, config);
 data.LC = LC;
 LCUsed = struct();
-[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = pollyxt_dwd_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
+[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064, LCUsed.LCUsed387, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = pollyxt_dwd_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 
@@ -171,7 +171,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-    pollyxt_dwd_save_overlap(data, config, overlapAttri, saveFile);
+    pollyxt_dwd_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
     %% save aerosol optical results
     pollyxt_dwd_save_retrieving_results(data, taskInfo, config);

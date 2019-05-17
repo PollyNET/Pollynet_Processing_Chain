@@ -1,7 +1,7 @@
 function [LCUsed532, LCUsedTag532, flagLCWarning532] = polly_1v2_mean_LC(data, config, taskInfo, folder)
 %polly_1v2_mean_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
 %   Example:
-%       [LCUsed] = polly_1v2_mean_LC(data, config)
+%       [LCUsed532, LCUsedTag532, flagLCWarning532] = polly_1v2_mean_LC(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

@@ -67,6 +67,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
 
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     yLim532 = config.LC532Range;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
@@ -77,7 +78,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0

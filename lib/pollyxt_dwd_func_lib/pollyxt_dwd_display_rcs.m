@@ -220,6 +220,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     flagChannel532NR = config.isNR & config.is532nm & config.isTot;
     mTime = data.mTime;
     height = data.height;
+    figDPI = processInfo.figDPI;
     depCalMask = data.depCalMask;
     fogMask = data.fogMask;
     RCS_FR_355 = squeeze(data.signal(flagChannel355, :, :)) ./ repmat(data.mShots(flagChannel355, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
@@ -229,7 +230,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     volDepol_532 = data.volDepol_532;
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0

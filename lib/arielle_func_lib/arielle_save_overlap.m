@@ -1,7 +1,7 @@
-function [] = arielle_save_overlap(data, config, globalAttri, file)
+function [] = arielle_save_overlap(data, taskInfo, config, globalAttri, file)
 %arielle_save_overlap Save the overlap file.
 %   Example:
-%       [] = arielle_save_overlap(data, config, globalAttri, file);
+%       [] = arielle_save_overlap(data, taskInfo, config, globalAttri, file);
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -78,7 +78,7 @@ netcdf.endDef(ncID);
 netcdf.putVar(ncID, varID_altitude, data.alt0);
 netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
-netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(0)));
+netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_overlap532, overlap532);

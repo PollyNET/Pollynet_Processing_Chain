@@ -118,6 +118,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+    figDPI = processInfo.figDPI;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -125,7 +126,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0

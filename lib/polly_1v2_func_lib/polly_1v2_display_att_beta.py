@@ -39,7 +39,7 @@ def rmext(filename):
     file, _ = os.path.splitext(filename)
     return file
 
-def polly_1v2_display_rcs(tmpFile, saveFolder):
+def polly_1v2_display_att_beta(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -54,7 +54,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
 
     Usage
     -----
-    polly_1v2_display_rcs(tmpFile)
+    polly_1v2_display_att_beta(tmpFile)
 
     History
     -------
@@ -72,6 +72,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         ATT_BETA_532 = mat['ATT_BETA_532'][:]
         quality_mask_532 = mat['quality_mask_532'][:]
         height = mat['height'][0][:]
@@ -120,12 +121,12 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
-    polly_1v2_display_rcs('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLY_1V2\\20180517')
+    polly_1v2_display_att_beta('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLY_1V2\\20180517')
 
 if __name__ == '__main__':
     # main()
-    polly_1v2_display_rcs(sys.argv[1], sys.argv[2])
+    polly_1v2_display_att_beta(sys.argv[1], sys.argv[2])

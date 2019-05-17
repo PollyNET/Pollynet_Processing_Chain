@@ -72,6 +72,7 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         thisLCTime = mat['LCTime'][0][:]
         LC355Status = mat['LC355Status'][:]
         LC532Status = mat['LC532Status'][:]
@@ -354,7 +355,7 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
     fig.text(0.90, 0.03, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
     plt.close()
 
 def main():

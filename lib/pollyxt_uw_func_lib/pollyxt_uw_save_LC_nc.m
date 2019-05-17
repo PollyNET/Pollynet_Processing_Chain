@@ -1,7 +1,7 @@
 function [] = pollyxt_uw_save_LC_nc(data, taskInfo, config)
 %pollyxt_uw_save_LC_nc save the lidar constants.
 %   Example:
-%       pollyxt_uw_save_LC_nc(data, LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, file, globalAttri)
+%       pollyxt_uw_save_LC_nc(data, taskInfo, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -69,7 +69,7 @@ varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
 varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
 varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_constant);
 varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
-varID_datetime = netcdf.defVar(ncID, 'datetime', 'NC_DOUBLE', dimID_time);
+varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_LC_klett_355 = netcdf.defVar(ncID, 'LC_klett_355nm', 'NC_DOUBLE', dimID_time);
 varID_LC_klett_532 = netcdf.defVar(ncID, 'LC_klett_532nm', 'NC_DOUBLE', dimID_time);
 varID_LC_klett_1064 = netcdf.defVar(ncID, 'LC_klett_1064nm', 'NC_DOUBLE', dimID_time);
@@ -101,7 +101,7 @@ varID_LC_warning_607 = netcdf.defVar(ncID, 'LCMean607_warning', 'NC_SHORT', dimI
 netcdf.endDef(ncID);
 
 %% write data to .nc file
-netcdf.putVar(ncID, varID_datetime, datenum_2_unix_timestamp(transpose(mean(data.mTime(data.cloudFreeGroups), 2))));
+netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(transpose(mean(data.mTime(data.cloudFreeGroups), 2))));
 netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_altitude, data.alt0);
@@ -154,7 +154,7 @@ netcdf.putAtt(ncID, varID_longitude, 'axis', 'X');
 netcdf.putAtt(ncID, varID_latitude, 'unit', 'degrees_north');
 netcdf.putAtt(ncID, varID_latitude, 'long_name', 'Latitude of the site');
 netcdf.putAtt(ncID, varID_latitude, 'standard_name', 'latitude');
-netcdf.putAtt(ncID, varID_latitude, 'axis', 'Y');cID, varID_latitude, 'axis', 'Y');
+netcdf.putAtt(ncID, varID_latitude, 'axis', 'Y');
 
 % start_time
 netcdf.putAtt(ncID, varID_startTime, 'unit', 'seconds since 1970-01-01 00:00:00 UTC');

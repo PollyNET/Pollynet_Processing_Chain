@@ -178,6 +178,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     quasi_ang_532_1064 = data.quasi_ang_532_1064;
     height = data.height;
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
     quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
     quasi_beta_cRange_1064 = config.quasi_beta_cRange_1064;
@@ -190,7 +191,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display quasi results
-    save(fullfile(tmpFolder, 'tmp.mat'), 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0

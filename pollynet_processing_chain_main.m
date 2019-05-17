@@ -121,7 +121,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
 	reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
 	report = cat(2, report, reportTmp);
-	fprintf('[%s]Finish.\n', tNow());
+	fprintf('[%s] Finish.\n', tNow());
 
 	%% cleanup
 	diaryoff;
