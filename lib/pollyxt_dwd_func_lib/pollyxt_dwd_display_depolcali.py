@@ -73,6 +73,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         sig_t_p = np.transpose(np.concatenate(mat['sig_t_p']))
         sig_t_m = np.transpose(np.concatenate(mat['sig_t_m']))
         sig_x_p = np.transpose(np.concatenate(mat['sig_x_p']))
@@ -136,7 +137,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
 
     fig.tight_layout()
     caliTime = datenum_to_datetime(thisCaliTime[0])
-    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=150)
+    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=figDPI)
     plt.close()
  
     plt.close()

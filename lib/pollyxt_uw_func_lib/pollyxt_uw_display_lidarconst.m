@@ -178,6 +178,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
 
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     yLim355 = config.LC355Range;
     yLim532 = config.LC532Range;
     yLim1064 = config.LC1064Range;
@@ -192,7 +193,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0

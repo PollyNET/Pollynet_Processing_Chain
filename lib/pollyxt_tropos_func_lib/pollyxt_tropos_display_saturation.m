@@ -201,6 +201,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     flagChannel355NR = config.isNR & config.is355nm & config.isTot;
 
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     height = data.height;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
@@ -214,7 +215,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
     SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'processInfo', 'campaignInfo', 'taskInfo');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0

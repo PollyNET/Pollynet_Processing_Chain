@@ -72,6 +72,7 @@ def pollyxt_lacros_display_monitor(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         time = mat['monitorStatus']['time'][0][0]
         mTime = mat['mTime'][0][:]
         ExtPyro = mat['monitorStatus']['ExtPyro'][0][0]
@@ -159,7 +160,7 @@ def pollyxt_lacros_display_monitor(tmpFile, saveFolder):
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
 
     fig.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
 
     plt.close()
 

@@ -72,6 +72,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         mTime = mat['mTime'][0][:]
         height = mat['height'][0][:]
         depCalMask = mat['depCalMask'][0][:]
@@ -124,7 +125,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -151,7 +152,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -178,7 +179,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

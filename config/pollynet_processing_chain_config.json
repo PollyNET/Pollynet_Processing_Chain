@@ -10,6 +10,8 @@
 	"pic_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots", 
 	"pollynet_config_history_file": "C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt",
 
+	"figDPI": 150,
+
 	"minDataSize": 1000000,
 
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
@@ -21,8 +23,8 @@
 	"pyBinDir": "C:\\Users\\zhenping\\Software",
 	"flagDeleteData": false,
 
-	"flagEnableResultsOutput": true,
-	"flagEnableDataVisualization": false,	
+	"flagEnableResultsOutput": false,
+	"flagEnableDataVisualization": true,	
 	"flagDebugOutput": false,
 
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]

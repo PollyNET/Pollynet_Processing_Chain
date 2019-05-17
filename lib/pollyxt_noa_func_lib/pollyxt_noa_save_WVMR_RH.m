@@ -36,9 +36,9 @@ varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+netcdf.putVar(ncID, varID_altitude, data.alt0);
+netcdf.putVar(ncID, varID_altitude, data.alt0);
+netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 netcdf.putVar(ncID, varID_WVMR, data.WVMR);

@@ -72,6 +72,7 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         thisTime = np.concatenate(mat['thisTime'][:])
         time = mat['time'][0][:]
         LC355_klett = mat['LC355_klett'][:]
@@ -117,7 +118,7 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 532mn
@@ -141,7 +142,7 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display lidar constants at 1064mn
@@ -166,7 +167,7 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

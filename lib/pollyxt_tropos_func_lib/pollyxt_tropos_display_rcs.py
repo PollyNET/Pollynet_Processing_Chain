@@ -72,6 +72,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         mTime = mat['mTime'][0][:]
         height = mat['height'][0][:]
         depCalMask = mat['depCalMask'][0][:]
@@ -128,7 +129,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -155,7 +156,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -182,7 +183,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 355 NR
@@ -209,7 +210,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -236,7 +237,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -263,7 +264,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 355
@@ -290,7 +291,7 @@ def pollyxt_tropos_display_rcs(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

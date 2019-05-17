@@ -112,13 +112,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_aerLR_raman_532, fillmissing(data.LR532_raman(iGroup, :)));
     netcdf.putVar(ncID, varID_aerLR_raman_1064, fillmissing(data.LR1064_raman(iGroup, :)));
     netcdf.putVar(ncID, varID_volDepol_532, fillmissing(data.voldepol532(iGroup, :)));
-    netcdf.putVar(ncID, varID_volDepol_355, fillmissing(data.voldepol355(iGroup, :)));
     netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :)));
-    netcdf.putVar(ncID, varID_parDepol_klett_355, fillmissing(data.pardepol355_klett(iGroup, :)));
     netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_parDepol_raman_355, fillmissing(data.pardepol355_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_WVMR, fillmissing(data.wvmr(iGroup, :)));
-    netcdf.putVar(ncID, varID_RH, fillmissing(data.rh(iGroup, :)));
     netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGroup, :)));
     netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGroup, :)));
     netcdf.putVar(ncID, varID_LR_aeronet_355, fillmissing(data.LR355_aeronet(iGroup)));
@@ -355,16 +350,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_volDepol_532, 'source', taskInfo.pollyVersion);
     netcdf.putAtt(ncID, varID_volDepol_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
     
-    % volDepol_355
-    netcdf.putAtt(ncID, varID_volDepol_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'long_name', 'volume depolarization ratio at 355 nm');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'standard_name', 'delta (vol, 355 nm)');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'source', taskInfo.pollyVersion);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
-    
     % parDepol_klett_532
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'unit', '');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'long_name', 'particle depolarization ratio at 532 nm');
@@ -376,62 +361,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_klett_532 * data.hRes, data.moldepol532(iGroup)));
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
     
-    % parDepol_klett_355
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'long_name', 'particle depolarization ratio at 355 nm');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'standard_name', 'delta (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'source', taskInfo.pollyVersion);
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_klett_355 * data.hRes, data.moldepol355(iGroup)));
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-    
     % parDepol_raman_532
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'unit', '');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'long_name', 'particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'standard_name', 'delta (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'source', taskInfo.pollyVersion);
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_raman_532 * data.hRes, data.moldepol532(iGroup)));
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-    
-    % parDepol_raman_355
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'long_name', 'particle depolarization ratio at 355 nm');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'standard_name', 'delta (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'source', taskInfo.pollyVersion);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_raman_355 * data.hRes, data.moldepol355(iGroup)));
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-    
-    % WVMR
-    netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
-    netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
-    netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'Water vapor mixing ratio');
-    netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-    netcdf.putAtt(ncID, varID_WVMR, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_WVMR, 'source', taskInfo.pollyVersion);
-    thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
-    netcdf.putAtt(ncID, varID_WVMR, 'retrieved_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s', data.hRes, thisStr{1}, data.IWVAttri.source));
-    netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
-    
-    % RH
-    netcdf.putAtt(ncID, varID_RH, 'unit', '%');
-    netcdf.putAtt(ncID, varID_RH, 'long_name', 'Relative humidity');
-    netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
-    netcdf.putAtt(ncID, varID_RH, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', [0, 100]);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_WVMR, 'source', taskInfo.pollyVersion);
-    netcdf.putAtt(ncID, varID_RH, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
-    netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The RH is sensitive to temperature and water vapor calibration constants. Please take care!'));
     
     % temperature
     netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree celsius');
@@ -440,9 +376,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'air_temperature');
     netcdf.putAtt(ncID, varID_temperature, 'missing_value', -999);
     netcdf.putAtt(ncID, varID_temperature, '_FillValue', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', [-60, 40]);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_temperature, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
     
     % pressure
     netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
@@ -450,9 +383,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'air_pressure');
     netcdf.putAtt(ncID, varID_temperature, 'missing_value', -999);
     netcdf.putAtt(ncID, varID_temperature, '_FillValue', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', [0, 1000]);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_pressure, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
     
     % LR_aeronet_355
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'unit', 'sr');

@@ -95,8 +95,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display monitor status
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     monitorStatus = data.monitorStatus;
+    figDPI = processInfo.figDPI;
     mTime = data.mTime;
-    save(fullfile(tmpFolder, 'tmp.mat'), 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_fmi_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0

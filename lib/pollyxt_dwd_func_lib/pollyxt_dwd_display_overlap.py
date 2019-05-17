@@ -81,6 +81,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         overlap532 = mat['overlap532'].reshape(-1)
         overlap532Defaults = mat['overlap532Defaults'].reshape(-1)
         sig532FR = mat['sig532FR'].reshape(-1)
@@ -133,7 +134,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
     fig.text(0.85, 0.02, 'Version {version}'.format(version=version), fontsize=10)
 
     fig.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
  
     plt.close()

@@ -72,6 +72,7 @@ def pollyxt_noa_display_targetclassi(tmpFile, saveFolder):
     # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
+        figDPI = mat['figDPI'][0][0]
         TC_mask = mat['TC_mask'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
@@ -96,7 +97,7 @@ def pollyxt_noa_display_targetclassi(tmpFile, saveFolder):
     except Exception as e:
         raise ImportError('python_colormap module is necessary.')
 
-    # display quasi backscatter at 532 nm
+    # display aerosol target classification
     fig = plt.figure(figsize=[12, 5])
     ax = fig.add_axes([0.1, 0.15, 0.6, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, TC_mask, vmin=-0.5, vmax=11.5, cmap=target_classification_colormap())
@@ -129,7 +130,7 @@ def pollyxt_noa_display_targetclassi(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.64, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC.png'.format(dataFilename=rmext(dataFilename))), dpi=150)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

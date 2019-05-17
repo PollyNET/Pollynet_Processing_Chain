@@ -67,6 +67,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     quality_mask_532 = data.quality_mask_532;
     height = data.height;
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     att_beta_cRange_532 = config.att_beta_cRange_532;
     flagLC532 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1};
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -78,7 +79,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0

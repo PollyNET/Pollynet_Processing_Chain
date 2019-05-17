@@ -76,6 +76,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     TC_mask = data.tc_mask;
     height = data.height;
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
@@ -85,7 +86,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'TC_mask', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'TC_mask', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_targetclassi.py'), tmpFile, saveFolder));
     if flag ~= 0

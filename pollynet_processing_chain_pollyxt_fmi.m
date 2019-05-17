@@ -181,7 +181,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-    pollyxt_fmi_save_overlap(data, config, overlapAttri, saveFile);
+    pollyxt_fmi_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
     %% save meteorological results
     %% save water vapor calibration results

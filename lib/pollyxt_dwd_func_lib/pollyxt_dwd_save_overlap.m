@@ -1,7 +1,7 @@
-function [] = pollyxt_dwd_save_overlap(data, config, globalAttri, file)
+function [] = pollyxt_dwd_save_overlap(data, taskInfo, config, globalAttri, file)
 %pollyxt_dwd_save_overlap Save the overlap file.
 %   Example:
-%       [] = pollyxt_dwd_save_overlap(data, config, globalAttri, file);
+%       [] = pollyxt_dwd_save_overlap(data, taskInfo, config, globalAttri, file);
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -31,7 +31,7 @@ if isempty(data.rawSignal)
 end
 
 % convert empty array to defaults
-overlap355 = globalAttri.overlap355;
+overlap532 = globalAttri.overlap532;
 overlap355Defaults = globalAttri.overlap355DefaultInterp;
 overlap532Defaults = globalAttri.overlap532DefaultInterp;
 if isempty(overlap532)
@@ -71,11 +71,10 @@ netcdf.endDef(ncID);
 netcdf.putVar(ncID, varID_altitude, data.alt0);
 netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
-netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(0)));
+netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_overlap532, overlap532);
-netcdf.putVar(ncID, varID_overlap355, overlap355);
 netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
 netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
 netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCalMode);

@@ -116,6 +116,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     flagChannel532NR = flagChannel532;
 
     time = data.mTime;
+    figDPI = processInfo.figDPI;
     height = data.height;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
@@ -123,7 +124,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
     SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'processInfo', 'campaignInfo', 'taskInfo');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
