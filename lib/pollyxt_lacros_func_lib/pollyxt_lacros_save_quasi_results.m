@@ -24,7 +24,7 @@ ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(dat
 ncID = netcdf.create(ncfile, 'clobber');
 
 % define dimensions
-dimID_height = netcdf.defDim(ncID, 'altitude', length(data.height));
+dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
 dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 

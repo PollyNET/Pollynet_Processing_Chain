@@ -23,8 +23,8 @@
 	"pyBinDir": "C:\\Users\\zhenping\\Software",
 	"flagDeleteData": false,
 
-	"flagEnableResultsOutput": false,
-	"flagEnableDataVisualization": true,	
+	"flagEnableResultsOutput": true,
+	"flagEnableDataVisualization": false,	
 	"flagDebugOutput": false,
 
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
