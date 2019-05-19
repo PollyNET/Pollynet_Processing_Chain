@@ -143,8 +143,8 @@
 	"quasi_beta_cRange_1064": [0, 0.8],
 	"quasi_Par_DR_cRange_532": [0, 0.4],
 
-	"depolCaliFile532": "pollyxt_arielle_depolcali_532_results.txt",
-	"depolCaliFile355": "pollyxt_arielle_depolcali_355_results.txt",
-	"wvCaliFile": "pollyxt_arielle_wvcali_results.txt",
-	"lcCaliFile": "pollyxt_arielle_lccali_results.txt"
+	"depolCaliFile532": "arielle_depolcali_532_results.txt",
+	"depolCaliFile355": "arielle_depolcali_355_results.txt",
+	"wvCaliFile": "arielle_wvcali_results.txt",
+	"lcCaliFile": "arielle_lccali_results.txt"
 }
