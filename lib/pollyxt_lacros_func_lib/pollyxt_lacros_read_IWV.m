@@ -21,6 +21,7 @@ function [IWV, globalAttri] = pollyxt_lacros_read_IWV(data, config)
 %           contact: char
 %   History:
 %       2018-12-26. First Edition by Zhenping
+%       2019-05-19. Fix the bug of returning empty IWV when more than 2 MWR files were found.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -50,8 +51,8 @@ case 'mwr'
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
-        warning('More than two mwr products were found.\n%s\n%s\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
-        return;
+        warning('More than two mwr products were found.\n%s\n%s\nOnly choose the first one for the calibration.\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
+        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     else
         mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     end
