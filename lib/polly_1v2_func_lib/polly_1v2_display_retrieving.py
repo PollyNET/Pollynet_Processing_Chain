@@ -293,6 +293,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim(aerLRLim.tolist())
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
@@ -316,6 +317,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim(aerLRLim.tolist())
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
@@ -340,6 +342,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
@@ -364,6 +367,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
+    ax.grid(True)
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]

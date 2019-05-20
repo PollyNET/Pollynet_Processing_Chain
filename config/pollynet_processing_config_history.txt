@@ -12,3 +12,4 @@ arielle,2017-05-22 00:00:00,2017-07-11 00:00:00,arielle_config_20170522.json,pol
 arielle,2018-10-25 00:00:00,2018-12-09 00:00:00,arielle_config_20181101.json,pollynet_processing_chain_arielle.m,PS116,arielle_read_defaults.m
 arielle,2019-02-07 00:00:00,2019-12-31 00:00:00,arielle_config_20190207.json,pollynet_processing_chain_arielle.m,Move to Davos,arielle_read_defaults.m
 polly_1v2,2018-10-25 00:00:00,2021-02-16 00:00:00,polly_1v2_config_20181025.json,pollynet_processing_chain_polly_1v2.m,Move to Leipzig,polly_1v2_read_defaults.m
+polly_1v2,2016-07-23 00:00:00,2017-03-19 00:00:00,polly_1v2_config_20160723.json,pollynet_processing_chain_polly_1v2.m,Move to Haifa Israel,polly_1v2_read_defaults.m

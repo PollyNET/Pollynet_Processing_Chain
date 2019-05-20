@@ -49,7 +49,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_method);
     varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_method);
     varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-    varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_height);
     varID_aerBsc_klett_532 = netcdf.defVar(ncID, 'aerBsc_klett_532', 'NC_DOUBLE', dimID_height);
     varID_aerBsc_raman_532 = netcdf.defVar(ncID, 'aerBsc_raman_532', 'NC_DOUBLE', dimID_height);
     varID_aerExt_raman_532 = netcdf.defVar(ncID, 'aerExt_raman_532', 'NC_DOUBLE', dimID_height);
@@ -236,9 +235,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'long_name', 'particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'standard_name', 'delta (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'source', taskInfo.pollyVersion);
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'source', taskInfo.pollyVersion);
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_raman_532 * data.hRes, data.moldepol532(iGroup)));
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
     
@@ -249,18 +248,18 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'air_temperature');
     netcdf.putAtt(ncID, varID_temperature, 'missing_value', -999);
     netcdf.putAtt(ncID, varID_temperature, '_FillValue', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', [-60, 40]);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_temperature, 'plot_range', [-60, 40]);
+    netcdf.putAtt(ncID, varID_temperature, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_temperature, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
     
     % pressure
     netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
     netcdf.putAtt(ncID, varID_pressure, 'long_name', 'Pressure');
     netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'air_pressure');
-    netcdf.putAtt(ncID, varID_temperature, 'missing_value', -999);
-    netcdf.putAtt(ncID, varID_temperature, '_FillValue', -999);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', [0, 1000]);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_pressure, 'missing_value', -999);
+    netcdf.putAtt(ncID, varID_pressure, '_FillValue', -999);
+    netcdf.putAtt(ncID, varID_pressure, 'plot_range', [0, 1000]);
+    netcdf.putAtt(ncID, varID_pressure, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_pressure, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
     
     % reference_height_532

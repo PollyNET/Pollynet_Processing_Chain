@@ -1,1 +1,4 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist\, pollyxt_lacros\data_zip, 2019_05_07_Tue_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201905\2019_05_07_Tue_LACROS_18_00_01.nc.zip, 239666052, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, polly_1v2\data_zip, 2016_09_09_Fri_1v2_07_00_00.nc, polly_1v2\data_zip\201609\2016_09_09_Fri_1v2_07_00_00.nc.zip, 3344, POLLY_1V2
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, polly_1v2\data_zip, 2016_09_09_Fri_1v2_08_06_02.nc, polly_1v2\data_zip\201609\2016_09_09_Fri_1v2_08_06_02.nc.zip, 13575584, POLLY_1V2
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, polly_1v2\data_zip, 2016_09_09_Fri_1v2_11_00_00.nc, polly_1v2\data_zip\201609\2016_09_09_Fri_1v2_11_00_00.nc.zip, 19081304, POLLY_1V2
+C:\Users\zhenping\Desktop\Picasso\todo_filelist\, polly_1v2\data_zip, 2016_09_09_Fri_1v2_18_00_00.nc, polly_1v2\data_zip\201609\2016_09_09_Fri_1v2_18_00_00.nc.zip, 49810904, POLLY_1V2
