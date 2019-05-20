@@ -1,8 +1,8 @@
-function health = polly_dwd_read_laserlogbook(file, config, flagDeleteData)
-%POLLY_dwd_READ_LASERLOGBOOK read the health parameters of the lidar from 
+function health = polly_1v2_read_laserlogbook(file, config, flagDeleteData)
+%POLLY_1v2_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
 %   Usage:
-%       health = polly_dwd_read_laserlogbook(file)
+%       health = polly_1v2_read_laserlogbook(file)
 %   Inputs:
 %       file: char
 %           the full filename.
@@ -37,7 +37,7 @@ function health = polly_dwd_read_laserlogbook(file, config, flagDeleteData)
 %       zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')
-	flagDeleteData = false;
+    flagDeleteData = false;
 end
 
 %% initialize parameters
@@ -54,8 +54,8 @@ health.rain = [];
 health.shutter = [];
 
 if ~ exist(file, 'file')
-	warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
-	return;
+    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
+    return;
 end
 
 %% read log
@@ -77,20 +77,26 @@ while ~ feof(fid)
         health.roof = [health.roof, str2num(res.roof)]; 
         health.rain = [health.rain, str2num(res.rain)]; 
         health.shutter = [health.shutter, str2num(res.shutter)];
-
+        
+    catch
+        warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
+        fclose(fid);
+        
         % delete the laserlogbook file
         if flagDeleteData
             delete(file);
         end
         
-    catch
-        warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
-        fclose(fid);
         return
     end
 
 end
 
 fclose(fid);
+
+% delete the laserlogbook file
+if flagDeleteData
+    delete(file);
+end
 
 end

@@ -43,6 +43,7 @@ ncID = netcdf.create(saveFile, 'CLOBBER');
 
 % define dimensions
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
+dimID_time = netcdf.defDim(ncID, 'time', numel(LC_klett_532));
 
 %% define variables
 varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
