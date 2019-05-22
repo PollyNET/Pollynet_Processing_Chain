@@ -1,11 +1,11 @@
-function [xOut] = fillmissing(xIn, varagin)
+function [xOut] = fillmissing(xIn, varargin)
 %fillmissing fill the missing values in input array.
 %   Example:
-%       [xOut] = fillmissing(xIn, varagin)
+%       [xOut] = fillmissing(xIn, varargin)
 %   Inputs:
 %       xIn: array or matrix
 %           input array which could contain some values that you want to replace.
-%       varagin: cell
+%       varargin: cell
 %           leave it blank for updating.
 %   Outputs:
 %       xOut: array or matrix
@@ -23,6 +23,11 @@ end
 if nargin == 1
     method = 'const';
     missingValue = -999;
+end
+
+if nargin == 2
+    method = 'const';
+    missingValue = varargin{1};
 end
 
 switch lower(method)

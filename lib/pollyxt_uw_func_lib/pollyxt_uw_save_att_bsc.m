@@ -12,6 +12,8 @@ function [] = pollyxt_uw_save_att_bsc(data, taskInfo, config)
 %   Contact:
 %       zhenping@tropos.de
 
+missing_value = -999;
+
 global processInfo defaults campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_att_bsc.nc', rmext(taskInfo.dataFilename)));
@@ -42,9 +44,9 @@ netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_att_bsc_355, data.att_beta_355);
-netcdf.putVar(ncID, varID_att_bsc_532, data.att_beta_532);
-netcdf.putVar(ncID, varID_att_bsc_1064, data.att_beta_1064);
+netcdf.putVar(ncID, varID_att_bsc_355, fillmissing(data.att_beta_355, missing_value));
+netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_532, missing_value));
+netcdf.putVar(ncID, varID_att_bsc_1064, fillmissing(data.att_beta_1064, missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -86,7 +88,7 @@ netcdf.putAtt(ncID, varID_att_bsc_355, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'long_name', 'attenuated backscatter at 355 nm');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'standard_name', 'att_beta_355');
-netcdf.putAtt(ncID, varID_att_bsc_355, '_FillValue', 'None');
+netcdf.putAtt(ncID, varID_att_bsc_355, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', config.att_beta_cRange_355/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'source', taskInfo.pollyVersion);
@@ -99,7 +101,7 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, '_FillValue', 'None');
+netcdf.putAtt(ncID, varID_att_bsc_532, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.att_beta_cRange_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'source', taskInfo.pollyVersion);
@@ -112,7 +114,7 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'long_name', 'attenuated backscatter at 1064 nm');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'standard_name', 'att_beta_1064');
-netcdf.putAtt(ncID, varID_att_bsc_1064, '_FillValue', 'None');
+netcdf.putAtt(ncID, varID_att_bsc_1064, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', config.att_beta_cRange_1064/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', taskInfo.pollyVersion);

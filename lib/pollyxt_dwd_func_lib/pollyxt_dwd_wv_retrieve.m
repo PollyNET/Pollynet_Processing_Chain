@@ -29,6 +29,7 @@ function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mas
 %           see above.
 %   History:
 %       2018-12-26. First Edition by Zhenping
+%       2019-05-22. Add quality control for wvmr and RH.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -113,9 +114,15 @@ quality_mask_WVMR((nanrunmedian(squeeze(SNR(flagChannel387, :, :)), config.quasi
 quality_mask_WVMR(:, data.depCalMask) = 2;
 quality_mask_RH = quality_mask_WVMR;
 
+% mask the signal
+SIG387_QC = SIG387;
+SIG387_QC(quality_mask_WVMR ~= 0) = NaN;
+SIG407_QC = SIG407;
+SIG407_QC(quality_mask_WVMR ~= 0) = NaN;
+
 % smooth the signal
-SIG387 = smooth2(SIG387, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
-SIG407 = smooth2(SIG407, config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407));
+SIG387_QC = smooth2(SIG387_QC, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
+SIG407_QC = smooth2(SIG407_QC, config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407));
 
 % redistribute the meteorological data to 30-s intervals.
 [temperature, pressure, ~] = repmat_meteor(data.mTime, data.alt, config.gdas1Site, processInfo.gdas1_folder);
@@ -137,7 +144,7 @@ RHOAIR = repmat(rhoAir, 1, numel(data.mTime));
 DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime));
 
 % calculate wvmr and rh
-WVMR = SIG407 ./ SIG387 .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
+WVMR = SIG407_QC ./ SIG387_QC .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
 RH = wvmr_2_rh(WVMR, ES, pressure);
 IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 

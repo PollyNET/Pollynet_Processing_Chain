@@ -17,7 +17,7 @@
 	"institute": "Ground-based Remote Sensing Group (TROPOS)",
 	"homepage": "http://polly.rsd.tropos.de/",
 	"contact": "Zhenping Yin <zhenping@tropos.de>",
-	"programVersion": "1.1",
+	"programVersion": "1.2",
 
 	"visualizationMode": "python",
 	"pyBinDir": "C:\\Users\\zhenping\\Software",
