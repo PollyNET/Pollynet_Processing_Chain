@@ -22,7 +22,7 @@ end
 
 if nargin == 1
     method = 'const';
-    missingValue = 999;
+    missingValue = -999;
 end
 
 switch lower(method)

@@ -73,18 +73,18 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
     netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
     netcdf.putVar(ncID, varID_height, data.height);
-    netcdf.putVar(ncID, varID_aerBsc_klett_532, fillmissing(data.aerBsc532_klett(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerBsc_raman_532, fillmissing(data.aerBsc532_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerExt_raman_532, fillmissing(data.aerExt532_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerLR_raman_532, fillmissing(data.LR532_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerBsc_RR_532, fillmissing(data.aerBsc532_RR(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerExt_RR_532, fillmissing(data.aerExt532_RR(iGroup, :)));
-    netcdf.putVar(ncID, varID_aerLR_RR_532, fillmissing(data.LR532_RR(iGroup, :)));
-    netcdf.putVar(ncID, varID_volDepol_532, fillmissing(data.voldepol532(iGroup, :)));
-    netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :)));
-    netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :)));
-    netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGroup, :)));
-    netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGroup, :)));
+    netcdf.putVar(ncID, varID_aerBsc_klett_532, fillmissing(data.aerBsc532_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerBsc_raman_532, fillmissing(data.aerBsc532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerExt_raman_532, fillmissing(data.aerExt532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerLR_raman_532, fillmissing(data.LR532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerBsc_RR_532, fillmissing(data.aerBsc532_RR(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerExt_RR_532, fillmissing(data.aerExt532_RR(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerLR_RR_532, fillmissing(data.LR532_RR(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_volDepol_532, fillmissing(data.voldepol532(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_reference_height_532, refH532);
 
     % reenter define mode
