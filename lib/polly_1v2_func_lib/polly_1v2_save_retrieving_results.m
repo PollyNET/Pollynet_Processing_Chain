@@ -70,8 +70,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_altitude, data.alt0);
     netcdf.putVar(ncID, varID_longitude, data.lon);
     netcdf.putVar(ncID, varID_latitude, data.lat);
-    netcdf.putVar(ncID, varID_startTime, startTime);
-    netcdf.putVar(ncID, varID_endTime, endTime);
+    netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
+    netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
     netcdf.putVar(ncID, varID_height, data.height);
     netcdf.putVar(ncID, varID_aerBsc_klett_532, fillmissing(data.aerBsc532_klett(iGroup, :)));
     netcdf.putVar(ncID, varID_aerBsc_raman_532, fillmissing(data.aerBsc532_raman(iGroup, :)));

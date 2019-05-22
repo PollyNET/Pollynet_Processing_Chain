@@ -1,17 +1,17 @@
 function [filename] = rmext(file)
-    %rmext remove the file extension.
-    %   Example:
-    %       [filename] = rmext(file)
-    %   Inputs:
-    %       file: char
-    %           file
-    %   Outputs:
-    %       filename: char
-    %           if there is no extension label, the 'file' will be treated to be no extension then it will be directly returned. Otherwise, the extension will be removed.
-    %   History:
-    %       2018-12-29. First Edition by Zhenping
-    %   Contact:
-    %       zhenping@tropos.de
+%rmext remove the file extension.
+%   Example:
+%       [filename] = rmext(file)
+%   Inputs:
+%       file: char
+%           file
+%   Outputs:
+%       filename: char
+%           if there is no extension label, the 'file' will be treated to be no extension then it will be directly returned. Otherwise, the extension will be removed.
+%   History:
+%       2018-12-29. First Edition by Zhenping
+%   Contact:
+%       zhenping@tropos.de
     
     thisBasename = basename(file);
     
