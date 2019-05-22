@@ -25,7 +25,7 @@
 
 	"flagEnableResultsOutput": true,
 	"flagEnableDataVisualization": true,	
-	"flagDebugOutput": true,
+	"flagDebugOutput": false,
 
 	"pollyVersions": ["pollyxt_uw", "arielle", "pollyxt_tropos", "pollyxt_dwd", "pollyxt_noa", "pollyxt_fmi", "pollyxt_lacros", "polly1v2"]
 }
