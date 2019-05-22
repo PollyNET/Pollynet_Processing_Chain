@@ -19,15 +19,12 @@ function [ ext_aer ] = polly_raman_ext(height, sig, lambda_emit, ...
 %           temperature of the atmosphere. [K]
 %       window_size: integer
 %           window_size for smoothing the signal h sgolay filter.
+%       order: integer
+%           order of the implemented sgolay filter.
 %       C: array
 %           CO2 concentration.[ppmv]
 %       rh: array
 %           relative humidity.
-%       method: str
-%           method for calculating the signal slope. 
-%				'moving'|'movingslope': using Savitzky-Golay filter.
-%				'smoothing'|'smooth': using finite difference algorithm with smoothed signal.
-%				'chi2': using chi2 linear fit.
 %   Returns:
 %       ext_aer: array
 %           aerosol extinction coefficient [m^{-1}]
@@ -53,8 +50,7 @@ alpha_molecular_emit = alpha_rayleigh(lambda_emit, pressure, temperature, C, rh)
 alpha_molecular_rec = alpha_rayleigh(lambda_rec, pressure, temperature, C, rh);
 number_density = number_density_at_pt(pressure, temperature, rh, true);
 
-sig = smoothWin(sig, window_size);
-temp = number_density ./ (sig' .* height.^2);
+temp = number_density ./ (sig .* height.^2);
 temp(temp <= 0) = NaN;
 ratio = log(temp);
 

@@ -78,7 +78,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 tmpAerExt355_raman = thisAerExt355_raman;
                 tmpAerExt355_raman(1:hBaseIndx355) = tmpAerExt355_raman(hBaseIndx355);
                 [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, true);
-                thisLR355_raman(1:hBaseIndx355) = NaN;
+                thisLR355_raman = thisAerExt355_raman ./ thisAerBsc355_raman;
                 % TODO: uncertainty analysis
             end
         end
@@ -122,7 +122,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 tmpAerExt532_raman = thisAerExt532_raman;
                 tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
                 [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
-                thisLR532_raman(1:hBaseIndx532) = NaN;
+                thisLR532_raman = thisAerExt532_raman ./ thisAerBsc532_raman;
                 % TODO: uncertainty analysis
             end
         end
@@ -167,7 +167,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 tmpAerExt1064_raman = thisAerExt1064_raman;
                 tmpAerExt1064_raman(1:hBaseIndx1064) = tmpAerExt1064_raman(hBaseIndx1064);
                 [thisAerBsc1064_raman, thisLR1064_raman] = polly_raman_bsc(data.distance0, sig1064, sig607, tmpAerExt1064_raman, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, true);
-                thisLR1064_raman(1:hBaseIndx1064) = NaN;
+                thisLR1064_raman = thisAerExt1064_raman ./ thisAerBsc1064_raman;
                 % TODO: uncertainty analysis
             end
         end

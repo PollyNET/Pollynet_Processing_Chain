@@ -37,7 +37,7 @@ function health = polly_1v2_read_laserlogbook(file, config, flagDeleteData)
 %       zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')
-    flagDeleteData = false;
+	flagDeleteData = false;
 end
 
 %% initialize parameters
@@ -54,8 +54,8 @@ health.rain = [];
 health.shutter = [];
 
 if ~ exist(file, 'file')
-    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
-    return;
+	warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
+	return;
 end
 
 %% read log

@@ -375,6 +375,8 @@ data: struct
     quasi particle backscatter coefficient. [m^{-1}*Sr^{-1}]
   volDepol_{wavelength}: matrix [bin×time]
     high resolved volume depolarization ratio profile.
+  quasi_parDepol_532: matrix [binxtime]
+    high resolved particle depolarization ratio profile.
   quasi_ang_532_1064: matrix [bin×time]
     quasi Ångstroem exponent 532-1064.
   quality_mask_{wavelength}: matrix [bin×time]

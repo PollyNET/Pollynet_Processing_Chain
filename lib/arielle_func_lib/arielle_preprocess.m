@@ -77,40 +77,27 @@ rawSignal = data.rawSignal;
 if config.flagDTCor
     PCR = data.rawSignal ./ repmat(reshape(data.mShots, size(data.mShots, 1), 1, size(data.mShots, 2)), ...
         [1, size(data.rawSignal, 2), 1]) * 150.0 ./ data.hRes;   % [MHz]
-    % polynomial correction with parameters saved in netcdf file
-    if config.dtCorMode == 1
+    if config.dtCorMode == 1   % polynomial correction with parameters saved in netcdf file
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = polyval(data.deadtime(iChannel, end:-1:1), PCR(iChannel, :, :));
             rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
                 repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
-    % nonparalyzable correction
-    elseif config.dtCorMode == 2
+    elseif config.dtCorMode == 2   % nonparalyzable correction
     	for iChannel = 1:size(data.rawSignal, 1)
     		PCR_Cor = PCR(iChannel, :, :) ./ (1.0 - config.dt(iChannel) * 1e-3 * PCR(iChannel, :, :));
     		rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
                 repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
                 [1, size(data.rawSignal, 2), 1]);   % [count]
         end
-    % user defined deadtime. Regarding the format of dt, please go to /doc/polly_config.md
-    elseif config.dtCorMode == 3
-        if isfield(config, 'dt')   % determine whether the deadtime parameters were defined.
-            for iChannel = 1:size(data.rawSignal, 1)
-                PCR_Cor = polyval(config.dt(iChannel, end:-1:1), PCR(iChannel, :, :));
-                rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
-                    repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
-                    [1, size(data.rawSignal, 2), 1]);   % [count]
-            end
-        else
-            warning('User defined deadtime parameters were not found. Please go back to check the configuration file for the %s at %s.', campaignInfo.name, campaignInfo.location);
-            warning('In order to continue the current processing, deadtime correction will not be implemented. Be careful!!!!!!!!!');
+    elseif config.dtCorMode == 3 && isfield(config, 'dt')   % user defined deadtime. Regarding the format of dt, please go to /doc/polly_config.md
+        for iChannel = 1:size(data.rawSignal, 1)
+            PCR_Cor = polyval(config.dt(iChannel, end:-1:1), PCR(iChannel, :, :));
+            rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
+                repmat(reshape(data.mShots(iChannel, :), 1, 1, size(data.mShots, 2)), ...
+                [1, size(data.rawSignal, 2), 1]);   % [count]
         end
-    % No deadtime correction
-    elseif config.dtCorMode == 4
-        fprintf('Deadtime correction was turned off. Be careful to check the signal strength.\n');
-    else
-        error('Unknow deadtime correction setting! Please go back to check the configuration file for %s at %s. For dtCorMode, only 1-4 is allowed.', campaignInfo.name, campaignInfo.location);
     end
 end
 
