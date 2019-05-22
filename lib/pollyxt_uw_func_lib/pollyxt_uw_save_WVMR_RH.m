@@ -12,6 +12,8 @@ function [] = pollyxt_uw_save_WVMR_RH(data, taskInfo, config)
 %   Contact:
 %       zhenping@tropos.de
 
+missing_value = -999;
+
 global processInfo defaults campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
@@ -41,8 +43,8 @@ netcdf.putVar(ncID, varID_altitude, data.alt0);
 netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
-netcdf.putVar(ncID, varID_WVMR, data.WVMR);
-netcdf.putVar(ncID, varID_RH, data.RH);
+netcdf.putVar(ncID, varID_WVMR, fillmissing(data.WVMR, missing_value));
+netcdf.putVar(ncID, varID_RH, fillmissing(data.RH, missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -84,24 +86,24 @@ netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-netcdf.putAtt(ncID, varID_WVMR, '_FillValue', -999.0);
+netcdf.putAtt(ncID, varID_WVMR, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', taskInfo.pollyVersion);
-netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
-netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
+% netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
+% netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
 netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
 
 % WVMR
 netcdf.putAtt(ncID, varID_RH, 'unit', '%');
 netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
-netcdf.putAtt(ncID, varID_RH, '_FillValue', -999.0);
+netcdf.putAtt(ncID, varID_RH, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
 netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_RH, 'source', taskInfo.pollyVersion);
-netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
-netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
+% netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
+% netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
 netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
 
 varID_global = netcdf.getConstant('GLOBAL');

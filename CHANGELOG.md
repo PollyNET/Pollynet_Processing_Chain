@@ -1,5 +1,18 @@
 ## Pollynet Processing Chain Changelog
 
+### Version 1.2
+
+#### Release date
+
+2019-05-22
+
+#### Features
+
+1. Utilizing the ACTRIS data format to publish the processing results.
+2. Extending the config files for more systems.
+3. Revising typos in the scripts.
+4. Adding support for easy-debugging.
+
 ### Version 1.1
 
 #### Notable Changes

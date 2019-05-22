@@ -17,6 +17,8 @@ function [] = pollyxt_lacros_save_tc(data, taskInfo, config)
 %   Contact:
 %       zhenping@tropos.de
 
+missing_value = -999;
+
 global processInfo defaults campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_target_classification.nc', rmext(taskInfo.dataFilename)));
@@ -45,7 +47,7 @@ netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_tc_mask, data.tc_mask);
+netcdf.putVar(ncID, varID_tc_mask, fillmissing(data.tc_mask, missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -86,7 +88,7 @@ netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
 netcdf.putAtt(ncID, varID_tc_mask, 'unit', '');
 netcdf.putAtt(ncID, varID_tc_mask, 'long_name', 'Target classification');
 netcdf.putAtt(ncID, varID_tc_mask, 'standard_name', 'tc_mask');
-netcdf.putAtt(ncID, varID_tc_mask, '_FillValue', 'None');
+netcdf.putAtt(ncID, varID_tc_mask, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_range', [0, 11]);
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_tc_mask, 'source', taskInfo.pollyVersion);
