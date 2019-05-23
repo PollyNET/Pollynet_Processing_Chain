@@ -15,7 +15,7 @@ global processInfo defaults campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 
-    fileTC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
+    fileTC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
     load('TC_colormap.mat')
@@ -33,7 +33,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Target Classification for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Target Classification for %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -71,7 +71,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'));
 
     TC_mask = data.tc_mask;
     height = data.height;

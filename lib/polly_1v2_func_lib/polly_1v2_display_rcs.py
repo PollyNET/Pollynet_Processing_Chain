@@ -80,7 +80,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         RCS_FR_532 = mat['RCS_FR_532'][:]
         RCS_NR_532 = mat['RCS_NR_532'][:]
         volDepol_532 = mat['volDepol_532'][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

@@ -15,10 +15,10 @@ global defaults processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    file_quasi_bsc_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
-    file_quasi_bsc_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_1064.png', rmext(taskInfo.dataFilename)));
-    file_quasi_parDepol_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename)));
-    file_quasi_AngExp_532_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_ANGEXP_532_1064.png', rmext(taskInfo.dataFilename)));
+    file_quasi_bsc_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
+    file_quasi_bsc_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_Bsc_1064.png', rmext(taskInfo.dataFilename)));
+    file_quasi_parDepol_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename)));
+    file_quasi_AngExp_532_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_Quasi_ANGEXP_532_1064.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
     load('chiljet_colormap.mat')
@@ -37,7 +37,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -72,7 +72,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '1064', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '1064', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -107,7 +107,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Quasi Particle Depolarization Ratio at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Quasi Particle Depolarization Ratio at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -142,7 +142,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Quasi BSC Angstroem Exponent 532-1064 for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Quasi BSC Angstroem Exponent 532-1064 for %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -168,7 +168,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'));
 
     quasi_bsc_532 = data.quasi_par_beta_532;
     quality_mask_532 = data.quality_mask_532;

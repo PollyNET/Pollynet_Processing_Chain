@@ -16,7 +16,7 @@ missing_value = -999;
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -89,7 +89,7 @@ netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
 netcdf.putAtt(ncID, varID_WVMR, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_WVMR, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
 netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
@@ -101,7 +101,7 @@ netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
 netcdf.putAtt(ncID, varID_RH, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
 netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_RH, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
 netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
@@ -110,7 +110,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

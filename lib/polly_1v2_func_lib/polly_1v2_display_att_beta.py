@@ -79,7 +79,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         time = mat['time'][0][:]
         att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
         flagLC532 = mat['flagLC532'][:][0]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

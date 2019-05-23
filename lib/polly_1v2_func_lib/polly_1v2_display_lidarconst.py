@@ -79,7 +79,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
         LC532_raman = mat['LC532_raman'][:]
         LC532_aeronet = mat['LC532_aeronet'][:]
         yLim532 = mat['yLim532'][0][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

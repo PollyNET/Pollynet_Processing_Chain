@@ -87,7 +87,7 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
         yLim355 = mat['yLim355'][0][:]
         yLim532 = mat['yLim532'][0][:]
         yLim1064 = mat['yLim1064'][0][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

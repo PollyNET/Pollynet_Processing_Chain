@@ -40,7 +40,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 		segIndx = attri.depCalAttri355.segIndx{iCali};
 		thisCaliTime = attri.depCalAttri355.thisCaliTime{iCali};
 
-		fileDepolCali355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_355.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+		fileDepolCali355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_355.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
 
 		% visualize calibration process
 		figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -77,7 +77,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 		l = legend([p1, p2], 'Location', 'NorthEast');
 		set(l, 'FontSize', 6);
 
-		text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
+		text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
 		set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -112,7 +112,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 		segIndx = attri.depCalAttri532.segIndx{iCali};
 		thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
 
-		fileDepolCali532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+		fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
 
 		% visualize calibration process
 		figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -147,7 +147,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 		grid();
 		legend([p1, p2], 'Location', 'NorthEast');
 
-		text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
+		text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
 		set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 
@@ -160,7 +160,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'));
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')

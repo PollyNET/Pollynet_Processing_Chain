@@ -84,7 +84,7 @@ def pollyxt_lacros_display_quasiretrieving(tmpFile, saveFolder):
         quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
         quasi_beta_cRange_1064 = mat['quasi_beta_cRange_1064'][0][:]
         quasi_Par_DR_cRange_532 = mat['quasi_Par_DR_cRange_532'][0][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

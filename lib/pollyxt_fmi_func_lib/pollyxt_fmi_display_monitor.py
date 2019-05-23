@@ -84,7 +84,7 @@ def pollyxt_fmi_display_monitor(tmpFile, saveFolder):
         roof = mat['monitorStatus']['roof'][0][0]
         rain = mat['monitorStatus']['rain'][0][0]
         shutter = mat['monitorStatus']['shutter'][0][0]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

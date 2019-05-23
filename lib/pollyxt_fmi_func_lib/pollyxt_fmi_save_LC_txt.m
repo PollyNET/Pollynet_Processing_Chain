@@ -1,34 +1,8 @@
 function [] = pollyxt_fmi_save_LC_txt(data, taskInfo, config)
 %pollyxt_fmi_save_LC_txt  save the lidar constants
 %   Example:
-%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_fmi_save_LC_txt(data, taskInfo, config)
+%       [] = pollyxt_fmi_save_LC_txt(data, taskInfo, config)
 %   Inputs:
-%       wvconst: array
-%           water vapor calibration constants. [g*kg^{-1}] 
-%       wvconstStd: array
-%           uncertainty of water vapor calibration constants. [g*kg^{-1}] 
-%       WVCaliInfo: struct
-%           source: char
-%               data source. ('AERONET', 'MWR' or else)
-%           site: char
-%               measurement site.
-%           datetime: array
-%               datetime of applied IWV.
-%           PI: char
-%           contact: char
-%       IWVAttri: struct
-%           datetime: array
-%               water vapor calibration time. [datenum]
-%           WVCaliInfo: cell
-%               calibration information for each calibration period.
-%           IntRange: matrix
-%               index of integration range for calculate the raw IWV from lidar. 
-%       dataFilename: char
-%           the polly netcdf data file.
-%       defaults: struct
-%           defaults configuration. Detailed information can be found in doc/polly_defaults.md 
-%       file: char
-%           file for saving water vapor calibration results.
 %   Outputs:
 %
 %   History:
@@ -39,7 +13,7 @@ function [] = pollyxt_fmi_save_LC_txt(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-LCFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.lcCaliFile);
+LCFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
 
 %% fill missing values
 dataFile = taskInfo.dataFilename;
