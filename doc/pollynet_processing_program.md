@@ -584,7 +584,7 @@ processInfo: struct
 
 ### Products
 
-After each run, the aerosol and water vapor products will be processed and be saved to netCDF files. 
+The program can generate 
 
 #### retrieving results
 
