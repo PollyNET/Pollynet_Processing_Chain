@@ -79,7 +79,7 @@ def pollyxt_lacros_display_WV(tmpFile, saveFolder):
         height = mat['height'][0][:]
         time = mat['time'][0][:]
         flagCalibrated = mat['flagCalibrated'][:][0]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

@@ -19,7 +19,7 @@ function [] = pollyxt_noa_save_tc(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_target_classification.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_target_classification.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -89,7 +89,7 @@ netcdf.putAtt(ncID, varID_tc_mask, 'standard_name', 'tc_mask');
 netcdf.putAtt(ncID, varID_tc_mask, '_FillValue', 'None');
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_range', [0, 11]);
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_tc_mask, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_tc_mask, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_tc_mask, 'comment', 'This variable provides 11 atmospheric target classifications that can be distinguished by multiwavelength raman lidar.');
 netcdf.putAtt(ncID, varID_tc_mask, 'definition', '\"0: No signal\"\n\"1: Clean atmosphere\"\n\"2: Non-typed particles/low conc.\"\n\"3: Aerosol: small\"\n\"4: Aerosol: large, spherical\"\n\"5: Aerosol: mixture, partly non-spherical\"\n\"6: Aerosol: large, non-spherical\"\n\"7: Cloud: non-typed\"\n\"8: Cloud: water droplets\"\n\"9: Cloud: likely water droplets\"\n\"10: Cloud: ice crystals\"\n\"11: Cloud: likely ice crystals');
 netcdf.putAtt(ncID, varID_tc_mask, 'legend_key_red', [1.0000, 0.9000, 0.6000, 0.8667, 0.9059, 0.5333, 0, 0.4706, 0.2275, 0.7059, 0.0667, 0.5255]);
@@ -100,7 +100,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

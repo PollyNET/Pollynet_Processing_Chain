@@ -49,23 +49,6 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	taskInfo.pollyVersion = lower(fileinfo_new.pollyVersion{iTask});
 	taskInfo.startTime = now();
 
-	%% create folder for this instrument
-	results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion);
-	pic_folder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion);
-	log_folder = fullfile(processInfo.log_folder);
-	if ~ exist(results_folder, 'dir')
-		fprintf('Create a new folder to saving the results for %s\n%s\n', taskInfo.pollyVersion, results_folder);
-		mkdir(results_folder);
-	end
-	if ~ exist(pic_folder, 'dir')
-		fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, pic_folder);
-		mkdir(pic_folder);
-	end
-	if ~ exist(log_folder, 'dir')
-		fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, log_folder);
-		mkdir(log_folder);
-	end
-
 	%% turn on the diary to log all the command output for future debugging
 	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', rmext(taskInfo.dataFilename), taskInfo.pollyVersion));
 	fprintf('[%s] Turn on the Diary to record the execution results\n', tNow());
@@ -88,6 +71,23 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('%s campaign info:\nlocation: %s\nLat: %f\nLon: %f\nasl(m): %f\nstartTime: %s\ncaption: %s\n', campaignInfo.name, campaignInfo.location, campaignInfo.lon, campaignInfo.lat, campaignInfo.asl, datestr(campaignInfo.startTime, 'yyyy-mm-dd HH:MM'), campaignInfo.caption);
 	fprintf('[%s] Finish.\n', tNow());
 
+	%% create folder for this instrument
+	results_folder = fullfile(processInfo.results_folder, campaignInfo.name);
+	pic_folder = fullfile(processInfo.pic_folder, campaignInfo.name);
+	log_folder = fullfile(processInfo.log_folder);
+	if ~ exist(results_folder, 'dir')
+		fprintf('Create a new folder to saving the results for %s\n%s\n', campaignInfo.name, results_folder);
+		mkdir(results_folder);
+	end
+	if ~ exist(pic_folder, 'dir')
+		fprintf('Create a new folder to saving the plots for %s\n%s\n', campaignInfo.name, pic_folder);
+		mkdir(pic_folder);
+	end
+	if ~ exist(log_folder, 'dir')
+		fprintf('Create a new folder to saving the plots for %s\n%s\n', campaignInfo.name, log_folder);
+		mkdir(log_folder);
+	end
+
 	%% search for polly config, process func and load defaults function
 	fprintf('\n[%s] Start to search for polly config, process function and polly defaults.\n', tNow());
 	pollyProcessInfo = polly_processInfo(taskInfo, pollynet_config_history);
@@ -101,10 +101,10 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('\n[%s] Start to load the polly config.\n', tNow());
 	pollyConfig = load_polly_config(pollyProcessInfo.pollyConfigFile, config.polly_config_folder);
 	if ~ isstruct(pollyConfig)
-		fprintf('Failure in loading %s for %s.\n', pollyProcessInfo.pollyConfigFile, taskInfo.pollyVersion);
+		fprintf('Failure in loading %s for %s.\n', pollyProcessInfo.pollyConfigFile, campaignInfo.name);
 		continue;
 	end
-	pollyConfig.pollyVersion = taskInfo.pollyVersion;
+	pollyConfig.pollyVersion = campaignInfo.name;
 	taskInfo.dataTime = polly_parsetime(taskInfo.dataFilename, pollyConfig.dataFileFormat);
 	fprintf('[%s] Finish.\n', tNow());
 
@@ -112,13 +112,13 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	fprintf('\n[%s] Start to load the polly defaults.\n', tNow());
 	defaults = eval(sprintf('%s();', pollyProcessInfo.pollyLoadDefaultsFunc));
 	if ~ isstruct(defaults)
-		fprintf('Failure in running %s for %s.\n', pollyProcessInfo.pollyLoadDefaultsFunc, taskInfo.pollyVersion);
+		fprintf('Failure in running %s for %s.\n', pollyProcessInfo.pollyLoadDefaultsFunc, campaignInfo.name);
 		continue;
 	end
 	fprintf('[%s] Finish.\n', tNow());
 
 	%% realtime process
-	fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), taskInfo.pollyVersion, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
+	fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), campaignInfo.name, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
 	reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
 	report = cat(2, report, reportTmp);
 	fprintf('[%s] Finish.\n', tNow());

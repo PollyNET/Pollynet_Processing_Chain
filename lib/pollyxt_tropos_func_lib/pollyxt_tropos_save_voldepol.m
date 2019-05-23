@@ -14,7 +14,7 @@ function [] = pollyxt_tropos_save_voldepol(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_vol_depol.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_vol_depol.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -86,7 +86,7 @@ netcdf.putAtt(ncID, varID_voldepol_355, 'standard_name', 'voldepol_355');
 netcdf.putAtt(ncID, varID_voldepol_355, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_voldepol_355, 'plot_range', [0, 0.3]);
 netcdf.putAtt(ncID, varID_voldepol_355, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_voldepol_355, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_voldepol_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_voldepol_355, 'error_variable', 'voldepol_355_error');
 netcdf.putAtt(ncID, varID_voldepol_355, 'bias_variable', 'voldepol_355_bias');
 netcdf.putAtt(ncID, varID_voldepol_355, 'comment', 'The depolarized channel was calibrated with \pm 45\circ method.');
@@ -98,7 +98,7 @@ netcdf.putAtt(ncID, varID_voldepol_532, 'standard_name', 'voldepol_532');
 netcdf.putAtt(ncID, varID_voldepol_532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_voldepol_532, 'plot_range', [0, 0.3]);
 netcdf.putAtt(ncID, varID_voldepol_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_voldepol_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_voldepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_voldepol_532, 'error_variable', 'voldepol_532_error');
 netcdf.putAtt(ncID, varID_voldepol_532, 'bias_variable', 'voldepol_532_bias');
 netcdf.putAtt(ncID, varID_voldepol_532, 'comment', 'The depolarized channel was calibrated with \pm 45\circ method.');
@@ -107,7 +107,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

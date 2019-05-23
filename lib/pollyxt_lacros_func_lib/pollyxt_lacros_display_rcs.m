@@ -18,12 +18,12 @@ global defaults processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileRCS355FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
-    fileRCS532FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
-    fileRCS1064FR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_1064.png', rmext(taskInfo.dataFilename)));
-    fileRCS532NR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
-    fileVolDepol355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
-    fileVolDepol532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
+    fileRCS355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
+    fileRCS532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
+    fileRCS1064FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_FR_1064.png', rmext(taskInfo.dataFilename)));
+    fileRCS532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
+    fileVolDepol355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
+    fileVolDepol532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
     flagChannel355 = config.isFR & config.is355nm & config.isTot;
     flagChannel532 = config.isFR & config.is532nm & config.isTot;
     flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
@@ -46,7 +46,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '355', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -80,7 +80,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -114,7 +114,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '1064', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -148,7 +148,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 3000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Near-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Near-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:500:3000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -180,7 +180,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -212,7 +212,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '355', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -237,7 +237,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'));
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')

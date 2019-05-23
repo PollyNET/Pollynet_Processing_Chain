@@ -19,7 +19,7 @@ function [] = pollyxt_uw_save_quasi_results(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_quasi_results.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_quasi_results.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -102,7 +102,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'bias_variable', 'quasi_beta_532_bias');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', config.LR532));
@@ -116,7 +116,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'standard_name', 'quasi_bsc_1064');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_range', config.quasi_beta_cRange_1064/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'error_variable', 'quasi_beta_1064_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'bias_variable', 'quasi_beta_1064_bias');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', config.LR1064));
@@ -129,7 +129,7 @@ netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'standard_name', 'quasi_pardepol_5
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.quasi_Par_DR_cRange_532);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'error_variable', 'quasi_pardepol_532_error');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'bias_variable', 'quasi_pardepol_532_bias');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]; Depolarization calibration factor is %f.', config.LR532, data.depol_cal_fac_532));
@@ -142,7 +142,7 @@ netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'standard_name', 'quasi_ang_532_10
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'plot_range', [0, 2]);
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'error_variable', 'quasi_ang_532_1064_error');
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'bias_variable', 'quasi_ang_532_1064_bias');
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr] at 532 nm, %5.1f[Sr] at 1064 nm.', config.LR532, config.LR1064));
@@ -152,7 +152,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

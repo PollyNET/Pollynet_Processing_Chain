@@ -127,7 +127,7 @@ netcdf.putAtt(ncID, varID_overlap532, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_overlap532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_overlap532, 'comment', 'This variable is not quality-assured. Only use with instructions from the PollyNET develop team.');
 
 % Default overlap 532
@@ -138,7 +138,7 @@ netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap532Defaults, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_overlap532Defaults, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
 
 % Default overlap 355
@@ -149,7 +149,7 @@ netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_overlap355Defaults, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
 
 % overlap calibration method
@@ -161,7 +161,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

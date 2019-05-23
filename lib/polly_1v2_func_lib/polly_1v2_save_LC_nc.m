@@ -18,7 +18,7 @@ function [] = polly_1v2_save_LC_nc(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), taskInfo.pollyVersion));
+saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), campaignInfo.name));
 globalAttri = struct();
 globalAttri.location = campaignInfo.location;
 globalAttri.institute = processInfo.institute;
@@ -124,7 +124,7 @@ netcdf.putAtt(ncID, varID_LC_klett_532, 'standard_name', 'LC_klett_532');
 netcdf.putAtt(ncID, varID_LC_klett_532, '_FillValue', missingValue);
 netcdf.putAtt(ncID, varID_LC_klett_532, 'plot_range', config.LC532Range);
 netcdf.putAtt(ncID, varID_LC_klett_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_LC_klett_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_klett_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_klett_532, 'comment', 'Lidar constant at 532 nm based on klett method. The constant value is aimed at 30-s profile.');
 
 % LC_raman_532
@@ -134,7 +134,7 @@ netcdf.putAtt(ncID, varID_LC_raman_532, 'standard_name', 'LC_raman_532');
 netcdf.putAtt(ncID, varID_LC_raman_532, '_FillValue', missingValue);
 netcdf.putAtt(ncID, varID_LC_raman_532, 'plot_range', config.LC532Range);
 netcdf.putAtt(ncID, varID_LC_raman_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_LC_raman_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_raman_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_532, 'comment', 'Lidar constant at 532 nm based on raman method. The constant value is aimed at 30-s profile.');
 
 % LC_aeronet_532
@@ -144,7 +144,7 @@ netcdf.putAtt(ncID, varID_LC_aeronet_532, 'standard_name', 'LC_aeronet_532');
 netcdf.putAtt(ncID, varID_LC_aeronet_532, '_FillValue', missingValue);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_range', config.LC532Range);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_LC_aeronet_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_aeronet_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'comment', 'Lidar constant at 532 nm based on Constrained-AOD method. The constant value is aimed at 30-s profile.');
 
 % LC_used_532
@@ -154,28 +154,28 @@ netcdf.putAtt(ncID, varID_LC_used_532, 'standard_name', 'LC_used_532');
 netcdf.putAtt(ncID, varID_LC_used_532, '_FillValue', missingValue);
 netcdf.putAtt(ncID, varID_LC_used_532, 'plot_range', config.LC532Range);
 netcdf.putAtt(ncID, varID_LC_used_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_LC_used_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_used_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_532, 'comment', 'The constant value is aimed at 30-s profile.');
 
 % LC_usedtag_532
 netcdf.putAtt(ncID, varID_LC_usedtag_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_usedtag_532, 'long_name', 'Actual lidar constant at 532 nm in application.');
 netcdf.putAtt(ncID, varID_LC_usedtag_532, 'standard_name', 'LC_usedtag_532');
-netcdf.putAtt(ncID, varID_LC_usedtag_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_usedtag_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_usedtag_532, 'definition', '0: no calibration; 1: klett; 2: raman; 3: defaults');
 
 % LC_warning_532
 netcdf.putAtt(ncID, varID_LC_warning_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_warning_532, 'long_name', 'flag to show whether the calibration constants is unstalbe.');
 netcdf.putAtt(ncID, varID_LC_warning_532, 'standard_name', 'LC_warning_532');
-netcdf.putAtt(ncID, varID_LC_warning_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_LC_warning_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_warning_532, 'definition', '1: yes; 0: no');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

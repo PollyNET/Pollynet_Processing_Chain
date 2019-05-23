@@ -96,7 +96,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
         TRx = np.concatenate(mat['TR_x'])
         segIndx = np.concatenate(mat['segIndx'])
         thisCaliTime = np.concatenate(mat['thisCaliTime'])
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
     except Exception as e:

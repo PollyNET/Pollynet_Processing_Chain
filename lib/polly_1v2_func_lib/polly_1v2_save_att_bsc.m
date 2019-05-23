@@ -16,7 +16,7 @@ missing_value = -999;
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_att_bsc.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_att_bsc.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -87,7 +87,7 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
 netcdf.putAtt(ncID, varID_att_bsc_532, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.att_beta_cRange_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');
@@ -96,7 +96,7 @@ varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
 netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', taskInfo.pollyVersion);
+netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);

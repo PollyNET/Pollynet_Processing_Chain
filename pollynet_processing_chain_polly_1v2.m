@@ -16,35 +16,35 @@ report = cell(0);
 global processInfo campaignInfo defaults
 
 %% create folder
-results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
-pic_folder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
+results_folder = fullfile(processInfo.results_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'));
+pic_folder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'));
 if ~ exist(results_folder, 'dir')
-    fprintf('Create a new folder to saving the results for %s at %s\n%s\n', taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), results_folder);
+    fprintf('Create a new folder to saving the results for %s at %s\n%s\n', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), results_folder);
     mkdir(results_folder);
 end
 if ~ exist(pic_folder, 'dir')
-    fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), pic_folder);
+    fprintf('Create a new folder to saving the plots for %s\n%s\n', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), pic_folder);
     mkdir(pic_folder);
 end
 
 %% read data
-fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), taskInfo.pollyVersion, taskInfo.dataFilename);
+fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config, processInfo.flagDeleteData);
 if isempty(data.rawSignal)
-    warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, taskInfo.pollyVersion);
+    warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, campaignInfo.name);
     return;
 end
 fprintf('[%s] Finish reading data.\n', tNow());
 
 %% read laserlogbook file
 laserlogbookFile = fullfile(taskInfo.todoPath, taskInfo.dataPath, sprintf('%s.laserlogbook.txt', taskInfo.dataFilename));
-fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), taskInfo.pollyVersion, laserlogbookFile);
+fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), campaignInfo.name, laserlogbookFile);
 monitorStatus = polly_1v2_read_laserlogbook(laserlogbookFile, config, processInfo.flagDeleteData);
 data.monitorStatus = monitorStatus;
 fprintf('[%s] Finish reading laserlogbook.\n', tNow);
 
 %% pre-processing
-fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), taskInfo.pollyVersion);
+fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), campaignInfo.name);
 data = polly_1v2_preprocess(data, config);
 fprintf('[%s] Finish signal preprocessing.\n', tNow());
 
@@ -55,7 +55,7 @@ data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
-fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
+fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
 [data, depCaliAttri] = polly_1v2_depolcali(data, config, taskInfo, defaults);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
@@ -204,7 +204,7 @@ report = polly_1v2_results_report(data, taskInfo, config);
 %% debug output
 if isfield(processInfo, 'flagDebugOutput')
     if processInfo.flagDebugOutput
-        save(fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'), [rmext(taskInfo.dataFilename), '.mat']));
+        save(fullfile(processInfo.results_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'), [rmext(taskInfo.dataFilename), '.mat']));
     end
 end
 

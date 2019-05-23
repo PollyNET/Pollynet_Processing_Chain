@@ -13,7 +13,7 @@ function [] = pollyxt_lacros_save_LC_txt(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-LCFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.lcCaliFile);
+LCFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
 
 %% fill missing values
 dataFile = taskInfo.dataFilename;

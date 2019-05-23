@@ -16,35 +16,35 @@ report = cell(0);
 global processInfo campaignInfo defaults
 
 %% create folder
-results_folder = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
-pic_folder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
+results_folder = fullfile(processInfo.results_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'));
+pic_folder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'));
 if ~ exist(results_folder, 'dir')
-    fprintf('Create a new folder to saving the results for %s at %s\n%s\n', taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), results_folder);
+    fprintf('Create a new folder to saving the results for %s at %s\n%s\n', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), results_folder);
     mkdir(results_folder);
 end
 if ~ exist(pic_folder, 'dir')
-    fprintf('Create a new folder to saving the plots for %s\n%s\n', taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), pic_folder);
+    fprintf('Create a new folder to saving the plots for %s\n%s\n', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM'), pic_folder);
     mkdir(pic_folder);
 end
 
 %% read data
-fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), taskInfo.pollyVersion, taskInfo.dataFilename);
+fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config, processInfo.flagDeleteData);
 if isempty(data.rawSignal)
-    warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, taskInfo.pollyVersion);
+    warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, campaignInfo.name);
     return;
 end
 fprintf('[%s] Finish reading data.\n', tNow());
 
 %% read laserlogbook file
 laserlogbookFile = fullfile(taskInfo.todoPath, taskInfo.dataPath, sprintf('%s.laserlogbook.txt', taskInfo.dataFilename));
-fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), taskInfo.pollyVersion, laserlogbookFile);
+fprintf('\n[%s] Start to read %s laserlogbook data.\n%s\n', tNow(), campaignInfo.name, laserlogbookFile);
 monitorStatus = pollyxt_fmi_read_laserlogbook(laserlogbookFile, config, processInfo.flagDeleteData);
 data.monitorStatus = monitorStatus;
 fprintf('[%s] Finish reading laserlogbook.\n', tNow);
 
 %% pre-processing
-fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), taskInfo.pollyVersion);
+fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), campaignInfo.name);
 data = pollyxt_fmi_preprocess(data, config);
 fprintf('[%s] Finish signal preprocessing.\n', tNow());
 
@@ -55,7 +55,7 @@ data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
-fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), taskInfo.pollyVersion);
+fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
 [data, depCaliAttri] = pollyxt_fmi_depolcali(data, config, taskInfo);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
@@ -138,7 +138,7 @@ fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
 data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_fmi_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_fmi_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_fmi_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
 [data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_fmi_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -176,16 +176,16 @@ if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save results.\n', tNow());
     %% save depol cali results
-    pollyxt_fmi_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532));
-    pollyxt_fmi_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355));
+    pollyxt_fmi_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
+    pollyxt_fmi_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
 
     %% save overlap results
-    saveFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+    saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
     pollyxt_fmi_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
     %% save meteorological results
     %% save water vapor calibration results
-    pollyxt_fmi_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile));
+    pollyxt_fmi_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
 
     %% save aerosol optical results
     pollyxt_fmi_save_retrieving_results(data, taskInfo, config);
@@ -270,7 +270,7 @@ report = pollyxt_fmi_results_report(data, taskInfo, config);
 %% debug output
 if isfield(processInfo, 'flagDebugOutput')
     if processInfo.flagDebugOutput
-        save(fullfile(processInfo.results_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'), [rmext(taskInfo.dataFilename), '.mat']));
+        save(fullfile(processInfo.results_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'), [rmext(taskInfo.dataFilename), '.mat']));
     end
 end
 

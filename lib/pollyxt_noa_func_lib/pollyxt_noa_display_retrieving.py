@@ -130,7 +130,7 @@ def pollyxt_noa_display_retrieving(tmpFile, saveFolder):
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

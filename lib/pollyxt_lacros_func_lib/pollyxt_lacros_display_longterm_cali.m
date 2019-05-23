@@ -14,7 +14,7 @@ function [] = pollyxt_lacros_display_longterm_cali(taskInfo, config)
 global processInfo campaignInfo defaults
 
 %% read lidar constant
-lcCaliFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.lcCaliFile);
+lcCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
 LC = pollyxt_lacros_read_LC(lcCaliFile, config.dataFileFormat);
 % extract the logbook info till the current measurement
 flagTillNow = LC.LCTime <= taskInfo.dataTime;
@@ -36,7 +36,7 @@ LC607History = LC.LC607History(flagTillNow);
 LCStd607History = LC.LCStd607History(flagTillNow);
 
 %% read wv calibration constant
-wvCaliFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.wvCaliFile);
+wvCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile);
 [WVCaliTime, WVConst] = pollyxt_lacros_read_wvconst(wvCaliFile);
 flagTillNow = WVCaliTime <= taskInfo.dataTime;
 WVConst = WVConst(flagTillNow);
@@ -44,13 +44,13 @@ WVCaliTime = WVCaliTime(flagTillNow);
 
 %% read depol calibration constant
 % 355 nm
-depolCaliFile355 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355);
+depolCaliFile355 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355);
 [depolCaliTime355, depolCaliConst355] = pollyxt_lacros_read_depolconst(depolCaliFile355);
 flagTillNow = depolCaliTime355 <= taskInfo.dataTime;
 depolCaliTime355 = depolCaliTime355(flagTillNow);
 depolCaliConst355 = depolCaliConst355(flagTillNow);
 
-depolCaliFile532 = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532);
+depolCaliFile532 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532);
 [depolCaliTime532, depolCaliConst532] = pollyxt_lacros_read_depolconst(depolCaliFile532);
 flagTillNow = depolCaliTime532 <= taskInfo.dataTime;
 depolCaliTime532 = depolCaliTime532(flagTillNow);
@@ -103,7 +103,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     lineColor.else = [0, 255, 0]/255;
 
     %% initialization
-    fileLC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'), sprintf('%s_long_term_LC.png', datestr(taskInfo.dataTime, 'yyyymmdd')));
+    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'), sprintf('%s_long_term_LC.png', datestr(taskInfo.dataTime, 'yyyymmdd')));
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 5, 1);
@@ -154,7 +154,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     end
 
     ylabel('LC @ 355 nm');
-    title(sprintf('Long term Lidar Constant for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
+    title(sprintf('Long term Lidar Constant for %s at %s', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
 
     set(gca, 'xticklabel', '', 'XMinorTick', 'on', 'Box', 'on');
     set(gca, 'YMinorTick', 'on');
@@ -342,7 +342,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(taskInfo.dataTime, 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'));
     figDPI = processInfo.figDPI;
 
     % create tmp folder by force, if it does not exist.

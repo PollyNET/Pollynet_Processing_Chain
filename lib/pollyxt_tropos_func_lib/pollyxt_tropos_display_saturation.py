@@ -80,7 +80,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
         SAT_FR_1064 = mat['SAT_FR_1064'][:]
         SAT_NR_355 = mat['SAT_NR_355'][:]
         SAT_NR_532 = mat['SAT_NR_532'][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]

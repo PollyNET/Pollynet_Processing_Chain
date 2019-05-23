@@ -113,7 +113,7 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
         wvLim = mat['wvLim'][0][:]
         depolConstLim355 = mat['depolConstLim355'][0][:]
         depolConstLim532 = mat['depolConstLim532'][0][:]
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         dataTime = mat['taskInfo']['dataTime'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         startTime = mat['campaignInfo']['startTime'][0][0][0]

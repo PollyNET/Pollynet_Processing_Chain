@@ -97,7 +97,7 @@ def pollyxt_noa_display_depolcali(tmpFile, saveFolder):
         normRange355 = mat['normRange355'].reshape(-1)
         normRange532 = mat['normRange532'].reshape(-1)
         height = mat['height'].reshape(-1)
-        pollyVersion = mat['taskInfo']['pollyVersion'][0][0][0]
+        pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
