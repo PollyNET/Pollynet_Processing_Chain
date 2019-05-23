@@ -39,7 +39,7 @@ for iCali = 1:length(attri.depCalAttri532.thisCaliTime)
 	segIndx = attri.depCalAttri532.segIndx{iCali};
 	thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
 
-	fileDepolCali532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+	fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
 
 	% visualize calibration process
 	figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -74,7 +74,7 @@ for iCali = 1:length(attri.depCalAttri532.thisCaliTime)
 	grid();
 	legend([p1, p2], 'Location', 'NorthEast');
 
-	text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
+	text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
 	set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
 

@@ -30,9 +30,9 @@ LC1064_aeronet = data.LC.LC_aeronet_1064;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization
-    fileLC355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.png', rmext(taskInfo.dataFilename)));
-    fileLC532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
-    fileLC1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename)));
+    fileLC355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.png', rmext(taskInfo.dataFilename)));
+    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
+    fileLC1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename)));
 
     %% 355 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
@@ -46,7 +46,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     xlabel('UTC');
     ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '355', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '355', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
 
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
@@ -73,7 +73,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     xlabel('UTC');
     ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '532', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '532', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
 
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
@@ -100,7 +100,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     xlabel('UTC');
     ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '1064', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '1064', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
 
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
@@ -120,7 +120,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     time = data.mTime;
     figDPI = processInfo.figDPI;

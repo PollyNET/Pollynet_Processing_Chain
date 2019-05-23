@@ -14,7 +14,7 @@ function [] = polly_1v2_display_targetclassi(data, taskInfo, config)
 global processInfo defaults campaignInfo
 
 %% initialization 
-fileTC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
+fileTC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
 
 %% visualization
 load('TC_colormap.mat')
@@ -32,7 +32,7 @@ xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 12000]);
 xlabel('UTC');
 ylabel('Height (m)');
-title(sprintf('Target Classification for %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+title(sprintf('Target Classification for %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');

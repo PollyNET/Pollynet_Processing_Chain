@@ -15,9 +15,9 @@ global defaults processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileATT_BETA_355 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_532 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
     load('chiljet_colormap.mat')
@@ -36,7 +36,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '355', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -72,7 +72,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -108,7 +108,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylim([0, 15000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '1064', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
     set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -134,7 +134,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     ATT_BETA_355 = data.att_beta_355;
     ATT_BETA_532 = data.att_beta_532;

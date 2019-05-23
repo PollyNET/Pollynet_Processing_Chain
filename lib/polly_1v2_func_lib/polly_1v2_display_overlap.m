@@ -48,7 +48,7 @@ else
     sig532Gl = sig532FR ./ overlap532;
 end
 
-overlapPicFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
+overlapPicFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
 
 figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
 
@@ -64,7 +64,7 @@ xlim([-0.05, 1.1]);
 ylim([0, 3000]);
 xlabel('Overlap');
 ylabel('Height (m)');
-text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', taskInfo.pollyVersion, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
+text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', campaignInfo.name, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
 
 set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on');
 l = legend([p1, p3, p4], 'Location', 'NorthWest');
@@ -93,7 +93,7 @@ set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000,
 l = legend([p4, p5, p6], 'Location', 'NorthEast');
 set(l, 'FontSize', 6);
 
-text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, taskInfo.pollyVersion, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
+text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
 
 set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
 

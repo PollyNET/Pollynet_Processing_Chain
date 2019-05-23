@@ -20,7 +20,7 @@ end
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
-    picFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.png', rmext(taskInfo.dataFilename)));
+    picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.png', rmext(taskInfo.dataFilename)));
 
     %% data filter
     flagQaulity = true(size(data.monitorStatus.time));
@@ -34,7 +34,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ylabel('ExtPyro [mJ]');
     ylim([0, 40]);
     xlim([data.mTime(1), data.mTime(end)]);
-    title(sprintf('Housekeeping data from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
+    title(sprintf('Housekeeping data from %s at %s', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 10);
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', '');
     set(gca, 'YMinorTick', 'on', 'YTick', 5:5:35);
@@ -84,7 +84,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
