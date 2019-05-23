@@ -20,7 +20,7 @@ function [] = pollyxt_dwd_save_LC_nc(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
-saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), campaignInfo.name));
+saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_lc.nc', datestr(taskInfo.dataTime, 'yyyy_mm_dd_HH_MM_SS'), campaignInfo.name));
 globalAttri = struct();
 globalAttri.location = campaignInfo.location;
 globalAttri.institute = processInfo.institute;

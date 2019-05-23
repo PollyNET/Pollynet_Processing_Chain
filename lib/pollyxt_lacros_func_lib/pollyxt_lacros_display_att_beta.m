@@ -15,9 +15,9 @@ global defaults processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileATT_BETA_355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_355.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_1064.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
     load('chiljet_colormap.mat')
@@ -134,7 +134,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyymmdd'));
+    saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     ATT_BETA_355 = data.att_beta_355;
     ATT_BETA_532 = data.att_beta_532;

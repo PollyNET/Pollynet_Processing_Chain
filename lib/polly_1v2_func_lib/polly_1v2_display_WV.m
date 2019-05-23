@@ -14,8 +14,8 @@
 global defaults processInfo campaignInfo
 
 %% parameter initialize
-fileWVMR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
-fileRH = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
+fileWVMR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
+fileRH = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
 
 flagChannel407 = config.is407nm & config.isFR;
 flagChannel387 = config.is387nm & config.isFR;
