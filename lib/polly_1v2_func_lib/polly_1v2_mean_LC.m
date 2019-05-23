@@ -30,7 +30,7 @@ global defaults campaignInfo processInfo
 LCUsed532 = [];
 LCUsedTag532 = 0;
 flagLCWarning532 = false;
-LCCaliFile = fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.lcCaliFile);
+LCCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
 
 %% create the LC file if not exist
 if ~ exist(LCCaliFile, 'file')

@@ -14,8 +14,8 @@
 global defaults processInfo campaignInfo
 
 %% parameter initialize
-fileWVMR = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
-fileRH = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
+fileWVMR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
+fileRH = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
 
 flagChannel407 = config.is407nm & config.isFR;
 flagChannel387 = config.is387nm & config.isFR;
@@ -37,7 +37,7 @@ xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 8000]);
 xlabel('UTC');
 ylabel('Height (m)');
-title(sprintf('Water vapor mixing ratio from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+title(sprintf('Water vapor mixing ratio from %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -74,7 +74,7 @@ xlim([data.mTime(1), data.mTime(end)]);
 ylim([0, 8000]);
 xlabel('UTC');
 ylabel('Height (m)');
-title(sprintf('Relative humidity from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+title(sprintf('Relative humidity from %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
 set(gca, 'Box', 'on', 'TickDir', 'out');
 set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');

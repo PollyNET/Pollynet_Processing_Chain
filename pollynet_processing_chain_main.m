@@ -50,6 +50,10 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	taskInfo.startTime = now();
 
 	%% turn on the diary to log all the command output for future debugging
+	if ~ exist(config.log_folder, 'dir')
+		fprintf('Create the log folder: %s.\n', config.log_folder);
+		mkdir(config.log_folder);
+	end
 	logFile = fullfile(config.log_folder, sprintf('%s-%s.log', rmext(taskInfo.dataFilename), taskInfo.pollyVersion));
 	fprintf('[%s] Turn on the Diary to record the execution results\n', tNow());
 	
