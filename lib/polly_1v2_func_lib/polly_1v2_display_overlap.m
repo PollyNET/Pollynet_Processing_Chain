@@ -48,7 +48,7 @@ else
     sig532Gl = sig532FR ./ overlap532;
 end
 
-overlapPicFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
+overlapPicFile = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
 
 figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
 

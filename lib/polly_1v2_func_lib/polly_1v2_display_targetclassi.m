@@ -14,7 +14,7 @@ function [] = polly_1v2_display_targetclassi(data, taskInfo, config)
 global processInfo defaults campaignInfo
 
 %% initialization 
-fileTC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyymmdd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
+fileTC = fullfile(processInfo.pic_folder, taskInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_TC.png', rmext(taskInfo.dataFilename)));
 
 %% visualization
 load('TC_colormap.mat')
