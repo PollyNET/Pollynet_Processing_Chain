@@ -1,4 +1,4 @@
-function [volDepol, volDepolStd] = polly_volDepol(sigTot, bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow)
+function [volDepol, volDepolStd] = polly_volDepol(sigTot, bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow, flagSmoothBefore)
 %POLLY_VOLDEPOL calculate the volume depolarization ratio for pollyXT system.
 %	Example:
 %		[volDepol, volDepolStd] = polly_volDepol(sigTot, bgTot, sigCross, 
@@ -27,6 +27,8 @@ function [volDepol, volDepolStd] = polly_volDepol(sigTot, bgTot, sigCross, bgCro
 %			uncertainty of the depolarization calibration constant.
 %		smoothWindow: scalar or m*3 matrix
 %			the width of the sliding smoothing window for the signal.
+%       flagSmoothBefore: logical
+%           flag to control the vol-depol smoothing whether before or after the signal ratio.
 %	Outputs:
 %		volDepol: array
 %			volume depolarization ratio.
@@ -41,11 +43,16 @@ function [volDepol, volDepolStd] = polly_volDepol(sigTot, bgTot, sigCross, bgCro
 %		2018-09-02. First edition by Zhenping
 %		2018-09-04. Change the smoothing order. Smoothing the signal ratio 
 %		instead of smoothing the signal.
+%       2019-05-24. Add 'flagSmoothBefore' to control the smoothing order.
 %	Contact:
 %		zhenping@tropos.de
     
-if ~ exist('smoothWindiw', 'var')
-    smoothWindiw = 1;
+if ~ exist('smoothWindow', 'var')
+    smoothWindow = 1;
+end
+
+if ~ exist('flagSmoothBefore', 'var')
+    flagSmoothBefore = true;
 end
 
 SNRCross = polly_SNR(sigCross, bgCross);
@@ -54,7 +61,12 @@ SNRTot = polly_SNR(sigTot, bgTot);
 hIndxLowSNR = (SNRCross < 1) | (SNRTot < 1);
 sigCross(hIndxLowSNR) = NaN;
 sigTot(hIndxLowSNR) = NaN;
-sigRatio = transpose(smoothWin(sigCross, smoothWindiw)./ smoothWin(sigTot, smoothWindow));
+if flagSmoothBefore
+    sigRatio = transpose(smoothWin(sigCross, smoothWindow) ./ smoothWin(sigTot, smoothWindow));
+else
+    sigRatio = transpose(smoothWin(sigCross ./ sigTot, smoothWindow));
+end
+
 sigCrossStd = signalStd(sigCross, bgCross, smoothWindow, 2);
 sigTotStd = signalStd(sigTot, bgTot, smoothWindow, 2);
 

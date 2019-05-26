@@ -14,7 +14,8 @@ function [] = pollyxt_lacros_save_retrieving_results(data, taskInfo, config)
 %   History:
 %       2018-12-31. First Edition by Zhenping
 %       2019-05-10. Add one field of start&end time to be compatible with larda ncReader.
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS
+%       2019-05-24. Add voldepol with different smoothing window  convention.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -74,8 +75,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_aerLR_raman_355 = netcdf.defVar(ncID, 'aerLR_raman_355', 'NC_DOUBLE', dimID_height);
     varID_aerLR_raman_532 = netcdf.defVar(ncID, 'aerLR_raman_532', 'NC_DOUBLE', dimID_height);
     varID_aerLR_raman_1064 = netcdf.defVar(ncID, 'aerLR_raman_1064', 'NC_DOUBLE', dimID_height);
-    varID_volDepol_532 = netcdf.defVar(ncID, 'volDepol_532', 'NC_DOUBLE', dimID_height);
-    varID_volDepol_355 = netcdf.defVar(ncID, 'volDepol_355', 'NC_DOUBLE', dimID_height);
+    varID_volDepol_klett_532 = netcdf.defVar(ncID, 'volDepol_klett_532', 'NC_DOUBLE', dimID_height);
+    varID_volDepol_klett_355 = netcdf.defVar(ncID, 'volDepol_klett_355', 'NC_DOUBLE', dimID_height);
+    varID_volDepol_raman_532 = netcdf.defVar(ncID, 'volDepol_raman_532', 'NC_DOUBLE', dimID_height);
+    varID_volDepol_raman_355 = netcdf.defVar(ncID, 'volDepol_raman_355', 'NC_DOUBLE', dimID_height);
     varID_parDepol_klett_532 = netcdf.defVar(ncID, 'parDepol_klett_532', 'NC_DOUBLE', dimID_height);
     varID_parDepol_klett_355 = netcdf.defVar(ncID, 'parDepol_klett_355', 'NC_DOUBLE', dimID_height);
     varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);
@@ -116,8 +119,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_aerLR_raman_355, fillmissing(data.LR355_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_aerLR_raman_532, fillmissing(data.LR532_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_aerLR_raman_1064, fillmissing(data.LR1064_raman(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_volDepol_532, fillmissing(data.voldepol532(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_volDepol_355, fillmissing(data.voldepol355(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_volDepol_klett_532, fillmissing(data.voldepol532_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_volDepol_klett_355, fillmissing(data.voldepol355_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_volDepol_raman_532, fillmissing(data.voldepol532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_volDepol_raman_355, fillmissing(data.voldepol355_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_klett_355, fillmissing(data.pardepol355_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :), missing_value));
@@ -350,26 +355,50 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %5.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'comment', sprintf('This result is based on interpolated extinction. Not by real Raman method. Be careful!'));
     
-    % volDepol_532
-    netcdf.putAtt(ncID, varID_volDepol_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_532, 'long_name', 'volume depolarization ratio at 532 nm');
-    netcdf.putAtt(ncID, varID_volDepol_532, 'standard_name', 'delta (vol, 532 nm)');
-    netcdf.putAtt(ncID, varID_volDepol_532, 'missing_value', missing_value);
-    netcdf.putAtt(ncID, varID_volDepol_532, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_volDepol_532, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_volDepol_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+    % volDepol_klett_532
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'unit', '');
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'long_name', 'volume depolarization ratio at 532 nm with the same smoothing as Klett method');
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'standard_name', 'delta (vol, 532 nm)');
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'missing_value', missing_value);
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
     
-    % volDepol_355
-    netcdf.putAtt(ncID, varID_volDepol_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'long_name', 'volume depolarization ratio at 355 nm');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'standard_name', 'delta (vol, 355 nm)');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'missing_value', missing_value);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_volDepol_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+    % volDepol_klett_355
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'unit', '');
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'long_name', 'volume depolarization ratio at 355 nm with the same smoothing as Klett method');
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'standard_name', 'delta (vol, 355 nm)');
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'missing_value', missing_value);
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
     
+    % volDepol_raman_532
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'unit', '');
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'long_name', 'volume depolarization ratio at 532 nm with the same smoothing as Raman method');
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'standard_name', 'delta (vol, 532 nm)');
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'missing_value', missing_value);
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+    
+    % volDepol_raman_355
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'unit', '');
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'long_name', 'volume depolarization ratio at 355 nm with the same smoothing as Raman method');
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'standard_name', 'delta (vol, 355 nm)');
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'missing_value', missing_value);
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_raman_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+
     % parDepol_klett_532
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'unit', '');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'long_name', 'particle depolarization ratio at 532 nm');
