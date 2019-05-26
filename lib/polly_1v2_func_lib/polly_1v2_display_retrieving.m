@@ -343,7 +343,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
 
-        voldepol532 = data.voldepol532(iGroup, :);
+        voldepol532_klett = data.voldepol532_klett(iGroup, :);
+        voldepol532_raman = data.voldepol532_raman(iGroup, :);
         pardepol532_klett = data.pardepol532_klett(iGroup, :);
         pardepolStd532_klett = data.pardepolStd532_klett(iGroup, :);
         pardepol532_klett((abs(pardepolStd532_klett./pardepol532_klett) >= 0.3) | (pardepol532_klett < 0)) = NaN;
@@ -381,7 +382,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
 
-        voldepol532 = data.voldepol532(iGroup, :);
+        voldepol532_klett = data.voldepol532_klett(iGroup, :);
+        voldepol532_raman = data.voldepol532_raman(iGroup, :);
         pardepol532_raman = data.pardepol532_raman(iGroup, :);
         pardepolStd532_raman = data.pardepolStd532_raman(iGroup, :);
         pardepol532_raman(abs((pardepolStd532_raman./pardepol532_raman) >= 0.3) | (pardepol532_raman < 0)) = NaN;
@@ -518,13 +520,14 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         LR532_RR = data.LR532_RR(iGroup, :);
         
         % depool ratio
-        voldepol532 = data.voldepol532(iGroup, :);
+        voldepol532_klett = data.voldepol532_klett(iGroup, :);
+        voldepol532_raman = data.voldepol532_raman(iGroup, :);
         pardepol532_klett = data.pardepol532_klett(iGroup, :);
         pardepolStd532_klett = data.pardepolStd532_klett(iGroup, :);
-        pardepol532_klett((abs(pardepolStd532_klett./pardepol532_klett) >= 0.3) | (pardepol532_klett < 0)) = NaN;
+        pardepol532_klett((abs(pardepolStd532_klett./pardepol532_klett) >= 1) | (pardepol532_klett < 0) | (pardepolStd532_klett >= 0.4)) = NaN;
         pardepol532_raman = data.pardepol532_raman(iGroup, :);
         pardepolStd532_raman = data.pardepolStd532_raman(iGroup, :);
-        pardepol532_raman(abs((pardepolStd532_raman./pardepol532_raman) >= 0.3) | (pardepol532_raman < 0)) = NaN;
+        pardepol532_raman((abs(pardepolStd532_raman./pardepol532_raman) >= 1) | (pardepol532_raman < 0) | (pardepolStd532_raman >= 0.4)) = NaN;
 
         % meteor data
         meteorSource = data.meteorAttri.dataSource{iGroup};
@@ -544,7 +547,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         end
         
         %% display rcs 
-        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim');
+        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim');
         tmpFile = fullfile(tmpFolder, 'tmp.mat');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0

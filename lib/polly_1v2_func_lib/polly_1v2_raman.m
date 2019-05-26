@@ -69,7 +69,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             tmpAerExt532_raman = thisAerExt532_raman;
             tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
             [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
-            thisLR532_raman(1:hBaseIndx532) = NaN;
+            thisLR532_raman = thisAerExt532_raman ./ thisAerBsc532_raman;
             % TODO: uncertainty analysis
         end
     end
@@ -113,7 +113,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             tmpAerExt532_RR = thisAerExt532_RR;
             tmpAerExt532_RR(1:hBaseIndx532) = tmpAerExt532_RR(hBaseIndx532);
             [thisAerBsc532_RR, thisLR532_RR] = polly_raman_bsc_rr(data.distance0, sig532, sig532RR, tmpAerExt532_RR, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
-            thisLR532_RR(1:hBaseIndx532) = NaN;
+            thisLR532_RR = thisAerExt532_RR ./ thisAerBsc532_RR;
             % TODO: uncertainty analysis
         end
     end

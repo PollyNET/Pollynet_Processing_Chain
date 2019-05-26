@@ -309,8 +309,8 @@ data: struct
     aerosol lidar ratio retrieved by raman method. [Sr]
   LR{wavelength}_aeronet: array [group]
     aerosol ldiar ratio retrieved by constrained-AOD klett method. [Sr]
-  voldepol{wavelength}: matrix [group×bin]
-    volume depolarization ratio at each cloud-free group.
+  voldepol{wavelength}_{method}: matrix [group×bin]
+    volume depolarization ratio at each cloud-free group with the same smoothing for the corresponding backscatter.
   pardepol{wavelength}_{method}: matrix [group×bin]
     particle depolarization ratio.
   pardepolStd{wavelength}_{method}: matrix [group×bin]

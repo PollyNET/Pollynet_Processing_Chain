@@ -122,7 +122,7 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 [data.aerBsc532_klett, data.aerExt532_klett] = polly_1v2_klett(data, config);
 [data.aerBsc532_aeronet, data.aerExt532_aeronet, data.LR532_aeronet, data.deltaAOD532] = polly_1v2_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc532_raman, data.aerBsc532_RR, data.aerExt532_raman, data.aerExt532_RR, data.LR532_raman, data.LR532_RR] = polly_1v2_raman(data, config);
-[data.voldepol532, data.pardepol532_klett, data.pardepolStd532_klett, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = polly_1v2_depolratio(data, config);
+[data.voldepol532_klett, data.pardepol532_klett, data.pardepolStd532_klett, data.voldepol532_raman, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = polly_1v2_depolratio(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% lidar calibration

@@ -39,6 +39,9 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
 %       2018-01-01. First edition by Zhenping.
 %       2018-07-05. Add the SNR constrain for the reference height.
 %       2019-01-01. change the single array to double to avoid overflow in chi2fit.
+%       2019-05-26. Strengthen the criteria for Near-Far Range test.
+%           Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol
+%           New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
 %   Copyright:
 %       Ground-based remote sensing. (TROPOS)
 
@@ -137,11 +140,11 @@ for iIndx = 1:length(dpIndx) - 1
 %             continue;
 %         end
 
-        if ~ ((meanSig_aer + deltaSig_aer) >= meanSig_mol) && (flagShowDetail)
+        if ~ ((meanSig_aer + deltaSig_aer/3) >= meanSig_mol) && (flagShowDetail)
             fprintf('Region %d: %f - %f fails in near and far-Range cross test.\n', iIndx, height(iDpBIndx), height(iDpTIndx));
             test2 = false;
             break;
-        elseif ~ ((meanSig_aer + deltaSig_aer) >= meanSig_mol)
+        elseif ~ ((meanSig_aer + deltaSig_aer/3) >= meanSig_mol)
             test2 = false;
             break;
         end

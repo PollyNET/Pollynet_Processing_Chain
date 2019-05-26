@@ -112,8 +112,10 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
         ang_bsc_355_532_raman = mat['ang_bsc_355_532_raman'][:][0]
         ang_bsc_532_1064_raman = mat['ang_bsc_532_1064_raman'][:][0]
         ang_ext_355_532_raman = mat['ang_ext_355_532_raman'][:][0]
-        voldepol355 = mat['voldepol355'][:][0]
-        voldepol532 = mat['voldepol532'][:][0]
+        voldepol355_klett = mat['voldepol355_klett'][:][0]
+        voldepol532_klett = mat['voldepol532_klett'][:][0]
+        voldepol355_raman = mat['voldepol355_raman'][:][0]
+        voldepol532_raman = mat['voldepol532_raman'][:][0]
         pardepol355_klett = mat['pardepol355_klett'][:][0]
         pardepol532_klett = mat['pardepol532_klett'][:][0]
         pardepolStd355_klett = mat['pardepolStd355_klett'][:][0]
@@ -415,8 +417,8 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     # display depol ratio with klett method
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
-    p1, = ax.plot(voldepol355, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
-    p2, = ax.plot(voldepol532, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
+    p1, = ax.plot(voldepol355_klett, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
+    p2, = ax.plot(voldepol532_klett, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p3, = ax.plot(pardepol355_klett, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pardepol532_klett, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
@@ -442,8 +444,8 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     # display depol ratio with raman method
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
-    p1, = ax.plot(voldepol355, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
-    p2, = ax.plot(voldepol532, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
+    p1, = ax.plot(voldepol355_raman, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
+    p2, = ax.plot(voldepol532_raman, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p3, = ax.plot(pardepol355_raman, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pardepol532_raman, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
