@@ -116,9 +116,9 @@ quality_mask_RH = quality_mask_WVMR;
 
 % mask the signal
 SIG387_QC = SIG387;
-SIG387_QC(quality_mask_WVMR ~= 0) = NaN;
+SIG387_QC(:, data.depCalMask) = NaN;
 SIG407_QC = SIG407;
-SIG407_QC(quality_mask_WVMR ~= 0) = NaN;
+SIG407_QC(:, data.depCalMask) = NaN;
 
 % smooth the signal
 SIG387_QC = smooth2(SIG387_QC, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
