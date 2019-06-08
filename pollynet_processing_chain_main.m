@@ -19,6 +19,13 @@ else
 	config = loadjson(configFile);
 end
 
+% reduce the dependence on additionable toolboxes to get rid of license problems
+% after the turndown of usage of matlab toolbox, we need to replace the applied function with user defined functions
+if config.flagReduceMATLABToolboxDependence
+	license('checkout', 'statistics_toolbox', 'disable');
+	fprintf('Disable the usage of matlab statistics_toolbox');
+end
+
 % declare global variables
 global processInfo campaignInfo defaults
 processInfo = config;
@@ -144,3 +151,9 @@ fprintf('%%------------------------------------------------------%%\n');
 %% publish the report
 % publish_report(report, config);
 system(sprintf('%s %s %s %s "%s" "%s" "%s"', fullfile(config.pyBinDir, 'python'), fullfile(projectDir, 'lib', 'sendmail_msg.py'), 'yzp528172875@gmail.com', 'zhenping@tropos.de', sprintf('[%s] PollyNET Processing Report', tNow()), 'Have an overview', config.fileinfo_new));
+
+% enable the usage of matlab toolbox
+if config.flagReduceMATLABToolboxDependence
+	license('checkout', 'statistics_toolbox', 'enable');
+	fprintf('Enable the usage of matlab statistics_toolbox');
+end
