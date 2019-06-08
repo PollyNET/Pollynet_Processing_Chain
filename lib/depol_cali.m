@@ -48,6 +48,7 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol
 %           all the information about the depol calibration.
 %	History:
 %		2018-07-25. First edition by Zhenping.
+%       2019-06-08. If no depol cali, return empty array.
 %	Contact:
 %		zhenping@tropos.de
     
@@ -196,7 +197,11 @@ for iDay = 1:nDays
 
     end
 end
-    
+   
+if isempty(mean_dminus) || isempty(mean_dplus)
+    return;
+end
+
 % calculate the depol-calibration factor and std
 depol_cal_fac = nanmean((1 + TR_t) ./ (1 + TR_x) .* sqrt(mean_dplus .* mean_dminus), 1);
 depol_cal_fac_std = nanmean(sqrt(((1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus .* mean_dminus) .* 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus)).^2), 1);
