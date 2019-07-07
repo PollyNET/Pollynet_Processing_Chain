@@ -149,6 +149,7 @@
 	"aerExtProfileRange": [-1, 300],
 	"aerLRProfileRange": [0, 120],
 	"WVMRProfileRange": [0, 10],
+	"WVMRColorRange": [0, 10],
 	"LC355Range": [0, 1e14],
 	"LC532Range": [0, 2e14],
 	"LC1064Range": [0, 6e14],
