@@ -103,7 +103,8 @@ aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' ...
 if ispc
     [status, html_text] = system(['wget -qO- "' aod_url '"']);
     if status ~= 0
-        error('Error in calling wget in window cmd. Please make sure wget is available and it is in the searching path of window. \nOtherwise, you need to download the suitable version online and add the path to the environment variables manually.\n You can go to https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows for detailed information');
+        warning('Error in calling wget in window cmd. Please make sure wget is available and it is in the searching path of window. \nOtherwise, you need to download the suitable version online and add the path to the environment variables manually.\n You can go to https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows for detailed information');
+        return;
     end
 elseif isunix
     [status, html_text] = system(['wget -qO- "' aod_url '"']);

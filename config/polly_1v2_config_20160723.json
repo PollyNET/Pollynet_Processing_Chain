@@ -73,6 +73,8 @@
 
 	"overlap532Color": [0, 255, 64],
 	"RCSProfileRange": [1e-2, 1e2],
+	"RCS532FRColorRange": [1e-2, 50],
+	"RCS532NRColorRange": [1e-2, 50],
 	"aerBscProfileRange": [-0.05, 3],
 	"aerExtProfileRange": [-1, 150],
 	"aerLRProfileRange": [0, 120],

@@ -152,9 +152,11 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(flagChannel532, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
     RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2; 
     volDepol_532 = data.volDepol_532;
+	RCS532FRColorRange = config.RCS532FRColorRange;
+	RCS532NRColorRange = config.RCS532NRColorRange;
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS532FRColorRange', 'RCS532NRColorRange');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0

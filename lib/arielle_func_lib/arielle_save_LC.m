@@ -11,17 +11,20 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %       LCUsed355: float
 %           applied lidar constant at 355 nm. 
 %       LCUsedTag355: integer
-%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning355: integer
+%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) 
+%      flagLCWarning355: integer
 %           flag to show whether the calibration constant is unstable. 
 %       LCUsed532: float
 %           applied lidar constant at 532 nm. 
 %       LCUsedTag532: integer
-%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning532: integer
+%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) 
+%      flagLCWarning532: integer
 %           flag to show whether the calibration constant is unstable. 
 %       LCUsed1064: float
 %           applied lidar constant at 1064 nm. 
 %       LCUsedTag1064: integer
-%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) %      flagLCWarning1064: integer
+%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults) 
+%      flagLCWarning1064: integer
 %           flag to show whether the calibration constant is unstable. 
 %   History:
 %       2018-12-24. First Edition by Zhenping

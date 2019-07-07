@@ -27,6 +27,7 @@
 	"flagEnableDataVisualization": true,	
 	"flagDebugOutput": false,
 	"flagReduceMATLABToolboxDependence": false,
+	"flagSendNotificationEmail": false,
 
 	"pollyVersions": ["PollyXT_UW", "arielle", "PollyXT_TROPOS", "PollyXT_DWD", "PollyXT_NOA", "PollyXT_FMI", "PollyXT_LACROS", "Polly_1v2"]
 }

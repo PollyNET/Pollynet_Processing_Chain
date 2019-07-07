@@ -15,7 +15,7 @@ function [defaults] = pollyxt_fmi_read_defaults()
 defaultFile = 'pollyxt_fmi_defaults.json';
 
 if ~ exist(defaultFile, 'file')
-    error('Default file for pollyxt_dwd does not exist!\n%s\n', defaultFile);
+    error('Default file for pollyxt_fmi does not exist!\n%s\n', defaultFile);
 end
 
 defaults = loadjson(defaultFile);

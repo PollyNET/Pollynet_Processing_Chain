@@ -149,11 +149,13 @@ fprintf('Time Usage: %fs\n', tUsage);
 fprintf('%%------------------------------------------------------%%\n');
 
 %% publish the report
-% publish_report(report, config);
-system(sprintf('%s %s %s %s "%s" "%s" "%s"', fullfile(config.pyBinDir, 'python'), fullfile(projectDir, 'lib', 'sendmail_msg.py'), 'yzp528172875@gmail.com', 'zhenping@tropos.de', sprintf('[%s] PollyNET Processing Report', tNow()), 'Have an overview', config.fileinfo_new));
+if config.flagSendNotificationEmail
+	% publish_report(report, config);
+	system(sprintf('%s %s %s %s "%s" "%s" "%s"', fullfile(config.pyBinDir, 'python'), fullfile(projectDir, 'lib', 'sendmail_msg.py'), 'yzp528172875@gmail.com', 'zhenping@tropos.de', sprintf('[%s] PollyNET Processing Report', tNow()), 'Have an overview', config.fileinfo_new));
+end
 
 % enable the usage of matlab toolbox
 if config.flagReduceMATLABToolboxDependence
 	license('checkout', 'statistics_toolbox', 'enable');
-	fprintf('Enable the usage of matlab statistics_toolbox');
+	fprintf('Enable the usage of matlab statistics_toolbox\n');
 end

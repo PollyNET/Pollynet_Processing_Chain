@@ -86,6 +86,10 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
+        RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
+        RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
+        RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
+        RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
@@ -109,7 +113,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     RCS_FR_355 = np.ma.masked_where(fogMask == 1, RCS_FR_355)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_355/1e7, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_355/1e6, vmin=RCS355FRColorRange[0], vmax=RCS355FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -121,7 +125,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS355FRColorRange[0], RCS355FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 
@@ -136,7 +140,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     RCS_FR_532 = np.ma.masked_where(fogMask == 1, RCS_FR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e7, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e6, vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -148,7 +152,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532FRColorRange[0], RCS532FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 
@@ -163,7 +167,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     RCS_FR_1064 = np.ma.masked_where(fogMask == 1, RCS_FR_1064)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_1064/1e7, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_1064/1e6, vmin=RCS1064FRColorRange[0], vmax=RCS1064FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -175,7 +179,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS1064FRColorRange[0], RCS1064FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 
@@ -190,7 +194,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     RCS_NR_532 = np.ma.masked_where(fogMask == 1, RCS_NR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e6, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e6, vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -202,7 +206,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532NRColorRange[0], RCS532NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 
@@ -229,7 +233,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_title('Volume Depolarization Ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('', fontsize=9)
 
