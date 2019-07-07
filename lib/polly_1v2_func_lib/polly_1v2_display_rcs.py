@@ -86,6 +86,8 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
+        RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
     except Exception as e:
         print('%s has been destroyed' % (tmpFile))
         return
@@ -107,7 +109,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     RCS_FR_532 = np.ma.masked_where(fogMask == 1, RCS_FR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e7, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e6, vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -119,7 +121,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532FRColorRange[0], RCS532FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 
@@ -134,7 +136,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     RCS_NR_532 = np.ma.masked_where(fogMask == 1, RCS_NR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e7, vmin=1e-3, vmax=2, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e6, vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -146,7 +148,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 2.1, 0.2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532NRColorRange[0], RCS532NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=9)
 

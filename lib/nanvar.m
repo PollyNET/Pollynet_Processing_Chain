@@ -26,7 +26,7 @@ function y = nanvar(x,dim,flag)
 %    See also STD
 
 % -------------------------------------------------------------------------
-%    author:      Jan Gläscher
+%    author:      Jan Glï¿½scher
 %    affiliation: Neuroimage Nord, University of Hamburg, Germany
 %    email:       glaescher@uke.uni-hamburg.de
 %    
@@ -51,7 +51,7 @@ end
 
 % Find NaNs in x and nanmean(x)
 nans = isnan(x);
-avg = nanmean_copied(x,dim);
+avg = nanmean(x,dim);
 
 % create array indicating number of element 
 % of x in dimension DIM (needed for subtraction of mean)

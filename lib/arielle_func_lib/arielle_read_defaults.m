@@ -15,7 +15,7 @@ function [defaults] = arielle_read_defaults()
 defaultFile = 'arielle_defaults.json';
 
 if ~ exist(defaultFile, 'file')
-    error('Default file for pollyxt_dwd does not exist!\n%s\n', defaultFile);
+    error('Default file for arielle does not exist!\n%s\n', defaultFile);
 end
 
 defaults = loadjson(defaultFile);
