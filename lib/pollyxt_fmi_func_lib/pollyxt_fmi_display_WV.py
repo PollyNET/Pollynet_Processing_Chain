@@ -83,6 +83,7 @@ def pollyxt_fmi_display_WV(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
+        WVMRColorRange = mat['WVMRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
@@ -103,7 +104,7 @@ def pollyxt_fmi_display_WV(tmpFile, saveFolder):
     # display WVMR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, WVMR, vmin=0, vmax=10, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, WVMR, vmin=WVMRColorRange[0], vmax=WVMRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -115,7 +116,7 @@ def pollyxt_fmi_display_WV(tmpFile, saveFolder):
     ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 10.1, 2), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(WVMRColorRange[0], WVMRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=8)
 
@@ -151,7 +152,7 @@ def pollyxt_fmi_display_WV(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_fmi_display_WV('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_FMI\\20180517')
+    pollyxt_fmi_display_WV('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
 
 if __name__ == '__main__':
     # main()

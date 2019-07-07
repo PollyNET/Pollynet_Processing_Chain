@@ -1,4 +1,4 @@
-    function [] = pollyxt_noa_display_WV(data, taskInfo, config)
+function [] = pollyxt_noa_display_WV(data, taskInfo, config)
 %pollyxt_noa_display_WV display the water vapor mixing ratio and relative humidity.
 %   Example:
 %       [] = pollyxt_noa_display_WV(data, taskInfo, config)
@@ -112,6 +112,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     height = data.height;
     time = data.mTime;
     figDPI = processInfo.figDPI;
+    WVMRColorRange = config.WVMRColorRange;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
@@ -121,7 +122,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
