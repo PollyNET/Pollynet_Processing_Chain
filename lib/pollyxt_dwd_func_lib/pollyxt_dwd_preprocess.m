@@ -16,6 +16,8 @@ function [ data ] = pollyxt_dwd_preprocess(data, config)
 %               calibration process starts)
 %           zenithAng: array
 %               zenith angle of the laer beam.
+%           repRate: float
+%               laser pulse repetition rate. [s^-1]
 %           hRes: float
 %               spatial resolution [m]
 %           mSite: string
@@ -35,6 +37,8 @@ function [ data ] = pollyxt_dwd_preprocess(data, config)
 %               calibration process starts)
 %           zenithAng: array
 %               zenith angle of the laer beam.
+%           repRate: float
+%               laser pulse repetition rate. [s^-1]
 %           hRes: float
 %               spatial resolution [m]
 %           mSite: string
