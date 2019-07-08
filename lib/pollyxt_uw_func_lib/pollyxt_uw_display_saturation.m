@@ -199,6 +199,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
     flagChannel532NR = config.isNR & config.is532nm & config.isTot;
     flagChannel355NR = config.isNR & config.is355nm & config.isTot;
+    flagChannel407 = config.isFR & config.is407nm;
 
     time = data.mTime;
     figDPI = processInfo.figDPI;
@@ -214,8 +215,10 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
     SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
     SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
+    SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
+    SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0

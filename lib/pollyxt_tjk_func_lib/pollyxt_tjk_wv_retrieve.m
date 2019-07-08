@@ -104,7 +104,8 @@ end
 SIG387 = squeeze(data.signal(flagChannel387, :, :));
 SIG387(:, data.depCalMask) = NaN;
 SIG407 = squeeze(data.signal(flagChannel407, :, :));
-SIG407(:, data.depCalMask) = NaN;
+flag407Off = polly_is407Off(SIG407);
+SIG407(:, (data.depCalMask | flag407Off)) = NaN;
 
 SNR = polly_SNR(data.signal, data.bg);
 
