@@ -22,6 +22,8 @@ function [ data ] = polly_read_rawdata(file, config, flagDelete)
 %               calibration process starts)
 %           zenithAng: array
 %               zenith angle of the laer beam.
+%           repRate: float
+%               laser pulse repetition rate. [s^-1]
 %           hRes: float
 %               spatial resolution [m]
 %           mSite: char
@@ -34,6 +36,7 @@ function [ data ] = polly_read_rawdata(file, config, flagDelete)
 %               altitude of measurement site. [degree]
 %   History:
 %       2018-12-16. First edition by Zhenping.
+%       2019-07-08. Read the 'laser_rep_rate'.
 %   Copyright:
 %       Ground-based remote sensing (TROPOS)
 
@@ -45,6 +48,7 @@ data.mTime = [];
 data.depCalAng = [];
 data.hRes = [];
 data.zenithAng = [];
+data.repRate = [];
 data.mSite = [];
 data.deadtime = [];
 data.lat = [];
@@ -65,6 +69,7 @@ try
     depCalAng = ncread(file, 'depol_cal_angle');
     hRes = ncread(file, 'measurement_height_resolution') * 0.15; % Unit: m
     zenithAng = ncread(file, 'zenithangle'); % Unit: deg
+    repRate = ncread(file, 'laser_rep_rate');
     coordinates = ncread(file, 'location_coordinates');
     alt = ncread(file, 'location_height');
     fileInfo = ncinfo(file);
@@ -81,7 +86,7 @@ end
 % search the profiles with invalid mshots
 flagFalseShots = false(1, size(mShots, 2));
 for iChannel = 1:size(mShots, 1)
-    tmp = (mShots(iChannel, :) > 650) | (mShots(iChannel, :) < 550);
+    tmp = (mShots(iChannel, :) > 1e6) | (mShots(iChannel, :) <= 0);
     flagFalseShots = flagFalseShots | tmp;
 end
 
@@ -89,7 +94,7 @@ end
 if config.flagFilterFalseMShots
 
     if sum(~ flagFalseShots) == 0
-        fprintf('No profile with mshots > 500 or mshots < 700 is found.\nPlease take a look inside %s\n', file);
+        fprintf('No profile with mshots < 1e6 and mshots > 0 was found.\nPlease take a look inside %s\n', file);
         return;
     else
         rawSignal = rawSignal(:, :, ~ flagFalseShots);
@@ -114,6 +119,7 @@ data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;
 data.deadtime = deadtime;
+data.repRate = repRate;
 data.lon = coordinates(1, 1);
 data.lat = coordinates(2, 1);
 data.alt0 = alt;
