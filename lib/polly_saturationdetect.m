@@ -18,6 +18,7 @@ function [flag] = polly_saturationdetect(signal, height, hBase, hTop, sigThresh,
 %           saturation flag for each range bin.
 %   History:
 %       2018-12-21. First Edition by Zhenping
+%       2019-07-08. Add the criteria for the absolute values
 %   Contact:
 %       zhenping@tropos.de
 
@@ -33,6 +34,9 @@ cloudMaxGThicknessIndx = int32(cloudMaxGThickness / (height(2) - height(1)));
 if isempty(hBaseIndx) || isempty(hTopIndx)
     error('Error in polly_saturationdetect: hBase or hTop is out of range.\nCurrent hBase is %d and hTop is %d\n', hBase, hTop);
 end
+
+% determine whether the signal is over the saturation threshold
+flag(signal > sigThresh) = true;
 
 indxSaturate = find((signal(hBaseIndx:(hTopIndx - 1)) - sigThresh) .* (signal((hBaseIndx + 1):hTopIndx) - sigThresh) <= 0);
 if isempty(indxSaturate) || (numel(indxSaturate) == 1)

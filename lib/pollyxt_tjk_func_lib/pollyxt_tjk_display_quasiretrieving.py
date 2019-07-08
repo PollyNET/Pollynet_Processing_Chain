@@ -122,7 +122,7 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_532[0], quasi_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=8)
 
@@ -147,7 +147,7 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 3.1, 0.5), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_1064[0], quasi_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=8)
 

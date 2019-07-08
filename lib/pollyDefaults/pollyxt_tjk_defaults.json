@@ -7,10 +7,10 @@
     "LCStd": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "overlapFile532": "pollyxt_tjk_overlap_532.txt",
     "overlapFile355": "pollyxt_tjk_overlap_355.txt",
-    "molDepol532": 0.0053,
+    "molDepol532": 0.0326,
     "molDepolStd532": 0.001,
-    "molDepol355": 0.0075,
+    "molDepol355": 0.0221,
     "molDepolStd355": 0.0015,
-    "wvconst": 11.1,
+    "wvconst": 3.50,
     "wvconstStd": 0
 }

@@ -12,6 +12,7 @@ function [flag] = pollyxt_dwd_saturationdetect(data, config)
 %           if it is true, it means the current range bin should be saturated by clouds. Vice versa.
 %   History:
 %       2018-12-21. First Edition by Zhenping
+%       2019-07-08. Fix the bug of converting signal to PCR.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -24,9 +25,11 @@ if isempty(data.rawSignal)
     return;
 end
 
+signalPCR = squeeze(data.signal + data.bg) ./ repmat(reshape(data.mShots, size(data.mShots, 1), 1, size(data.mShots, 2)), [1, size(data.signal, 2), 1]) * 150.0 ./ data.hRes;
+
 for iChannel = 1:nChannels
     for iProfile = 1:nProfiles
-        flagSaturation = polly_saturationdetect(squeeze(data.signal(iChannel, :, iProfile)), data.height, config.heightFullOverlap(iChannel), 10000, config.saturate_thresh, 500);
+        flagSaturation = polly_saturationdetect(signalPCR(iChannel, :, iProfile), data.height, config.heightFullOverlap(iChannel), 10000, config.saturate_thresh, 500);
         flag(iChannel, :, iProfile) = flagSaturation;
     end
 end

@@ -124,7 +124,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 15.1, 3), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=8)
 
@@ -148,7 +148,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=8)
 
@@ -173,7 +173,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 5.1, 1), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_1064[0], att_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=8)
 
