@@ -4,6 +4,7 @@ results/
 tmp/
 recent_plots/
 todo_filelist/
+config/
+!config/template_config.json
 test/
 debug.mat
-config/
