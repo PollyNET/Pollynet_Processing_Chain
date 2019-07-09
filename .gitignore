@@ -5,4 +5,5 @@ tmp/
 recent_plots/
 todo_filelist/
 test/
+config/
 debug.mat
