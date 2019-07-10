@@ -7,4 +7,5 @@ todo_filelist/
 config/
 !config/template_config.json
 test/
+lib/__pycache__/
 debug.mat

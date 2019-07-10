@@ -59,6 +59,7 @@ function [ data ] = pollyxt_dwd_preprocess(data, config)
 %               fogMask will be set true. Otherwise, false
 %   History:
 %       2018-12-16. First edition by Zhenping.
+%       2019-07-10. Add mask for laser shutter due to approaching airplanes.
 %   Copyright:
 %       Ground-based remote sensing (tropos)
 
@@ -144,9 +145,13 @@ for iDepCal = 1:length(config.depol_cal_ang_p_time)
     data.depCalMask = data.depCalMask | ((rem(data.mTime, 1) >= config.depol_cal_ang_p_time(iDepCal)) & (rem(data.mTime, 1) < config.depol_cal_ang_p_time(iDepCal) + datenum(0, 0, 0, 0, 10, 30)));
 end
 
+%% mask for laser shutter
+data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(3, :, :)));
+
 %% mask for fog profiles
 data.fogMask = false(1, size(data.signal, 3));
 is_channel_532_FR_Tot = config.isFR & config.is532nm & config.isTot;
-data.fogMask(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :), 2)) <= config.minPC_fog) = true;
+% signal strength is weak and not caused by laser shutter on.
+data.fogMask(transpose(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :), 2)) <= config.minPC_fog) & (~ data.shutterOnMask)) = true;
 
 end
