@@ -81,6 +81,9 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
         quality_mask_1064 = mat['quality_mask_1064'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
+        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
         flagLC355 = mat['flagLC355'][:][0]
         flagLC532 = mat['flagLC532'][:][0]
         flagLC1064 = mat['flagLC1064'][:][0]
@@ -159,7 +162,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
     # display attenuate backscatter at 1064 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_1064 * 1e6, vmin=0, vmax=5, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_1064 * 1e6, vmin=att_beta_cRange_1064[0], vmax=att_beta_cRange_1064[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
