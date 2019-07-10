@@ -1,7 +1,7 @@
-function [] = apollyxt_tropos_display_rcs(data, taskInfo, config)
-%apollyxt_tropos_display_rcs display the range corrected signal, vol-depol at 355 and 532 nm
+function [] = pollyxt_tropos_display_rcs(data, taskInfo, config)
+%pollyxt_tropos_display_rcs display the range corrected signal, vol-depol at 355 and 532 nm
 %   Example:
-%       [] = apollyxt_tropos_display_rcs(data, config)
+%       [] = pollyxt_tropos_display_rcs(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -273,9 +273,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
-    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'apollyxt_tropos_display_rcs.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
-        warning('Error in executing %s', 'apollyxt_tropos_display_rcs.py');
+        warning('Error in executing %s', 'pollyxt_tropos_display_rcs.py');
     end
     delete(fullfile(tmpFolder, 'tmp.mat'));
     
