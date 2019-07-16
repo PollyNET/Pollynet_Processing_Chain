@@ -175,24 +175,35 @@ if processInfo.flagEnableDataVisualization
     fprintf('\n[%s] Start to visualize results.\n', tNow());
 
     %% display monitor status
+    disp('Display housekeeping')
     polly_1v2_display_monitor(data, taskInfo, config);
 
     % display signal
+    disp('Display RCS and volume depolarization ratio')
     polly_1v2_display_rcs(data, taskInfo, config);
 
     %% display saturation and cloud free tags
+    disp('Display signal flags')
     polly_1v2_display_saturation(data, taskInfo, config);
 
+    %% display overlap
+    disp('Display overlap')
+    pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
+
     % %% optical profiles
+    disp('Display profiles')
     polly_1v2_display_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
+    disp('Display attuated backscatter')
     polly_1v2_display_att_beta(data, taskInfo, config);
 
     % %% display quasi backscatter, particle depol and angstroem exponent 
+    disp('Display quasi parameters')
     polly_1v2_display_quasiretrieving(data, taskInfo, config);
 
     % %% display lidar calibration constants
+    disp('Display Lidar constants.')
     polly_1v2_display_lidarconst(data, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
