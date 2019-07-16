@@ -188,7 +188,7 @@ if processInfo.flagEnableDataVisualization
 
     %% display overlap
     disp('Display overlap')
-    pollyxt_lacros_display_overlap(data, taskInfo, overlapAttri, config);
+    polly_1v2_display_overlap(data, taskInfo, overlapAttri, config);
 
     % %% optical profiles
     disp('Display profiles')
