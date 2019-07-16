@@ -23,7 +23,7 @@ end
 % after the turndown of usage of matlab toolbox, we need to replace the applied function with user defined functions
 if config.flagReduceMATLABToolboxDependence
 	license('checkout', 'statistics_toolbox', 'disable');
-	fprintf('Disable the usage of matlab statistics_toolbox');
+	fprintf('Disable the usage of matlab statistics_toolbox\n');
 end
 
 % declare global variables
