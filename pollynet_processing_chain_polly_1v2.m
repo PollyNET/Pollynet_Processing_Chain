@@ -186,9 +186,9 @@ if processInfo.flagEnableDataVisualization
     disp('Display signal flags')
     polly_1v2_display_saturation(data, taskInfo, config);
 
-    %% display overlap
-    disp('Display overlap')
-    polly_1v2_display_overlap(data, taskInfo, overlapAttri, config);
+    % %% display overlap
+    % disp('Display overlap')
+    % polly_1v2_display_overlap(data, taskInfo, overlapAttri, config);
 
     % %% optical profiles
     disp('Display profiles')
