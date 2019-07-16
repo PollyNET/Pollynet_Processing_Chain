@@ -1,26 +1,15 @@
 function [] = pollyxt_uw_display_overlap(data, taskInfo, attri, config)
 %pollyxt_uw_display_overlap display the overlap function.
 %   Example:
-%       [] = pollyxt_uw_display_overlap(height, overlap532, overlap355, overlap532Defaults, overlap355Defaults, file, config, campaignInfo)
+%       [] = pollyxt_uw_display_overlap(data, taskInfo, attri, config)
 %   Inputs:
-%       height: array
-%           height above surface. [m]
-%       overlap532: array
-%           calculated overlap for 532 nm far range total channel.
-%       overlap355: array
-%           calculated overlap for 355 nm far range total channel.
-%       overlap532Defaults: array
-%           default overlap for 532 nm far range total channel.
-%       overlap355Defaults: array
-%           default overlap for 355 nm far range total channel.
-%       file: char
-%           file to save the displayed figure.
-%       config: struct
-%           polly processing configuration. More detailed information can be found in doc/polly_config.md
+%       data: struct
 %       taskInfo: struct
 %           the present processed task information. Go to fileinfo_new.txt for more details.
-%       campaignInfo: struct
-%           global attribute.
+%       attri: struct
+%           attributes about overlap function.
+%       config: struct
+%           polly processing configuration. More detailed information can be found in doc/polly_config.md
 %   Outputs:
 %       
 %   History:
