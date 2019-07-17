@@ -300,7 +300,7 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_tjk_display_rcs('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_tjk_display_rcs('/pollyhome/Picasso/Pollynet_Processing_Chain/tmp/tmp.mat', '/pollyhome/Picasso/recent_plots_new/PollyXT_TJK/2019/07/16')
 
 if __name__ == '__main__':
     # main()
