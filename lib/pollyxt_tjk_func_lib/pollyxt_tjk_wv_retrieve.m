@@ -104,8 +104,7 @@ end
 SIG387 = squeeze(data.signal(flagChannel387, :, :));
 SIG387(:, data.depCalMask) = NaN;
 SIG407 = squeeze(data.signal(flagChannel407, :, :));
-flag407Off = polly_is407Off(SIG407);
-SIG407(:, (data.depCalMask | flag407Off)) = NaN;
+SIG407(:, data.depCalMask) = NaN;
 
 SNR = polly_SNR(data.signal, data.bg);
 
@@ -126,7 +125,16 @@ SIG387_QC = smooth2(SIG387_QC, config.quasi_smooth_h(flagChannel387), config.qua
 SIG407_QC = smooth2(SIG407_QC, config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407));
 
 % redistribute the meteorological data to 30-s intervals.
-[temperature, pressure, ~] = repmat_meteor(data.mTime, data.alt, config.gdas1Site, processInfo.gdas1_folder);
+[altRaw, tempRaw, presRaw, relhRaw, ~] = read_meteor_data(mean(data.mTime), data.alt, config);
+
+% interp the parameters
+temp = interp_meteor(altRaw, tempRaw, data.alt);
+pres = interp_meteor(altRaw, presRaw, data.alt);
+relh = interp_meteor(altRaw, relhRaw, data.alt);
+
+% repmat the array to matrix as the size of data.signal
+temperature = repmat(transpose(temp), 1, numel(data.mTime));
+pressure = repmat(transpose(pres), 1, numel(data.mTime));
 
 % calculate the molecule optical properties
 [~, molExt387] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
