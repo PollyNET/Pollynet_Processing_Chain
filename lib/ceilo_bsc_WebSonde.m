@@ -55,7 +55,7 @@ for iSonde = 1:int32(numel(startPos)/2)
     currentRadiosonde = radiosonde(iStartPos:iEndPos);
 
     % radiosonde should now be a string, where each line has 11 values and for
-    % each value there should be 7 spaces. each line then has 7*11 characters
+    % each value there should be 7 digits. each line then has 7*11 characters
     % plus the newline information contained in character 78 at the end of the line
 
     % check if number of entries in radiosonde is insufficient
