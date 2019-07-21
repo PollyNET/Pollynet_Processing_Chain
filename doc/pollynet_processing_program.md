@@ -602,6 +602,22 @@ The program can generate
 
 ### Howto
 
+#### How to install and setup the processing platform in a new environment?
+
+##### Installation
+
+The whole program was mangaged with GitHub. You can download it through (make sure `git` was installed in your local environment)
+
+```
+git clone https://github.com/ZPYin/Pollynet_Processing_Chain
+```
+
+Then you will have it for processing the polly data.
+
+##### setup
+
+The repository you've downloaded is not configured to enable to process any polly data. 
+
 #### How to add a new polly process function
 
 You can follow the below steps to create a new process procedure for a new polly systems.
