@@ -616,7 +616,15 @@ Then you will have it for processing the polly data.
 
 ##### setup
 
-The repository you've downloaded is not configured to enable to process any polly data. 
+`Python 3` and the python packages below are required for data visualization with python
+
+- matplotlib
+- numpy
+- scipy
+
+An convenient way to install this is to download the [anaconda](). 
+
+The repository you've downloaded has not been configured yet to enable to process any polly data. 
 
 The configurations need to to be done in the following way:
 
