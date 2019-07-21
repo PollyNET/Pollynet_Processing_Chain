@@ -618,6 +618,15 @@ Then you will have it for processing the polly data.
 
 The repository you've downloaded is not configured to enable to process any polly data. 
 
+The configurations need to to be done in the following way:
+
+```
+1. Finish the global settings with following the example of **pollynet_processing_chain_config.json**. The better way is just changing this file with your own preferences and requirements.
+2. Configure the polly processing settings with creating a json file, naming {polly}_config_{date}.json. Write in the polly settings with the help from the **template_config.json**.
+3. Add the entry to the processing program with adding a new line in **pollynet_processing_config_history.txt**. For each polly data, it will search the processing settings in this history file. If no history was found, the polly data will be neglected.
+```
+
+
 #### How to add a new polly process function
 
 You can follow the below steps to create a new process procedure for a new polly systems.
