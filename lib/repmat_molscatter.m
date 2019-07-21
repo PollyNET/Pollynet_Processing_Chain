@@ -1,16 +1,24 @@
-function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, gdas1site, gdas1folder)
+function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, meteorInfo)
 %repmat_molscatter Read GDAS1 meteorological data and calculate molecule optical properties, then repmat it to the lidar measurment grids.
 %   Example:
-%       [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, gdas1site, gdas1folder)
+%       [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, meteorInfo)
 %   Inputs:
 %       mTime: array
 %           datetime for each polly profile. [datenum] 
 %       alt: array
 %           altitude (above the mean sea level). [m] 
-%       gdas1site: char
-%           gdas1 site. You can find the site by checking the doc/gdas1_site_list.txt 
-%       gdas1folder: char
-%           gdas1 main folder.
+%       meteorInfo: struct
+%           meteorDataSource: str
+%               meteorological data type.
+%               e.g., 'gdas1', 'standard_atmosphere', 'websonde', 'radiosonde'
+%           gdas1Site: str
+%               the GDAS1 site for the current campaign.
+%           gdas1_folder: str
+%               the main folder of the GDAS1 profiles.
+%           radiosondeSitenum: integer
+%               site number, which can be found in doc/radiosonde-station-list.txt. You can update the list with using download_radiosonde_list.m
+%          radiosondeFolder: str
+%               the folder of the sonding files. 
 %   Outputs:
 %       molBsc355: matrix
 %           molecule backscatter coefficient at 355 nm with a size of numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
@@ -44,19 +52,12 @@ globalAttri = struct();
 globalAttri.source = 'none';
 globalAttri.datetime = [];
 
-[altRaw, tempRaw, presRaw, ~, gdas1File] = read_gdas1(mean(mTime), gdas1site, gdas1folder);
-if isnan(altRaw(1))
-    [altRaw, ~, ~, tempRaw, presRaw] = atmo((alt(end) + 1)/1000, 0.03, 1);
-    altRaw = altRaw * 1e3;
-    presRaw = presRaw / 1e2;   % convert to hPa
-    tempRaw = tempRaw - 273.17;   % convert to C
-    globalAttri.source = 'standard_atmosphere';
-else
-    globalAttri.source = 'gdas1';
-    globalAttri.datetime = gdas1FileTimestamp(gdas1File);
-end
+% redistribute the meteorological data to 30-s intervals.
+[altRaw, tempRaw, presRaw, relhRaw, attri] = read_meteor_data(mean(mTime), alt, meteorInfo);
+globalAttri.source = attri.dataSource;
+globalAttri.datetime = attri.datetime;
 
-% interp the meteorological parameters to lidar grid
+% interp the parameters
 temperature = interp_meteor(altRaw, tempRaw, alt);
 pressure = interp_meteor(altRaw, presRaw, alt);
 

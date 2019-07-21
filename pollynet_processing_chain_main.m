@@ -23,7 +23,7 @@ end
 % after the turndown of usage of matlab toolbox, we need to replace the applied function with user defined functions
 if config.flagReduceMATLABToolboxDependence
 	license('checkout', 'statistics_toolbox', 'disable');
-	fprintf('Disable the usage of matlab statistics_toolbox');
+	fprintf('Disable the usage of matlab statistics_toolbox\n');
 end
 
 % declare global variables
@@ -117,6 +117,11 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 	end
 	pollyConfig.pollyVersion = campaignInfo.name;
 	taskInfo.dataTime = polly_parsetime(taskInfo.dataFilename, pollyConfig.dataFileFormat);
+
+	% add 'gdas1_folder' to polly config
+	if isfield(config, 'gdas1_folder')
+		pollyConfig.gdas1_folder = config.gdas1_folder;
+	end
 	fprintf('[%s] Finish.\n', tNow());
 
 	%% load polly defaults

@@ -602,6 +602,31 @@ The program can generate
 
 ### Howto
 
+#### How to install and setup the processing platform in a new environment?
+
+##### Installation
+
+The whole program was mangaged with GitHub. You can download it through (make sure `git` was installed in your local environment)
+
+```
+git clone https://github.com/ZPYin/Pollynet_Processing_Chain
+```
+
+Then you will have it for processing the polly data.
+
+##### setup
+
+The repository you've downloaded is not configured to enable to process any polly data. 
+
+The configurations need to to be done in the following way:
+
+```
+1. Finish the global settings with following the example of **pollynet_processing_chain_config.json**. The better way is just changing this file with your own preferences and requirements.
+2. Configure the polly processing settings with creating a json file, naming {polly}_config_{date}.json. Write in the polly settings with the help from the **template_config.json**.
+3. Add the entry to the processing program with adding a new line in **pollynet_processing_config_history.txt**. For each polly data, it will search the processing settings in this history file. If no history was found, the polly data will be neglected.
+4. Add the polly campaign history in the **/todo_filelist/pollynet_history_of_places_new.txt**.
+```
+
 #### How to add a new polly process function
 
 You can follow the below steps to create a new process procedure for a new polly systems.
