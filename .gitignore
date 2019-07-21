@@ -6,6 +6,8 @@ recent_plots/
 todo_filelist/
 config/
 !config/template_config.json
+!config/pollynet_processing_chain_config.json
+!config/pollynet_processing_config_history.txt
 test/
 lib/__pycache__/
 debug.mat
