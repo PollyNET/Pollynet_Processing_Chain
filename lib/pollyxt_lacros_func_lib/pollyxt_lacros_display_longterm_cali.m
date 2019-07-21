@@ -3,7 +3,10 @@ function [] = pollyxt_lacros_display_longterm_cali(taskInfo, config)
 %   Example:
 %       [] = pollyxt_lacros_display_longterm_cali(taskInfo, config)
 %   Inputs:
-%       taskInfo, config
+%       taskInfo: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       
 %   History:
@@ -50,6 +53,7 @@ flagTillNow = depolCaliTime355 <= taskInfo.dataTime;
 depolCaliTime355 = depolCaliTime355(flagTillNow);
 depolCaliConst355 = depolCaliConst355(flagTillNow);
 
+% 532 nm
 depolCaliFile532 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532);
 [depolCaliTime532, depolCaliConst532] = pollyxt_lacros_read_depolconst(depolCaliFile532);
 flagTillNow = depolCaliTime532 <= taskInfo.dataTime;
