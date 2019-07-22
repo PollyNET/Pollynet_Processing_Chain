@@ -622,7 +622,7 @@ Then you will have it for processing the polly data.
 - numpy
 - scipy
 
-An convenient way to install this is to download the [anaconda](). 
+An convenient way to install this is to download the [anaconda](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwiV8sS5_sfjAhVM3qQKHePpAZQQFjACegQICBAB&url=https%3A%2F%2Fconda.io%2Fdocs%2Fuser-guide%2Finstall%2Fdownload.html&usg=AOvVaw3pmqgYKVkcF28EUZaVftcT). 
 
 The repository you've downloaded has not been configured yet to enable to process any polly data. 
 

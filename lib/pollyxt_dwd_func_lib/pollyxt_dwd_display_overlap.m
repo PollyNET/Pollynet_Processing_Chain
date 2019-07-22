@@ -115,7 +115,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0

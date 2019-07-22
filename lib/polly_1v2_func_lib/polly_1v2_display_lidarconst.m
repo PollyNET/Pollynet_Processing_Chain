@@ -78,7 +78,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0

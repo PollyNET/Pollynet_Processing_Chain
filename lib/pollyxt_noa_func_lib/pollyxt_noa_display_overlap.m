@@ -149,7 +149,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
