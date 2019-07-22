@@ -34,8 +34,8 @@ pollyConfig = loadjson(configFile);
 depol_cal_ang_p_time = [];
 depol_cal_ang_n_time = [];
 for iCali = 1:length(pollyConfig.depol_cal_ang_p_time)
-	depol_cal_ang_p_time = [depol_cal_ang_p_time, datenum(['00000100' pollyConfig.depol_cal_ang_p_time{iCali}], 'yyyymmddHH:MM:SS')];
-	depol_cal_ang_n_time = [depol_cal_ang_n_time, datenum(['00000100' pollyConfig.depol_cal_ang_n_time{iCali}], 'yyyymmddHH:MM:SS')];
+	depol_cal_ang_p_time = [depol_cal_ang_p_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_p_time{iCali})], 'yyyymmddHH:MM:SS')];
+	depol_cal_ang_n_time = [depol_cal_ang_n_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_n_time{iCali})], 'yyyymmddHH:MM:SS')];
 end
 pollyConfig.depol_cal_ang_p_time = depol_cal_ang_p_time;
 pollyConfig.depol_cal_ang_n_time = depol_cal_ang_n_time;
