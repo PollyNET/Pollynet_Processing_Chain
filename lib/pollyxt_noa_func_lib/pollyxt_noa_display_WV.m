@@ -122,7 +122,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
