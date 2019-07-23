@@ -20,7 +20,7 @@ matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-write_daily_to_filelist($POLLY_TYPE, $POLLY_FOLDER, $TODOLISTFOLDER, $year, $month, $day, 'w');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $year, $month, $day, 'w');
 pollynet_processing_chain_main;
 
 exit;
