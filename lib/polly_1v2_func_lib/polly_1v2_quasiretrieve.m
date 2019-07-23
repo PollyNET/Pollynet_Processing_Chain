@@ -70,7 +70,7 @@ volDepol_532_smooth(quality_mask_voldepol532 > 0) = NaN;
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config.gdas1Site, processInfo.gdas1_folder);
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
 quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri.timestamp = globalAttri.datetime;
 

@@ -3,7 +3,10 @@ function [] = pollyxt_lacros_display_longterm_cali(taskInfo, config)
 %   Example:
 %       [] = pollyxt_lacros_display_longterm_cali(taskInfo, config)
 %   Inputs:
-%       taskInfo, config
+%       taskInfo: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       
 %   History:
@@ -50,6 +53,7 @@ flagTillNow = depolCaliTime355 <= taskInfo.dataTime;
 depolCaliTime355 = depolCaliTime355(flagTillNow);
 depolCaliConst355 = depolCaliConst355(flagTillNow);
 
+% 532 nm
 depolCaliFile532 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532);
 [depolCaliTime532, depolCaliConst532] = pollyxt_lacros_read_depolconst(depolCaliFile532);
 flagTillNow = depolCaliTime532 <= taskInfo.dataTime;
@@ -352,7 +356,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_lacros_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0

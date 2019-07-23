@@ -33,7 +33,8 @@ function [files] = listfile(path, exppat, depth)
 	if isempty(tmp)
 		return;
     end
-    
+	
+	% recursively searching
     indx = 0;
 	for iItem = 1:length(tmp)
 		if ~ tmp(iItem).isdir
