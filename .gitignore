@@ -2,8 +2,8 @@
 .vscode/
 results/
 tmp/
-!config/pollynet_processing_chain_config.json
-!config/pollynet_processing_config_history.txt
+!config/template_pollynet_processing_chain_config.json
+!config/template_pollynet_processing_config_history.txt
 config/
 recent_plots/
 !todo_filelist/fileinfo_new.txt
