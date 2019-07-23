@@ -11,9 +11,9 @@ function [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, m
 %       todoFolder: char
 %           the todolist folder.
 %           e.g., /home/picasso/Pollynet_Processing_Chain/todo_filelist
-%       year: integer
-%       month: integer
-%       day: integer
+%       year: integer | char
+%       month: integer | char
+%       day: integer | char
 %       writeMode: char
 %           If writeMode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
 %   Outputs:
@@ -25,6 +25,16 @@ function [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, m
 
 if ~ exist('writeMode', 'var')
     writeMode = 'w';
+end
+
+if ischar(year)
+    year = str2double(year);
+end
+if ischar(month)
+    month = str2double(month);
+end
+if ischar(day)
+    day = str2double(day);
 end
 
 %% search zip files
