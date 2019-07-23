@@ -1,14 +1,14 @@
 {
-	"fileinfo_new": "C:\\Users\\zhenping\\Desktop\\Picasso\\todo_filelist\\fileinfo_new.txt",
-	"doneListFile": "C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\done_filelist.txt",
-	"pollynet_history_of_places_new": "C:\\Users\\zhenping\\Desktop\\Picasso\\todo_filelist\\pollynet_history_of_places_new.txt",
-	"polly_config_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\config",
-	"log_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\results\\log",
-	"gdas1_folder": "C:\\Users\\zhenping\\Documents\\Data\\GDAS",
-	"defaultsFile_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults",
-	"results_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\results", 
-	"pic_folder": "C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots", 
-	"pollynet_config_history_file": "C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt",
+	"fileinfo_new": "/pollyhome/Picasso/todo_filelist/fileinfo_new.txt",
+	"doneListFile": "/pollyhome/Picasso/recent_plots/done_filelist.txt",
+	"pollynet_history_of_places_new": "/pollyhome/Picasso/todo_filelist/pollynet_history_of_places_new.txt",
+	"polly_config_folder": "/pollyhome/Picasso/Pollynet_Processing_Chain/config",
+	"log_folder": "/pollyhome/Picasso/results/log",
+	"gdas1_folder": "/lacroshome/cloudnet/data/model/gdas1",
+	"defaultsFile_folder": "/pollyhome/Picasso/Pollynet_Processing_Chain/lib/pollyDefaults",
+	"results_folder": "/pollyhome/Picasso/results", 
+	"pic_folder": "/pollyhome/Picasso/recent_plots", 
+	"pollynet_config_history_file": "/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_config_history.txt",
 
 	"figDPI": 150,
 
@@ -20,7 +20,7 @@
 	"programVersion": "1.2",
 
 	"visualizationMode": "python",
-	"pyBinDir": "C:\\Users\\zhenping\\Software",
+	"pyBinDir": "/pollyhome/Picasso/anaconda3/bin",
 	"flagDeleteData": false,
 
 	"flagEnableResultsOutput": true,

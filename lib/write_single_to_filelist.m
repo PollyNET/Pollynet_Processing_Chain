@@ -57,6 +57,7 @@ try
     pollyUnzipFile = unzip(pollyZipFilepath, fullfile(todolistFolder, pollyType, 'data_zip'));
 catch
     warning('Failure in unzipping the file %s', pollyZipFile);
+	return;
 end
 
 %% write the file to fileinfo_new.txt
