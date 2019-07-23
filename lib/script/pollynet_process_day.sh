@@ -50,7 +50,7 @@ get_date_input() {
 
 # process the data
 run_matlab() {
-echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\n\n"
+echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nYear=$year\nMonth=$month\nDay=$day\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
