@@ -23,7 +23,7 @@ pause(1)
 flagCont = input('Continue...? (yes|no) [ENTER]: ');
 
 if strcmp(flagCont, 'yes')
-    write_single_to_filelist($POLLY_TYPE, pollyFile, $TODOLISTFOLDER, 'w');
+    write_single_to_filelist('$POLLY_TYPE', pollyFile, '$TODOLISTFOLDER', 'w');
     pollynet_processing_chain_main;
 else
     break;
