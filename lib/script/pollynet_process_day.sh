@@ -19,6 +19,8 @@ display_help() {
     echo "                           - pollyxt_tjk"
     echo "                           - arielle"
     echo "                           - polly_1v2"
+    echo "   -f, --polly_folder      specify the polly data folder"
+    echo "                           e.g., '/pollyhome/pollyxt_lacros'"
     echo "   -h, --help              show help message"
     echo
     # echo some stuff here for the -a or --add-options 
@@ -48,13 +50,13 @@ get_date_input() {
 
 # process the data
 run_matlab() {
-echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\n\n"
+echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $1, $2, $3, 'w');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $year, $month, $day, 'w');
 pollynet_processing_chain_main;
 
 exit;
@@ -64,7 +66,7 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/home/picasso/Pollynet_Processing_Chain/todo_filelist"
+TODOLISTFOLDER="/pollyhome/Picasso/Pollynet_Processing_Chain/todo_filelist"
 year="2000"
 month="01"
 day="01"
@@ -90,6 +92,20 @@ do
           shift 2
           ;;
 
+	  -f | --polly_folder)
+		  if [ $# -ne 0 ]; then
+			POLLY_FOLDER="$2"
+		  fi
+		  shift 2
+		  ;;
+
+	  -t | --todo_folder)
+		  if [ $# -ne 0 ]; then
+		  	TODOLISTFOLDER="$2"
+		  fi
+		  shift 2
+		  ;;
+  
       -h | --help)
           display_help  # Call your function
           exit 0
@@ -122,8 +138,6 @@ case "$1" in
     get_date_yesterday
     ;;
   *)
-    display_help
-    exit 1
     ;;
 esac
 
