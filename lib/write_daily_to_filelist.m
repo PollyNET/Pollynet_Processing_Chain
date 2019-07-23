@@ -4,7 +4,8 @@ function [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, m
 %       [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, month, day, writeMode)
 %   Inputs:
 %       pollyType: char
-%           polly instrument.
+%           polly instrument. 
+%           e.g., arielle
 %       saveFolder: char
 %           polly data folder. 
 %           e.g., /oceanethome/pollyxt
@@ -38,7 +39,7 @@ if ischar(day)
 end
 
 %% search zip files
-files = dir(fullfile(saveFolder, pollyType, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
+files = dir(fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
 
 for iFile = 1:length(files)
 
@@ -47,7 +48,7 @@ for iFile = 1:length(files)
         writeMode = 'a';
     end
 
-    write_single_to_filelist(pollyType, fullfile(saveFolder, pollyType, 'data_zip', sprintf('%04d%02d', year, month), files(iFile).name), todoFolder, writeMode)
+    write_single_to_filelist(pollyType, fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), files(iFile).name), todoFolder, writeMode)
 end
 
 end
