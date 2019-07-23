@@ -1,0 +1,33 @@
+{
+	"fileinfo_new": "/pollyhome/Picasso/todo_filelist/fileinfo_new.txt",
+	"doneListFile": "/pollyhome/Picasso/recent_plots/done_filelist.txt",
+	"pollynet_history_of_places_new": "/pollyhome/Picasso/todo_filelist/pollynet_history_of_places_new.txt",
+	"polly_config_folder": "/pollyhome/Picasso/Pollynet_Processing_Chain/config",
+	"log_folder": "/pollyhome/Picasso/results/log",
+	"gdas1_folder": "/lacroshome/cloudnet/data/model/gdas1",
+	"defaultsFile_folder": "/pollyhome/Picasso/Pollynet_Processing_Chain/lib/pollyDefaults",
+	"results_folder": "/pollyhome/Picasso/results", 
+	"pic_folder": "/pollyhome/Picasso/recent_plots", 
+	"pollynet_config_history_file": "/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_config_history.txt",
+
+	"figDPI": 150,
+
+	"minDataSize": 1000000,
+
+	"institute": "Ground-based Remote Sensing Group (TROPOS)",
+	"homepage": "http://polly.rsd.tropos.de/",
+	"contact": "Zhenping Yin <zhenping@tropos.de>",
+	"programVersion": "1.2",
+
+	"visualizationMode": "python",
+	"pyBinDir": "/pollyhome/Picasso/anaconda3/bin",
+	"flagDeleteData": false,
+
+	"flagEnableResultsOutput": true,
+	"flagEnableDataVisualization": true,	
+	"flagDebugOutput": false,
+	"flagReduceMATLABToolboxDependence": false,
+	"flagSendNotificationEmail": false,
+
+	"pollyVersions": ["PollyXT_UW", "arielle", "PollyXT_TROPOS", "PollyXT_DWD", "PollyXT_NOA", "PollyXT_FMI", "PollyXT_LACROS", "Polly_1v2", "PollyXT_TJK"]
+}

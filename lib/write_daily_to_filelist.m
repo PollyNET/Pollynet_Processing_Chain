@@ -1,5 +1,5 @@
 function [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, month, day, writeMode)
-%write_daily_to_filelist description
+%write_daily_to_filelist Unzip the polly data and write the data info to the todolist file for pollynet processing chain.
 %   Example:
 %       [] = write_daily_to_filelist(pollyType, saveFolder, todoFolder, year, month, day, writeMode)
 %   Inputs:
