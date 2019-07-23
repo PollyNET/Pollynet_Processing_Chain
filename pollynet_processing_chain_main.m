@@ -17,6 +17,7 @@ if ~ exist(configFile, 'file')
 	error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', configFile);
 else
 	config = loadjson(configFile);
+	config.projectDir = projectDir;
 end
 
 % reduce the dependence on additionable toolboxes to get rid of license problems
