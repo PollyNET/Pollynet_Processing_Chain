@@ -44,7 +44,7 @@ matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-write_daily_to_filelist($POLLY_TYPE, $POLLY_FOLDER, $TODOLISTFOLDER, $1, $2, $3, 'w');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $1, $2, $3, 'w');
 pollynet_processing_chain_main;
 
 exit;
