@@ -1,7 +1,7 @@
 function [temp, pres, relh, meteorAttri] = pollyxt_noa_readmeteor(data, config)
 %pollyxt_noa_readmeteor Read meteorological data.
 %   Example:
-%       [temp, pres, relh, meteorAttri] = pollyx_noa_readmeteor(data, config)
+%       [temp, pres, relh, meteorAttri] = pollyxt_noa_readmeteor(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -63,7 +63,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         tempRaw = tempRaw - 273.17;   % convert to [\circC]
         meteorAttri.dataSource{end + 1} = config.meteorDataSource;
         meteorAttri.URL{end + 1} = '';
-        meteorAttri.datetime = [datetime, datenum(0,1,0,0,0,0)];
+        meteorAttri.datetime = [meteorAttri.datetime, datenum(0,1,0,0,0,0)];
     case 'websonde'
         searchTRange = [floor(data.mTime(data.cloudFreeGroups(iGroup, 1))), ceil(data.mTime(data.cloudFreeGroups(iGroup, 2)))];
         measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
@@ -75,8 +75,36 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             meteorAttri.datetime = [meteorAttri.datetime, webSondeInfo.datetime];
         end
     case 'radiosonde'
-        % define your read function here for reading local launching radiosonde data
-        % [altRaw, tempRaw, presRaw, relhRaw, datetime] = read_radiosonde(file);
+        % define your read function here for reading collocated radiosonde data
+        if ~ isfield(config, 'radiosondeFolder')
+            warning('"radiosondeFolder" in the polly config file needs to be set to search the radiosonde file.');
+            altRaw = [];
+            tempRaw = [];
+            presRaw = [];
+            relhRaw = [];
+
+        else
+            measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
+            sondeFile = radiosonde_search(config.radiosondeFolder, measTime);
+            [thisAltRaw, thisTempRaw, thisPresRaw, thisRelhRaw, datetime] = read_radiosonde(sondeFile, 1, -999);
+            
+            % sort the measurements as the ascending order of altitude
+            [altRaw, sortIndxAlt] = sort(thisAltRaw);
+            tempRaw = thisTempRaw(sortIndxAlt);
+            presRaw = thisPresRaw(sortIndxAlt);
+            relhRaw = thisRelhRaw(sortIndxAlt);
+            
+            % remove the duplicated measurements at the same altitude
+            [altRaw, iUniq, ~] = unique(altRaw);
+            tempRaw = tempRaw(iUniq);
+            presRaw = presRaw(iUniq);
+            relhRaw = relhRaw(iUniq);
+            
+            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
+            meteorAttri.URL{end + 1} = sondeFile;
+            meteorAttri.datetime = [meteorAttri.datetime, datetime];
+        end
+
     otherwise
         error('Unknown meteorological data source.\n%s\n', config.meteorDataSource)
     end

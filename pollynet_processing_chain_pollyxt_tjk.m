@@ -241,7 +241,7 @@ if processInfo.flagEnableDataVisualization
     pollyxt_tjk_display_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
-    disp('Display attuated backscatter')
+    disp('Display attnuated backscatter')
     pollyxt_tjk_display_att_beta(data, taskInfo, config);
 
     %% display WVMR and RH

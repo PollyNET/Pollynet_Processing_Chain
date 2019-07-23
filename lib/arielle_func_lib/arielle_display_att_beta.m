@@ -145,9 +145,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     height = data.height;
     time = data.mTime;
     figDPI = processInfo.figDPI;
-    flagLC355 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag355 + 1};
-    flagLC532 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1};
-    flagLC1064 = config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1};
+    flagLC355 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag355 + 1});
+    flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
+    flagLC1064 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1});
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     att_beta_cRange_355 = config.att_beta_cRange_355;
     att_beta_cRange_532 = config.att_beta_cRange_532;
@@ -160,7 +160,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
    %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0

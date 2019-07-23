@@ -195,7 +195,7 @@ if processInfo.flagEnableDataVisualization
     polly_1v2_display_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
-    disp('Display attuated backscatter')
+    disp('Display attnuated backscatter')
     polly_1v2_display_att_beta(data, taskInfo, config);
 
     % %% display quasi backscatter, particle depol and angstroem exponent 
