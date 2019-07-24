@@ -54,6 +54,10 @@ case 'gdas1'
     [alt, temp, pres, relh, gdas1File] = read_gdas1(measTime, meteorAttri.gdas1Site, meteorAttri.gdas1_folder);
 
     if isnan(alt(1))
+        alt = [];
+        temp = [];
+        pres = [];
+        relh = [];
     else
         attri.dataSource = meteorAttri.meteorDataSource;
         attri.URL = gdas1File;
