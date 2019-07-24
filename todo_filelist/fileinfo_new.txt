@@ -1,4 +1,3 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, arielle\data_zip, 2018_11_15_Thu_ARI_06_00_02.nc, arielle\data_zip\201811\2018_11_15_Thu_ARI_06_00_02.nc.zip, 125163848, ARIELLE
 C:\Users\zhenping\Desktop\Picasso\todo_filelist, arielle\data_zip, 2018_11_15_Thu_ARI_09_37_56.nc, arielle\data_zip\201811\2018_11_15_Thu_ARI_09_37_56.nc.zip, 93873880, ARIELLE
 C:\Users\zhenping\Desktop\Picasso\todo_filelist, arielle\data_zip, 2018_11_15_Thu_ARI_12_00_03.nc, arielle\data_zip\201811\2018_11_15_Thu_ARI_12_00_03.nc.zip, 239671816, ARIELLE
 C:\Users\zhenping\Desktop\Picasso\todo_filelist, arielle\data_zip, 2018_11_15_Thu_ARI_18_00_03.nc, arielle\data_zip\201811\2018_11_15_Thu_ARI_18_00_03.nc.zip, 239671816, ARIELLE
