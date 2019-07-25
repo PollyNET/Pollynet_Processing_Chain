@@ -4,6 +4,9 @@ pollyxt_lacros,2018-11-27 00:00:00,2019-11-27 00:00:00,pollyxt_lacros_config_201
 pollyxt_lacros,2016-10-17 00:00:00,2018-03-27 00:00:00,pollyxt_lacros_config_20161017.json,pollynet_processing_chain_pollyxt_lacros.m,Move to Limassol for CyCARE campaign,pollyxt_lacros_read_defaults.m
 pollyxt_tropos,2017-03-31 00:00:00,2019-06-01 00:00:00,pollyxt_tropos_config.json,pollynet_processing_chain_pollyxt_tropos.m,Move to Haifa for mid-east dust measurment,pollyxt_tropos_read_defaults.m
 pollyxt_fmi,2018-03-31 00:00:00,2019-06-01 00:00:00,pollyxt_fmi_config_20180201.json,pollynet_processing_chain_pollyxt_fmi.m,Move to United Arab Emirates,pollyxt_fmi_read_defaults.m
+pollyxt_noa,2015-03-03 00:00:00,2015-04-14 23:59:59,pollyxt_noa_config_20150303.json,pollynet_processing_chain_pollyxt_noa.m,Move to Nicosia,pollyxt_noa_read_defaults.m
+pollyxt_noa,2016-03-30 00:00:00,2016-04-27 23:59:59,pollyxt_noa_config_20150303.json,pollynet_processing_chain_pollyxt_noa.m,Move to Nicosia,pollyxt_noa_read_defaults.m
+pollyxt_noa,2015-05-22 00:00:00,2016-03-12 23:59:59,pollyxt_noa_config_20150522.json,pollynet_processing_chain_pollyxt_noa.m,Move to Athens,pollyxt_noa_read_defaults.m
 pollyxt_noa,2018-06-01 00:00:00,2019-02-20 00:00:00,pollyxt_noa_config_20180601.json,pollynet_processing_chain_pollyxt_noa.m,Move to Greece,pollyxt_noa_read_defaults.m
 pollyxt_noa,2017-04-06 00:00:00,2018-03-05 00:00:00,pollyxt_noa_config_20170406.json,pollynet_processing_chain_pollyxt_noa.m,Move to Greece,pollyxt_noa_read_defaults.m
 pollyxt_uw,2013-06-27 00:00:00,2030-01-01 00:00:00,pollyxt_uw_config_20130627.json,pollynet_processing_chain_pollyxt_uw.m,Move to Warsaw,pollyxt_uw_read_defaults.m
