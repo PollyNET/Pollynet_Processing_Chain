@@ -53,7 +53,7 @@ depCalAttri.depol_cal_time_532 = depol_cal_time_532;
 % values or other values as you like    
 if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali
     % Apply historical calibration results
-    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = pollyxt_noa_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
+    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = pollyxt_noa_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
     data.depol_cal_fac_532 = depol_cal_fac_532;
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532;
     data.depol_cal_time_532 = depol_cal_time_532;
@@ -93,7 +93,7 @@ depCalAttri.depol_cal_time_355 = depol_cal_time_355;
 % values or other values as you like    
 if sum(~ isnan(depol_cal_fac_355)) < 1 && config.flagUsePreviousDepolCali
     % Apply historical calibration results
-    [depol_cal_fac_355, depol_cal_fac_std_355, depol_cal_time_355] = pollyxt_noa_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, taskInfo.pollyVersion, config.depolCaliFile355), datenum(0,1,7,0,0,0), defaults, 355);
+    [depol_cal_fac_355, depol_cal_fac_std_355, depol_cal_time_355] = pollyxt_noa_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355), datenum(0,1,7,0,0,0), defaults, 355);
     data.depol_cal_fac_355 = depol_cal_fac_355;
     data.depol_cal_fac_std_355 = depol_cal_fac_std_355;
     data.depol_cal_time_355 = depol_cal_time_355;
