@@ -41,87 +41,13 @@ end
 
 %% read meteorological data for each cloud-free group
 for iGroup = 1:size(data.cloudFreeGroups, 1)
-    switch lower(config.meteorDataSource)
-    case 'gdas1'
-        [altRaw, tempRaw, presRaw, relhRaw, gdas1File] = read_gdas1(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), config.gdas1Site, processInfo.gdas1_folder);
+    measTime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
 
-        if isnan(altRaw(1))
-            altRaw = [];
-            tempRaw = [];
-            presRaw = [];
-            relhRaw = [];
-        else
-            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-            meteorAttri.URL{end + 1} = gdas1File;
-            meteorAttri.datetime = [meteorAttri.datetime, gdas1FileTimestamp(basename(gdas1File))];
-        end
-    case 'standard_atmosphere'
-        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
-        relhRaw = NaN(size(tempRaw));
-        presRaw = presRaw / 1e2;
-        altRaw = altRaw * 1e3;   % convert to [m]
-        tempRaw = tempRaw - 273.17;   % convert to [\circC]
-        meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-        meteorAttri.URL{end + 1} = '';
-        meteorAttri.datetime = [meteorAttri.datetime, datenum(0,1,0,0,0,0)];
-    case 'websonde'
-        searchTRange = [floor(data.mTime(data.cloudFreeGroups(iGroup, 1))), ceil(data.mTime(data.cloudFreeGroups(iGroup, 2)))];
-        measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
-        [altRaw, tempRaw, presRaw, relhRaw, webSondeInfo] = read_websonde(measTime, searchTRange, config.radiosondeSitenum);
-        
-        if ~ isempty(altRaw)
-            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-            meteorAttri.URL{end + 1} = webSondeInfo.URL;
-            meteorAttri.datetime = [meteorAttri.datetime, webSondeInfo.datetime];
-        end
-    case 'radiosonde'
-        % define your read function here for reading collocated radiosonde data
-        if ~ isfield(config, 'radiosondeFolder')
-            warning('"radiosondeFolder" in the polly config file needs to be set to search the radiosonde file.');
-            altRaw = [];
-            tempRaw = [];
-            presRaw = [];
-            relhRaw = [];
-
-        else
-            measTime = mean([data.mTime(data.cloudFreeGroups(iGroup, :))]);
-            sondeFile = radiosonde_search(config.radiosondeFolder, measTime);
-            [thisAltRaw, thisTempRaw, thisPresRaw, thisRelhRaw, datetime] = read_radiosonde(sondeFile, 1, -999);
-            
-            % sort the measurements as the ascending order of altitude
-            [altRaw, sortIndxAlt] = sort(thisAltRaw);
-            tempRaw = thisTempRaw(sortIndxAlt);
-            presRaw = thisPresRaw(sortIndxAlt);
-            relhRaw = thisRelhRaw(sortIndxAlt);
-            
-            % remove the duplicated measurements at the same altitude
-            [altRaw, iUniq, ~] = unique(altRaw);
-            tempRaw = tempRaw(iUniq);
-            presRaw = presRaw(iUniq);
-            relhRaw = relhRaw(iUniq);
-            
-            meteorAttri.dataSource{end + 1} = config.meteorDataSource;
-            meteorAttri.URL{end + 1} = sondeFile;
-            meteorAttri.datetime = [meteorAttri.datetime, datetime];
-        end
-
-    otherwise
-        error('Unknown meteorological data source.\n%s\n', config.meteorDataSource)
-    end
-
-    % if predefined data source is not available, go to standard atmosphere.
-    if isempty(altRaw)
-        fprintf('The meteorological data of websonde or gdas1 is not ready.\nUse standard_atmosphere data as a replacement.\n');
-        meteorAttri.dataSource{end + 1} = 'standard_atmosphere';
-        meteorAttri.URL{end + 1} = '';
-        meteorAttri.datetime = [meteorAttri.datetime, 0];
-        % read standard_atmosphere data as the default values.
-        [altRaw, ~, ~, tempRaw, presRaw] = atmo(max(data.height/1000)+1, 0.03, 1);
-        altRaw = altRaw * 1e3;
-        presRaw = presRaw / 1e2;
-        tempRaw = tempRaw - 273.17;   % convert to [\circC]
-        relhRaw = NaN(size(tempRaw));
-    end
+    % read the meteorological data
+    [altRaw, tempRaw, presRaw, relhRaw, attri] = read_meteor_data(measTime, data.alt, config);
+    meteorAttri.dataSource{end + 1} = attri.dataSource;
+    meteorAttri.URL{end + 1} = attri.URL;
+    meteorAttri.datetime = [meteorAttri.datetime, attri.datetime];
 
     % interp the parameters
     thistemp = interp_meteor(altRaw, tempRaw, data.alt);
