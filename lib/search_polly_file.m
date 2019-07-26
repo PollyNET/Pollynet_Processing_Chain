@@ -62,6 +62,6 @@ end
 [~, closestIndx] = min(abs(thisTime - startMeasTime(flagWithinTimeLapse)));
 pollyFile = filesWithinTimeLapse(closestIndx).name;
 
-filePath = fullfile(pollyFolder, 'data_zip', pollyFile);
+filePath = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), pollyFile);
 
 end
