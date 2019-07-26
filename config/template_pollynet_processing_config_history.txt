@@ -1,0 +1,25 @@
+name,start time,end time,config file,processing function, update Info(as short as possible, and not use comma),load defaults function
+<<<<<<< HEAD:config/pollynet_processing_config_history.txt
+arielle,2019-02-07 00:00:00,2021-1-1 00:00:00,arielle_config_20190722.json,pollynet_processing_chain_arielle.m,Move to Leipzig,arielle_read_defaults.m
+
+
+=======
+pollyxt_dwd,2017-06-09 00:00:00,2019-06-06 00:00:00,pollyxt_dwd_config.json,pollynet_processing_chain_pollyxt_dwd.m,This is really state_of_the_art,pollyxt_dwd_read_defaults.m
+pollyxt_lacros,2018-11-27 00:00:00,2019-11-27 00:00:00,pollyxt_lacros_config_20181201.json,pollynet_processing_chain_pollyxt_lacros.m,Move to Punta Arenas for DECAPO-PESO campaign,pollyxt_lacros_read_defaults.m
+pollyxt_lacros,2016-10-17 00:00:00,2018-03-27 00:00:00,pollyxt_lacros_config_20161017.json,pollynet_processing_chain_pollyxt_lacros.m,Move to Limassol for CyCARE campaign,pollyxt_lacros_read_defaults.m
+pollyxt_tropos,2017-03-31 00:00:00,2019-06-01 00:00:00,pollyxt_tropos_config.json,pollynet_processing_chain_pollyxt_tropos.m,Move to Haifa for mid-east dust measurment,pollyxt_tropos_read_defaults.m
+pollyxt_fmi,2018-03-31 00:00:00,2019-06-01 00:00:00,pollyxt_fmi_config_20180201.json,pollynet_processing_chain_pollyxt_fmi.m,Move to United Arab Emirates,pollyxt_fmi_read_defaults.m
+pollyxt_noa,2015-03-03 00:00:00,2015-04-14 23:59:59,pollyxt_noa_config_20150303.json,pollynet_processing_chain_pollyxt_noa.m,Move to Nicosia,pollyxt_noa_read_defaults.m
+pollyxt_noa,2016-03-30 00:00:00,2016-04-27 23:59:59,pollyxt_noa_config_20150303.json,pollynet_processing_chain_pollyxt_noa.m,Move to Nicosia,pollyxt_noa_read_defaults.m
+pollyxt_noa,2015-05-22 00:00:00,2016-03-12 23:59:59,pollyxt_noa_config_20150522.json,pollynet_processing_chain_pollyxt_noa.m,Move to Athens,pollyxt_noa_read_defaults.m
+pollyxt_noa,2018-06-01 00:00:00,2019-02-20 00:00:00,pollyxt_noa_config_20180601.json,pollynet_processing_chain_pollyxt_noa.m,Move to Greece,pollyxt_noa_read_defaults.m
+pollyxt_noa,2017-04-06 00:00:00,2018-03-05 00:00:00,pollyxt_noa_config_20170406.json,pollynet_processing_chain_pollyxt_noa.m,Move to Greece,pollyxt_noa_read_defaults.m
+pollyxt_uw,2013-06-27 00:00:00,2030-01-01 00:00:00,pollyxt_uw_config_20130627.json,pollynet_processing_chain_pollyxt_uw.m,Move to Warsaw,pollyxt_uw_read_defaults.m
+arielle,2018-05-07 00:00:00,2018-06-11 00:00:00,arielle_config_20180507.json,pollynet_processing_chain_arielle.m,PS113,arielle_read_defaults.m
+arielle,2017-05-22 00:00:00,2017-07-11 00:00:00,arielle_config_20170522.json,pollynet_processing_chain_arielle.m,PS106,arielle_read_defaults.m
+arielle,2018-10-25 00:00:00,2018-12-09 00:00:00,arielle_config_20181101.json,pollynet_processing_chain_arielle.m,PS116,arielle_read_defaults.m
+arielle,2019-02-07 00:00:00,2019-12-31 00:00:00,arielle_config_20190207.json,pollynet_processing_chain_arielle.m,Move to Davos,arielle_read_defaults.m
+polly_1v2,2018-10-25 00:00:00,2021-02-16 00:00:00,polly_1v2_config_20181025.json,pollynet_processing_chain_polly_1v2.m,Move to Leipzig,polly_1v2_read_defaults.m
+polly_1v2,2016-07-23 00:00:00,2017-03-19 00:00:00,polly_1v2_config_20160723.json,pollynet_processing_chain_polly_1v2.m,Move to Haifa Israel,polly_1v2_read_defaults.m
+pollyxt_tjk,2019-06-17 00:00:00,2029-01-01 00:00:00,pollyxt_tjk_config_20190617.json,pollynet_processing_chain_pollyxt_tjk.m,Permanent site for Dushanbe,pollyxt_tjk_read_defaults.m
+>>>>>>> 4871a4c02c8cc0eb8651e6313157a2e9b7e68bc5:config/template_pollynet_processing_config_history.txt

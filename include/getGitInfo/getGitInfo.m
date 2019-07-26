@@ -56,7 +56,11 @@ function gitInfo=getGitInfo()
 % authors and should not be interpreted as representing official policies, either expressed
 % or implied, of <copyright holder>.
 
- gitInfo=[];
+gitInfo=struct();
+gitInfo.hash = [];
+gitInfo.branch = '';
+gitInfo.url = '';
+gitInfo.remote = '';
 if ~exist('.git','file') || ~exist('.git/HEAD','file')
     %Git is not present
     return

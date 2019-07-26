@@ -38,7 +38,7 @@ case 'data'
     signal = [];
     bg = [];
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*.mat');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*.mat');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
             load(files{iFile});
@@ -60,10 +60,10 @@ case 'data'
 case 'LC_aeronet_1064nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime')))];
             res = [res, ncread(files{iFile}, 'LC_aeronet_1064nm')];
         end
     end
@@ -75,10 +75,10 @@ case 'LC_aeronet_1064nm'
 case 'LC_aeronet_355nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_aeronet_355nm')];
         end
     end
@@ -90,10 +90,10 @@ case 'LC_aeronet_355nm'
 case 'LC_aeronet_532nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_aeronet_532nm')];
         end
     end
@@ -105,10 +105,10 @@ case 'LC_aeronet_532nm'
 case 'LC_klett_1064nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_klett_1064nm')];
         end
     end
@@ -120,10 +120,10 @@ case 'LC_klett_1064nm'
 case 'LC_klett_355nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_klett_355nm')];
         end
     end
@@ -135,10 +135,10 @@ case 'LC_klett_355nm'
 case 'LC_klett_532nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_klett_532nm')];
         end
     end
@@ -150,10 +150,10 @@ case 'LC_klett_532nm'
 case 'LC_raman_1064nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_raman_1064nm')];
         end
     end
@@ -165,10 +165,10 @@ case 'LC_raman_1064nm'
 case 'LC_raman_355nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_raman_355nm')];
         end
     end
@@ -180,10 +180,10 @@ case 'LC_raman_355nm'
 case 'LC_raman_532nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_lc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_lc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time, ncread(files{iFile}, 'datetime')];
+            time = [time, unix_timestamp_2_datenum(ncread(files{iFile}, 'datetime'))];
             res = [res, ncread(files{iFile}, 'LC_raman_532nm')];
         end
     end
@@ -195,11 +195,11 @@ case 'LC_raman_532nm'
 case 'attenuated_backscatter_1064nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_att_bsc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_1064nm')];
         end
     end
@@ -211,11 +211,11 @@ case 'attenuated_backscatter_1064nm'
 case 'attenuated_backscatter_355nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_att_bsc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_355nm')];
         end
     end
@@ -227,11 +227,11 @@ case 'attenuated_backscatter_355nm'
 case 'attenuated_backscatter_532nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_att_bsc.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_532nm')];
         end
     end
@@ -243,11 +243,11 @@ case 'attenuated_backscatter_532nm'
 case 'target_classification'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_target_classification.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_target_classification.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'target_classification')];
         end
     end
@@ -259,11 +259,11 @@ case 'target_classification'
 case 'volume_depolarization_ratio_355nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_vol_depol.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_vol_depol.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'volume_depolarization_ratio_355nm')];
         end
     end
@@ -275,11 +275,11 @@ case 'volume_depolarization_ratio_355nm'
 case 'volume_depolarization_ratio_532nm'
     
     for iDay = fix(tRange(1)):fix(tRange(2))
-        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyymmdd')), '\w*_vol_depol.nc');
+        files = listfile(fullfile(resFolder, instrument, datestr(double(iDay), 'yyyy'), datestr(double(iDay), 'mm'), datestr(double(iDay), 'dd')), '\w*_vol_depol.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ncread(files{iFile}, 'time')];
-            height = ncread(files{iFile}, 'altitude');
+            time = [time; unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
             res = [res, ncread(files{iFile}, 'volume_depolarization_ratio_532nm')];
         end
     end
