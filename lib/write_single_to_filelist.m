@@ -3,13 +3,13 @@ function [] = write_single_to_filelist(pollyType, pollyZipFilepath, todolistFold
 %   Example:
 %       [output] = write_single_to_filelist(pollyType, pollyZipFilepath, todolistFolder, writeMode)
 %   Inputs:
-%       pollyType: str
+%       pollyType: char
 %           polly instrument.
-%       pollyZipFilepath: str
+%       pollyZipFilepath: char
 %           the absolute path the zipped polly data.
-%       todolistFolder: str
+%       todolistFolder: char
 %           the folder of the todolist
-%       writeMode: str
+%       writeMode: char
 %           If writeMode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
 %   Outputs:
 % 
@@ -57,6 +57,7 @@ try
     pollyUnzipFile = unzip(pollyZipFilepath, fullfile(todolistFolder, pollyType, 'data_zip'));
 catch
     warning('Failure in unzipping the file %s', pollyZipFile);
+	return;
 end
 
 %% write the file to fileinfo_new.txt
