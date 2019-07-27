@@ -1,4 +1,0 @@
-name,start time,end time,config file,processing function, update Info(as short as possible, and not use comma),load defaults function
-arielle,2019-02-07 00:00:00,2021-1-1 00:00:00,arielle_config_20190722.json,pollynet_processing_chain_arielle.m,Move to Leipzig,arielle_read_defaults.m
-
-
