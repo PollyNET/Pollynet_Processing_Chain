@@ -61,6 +61,10 @@ depolCaliTime532 = depolCaliTime532(flagTillNow);
 depolCaliConst532 = depolCaliConst532(flagTillNow);
 
 %% read logbook file
+if ~ isfield(config, 'logbookFile')
+    % if 'logbookFile' was no set
+    config.logbookFile = '';
+end
 logbookInfo = read_logbook(config.logbookFile, numel(config.first_range_gate_indx));
 flagLogbookTillNow = (logbookInfo.datetime <= taskInfo.dataTime);
 logbookTime = logbookInfo.datetime(flagLogbookTillNow);
