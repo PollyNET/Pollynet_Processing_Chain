@@ -205,6 +205,10 @@ if processInfo.flagEnableDataVisualization
     % %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_1v2_display_lidarconst(data, taskInfo, config);
+    
+    %% display Long-term lidar constant with logbook
+    disp('Display Long-Term lidar cosntants.')
+    polly_1v2_display_longterm_cali(taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end
