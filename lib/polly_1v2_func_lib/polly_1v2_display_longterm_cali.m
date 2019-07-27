@@ -27,6 +27,10 @@ LC532History = LC.LC532History(flagTillNow);
 LCStd532History = LC.LCStd532History(flagTillNow);
 
 %% read logbook file
+if ~ isfield(config, 'logbookFile')
+    % if 'logbookFile' was no set
+    config.logbookFile = '';
+end
 logbookInfo = read_logbook(config.logbookFile, numel(config.first_range_gate_indx));
 flagLogbookTillNow = (logbookInfo.datetime <= taskInfo.dataTime);
 logbookTime = logbookInfo.datetime(flagLogbookTillNow);
