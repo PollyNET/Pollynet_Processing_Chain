@@ -143,7 +143,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
         wvmrLim = mat['wvmrLim'][:][0]
 
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # display signal
