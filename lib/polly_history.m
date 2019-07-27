@@ -42,7 +42,7 @@ pollyHistory.depolConst = [];
 pollyHistory.molDepol = [];
 pollyHistory.caption = '';
 
-dataTime = polly_parsetime(task.dataFilename, '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2}).nc');
+dataTime = polly_parsetime(task.dataFilename, '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc');
 isCurrentPolly = strcmpi(task.pollyVersion, pollynetHistory.name);
 isWithinMeasPeriod = (dataTime < pollynetHistory.endTime) & (dataTime >= pollynetHistory.startTime);
 
