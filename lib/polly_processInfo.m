@@ -37,7 +37,7 @@ processInfo.pollyProcessFunc = '';
 processInfo.pollyUpdateInfo = '';
 processInfo.pollyLoadDefaultsFunc = '';
 
-dataTime = polly_parsetime(task.dataFilename, '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2}).nc');
+dataTime = polly_parsetime(task.dataFilename, '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})_\w*.nc');
 isCurrentPolly = strcmpi(task.pollyVersion, processInfo_history.pollyVersion);
 isWithinTimePeriod = (dataTime < processInfo_history.endTime) & (dataTime >= processInfo_history.startTime);
 
