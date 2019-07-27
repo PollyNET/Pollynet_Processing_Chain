@@ -128,7 +128,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
     
-    %% display rcs 
+    %% display longterm cali results
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'LCTime', 'LC532Status', 'LC532History', 'LCStd532History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH532FR', 'flagCH532FR_X', 'else_time', 'else_label', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_longterm_cali.py'), tmpFile, saveFolder));

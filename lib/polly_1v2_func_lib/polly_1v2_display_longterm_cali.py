@@ -94,7 +94,7 @@ def polly_1v2_display_longterm_cali(tmpFile, saveFolder):
         startTime = mat['campaignInfo']['startTime'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # convert matlab datenum tp datetime 
