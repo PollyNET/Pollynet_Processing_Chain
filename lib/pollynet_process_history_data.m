@@ -52,7 +52,7 @@ for thisDate = startTime:endTime
     fprintf('Still left: %d days\n', int32(endTime - thisDate));
 
     % extract data and write to file_infonew.txt
-    write_daily_to_filelist(pollyType, saveFolder, todoFolder, thisYear, thisMonth, thisDay, writeMode)
+    write_daily_to_filelist(pollyType, saveFolder, todoFolder, thisYear, thisMonth, thisDay, 'w')
 
     % activate the processing program
     pollynet_processing_chain_main;
