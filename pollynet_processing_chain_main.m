@@ -41,7 +41,6 @@ fileinfo_new = read_fileinfo_new(config.fileinfo_new);
 %% read campaign history and polly configuration history info
 pollynet_history = read_pollynet_history(config.pollynet_history_of_places_new);
 pollynet_config_history = read_pollynet_processing_configs(config.pollynet_config_history_file);   
-
 %% start the processing chain
 for iTask = 1:length(fileinfo_new.dataFilename)
 
