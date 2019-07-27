@@ -77,6 +77,13 @@ do
 		  shift 2
 		  ;;
 
+	  -p | --polly_type)
+		  if [ $# -ne 0 ]; then
+			POLLY_TYPE="$2"
+		  fi
+	      shift 2
+	      ;;
+
 	  -t | --todo_folder)
 		  if [ $# -ne 0 ]; then
 		  	TODOLISTFOLDER="$2"
@@ -96,7 +103,7 @@ do
       -*)
           echo "Error: Unknown option: $1" >&2
           ## or call function display_help
-          exit 1 
+exit          exit 1 
           ;;
       *)  # No more options
           break
