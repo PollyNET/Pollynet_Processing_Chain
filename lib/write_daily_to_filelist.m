@@ -41,6 +41,11 @@ end
 %% search zip files
 files = dir(fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
 
+if isempty(files)
+    write_single_to_filelist(pollyType, '', todoFolder, writeMode)
+	return;
+end
+
 for iFile = 1:length(files)
 
     % if there are multiple files in a day, other entries will be appended. 
