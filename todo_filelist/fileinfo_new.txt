@@ -1,2 +1,2 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_18_34_14.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_18_34_14.nc.zip, 131102368, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_19_19_20.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_19_19_20.nc.zip, 142880760, POLLYXT_NOA
+/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2018_11_18_Sun_ARI_00_00_03.nc, arielle/data_zip/201811/2018_11_18_Sun_ARI_00_00_03.nc.zip, 239671816, ARIELLE
+/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2018_11_18_Sun_ARI_06_00_02.nc, arielle/data_zip/201811/2018_11_18_Sun_ARI_06_00_02.nc.zip, 53929240, ARIELLE
