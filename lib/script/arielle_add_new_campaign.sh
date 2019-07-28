@@ -1,44 +1,52 @@
 #!/bin/bash
 # This script will help the user to add entry for the current PollyXT campagin.
+#!/bin/bash
+# This script will help to process the current polly data with using Pollynet processing chain
 
-CAMP_HISTORY_FILE="/home/picasso/Pollynet_Processing_Chain/todo_filelist/pollynet_history_of_places_new.txt"
-
-example_entry="arielle	Polarstern	20151029	0000	20151030	1515	-27	0	11	3.73E-02	0.0108	, RV Polarstern, Atlantic Ocean"
-new_campaign_entry=""
-
-promptInput(){
+#########################
+# The command line help #
+#########################
+display_help() {
+    echo "Usage: $0 [option...]" >&2
+    echo 
     echo -e "Hello, dear OCEANET crew!\nThis script will guide you to add a new campaign entry for the Pollynet Processing Chain. Let's get started."
 
     echo -e "\n\n\nPlease follow the example below to finish the description about your current campaign.\nAfter you finish it, you can check the info in $CAMP_HISTORY_FILE.\nPlease make sure the format is correct, otherwise the processing program would fail.\n\n"
-    
-	echo -e "Name	Location	Start	Starttime	End	Endtime	Long	Lat	asl	v*	dmol	Caption"
-	echo -e $example_entry '\n'
-
-    echo -n "Enter your campaign info and press [ENTER]: "
-    read new_campaign_entry
-
-    # confirm the entry
-	echo
-	echo
-	echo
-	echo "Your input campaign info is: "
-    echo $new_campaign_entry
-
-    echo 
+    echo "   -h, --help              show help message"
     echo
-    echo "Do you confirm the info? [yes|no] and press [ENTER]: "
-    read flag_confirm
-	
-	if [[ "$flag_confirm" = "yes" ]]; then
-		echo 
-	else
-		promptInput
-	fi
+    # echo some stuff here for the -a or --add-options 
+    exit 1
 }
 
-promptInput
+# parameter initialization
+CAMP_HISTORY_FILE="/home/picasso/todo_filelist/pollynet_history_of_places_new.txt"
 
-echo "Writing the campaign entry to the campaign history file..."
-echo $new_campaign_entry >> $CAMP_HISTORY_FILE
-echo "Done!"
-echo -e "You can go to check it!\n$CAMP_HISTORY_FILE"
+################################
+# Check if parameters options  #
+# are given on the commandline #
+################################
+while :
+do
+    case "$1" in
+  
+      -h | --help)
+          display_help  # Call your function
+          exit 0
+          ;;
+
+      --) # End of all options
+          shift
+          break
+          ;;
+      -*)
+          echo "Error: Unknown option: $1" >&2
+          ## or call function display_help
+          exit 1 
+          ;;
+      *)  # No more options
+          break
+          ;;
+    esac
+done
+
+/bin/nano $CAMP_HISTORY_FILE
