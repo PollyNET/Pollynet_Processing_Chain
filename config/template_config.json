@@ -8,8 +8,8 @@
 	"flagUsePreviousLC": true,
 
 	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc",
-	"gdas1Site": "haifa",
-	"AERONETSite": "Technion_Haifa_IL",
+	"gdas1Site": "",
+	"AERONETSite": "",
 
 	"max_height_bin": 2500,
 	"first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],
@@ -68,9 +68,8 @@
 	"minSNR_4_sigNorm": [10],
 	"intNProfiles": 120,
 	"minIntNProfiles": 90,
-	"meteorDataSource": "gdas1",
-	"radiosondeSitenum": 14430,
-	"IWV_instrument": "AERONET",
+	"meteorDataSource": "radiosonde",
+	"IWV_instrument": "",
 	"maxIWVTLag": 0.0833,
 	"minDecomLogDist355": 0.2,
 	"minDecomLogDist532": 0.2,
@@ -117,7 +116,7 @@
 	"LCMeanMaxIndx": 1000,
 	"LCCalibrationStatus": ["none", "Klett", "Raman", "Defaults", "History"],
 	"quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-	"quasi_smooth_t": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+	"quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
 	"hWVCaliBase": 120,
 	"hWVCaliTop": 4000,
 	"minSNRWVCali": 0.03,
@@ -155,6 +154,9 @@
 	"LC1064Range": [0, 6e14],
 	"LC387Range": [0, 1e14],
 	"LC607Range": [0, 3e14],
+	"WVConstRange": [0, 20],
+	"depolConstRange355": [0, 0.2],
+	"depolConstRange532": [0, 0.2],
 	"att_beta_cRange_355": [0, 15],
 	"att_beta_cRange_532": [0, 5],
 	"att_beta_cRange_1064": [0, 2],
@@ -162,8 +164,10 @@
 	"quasi_beta_cRange_1064": [0, 2],
 	"quasi_Par_DR_cRange_532": [0, 0.4],
 
-	"depolCaliFile532": "pollyxt_tropos_depolcali_532_results.txt",
-	"depolCaliFile355": "pollyxt_tropos_depolcali_355_results.txt",
-	"wvCaliFile": "pollyxt_tropos_wvcali_results.txt",
-	"lcCaliFile": "pollyxt_tropos_lccali_results.txt"
+	"depolCaliFile532": "arielle_depolcali_532_results.txt",
+	"depolCaliFile355": "arielle_depolcali_355_results.txt",
+	"wvCaliFile": "arielle_wvcali_results.txt",
+	"lcCaliFile": "arielle_lccali_results.txt",
+	"logbookFile": "/oceanethome/pollyxt/logbook_arielle.csv",
+	"radiosondeFolder": "/home/picasso/data/radiosonde"
 }
