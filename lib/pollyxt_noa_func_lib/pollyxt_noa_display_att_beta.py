@@ -79,11 +79,26 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
         quality_mask_355 = mat['quality_mask_355'][:]
         quality_mask_532 = mat['quality_mask_532'][:]
         quality_mask_1064 = mat['quality_mask_1064'][:]
-        height = mat['height'][0][:]
-        time = mat['time'][0][:]
-        att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
-        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
-        att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        if mat['height'].size:
+            height = mat['height'][0][:]
+        else:
+            height = np.array([])
+        if mat['time'].size:
+            time = mat['time'][0][:]
+        else:
+            time = np.array([])
+        if mat['att_beta_cRange_355'].size:
+            att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
+        else:
+            att_beta_cRange_355 = np.array([])
+        if mat['att_beta_cRange_532'].size:
+            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        else:
+            att_beta_cRange_532 = np.array([])
+        if mat['att_beta_cRange_1064'].size:
+            att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        else:
+            att_beta_cRange_1064 = np.array([])
         flagLC355 = mat['flagLC355'][:][0]
         flagLC532 = mat['flagLC532'][:][0]
         flagLC1064 = mat['flagLC1064'][:][0]
@@ -94,7 +109,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # meshgrid

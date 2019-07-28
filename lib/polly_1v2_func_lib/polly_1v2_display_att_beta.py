@@ -75,9 +75,18 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         ATT_BETA_532 = mat['ATT_BETA_532'][:]
         quality_mask_532 = mat['quality_mask_532'][:]
-        height = mat['height'][0][:]
-        time = mat['time'][0][:]
-        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        if mat['height'].size:
+            height = mat['height'][0][:]
+        else:
+            height = np.array([])
+        if mat['time'].size:
+            time = mat['time'][0][:]
+        else:
+            time = np.array([])
+        if mat['att_beta_cRange_532'].size:
+            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        else:
+            att_beta_cRange_532 = np.array([])
         flagLC532 = mat['flagLC532'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
@@ -86,7 +95,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # meshgrid

@@ -1,14 +1,17 @@
 #!/bin/bash
-# This script will help to process the current polly data with using Pollynet processing chain
+# This script will help to process the history polly data with using Pollynet processing chain
 
 #########################
 # The command line help #
 #########################
 display_help() {
-    echo "Usage: $0 [option...] {today|yesterday}" >&2
+    echo "Usage: $0 [option...] " >&2
     echo 
-    echo "Process the polly data at any give time."
-    echo "   -d, --yyyymmdd          set the date for the polly data"
+    echo "Process the polly history data."
+    echo "   -s, --start_date        set the start date for the polly data"
+    echo "                           e.g., 20110101"
+    echo "   -e, --end_date          set the end date for the polly data"
+    echo "                           e.g., 20150101"
     echo "   -p, --polly_type        set the instrument type"
     echo "                           - pollyxt_lacros"
     echo "                           - pollyxt_tropos"
@@ -27,49 +30,24 @@ display_help() {
     exit 1
 }
 
-get_date_today() {
-    a=$(date +"%Y-%m-%d")
-    year=$(echo $a | cut -b1-4)
-    month=$(echo $a | cut -b6-7)
-    day=$(echo $a | cut -b9-10)
-}
-
-get_date_yesterday() {
-    a=$(date +"%Y-%m-%d" --date="yesterday")
-    year=$(echo $a | cut -b1-4)
-    month=$(echo $a | cut -b6-7)
-    day=$(echo $a | cut -b9-10)
-}
-
-get_date_input() {
-    a=$1
-    year=$(echo $a | cut -b1-4)
-    month=$(echo $a | cut -b5-6)
-    day=$(echo $a | cut -b7-8)
-}
-
 # process the data
 run_matlab() {
-echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nYear=$year\nMonth=$month\nDay=$day\n\n"
+echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nSTART_DATE=$STARTDATE\nEND_DATE=ENDDATE\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
-
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $year, $month, $day, 'w');
-pollynet_processing_chain_main;
-
+pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', '$TOTOLISTFOLDER');
 exit;
 ENDMATLAB
 }
 
 # parameter initialization
-POLLY_FOLDER="/oceanethome/pollyxt"
+POLLY_FOLDER="/pollyhome/arielle"
 POLLY_TYPE="arielle"
 TODOLISTFOLDER="/pollyhome/Picasso/Pollynet_Processing_Chain/todo_filelist"
-year="2000"
-month="01"
-day="01"
+STARTDATE="20190101"
+ENDDATE="20190103"
 
 ################################
 # Check if parameters options  #
@@ -78,16 +56,16 @@ day="01"
 while :
 do
     case "$1" in
-      -d | --yyyymmdd)
+      -s | --start_date)
           if [ $# -ne 0 ]; then
-            get_date_input "$2"
+            STARTDATE="$2"
           fi
           shift 2
           ;;
 
-      -p | --polly_type)
+      -e | --end_date)
           if [ $# -ne 0 ]; then
-            POLLY_TYPE="$2"
+            ENDDATE="$2"
           fi
           shift 2
           ;;
@@ -98,6 +76,13 @@ do
 		  fi
 		  shift 2
 		  ;;
+
+	  -p | --polly_type)
+		  if [ $# -ne 0 ]; then
+			POLLY_TYPE="$2"
+		  fi
+	      shift 2
+	      ;;
 
 	  -t | --todo_folder)
 		  if [ $# -ne 0 ]; then
@@ -118,7 +103,7 @@ do
       -*)
           echo "Error: Unknown option: $1" >&2
           ## or call function display_help
-          exit 1 
+exit          exit 1 
           ;;
       *)  # No more options
           break
@@ -126,19 +111,4 @@ do
     esac
 done
 
-###################### 
-# Check if parameter #
-# is set too execute #
-######################
-case "$1" in
-  today)
-    get_date_today
-    ;;
-  yesterday)
-    get_date_yesterday
-    ;;
-  *)
-    ;;
-esac
-
-run_matlab "$year" "$month" "$day"
+run_matlab

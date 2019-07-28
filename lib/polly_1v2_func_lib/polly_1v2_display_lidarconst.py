@@ -86,7 +86,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # display lidar constants at 532mn
