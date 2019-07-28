@@ -108,7 +108,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
         aerLRLim = mat['aerLRLim'][:][0]
 
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # display signal
