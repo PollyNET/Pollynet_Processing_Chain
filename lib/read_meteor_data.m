@@ -88,22 +88,32 @@ case 'radiosonde'
     else
         sondeFile = radiosonde_search(meteorAttri.radiosondeFolder, measTime);
         [thisAlt, thisTemp, thisPres, thisRelh, datetime] = read_radiosonde(sondeFile, 1, -999);
+       
+		if ~ isempty(thisAlt) 
+			% determine whether retrieve the radiosonde data successfully
+
+	        % sort the measurements as the ascending order of altitude
+    	    [alt, sortIndxAlt] = sort(thisAlt);
+        	temp = thisTemp(sortIndxAlt);
+        	pres = thisPres(sortIndxAlt);
+        	relh = thisRelh(sortIndxAlt);
         
-        % sort the measurements as the ascending order of altitude
-        [alt, sortIndxAlt] = sort(thisAlt);
-        temp = thisTemp(sortIndxAlt);
-        pres = thisPres(sortIndxAlt);
-        relh = thisRelh(sortIndxAlt);
+	        % remove the duplicated measurements at the same altitude
+    	    [alt, iUniq, ~] = unique(alt);
+        	temp = temp(iUniq);
+      	 	pres = pres(iUniq);
+       	 	relh = relh(iUniq);
         
-        % remove the duplicated measurements at the same altitude
-        [alt, iUniq, ~] = unique(alt);
-        temp = temp(iUniq);
-        pres = pres(iUniq);
-        relh = relh(iUniq);
-        
-        attri.dataSource = meteorAttri.meteorDataSource;
-        attri.URL = sondeFile;
-        attri.datetime = datetime;
+        	attri.dataSource = meteorAttri.meteorDataSource;
+        	attri.URL = sondeFile;
+        	attri.datetime = datetime;
+		else
+			% if there is no radiosodne data
+			alt = thisAlt;
+			temp = thisTemp;
+			pres = thisPres;
+			relh = thisRelh;
+		end
     end
 
 otherwise
@@ -112,7 +122,7 @@ end
 
 % if predefined data source is not available, go to standard atmosphere.
 if isempty(alt)
-    fprintf('The meteorological data of websonde or gdas1 is not ready.\nUse standard_atmosphere data as a replacement.\n');
+    fprintf('The meteorological data of %s is not ready.\nUse standard_atmosphere data as a replacement.\n', meteorAttri.meteorDataSource);
     attri.dataSource = 'standard_atmosphere';
     attri.URL = '';
     attri.datetime = datenum(0, 1, 0, 0, 0, 0);

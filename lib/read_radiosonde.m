@@ -45,11 +45,23 @@ function [alt, temp, pres, relh, datetime] = read_radiosonde(file, readMode, mis
 %             :_FillValue = -999.0; // double
 %   History:
 %       2019-07-19. First Edition by Zhenping
+%		2019-07-28. Add the criteria for empty file.
 %   Contact:
 %       zhenping@tropos.de
 
+temp = [];
+pres = [];
+relh = [];
+alt = [];
+datetime = [];
+
 if ~ exist('readMode', 'var')
     readMode = 1;
+end
+
+if ~ exist(file, 'file')
+	warning('radiosonde file does not exist. Please check it.\n%s', file);
+	return;
 end
 
 switch readMode
