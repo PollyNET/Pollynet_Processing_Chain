@@ -108,5 +108,8 @@ case "$1" in
     ;;
   *)
     display_help
-exit 1
-;;
+    exit 1
+    ;;
+esac
+
+exit

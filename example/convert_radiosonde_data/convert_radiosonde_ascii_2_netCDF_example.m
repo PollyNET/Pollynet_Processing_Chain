@@ -1,10 +1,11 @@
+function [] = convert_radiosonde_ascii_2_netCDF_example(rsFile, ncFile)
 clc; close all;
 projectDir = fileparts(mfilename('fullpath'));
 addpath(fullfile(fileparts(fileparts(projectDir)), 'lib'));
 
 %% parameter definitions
-rsFile = '2018111511_pangaea.txt';
-ncFile = 'radiosonde_20181115_110000.nc';
+%rsFile = '2018112511_pangaea.txt';
+%ncFile = 'radiosonde_20181125_110000.nc';
 missing_value = -999;
 
 %% read radiosonde data
@@ -115,3 +116,4 @@ netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s
     
 % close file
 netcdf.close(ncID);
+end
