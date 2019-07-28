@@ -6,7 +6,7 @@ CONFIG_DISC_FILE="/home/picasso/Pollynet_Processing_Chain/doc/pollynet_config.md
 
 while getopts ':h' option; do
 	case "$option" in
-		h) echo -e "\n\nDetailed information about the settings can be found in $CONFIG_DISC_FILE\n\n"
+		h) echo -e "\n\nSet up the polly setup file.\nDetailed information about the settings can be found in $CONFIG_DISC_FILE\n\n"
 		   exit
 		   ;;
 		\?) echo "illegal option."

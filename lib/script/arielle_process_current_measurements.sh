@@ -3,6 +3,7 @@
 
 # parameter initialization
 POLLY_TYPE="arielle"
+POLLY_FOLDER="/oceanethome/pollyxt"
 TODOLISTFOLDER="/home/picasso/Pollynet_Processing_Chain/todo_filelist"
 
 echo "\nCurrent time: "
@@ -13,7 +14,7 @@ echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
-pollyFile = search_polly_file($POLLY_FOLDER, now, datenum(0, 1, 0, 6, 0, 0));
+pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 6, 0, 0));
 if isempty(pollyFile)
     exit;
 end
