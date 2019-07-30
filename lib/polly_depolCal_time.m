@@ -67,7 +67,7 @@ for iDepCalPeriod = 1:nDepCalPeriods
     tIDepCal = mTime(flagIDepCal);
 
     if sum(flagIDepCal) ~= length(maskDepCalAng)
-        warning('The depol cal profiles between %s and %s are not compatible with your settings. Please check the ''maskDepCalAng'' in the polly config file.', datestr(tIDepCal, 'HH:MM'), datestr(tIDepCal, 'HH:MM'));
+        warning('The depol cal profiles between %s and %s are not compatible with your settings. Please check the ''maskDepCalAng'' in the polly config file.', datestr(tIDepCal(1), 'HH:MM'), datestr(tIDepCal(end), 'HH:MM'));
         return;
     end
 
