@@ -66,7 +66,7 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/Pollynet_Processing_Chain/todo_filelist"
+TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
 year="2000"
 month="01"
 day="01"
