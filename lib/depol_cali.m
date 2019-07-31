@@ -26,7 +26,7 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol
 %		TR_x: float
 %			transmision at cross channel.
 %		caliHIndxRange: 2-element array
-%			range of height indexes which the signal can be used for depolarization calibration in.
+%			range of height indexes which the signal can be used for depolarization calibration.
 %		SNRmin: array
 %			minimum SNR that signal should have to assure the stability of the calibration results.
 %		sigMax: array
