@@ -1,6 +1,9 @@
 #!/bin/bash
 # This script will help to process the current polly data with using Pollynet processing chain
 
+cwd=$(dirname "$0")
+PATH=${PATH}:$cwd
+
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
