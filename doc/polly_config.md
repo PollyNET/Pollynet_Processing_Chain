@@ -23,7 +23,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |bgCorRangeIndx|the bottom and top index of signal to calculate the background|[10, 240]||
 |mask_SNRmin|the SNR threshold to mask noisy bins|[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]||
 |depol_cal_ang_p_time|start time for +45$^\circ$ calibration|["11:30:15", "15:00:15", "22:00:15"]||
-|depol_cal_ang_n_time|start time for -45$^\circ$ calibration|["11:35:15", "15:05:15", "22:05:15"]|
+|depol_cal_ang_n_time|start time for -45$^\circ$ calibration|["11:35:15", "15:05:15", "22:05:15"]||
 |depol_cal_minbin_{wavelength}|the minimum bin used for depolarization calibration|40||
 |depol_cal_maxbin_{wavelength}|the maximum bin used for depolarization calibration|300||
 |depol_cal_SNRmin_{wavelength}|Threshold for the minimum SNR used in depol-calibration. There are four signal profiles used in the calibration, total channel at ±45∘ and cross channel at ±45∘. Therefore, an array of four element need to be configured. Namely, [total+45∘, total−45∘, cross+45∘, cross−45∘]

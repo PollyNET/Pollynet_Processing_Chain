@@ -1,7 +1,7 @@
-function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time, depol_cali_nAng_time, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
+function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
 %DEPOL_CALI depolarization calibration for PollyXT lidar system.
 %	Example:
-%		[depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time, depol_cali_nAng_time, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults)
+%		[depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults)
 %	Inputs:
 %		signal_t: matrix
 %			background removed photon count signal at total channel. (nBins * nProfiles)
@@ -13,16 +13,20 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol
 %			background at cross channel. (nBins * nProfiles)
 %		time: array
 %			datenum array states the measurement time of each profile.
-%		depol_cali_pAng_time: array
-%			datenum array states the start time that the polarizer rotates to the positive angle.
-%		depol_cali_nAng_time: array
+%		depol_cali_pAng_time_start: array
+%			datenum array states the start time that the polarizer rotates to the positive angle. 
+%       depol_cali_pAng_time_end: array
+%			datenum array states the stop time that the polarizer rotates to the positive angle.
+%		depol_cali_nAng_time_start array
+%			datenum array states the start time that the polarizer rotates to the negative angle.
+%       depol_cali_nAng_time_end: array
 %			datenum array states the end time that the polarizer rotates to the negative angle.
 %		TR_t: float
 %			tranmission at total channel.
 %		TR_x: float
 %			transmision at cross channel.
 %		caliHIndxRange: 2-element array
-%			range of height indexes which the signal can be used for depolarization calibration in.
+%			range of height indexes which the signal can be used for depolarization calibration.
 %		SNRmin: array
 %			minimum SNR that signal should have to assure the stability of the calibration results.
 %		sigMax: array
@@ -90,16 +94,13 @@ days = unique(fix(time));   % datenum array which stands for different measureme
 nDays = length(days);
 
 for iDay = 1:nDays
-    for iDepolCal = 1:length(depol_cali_nAng_time)
+    for iDepolCal = 1:length(depol_cali_nAng_time_start)
         indx_45p = find(time >= days(iDay) & time < (days(iDay) + 1) & ...
-                        rem(time, 1) >= depol_cali_pAng_time(iDepolCal) & ...
-                        rem(time, 1) < (depol_cali_pAng_time(iDepolCal) + datenum(0, 0, 0, 0, 5, 0)));
+                        time >= depol_cali_pAng_time_start(iDepolCal) & ...
+                        time <= (depol_cali_pAng_time_end(iDepolCal)));
         indx_45m = find(time >= days(iDay) & time < (days(iDay) + 1) & ...
-                        rem(time, 1) >= depol_cali_nAng_time(iDepolCal) & ... 
-                        rem(time, 1) < (depol_cali_nAng_time(iDepolCal) + datenum(0, 0, 0, 0, 5, 0)));
-        if ~ (length(indx_45p) == 10) || ~ (length(indx_45m) == 10)
-            continue;
-        end
+                        time >= depol_cali_nAng_time_start(iDepolCal) & ... 
+                        time <= (depol_cali_nAng_time_end(iDepolCal)));
 
         thisCaliTime = time(floor(mean([indx_45m, indx_45p])));
 

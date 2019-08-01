@@ -1,6 +1,0 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_00_00_01.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_00_00_01.nc.zip, 105086816, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_06_00_01.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_06_00_01.nc.zip, 130589396, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_12_29_39.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_12_29_39.nc.zip, 4612680, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_12_47_58.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_12_47_58.nc.zip, 3332420, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_18_34_14.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_18_34_14.nc.zip, 131102368, POLLYXT_NOA
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_02_24_Wed_NOA_19_19_20.nc, pollyxt_noa\data_zip\201602\2016_02_24_Wed_NOA_19_19_20.nc.zip, 142880760, POLLYXT_NOA
