@@ -1,5 +1,5 @@
 function [data, depCalAttri] = arielle_depolcali(data, config, taskInfo)
- arielle_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
+%arielle_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
 %	Example:
 %		[data] = arielle_depolcali(data, config)
 %	Inputs:
