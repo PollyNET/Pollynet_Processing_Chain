@@ -1,6 +1,9 @@
 #!/bin/bash
 # Process the current available polly data
 
+cwd=$(dirname "$0")
+PATH=${PATH}:$cwd
+
 PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 
 echo "Process the current available polly data"
