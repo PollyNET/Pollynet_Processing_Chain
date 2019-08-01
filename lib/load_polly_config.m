@@ -11,6 +11,7 @@ function [pollyConfig] = load_polly_config(configFile, configDir)
 %			polly configurations. Details can be found in doc/polly_config.md
 %	History:
 %		2018-12-16. First edition by Zhenping
+%       2019-08-01. Remove the conversion of depol cali time. (Don't need to set the depol cali time any more)
 %	Contact:
 %		zhenping@tropos.de
 
@@ -29,16 +30,6 @@ if ~ exist(configFile, 'file')
 end
 
 pollyConfig = loadjson(configFile);
-
-%% convert the cellarray to array
-depol_cal_ang_p_time = [];
-depol_cal_ang_n_time = [];
-for iCali = 1:length(pollyConfig.depol_cal_ang_p_time)
-	depol_cal_ang_p_time = [depol_cal_ang_p_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_p_time{iCali})], 'yyyymmddHH:MM:SS')];
-	depol_cal_ang_n_time = [depol_cal_ang_n_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_n_time{iCali})], 'yyyymmddHH:MM:SS')];
-end
-pollyConfig.depol_cal_ang_p_time = depol_cal_ang_p_time;
-pollyConfig.depol_cal_ang_n_time = depol_cal_ang_n_time;
 
 %% convert logical 
 pollyConfig.isFR = logical(pollyConfig.isFR);
