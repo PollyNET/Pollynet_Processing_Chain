@@ -1,0 +1,2 @@
+/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2019_07_31_Wed_ARI_00_00_03.nc, arielle/data_zip/201907/2019_07_31_Wed_ARI_00_00_03.nc.zip, 239671812, ARIELLE
+/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2019_07_31_Wed_ARI_06_00_04.nc, arielle/data_zip/201907/2019_07_31_Wed_ARI_06_00_04.nc.zip, 153125092, ARIELLE
