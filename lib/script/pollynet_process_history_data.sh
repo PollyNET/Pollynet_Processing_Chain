@@ -32,12 +32,12 @@ display_help() {
 
 # process the data
 run_matlab() {
-echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nSTART_DATE=$STARTDATE\nEND_DATE=ENDDATE\n\n"
+echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nSTART_DATE=$STARTDATE\nEND_DATE=$ENDDATE\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
-pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', '$TOTOLISTFOLDER');
+pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', '$TODOLISTFOLDER');
 exit;
 ENDMATLAB
 }
@@ -45,7 +45,7 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/pollyhome/arielle"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/Pollynet_Processing_Chain/todo_filelist"
+TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
 STARTDATE="20190101"
 ENDDATE="20190103"
 

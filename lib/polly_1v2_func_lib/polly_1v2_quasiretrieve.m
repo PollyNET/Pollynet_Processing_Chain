@@ -52,9 +52,9 @@ SNR = polly_SNR(data.signal, data.bg);
 % 1 in quality_mask means low-SNR data
 % 2 in quality_mask means depolarization calibration periods
 quality_mask_532(squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot)) = 1;
-quality_mask_voldepol532((squeeze(SNR(flagChannel532Cro, :, :)) < config.mask_SNRmin(flagChannel532Cro)) | (squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
+quality_mask_volDepol_532((squeeze(SNR(flagChannel532Cro, :, :)) < config.mask_SNRmin(flagChannel532Cro)) | (squeeze(SNR(flagChannel532Tot, :, :)) < config.mask_SNRmin(flagChannel532Tot))) = 1;
 quality_mask_532(:, data.depCalMask) = 2;
-quality_mask_voldepol532(:, data.depCalMask) = 2;
+quality_mask_volDepol_532(:, data.depCalMask) = 2;
 
 % smooth the data
 att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
@@ -66,7 +66,7 @@ volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(f
 
 % set low-SNR data or calibration data to NaN
 att_beta_532(quality_mask_532 > 0) = NaN;
-volDepol_532_smooth(quality_mask_voldepol532 > 0) = NaN;
+volDepol_532_smooth(quality_mask_volDepol_532 > 0) = NaN;
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
