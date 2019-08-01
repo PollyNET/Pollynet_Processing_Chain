@@ -140,7 +140,7 @@ for iChannel = 1: size(data.signal, 1)
 end
 
 %% depol cal time and mask
-maskDepCalAng = {'none', 'none', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 'none', 'none', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 'n'};   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
+maskDepCalAng = config.maskDepCalAng;   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
 [depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_time(data.depCalAng, data.mTime, config.init_depAng, maskDepCalAng);
 data.depol_cal_ang_p_time_start = depol_cal_ang_p_time_start;
 data.depol_cal_ang_p_time_end = depol_cal_ang_p_time_end;
