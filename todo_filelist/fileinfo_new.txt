@@ -1,2 +1,5 @@
-/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2019_07_31_Wed_ARI_00_00_03.nc, arielle/data_zip/201907/2019_07_31_Wed_ARI_00_00_03.nc.zip, 239671812, ARIELLE
-/home/picasso/Pollynet_Processing_Chain/todo_filelist, arielle/data_zip, 2019_07_31_Wed_ARI_06_00_04.nc, arielle/data_zip/201907/2019_07_31_Wed_ARI_06_00_04.nc.zip, 153125092, ARIELLE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_00_00_01.nc.zip, 239666052, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_06_00_01.nc.zip, 239666052, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_12_00_01.nc.zip, 88212932, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_14_18_07.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_14_18_07.nc.zip, 146796996, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_18_00_01.nc.zip, 239666052, POLLYXT_LACROS
