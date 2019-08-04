@@ -1,5 +1,5 @@
 import matplotlib
-# matplotlib.use('Agg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
