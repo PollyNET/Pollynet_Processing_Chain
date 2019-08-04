@@ -153,10 +153,12 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_355, att_beta_532, att_beta_1064] = pollyxt_noa_att_beta(data, config);
+[att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_noa_att_beta(data, config);
 data.att_beta_355 = att_beta_355;
 data.att_beta_532 = att_beta_532;
 data.att_beta_1064 = att_beta_1064;
+data.att_beta_387 = att_beta_387;
+data.att_beta_607 = att_beta_607;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -165,10 +167,22 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
+%% quasi-retrieving V2 (with using Raman signal)
+fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).\n', tNow());
+[data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_532_V2, ~, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_355_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_noa_quasiretrieve_V2(data, config);
+data.quasiAttri_V2 = quasiAttri_V2;
+fprintf('[%s] Finish.\n', tNow());
+
 %% target classification
-fprintf('\n[%s] Start to aerosol target classification.\n', tNow());
+fprintf('\n[%s] Start to aerosol target classification with quasi results.\n', tNow());
 tc_mask = pollyxt_noa_targetclassi(data, config);
 data.tc_mask = tc_mask;
+fprintf('[%s] Finish.\n', tNow());
+
+%% target classification with quasi-retrieving V2
+fprintf('\n[%s] Start to aerosol target classification with quasi results (V2).\n', tNow());
+tc_mask_V2 = pollyxt_noa_targetclassi_V2(data, config);
+data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
@@ -206,8 +220,14 @@ if processInfo.flagEnableResultsOutput
     %% save quasi results
     pollyxt_noa_save_quasi_results(data, taskInfo, config);
 
+    %% save quasi results V2
+    pollyxt_noa_save_quasi_results_V2(data, taskInfo, config);
+
     %% save target classification results
     pollyxt_noa_save_tc(data, taskInfo, config);
+
+    %% save target classification results V2
+    pollyxt_noa_save_tc_V2(data, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end
@@ -221,7 +241,7 @@ if processInfo.flagEnableDataVisualization
     disp('Display housekeeping')
     pollyxt_noa_display_monitor(data, taskInfo, config);
 
-    % display signal
+    %% display signal
     disp('Display RCS and volume depolarization ratio')
     pollyxt_noa_display_rcs(data, taskInfo, config);
 
@@ -252,10 +272,18 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_noa_display_quasiretrieving(data, taskInfo, config);
+    
+    %% display quasi backscatter, particle depol and angstroem exponent V2 
+    disp('Display quasi parameters V2')
+    pollyxt_noa_display_quasiretrieving_V2(data, taskInfo, config);
 
     %% target classification
     disp('Display target classifications')
     pollyxt_noa_display_targetclassi(data, taskInfo, config);
+
+    %% target classification V2
+    disp('Display target classifications V2')
+    pollyxt_noa_display_targetclassi_V2(data, taskInfo, config);
 
     %% display lidar calibration constants
     disp('Display Lidar constants.')

@@ -7,7 +7,7 @@ function [] = polly_1v2_save_LC_txt(data, taskInfo, config)
 %
 %   History:
 %       2018-12-19. First Edition by Zhenping
-%       2019-01-28. Add support for 387 and 607 channels.
+%       2019-01-28. Add support for 607 channel.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -20,10 +20,13 @@ dataFile = taskInfo.dataFilename;
 LC532 = data.LCUsed.LCUsed532;
 LCStd532 = -999;
 LC532Status = data.LCUsed.LCUsedTag532;
+LC607 = data.LCUsed.LCUsed607;
+LCStd607 = -999;
+LC607Status = data.LCUsed.LCUsedTag607;
 
 fid = fopen(LCFile, 'a');
 try
-    fprintf(fid, '%s, %f, %f, %d\n', dataFile, LC532, LCStd532, LC532Status);
+    fprintf(fid, '%s, %f, %f, %d, %f, %f, %d\n', dataFile, LC532, LCStd532, LC532Status, LC532, LCStd532, LC532Status);
 catch
     error('Error in %s: Failure in writing lidar calibration results to %s\n', mfilename, LCFile);
 end
