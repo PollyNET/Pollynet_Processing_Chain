@@ -1,21 +1,21 @@
-function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri] = pollyxt_noa_quasiretrieve(data, config)
-%pollyxt_noa_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+function [quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064_V2, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri_V2] = pollyxt_noa_quasiretrieve_V2(data, config)
+%quasi_retrive_beta Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
-%       [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_noa_quasiretrieve(data, config)
-%   Inputs:
+%       [quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532_V2, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = quasi_retrive_beta(data, config)
+%   Inputs_V2:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
-%       quasi_par_bsc_355: matrix
+%       quasi_par_bsc_355_V2: matrix
 %           quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
-%       quasi_par_bsc_1064: matrix
-%           quasi particle backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
-%       quasi_par_depol_532: matrix
+%       quasi_par_bsc_1064_V2: matrix
+%           quasi particle_V2 backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
+%       quasi_par_depol_532_V2: matrix
 %           quasi particle depolarization ratio at 532 nm.
-%       volDepol_355: matrix
-%           volume depolarization ratio at 355 nm.
+%       volDepol_355: matrix_V2
+%           volume depolarization_V2 ratio at 355 nm.
 %       volDepol_532: matrix
 %           volume depolarization ratio at 532 nm.
 %       quasi_angstrexp_532_1064: matrix
@@ -32,26 +32,27 @@ function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_3
 %           quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
 %   History:
 %       2018-12-24. First Edition by Zhenping
-%       2019-08-03. Add the data mask for fog and laser shutter
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo defaults
+global defaults
 
-quasi_par_bsc_355 = [];
-quasi_par_bsc_1064 = [];
-quasi_par_depol_532 = [];
+quasi_par_bsc_355_V2 = [];
+quasi_par_bsc_1064_V2 = [];
+quasi_par_depol_532_V2 = [];
 volDepol_532 = [];
 volDepol_355 = [];
-quasi_ang_532_1064 = [];
+quasi_ang_532_1064_V2 = [];
 quality_mask_355 = [];
 quality_mask_532 = [];
 quality_mask_1064 = [];
+quality_mask_387 = [];
+quality_mask_607 = [];
 quality_mask_volDepol_532 = [];
 quality_mask_volDepol_355 = [];
-quasiAttri = struct();
-quasiAttri.flagGDAS1 = false;
-quasiAttri.timestamp = [];
+quasiAttri_V2 = struct();
+quasiAttri_V2.flagGDAS1 = false;
+quasiAttri_V2.timestamp = [];
 
 if isempty(data.rawSignal)
     return;
@@ -75,6 +76,8 @@ volDepol_355(:, data.depCalMask) = NaN;
 quality_mask_355 = zeros(size(data.att_beta_355));
 quality_mask_532 = zeros(size(data.att_beta_355));
 quality_mask_1064 = zeros(size(data.att_beta_355));
+quality_mask_387 = zeros(size(data.att_beta_355));
+quality_mask_607 = zeros(size(data.att_beta_355));
 quality_mask_volDepol_532 = zeros(size(data.att_beta_355));
 quality_mask_volDepol_355 = zeros(size(data.att_beta_355));
 
@@ -118,11 +121,17 @@ quality_mask_volDepol_355(:, data.fogMask) = 4;
 att_beta_355(quality_mask_355 ~= 0) = NaN;
 att_beta_532(quality_mask_532 ~= 0) = NaN;
 att_beta_1064(quality_mask_1064 ~= 0) = NaN;
+att_beta_607(quality_mask_607 ~= 0) = NaN;
+att_beta_387(quality_mask_387 ~= 0) = NaN;
 
 % smooth the data
 att_beta_355 = smooth2(data.att_beta_355, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
 att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
 att_beta_1064 = smooth2(data.att_beta_1064, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
+att_beta_387 = smooth2(data.att_beta_387, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
+att_beta_607 = smooth2(data.att_beta_607, config.quasi_smooth_h(flagChannel607), config.quasi_smooth_t(flagChannel607));
+
+% mask the data (depol calibration; shutter; fog)
 sig532Tot = squeeze(data.signal(flagChannel532Tot, :, :));
 sig532Tot(:, data.depCalMask) = NaN;
 sig532Cro = squeeze(data.signal(flagChannel532Cro, :, :));
@@ -136,54 +145,39 @@ volDepol_355_smooth = polly_volDepol2(smooth2(sig355Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
-quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
-quasiAttri.timestamp = globalAttri.datetime;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(data.mTime, data.alt, config);
+quasiAttri_V2.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
+quasiAttri_V2.timestamp = globalAttri.datetime;
 
 % molecule attenuation
 mol_att_355 = exp(- cumsum(molExt355 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 mol_att_1064 = exp(- cumsum(molExt1064 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-
-% set the attenuated signal below the full overlap to be constant.
-fullOvlpIndx355 = find(data.height >= config.heightFullOverlap(flagChannel355Tot), 1);
-fullOvlpIndx532 = find(data.height >= config.heightFullOverlap(flagChannel532Tot), 1);
-fullOvlpIndx1064 = find(data.height >= config.heightFullOverlap(flagChannel1064), 1);
-if ~ isempty(fullOvlpIndx355)
-    att_beta_355(1:fullOvlpIndx355, :) = repmat(att_beta_355(fullOvlpIndx355, :), fullOvlpIndx355, 1);
-else
-    warning('The full overlap height is too high. Please check the configuration file.');
-end
-if ~ isempty(fullOvlpIndx532)
-    att_beta_532(1:fullOvlpIndx532, :) = repmat(att_beta_532(fullOvlpIndx532, :), fullOvlpIndx532, 1);
-else
-    warning('The full overlap height is too high. Please check the configuration file.');
-end
-if ~ isempty(fullOvlpIndx1064)
-    att_beta_1064(1:fullOvlpIndx1064, :) = repmat(att_beta_1064(fullOvlpIndx1064, :), fullOvlpIndx1064, 1);
-else
-    warning('The full overlap height is too high. Please check the configuration file.');
-end
+mol_att_387 = exp(- cumsum(molExt387 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
+mol_att_607 = exp(- cumsum(molExt607 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_355, quasi_par_ext_355] = quasi_retrieving(data.height, att_beta_355, molExt355, molBsc355, config.LR355, 6);
-[quasi_par_bsc_532, quasi_par_ext_532] = quasi_retrieving(data.height, att_beta_532, molExt532, molBsc532, config.LR532, 6);
-[quasi_par_bsc_1064, quasi_par_ext_1064] = quasi_retrieving(data.height, att_beta_1064, molExt1064, molBsc1064, config.LR1064, 2);
+[quasi_par_bsc_355_V2, quasi_par_ext_355_V2] = quasi_retrieving_V2(data.height, att_beta_355, att_beta_387, 355, molExt355, molBsc355, molExt387, molBsc387, 0.5, 50, 3);
+quasi_par_bsc_355_V2 = smooth2(quasi_par_bsc_355_V2, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
+[quasi_par_bsc_532_V2, quasi_par_ext_532_V2] = quasi_retrieving_V2(data.height, att_beta_532, att_beta_607, 532, molExt532, molBsc532, molExt607, molBsc607, 0.5, 50, 3);
+quasi_par_bsc_532_V2 = smooth2(quasi_par_bsc_532_V2, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
+[quasi_par_bsc_1064_V2, quasi_par_ext_1064_V2] = quasi_retrieving_V2(data.height, att_beta_1064, att_beta_607, 1064, molExt1064, molBsc1064, molExt607, molBsc607, 0.5, 50, 3);
+quasi_par_bsc_1064_V2 = smooth2(quasi_par_bsc_1064_V2, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
 
-% quasi particle depolarization ratio and Ångström exponents
-quasi_par_depol_532 = (volDepol_532_smooth + 1) ./ (molBsc532 .* (defaults.molDepol532 - volDepol_532_smooth) ./ (quasi_par_bsc_532 .* (1 + defaults.molDepol532)) + 1) - 1;
-quasi_par_depol_532((quality_mask_volDepol_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
+%% quasi particle depolarization ratio and Ångström exponents
+quasi_par_depol_532_V2 = (volDepol_532_smooth + 1) ./ (molBsc532 .* (defaults.molDepol532 - volDepol_532_smooth) ./ (quasi_par_bsc_532_V2 .* (1 + defaults.molDepol532)) + 1) - 1;
+quasi_par_depol_532_V2((quality_mask_volDepol_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 
-ratio_par_bsc_355_532 = quasi_par_bsc_532 ./ quasi_par_bsc_355;
-ratio_par_bsc_1064_532 = quasi_par_bsc_1064 ./ quasi_par_bsc_532;
-ratio_par_bsc_355_1064 = quasi_par_bsc_1064 ./ quasi_par_bsc_355;
+ratio_par_bsc_355_532 = quasi_par_bsc_532_V2 ./ quasi_par_bsc_355_V2;
+ratio_par_bsc_1064_532 = quasi_par_bsc_1064_V2 ./ quasi_par_bsc_532_V2;
+ratio_par_bsc_355_1064 = quasi_par_bsc_1064_V2 ./ quasi_par_bsc_355_V2;
 % remove the negative ratio
 ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
 ratio_par_bsc_1064_532(ratio_par_bsc_1064_532 <= 0) = NaN;
 ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 
-quasi_ang_355_532 = log(ratio_par_bsc_355_532) ./ log(355/532);
-quasi_ang_532_1064 = log(ratio_par_bsc_1064_532) ./ log(532/1064);
-quasi_ang_355_1064 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
+quasi_ang_355_532_V2 = log(ratio_par_bsc_355_532) ./ log(355/532);
+quasi_ang_532_1064_V2 = log(ratio_par_bsc_1064_532) ./ log(532/1064);
+quasi_ang_355_1064_V2 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
 
 end
