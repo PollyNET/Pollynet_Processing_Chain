@@ -77,6 +77,8 @@ quality_mask_volDepol_532_V2 = quality_mask_volDepol_532;
 quality_mask_volDepol_532_V2((quality_mask_volDepol_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
 
 % set data with the influence from (depol calibration, noise, fog and laser shutter on) to NaN
+att_beta_532 = data.att_beta_532;
+att_beta_607 = data.att_beta_607;
 att_beta_532(quality_mask_532 ~= 0) = NaN;
 att_beta_607(quality_mask_607 ~= 0) = NaN;
 
