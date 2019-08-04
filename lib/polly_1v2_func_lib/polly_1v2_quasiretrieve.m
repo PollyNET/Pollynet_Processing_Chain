@@ -61,6 +61,7 @@ quality_mask_532(:, data.fogMask) = 4;
 quality_mask_volDepol_532(:, data.fogMask) = 4;
 
 % set data with the influence from (depol calibration, noise, fog and laser shutter on) to NaN
+att_beta_532 = data.att_beta_532;
 att_beta_532(quality_mask_532 ~= 0) = NaN;
 
 % smooth the data
