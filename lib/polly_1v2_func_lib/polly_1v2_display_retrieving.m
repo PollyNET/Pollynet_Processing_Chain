@@ -487,6 +487,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     for iGroup = 1:size(data.cloudFreeGroups, 1)
+        
+        startIndx = data.cloudFreeGroups(iGroup, 1);
+        endIndx = data.cloudFreeGroups(iGroup, 2);
 
         if isfield('config', 'smoothWin_klett_532')
             smoothWin_532 = config.smoothWin_532;

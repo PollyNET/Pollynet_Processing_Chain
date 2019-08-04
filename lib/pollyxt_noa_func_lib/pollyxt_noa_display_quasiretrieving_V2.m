@@ -29,7 +29,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     quasi_bsc_532 = data.quasi_par_beta_532_V2;
-    quasi_bsc_532(data.quality_mask_532 ~= 0) = NaN;
+    quasi_bsc_532(data.quality_mask_532_V2 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_bsc_532 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis(config.quasi_beta_cRange_532);
@@ -64,7 +64,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     quasi_bsc_1064 = data.quasi_par_beta_1064_V2;
-    quasi_bsc_1064(data.quality_mask_1064 ~= 0) = NaN;
+    quasi_bsc_1064(data.quality_mask_1064_V2 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_bsc_1064 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis(config.quasi_beta_cRange_1064);
@@ -99,7 +99,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     quasi_pardepol_532 = data.quasi_parDepol_532_V2;
-    quasi_pardepol_532(data.quality_mask_532 ~= 0) = NaN;
+    quasi_pardepol_532(data.quality_mask_532_V2 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_pardepol_532); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis(config.quasi_Par_DR_cRange_532);
@@ -134,7 +134,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     quasi_ang_532_1064 = data.quasi_ang_532_1064_V2;
-    quasi_ang_532_1064(data.quality_mask_532 ~= 0) = NaN;
+    quasi_ang_532_1064(data.quality_mask_532_V2 ~= 0) = NaN;
     p1 = pcolor(data.mTime, data.height, quasi_ang_532_1064); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([0, 2]);
@@ -171,9 +171,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     quasi_bsc_532 = data.quasi_par_beta_532_V2;
-    quality_mask_532 = data.quality_mask_532;
+    quality_mask_532 = data.quality_mask_532_V2;
     quasi_bsc_1064 = data.quasi_par_beta_1064_V2;
-    quality_mask_1064 = data.quality_mask_1064;
+    quality_mask_1064 = data.quality_mask_1064_V2;
     quasi_pardepol_532 = data.quasi_parDepol_532_V2;
     quasi_ang_532_1064 = data.quasi_ang_532_1064_V2;
     height = data.height;

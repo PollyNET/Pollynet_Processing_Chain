@@ -182,7 +182,7 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
     lineColor = {'overlap': '#f48f42', 'windowwipe': '#ff66ff', 'flashlamps': '#993333', 'pulsepower': '#990099', 'restart': '#ffff00', 'NDChange': '#333300', 'else': '#00ff00'}
 
     # display lidar constants at 355mn
-    fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(6, figsize=(8,18), sharex=True, gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1], 'hspace': 0.1})
+    fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(6, figsize=(10,12), sharex=True, gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1], 'hspace': 0.1})
     plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
 
     # lidar constants at 355 nm
@@ -273,7 +273,7 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 355/387 nm
     flagRamanLC = np.logical_and(LC355Status == 2, LC387Status == 2)
-    p1 = ax4.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC355History[flagRamanLC] / LC387History[flagRamanLC] / 1.436, s=7, c='#0000ff', marker='o')
+    p1 = ax4.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC355History[flagRamanLC] / LC387History[flagRamanLC], s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
@@ -299,7 +299,7 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
-    p1 = ax5.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC532History[flagRamanLC] / LC607History[flagRamanLC] / 1.436, s=7, c='#0000ff', marker='o')
+    p1 = ax5.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC532History[flagRamanLC] / LC607History[flagRamanLC], s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:

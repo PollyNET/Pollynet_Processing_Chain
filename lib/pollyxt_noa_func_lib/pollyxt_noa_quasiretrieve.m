@@ -120,9 +120,9 @@ att_beta_532(quality_mask_532 ~= 0) = NaN;
 att_beta_1064(quality_mask_1064 ~= 0) = NaN;
 
 % smooth the data
-att_beta_355 = smooth2(data.att_beta_355, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
-att_beta_532 = smooth2(data.att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
-att_beta_1064 = smooth2(data.att_beta_1064, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
+att_beta_355 = smooth2(att_beta_355, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
+att_beta_532 = smooth2(att_beta_532, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
+att_beta_1064 = smooth2(att_beta_1064, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
 sig532Tot = squeeze(data.signal(flagChannel532Tot, :, :));
 sig532Tot(:, data.depCalMask) = NaN;
 sig532Cro = squeeze(data.signal(flagChannel532Cro, :, :));
