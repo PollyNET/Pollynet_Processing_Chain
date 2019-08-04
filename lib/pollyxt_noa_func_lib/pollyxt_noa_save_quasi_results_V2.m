@@ -1,7 +1,7 @@
-function [] = pollyxt_noa_save_quasi_results(data, taskInfo, config)
-%pollyxt_noa_save_quasi_results Saving the quasi retrieving results to netcdf file.
+function [] = pollyxt_noa_save_quasi_results_V2(data, taskInfo, config)
+%pollyxt_noa_save_quasi_results_V2 Saving the quasi retrieving results (V2) to netcdf file.
 %   Example:
-%       [] = pollyxt_noa_save_quasi_results(data, config)
+%       [] = pollyxt_noa_save_quasi_results_V2(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -12,14 +12,13 @@ function [] = pollyxt_noa_save_quasi_results(data, taskInfo, config)
 %   Outputs:
 %       
 %   History:
-%       2018-12-30. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%       2019-08-03. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results_V2.nc', rmext(taskInfo.dataFilename)));
 
 ncID = netcdf.create(ncfile, 'clobber');
 
@@ -51,10 +50,10 @@ netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532);
-netcdf.putVar(ncID, varID_quasi_bsc_1064, data.quasi_par_beta_1064);
-netcdf.putVar(ncID, varID_quasi_pardepol_532, data.quasi_parDepol_532);
-netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.quasi_ang_532_1064);
+netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532_V2);
+netcdf.putVar(ncID, varID_quasi_bsc_1064, data.quasi_par_beta_1064_V2);
+netcdf.putVar(ncID, varID_quasi_pardepol_532, data.quasi_parDepol_532_V2);
+netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.quasi_ang_532_1064_V2);
 netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532);
 netcdf.putVar(ncID, varID_quality_mask_1064, data.quality_mask_1064);
 netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_volDepol_532);

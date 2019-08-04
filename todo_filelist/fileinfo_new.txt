@@ -1,5 +1,5 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_00_00_01.nc.zip, 239666052, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_06_00_01.nc.zip, 239666052, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_12_00_01.nc.zip, 88212932, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_14_18_07.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_14_18_07.nc.zip, 146796996, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_07_29_Mon_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201907\2019_07_29_Mon_LACROS_18_00_01.nc.zip, 239666052, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_04_10_Sun_NOA_00_00_01.nc, pollyxt_noa\data_zip\201604\2016_04_10_Sun_NOA_00_00_01.nc.zip, 184361184, POLLYXT_NOA
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_04_10_Sun_NOA_06_00_01.nc, pollyxt_noa\data_zip\201604\2016_04_10_Sun_NOA_06_00_01.nc.zip, 184361184, POLLYXT_NOA
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_04_10_Sun_NOA_12_00_01.nc, pollyxt_noa\data_zip\201604\2016_04_10_Sun_NOA_12_00_01.nc.zip, 92950620, POLLYXT_NOA
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_04_10_Sun_NOA_15_14_06.nc, pollyxt_noa\data_zip\201604\2016_04_10_Sun_NOA_15_14_06.nc.zip, 84244852, POLLYXT_NOA
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_noa\data_zip, 2016_04_10_Sun_NOA_18_00_01.nc, pollyxt_noa\data_zip\201604\2016_04_10_Sun_NOA_18_00_01.nc.zip, 184361184, POLLYXT_NOA

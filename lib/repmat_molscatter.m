@@ -1,7 +1,7 @@
-function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, meteorInfo)
+function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(mTime, alt, meteorInfo)
 %repmat_molscatter Read GDAS1 meteorological data and calculate molecule optical properties, then repmat it to the lidar measurment grids.
 %   Example:
-%       [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(mTime, alt, meteorInfo)
+%       [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(mTime, alt, meteorInfo)
 %   Inputs:
 %       mTime: array
 %           datetime for each polly profile. [datenum] 
@@ -37,8 +37,17 @@ function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, gl
 %               the source of meteorological data.
 %           datetime: float
 %               the time stamp for the meteorological data.
+%       molBsc387: matrix
+%           molecule backscatter coefficient at 387 nm with a size of numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%       molExt387: matrix
+%           molecule extinction coefficient at 387 nm with a size of numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%       molBsc607: matrix
+%           molecule backscatter coefficient at 607 nm with a size of numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%       molExt607: matrix
+%           molecule extinction coefficient at 607 nm with a size of numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
 %   History:
 %       2018-12-25. First Edition by Zhenping
+%       2019-08-03. Add the output of molecular backscatter and extinction at 387 and 407 nm.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -48,6 +57,10 @@ molBsc532 = [];
 molExt532 = [];
 molBsc1064 = [];
 molExt1064 = [];
+molBsc387 = [];
+molExt387 = [];
+molBsc532 = [];
+molExt532 = [];
 globalAttri = struct();
 globalAttri.source = 'none';
 globalAttri.datetime = [];
@@ -65,6 +78,8 @@ pressure = interp_meteor(altRaw, presRaw, alt);
 [thisMolBsc355, thisMolExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
 [thisMolBsc532, thisMolExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
 [thisMolBsc1064, thisMolExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+[thisMolBsc387, thisMolExt387] = rayleigh_scattering(387, pressure, temperature + 273.17, 380, 70);
+[thisMolBsc607, thisMolExt607] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
 
 % repmat the signal profile to the whole lidar grid
 molBsc355 = repmat(transpose(thisMolBsc355), 1, numel(mTime));
@@ -73,5 +88,9 @@ molBsc532 = repmat(transpose(thisMolBsc532), 1, numel(mTime));
 molExt532 = repmat(transpose(thisMolExt532), 1, numel(mTime));
 molBsc1064 = repmat(transpose(thisMolBsc1064), 1, numel(mTime));
 molExt1064 = repmat(transpose(thisMolExt1064), 1, numel(mTime));
+molBsc387 = repmat(transpose(thisMolBsc387), 1, numel(mTime));
+molExt387 = repmat(transpose(thisMolExt387), 1, numel(mTime));
+molBsc607 = repmat(transpose(thisMolBsc607), 1, numel(mTime));
+molExt607 = repmat(transpose(thisMolExt607), 1, numel(mTime));
 
 end
