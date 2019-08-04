@@ -1,5 +1,28 @@
 ## Pollynet Processing Chain Changelog
 
+### Version 1.3
+
+#### Release date
+
+2019-08-04
+
+#### New features
+
+1. Quasi-retrieving algorithm 2 with using channel ratio between Elastic and Raman signal
+2. Rayleigh fit plot with normalization of the range-corrected signal at the reference height
+3. Figures for results and aerosol TC from Quasi-retrieving algorithms 2
+4. New housekeeping plots to include the `EN` and `shutter2`
+5. Add `polly_global_config.json` to load defaults settings
+6. Enable easy installation
+7. Enable fully auto depol calibration
+8. `Professional` git branches and management
+   
+#### TODO 
+
+* Documentations for algorithms and programs
+* Products design (Product level and structure and variables)
+* Error analysis
+
 ### Version 1.2
 
 #### Release date

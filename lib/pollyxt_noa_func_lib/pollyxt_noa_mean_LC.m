@@ -48,7 +48,6 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %   Contact:
 %       zhenping@tropos.de
 
-%% TODO: if no lidar calibration or too much uncertainty read history lidar constants.
 
 global defaults campaignInfo processInfo
 

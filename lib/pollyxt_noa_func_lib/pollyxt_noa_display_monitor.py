@@ -128,17 +128,17 @@ def pollyxt_noa_display_monitor(tmpFile, saveFolder):
             ax1.set_ylabel("AD [au]", fontweight='semibold', fontsize=15)
         else:
             ax1.plot(time, EN)
-            ax1.set_ylim([420, 550])
+            # ax1.set_ylim([420, 550])
             ax1.set_ylabel("EN [mJ]", fontweight='semibold', fontsize=15)
     else:
         ax1.plot(time, EN)
-        ax1.set_ylim([420, 550])
+        # ax1.set_ylim([420, 550])
         ax1.set_ylabel("EN [mJ]", fontweight='semibold', fontsize=15)
 
     ax1.set_title('Housekeeping data for {polly} at {site}'.format(polly=pollyVersion, site=location), fontweight='bold', fontsize=20)
 
     ax2.plot(time, ExtPyro, marker='.', color='#8000ff')
-    ax2.set_ylim([1, 37])
+    # ax2.set_ylim([1, 37])
     ax2.set_xlim([mTime[0], mTime[-1]])
     ax2.set_ylabel("ExtPyro [mJ]", fontweight='semibold', fontsize=15)
     ax2.grid(True)
@@ -149,7 +149,7 @@ def pollyxt_noa_display_monitor(tmpFile, saveFolder):
     ax3.plot(time, WT, color='#808080', label='Water T')
     ax3.plot(time, OutsideT, color='#800080', label='Outside T')
     ax3.set_xlim([mTime[0], mTime[-1]])
-    # ax3.set_ylim([-30, 50])
+    ax3.set_ylim([0, 40])
     ax3.grid(True)
     ax3.set_ylabel(r'Temperature [$^\circ C$]', fontweight='semibold', fontsize=15)
     ax3.yaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(1))

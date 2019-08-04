@@ -54,9 +54,9 @@ netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532_V2);
 netcdf.putVar(ncID, varID_quasi_bsc_1064, data.quasi_par_beta_1064_V2);
 netcdf.putVar(ncID, varID_quasi_pardepol_532, data.quasi_parDepol_532_V2);
 netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.quasi_ang_532_1064_V2);
-netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532);
-netcdf.putVar(ncID, varID_quality_mask_1064, data.quality_mask_1064);
-netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_volDepol_532);
+netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532_V2);
+netcdf.putVar(ncID, varID_quality_mask_1064, data.quality_mask_1064_V2);
+netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_volDepol_532_V2);
 
 % re enter define mode
 netcdf.reDef(ncID);
