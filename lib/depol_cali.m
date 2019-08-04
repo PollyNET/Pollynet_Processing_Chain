@@ -102,6 +102,10 @@ for iDay = 1:nDays
                         time >= depol_cali_nAng_time_start(iDepolCal) & ... 
                         time <= (depol_cali_nAng_time_end(iDepolCal)));
 
+        % if not enough depol cali profiles were found, break the current depol cali
+        if (length(indx_45p) < 4) | (length(indx_45m) < 4)
+            break;
+        end
         thisCaliTime = time(floor(mean([indx_45m, indx_45p])));
 
         % neglect the first and last profile which could be unstable due to the rotation of the polarizer

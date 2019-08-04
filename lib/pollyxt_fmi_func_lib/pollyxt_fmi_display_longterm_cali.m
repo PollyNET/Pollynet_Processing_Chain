@@ -256,7 +256,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355/387 nm
     subplot('Position', figPos(4, :), 'Units', 'Normalized');
     flagRamanLC = (LC387Status == 2) & (LC355Status == 2);
-    scatter(LCTime(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC) / 1.436, 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
+    scatter(LCTime(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -298,7 +298,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 532/607 nm
     subplot('Position', figPos(5, :), 'Units', 'Normalized');
     flagRamanLC = (LC607Status == 2) & (LC532Status == 2);
-    scatter(LCTime(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC) / 1.71, 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
+    scatter(LCTime(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
