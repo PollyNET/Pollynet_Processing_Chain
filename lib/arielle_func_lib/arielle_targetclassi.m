@@ -32,6 +32,8 @@ if isempty(tc_mask)
     return;
 end
 
+% filter the 
+
 % some flags
 flag_isnan_att_beta_355 = isnan(data.att_beta_355);
 flag_isnan_par_beta_1064 = isnan(data.quasi_par_beta_1064);

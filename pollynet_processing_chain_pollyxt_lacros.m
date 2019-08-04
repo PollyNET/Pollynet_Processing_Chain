@@ -1,5 +1,5 @@
 function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_POLLYXT_lacros processing the data from pollyxt_lacros
+%POLLYNET_PROCESSING_CHAIN_pollyxt_lacros processing the data from pollyxt_lacros
 %	Example:
 %		[report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 %	Inputs:
@@ -124,8 +124,6 @@ end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
 [data.el355, data.bgEl355, data.el532, data.bgEl532] = pollyxt_lacros_transratioCor(data, config);
-
-% TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_lacros_klett(data, config);
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_lacros_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_lacros_raman(data, config);
@@ -155,10 +153,12 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_355, att_beta_532, att_beta_1064] = pollyxt_lacros_att_beta(data, config);
+[att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_lacros_att_beta(data, config);
 data.att_beta_355 = att_beta_355;
 data.att_beta_532 = att_beta_532;
 data.att_beta_1064 = att_beta_1064;
+data.att_beta_387 = att_beta_387;
+data.att_beta_607 = att_beta_607;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -167,18 +167,31 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
+%% quasi-retrieving V2 (with using Raman signal)
+fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).\n', tNow());
+[data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_532_V2, ~, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_355_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_lacros_quasiretrieve_V2(data, config);
+data.quasiAttri_V2 = quasiAttri_V2;
+fprintf('[%s] Finish.\n', tNow());
+
 %% target classification
-fprintf('\n[%s] Start to aerosol target classification.\n', tNow());
+fprintf('\n[%s] Start to aerosol target classification with quasi results.\n', tNow());
 tc_mask = pollyxt_lacros_targetclassi(data, config);
 data.tc_mask = tc_mask;
+fprintf('[%s] Finish.\n', tNow());
+
+%% target classification with quasi-retrieving V2
+fprintf('\n[%s] Start to aerosol target classification with quasi results (V2).\n', tNow());
+tc_mask_V2 = pollyxt_lacros_targetclassi_V2(data, config);
+data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
 %% saving results
 if processInfo.flagEnableResultsOutput
 
+    fprintf('\n[%s] Start to save results.\n', tNow());
     %% save depol cali results
     pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
-    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
+    pollyxt_lacros_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -200,27 +213,35 @@ if processInfo.flagEnableResultsOutput
 
     %% save water vapor mixing ratio and relative humidity
     pollyxt_lacros_save_WVMR_RH(data, taskInfo, config);
-
+    
     %% save volume depolarization ratio
     pollyxt_lacros_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_lacros_save_quasi_results(data, taskInfo, config);
 
+    %% save quasi results V2
+    pollyxt_lacros_save_quasi_results_V2(data, taskInfo, config);
+
     %% save target classification results
     pollyxt_lacros_save_tc(data, taskInfo, config);
- 
+
+    %% save target classification results V2
+    pollyxt_lacros_save_tc_V2(data, taskInfo, config);
+
+    fprintf('[%s] Finish.\n', tNow());
 end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
+        
     fprintf('\n[%s] Start to visualize results.\n', tNow());
 
     %% display monitor status
     disp('Display housekeeping')
     pollyxt_lacros_display_monitor(data, taskInfo, config);
 
-    % display signal
+    %% display signal
     disp('Display RCS and volume depolarization ratio')
     pollyxt_lacros_display_rcs(data, taskInfo, config);
 
@@ -251,21 +272,28 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_lacros_display_quasiretrieving(data, taskInfo, config);
+    
+    %% display quasi backscatter, particle depol and angstroem exponent V2 
+    disp('Display quasi parameters V2')
+    pollyxt_lacros_display_quasiretrieving_V2(data, taskInfo, config);
 
     %% target classification
     disp('Display target classifications')
     pollyxt_lacros_display_targetclassi(data, taskInfo, config);
 
+    %% target classification V2
+    disp('Display target classifications V2')
+    pollyxt_lacros_display_targetclassi_V2(data, taskInfo, config);
+
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     pollyxt_lacros_display_lidarconst(data, taskInfo, config);
-
+    
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     pollyxt_lacros_display_longterm_cali(taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
-
 end
 
 %% get report
