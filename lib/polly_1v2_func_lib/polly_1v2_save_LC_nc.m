@@ -13,6 +13,7 @@ function [] = polly_1v2_save_LC_nc(data, taskInfo, config)
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%       2019-08-04. Save the LC_raman_607
 %   Contact:
 %       zhenping@tropos.de
 
@@ -33,6 +34,8 @@ LC_raman_532 = data.LC.LC_raman_532;
 LC_raman_532(isnan(LC_raman_532)) = missingValue;
 LC_aeronet_532 = data.LC.LC_aeronet_532;
 LC_aeronet_532(isnan(LC_aeronet_532)) = missingValue;
+LC_raman_607 = data.LC.LC_raman_607;
+LC_raman_607(isnan(LC_raman_607)) = missingValue;
 
 if isempty(data.cloudFreeGroups)
     return;
@@ -54,10 +57,14 @@ varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_LC_klett_532 = netcdf.defVar(ncID, 'LC_klett_532nm', 'NC_DOUBLE', dimID_time);
 varID_LC_raman_532 = netcdf.defVar(ncID, 'LC_raman_532nm', 'NC_DOUBLE', dimID_time);
+varID_LC_raman_607 = netcdf.defVar(ncID, 'LC_raman_607nm', 'NC_DOUBLE', dimID_time);
 varID_LC_aeronet_532 = netcdf.defVar(ncID, 'LC_aeronet_532nm', 'NC_DOUBLE', dimID_time);
 varID_LC_used_532 = netcdf.defVar(ncID, 'LCMean532nm', 'NC_DOUBLE', dimID_constant);
 varID_LC_usedtag_532 = netcdf.defVar(ncID, 'LCMean532_flag', 'NC_SHORT', dimID_constant);
 varID_LC_warning_532 = netcdf.defVar(ncID, 'LCMean532_warning', 'NC_SHORT', dimID_constant);
+varID_LC_used_607 = netcdf.defVar(ncID, 'LCMean607nm', 'NC_DOUBLE', dimID_constant);
+varID_LC_usedtag_607 = netcdf.defVar(ncID, 'LCMean607_flag', 'NC_SHORT', dimID_constant);
+varID_LC_warning_607 = netcdf.defVar(ncID, 'LCMean607_warning', 'NC_SHORT', dimID_constant);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -73,9 +80,13 @@ netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_LC_klett_532, LC_klett_532);
 netcdf.putVar(ncID, varID_LC_raman_532, LC_raman_532);
 netcdf.putVar(ncID, varID_LC_aeronet_532, LC_aeronet_532);
+netcdf.putVar(ncID, varID_LC_raman_607, LC_raman_607);
 netcdf.putVar(ncID, varID_LC_used_532, data.LCUsed.LCUsed532);
 netcdf.putVar(ncID, varID_LC_usedtag_532, data.LCUsed.LCUsedTag532);
 netcdf.putVar(ncID, varID_LC_warning_532, int32(data.LCUsed.flagLCWarning532));
+netcdf.putVar(ncID, varID_LC_used_607, data.LCUsed.LCUsed607);
+netcdf.putVar(ncID, varID_LC_usedtag_607, data.LCUsed.LCUsedTag607);
+netcdf.putVar(ncID, varID_LC_warning_607, int32(data.LCUsed.flagLCWarning607));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -147,6 +158,16 @@ netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'comment', 'Lidar constant at 532 nm based on Constrained-AOD method. The constant value is aimed at 30-s profile.');
 
+% LC_raman_607
+netcdf.putAtt(ncID, varID_LC_raman_607, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_raman_607, 'long_name', 'Lidar constant at 607 nm with Raman method');
+netcdf.putAtt(ncID, varID_LC_raman_607, 'standard_name', 'LC_raman_607');
+netcdf.putAtt(ncID, varID_LC_raman_607, '_FillValue', missingValue);
+netcdf.putAtt(ncID, varID_LC_raman_607, 'plot_range', config.LC607Range);
+netcdf.putAtt(ncID, varID_LC_raman_607, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_LC_raman_607, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_LC_raman_607, 'comment', 'Lidar constant at 607 nm based on raman method. The constant value is aimed at 30-s profile.');
+
 % LC_used_532
 netcdf.putAtt(ncID, varID_LC_used_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_532, 'long_name', 'Actual lidar constant at 532 nm in application.');
@@ -170,6 +191,30 @@ netcdf.putAtt(ncID, varID_LC_warning_532, 'long_name', 'flag to show whether the
 netcdf.putAtt(ncID, varID_LC_warning_532, 'standard_name', 'LC_warning_532');
 netcdf.putAtt(ncID, varID_LC_warning_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_warning_532, 'definition', '1: yes; 0: no');
+
+% LC_used_607
+netcdf.putAtt(ncID, varID_LC_used_607, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_used_607, 'long_name', 'Actual lidar constant at 607 nm in application.');
+netcdf.putAtt(ncID, varID_LC_used_607, 'standard_name', 'LC_used_607');
+netcdf.putAtt(ncID, varID_LC_used_607, '_FillValue', missingValue);
+netcdf.putAtt(ncID, varID_LC_used_607, 'plot_range', config.LC607Range);
+netcdf.putAtt(ncID, varID_LC_used_607, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_LC_used_607, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_LC_used_607, 'comment', 'The constant value is aimed at 30-s profile.');
+
+% LC_usedtag_607
+netcdf.putAtt(ncID, varID_LC_usedtag_607, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_usedtag_607, 'long_name', 'Actual lidar constant at 607 nm in application.');
+netcdf.putAtt(ncID, varID_LC_usedtag_607, 'standard_name', 'LC_usedtag_607');
+netcdf.putAtt(ncID, varID_LC_usedtag_607, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_LC_usedtag_607, 'definition', '0: no calibration; 1: klett; 2: raman; 3: defaults');
+
+% LC_warning_607
+netcdf.putAtt(ncID, varID_LC_warning_607, 'unit', '');
+netcdf.putAtt(ncID, varID_LC_warning_607, 'long_name', 'flag to show whether the calibration constants is unstalbe.');
+netcdf.putAtt(ncID, varID_LC_warning_607, 'standard_name', 'LC_warning_607');
+netcdf.putAtt(ncID, varID_LC_warning_607, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_LC_warning_607, 'definition', '1: yes; 0: no');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

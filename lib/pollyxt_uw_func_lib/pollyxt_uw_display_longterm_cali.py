@@ -310,7 +310,7 @@ def pollyxt_uw_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 355/387 nm
     flagRamanLC = np.logical_and(LC355Status == 2, LC387Status == 2)
-    p1 = ax4.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC355History[flagRamanLC] / LC387History[flagRamanLC] / 1.436, s=7, c='#0000ff', marker='o')
+    p1 = ax4.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC355History[flagRamanLC] / LC387History[flagRamanLC], s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
@@ -336,7 +336,7 @@ def pollyxt_uw_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
-    p1 = ax5.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC532History[flagRamanLC] / LC607History[flagRamanLC] / 1.436, s=7, c='#0000ff', marker='o')
+    p1 = ax5.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC532History[flagRamanLC] / LC607History[flagRamanLC], s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:

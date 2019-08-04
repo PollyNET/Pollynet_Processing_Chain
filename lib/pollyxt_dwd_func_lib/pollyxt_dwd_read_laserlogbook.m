@@ -13,6 +13,12 @@ function health = pollyxt_dwd_read_laserlogbook(file, config, flagDeleteData)
 %   Outputs:
 %		health: struct
 %   	    time: datenum array
+%			AD: array
+%				laser energy (measured inside laser head.) [a.u.]
+%			EN: array
+%				laser energy (measured inside laser head.) [mJ]
+%			counts: array
+%				flashlamp used counts.
 %       	ExtPyro: array
 %           	raw output energy (ExtPyro). [mJ]
 %       	Temp1064: array
@@ -33,6 +39,7 @@ function health = pollyxt_dwd_read_laserlogbook(file, config, flagDeleteData)
 %           	status to show whether the shutter is closed.
 %   History
 %       2018-08-05. First edition by Zhenping.
+%		2019-08-04. Parse nearly all available information in the laserlogbook. (That's cool.)
 %   Contact:
 %       zhenping@tropos.de
 
@@ -43,6 +50,12 @@ end
 %% initialize parameters
 health = struct();
 health.time = []; 
+health.AD = [];
+health.EN = [];
+health.HT = [];
+health.WT = [];
+health.LS = [];
+health.counts = [];
 health.ExtPyro = [];
 health.Temp1064 = []; 
 health.Temp1 = [];
@@ -58,34 +71,67 @@ if ~ exist(file, 'file')
 	return;
 end
 
-%% read log
-textSpec = ['%04d-%02d-%02d %02d:%02d:%02d%*s %f mJ	Temp1064: %f C, Temp1: %f C, ', ...
-			'Temp2: %f C, OutsideRH: %f %*[^,], OutsideT: %f C, roof: %d, rain: %d, shutter: %d'];
+%% read laserlog (credits to Martin's python script "pollyhk_standalone.py")
+SC_regexp = '(?<=SC,)\d*\.?\d*';
+VS_regexp = '(?<=VS,)\d*\.?\d*';
+WT_regexp = '(?<=WT,)\d*\.?\d*';
+HT_regexp = '(?<=HT,)\d*\.?\d*';
+EO_regexp = '(?<=EO,)\d*\.?\d*';
+EN_regexp = '(?<=EN,)\d*\.?\d*';
+AD_regexp = '(?<=AD,)\d*\.?\d*';
+LS_regexp = '(?<=LS,\d*,)\d*(?=,)';
+Temp1064_regexp = '(?<=Temp1064: )-?\d*\.?\d*(?= C)';
+Temp1_regexp = '(?<=Temp1: )-?\d*\.?\d*(?= C)';
+Temp2_regexp = '(?<=Temp2: )-?\d*\.?\d*(?= C)';
+OutsideRH_regexp = '(?<=OutsideRH: )\d*\.?\d*(?= %)';
+OutsideT_regexp = '(?<=OutsideT: )-?\d*\.?\d*(?= C)';
+roof_regexp = '(?<=roof: )\d{1}';
+rain_regexp = '(?<=rain: )\d{1}';
+shutter_regexp = '(?<=shutter: )\d{1}';
+ExtPyro_regexp = '(?<=ExtPyro: )\d*\.?\d*(?= mJ)';
+dateSpec = '(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})';
 
 fid = fopen(file, 'r');
 
 %% read information
+iLine = 0;
 try
-	T = textscan(fid, textSpec, 'Delimiter', ' ', 'MultipleDelimsAsOne', 1);
-	fclose(fid);
-	health.time = datenum(double(T{1}), double(T{2}), double(T{3}), double(T{4}), double(T{5}), double(T{6}));
-	health.ExtPyro = T{7};
-	health.Temp1064 = T{8}; 
-	health.Temp1 = T{9}; 
-	health.Temp2 = T{10}; 
-	health.OutsideRH = T{11}; 
-	health.OutsideT = T{12}; 
-	health.roof = T{13}; 
-	health.rain = T{14}; 
-	health.shutter = T{15};
+	while ~ feof(fid)
+		iLine = iLine + 1;
+		thisLine = fgetl(fid);
+		
+		tokenInfo = regexp(thisLine, dateSpec, 'names');
+		if ~ isempty(tokenInfo)
+			health.time = [health.time; datenum(str2num(tokenInfo.year), str2num(tokenInfo.month), str2num(tokenInfo.day), str2num(tokenInfo.hour), str2num(tokenInfo.minute), str2num(tokenInfo.second))];
+		else
+			health.time = [health.time; datenum(0,1,0,0,0,0)];
+		end
+		health.AD = [health.AD; str2num(regexp_token(thisLine, AD_regexp, '999'))];
+		health.EN = [health.EN; str2num(regexp_token(thisLine, EN_regexp, '999'))];
+		health.counts = [health.counts; str2num(regexp_token(thisLine, SC_regexp, '999'))];
+		health.HT = [health.HT; str2num(regexp_token(thisLine, HT_regexp, '999'))];
+		health.WT = [health.WT; str2num(regexp_token(thisLine, WT_regexp, '999'))];
+		health.LS = [health.LS; str2num(regexp_token(thisLine, LS_regexp, '999'))];
+		health.ExtPyro = [health.ExtPyro; str2num(regexp_token(thisLine, ExtPyro_regexp, '999'))];
+		health.Temp1064 = [health.Temp1064; str2num(regexp_token(thisLine, Temp1064_regexp, '999'))];
+		health.Temp1 = [health.Temp1; str2num(regexp_token(thisLine, Temp1_regexp, '999'))];
+		health.Temp2 = [health.Temp2; str2num(regexp_token(thisLine, Temp2_regexp, '999'))];
+		health.rain = [health.rain; str2num(regexp_token(thisLine, rain_regexp, '999'))];
+		health.roof = [health.roof; str2num(regexp_token(thisLine, roof_regexp, '999'))];
+		health.shutter = [health.shutter; str2num(regexp_token(thisLine, shutter_regexp, '999'))];
+		health.OutsideRH = [health.OutsideRH; str2num(regexp_token(thisLine, OutsideRH_regexp, '999'))];
+		health.OutsideT = [health.OutsideT; str2num(regexp_token(thisLine, OutsideT_regexp, '999'))];
+	end
 
 	% delete the laserlogbook file
 	if flagDeleteData
+		fclose(fid);
 		delete(file);
 	end
 	
 catch
-	warning('Failure in reading %s laserlogbook.\n%s\n', config.pollyVersion, file);
+	fclose(fid);
+	warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyVersion, iLine, file);
 	return
 end
 
