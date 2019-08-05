@@ -64,6 +64,8 @@ pollynet_processing_chain_main;
 
 exit;
 ENDMATLAB
+
+echo "finish!"
 }
 
 # parameter initialization
