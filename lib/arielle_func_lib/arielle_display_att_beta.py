@@ -152,7 +152,7 @@ def arielle_display_att_beta(tmpFile, saveFolder):
     # display attenuate backscatter at 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=0, vmax=5, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
