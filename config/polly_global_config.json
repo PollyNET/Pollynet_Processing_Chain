@@ -6,7 +6,7 @@
 	"flagUsePreviousDepolCali": true,
 	"flagUsePreviousWVconst": true,
     "flagUsePreviousLC": true,
-    "flagUseSameRefH": false,
+    "flagUseSameRefH": true,
     
     "MWRFolder": "",
 
@@ -175,5 +175,6 @@
 	"depolCaliFile355": "",
 	"wvCaliFile": "",
     "lcCaliFile": "",
-	"logbookFile": ""
+	"logbookFile": "",
+	"radiosondeFolder": ""
 }
