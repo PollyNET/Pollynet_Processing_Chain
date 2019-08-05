@@ -1,6 +1,9 @@
 #!/bin/bash
 # This script will help to process the current polly data with using Pollynet processing chain
 
+cwd=$(dirname "$0")
+PATH=${PATH}:$cwd
+
 #########################
 # The command line help #
 #########################
@@ -50,7 +53,7 @@ get_date_input() {
 
 # process the data
 run_matlab() {
-echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\n\n"
+echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nYear=$year\nMonth=$month\nDay=$day\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
@@ -66,7 +69,7 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/Pollynet_Processing_Chain/todo_filelist"
+TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
 year="2000"
 month="01"
 day="01"

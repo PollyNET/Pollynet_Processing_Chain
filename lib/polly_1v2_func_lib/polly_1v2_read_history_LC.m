@@ -1,7 +1,7 @@
-function [LC532, LCStd532] = polly_1v2_read_history_LC(thisTime, LCFile, config)
+function [LC532, LCStd532, LC607, LCStd607] = polly_1v2_read_history_LC(thisTime, LCFile, config)
 %polly_1v2_read_history_LC read history Lidar constant from lidar constant file.
 %   Example:
-%       [LCOut] = polly_1v2_read_history_LC(thisTime, LCFile)
+%       [LC532, LCStd532, LC607, LCStd607] = polly_1v2_read_history_LC(thisTime, LCFile, config)
 %   Inputs:
 %       thisTime: datenum
 %           current time. 
@@ -14,8 +14,13 @@ function [LC532, LCStd532] = polly_1v2_read_history_LC(thisTime, LCFile, config)
 %           history lidar constant at 532 nm. If no history results are found in the +- week lag, an empty array will be returned.
 %       LCStd532: float
 %           uncertainty of history lidar constant at 532 nm. If no history results are found in the +- week lag, an empty array will be returned.
+%       LC607: float
+%           history lidar constant at 607 nm. If no history results are found in the +- week lag, an empty array will be returned.
+%       LCStd607: float
+%           uncertainty of history lidar constant at 607 nm. If no history results are found in the +- week lag, an empty array will be returned.
 %   History:
 %       2018-12-31. First Edition by Zhenping
+%       2019-08-04. Add the output of LC at 607 mn.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -23,9 +28,12 @@ global defaults
 
 LC532 = [];
 LCStd532 = [];
+LC607 = [];
+LCStd607 = [];
 
 %% initialization
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel607 = config.isFR & config.is607nm;
 
 if ~ exist(LCFile, 'file')
     warning('Lidar constant results file does not exist!\n%s\n', LCFile);
@@ -34,8 +42,9 @@ end
 
 %% read LCFile
 fid = fopen(LCFile, 'r');
-data = textscan(fid, '%s %f %f %d', 'delimiter', ',', 'Headerlines', 1);
+data = textscan(fid, '%s %f %f %d %f %f %d', 'delimiter', ',', 'Headerlines', 1);
 
+% read the LC at 532 nm
 LCTime = NaN(1, length(data{1}));
 LC532History = NaN(1, length(data{1}));
 LCStd532History = NaN(1, length(data{1}));
@@ -47,6 +56,15 @@ LC532History = data{2};
 LCStd532History = data{3};
 LC532Status = data{4};
 
+% read the LC at 607 nm
+LCTime = NaN(1, length(data{1}));
+LC607History = NaN(1, length(data{1}));
+LCStd607History = NaN(1, length(data{1}));
+LC607Status = NaN(1, length(data{1}));
+LC607History = data{5};
+LCStd607History = data{6};
+LC607Status = data{7};
+
 fclose(fid);
 
 %% find the most closest calibrated value in the +- week.
@@ -56,6 +74,8 @@ if ~ isempty(index)
     [~, indx] = min(abs(LCTime - thisTime));
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
+    LC607 = LC607History(indx);
+    LCStd607 = LCStd607History(indx);
 else
 end
 

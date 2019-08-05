@@ -11,6 +11,8 @@ function [pollyConfig] = load_polly_config(configFile, configDir)
 %			polly configurations. Details can be found in doc/polly_config.md
 %	History:
 %		2018-12-16. First edition by Zhenping
+%       2019-08-01. Remove the conversion of depol cali time. (Don't need to set the depol cali time any more)
+%		2019-08-03. Add global polly config for unify the defaults polly settings.
 %	Contact:
 %		zhenping@tropos.de
 
@@ -28,19 +30,31 @@ if ~ exist(configFile, 'file')
 	error('Error in load_polly_config: config file does not exist.\n%s\n', configFile);
 end
 
-pollyConfig = loadjson(configFile);
-
-%% convert the cellarray to array
-depol_cal_ang_p_time = [];
-depol_cal_ang_n_time = [];
-for iCali = 1:length(pollyConfig.depol_cal_ang_p_time)
-	depol_cal_ang_p_time = [depol_cal_ang_p_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_p_time{iCali})], 'yyyymmddHH:MM:SS')];
-	depol_cal_ang_n_time = [depol_cal_ang_n_time, datenum(['00000100' char(pollyConfig.depol_cal_ang_n_time{iCali})], 'yyyymmddHH:MM:SS')];
+if ~ exist(fullfile(configDir, 'polly_global_config.json'), 'file')
+	error('Error in load_polly_config: polly global config file does not exist.\n%s\n', fullfile(configDir, 'polly_global_config.json'));
 end
-pollyConfig.depol_cal_ang_p_time = depol_cal_ang_p_time;
-pollyConfig.depol_cal_ang_n_time = depol_cal_ang_n_time;
+
+%% load polly global config
+pollyGlobalConfig = loadjson(fullfile(configDir, 'polly_global_config.json'));
+
+%% load specified polly config
+pollyConfig = loadjson(configFile);
+if ~ isstruct(pollyConfig)
+	fprintf('Warning in load_polly_config: no polly configs were loaded.\n');
+	return;
+end
 
 %% convert logical 
+pollyGlobalConfig.isFR = logical(pollyGlobalConfig.isFR);
+pollyGlobalConfig.isNR = logical(pollyGlobalConfig.isNR);
+pollyGlobalConfig.is532nm = logical(pollyGlobalConfig.is532nm);
+pollyGlobalConfig.is355nm = logical(pollyGlobalConfig.is355nm);
+pollyGlobalConfig.is1064nm = logical(pollyGlobalConfig.is1064nm);
+pollyGlobalConfig.isTot = logical(pollyGlobalConfig.isTot);
+pollyGlobalConfig.isCross = logical(pollyGlobalConfig.isCross);
+pollyGlobalConfig.is387nm = logical(pollyGlobalConfig.is387nm);
+pollyGlobalConfig.is407nm = logical(pollyGlobalConfig.is407nm);
+pollyGlobalConfig.is607nm = logical(pollyGlobalConfig.is607nm);
 pollyConfig.isFR = logical(pollyConfig.isFR);
 pollyConfig.isNR = logical(pollyConfig.isNR);
 pollyConfig.is532nm = logical(pollyConfig.is532nm);
@@ -52,9 +66,15 @@ pollyConfig.is387nm = logical(pollyConfig.is387nm);
 pollyConfig.is407nm = logical(pollyConfig.is407nm);
 pollyConfig.is607nm = logical(pollyConfig.is607nm);
 
-if ~ isstruct(pollyConfig)
-	fprintf('Warning in load_polly_config: no polly configs were loaded.\n');
-	return;
+%% overwrite polly global configs
+for fn = fieldnames(pollyConfig)'
+	if isfield(pollyGlobalConfig, fn{1})
+		pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
+	else
+		error('Unknow polly settings: %s', fn{1});
+	end
 end
+
+pollyConfig = pollyGlobalConfig;
 
 end

@@ -96,7 +96,7 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # meshgrid

@@ -124,7 +124,7 @@ netcdf.putAtt(ncID, varID_overlap532, 'unit', '');
 netcdf.putAtt(ncID, varID_overlap532, 'long_name', 'overlap function for 532nm far-range channel');
 netcdf.putAtt(ncID, varID_overlap532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_overlap532, 'valid_min', 0.0);
-netcdf.putAtt(ncID, varID_overlap532, 'valid_max', 1.0);
+netcdf.putAtt(ncID, varID_overlap532, 'valid_max', 100);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_overlap532, 'source', campaignInfo.name);
@@ -165,7 +165,10 @@ netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+cwd = pwd;
+cd(processInfo.projectDir);
 gitInfo = getGitInfo();
+cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
 
 % close file

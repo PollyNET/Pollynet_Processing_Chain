@@ -135,6 +135,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% save figure
     export_fig(gcf, overlapPicFile, '-transparent', '-r300', '-painters');
     close();
+    
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');

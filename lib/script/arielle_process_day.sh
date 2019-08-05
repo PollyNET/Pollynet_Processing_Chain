@@ -1,6 +1,10 @@
 #!/bin/bash
 # This script will help to process the current polly data with using Pollynet processing chain
 
+cwd=$(dirname "$0")
+PATH=${PATH}:$cwd
+PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
+
 #########################
 # The command line help #
 #########################
@@ -108,5 +112,8 @@ case "$1" in
     ;;
   *)
     display_help
-exit 1
-;;
+    exit 1
+    ;;
+esac
+
+exit

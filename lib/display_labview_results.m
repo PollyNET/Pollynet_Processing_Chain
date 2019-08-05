@@ -71,15 +71,15 @@ bscFR1064 = labviewData(:, 6);
 errBscFR1064 = labviewData(:, 7);
 p5 = plot(bscFR1064, heightBscFR1064, 'LineStyle', '-', 'Color', [255, 8, 78]/255, 'LineWidth', 1.5, 'DisplayName', '1064nm FR'); hold on;
 e5 = errorbar(bscFR1064(1:errorbarInterval:end), heightBscFR1064(1:errorbarInterval:end), errBscFR1064(1:errorbarInterval:end), 'horizontal', 'color', [255, 8, 78]/255, 'LineStyle', 'none', 'LineWidth', 1);
-xlim([0, 10]);
+xlim([0, 1.5]);
 ylim(yLim);
 ax = gca;
 ax.FontSize = 10;
 xlabel('Bsc. coef. (Mm^{-1}Sr^{-1})');
 ylabel('Height (km)')
-set(gca, 'XTick', 2:2:8, 'XMinorTick', 'on', 'YMinorTick', 'on');
+set(gca, 'XTick', 0:0.5:1, 'XMinorTick', 'on', 'YMinorTick', 'on');
 l = legend([p1, p2, p3, p4, p5], 'Location', 'NorthEast');
-l.Box = 'off';
+l.Box = 'on';
 
 % extinction
 subplot('Position', subPos(2, :), 'Units', 'Normalized');
@@ -118,7 +118,7 @@ ax.FontSize = 10;
 xlabel('Ext. coef. (Mm^{-1})');
 set(gca, 'XTick', 50:100:250, 'XMinorTick', 'on', 'YMinorTick', 'on', 'YTickLabel', '');
 l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
-l.Box = 'off';
+l.Box = 'on';
 
 % lidar ratio
 subplot('Position', subPos(3, :), 'Units', 'Normalized');
@@ -157,7 +157,7 @@ ax.FontSize = 10;
 xlabel('Lidar ratio (Sr)');
 set(gca, 'XTick', 20:20:80, 'XMinorTick', 'on', 'YMinorTick', 'on', 'YTickLabel', '');
 l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
-l.Box = 'off';
+l.Box = 'on';
 
 % angstroem exponent
 subplot('Position', subPos(4, :), 'Units', 'Normalized');
@@ -205,7 +205,7 @@ ax.FontSize = 10;
 xlabel('Ang. exponent');
 set(gca, 'XTick', -1:1:2, 'XMinorTick', 'on', 'YMinorTick', 'on', 'YTickLabel', '');
 l = legend([p1, p2, p3, p4, p5], 'Location', 'NorthEast');
-l.Box = 'off';
+l.Box = 'on';
 l.Interpreter = 'latex';
 
 % depol ratio
@@ -245,7 +245,7 @@ ax.FontSize = 10;
 xlabel('Depol. ratio');
 set(gca, 'XTick', 0.1:0.1:0.3, 'XMinorTick', 'on', 'YMinorTick', 'on', 'YTickLabel', '');
 l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
-l.Box = 'off';
+l.Box = 'on';
 
 text(-2.3, 1.03, sprintf('Averaged from %s to %s (smooth %d)', datestr(startTime, 'yyyymmdd HH:MM'), datestr(endTime, 'HH:MM'), smoothWin), 'Units', 'Normalized', 'FontWeight', 'Bold');
 
