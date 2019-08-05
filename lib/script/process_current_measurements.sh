@@ -31,3 +31,5 @@ for iPolly = 1:length(pollyList)
 	end
 end
 ENDMATLAB
+
+echo "Finish"
