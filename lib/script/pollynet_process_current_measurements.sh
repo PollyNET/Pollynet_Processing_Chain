@@ -48,6 +48,8 @@ end
 
 exit;
 ENDMATLAB
+
+echo "Finish"
 }
 
 # parameter initialization
