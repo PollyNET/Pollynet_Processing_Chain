@@ -26,3 +26,5 @@ for iPolly = 1:length(pollyList)
 	pollynet_process_history_data(pollyList{iPolly}, datenum(${Year}, ${Month}, ${Day}), datenum(${Year}, ${Month}, ${Day}));
 end
 ENDMATLAB
+
+echo "Finish"
