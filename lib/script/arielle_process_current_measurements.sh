@@ -3,6 +3,7 @@
 
 cwd=$(dirname "$0")
 PATH=${PATH}:$cwd
+PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 
 # parameter initialization
 POLLY_TYPE="arielle"
@@ -22,16 +23,8 @@ if isempty(pollyFile)
     exit;
 end
 
-fprintf('Found the most current polly file: \n%s\n', pollyFile);
-pause(1)
-flagCont = input('Continue...? (yes|no) [ENTER]: ');
-
-if strcmp(flagCont, 'yes')
-    write_single_to_filelist('$POLLY_TYPE', pollyFile, '$TODOLISTFOLDER', 'w');
-    pollynet_processing_chain_main;
-else
-    break;
-end
+write_single_to_filelist('$POLLY_TYPE', pollyFile, '$TODOLISTFOLDER', 'w');
+pollynet_processing_chain_main;
 
 exit;
 
