@@ -3,6 +3,7 @@
 
 cwd=$(dirname "$0")
 PATH=${PATH}:$cwd
+PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
