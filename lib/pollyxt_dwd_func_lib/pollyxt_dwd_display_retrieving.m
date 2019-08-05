@@ -612,9 +612,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
-        molRCS355 = data.LCUsed.LCUsed355 * molBsc355 .* exp(- 2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel355, startIndx:endIndx), 2) * 150 / data.hRes;
-        molRCS532 = data.LCUsed.LCUsed532 * molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
-        molRCS1064 = data.LCUsed.LCUsed1064 * molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;  
+        molRCS355 = molBsc355 .* exp(- 2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]));
+        molRCS532 = molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
+        molRCS1064 = molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));  
 
         % normalize the range-corrected signal to molecular signal
         if ~ isnan(data.refHIndx355(iGroup, 1))
