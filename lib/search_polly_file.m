@@ -65,3 +65,4 @@ pollyFile = filesWithinTimeLapse(closestIndx).name;
 filePath = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), pollyFile);
 
 end
+
