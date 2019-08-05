@@ -1,7 +1,7 @@
-function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri] = pollyxt_fmi_quasiretrieve(data, config)
+function [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri] = pollyxt_fmi_quasiretrieve(data, config)
 %pollyxt_fmi_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
-%       [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_fmi_quasiretrieve(data, config)
+%       [quasi_par_bsc_532, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = pollyxt_fmi_quasiretrieve(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -9,6 +9,8 @@ function [quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_3
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       quasi_par_bsc_355: matrix
+%           quasi particle backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}]
+%       quasi_par_bsc_532: matrix
 %           quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
 %       quasi_par_bsc_1064: matrix
 %           quasi particle backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
