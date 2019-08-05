@@ -1,7 +1,7 @@
-function [quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064_V2, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_tjk_quasiretrieve_V2(data, config)
+function [quasi_par_bsc_355_V2, quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064_V2, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_tjk_quasiretrieve_V2(data, config)
 %pollyxt_tjk_quasiretrieve_V2 Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
-%       [quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2] = pollyxt_tjk_quasiretrieve_V2(data, config)
+%       [quasi_par_bsc_355_V2, quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2] = pollyxt_tjk_quasiretrieve_V2(data, config)
 %   Input:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -9,6 +9,8 @@ function [quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, v
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       quasi_par_bsc_355_V2: matrix
+%           quasi particle backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}]
+%       quasi_par_bsc_532_V2: matrix
 %           quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
 %       quasi_par_bsc_1064_V2: matrix
 %           quasi particle_V2 backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]

@@ -163,13 +163,13 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_355, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_uw_quasiretrieve(data, config);
+[data.quasi_par_beta_355, data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_355, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_uw_quasiretrieve(data, config);
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving V2 (with using Raman signal)
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).\n', tNow());
-[data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_532_V2, ~, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_355_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_uw_quasiretrieve_V2(data, config);
+[data.quasi_par_beta_355_V2, data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_532_V2, ~, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_355_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_uw_quasiretrieve_V2(data, config);
 data.quasiAttri_V2 = quasiAttri_V2;
 fprintf('[%s] Finish.\n', tNow());
 
