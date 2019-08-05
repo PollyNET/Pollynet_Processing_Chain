@@ -1,5 +1,5 @@
 function [] = pollyxt_noa_save_quasi_results(data, taskInfo, config)
-%pollyxt_noa_save_quasi_results Saving the target classification results to netcdf file.
+%pollyxt_noa_save_quasi_results Saving the quasi retrieving results to netcdf file.
 %   Example:
 %       [] = pollyxt_noa_save_quasi_results(data, config)
 %   Inputs:

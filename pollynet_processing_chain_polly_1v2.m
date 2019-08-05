@@ -54,7 +54,7 @@ flagSaturation = polly_1v2_saturationdetect(data, config);
 data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
 
-%% depol calibration
+%% depol calibration (The current polly_1v2 has no capability for depol calibration. Therefore, only use defaults)
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
 [data, depCaliAttri] = polly_1v2_depolcali(data, config, taskInfo, defaults);
 data.depCaliAttri = depCaliAttri;
@@ -130,14 +130,15 @@ fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = polly_1v2_lidar_calibration(data, config);
 data.LC = LC;
 LCUsed = struct();
-[LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532] = polly_1v2_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
+[LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = polly_1v2_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
 data.LCUsed = LCUsed;
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_532] = polly_1v2_att_beta(data, config);
+[att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config);
 data.att_beta_532 = att_beta_532;
+data.att_beta_607 = att_beta_607;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -146,9 +147,19 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
+%% quasi-retrieving V2 (with using Raman signal)
+fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).\n', tNow());
+[data.quasi_par_beta_532_V2, data.quasi_parDepol_532_V2, ~, data.quality_mask_532_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = polly_1v2_quasiretrieve_V2(data, config);
+data.quasiAttri_V2 = quasiAttri_V2;
+fprintf('[%s] Finish.\n', tNow());
+
 % saving results
 
 if processInfo.flagEnableResultsOutput
+
+    fprintf('\n[%s] Start to save results.\n', tNow());
+    %% save depol cali results
+    polly_1v2_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
 
     %% save aerosol optical results
     polly_1v2_save_retrieving_results(data, taskInfo, config);
@@ -165,6 +176,9 @@ if processInfo.flagEnableResultsOutput
 
     %% save quasi results
     polly_1v2_save_quasi_results(data, taskInfo, config);
+
+    %% save quasi results (V2)
+    polly_1v2_save_quasi_results_V2(data, taskInfo, config);
  
     fprintf('[%s] Finish.\n', tNow());
 end   
@@ -178,17 +192,13 @@ if processInfo.flagEnableDataVisualization
     disp('Display housekeeping')
     polly_1v2_display_monitor(data, taskInfo, config);
 
-    % display signal
+    %% display signal
     disp('Display RCS and volume depolarization ratio')
     polly_1v2_display_rcs(data, taskInfo, config);
 
     %% display saturation and cloud free tags
     disp('Display signal flags')
     polly_1v2_display_saturation(data, taskInfo, config);
-
-    % %% display overlap
-    % disp('Display overlap')
-    % polly_1v2_display_overlap(data, taskInfo, overlapAttri, config);
 
     % %% optical profiles
     disp('Display profiles')
@@ -198,11 +208,15 @@ if processInfo.flagEnableDataVisualization
     disp('Display attnuated backscatter')
     polly_1v2_display_att_beta(data, taskInfo, config);
 
-    % %% display quasi backscatter, particle depol and angstroem exponent 
+    %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     polly_1v2_display_quasiretrieving(data, taskInfo, config);
 
-    % %% display lidar calibration constants
+    %% display quasi backscatter, particle depol and angstroem exponent 
+    disp('Display quasi parameters V2')
+    polly_1v2_display_quasiretrieving_V2(data, taskInfo, config);
+
+    %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_1v2_display_lidarconst(data, taskInfo, config);
     

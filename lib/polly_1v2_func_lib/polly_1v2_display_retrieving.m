@@ -487,12 +487,19 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     for iGroup = 1:size(data.cloudFreeGroups, 1)
-
+        
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
+
+        if isfield('config', 'smoothWin_klett_532')
+            smoothWin_532 = config.smoothWin_532;
+        else
+            smoothWin_532 = 20;
+        end
+
         sig532 = squeeze(mean(data.signal(flagChannel532, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs532 = sig532 .* data.height.^2;
-        rcs532(rcs532 <= 0) = NaN;
+        rcs532 = transpose(smooth(rcs532, smoothWin_532));
 
         height = data.height;
         time = data.mTime;
@@ -500,7 +507,17 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         % molecule signal
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
-        molRCS532 = data.LCUsed.LCUsed532 * molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
+        molRCS532 = molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
+
+        % normalize the range-corrected signal to molecular signal
+        if ~ isnan(data.refHIndx532(iGroup, 1))
+            % according to the ratio at the reference height
+            factor_532 = sum(molRCS532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2))) / sum(rcs532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+            rcs532 = rcs532 * factor_532;
+        else 
+            % if no reference height was found, using the lidar constants
+            rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flagChannel532, startIndx:endIndx), 2) / 150 * data.hRes;
+        end
         
         % reference height
         refHIndx532 = [data.refHIndx532(iGroup, 1), data.refHIndx532(iGroup, 2)];

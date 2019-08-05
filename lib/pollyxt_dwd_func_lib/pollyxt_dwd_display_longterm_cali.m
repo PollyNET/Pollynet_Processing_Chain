@@ -238,7 +238,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355/387 nm
     subplot('Position', figPos(4, :), 'Units', 'Normalized');
     flagRamanLC = (LC387Status == 2) & (LC355Status == 2);
-    scatter(LCTime(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC) / 1.436, 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
+    scatter(LCTime(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -280,7 +280,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 532/607 nm
     subplot('Position', figPos(5, :), 'Units', 'Normalized');
     flagRamanLC = (LC607Status == 2) & (LC532Status == 2);
-    scatter(LCTime(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC) / 1.71, 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
+    scatter(LCTime(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -342,7 +342,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display longterm cali results
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH532FR_X', 'else_time', 'else_label', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
