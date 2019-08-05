@@ -1,7 +1,7 @@
 function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCStd387, LCStd607] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %pollyxt_tropos_read_history_LC read history Lidar constant from lidar constant file.
 %   Example:
-%       [LCOut] = pollyxt_tropos_read_history_LC(thisTime, LCFile)
+%       [LCOut] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %   Inputs:
 %       thisTime: datenum
 %           current time. 

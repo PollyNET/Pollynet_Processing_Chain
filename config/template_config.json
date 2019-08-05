@@ -7,7 +7,7 @@
 	"flagUsePreviousWVconst": true,
 	"flagUsePreviousLC": true,
 
-	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc",
+	"dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
 	"gdas1Site": "",
 	"AERONETSite": "",
 
@@ -30,7 +30,8 @@
 			[0, 1, 0, 0, 0, 0]],
 	"bgCorRangeIndx": [10, 240],
 	"mask_SNRmin": [1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1], 
-	"init_depAng": 19.99,
+	"init_depAng": 999,
+	"maskDepCalAng": ["none", "none", "p", "p", "p", "p", "p", "p", "p", "p", "none", "n", "n", "n", "n", "n", "n", "n", "n"],
 	"depol_cal_minbin_532": 100,
 	"depol_cal_maxbin_532": 300,
 	"depol_cal_SNRmin_532": [1, 1, 1, 1],

@@ -24,8 +24,10 @@ LC = struct();
 LC.LC_klett_532 = [];
 LC.LC_raman_532 = [];
 LC.LC_aeronet_532 = [];
+LC.LC_raman_607 = [];
 
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel607 = config.isFR & config.is607nm;
 
 % index of full overlap adding half of the smoothing window for klett method
 hIndxFullOverlap532 = find(data.height >= config.heightFullOverlap(flagChannel532), 1);
@@ -73,12 +75,13 @@ end
     
 %% calibrate with raman-retrieved profiles
 for iGroup = 1:size(data.cloudFreeGroups, 1)
-    LC_raman_532 = NaN;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     nPros = numel(proIndx);
 
     % 532 nm
+    LC_raman_532 = NaN;
+    
     if ~ isnan(data.aerBsc532_raman(iGroup, 80))
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
@@ -103,6 +106,37 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     % concatenate the results
     LC.LC_raman_532 = cat(1, LC.LC_raman_532, LC_raman_532);
+    
+    % 607 nm
+    LC_raman_607 = NaN;
+    
+    if ~ isnan(data.aerBsc532_raman(iGroup, 80))
+        [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+        [molBsc607, molExt607] = rayleigh_scattering(607, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+    
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx), 3)) / nPros;
+    
+        % AOD
+        aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;
+        aerExt607_raman = aerExt532_raman * (532/607) .^ config.angstrexp;
+        aerAOD532 = nancumsum(aerExt532_raman .* [data.distance0(1), diff(data.distance0)]);
+        aerAOD607 = nancumsum(aerExt607_raman .* [data.distance0(1), diff(data.distance0)]);
+        molAOD532 = nancumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]);
+        molAOD607 = nancumsum(molExt607 .* [data.distance0(1), diff(data.distance0)]);
+    
+        % round-trip transmission
+        trans_532_607 = exp(- (aerAOD532 + molAOD532 + aerAOD607 + molAOD607));
+        totBsc607 = molBsc607;
+    
+        % lidar calibration
+        LC_raman_607_Profile = sig607 .* data.distance0.^2 ./ totBsc607 ./ trans_532_607;
+        [LC_raman_607, ~] = mean_stable(LC_raman_607_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
+    
+    end
+    
+    % concatenate the results
+    LC.LC_raman_607 = cat(1, LC.LC_raman_607, LC_raman_607);
+
 end
 
 %% calibrate with constrained-AOD-retrieved profiles

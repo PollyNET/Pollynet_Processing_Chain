@@ -661,18 +661,33 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     for iGroup = 1:size(data.cloudFreeGroups, 1)
+        if isfield('config', 'smoothWin_klett_355')
+            smoothWin_355 = config.smoothWin_355;
+        else
+            smoothWin_355 = 20;
+        end
+        if isfield('config', 'smoothWin_klett_532')
+            smoothWin_532 = config.smoothWin_532;
+        else
+            smoothWin_532 = 20;
+        end
+        if isfield('config', 'smoothWin_klett_1064')
+            smoothWin_1064 = config.smoothWin_1064;
+        else
+            smoothWin_1064 = 20;
+        end
 
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
         sig355 = squeeze(mean(data.signal(flagChannel355, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs355 = sig355 .* data.height.^2;
-        rcs355(rcs355 <= 0) = NaN;
+        rcs355 = transpose(smooth(rcs355, smoothWin_355));
         sig532 = squeeze(mean(data.signal(flagChannel532, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs532 = sig532 .* data.height.^2;
-        rcs532(rcs532 <= 0) = NaN;
+        rcs532 = transpose(smooth(rcs532, smoothWin_532));
         sig1064 = squeeze(mean(data.signal(flagChannel1064, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs1064 = sig1064 .* data.height.^2;
-        rcs1064(rcs1064 <= 0) = NaN;
+        rcs1064 = transpose(smooth(rcs1064, smoothWin_1064));
 
         height = data.height;
         time = data.mTime;
@@ -682,10 +697,36 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
-        molRCS355 = data.LCUsed.LCUsed355 * molBsc355 .* exp(- 2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel355, startIndx:endIndx), 2) * 150 / data.hRes;
-        molRCS532 = data.LCUsed.LCUsed532 * molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
-        molRCS1064 = data.LCUsed.LCUsed1064 * molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)])) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;  
-        
+        molRCS355 = molBsc355 .* exp(- 2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]));
+        molRCS532 = molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
+        molRCS1064 = molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));  
+
+        % normalize the range-corrected signal to molecular signal
+        if ~ isnan(data.refHIndx355(iGroup, 1))
+            % according to the ratio at the reference height
+            factor_355 = sum(molRCS355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2))) / sum(rcs355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
+            rcs355 = rcs355 * factor_355;
+        else 
+            % if no reference height was found, using the lidar constants
+            rcs355 = rcs355 / data.LCUsed.LCUsed355 * mean(data.mShots(flagChannel355, startIndx:endIndx), 2) / 150 * data.hRes;
+        end
+        if ~ isnan(data.refHIndx532(iGroup, 1))
+            % according to the ratio at the reference height
+            factor_532 = sum(molRCS532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2))) / sum(rcs532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+            rcs532 = rcs532 * factor_532;
+        else 
+            % if no reference height was found, using the lidar constants
+            rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flagChannel532, startIndx:endIndx), 2) / 150 * data.hRes;
+        end
+        if ~ isnan(data.refHIndx1064(iGroup, 1))
+            % according to the ratio at the reference height
+            factor_1064 = sum(molRCS1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2))) / sum(rcs1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            rcs1064 = rcs1064 * factor_1064;
+        else 
+            % if no reference height was found, using the lidar constants
+            rcs1064 = rcs1064 / data.LCUsed.LCUsed1064 * mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) / 150 * data.hRes;
+        end
+
         % reference height
         refHIndx355 = [data.refHIndx355(iGroup, 1), data.refHIndx355(iGroup, 2)];
         refHIndx532 = [data.refHIndx532(iGroup, 1), data.refHIndx532(iGroup, 2)];
