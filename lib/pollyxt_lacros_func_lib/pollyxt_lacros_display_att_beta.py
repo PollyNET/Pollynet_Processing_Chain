@@ -79,11 +79,26 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
         quality_mask_355 = mat['quality_mask_355'][:]
         quality_mask_532 = mat['quality_mask_532'][:]
         quality_mask_1064 = mat['quality_mask_1064'][:]
-        height = mat['height'][0][:]
-        time = mat['time'][0][:]
-        att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
-        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
-        att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        if mat['height'].size:
+            height = mat['height'][0][:]
+        else:
+            height = np.array([])
+        if mat['time'].size:
+            time = mat['time'][0][:]
+        else:
+            time = np.array([])
+        if mat['att_beta_cRange_355'].size:
+            att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
+        else:
+            att_beta_cRange_355 = np.array([])
+        if mat['att_beta_cRange_532'].size:
+            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        else:
+            att_beta_cRange_532 = np.array([])
+        if mat['att_beta_cRange_1064'].size:
+            att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        else:
+            att_beta_cRange_1064 = np.array([])
         flagLC355 = mat['flagLC355'][:][0]
         flagLC532 = mat['flagLC532'][:][0]
         flagLC1064 = mat['flagLC1064'][:][0]
@@ -94,7 +109,7 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # meshgrid
@@ -112,7 +127,7 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_355 * 1e6, vmin=att_beta_cRange_355[0], vmax=att_beta_cRange_355[1], cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_355 * 1e6, vmin=0, vmax=15, cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -137,7 +152,7 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
     # display attenuate backscatter at 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=0, vmax=5, cmap=cmap)
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
@@ -145,6 +160,7 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
@@ -184,7 +200,7 @@ def pollyxt_lacros_display_att_beta(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_lacros_display_att_beta('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_lacros_display_att_beta('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_lacros\\20180517')
 
 if __name__ == '__main__':
     # main()

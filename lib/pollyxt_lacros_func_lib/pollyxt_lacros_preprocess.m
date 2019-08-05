@@ -60,6 +60,7 @@ function [ data ] = pollyxt_lacros_preprocess(data, config)
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %       2019-07-10. Add mask for laser shutter due to approaching airplanes.
+%       2019-07-30. Add auto detection of depol cali periods.
 %   Copyright:
 %       Ground-based remote sensing (tropos)
 
@@ -139,11 +140,14 @@ for iChannel = 1: size(data.signal, 1)
     data.lowSNRMask(iChannel, SNR(iChannel, :, :) < config.mask_SNRmin(iChannel)) = true;
 end
 
-%% mask for depolarization calibration
-data.depCalMask = false(1, size(data.signal, 3));
-for iDepCal = 1:length(config.depol_cal_ang_p_time)
-    data.depCalMask = data.depCalMask | ((rem(data.mTime, 1) >= config.depol_cal_ang_p_time(iDepCal)) & (rem(data.mTime, 1) < config.depol_cal_ang_p_time(iDepCal) + datenum(0, 0, 0, 0, 10, 30)));
-end
+%% depol cal time and mask
+maskDepCalAng = config.maskDepCalAng;   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
+[depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_time(data.depCalAng, data.mTime, config.init_depAng, maskDepCalAng);
+data.depol_cal_ang_p_time_start = depol_cal_ang_p_time_start;
+data.depol_cal_ang_p_time_end = depol_cal_ang_p_time_end;
+data.depol_cal_ang_n_time_start = depol_cal_ang_n_time_start;
+data.depol_cal_ang_n_time_end = depol_cal_ang_n_time_end;
+data.depCalMask = transpose(depCalMask);
 
 %% mask for laser shutter
 data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(5, :, :)));

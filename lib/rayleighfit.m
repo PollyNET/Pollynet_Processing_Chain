@@ -42,6 +42,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, dpIn
 %       2019-05-26. Strengthen the criteria for Near-Far Range test.
 %           Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol
 %           New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
+%       2019-08-03. Using the SNR for the final determination. The higher SNR of the reference, the better.
 %   Copyright:
 %       Ground-based remote sensing. (TROPOS)
 
@@ -73,6 +74,7 @@ std_resid = NaN(1, length(dpIndx));   % standard deviation of the residual
 slope_resid = NaN(1, length(dpIndx));   % slope of the residual in the tested region
 msre_resid = NaN(1, length(dpIndx));    % mean square root error of the linear regression in the tested region
 Astat = NaN(1, length(dpIndx));    % Anderson-darling test statistics
+SNR_ref = NaN(1, length(dpIndx));   % SNR of the reference heights
 
 % search for the qualified region.
 for iIndx = 1:length(dpIndx) - 1
@@ -245,7 +247,8 @@ for iIndx = 1:length(dpIndx) - 1
     mean_resid(numTest) = nanmean(residual);
     std_resid(numTest) = nanstd(residual);
     slope_resid(numTest) = thisSlope;
-    msre_resid(numTest) =  sum(et.^2);
+    msre_resid(numTest) = sum(et.^2);
+    SNR_ref(numTest) = SNR;
 
     % Anderson Darling test after wikipedia.org  
     normP = normpdf((residual - mean_resid(numTest)) / std_resid(numTest));
@@ -264,7 +267,7 @@ if numTest == 0
 end
 
 % search the best fit region
-X_val = abs(mean_resid) .* abs(std_resid) .* abs(slope_resid) .* abs(msre_resid) .* abs(Astat);
+X_val = abs(mean_resid) .* abs(std_resid) .* abs(slope_resid) .* abs(msre_resid) .* abs(Astat) ./ SNR_ref;
 % X_val = abs(slope_resid) .* abs(msre_resid) .* abs(Astat);
 X_val(X_val == 0) = NaN;
 [~, indxBest_Int] = min(X_val);

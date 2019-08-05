@@ -1,5 +1,5 @@
 function [] = pollyxt_noa_save_quasi_results(data, taskInfo, config)
-%pollyxt_noa_save_quasi_results Saving the target classification results to netcdf file.
+%pollyxt_noa_save_quasi_results Saving the quasi retrieving results to netcdf file.
 %   Example:
 %       [] = pollyxt_noa_save_quasi_results(data, config)
 %   Inputs:
@@ -156,7 +156,10 @@ netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+cwd = pwd;
+cd(processInfo.projectDir);
 gitInfo = getGitInfo();
+cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
     
 % close file

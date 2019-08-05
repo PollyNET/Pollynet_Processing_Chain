@@ -9,6 +9,8 @@ import scipy.io as spio
 import numpy as np
 from datetime import datetime, timedelta
 
+
+
 def celltolist(xtickstr):
     tmp = []
     for iElement in range(0, len(xtickstr)):
@@ -143,28 +145,28 @@ def pollyxt_noa_display_retrieving(tmpFile, saveFolder):
         wvmrLim = mat['wvmrLim'][:][0]
 
     except Exception as e:
-        print('%s has been destroyed' % (tmpFile))
+        print('Failed reading %s' % (tmpFile))
         return
 
     # display signal
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
-    p1, = ax.semilogx(rcs355 / 1e6, height, color='#0080ff', linestyle='-', label='FR 355 nm', zorder=2)
-    p2, = ax.semilogx(rcs532 / 1e6, height, color='#80ff00', linestyle='-', label='FR 532 nm', zorder=2)
-    p3, = ax.semilogx(rcs1064 / 1e6, height, color='#ff6060', linestyle='-', label='FR 1064 nm', zorder=3)
-    p4, = ax.semilogx(molRCS355 / 1e6, height, color='#0000ff', linestyle='--', label='mol 355 nm', zorder=4)
-    p5, = ax.semilogx(molRCS532 / 1e6, height, color='#00b300', linestyle='--', label='mol 532 nm', zorder=5)
-    p6, = ax.semilogx(molRCS1064 / 1e6, height, color='#e60000', linestyle='--', label='mol 1064 nm', zorder=6)
+    p1, = ax.semilogx(rcs355 * 1e6, height, color='#0080ff', linestyle='-', label='FR 355 nm', zorder=3)
+    p2, = ax.semilogx(rcs532 * 6e6, height, color='#80ff00', linestyle='-', label='FR 532 nm (X6)', zorder=2)
+    p3, = ax.semilogx(rcs1064 * 1.2e8, height, color='#ff6060', linestyle='-', label='FR 1064 nm (X120)', zorder=1)
+    p4, = ax.semilogx(molRCS355 * 1e6, height, color='#0000ff', linestyle='--', label='mol 355 nm', zorder=4)
+    p5, = ax.semilogx(molRCS532 * 6e6, height, color='#00b300', linestyle='--', label='mol 532 nm (X6)', zorder=5)
+    p6, = ax.semilogx(molRCS1064 * 1.2e8, height, color='#e60000', linestyle='--', label='mol 1064 nm (X120)', zorder=6)
 
-    p7, = ax.plot([1], [1], color='#000000', linestyle='-', label='Reference Height')
+    p7, = ax.semilogx([1], [1], color='#000000', linestyle='-', label='Reference Height')
     if not np.isnan(refHIndx355[0]):
-        ax.semilogx(rcs355[refHIndx355[0]:refHIndx355[1]] / 1e6, height[refHIndx355[0]:refHIndx355[1]], color='#000000', zorder=7)
+        ax.semilogx(rcs355[refHIndx355[0]:refHIndx355[1]] * 1e6, height[refHIndx355[0]:refHIndx355[1]], color='#000000', zorder=9)
     if not np.isnan(refHIndx532[0]):
-        ax.semilogx(rcs532[refHIndx532[0]:refHIndx532[1]] / 1e6, height[refHIndx532[0]:refHIndx532[1]], color='#000000', zorder=8)
+        ax.semilogx(rcs532[refHIndx532[0]:refHIndx532[1]] * 6e6, height[refHIndx532[0]:refHIndx532[1]], color='#000000', zorder=8)
     if not np.isnan(refHIndx1064[0]):
-        ax.semilogx(rcs1064[refHIndx1064[0]:refHIndx1064[1]] / 1e6, height[refHIndx1064[0]:refHIndx1064[1]], color='#000000', zorder=9)
+        ax.semilogx(rcs1064[refHIndx1064[0]:refHIndx1064[1]] * 1.2e8, height[refHIndx1064[0]:refHIndx1064[1]], color='#000000', zorder=7)
 
-    ax.set_xlabel('Range-Corrected Signal [$MHz*m^2 (10^6)$]', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Range-Corrected Signal [$Mm^{-1}*sr^{-1}$]', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4, p5, p6, p7], loc='upper right', fontsize=10)
 

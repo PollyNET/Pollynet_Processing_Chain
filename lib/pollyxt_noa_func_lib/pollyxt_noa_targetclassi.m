@@ -23,6 +23,7 @@ function [tc_mask] = pollyxt_noa_targetclassi(data, config)
 %			'11: Cloud: likely ice crystal
 %   History:
 %       2018-12-25. First Edition by Zhenping
+%		2019-08-03. Include the shutter on mask
 %   Contact:
 %       zhenping@tropos.de
 
@@ -87,7 +88,7 @@ data.quasi_par_beta_532(1:hIndxFullOverlap, :) = NaN;
 data.quasi_par_beta_1064(1:hIndxFullOverlap, :) = NaN;
 
 %% set the value during the depolarization calibration period or in fog conditions to 0
-tc_mask(:, data.depCalMask | data.fogMask) = 0;
+tc_mask(:, data.depCalMask | data.fogMask | data.shutterOnMask) = 0;
 
 
 function flag_cloud = flag_cloud_search(height, beta_1064, config)

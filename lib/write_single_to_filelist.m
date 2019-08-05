@@ -34,6 +34,12 @@ else
 	config = loadjson(configFile);
 end
 
+if isempty(pollyZipFilepath) && strcmp(writeMode, 'w')
+	fid = fopen(config.fileinfo_new, 'w');
+	fclose(fid);
+	return;
+end
+
 %% filenames for data and laserlogbook
 pollyZipFolder = fileparts(pollyZipFilepath);
 pollyZipFile = basename(pollyZipFilepath);

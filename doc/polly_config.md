@@ -13,7 +13,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |flagDTCor|whether to implement deadtime correction|true||
 |flagWVCalibration|whether to implement water vapor calibration|true||
 |MWRFolder|The folder of prw results from MWR. (This is only for LACROS)|"C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR"||
-|dataFileFormat|regular expression to extract the data and time info from polly data file. (This is based on the syntax of matlab **regexp**)|"(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2}).nc"||
+|dataFileFormat|regular expression to extract the data and time info from polly data file. (This is based on the syntax of matlab **regexp**)|"(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc"||
 |gdas1Site|gdas1 site for the current campaign. (You can find the info in [gdas1-site-list.txt](/doc/gdas1-site-list.txt))|"warsaw"||
 |max_height_bin|the number of bins you want to extract for each profile. (Normally, the high altitude bins only contain noise. If you load too much bins, you will slow down the whole processing process)|2500||
 |first_range_gate_indx|the first bin for each channel. (It's highly suggested to tune this parameter to compensate the lag among different channels)|[261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262]||
@@ -22,8 +22,8 @@ I will summarize all the configurations in the table below. But you should keep 
 |dt|parameters for deadtime correction. If "dtCorMode" is set to be '2', only the deadtime for each channel need to be set here with unit of ns. If "dtCorMode" is set to be '3', the correction parameters need to be set accordingly. You can take [pollyxt_tropos_config.json](/config/pollyxt_tropos_config.json) as an example|[[0.0, 0.972992, 0.00353332, -7.90981e-006, 1.06451e-007, 1.42895e-009], [0, 1.0117, -0.0014, 0.0002, -0.0000, 0.0000], [0, 0.9674, 0.0023, 0.0000, 0.0000, 0.0000], [0, 0.9929, 0.0000, 0.0001, -0.0000, 0.0000], [0, 0.9843, 0.0022, 0.0001, -0.0000, 0.0000], [0, 0.9391, 0.0063, -0.0001, 0.0000, -0.0000], [0, 1.0035, 0.0003, 0.0001, -0.0000, 0.0000], [0, 1.0000, 0, 0, 0, 0], [0, 1.0000, 0.0029, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0025, 0.0000, 0.0000, 0.0000], [0, 1, 0, 0, 0, 0]]||
 |bgCorRangeIndx|the bottom and top index of signal to calculate the background|[10, 240]||
 |mask_SNRmin|the SNR threshold to mask noisy bins|[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]||
-|depol_cal_ang_p_time|start time for +45$^\circ$ calibration|["11:30:15", "15:00:15", "22:00:15"]||
-|depol_cal_ang_n_time|start time for -45$^\circ$ calibration|["11:35:15", "15:05:15", "22:05:15"]|
+|init_depAng|the initial angle of the polariser withou depo calibration [degree]|0||
+|maskDepCalAng|the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle|["none", "none", "p", "p", "p", "p", "p", "p", "p", "p", "none", "none", "n", "n", "n", "n", "n", "n", "n", "n"]||
 |depol_cal_minbin_{wavelength}|the minimum bin used for depolarization calibration|40||
 |depol_cal_maxbin_{wavelength}|the maximum bin used for depolarization calibration|300||
 |depol_cal_SNRmin_{wavelength}|Threshold for the minimum SNR used in depol-calibration. There are four signal profiles used in the calibration, total channel at ±45∘ and cross channel at ±45∘. Therefore, an array of four element need to be configured. Namely, [total+45∘, total−45∘, cross+45∘, cross−45∘]
@@ -98,11 +98,13 @@ I will summarize all the configurations in the table below. But you should keep 
 |search_cloud_above|The parameter is used in cloud top detection. The cloud top will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and +search_height_above|300 m|Holger, AMT, 2016|
 |search_cloud_below|The parameter is used in cloud base detection. The cloud base will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and -search_height_below|100 m|Holger, AMT, 2016|
 |overlap{wavelength}Color|the color settings for the line of overlap|[0, 255, 64]||
-|RCSProfileRange|Range of RCS in line plot. (original values have been divided 1e6)|[1e-3, 1e2]||
+|RCSProfileRange|Range of RCS in line plot. (original values have been divided by 1e6)|[1e-3, 1e2]||
+|RCS{wavelength}ColorRange|Color range of RCS in color plot.(original values have been divided by 1e6|[1e-3, 1e2]||
 |aerBscProfileRange|Range of aerosol backscatter coefficient profile|[-0.1, 10] Mm^{-1}*Sr^{-1}||
 |aerExtProfileRange|Range of aerosol extinction coefficient profile|[-1, 300] Mm^{-1}||
 |aerLRProfileRange|Range of aerosol lidar ratio profile.|[0, 120] Sr||
 |WVMRProfileRange|Range of WVMR profile|[0, 10] g*kg^{-1}||
+|WVMRColorRange|Color range of WVMR color plot|[0, 10] g*kg^{-1}||
 |LC{wavelength}Range|Range of lidar constant profile|[0, 1e14]||
 |WVConstRange|The y axis range for displaying the water vapor calibration constant | [0, 20] g*kg^{-1}||
 |depolConstRange{wavelength}|The x axis range for displaying the depolarization calibration constant| [0, 0.2]||
@@ -113,3 +115,4 @@ I will summarize all the configurations in the table below. But you should keep 
 |wvCaliFile|files to read and save water vapor calibration results|"pollyxt_tropos_wvcali_results.txt"||
 |lcCaliFile|files to read and save lidar calibration constants|"pollyxt_tropos_lccali_results.txt"||
 |logbookFile|path to the logbook file. Only the logfile generated by the pollylog program was accepted.|"C:\\Users\\StarWalker\\Documents\\Data\\PollyXT\\pollyxt_lacros\\logbook.csv"||
+|radiosondeFolder|directory of the radiosonde file. The radiosonde file should be in standardized format, which has been defined in '../doc/meteorological_file_settings.pptx'|"/home/picasso/data/radiosonde"||
