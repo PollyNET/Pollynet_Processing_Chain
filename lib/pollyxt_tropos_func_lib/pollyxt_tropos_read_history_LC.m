@@ -1,7 +1,7 @@
 function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCStd387, LCStd607] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %pollyxt_tropos_read_history_LC read history Lidar constant from lidar constant file.
 %   Example:
-%       [LCOut] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
+%       [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCStd387, LCStd607] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %   Inputs:
 %       thisTime: datenum
 %           current time. 
@@ -32,7 +32,8 @@ function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCS
 %           uncertainty of history lidar constant at 607 nm. If no history results are found in the +- week lag, an empty array will be returned.
 %   History:
 %       2018-12-31. First Edition by Zhenping
-%       2018-01-28. Add support for 387 and 607 channels
+%       2019-01-28. Add support for 387 and 607 channels
+%       2019-08-06. If no history results, using the last Raman calibration results.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -102,22 +103,45 @@ LC607Status = data{16};
 
 fclose(fid);
 
-%% find the most closest calibrated value in the +- week.
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))));
+%% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+% 355 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2));
 if ~ isempty(index)
-    % find the most closest calibrated Lidar constant
     [~, indx] = min(abs(LCTime - thisTime));
     LC355 = LC355History(indx);
     LCStd355 = LCStd355History(indx);
+end
+
+% 532 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
+end
+
+% 1064 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC1064 = LC1064History(indx);
     LCStd1064 = LCStd1064History(indx);
+end
+
+% 387 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC387 = LC387History(indx);
     LCStd387 = LCStd387History(indx);
+end
+
+% 607 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC607 = LC607History(indx);
     LCStd607 = LCStd607History(indx);
-else
 end
 
 end
