@@ -106,7 +106,7 @@ flagChannel387 = config.isFR & config.is387nm;
 flagChannel607 = config.isFR & config.is607nm;
 
 %% read history lidar constants
-[LC355History, LC532History, LC1064History, LC387History, LC607History, LCStd355History, LCStd532History, LCStd1064History, LCStd387History, LCStd607History] = arielle_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
+[LC355History, LC532History, LC1064History, LC387History, LC607History, LCStd355History, LCStd532History, LCStd1064History, LCStd387History, LCStd607History] = pollyxt_dwd_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
 
 % choose the most suitable lidar constants for 355 nm
 if ~ isnan(LC_raman_355_mean)

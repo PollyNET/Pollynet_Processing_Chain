@@ -1,7 +1,7 @@
 function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCStd387, LCStd607] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %pollyxt_tropos_read_history_LC read history Lidar constant from lidar constant file.
 %   Example:
-%       [LCOut] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
+%       [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCStd387, LCStd607] = pollyxt_tropos_read_history_LC(thisTime, LCFile, config)
 %   Inputs:
 %       thisTime: datenum
 %           current time. 
@@ -32,7 +32,8 @@ function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCS
 %           uncertainty of history lidar constant at 607 nm. If no history results are found in the +- week lag, an empty array will be returned.
 %   History:
 %       2018-12-31. First Edition by Zhenping
-%       2018-01-28. Add support for 387 and 607 channels
+%       2019-01-28. Add support for 387 and 607 channels
+%       2019-08-06. If no history results, using the last Raman calibration results.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -84,40 +85,63 @@ LC607Status = NaN(1, length(data{1}));
 for iRow = 1:length(data{1})
     LCTime(iRow) = polly_parsetime(data{1}{iRow}, config.dataFileFormat);
 end
-LC355History = data{2};
-LCStd355History = data{3};
-LC355Status = data{4};
-LC532History = data{5};
-LCStd532History = data{6};
-LC532Status = data{7};
-LC1064History = data{8};
-LCStd1064History = data{9};
-LC1064Status = data{10};
-LC387History = data{11};
-LCStd387History = data{12};
-LC387Status = data{13};
-LC607History = data{14};
-LCStd607History = data{15};
-LC607Status = data{16};
+LC355History = transpose(data{2});
+LCStd355History = transpose(data{3});
+LC355Status = transpose(data{4});
+LC532History = transpose(data{5});
+LCStd532History = transpose(data{6});
+LC532Status = transpose(data{7});
+LC1064History = transpose(data{8});
+LCStd1064History = transpose(data{9});
+LC1064Status = transpose(data{10});
+LC387History = transpose(data{11});
+LCStd387History = transpose(data{12});
+LC387Status = transpose(data{13});
+LC607History = transpose(data{14});
+LCStd607History = transpose(data{15});
+LC607Status = transpose(data{16});
 
 fclose(fid);
 
-%% find the most closest calibrated value in the +- week.
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))));
+%% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+% 355 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2));
 if ~ isempty(index)
-    % find the most closest calibrated Lidar constant
     [~, indx] = min(abs(LCTime - thisTime));
     LC355 = LC355History(indx);
     LCStd355 = LCStd355History(indx);
+end
+
+% 532 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
+end
+
+% 1064 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC1064 = LC1064History(indx);
     LCStd1064 = LCStd1064History(indx);
+end
+
+% 387 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC387 = LC387History(indx);
     LCStd387 = LCStd387History(indx);
+end
+
+% 607 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC607 = LC607History(indx);
     LCStd607 = LCStd607History(indx);
-else
 end
 
 end

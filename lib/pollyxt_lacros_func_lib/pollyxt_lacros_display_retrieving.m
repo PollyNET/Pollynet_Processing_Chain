@@ -16,7 +16,8 @@ global processInfo defaults campaignInfo
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-
+flagChannel355_NR = config.isNR & config.is355nm & config.isTot;
+flagChannel532_NR = config.isNR & config.is532nm & config.isTot;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% signal
@@ -676,6 +677,16 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         else
             smoothWin_1064 = 20;
         end
+        if isfield('config', 'smoothWin_klett_NR_355')
+            smoothWin_NR_355 = config.smoothWin_NR_355;
+        else
+            smoothWin_NR_355 = 20;
+        end
+        if isfield('config', 'smoothWin_klett_NR_532')
+            smoothWin_NR_532 = config.smoothWin_NR_532;
+        else
+            smoothWin_NR_532 = 20;
+        end
 
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
@@ -688,6 +699,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         sig1064 = squeeze(mean(data.signal(flagChannel1064, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs1064 = sig1064 .* data.height.^2;
         rcs1064 = transpose(smooth(rcs1064, smoothWin_1064));
+        sig355_NR = squeeze(mean(data.signal(flagChannel355_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+        rcs355_NR = sig355_NR .* data.height.^2;
+        rcs355_NR = transpose(smooth(rcs355_NR, smoothWin_NR_355));
+        sig532_NR = squeeze(mean(data.signal(flagChannel532_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+        rcs532_NR = sig532_NR .* data.height.^2;
+        rcs532_NR = transpose(smooth(rcs532_NR, smoothWin_NR_532));
 
         height = data.height;
         time = data.mTime;
@@ -742,6 +759,10 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         aerBsc_355_aeronet = data.aerBsc355_aeronet(iGroup, :);
         aerBsc_532_aeronet = data.aerBsc532_aeronet(iGroup, :);
         aerBsc_1064_aeronet = data.aerBsc1064_aeronet(iGroup, :);
+        aerBsc355_NR_klett = data.aerBsc355_NR_klett(iGroup, :);
+        aerBsc532_NR_klett = data.aerBsc532_NR_klett(iGroup, :);
+        aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGroup, :);
+        aerBsc532_NR_raman = data.aerBsc532_NR_raman(iGroup, :);
 
         % extinction
         aerExt_355_klett = data.aerExt355_klett(iGroup, :);
@@ -753,10 +774,16 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         aerExt_355_aeronet = data.aerExt355_aeronet(iGroup, :);
         aerExt_532_aeronet = data.aerExt532_aeronet(iGroup, :);
         aerExt_1064_aeronet = data.aerExt1064_aeronet(iGroup, :);
+        aerExt355_NR_raman = data.aerExt355_NR_raman(iGroup, :);
+        aerExt532_NR_raman = data.aerExt532_NR_raman(iGroup, :);
+        aerExt355_NR_klett = data.aerExt355_NR_klett(iGroup, :);
+        aerExt532_NR_klett = data.aerExt532_NR_klett(iGroup, :);
 
         % lidar ratio
         LR355_raman = data.LR355_raman(iGroup, :);
         LR532_raman = data.LR532_raman(iGroup, :);
+        LR355_NR_raman = data.LR355_NR_raman(iGroup, :);
+        LR532_NR_raman = data.LR532_NR_raman(iGroup, :);
 
         % angstroem exponent
         ang_bsc_355_532_klett = data.ang_bsc_355_532_klett(iGroup, :);
@@ -764,6 +791,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         ang_bsc_355_532_raman = data.ang_bsc_355_532_raman(iGroup, :);
         ang_bsc_532_1064_raman = data.ang_bsc_532_1064_raman(iGroup, :);
         ang_ext_355_532_raman = data.ang_ext_355_532_raman(iGroup, :);
+        ang_bsc_355_532_klett_NR = data.ang_bsc_355_532_klett_NR(iGroup, :);
+        ang_bsc_355_532_raman_NR = data.ang_bsc_355_532_raman_NR(iGroup, :);
+        ang_ext_355_532_raman_NR = data.ang_ext_355_532_raman_NR(iGroup, :);
         
         % depool ratio
         voldepol355_klett = data.voldepol355_klett(iGroup, :);
@@ -800,8 +830,11 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         % display range
         rcsLim = config.RCSProfileRange;
         aerBscLim = config.aerBscProfileRange;
+        aerBsc_NR_Lim = config.aerBsc_NR_ProfileRange;
         aerExtLim = config.aerExtProfileRange;
+        aerExt_NR_Lim = config.aerExt_NR_ProfileRange;
         aerLRLim = config.aerLRProfileRange;
+        aerLR_NR_Lim = config.aerLRProfileRange;
         wvmrLim = config.WVMRProfileRange;
 
         % create tmp folder by force, if it does not exist.
@@ -811,7 +844,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         end
         
         %% display rcs 
-        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', 'wvmrLim', '-v7');
+        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc355_NR_klett', 'aerBsc532_NR_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc355_NR_raman', 'aerBsc532_NR_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt355_NR_klett', 'aerExt532_NR_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt355_NR_raman', 'aerExt532_NR_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'LR355_NR_raman', 'LR532_NR_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'ang_bsc_355_532_klett_NR', 'ang_bsc_355_532_raman_NR', 'ang_ext_355_532_raman_NR', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerBsc_NR_Lim', 'aerExtLim', 'aerExt_NR_Lim', 'aerLRLim', 'aerLR_NR_Lim', 'wvmrLim', '-v7');
         tmpFile = fullfile(tmpFolder, 'tmp.mat');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_lacros_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
