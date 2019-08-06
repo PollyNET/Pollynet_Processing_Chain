@@ -257,7 +257,7 @@ if processInfo.flagEnableDataVisualization
     disp('Display overlap')
     pollyxt_tropos_display_overlap(data, taskInfo, overlapAttri, config);
 
-    %% optical profiles
+    %% display optical profiles
     disp('Display profiles')
     pollyxt_tropos_display_retrieving(data, taskInfo, config);
 
