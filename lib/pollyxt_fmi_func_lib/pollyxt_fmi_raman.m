@@ -1,7 +1,7 @@
 function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_fmi_raman(data, config)
 %pollyxt_fmi_raman Retrieve aerosol optical properties with raman method
 %   Example:
-%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman] = pollyxt_fmi_raman(data, config)
+%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_fmi_raman(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

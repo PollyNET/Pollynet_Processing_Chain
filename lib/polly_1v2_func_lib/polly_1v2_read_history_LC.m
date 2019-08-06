@@ -52,18 +52,14 @@ LC532Status = NaN(1, length(data{1}));
 for iRow = 1:length(data{1})
     LCTime(iRow) = polly_parsetime(data{1}{iRow}, config.dataFileFormat);
 end
-LC532History = data{2};
-LCStd532History = data{3};
-LC532Status = data{4};
+LC532History = transpose(data{2});
+LCStd532History = transpose(data{3});
+LC532Status = transpose(data{4});
 
 % read the LC at 607 nm
-LCTime = NaN(1, length(data{1}));
-LC607History = NaN(1, length(data{1}));
-LCStd607History = NaN(1, length(data{1}));
-LC607Status = NaN(1, length(data{1}));
-LC607History = data{5};
-LCStd607History = data{6};
-LC607Status = data{7};
+LC607History = transpose(data{5});
+LCStd607History = transpose(data{6});
+LC607Status = transpose(data{7});
 
 fclose(fid);
 

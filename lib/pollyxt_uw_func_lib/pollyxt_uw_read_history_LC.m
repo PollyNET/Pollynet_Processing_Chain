@@ -85,21 +85,21 @@ LC607Status = NaN(1, length(data{1}));
 for iRow = 1:length(data{1})
     LCTime(iRow) = polly_parsetime(data{1}{iRow}, config.dataFileFormat);
 end
-LC355History = data{2};
-LCStd355History = data{3};
-LC355Status = data{4};
-LC532History = data{5};
-LCStd532History = data{6};
-LC532Status = data{7};
-LC1064History = data{8};
-LCStd1064History = data{9};
-LC1064Status = data{10};
-LC387History = data{11};
-LCStd387History = data{12};
-LC387Status = data{13};
-LC607History = data{14};
-LCStd607History = data{15};
-LC607Status = data{16};
+LC355History = transpose(data{2});
+LCStd355History = transpose(data{3});
+LC355Status = transpose(data{4});
+LC532History = transpose(data{5});
+LCStd532History = transpose(data{6});
+LC532Status = transpose(data{7});
+LC1064History = transpose(data{8});
+LCStd1064History = transpose(data{9});
+LC1064Status = transpose(data{10});
+LC387History = transpose(data{11});
+LCStd387History = transpose(data{12});
+LC387Status = transpose(data{13});
+LC607History = transpose(data{14});
+LCStd607History = transpose(data{15});
+LC607Status = transpose(data{16});
 
 fclose(fid);
 
