@@ -164,6 +164,7 @@
     "RCS1064FRColorRange": [1e-2, 60],
     "RCS355NRColorRange": [1e-2, 5],
     "RCS532NRColorRange": [1e-2, 10],
+    "aerBscProfileRange": [-0.1, 10],
     "aerBsc_NR_ProfileRange": [-0.1, 10],
     "aerExtProfileRange": [-1, 300],
     "aerExt_NR_ProfileRange": [-1, 300],
