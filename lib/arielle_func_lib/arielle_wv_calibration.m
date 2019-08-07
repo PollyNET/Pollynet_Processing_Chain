@@ -1,4 +1,5 @@
-function [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)= arielle_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
+function [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)
+%arielle_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
 %   Example:
 %       [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)
 %   Inputs:
