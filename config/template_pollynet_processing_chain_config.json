@@ -27,5 +27,9 @@
     "flagEnableDataVisualization": true,	
     "flagDebugOutput": false,
     "flagReduceMATLABToolboxDependence": false,
+<<<<<<< HEAD
+    "flagSendNotificationEmail": false
+=======
     "flagSendNotificationEmail": false,
+>>>>>>> dev
 }
