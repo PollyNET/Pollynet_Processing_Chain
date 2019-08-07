@@ -1,5 +1,4 @@
-function [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)
-%arielle_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
+function [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)= arielle_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
 %   Example:
 %       [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, config)
 %   Inputs:
@@ -105,23 +104,21 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     % search the index of low SNR
     hIntTopIndx = hIntBaseIndx;   % initialize hIntTopIndx
     hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.minSNRWVCali, 1);
-    hIndxLowSNR407 = find(snr407(hIndxFullOverlap407:end) <= config.minSNRWVCali, 1);
-    if isempty(hIndxLowSNR387) || isempty(hIndxLowSNR407)
+    if isempty(hIndxLowSNR387)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
-        thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
-    elseif (data.height(hIndxLowSNR387) <= config.hWVCaliBase) || (data.height(hIndxLowSNR407) <= config.hWVCaliBase)
+        thisWVCaliInfo = 'Signal at 387nm is too noisy.';
+    elseif (data.height(hIndxLowSNR387) <= config.hWVCaliBase)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
-        thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
+        thisWVCaliInfo = 'Signal at 387nm channel is too noisy.';
     else
         hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
-        hIndxLowSNR407 = hIndxLowSNR407 + hIndxFullOverlap407 - 1;
-        hIntTopIndx = min([hIndxLowSNR387, hIndxLowSNR407]);
+        hIntTopIndx = hIndxLowSNR387;
         if data.height(hIntTopIndx) <= config.hWVCaliTop
             fprintf('Integration top is less than %dm to perform water calibration at %s during %s to %s.\n', config.hWVCaliTop, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
             flagLowSNR = true;
-            thisWVCaliInfo = 'Signal at 387nm or 407nm channel is too noisy.';
+            thisWVCaliInfo = 'Signal at 387 nm channel is too noisy.';
         end
         thisIntRange = [hIntBaseIndx, hIntTopIndx];
     end
@@ -150,7 +147,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
         intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
-        intFlag((sig387 > 0.1) & (sig407 > 0.1)) = true;
+        intFlag((sig387 > config.minSNRWVCali)) = true;
             
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
         wvmrRaw(~ intFlag) = nan;
