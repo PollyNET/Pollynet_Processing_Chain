@@ -90,28 +90,41 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
         aerBsc_355_klett = mat['aerBsc_355_klett'][:][0]
         aerBsc_532_klett = mat['aerBsc_532_klett'][:][0]
         aerBsc_1064_klett = mat['aerBsc_1064_klett'][:][0]
+        aerBsc532_NR_klett = mat['aerBsc532_NR_klett'][:][0]
+        aerBsc355_NR_klett = mat['aerBsc355_NR_klett'][:][0]
         aerBsc_355_raman = mat['aerBsc_355_raman'][:][0]
         aerBsc_532_raman = mat['aerBsc_532_raman'][:][0]
         aerBsc_1064_raman = mat['aerBsc_1064_raman'][:][0]
+        aerBsc355_NR_raman = mat['aerBsc355_NR_raman'][:][0]
+        aerBsc532_NR_raman = mat['aerBsc532_NR_raman'][:][0]
         aerBsc_355_aeronet = mat['aerBsc_355_aeronet'][:][0]
         aerBsc_532_aeronet = mat['aerBsc_532_aeronet'][:][0]
         aerBsc_1064_aeronet = mat['aerBsc_1064_aeronet'][:][0]
         aerExt_355_klett = mat['aerExt_355_klett'][:][0]
         aerExt_532_klett = mat['aerExt_532_klett'][:][0]
         aerExt_1064_klett = mat['aerExt_1064_klett'][:][0]
+        aerExt355_NR_klett = mat['aerExt355_NR_klett'][:][0]
+        aerExt532_NR_klett = mat['aerExt532_NR_klett'][:][0]
         aerExt_355_raman = mat['aerExt_355_raman'][:][0]
         aerExt_532_raman = mat['aerExt_532_raman'][:][0]
         aerExt_1064_raman = mat['aerExt_1064_raman'][:][0]
+        aerExt355_NR_raman = mat['aerExt355_NR_raman'][:][0]
+        aerExt532_NR_raman = mat['aerExt532_NR_raman'][:][0]
         aerExt_355_aeronet = mat['aerExt_355_aeronet'][:][0]
         aerExt_532_aeronet = mat['aerExt_532_aeronet'][:][0]
         aerExt_1064_aeronet = mat['aerExt_1064_aeronet'][:][0]
         LR355_raman = mat['LR355_raman'][:][0]
         LR532_raman = mat['LR532_raman'][:][0]
+        LR355_NR_raman = mat['LR355_NR_raman'][:][0]
+        LR532_NR_raman = mat['LR532_NR_raman'][:][0]
         ang_bsc_355_532_klett = mat['ang_bsc_355_532_klett'][:][0]
         ang_bsc_532_1064_klett = mat['ang_bsc_532_1064_klett'][:][0]
         ang_bsc_355_532_raman = mat['ang_bsc_355_532_raman'][:][0]
         ang_bsc_532_1064_raman = mat['ang_bsc_532_1064_raman'][:][0]
         ang_ext_355_532_raman = mat['ang_ext_355_532_raman'][:][0]
+        ang_bsc_355_532_klett_NR = mat['ang_bsc_355_532_klett_NR'][:][0]
+        ang_bsc_355_532_raman_NR = mat['ang_bsc_355_532_raman_NR'][:][0]
+        ang_ext_355_532_raman_NR = mat['ang_ext_355_532_raman_NR'][:][0]
         voldepol355_klett = mat['voldepol355_klett'][:][0]
         voldepol532_klett = mat['voldepol532_klett'][:][0]
         voldepol355_raman = mat['voldepol355_raman'][:][0]
@@ -138,7 +151,9 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         rcsLim = mat['rcsLim'][:][0]
         aerBscLim = mat['aerBscLim'][:][0]
+        aerBsc_NR_Lim = mat['aerBsc_NR_Lim'][:][0]
         aerExtLim = mat['aerExtLim'][:][0]
+        aerExt_NR_Lim = mat['aerExt_NR_Lim'][:][0]
         aerLRLim = mat['aerLRLim'][:][0]
         wvmrLim = mat['wvmrLim'][:][0]
 
@@ -209,6 +224,34 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
+    # display near-range backscatter with klett method 
+    fig = plt.figure(figsize=[4.5, 8])
+    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    p1, = ax.plot(aerBsc_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm (FR)', zorder=2)
+    p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm (FR)', zorder=2)
+    p3, = ax.plot(aerBsc_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm (FR)', zorder=3)
+    p4, = ax.plot(aerBsc355_NR_klett * 1e6, height, color='#9132fa', linestyle='-', label='355 nm (NR)', zorder=4)
+    p5, = ax.plot(aerBsc532_NR_klett * 1e6, height, color='#61aa0f', linestyle='-', label='532 nm (NR)', zorder=4)
+
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    l = ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=10)
+
+    ax.set_ylim([0, 4000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(aerBscLim.tolist())
+    ax.grid(True)
+
+    starttime = time[startIndx - 1]
+    endtime = time[endIndx - 1]
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
+
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_NR_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
+    plt.close()
+
     # display backscatter with raman method
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
@@ -233,6 +276,34 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
+    plt.close()
+    
+    # display near-range backscatter with raman method
+    fig = plt.figure(figsize=[4.5, 8])
+    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    p1, = ax.plot(aerBsc_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm (FR)', zorder=2)
+    p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm (FR)', zorder=2)
+    p3, = ax.plot(aerBsc_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm (FR)', zorder=3)
+    p4, = ax.plot(aerBsc355_NR_raman * 1e6, height, color='#9132fa', linestyle='-', label='355 nm (NR)', zorder=4)
+    p5, = ax.plot(aerBsc532_NR_raman * 1e6, height, color='#61aa0f', linestyle='-', label='532 nm (NR)', zorder=4)
+
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    l = ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=10)
+
+    ax.set_ylim([0, 4000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(aerBscLim.tolist())
+    ax.grid(True)
+
+    starttime = time[startIndx - 1]
+    endtime = time[endIndx - 1]
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
+
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_NR_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with Constrained-AOD method
@@ -286,6 +357,34 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
+    
+    # display near-range extinction with klett method
+    fig = plt.figure(figsize=[4.5, 8])
+    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    p1, = ax.plot(aerExt_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm (FR)', zorder=2)
+    p2, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm (FR)', zorder=2)
+    p3, = ax.plot(aerExt_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm (FR)', zorder=3)
+    p4, = ax.plot(aerExt355_NR_klett * 1e6, height, color='#9132fa', linestyle='-', label='355 nm (NR)', zorder=4)
+    p5, = ax.plot(aerExt532_NR_klett * 1e6, height, color='#61aa0f', linestyle='-', label='532 nm (NR)', zorder=4)
+
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    l = ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=10)
+
+    ax.set_ylim([0, 4000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(aerExtLim.tolist())
+    ax.grid(True)
+
+    starttime = time[startIndx - 1]
+    endtime = time[endIndx - 1]
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
+
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_NR_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
+    plt.close()
 
     # display extinction with raman method
     fig = plt.figure(figsize=[4.5, 8])
@@ -311,6 +410,34 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
+    plt.close()
+    
+    # display near-range extinction with raman method
+    fig = plt.figure(figsize=[4.5, 8])
+    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    p1, = ax.plot(aerExt_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm (FR)', zorder=2)
+    p2, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm (FR)', zorder=2)
+    p3, = ax.plot(aerExt_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm (FR)', zorder=3)
+    p4, = ax.plot(aerExt355_NR_raman * 1e6, height, color='#9132fa', linestyle='-', label='355 nm (NR)', zorder=4)
+    p5, = ax.plot(aerExt532_NR_raman * 1e6, height, color='#61aa0f', linestyle='-', label='532 nm (NR)', zorder=4)
+
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    l = ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=10)
+
+    ax.set_ylim([0, 4000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(aerExtLim.tolist())
+    ax.grid(True)
+
+    starttime = time[startIndx - 1]
+    endtime = time[endIndx - 1]
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
+
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_NR_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with Constrained-AOD method
@@ -364,15 +491,43 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
+    # display near-range LR with raman method
+    fig = plt.figure(figsize=[4.5, 8])
+    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    p1, = ax.plot(LR355_raman, height, color='#0000ff', linestyle='-', label='355 nm (FR)', zorder=2)
+    p2, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm (FR)', zorder=2)
+    p3, = ax.plot(LR355_NR_raman, height, color='#9132fa', linestyle='-', label='355 nm (NR)', zorder=3)
+    p4, = ax.plot(LR532_NR_raman, height, color='#61aa0f', linestyle='-', label='532 nm (NR)', zorder=2)
+
+    ax.set_xlabel('Lidar Ratio [$Sr$]', fontweight='semibold', fontsize=12)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
+
+    ax.set_ylim([0, 5000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(aerLRLim.tolist())
+    ax.grid(True)
+
+    starttime = time[startIndx - 1]
+    endtime = time[endIndx - 1]
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+
+    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
+
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_NR_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
+    plt.close()
+
     # display angstroem exponent with klett method
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
-    p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
-    p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
+    p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532 (FR)', zorder=3)
+    p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064 (FR)', zorder=3)
+    p3, = ax.plot(ang_bsc_355_532_klett_NR, height, color='#ced812', linestyle='-', label='BSC 355_532 (NR)', zorder=2)
 
     ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
-    l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
     ax.yaxis.set_major_locator(MultipleLocator(1000))
@@ -392,13 +547,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     # display angstroem exponent with raman method
     fig = plt.figure(figsize=[4.5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
-    p1, = ax.plot(ang_bsc_355_532_raman, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
-    p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
-    p3, = ax.plot(ang_ext_355_532_raman, height, color='#000000', linestyle='-', label='EXT 355-532', zorder=2)
+    p1, = ax.plot(ang_bsc_355_532_raman, height, color='#ff8000', linestyle='-', label='BSC 355-532 (FR)', zorder=3)
+    p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064 (FR)', zorder=3)
+    p3, = ax.plot(ang_ext_355_532_raman, height, color='#000000', linestyle='-', label='EXT 355-532 (FR)', zorder=3)
+    p4, = ax.plot(ang_ext_355_532_raman_NR, height, color='#ced812', linestyle='-', label='EXT 355-532 (NR)', zorder=2)
 
     ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
+    l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
     ax.yaxis.set_major_locator(MultipleLocator(1000))

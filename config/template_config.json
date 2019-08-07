@@ -115,7 +115,11 @@
     "LCMeanMinIndx": 70,
     "LCMeanMaxIndx": 1000,
     "LCCalibrationStatus": ["none", "Klett", "Raman", "Defaults", "History"],
+<<<<<<< HEAD
     "quasi_smooth_h": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+=======
+    "quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+>>>>>>> dev
     "quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "hWVCaliBase": 120,
     "hWVCaliTop": 4000,

@@ -52,31 +52,32 @@ LC532Status = NaN(1, length(data{1}));
 for iRow = 1:length(data{1})
     LCTime(iRow) = polly_parsetime(data{1}{iRow}, config.dataFileFormat);
 end
-LC532History = data{2};
-LCStd532History = data{3};
-LC532Status = data{4};
+LC532History = transpose(data{2});
+LCStd532History = transpose(data{3});
+LC532Status = transpose(data{4});
 
 % read the LC at 607 nm
-LCTime = NaN(1, length(data{1}));
-LC607History = NaN(1, length(data{1}));
-LCStd607History = NaN(1, length(data{1}));
-LC607Status = NaN(1, length(data{1}));
-LC607History = data{5};
-LCStd607History = data{6};
-LC607Status = data{7};
+LC607History = transpose(data{5});
+LCStd607History = transpose(data{6});
+LC607Status = transpose(data{7});
 
 fclose(fid);
 
-%% find the most closest calibrated value in the +- week.
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))));
+%% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+% 532 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2));
 if ~ isempty(index)
-    % find the most closest calibrated Lidar constant
     [~, indx] = min(abs(LCTime - thisTime));
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
+end
+
+% 607 nm
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2));
+if ~ isempty(index)
+    [~, indx] = min(abs(LCTime - thisTime));
     LC607 = LC607History(indx);
     LCStd607 = LCStd607History(indx);
-else
 end
 
 end
