@@ -371,24 +371,27 @@ data: struct
       whether there is a strong fluctuation of the lidar constants.
   att_beta_{wavelength}: matrix [bin×time]
     attenuated backscatter. [m^{-1}*Sr^{-1}]
-  quasi_par_beta_{wavelength}: matrix [bin×time]
+  quasi_par_beta_{wavelength}{_V2}: matrix [bin×time]
     quasi particle backscatter coefficient. [m^{-1}*Sr^{-1}]
   volDepol_{wavelength}: matrix [bin×time]
     high resolved volume depolarization ratio profile.
-  quasi_parDepol_532: matrix [binxtime]
+  quasi_parDepol_532{_V2}: matrix [binxtime]
     high resolved particle depolarization ratio profile.
-  quasi_ang_532_1064: matrix [bin×time]
+  quasi_ang_532_1064{_V2}: matrix [bin×time]
     quasi Ångstroem exponent 532-1064.
-  quality_mask_{wavelength}: matrix [bin×time]
+  quality_mask_{wavelength}{_V2}: matrix [bin×time]
     signal quality mask. This mask is calculated with the smoothed signal. 
       0: good signal; 
       1: low SNR; 
       2: depolarization calibration
-  quasiAttri: struct
+  quasiAttri{_V2}: struct
     flagGDAS1: int
       flag to show whetehr GDAS1 data was used.
     timestamp: float
       time stamp of the appled GDAS1 data.
+    meteorDataSource: str
+      meteorological data type. 
+      e.g., 'gdas1', 'standard_atmosphere', 'websonde', 'radiosonde'
   tc_mask: matrix [bin×time]
     target classification mask.
       0: No signal; 
