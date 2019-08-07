@@ -1,4 +1,4 @@
-function [data, depCalAttri] = polly_1v2_depolcali(data, config, taskInfo, defaults)
+function [data, depCalAttri] = polly_1v2_depolcali(data, config, taskInfo)
 %polly_1v2_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
 %	Example:
 %		[data] = polly_1v2_depolcali(data, config, taskInfo, defaults)
@@ -9,8 +9,6 @@ function [data, depCalAttri] = polly_1v2_depolcali(data, config, taskInfo, defau
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
-%       defaults: struct
-%           More detailed information can be found in doc/polly_defaults.md
 %	Outputs:
 %		data: struct
 %           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md
