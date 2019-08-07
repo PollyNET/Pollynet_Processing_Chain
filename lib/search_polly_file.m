@@ -11,10 +11,11 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
 %       timeLapse: float
 %           the search range of the base time. [datenum]
 %   Outputs:
-%       filePath: char
-%           the absolute path of the found polly data.
+%       filePath: cell
+%           the absolute path of the found polly data files.
 %   History:
 %       2019-07-22. First Edition by Zhenping
+%       2019-08-07. Enable the output of multiple filepaths.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -23,7 +24,7 @@ if ~ exist('timeLapse', 'var')
 end
 
 % parameter initialization
-filePath = '';
+filePath = cell(0);
 
 if ~ exist(pollyFolder, 'dir')
     warning('The polly folder does not exist. Please check it!%s', pollyFolder);
@@ -59,10 +60,10 @@ if sum(flagWithinTimeLapse) == 0
     warning('No current measurement within %5.2f hour.', timeLapse / datenum(0, 1, 0, 1, 0, 0));
     return;
 end
-[~, closestIndx] = min(abs(thisTime - startMeasTime(flagWithinTimeLapse)));
-pollyFile = filesWithinTimeLapse(closestIndx).name;
 
-filePath = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), pollyFile);
+for iFile = 1:length(filesWithinTimeLapse)
+    filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), filesWithinTimeLapse(iFile).name);
+end
 
 end
 
