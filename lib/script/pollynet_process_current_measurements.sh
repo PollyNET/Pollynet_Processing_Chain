@@ -36,18 +36,22 @@ matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 12, 0, 0));
+pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0));
 if isempty(pollyFile)
-	warning('No measurement data within 12 hours.\nCheck your folder setting: %s', '$POLLY_FOLDER');
-	exit;
+    warning('No measurement data within 12 hours.\nCheck your folder setting: %s', '$POLLY_FOLDER');
+    exit;
 else 
-	write_single_filelist('$POLLY_TYPE', pollyFile, 'TODOLISTFOLDER', 'w');
-	pollynet_processing_chain_main;
+    for iFile = 1:length(pollyFile)
+        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$TODOLISTFOLDER', 'w');
+        pollynet_processing_chain_main;
+    end
 end
 
 
 exit;
 ENDMATLAB
+
+echo "Finish"
 }
 
 # parameter initialization
@@ -70,19 +74,19 @@ do
           shift 2
           ;;
 
-	  -f | --polly_folder)
-		  if [ $# -ne 0 ]; then
-			POLLY_FOLDER="$2"
-		  fi
-		  shift 2
-		  ;;
+      -f | --polly_folder)
+          if [ $# -ne 0 ]; then
+            POLLY_FOLDER="$2"
+          fi
+          shift 2
+          ;;
 
-	  -t | --todo_folder)
-		  if [ $# -ne 0 ]; then
-		  	TODOLISTFOLDER="$2"
-		  fi
-		  shift 2
-		  ;;
+      -t | --todo_folder)
+          if [ $# -ne 0 ]; then
+              TODOLISTFOLDER="$2"
+          fi
+          shift 2
+          ;;
   
       -h | --help)
           display_help  # Call your function

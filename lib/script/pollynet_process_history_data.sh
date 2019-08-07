@@ -43,6 +43,8 @@ clc;
 pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', '$TODOLISTFOLDER');
 exit;
 ENDMATLAB
+
+echo "Finish"
 }
 
 # parameter initialization
