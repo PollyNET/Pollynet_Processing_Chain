@@ -27,9 +27,9 @@ cd /pollyhome/Picasso/playground;
 pollyList = {${pollyList}};
 
 for iPolly = 1:length(pollyList)
-	saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
-	todoFolder = '/pollyhome/Picasso/todo_filelist';
-	pollynet_process_history_data(pollyList{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, todoFolder);
+    saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
+    todoFolder = '/pollyhome/Picasso/todo_filelist';
+    pollynet_process_history_data(pollyList{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, todoFolder);
 end
 ENDMATLAB
 
