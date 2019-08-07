@@ -114,7 +114,7 @@ def pollyxt_tropos_display_monitor(tmpFile, saveFolder):
     shutter = np.ma.masked_greater(shutter, 10)
     shutter2 = np.ma.masked_greater(shutter2, 10)
     AD = np.ma.masked_outside(AD, 0, 990)
-    EN = np.ma.masked_outside(EN, 200, 990)
+    EN = np.ma.masked_outside(EN, 0, 990)
 
     flags = np.transpose(np.ma.hstack((rain, roof, shutter, shutter2)))
     
