@@ -79,6 +79,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
         height = mat['height'][0][:]
         time = mat['time'][0][:]
         flagCalibrated = mat['flagCalibrated'][:][0]
+        meteorSource = mat['meteorSource'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -120,7 +121,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=8)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
@@ -145,7 +146,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
     cbar.ax.set_title('[$\%$]', fontsize=8)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
