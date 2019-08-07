@@ -124,6 +124,7 @@ volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(f
 % redistribute the meteorological data to 30-s intervals.
 [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
 quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
+quasiAttri.meteorSource = globalAttri.source;
 quasiAttri.timestamp = globalAttri.datetime;
 
 % molecule attenuation
