@@ -1,7 +1,7 @@
 function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
-%search_current_polly_file Search the most recent polly measurement data.
+%search_polly_file Search the most recent polly measurement data.
 %   Example:
-%       [filePath] = search_current_polly_file(pollyFolder, thisTime, timeLapse)
+%       [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
 %   Inputs:
 %       pollyFolder: char
 %           the polly folder. 
