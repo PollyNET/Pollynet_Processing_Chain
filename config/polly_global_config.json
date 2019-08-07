@@ -138,8 +138,8 @@
     "quasi_smooth_h": [20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20],
     "quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "hWVCaliBase": 120,
-    "hWVCaliTop": 4000,
-    "minSNRWVCali": 0.03,
+	"hWVCaliTop": 8000,
+	"minSNRWVCali": 10,
 
     "clear_thres_par_beta_1064": 1e-8,
     "turbid_thres_par_beta_1064": 2e-7,
