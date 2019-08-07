@@ -17,7 +17,7 @@ function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, m
 %               the main folder of the GDAS1 profiles.
 %           radiosondeSitenum: integer
 %               site number, which can be found in doc/radiosonde-station-list.txt. You can update the list with using download_radiosonde_list.m
-%          radiosondeFolder: str
+%           radiosondeFolder: str
 %               the folder of the sonding files. 
 %   Outputs:
 %       alt: array

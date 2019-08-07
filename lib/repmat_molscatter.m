@@ -17,7 +17,7 @@ function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, gl
 %               the main folder of the GDAS1 profiles.
 %           radiosondeSitenum: integer
 %               site number, which can be found in doc/radiosonde-station-list.txt. You can update the list with using download_radiosonde_list.m
-%          radiosondeFolder: str
+%           radiosondeFolder: str
 %               the folder of the sonding files. 
 %   Outputs:
 %       molBsc355: matrix
