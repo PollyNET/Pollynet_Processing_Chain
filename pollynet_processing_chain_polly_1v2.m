@@ -200,7 +200,7 @@ if processInfo.flagEnableDataVisualization
     disp('Display signal flags')
     polly_1v2_display_saturation(data, taskInfo, config);
 
-    % %% optical profiles
+    % %% display optical profiles
     disp('Display profiles')
     polly_1v2_display_retrieving(data, taskInfo, config);
 
