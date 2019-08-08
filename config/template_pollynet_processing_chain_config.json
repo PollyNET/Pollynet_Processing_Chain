@@ -12,7 +12,7 @@
 
     "figDPI": 150,
 
-    "minDataSize": 1000000,
+    "minDataSize": 100000,
 
     "institute": "Ground-based Remote Sensing Group (TROPOS)",
     "homepage": "http://polly.rsd.tropos.de/",

@@ -14,7 +14,7 @@
     "gdas1Site": "",
     "AERONETSite": "",
 
-    "max_height_bin": 2500,
+    "max_height_bin": 3000,
     "first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],
     "first_range_gate_height": 78.75,
     "dtCorModeLabel": ["Polynomial coefficients stores in netcdf file", "nonparalyzable correction", "User defined polynomial cofficients"],
@@ -158,7 +158,7 @@
 
     "overlap532Color": [0, 255, 64],
     "overlap355Color": [0, 0, 255],
-    "yLim_FR": [0, 25000],
+    "yLim_FR": [0, 20000],
     "yLim_NR": [0, 3000],
     "RCSProfileRange": [0.3, 10],
     "RCS355FRColorRange": [1e-2, 30],
