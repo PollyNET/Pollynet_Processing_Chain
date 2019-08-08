@@ -299,6 +299,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         RCS_NR_532 = NaN(size(data.signal, 2), size(data.signal, 3));
     end
     
+    yLim_FR = config.yLim_FR;
+    yLim_NR = config.yLim_NR;
     volDepol_355 = data.volDepol_355;
     volDepol_532 = data.volDepol_532;
     RCS355FRColorRange = config.RCS355FRColorRange;
@@ -308,7 +310,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     RCS532NRColorRange = config.RCS532NRColorRange;
     
     %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v7');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0

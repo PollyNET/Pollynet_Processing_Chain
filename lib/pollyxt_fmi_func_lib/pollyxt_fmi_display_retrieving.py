@@ -136,6 +136,8 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
+        yLim_FR = mat['yLim_FR'][:][0]
+        yLim_NR = mat['yLim_NR'][0]
         rcsLim = mat['rcsLim'][:][0]
         aerBscLim = mat['aerBscLim'][:][0]
         aerExtLim = mat['aerExtLim'][:][0]
@@ -168,7 +170,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4, p5, p6, p7], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(rcsLim.tolist())
@@ -194,7 +196,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(aerBscLim.tolist())
@@ -220,7 +222,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(aerBscLim.tolist())
@@ -246,7 +248,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim(aerBscLim.tolist())
@@ -426,7 +428,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
@@ -453,7 +455,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
     l = ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
@@ -524,7 +526,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_xlabel('Temperature ($^\circ C$)', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-100, 50])
@@ -547,7 +549,7 @@ def pollyxt_fmi_display_retrieving(tmpFile, saveFolder):
     ax.set_xlabel('Pressure ($hPa$)', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_ylim([0, 15000])
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 1000])

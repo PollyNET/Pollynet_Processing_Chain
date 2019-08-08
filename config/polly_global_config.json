@@ -158,6 +158,8 @@
 
     "overlap532Color": [0, 255, 64],
     "overlap355Color": [0, 0, 255],
+    "yLim_FR": [0, 25000],
+    "yLim_NR": [0, 3000],
     "RCSProfileRange": [0.3, 10],
     "RCS355FRColorRange": [1e-2, 30],
     "RCS532FRColorRange": [1e-2, 50],
