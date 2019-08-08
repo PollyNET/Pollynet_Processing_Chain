@@ -87,8 +87,8 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
-        yLim_FR = mat['yLimFR']
-        yLim_NR = mat['yLimNR']
+        yLim_FR = mat['yLimFR'][:][0]
+        yLim_NR = mat['yLimNR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
     except Exception as e:
