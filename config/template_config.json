@@ -11,7 +11,7 @@
     "gdas1Site": "",
     "AERONETSite": "",
 
-    "max_height_bin": 2500,
+    "max_height_bin": 3000,
     "first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],
     "first_range_gate_height": 78.75,
     "dtCorMode": 3,
@@ -115,15 +115,11 @@
     "LCMeanMinIndx": 70,
     "LCMeanMaxIndx": 1000,
     "LCCalibrationStatus": ["none", "Klett", "Raman", "Defaults", "History"],
-<<<<<<< HEAD
     "quasi_smooth_h": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
-=======
-    "quasi_smooth_h": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
->>>>>>> dev
     "quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "hWVCaliBase": 120,
-    "hWVCaliTop": 4000,
-    "minSNRWVCali": 0.03,
+    "hWVCaliTop": 8000,
+    "minSNRWVCali": 10,
 
     "clear_thres_par_beta_1064": 1e-8,
     "turbid_thres_par_beta_1064": 2e-7,
@@ -143,6 +139,8 @@
     "overlap532Color": [0, 255, 64],
     "overlap355Color": [0, 0, 255],
     "RCSProfileRange": [1e-3, 1e2],
+    "yLim_FR": [0, 20000],
+    "yLim_NR": [0, 3000],
     "RCS355FRColorRange": [1e-2, 30],
     "RCS532FRColorRange": [1e-2, 50],
     "RCS1064FRColorRange": [1e-2, 60],
