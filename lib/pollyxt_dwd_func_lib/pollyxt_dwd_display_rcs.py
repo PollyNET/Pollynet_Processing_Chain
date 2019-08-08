@@ -3,6 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 import os, sys
 import scipy.io as spio
 import numpy as np
@@ -87,6 +88,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
+        yLim_FR = mat['yLim_FR'][:][0]
+        yLim_NR = mat['yLim_NR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
@@ -117,8 +120,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
@@ -144,8 +148,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
@@ -171,8 +176,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
@@ -198,8 +204,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 500, 1000, 1500, 2000, 2500, 3000])
-    ax.set_ylim([0, 3000])
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_ylim([yLim_NR[0], yLim_NR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
@@ -225,8 +232,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
     ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
 
