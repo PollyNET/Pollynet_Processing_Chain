@@ -1,11 +1,16 @@
 function [startTime, endTime, smoothWin] = extract_datetime_from_labviewfile(file)
-%extract_datetime_from_labviewfile description
+%extract_datetime_from_labviewfile Get the start time, end time and smoothing window from the *info file, output by the LabView program.
 %   Example:
 %       [startTime, endTime, smoothWin] = extract_datetime_from_labviewfile(file)
 %   Inputs:
-%       file
+%       file: char
+%           absolute path of the labview *info file.
 %   Outputs:
-%       startTime, endTime, smoothWin
+%       startTime: datenum
+%           the start for the retrieving.
+%       endTime: datenum 
+%           the end time for the retrieving.
+%       smoothWin: integer
 %   History:
 %       2019-01-28. First Edition by Zhenping
 %   Contact:

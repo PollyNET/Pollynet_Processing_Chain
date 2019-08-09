@@ -137,7 +137,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), data.mTime(data.cloudFreeGroups(iGroup, 2))]);
     if (meanT_WVmeas < sunsetTime) && (meanT_WVmeas > sunriseTime)
         flagDaytimeMeas = true;
-        fprintf('Water vapor measurements were performed durign daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf('Water vapor measurements were performed during daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Measurements at daytime.';
     end
