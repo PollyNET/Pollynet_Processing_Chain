@@ -36,7 +36,7 @@ matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0));
+pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0), true);
 if isempty(pollyFile)
     warning('No measurement data within 12 hours.\nCheck your folder setting: %s', '$POLLY_FOLDER');
     exit;

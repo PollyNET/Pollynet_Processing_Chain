@@ -136,6 +136,8 @@ def pollyxt_uw_display_retrieving(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
+        yLim_FR = mat['yLim_FR'][:][0]
+        yLim_NR = mat['yLim_NR'][0]
         rcsLim = mat['rcsLim'][:][0]
         aerBscLim = mat['aerBscLim'][:][0]
         aerExtLim = mat['aerExtLim'][:][0]
