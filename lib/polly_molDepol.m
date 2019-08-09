@@ -3,27 +3,27 @@ function [molDepol, molDepolStd, flagDefault] = polly_molDepol(sigTot, bgTot, si
 %   Example:
 %       [molDepol, molDepolStd, flagDefault] = polly_molDepol(sigTot, bgTot, sigCro, bgCro, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, minSNR, defaultMolDepol, defaultMolDepolStd)
 %   Inputs:
-%		sigTot: array
-%			signal strength of the total channel at reference height. [photon count]
-%		bgTot: array
-%			background of the total channel at reference height. [photon count]
-%		sigCross: array
-%			signal strength of the cross channel at reference height. [photon count]
-%		bgCross: array
-%			background of the cross channel at reference height. [photon count]
-%		Rt: scalar
-%			transmission ratio in total channel
-%		RtStd: scalar
-%			uncertainty of the transmission ratio in total channel
-%		Rc: scalar
-%			transmission ratio in cross channel
-%		RcStd: scalar
-%			uncertainty of the transmission ratio in cross channel
-%		depolConst: scalar
-%			depolarzation calibration constant. (transmission ratio for the 
-%			parallel component in cross channel and total channel)
+%       sigTot: array
+%           signal strength of the total channel at reference height. [photon count]
+%       bgTot: array
+%           background of the total channel at reference height. [photon count]
+%       sigCross: array
+%           signal strength of the cross channel at reference height. [photon count]
+%       bgCross: array
+%           background of the cross channel at reference height. [photon count]
+%       Rt: scalar
+%           transmission ratio in total channel
+%       RtStd: scalar
+%           uncertainty of the transmission ratio in total channel
+%       Rc: scalar
+%           transmission ratio in cross channel
+%       RcStd: scalar
+%           uncertainty of the transmission ratio in cross channel
+%       depolConst: scalar
+%           depolarzation calibration constant. (transmission ratio for the 
+%           parallel component in cross channel and total channel)
 %       depolConstStd: scalar
-%			uncertainty of the depolarization calibration constant.
+%           uncertainty of the depolarization calibration constant.
 %       minSNR: float
 %           the SNR constrain for the the signal strength at reference height. Choose a strong constrain for ensuring a stable result, like 50 or 100.
 %       defaultMolDepol: float

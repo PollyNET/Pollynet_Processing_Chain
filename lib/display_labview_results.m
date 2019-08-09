@@ -3,9 +3,15 @@ function [fig] = display_labview_results(file, yLim, errorbarInterval)
 %   Example:
 %       [fig] = display_labview_results(file, yLim, errorbarInterval)
 %   Inputs:
-%       file, yLim, errorbarInterval
+%       file: char
+%           the absolute path of the file which contains the data from LabView program. 
+%       yLim: array [2 elements] 
+%           height range for the figure. [km]
+%       errorbarInterval: integer
+%           interval for each error bar.
 %   Outputs:
-%       fig
+%       fig: handle
+%           handle of the figure.
 %   History:
 %       2019-02-18. First Edition by Zhenping
 %   Contact:

@@ -1,53 +1,53 @@
 function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
 %polly_constrainedfernald retrieve the aerosol backscatter coefficient with the constrain from the AOD from AERONET.
-%	Usage:
-%		[aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
-%	Inputs:
-%		height: array
-%			height. [m]
-%		signal: array
-%			measured signal.
-%		SNR: array
-%			signal-noise-ratio
+%   Usage:
+%       [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+%   Inputs:
+%       height: array
+%           height. [m]
+%       signal: array
+%           measured signal.
+%       SNR: array
+%           signal-noise-ratio
 %       refHeight: 2-element array
 %           reference height. [m]
 %       refBeta: float
 %           reference value. [m^{-1}Sr^{-1}]
-%		molBsc: array
-%			molecular backscatter coefficient. [m^{-1}*Sr^{-1}]
-%		maxIterations: integer
-%			maximum number of the iterations.
-%		minLR: float
-%			minimum aerosol Lidar ratio. [Sr]
-%		maxLR: float
-%			maximum aerosol Lidar ratio. [Sr]
-%		AOD_AERONET: float
-%			AOD measured by AERONET.
-%		minAODDev: float
-%			minimum deviation of AOD between Lidar and AERONET that can be tolerable.
-%		LR: float
-%			aerosol lidar ratio. [Sr]
-%		minHeight: float
-%			minimum height for the full FOV. [m]
-%		minSNR: float
-%			minimum SNR
-%		window_size: integer
-%			smoothing window size.
-%	Outputs:
+%       molBsc: array
+%           molecular backscatter coefficient. [m^{-1}*Sr^{-1}]
+%       maxIterations: integer
+%           maximum number of the iterations.
+%       minLR: float
+%           minimum aerosol Lidar ratio. [Sr]
+%       maxLR: float
+%           maximum aerosol Lidar ratio. [Sr]
+%       AOD_AERONET: float
+%           AOD measured by AERONET.
+%       minAODDev: float
+%           minimum deviation of AOD between Lidar and AERONET that can be tolerable.
+%       LR: float
+%           aerosol lidar ratio. [Sr]
+%       minHeight: float
+%           minimum height for the full FOV. [m]
+%       minSNR: float
+%           minimum SNR
+%       window_size: integer
+%           smoothing window size.
+%   Outputs:
 %       aerBsc: array
 %           aerosol backscatter coefficient. [m^{-1}Sr^{-1}] 
 %       bestLR: float
 %           the best lidar ratio with the AOD deviation less that required. 
-%		biasAOD: float
-%			deviation of AOD between lidar and AERONET.
+%       biasAOD: float
+%           deviation of AOD between lidar and AERONET.
 %       nIters: integer
 %           number of iterations to achieve the minimun AOD deviation.
-%	History:
-%		2018-02-03. First edition by Zhenping
+%   History:
+%       2018-02-03. First edition by Zhenping
 %       2019-03-29. Fix the bug of returning NaN for lidar ratio.
 %       2019-04-09. Screen out the negative backscatter coefficient during the calculation.
-%	Copyright:
-%		Ground-based remote sensing. (TROPOS)
+%   Copyright:
+%       Ground-based remote sensing. (TROPOS)
 
 % initialize
 aerBsc = NaN(size(height));

@@ -1,4 +1,4 @@
-function y = normpdf_copied(x,mu,sigma)
+function y = normpdf(x,mu,sigma)
 
 if nargin<1
     error('Not enough inputs');

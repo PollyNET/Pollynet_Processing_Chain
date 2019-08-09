@@ -1,23 +1,23 @@
 function [figPos] = subfigPos(pos, nRow, nColumn)
 %SUBFIGPOS calculate the normalized position of each subfigure.
-%	Example:
-%		[figPos] = subfigPos(pos, nRow, nColumn)
-%	Inputs:
-%		pos: 4-element array
-%			[left, bottom, width, height]
-%		nRow: integer
-%			number of the total rows. (default, 1)
-%		nColumn: integer
-%			number of the total columns. (default, 1)
-%	Outputs:
-%		figPos: matrix
-%			returned postition of each subfigures. The first figure is the 
-%			top-right one and as followed by from left-to-right and 
-%			top-to-base.
-%	History:
-%		2018-11-09. First edition by Zhenping
-%	Contact:
-%		zhenping@tropos.de
+%   Example:
+%       [figPos] = subfigPos(pos, nRow, nColumn)
+%   Inputs:
+%       pos: 4-element array
+%           [left, bottom, width, height]
+%       nRow: integer
+%           number of the total rows. (default, 1)
+%       nColumn: integer
+%           number of the total columns. (default, 1)
+%   Outputs:
+%       figPos: matrix
+%           returned postition of each subfigures. The first figure is the 
+%           top-right one and as followed by from left-to-right and 
+%           top-to-base.
+%   History:
+%       2018-11-09. First edition by Zhenping
+%   Contact:
+%       zhenping@tropos.de
 
 figPos = zeros(nRow * nColumn, 4);
 
@@ -29,11 +29,11 @@ baseMargin = pos(2);
 widthCol = (1 - leftMargin - rightMargin) / nColumn;
 widthRow = (1 - topMargin - baseMargin) / nRow;
 for iRow = 1:nRow
-	for iCol = 1:nColumn
-		xPos = leftMargin + (iCol - 1) * widthCol;
-		yPos = baseMargin + (nRow - iRow) * widthRow;
-		figPos((iRow - 1)*nColumn + iCol, :) = [xPos, yPos, widthCol, widthRow];
-	end	
+    for iCol = 1:nColumn
+        xPos = leftMargin + (iCol - 1) * widthCol;
+        yPos = baseMargin + (nRow - iRow) * widthRow;
+        figPos((iRow - 1)*nColumn + iCol, :) = [xPos, yPos, widthCol, widthRow];
+    end 
 end
 
 end

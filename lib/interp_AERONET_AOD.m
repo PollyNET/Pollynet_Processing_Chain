@@ -14,7 +14,8 @@ function [AODOut] = interp_AERONET_AOD(wl1, AOD1, wl2, AOD2, wlOut)
 %       wlOut: float
 %           query wavelength. [nm]
 %   Outputs:
-%       AODOut
+%       AODOut: float
+%           the interpolated AOD at hte input wavelength 'wvOut'
 %   History:
 %       2018-12-23. First Edition by Zhenping
 %   Contact:
