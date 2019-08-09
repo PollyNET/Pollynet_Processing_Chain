@@ -20,6 +20,7 @@ display_help() {
     echo "                           - pollyxt_uw"
     echo "                           - pollyxt_dwd"
     echo "                           - pollyxt_tjk"
+    echo "                           - pollyxt_tau"
     echo "                           - arielle"
     echo "                           - polly_1v2"
     echo "   -f, --polly_folder      specify the polly data folder"
