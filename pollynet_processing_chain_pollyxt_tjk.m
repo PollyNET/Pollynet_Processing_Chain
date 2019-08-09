@@ -199,7 +199,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save meteorological results
     %% save water vapor calibration results
-    pollyxt_tjk_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+    pollyxt_tjk_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
 
     %% save aerosol optical results
     pollyxt_tjk_save_retrieving_results(data, taskInfo, config);
