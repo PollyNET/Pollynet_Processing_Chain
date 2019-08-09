@@ -211,7 +211,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save meteorological results
     %% save water vapor calibration results
-    pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+    pollyxt_lacros_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
 
     %% save aerosol optical results
     pollyxt_lacros_save_retrieving_results(data, taskInfo, config);

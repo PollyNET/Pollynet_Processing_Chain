@@ -1,7 +1,7 @@
-function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
-%pollyxt_lacros_save_wvconst  save the water vapor calibration results. And select the most appropriate water vapor calibration constant to calculate the WVMR and RH.
+function pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, wvconstUsed, wvconstStdUsed, file)
+%pollyxt_lacros_save_wvconst  save the water vapor calibration results. 
 %   Example:
-%       [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+%       pollyxt_lacros_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
 %   Inputs:
 %       wvconst: array
 %           water vapor calibration constants. [g*kg^{-1}] 
@@ -25,37 +25,26 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = pollyxt_lacros_save_wv
 %               index of integration range for calculate the raw IWV from lidar. 
 %       dataFilename: char
 %           the polly netcdf data file.
-%       defaults: struct
-%           defaults configuration. Detailed information can be found in doc/polly_defaults.md 
+%       wvconstUsed: float
+%           the water vapor calibration constant applied for water vapor retrieving. [g*kg^{-1}]
+%       wvconstUsedStd: float
+%           the std of water vapor calibration constant applied for water vapor retrieving. [g*kg^{-1}]
 %       file: char
 %           file for saving water vapor calibration results.
 %   Outputs:
-%       wvconstUsed: float
-%           applied water vapor calibration constants.[g*kg^{-1}]  
-%       wvconstUsedStd: float
-%           uncertainty of applied water vapor calibration constants. [g*kg^{-1}]  
-%       wvconstUsedInfo: struct
-%           flagCalibrated: logical
-%               flag to show whether the applied constant comes from a successful calibration. If not, the result comes from the defaults.
-%           IWVInstrument: char
-%               the instrument for external standard IWV measurement 
-%           nIWVCali: integer
-%               number of successful water vapor calibration.
+%
 %   History:
 %       2018-12-19. First Edition by Zhenping
 %       2019-02-12. Remove the bug for saving flagCalibration at some time with no calibration constants.
+%       2019-08-09. Saving the real applied water vapor constant instead of the defaults. And remove the outputs of the function.
 %   Contact:
 %       zhenping@tropos.de
 
 wvconstUsedInfo = struct();
-wvconstUsed = NaN;
-wvconstUsedStd = NaN;
 
 if isempty(wvconst)
-    wvconst = defaults.wvconst;
-    wvconstStd = defaults.wvconstStd;
-    wvconstUsed = defaults.wvconst;
-    wvconstUsedStd = defaults.wvconstStd;
+    wvconst = wvconstUsed;
+    wvconstStd = wvconstStdUsed;
     wvCaliTimeStr = '-999';
     flagWVCali = false;
     IWVInstrument = 'none';
@@ -64,15 +53,11 @@ if isempty(wvconst)
     wvconstUsedInfo.IWVInstrument = 'none';
     wvconstUsedInfo.nIWVCali = 0;
 elseif sum(~ isnan(wvconst)) == 0
-    wvconstUsed = defaults.wvconst;
-    wvconstUsedStd = defaults.wvconstStd;
     wvconstUsedInfo.flagCalibrated = false;
     wvconstUsedInfo.IWVInstrument = IWVAttri.source;
     wvconstUsedInfo.nIWVCali = 0;
 else
     flagCalibrated = ~ isnan(wvconst);
-    wvconstUsed = nanmean(wvconst);
-    wvconstUsedStd = sqrt(sum(wvconstStd(flagCalibrated).^2)) ./ sum(flagCalibrated);
     wvconstUsedInfo.flagCalibrated = true;
     wvconstUsedInfo.IWVInstrument = IWVAttri.source;
     wvconstUsedInfo.nIWVCali = sum(flagCalibrated);
