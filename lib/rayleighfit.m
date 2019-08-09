@@ -101,31 +101,7 @@ for iIndx = 1:length(dpIndx) - 1
     std_aer_norm = sig_aer_norm ./ sqrt(pc + bg);
 
     % Quality test 1: Pure Rayleigh conditions. Holger
-    % x = height(iDpBIndx:iDpTIndx);
-%     xNorm = double((x - (max(x) - min(x)) / 2) / (max(x) - min(x)));
-%     yTmp = sig_aer_norm(iDpBIndx:iDpTIndx) ./ sig_mol(iDpBIndx:iDpTIndx);
-%     y = yTmp(yTmp > 0);
-%     xNorm = xNorm(yTmp > 0);
-%     y = log(y) / (-2);
-%     yNorm = double((y - (max(y) - min(y)) / 2) / (max(y) - min(y)));
-%     if length(yNorm) <= 10 && flagShowDetail
-%         fprintf('Region %d: signal is too noisy.\n', iIndx);
-%         test1 = false;
-%     elseif length(yNorm) <= 10
-%         test1 = false;
-%     end
-% 
-%     fitRes = fit(xNorm', yNorm', 'poly1');
-%     fitCoef = coeffvalues(fitRes);
-%     fitConf = confint(fitRes);
-%     deltaCoef(1) = abs(fitConf(1, 1) - fitCoef(1));
-%     if ~ (abs(fitRes.p1) <= pureRayleighConstrain * deltaCoef) && (flagShowDetail)
-%         fprintf('Slope: %f, uncertainty: %f\n', fitRes.p1, deltaCoef);
-%         fprintf('Region %d: %f - %f fails in Pure Rayleigh condition test.\n', iIndx, height(iDpBIndx), height(iDpTIndx));
-%       test1 = false;
-%     elseif ~ (abs(fitRes.p1) <= pureRayleighConstrain * deltaCoef)
-%         test1 = false;
-%     end
+    %% it was replaced with similar criteria in test 5.
 
     % Quality test 2: near and far - range cross criteria.
     winLen = fix(layerThickConstrain / (height(2) - height(1)));
@@ -138,9 +114,6 @@ for iIndx = 1:length(dpIndx) - 1
         meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));
         SNRTmp = polly_SNR(nansum(pc(jIndx:(jIndx + winLen))),  nansum(bg(jIndx:(jIndx + winLen))));
-%         if SNRTmp < sqrt(winLen)
-%             continue;
-%         end
 
         if ~ ((meanSig_aer + deltaSig_aer/3) >= meanSig_mol) && (flagShowDetail)
             fprintf('Region %d: %f - %f fails in near and far-Range cross test.\n', iIndx, height(iDpBIndx), height(iDpTIndx));
@@ -176,20 +149,6 @@ for iIndx = 1:length(dpIndx) - 1
         test3 = false;
         continue;
     end
-    % residual = sig_aer_norm(iDpBIndx:iDpTIndx) - sig_mol(iDpBIndx:iDpTIndx);
-    % x = height(iDpBIndx:iDpTIndx)/1e3;
-    % x = [ones(length(x), 1), x'];
-    % [b, ~, r] = regress(residual', x);
-    % warning('off', 'stats:pvaluedw:ExactUnavailable');
-    % [~, d] = dwtest(r, x);
-    % if ~((d >= 0.5) && (d <= 3.5)) && (flagShowDetail)
-    %     fprintf('Region %d: %f - %f fails in white-noise criterion.\n', iIndx, height(iDpBIndx), height(iDpTIndx));
-    %     test3 = false;
-    %     continue;
-    % elseif ~((d >= 0.5) && (d <= 3.5))
-    %     test3 = false;
-    %     continue;
-    % end
 
     % Quality test 4: SNR check
     % which is assured in Douglas-Peucker algorithm

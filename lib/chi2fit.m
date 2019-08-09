@@ -1,40 +1,40 @@
 function [a, b, sigmaA, sigmaB, chi2, Q] = chi2fit(x, y, measure_error)
 %CHI2FIT Chi-2 fitting. All the code are translated from the exemplified code in Numerical Recipies in C (2nd Edition). Great help also comes from Birgit Heese.
-%	Example:
-%		[a, b, sigmaA, sigmaB, r_ab, Q] = linfit(x, y, meansure_error)
-%	Inputs:
-%		x: array 
-%			The length of x should be larger than 1.
-%		y: array
-%	Outputs:
-%		a: intersect
-%		b: slope
-%		sigmaA:
-%			Uncertainty of intersect 
-%		sigmaB:
-%			Uncertainty of slope
-%		chi2:
-%			chi2 value
-%		Q: 
-%			goodness of fit.
-%	History:
-%		2018-08-03. First edition by Zhenping.
-%	Contact:
-%		zhenping@tropos.de
+%   Example:
+%       [a, b, sigmaA, sigmaB, r_ab, Q] = linfit(x, y, meansure_error)
+%   Inputs:
+%       x: array 
+%           The length of x should be larger than 1.
+%       y: array
+%   Outputs:
+%       a: intersect
+%       b: slope
+%       sigmaA:
+%           Uncertainty of intersect 
+%       sigmaB:
+%           Uncertainty of slope
+%       chi2:
+%           chi2 value
+%       Q: 
+%           goodness of fit.
+%   History:
+%       2018-08-03. First edition by Zhenping.
+%   Contact:
+%       zhenping@tropos.de
 
 if length(x) ~= length(y)
-	error('Array length must agree');
+    error('Array length must agree');
 end
 
 if length(y) ~= length(measure_error)
-	error('Array length must agree');
+    error('Array length must agree');
 end
 
 if sum(measure_error) > 0
-	indx = (~ isnan(y)) & (~ isnan(x)) & ((measure_error ~= 0));
+    indx = (~ isnan(y)) & (~ isnan(x)) & ((measure_error ~= 0));
 else
-	measure_error = ones(size(measure_error));
-	indx = (~ isnan(y)) & (~ isnan(x));
+    measure_error = ones(size(measure_error));
+    indx = (~ isnan(y)) & (~ isnan(x));
 end
 
 xN = x(indx);
@@ -49,8 +49,8 @@ sigmaB = NaN;
 Q = NaN;
 
 if isempty(xN) || length(xN) <= 1
-	% warning('Not enough data for chi2 regression or too much NaN values inside.');
-	return;
+    % warning('Not enough data for chi2 regression or too much NaN values inside.');
+    return;
 end
 
 S = sum(1 ./ measure_errorN.^2);

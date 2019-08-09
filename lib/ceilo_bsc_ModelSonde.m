@@ -16,11 +16,12 @@ function [ pressure, altitude, temperature, relh ] = ceilo_bsc_ModelSonde( filen
 %
 %   altitude    - height [m]
 %
-%   temperature - temperature [°C]
+%   temperature - temperature [ï¿½C]
 %
 %   relh        - relative humidity [%]
 %
 %   History:
+%       (Raw version from Birgit Heese.)
 %       2018-12-15. Add ouput of relh
 
 pressure    = NaN;
