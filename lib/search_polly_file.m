@@ -1,4 +1,4 @@
-function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
+function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse, flagLatest)
 %search_polly_file Search the most recent polly measurement data.
 %   Example:
 %       [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
@@ -10,17 +10,24 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
 %           the base time you want to search.
 %       timeLapse: float
 %           the search range of the base time. [datenum]
+%       flagLatest: logical
+%           whether to take the latest file only. (Defaults: false)
 %   Outputs:
 %       filePath: cell
 %           the absolute path of the found polly data files.
 %   History:
 %       2019-07-22. First Edition by Zhenping
 %       2019-08-07. Enable the output of multiple filepaths.
+%       2019-08-09. Add the variable to control the output of the latest polly data file.
 %   Contact:
 %       zhenping@tropos.de
 
 if ~ exist('timeLapse', 'var')
     timeLapse = datenum(0, 1, 0, 6, 0, 0);
+end
+
+if ~ exist('flagLatest', 'var')
+    flagLatest = false;
 end
 
 % parameter initialization
@@ -61,8 +68,15 @@ if sum(flagWithinTimeLapse) == 0
     return;
 end
 
-for iFile = 1:length(filesWithinTimeLapse)
-    filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), filesWithinTimeLapse(iFile).name);
+if flagLatest
+    % return the latest polly data file
+    [~, indx] = min(abs(thisTime - startMeasTime));
+    filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), files(indx).name);
+else
+    % return all searched data files
+    for iFile = 1:length(filesWithinTimeLapse)
+        filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), filesWithinTimeLapse(iFile).name);
+    end
 end
 
 end
