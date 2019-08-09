@@ -20,7 +20,7 @@ echo "Month=$Month"
 echo "Day=$Day"
 
 # parameter definition
-pollyList="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+pollyList="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk','pollyxt_tau'"
 
 matlab -nodesktop -nosplash << ENDMATLAB
 cd /pollyhome/Picasso/playground;
