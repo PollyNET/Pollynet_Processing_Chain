@@ -18,7 +18,7 @@ echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
-pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0));
+pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0), true);
 if isempty(pollyFile)
     exit;
 end
