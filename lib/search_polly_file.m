@@ -49,7 +49,7 @@ end
 files = dir(fullfile(pollyMonthFolder, sprintf('%04d_%02d_%02d*.nc.zip', thisYear, thisMonth, thisDay)));
 
 if isempty(files)
-    warning('No current measurement, at least in the same day.');
+    warning('Still no current measurement in the day.');
     return;
 end
 
