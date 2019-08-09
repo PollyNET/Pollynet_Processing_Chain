@@ -21,6 +21,7 @@ function [wvconst, wvconstStd, globalAttri] = pollyxt_fmi_wv_calibration(data, c
 %               index of integration range for calculate the raw IWV from lidar.
 %   History:
 %       2018-12-26. First Edition by Zhenping
+%       2019-08-08. Add the sunrise and sunset to exclude the low SNR calibration periods.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -88,8 +89,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
     
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
+    hIntTopIndx = find(data.height >= config.hWVCaliTop, 1);
     if isempty(hIntBaseIndx)
         hIntBaseIndx = 3;
+    end
+    if isempty(hIntTopIndx)
+        hIntTopIndx = 1000;
     end
 
     % index of full overlap
@@ -103,7 +108,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     % search the index of low SNR
-    hIntTopIndx = hIntBaseIndx;   % initialize hIntTopIndx
     hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.minSNRWVCali, 1);
     if isempty(hIndxLowSNR387)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
@@ -115,13 +119,27 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         thisWVCaliInfo = 'Signal at 387nm channel is too noisy.';
     else
         hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
-        hIntTopIndx = hIndxLowSNR387;
-        if data.height(hIntTopIndx) <= config.hWVCaliTop
+        if data.height(hIndxLowSNR387) <= config.hWVCaliTop
             fprintf('Integration top is less than %dm to perform water calibration at %s during %s to %s.\n', config.hWVCaliTop, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
             flagLowSNR = true;
             thisWVCaliInfo = 'Signal at 387 nm channel is too noisy.';
         end
         thisIntRange = [hIntBaseIndx, hIntTopIndx];
+    end
+
+    %% determine whether the water vapor measurements were performed at daytime
+    % retrieve the time of sun rise and sun set
+    sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, floor(data.mTime(1)), 2880);
+    sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
+    sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
+
+    flagDaytimeMeas = false;
+    meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), data.mTime(data.cloudFreeGroups(iGroup, 2))]);
+    if (meanT_WVmeas < sunsetTime) && (meanT_WVmeas > sunriseTime)
+        flagDaytimeMeas = true;
+        fprintf('Water vapor measurements were performed durign daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        flagLowSNR = true;
+        thisWVCaliInfo = 'Measurements at daytime.';
     end
 
     %% determine meteorological stability
@@ -139,7 +157,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% wv calibration
-    if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Profiles) && (~ flagNotMeteorStable)
+    if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Profiles) && (~ flagDaytimeMeas) && (~ flagNotMeteorStable)
         IWV_Cali = data.IWV(iGroup);   % kg*m{-2}
 
         [~, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
@@ -148,10 +166,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
         intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
-        intFlag((sig387 > config.minSNRWVCali)) = true;
             
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
-        wvmrRaw(~ intFlag) = nan;
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
         IWVRaw = nansum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
 

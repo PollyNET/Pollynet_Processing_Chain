@@ -19,6 +19,7 @@ Troposphärenforschung e.V.). The high temporal and spatial resolved measurement
 - pollyxt_noa
 - pollyxt_tropos
 - pollyxt_uw
+- pollyxt_tjk
 
 ### polly-related campaigns
 

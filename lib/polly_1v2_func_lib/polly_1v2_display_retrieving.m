@@ -552,6 +552,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         pressure = data.pressure(iGroup, :);
 
         % display range
+        yLim_FR = config.yLim_FR;
+        yLim_NR = config.yLim_NR;
         rcsLim = config.RCSProfileRange;
         aerBscLim = config.aerBscProfileRange;
         aerExtLim = config.aerExtProfileRange;
@@ -564,7 +566,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         end
         
         %% display rcs 
-        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', '-v7');
+        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', '-v7');
         tmpFile = fullfile(tmpFolder, 'tmp.mat');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0

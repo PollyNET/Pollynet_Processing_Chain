@@ -21,7 +21,7 @@ pollyList = {${pollyList}};
 for iPolly = 1:length(pollyList)
     saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
     todoFolder = '/pollyhome/Picasso/todo_filelist';
-    pollyFile = search_polly_file(saveFolder, now, datenum(0, 1, 0, 9, 0, 0));
+    pollyFile = search_polly_file(saveFolder, now, datenum(0, 1, 0, 9, 0, 0), true);
 
     if isempty(pollyFile)
         warning('No measurements within 12 hours.');
