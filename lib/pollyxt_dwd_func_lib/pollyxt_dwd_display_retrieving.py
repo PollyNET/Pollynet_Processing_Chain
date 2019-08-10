@@ -154,8 +154,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     if not np.isnan(refHIndx1064[0]):
         ax.semilogx(rcs1064[refHIndx1064[0]:refHIndx1064[1]] * 1.2e8, height[refHIndx1064[0]:refHIndx1064[1]], color='#000000', zorder=7)
 
-    ax.set_xlabel('Range-Corrected Signal [$Mm^{-1}*sr^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Range-Corrected Signal [$Mm^{-1}*sr^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3, p4, p5, p6, p7], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -166,9 +166,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
-    fig.text(0.05, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
     plt.close()
@@ -180,8 +180,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -192,7 +192,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
@@ -206,8 +206,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -218,7 +218,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
@@ -232,8 +232,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -244,7 +244,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
@@ -258,8 +258,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -270,7 +270,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
@@ -284,8 +284,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -295,7 +295,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
@@ -309,8 +309,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerExt_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -319,7 +319,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
@@ -332,8 +332,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(LR355_raman, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
-    ax.set_xlabel('Lidar Ratio [$Sr$]', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Lidar Ratio [$Sr$]', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -344,7 +344,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
@@ -357,8 +357,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
 
-    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -369,7 +369,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
@@ -383,8 +383,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
     p3, = ax.plot(ang_ext_355_532_raman, height, color='#000000', linestyle='-', label='EXT 355-532', zorder=2)
 
-    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Angstroem Exponent', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
     ax.set_ylim([0, 5000])
@@ -395,7 +395,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
@@ -408,8 +408,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(voldepol532_klett, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_klett, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
-    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -420,7 +420,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
@@ -433,8 +433,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p1, = ax.plot(voldepol532_raman, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_raman, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
-    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Depolarization Ratio', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2], loc='upper right', fontsize=10)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
@@ -445,7 +445,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
@@ -457,8 +457,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(temperature, height, color='#ff0000', linestyle='-', zorder=2)
 
-    ax.set_xlabel('Temperature ($^\circ C$)', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Temperature ($^\circ C$)', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
@@ -468,7 +468,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
@@ -480,8 +480,8 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(pressure, height, color='#ff0000', linestyle='-', zorder=2)
 
-    ax.set_xlabel('Pressure ($hPa$)', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('Pressure ($hPa$)', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.set_ylim([yLim_FR[0], yLim_FR[1]])
     ax.yaxis.set_major_locator(MultipleLocator(2500))
@@ -491,7 +491,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     starttime = time[startIndx - 1]
     endtime = time[endIndx - 1]
-    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=12)
+    ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontweight='bold', fontsize=15)
 
     fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
