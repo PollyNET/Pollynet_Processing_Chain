@@ -113,27 +113,31 @@ def pollyxt_lacros_display_depolcali(tmpFile, saveFolder):
     p4, = ax1.semilogx(sig_x_m, height, color='#1770E7', linestyle='--', label=r'$Sig_{-45^\circ}$')
     ax1.set_ylim([height[caliHIndxRange[0] - 1], height[caliHIndxRange[1] - 1]])
     ax1.set_xlim([1, 1e4])
-    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
-    ax1.set_xlabel('Signal (a.u.)', fontweight='semibold', fontsize=12)
+    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax1.set_xlabel('Signal (a.u.)', fontweight='semibold', fontsize=17)
     ax1.yaxis.set_major_locator(MultipleLocator(200))
     ax1.yaxis.set_minor_locator(MultipleLocator(50))
     ax1.grid(True)
     start = datenum_to_datetime(time[indx_45p[0] - 1])
     end = datenum_to_datetime(time[indx_45m[-1] + 1])
-    fig.text(0.5, 0.98, 'Depolarization Calibration for {wave}nm at {start}-{end}'.format(wave=wavelength, start=start.strftime('%H:%M'), end=end.strftime('%H:%M')), horizontalalignment='center', fontweight='bold', fontsize=14)
-    l = ax1.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=10)
+    fig.text(0.5, 0.98, 'Depolarization Calibration for {wave}nm at {start}-{end}'.format(wave=wavelength, start=start.strftime('%H:%M'), end=end.strftime('%H:%M')), horizontalalignment='center', fontweight='bold', fontsize=17)
+    l = ax1.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=12)
+    ax1.tick_params(axis='both', which='major', labelsize=15, width=2, length=5)
+    ax1.tick_params(axis='both', which='minor', width=1.5, length=3.5)
 
     p1, = ax2.plot(dplus, height[(caliHIndxRange[0] - 1):(caliHIndxRange[1])], color='#E75A17', label=r'$Ratio_{+45^\circ}$')
     p2, = ax2.plot(dminus, height[(caliHIndxRange[0] - 1):(caliHIndxRange[1])], color='#1770E7', label=r'$Ratio_{-45^\circ}$')
     p3, = ax2.plot([0, 1e10], [height[indx + caliHIndxRange[0] - 2], height[indx + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
     p4, = ax2.plot([0, 1e10], [height[indx + segmentLen + caliHIndxRange[0] - 2], height[indx + segmentLen + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
     ax2.set_xlim([0, 50])
-    ax2.set_xlabel('Ratio', fontweight='semibold', fontsize=12)
-    l = ax2.legend(handles=[p1, p2], loc='upper right', fontsize=10)
-    ax2.text(0.2, 0.7, '$mean_{dplus}=%5.2f, std_{dplus}=%5.3f$\n$mean_{dminus}=%5.2f, std_{dminus}=%5.3f$\n$K=%6.4f, std_K=%6.4f$' % (mean_dplus_tmp[segIndx - 1], std_dplus_tmp[segIndx - 1], mean_dminus_tmp[segIndx - 1], std_dminus_tmp[segIndx - 1], (1 + TRt)/(1 + TRx)*np.sqrt(mean_dplus_tmp[segIndx-1]*mean_dminus_tmp[segIndx - 1]), (1 + TRt)/(1 + TRx) / np.sqrt(mean_dplus_tmp[segIndx - 1] * mean_dminus_tmp[segIndx - 1]) * 0.5 * (mean_dplus_tmp[segIndx - 1] * std_dminus_tmp[segIndx - 1] + mean_dminus_tmp[segIndx - 1] * std_dplus_tmp[segIndx - 1])), fontsize=9, transform=ax2.transAxes)
+    ax2.set_xlabel('Ratio', fontweight='semibold', fontsize=17)
+    l = ax2.legend(handles=[p1, p2], loc='upper right', fontsize=12)
+    ax2.text(0, 0.7, '$mean_{dplus}=%5.2f, std_{dplus}=%5.3f$\n$mean_{dminus}=%5.2f, std_{dminus}=%5.3f$\n$K=%6.4f, std_K=%6.4f$' % (mean_dplus_tmp[segIndx - 1], std_dplus_tmp[segIndx - 1], mean_dminus_tmp[segIndx - 1], std_dminus_tmp[segIndx - 1], (1 + TRt)/(1 + TRx)*np.sqrt(mean_dplus_tmp[segIndx-1]*mean_dminus_tmp[segIndx - 1]), (1 + TRt)/(1 + TRx) / np.sqrt(mean_dplus_tmp[segIndx - 1] * mean_dminus_tmp[segIndx - 1]) * 0.5 * (mean_dplus_tmp[segIndx - 1] * std_dminus_tmp[segIndx - 1] + mean_dminus_tmp[segIndx - 1] * std_dplus_tmp[segIndx - 1])), fontsize=12, transform=ax2.transAxes)
     ax2.grid(True)
+    ax2.tick_params(axis='both', which='major', labelsize=15, width=2, length=5)
+    ax2.tick_params(axis='both', which='minor', width=1.5, length=3.5)
 
-    fig.text(0.9, - 0.1, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontweight='bold', fontsize=10)
+    fig.text(0.85, 0.015, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontweight='bold', fontsize=10)
 
     fig.tight_layout()
     caliTime = datenum_to_datetime(thisCaliTime[0])
@@ -143,7 +147,7 @@ def pollyxt_lacros_display_depolcali(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_lacros_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_lacros_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()
