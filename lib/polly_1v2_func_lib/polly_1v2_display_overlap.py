@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 def parse_polly_filename(pollyFile):
     import re
 
-    psFmt = r"^(\d{4})_(\d{2})_(\d{2}).*_(\d{2})_(\d{2})_(\d{2}).*"
+    psFmt = r"^(\d{4})_(\d{2})_(\d{2}).*_(\d{2})_(\d{2})_(\d{2})*.*"
     items = re.search(psFmt, pollyFile)
 
     return datetime(int(items[1]), int(items[2]), int(items[3]), int(items[4]), int(items[5]), int(items[6]))
@@ -48,7 +48,7 @@ def rmext(filename):
     file, _ = os.path.splitext(filename)
     return file
 
-def polly_1v2_display_depolcali(tmpFile, saveFolder):
+def polly_1v2_display_overlap(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -63,7 +63,7 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
 
     Usage
     -----
-    polly_1v2_display_depolcali(tmpFile)
+    polly_1v2_display_overlap(tmpFile)
 
     History
     -------
@@ -82,9 +82,7 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
-        overlap355 = mat['overlap355'].reshape(-1)
         overlap532 = mat['overlap532'].reshape(-1)
-        overlap355Defaults = mat['overlap355Defaults'].reshape(-1)
         overlap532Defaults = mat['overlap532Defaults'].reshape(-1)
         sig532FR = mat['sig532FR'].reshape(-1)
         sig532NR = mat['sig532NR'].reshape(-1)
@@ -101,21 +99,23 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
         return
 
     # display
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1, 1]})
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1, 1]}, )
 
     # display signal
     p1, = ax1.plot(overlap532, height, color='#58B13F', linestyle='-', label=r'overlap 532 FR')
     p2, = ax1.plot(overlap532Defaults, height, color='#58B13F', linestyle='--', label=r'default overlap 532 FR')
     ax1.set_ylim([0, 3000])
     ax1.set_xlim([-0.05, 1.1])
-    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
-    ax1.set_xlabel('Overlap', fontweight='semibold', fontsize=12)
+    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax1.set_xlabel('Overlap', fontweight='semibold', fontsize=17)
+    ax1.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+    ax1.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
     ax1.grid(True)
     ax1.yaxis.set_major_locator(MultipleLocator(500))
     ax1.yaxis.set_minor_locator(MultipleLocator(100))
     start = parse_polly_filename(dataFilename)
-    fig.text(0.5, 0.98, 'Overlap for {instrument} at {location}, {time}'.format(instrument=pollyVersion, location=location, time=start.strftime('%Y%m%d %H:%M')), horizontalalignment='center', fontweight='bold', fontsize=14)
-    l = ax1.legend(handles=[p1, p2], loc='upper left', fontsize=10)
+    fig.text(0.5, 0.98, 'Overlap for {instrument} at {location}, {time}'.format(instrument=pollyVersion, location=location, time=start.strftime('%Y%m%d %H:%M')), horizontalalignment='center', fontweight='bold', fontsize=20)
+    l = ax1.legend(handles=[p1, p2], loc='upper left', fontsize=15)
 
     sig532FR = np.ma.masked_where(sig532FR <= 0, sig532FR)
     sig532NR = np.ma.masked_where(sig532NR <= 0, sig532NR)
@@ -129,21 +129,21 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
         ax2.plot([1e-10, 1e10], [height[normRange532[-1] - 1], height[normRange532[-1] - 1]], linestyle='--', color='#58B13F')
     
     ax2.set_xlim([1e-2, 1e3])
-    ax2.set_xlabel('Signal [MHz]', fontweight='semibold', fontsize=12)
+    ax2.set_xlabel('Signal [MHz]', fontweight='semibold', fontsize=17)
+    ax2.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+    ax2.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
     ax2.grid(True)
-    l = ax2.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
+    l = ax2.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
-    fig.text(0.85, 0.02, 'Version {version}'.format(version=version), fontsize=10)
+    fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=15)
 
-    fig.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
-    plt.close()
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
  
     plt.close()
 
 def main():
-    polly_1v2_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\polly_1v2\\20180517')
+    polly_1v2_display_overlap('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()
-    polly_1v2_display_depolcali(sys.argv[1], sys.argv[2])
+    polly_1v2_display_overlap(sys.argv[1], sys.argv[2])
