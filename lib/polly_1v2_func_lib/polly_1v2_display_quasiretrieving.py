@@ -106,8 +106,8 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_532 * 1e6, vmin=quasi_beta_cRange_532[0], vmax=quasi_beta_cRange_532[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -117,7 +117,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
+    ax.set_title('Quasi backscatter coefficient at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_532[0], quasi_beta_cRange_532[1], 5), orientation='vertical')
@@ -134,8 +134,8 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_pardepol_532, vmin=quasi_Par_DR_cRange_532[0], vmax=quasi_Par_DR_cRange_532[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -145,7 +145,7 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Quasi particle depolarization ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
+    ax.set_title('Quasi particle depolarization ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')

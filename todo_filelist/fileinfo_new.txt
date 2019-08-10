@@ -1,2 +1,1 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_cge\data_zip, 2019_08_06_Tuesday_00_00_25.nc, pollyxt_cge\data_zip\201908\2019_08_06_Tuesday_00_00_25.nc.zip, 35076272, POLLYXT_CGE
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_cge\data_zip, 2019_08_06_Tuesday_06_00_07.nc, pollyxt_cge\data_zip\201908\2019_08_06_Tuesday_06_00_07.nc.zip, 35174656, POLLYXT_CGE
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_07_06_Sat_TJK_00_00_01.nc, pollyxt_tjk\data_zip\201907\2019_07_06_Sat_TJK_00_00_01.nc.zip, 239000316, POLLYXT_TJK
