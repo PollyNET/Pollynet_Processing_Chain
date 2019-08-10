@@ -1,4 +1,4 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_07_06_Sat_TJK_00_00_01.nc, pollyxt_tjk\data_zip\201907\2019_07_06_Sat_TJK_00_00_01.nc.zip, 239000316, POLLYXT_TJK
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_07_06_Sat_TJK_06_00_01.nc, pollyxt_tjk\data_zip\201907\2019_07_06_Sat_TJK_06_00_01.nc.zip, 236337408, POLLYXT_TJK
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_07_06_Sat_TJK_12_00_01.nc, pollyxt_tjk\data_zip\201907\2019_07_06_Sat_TJK_12_00_01.nc.zip, 239666044, POLLYXT_TJK
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_07_06_Sat_TJK_18_00_01.nc, pollyxt_tjk\data_zip\201907\2019_07_06_Sat_TJK_18_00_01.nc.zip, 239666044, POLLYXT_TJK
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_dwd\data_zip, 2018_09_16_Sun_DWD_18_00_31.nc, pollyxt_dwd\data_zip\201809\2018_09_16_Sun_DWD_18_00_31.nc.zip, 147491280, POLLYXT_DWD
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_fmi\data_zip, 2018_08_02_Thu_FMI_18_00_01.nc, pollyxt_fmi\data_zip\201808\2018_08_02_Thu_FMI_18_00_01.nc.zip, 53774388, POLLYXT_FMI
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_fmi\data_zip, 2018_08_02_Thu_FMI_19_27_40.nc, pollyxt_fmi\data_zip\201808\2018_08_02_Thu_FMI_19_27_40.nc.zip, 166231548, POLLYXT_FMI
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, arielle\data_zip, 2018_05_14_Mon_ARI_18_00_03.nc, arielle\data_zip\201805\2018_05_14_Mon_ARI_18_00_03.nc.zip, 221236860, ARIELLE
