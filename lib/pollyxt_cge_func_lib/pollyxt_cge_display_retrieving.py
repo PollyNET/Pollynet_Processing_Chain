@@ -137,7 +137,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
         return
 
     # display signal
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.semilogx(rcs355 * 1e6, height, color='#0080ff', linestyle='-', label='FR 355 nm', zorder=3)
     p2, = ax.semilogx(rcs532 * 6e6, height, color='#80ff00', linestyle='-', label='FR 532 nm (X6)', zorder=2)
@@ -174,7 +174,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display backscatter with klett method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerBsc_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -200,7 +200,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display backscatter with raman method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerBsc_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -226,7 +226,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display backscatter with Constrained-AOD method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerBsc_355_aeronet * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -252,7 +252,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display extinction with klett method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerExt_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -278,7 +278,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display extinction with raman method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerExt_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -303,7 +303,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display extinction with Constrained-AOD method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(aerExt_355_aeronet * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -327,7 +327,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display LR with raman method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(LR355_raman, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
@@ -352,7 +352,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display angstroem exponent with klett method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
@@ -377,7 +377,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display angstroem exponent with raman method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(ang_bsc_355_532_raman, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
@@ -403,7 +403,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display depol ratio with klett method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(voldepol532_klett, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_klett, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
@@ -428,7 +428,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display depol ratio with raman method
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(voldepol532_raman, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_raman, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
@@ -453,7 +453,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display meteorological paramters
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(temperature, height, color='#ff0000', linestyle='-', zorder=2)
 
@@ -476,7 +476,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     plt.close()
 
     # display meteorological paramters
-    fig = plt.figure(figsize=[4.5, 8])
+    fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
     p1, = ax.plot(pressure, height, color='#ff0000', linestyle='-', zorder=2)
 
