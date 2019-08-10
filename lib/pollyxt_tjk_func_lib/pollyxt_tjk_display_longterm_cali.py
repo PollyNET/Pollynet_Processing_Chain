@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg')
+# matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
@@ -254,7 +254,7 @@ def pollyxt_tjk_display_longterm_cali(tmpFile, saveFolder):
     
     ax1.set_ylabel('LC @ 355nm')
     ax1.grid(False)
-    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=20)
     ax1.set_ylim(yLim355.tolist())
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
@@ -443,8 +443,8 @@ def pollyxt_tjk_display_longterm_cali(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_tjk_display_longterm_cali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\pollyxt_tjk\\20181214')
+    pollyxt_tjk_display_longterm_cali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
-    # main()
-    pollyxt_tjk_display_longterm_cali(sys.argv[1], sys.argv[2])
+    main()
+    # pollyxt_tjk_display_longterm_cali(sys.argv[1], sys.argv[2])
