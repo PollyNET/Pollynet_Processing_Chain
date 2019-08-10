@@ -117,8 +117,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_355/1e6, vmin=RCS355FRColorRange[0], vmax=RCS355FRColorRange[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -128,16 +128,16 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS355FRColorRange[0], RCS355FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -147,8 +147,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e6, vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -158,16 +158,16 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532FRColorRange[0], RCS532FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -177,8 +177,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_1064/1e6, vmin=RCS1064FRColorRange[0], vmax=RCS1064FRColorRange[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -188,16 +188,16 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS1064FRColorRange[0], RCS1064FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -207,8 +207,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e6, vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
@@ -218,16 +218,16 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532NRColorRange[0], RCS532NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -237,8 +237,8 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, volDepol_532, vmin=0.0, vmax=0.4, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
@@ -248,16 +248,16 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Volume Depolarization Ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Volume Depolarization Ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
 def main():
