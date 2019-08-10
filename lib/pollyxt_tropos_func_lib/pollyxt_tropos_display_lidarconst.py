@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
 import os, sys
 import scipy.io as spio
@@ -107,9 +108,9 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC355_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC355_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC355_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim355.tolist())
     ax.set_xticks(xtick.tolist())
@@ -117,10 +118,10 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -131,9 +132,9 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC532_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC532_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC532_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim532.tolist())
     ax.set_xticks(xtick.tolist())
@@ -141,10 +142,10 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -155,9 +156,9 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC1064_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC1064_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC1064_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim1064.tolist())
     ax.set_xticks(xtick.tolist())
@@ -165,10 +166,10 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -177,9 +178,9 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     fig = plt.figure(figsize=[9, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     p1, = ax.plot(thisTime, LC387_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
-    l = ax.legend(handles=[p1], loc='upper right', fontsize=10)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim387.tolist())
     ax.set_xticks(xtick.tolist())
@@ -187,10 +188,10 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=387, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=387, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -199,9 +200,9 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     fig = plt.figure(figsize=[9, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     p1, = ax.plot(thisTime, LC607_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=14)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=14)
-    l = ax.legend(handles=[p1], loc='upper right', fontsize=10)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim607.tolist())
     ax.set_xticks(xtick.tolist())
@@ -209,16 +210,16 @@ def pollyxt_tropos_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=607, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=607, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
-    pollyxt_tropos_display_lidarconst('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\pollyxt_tropos\\20170227')
+    pollyxt_tropos_display_lidarconst('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()

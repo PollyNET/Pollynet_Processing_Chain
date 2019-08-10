@@ -106,23 +106,25 @@ def pollyxt_uw_display_WV(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, WVMR, vmin=WVMRColorRange[0], vmax=WVMRColorRange[1], cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
 
     ax.set_yticks(np.arange(0, 8001, 1000).tolist())
     ax.set_ylim([0, 8000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(WVMRColorRange[0], WVMRColorRange[1], 5), orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
-    cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=8)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
+    cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -131,29 +133,31 @@ def pollyxt_uw_display_WV(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RH, vmin=0, vmax=100, cmap=cmap)
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
 
     ax.set_yticks(np.arange(0, 8001, 1000).tolist())
     ax.set_ylim([0, 8000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Relative humidity from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Relative humidity from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
 
     cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 100.1, 20), orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
-    cbar.ax.set_title('[$\%$]', fontsize=8)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
+    cbar.ax.set_title('[$\%$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
-    pollyxt_uw_display_WV('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_uw_display_WV('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()

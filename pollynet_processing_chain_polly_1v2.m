@@ -196,6 +196,10 @@ if processInfo.flagEnableDataVisualization
     disp('Display RCS and volume depolarization ratio')
     polly_1v2_display_rcs(data, taskInfo, config);
 
+    %% display depol calibration results
+    disp('Display depolarization calibration results')
+    polly_1v2_display_depolcali(data, taskInfo, depCaliAttri);
+
     %% display saturation and cloud free tags
     disp('Display signal flags')
     polly_1v2_display_saturation(data, taskInfo, config);

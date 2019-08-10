@@ -40,7 +40,7 @@ def rmext(filename):
     file, _ = os.path.splitext(filename)
     return file
 
-def pollyxt_tjk_display_depolcali(tmpFile, saveFolder):
+def polly_1v2_display_depolcali(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -55,7 +55,7 @@ def pollyxt_tjk_display_depolcali(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_tjk_display_depolcali(tmpFile)
+    polly_1v2_display_depolcali(tmpFile)
 
     History
     -------
@@ -147,8 +147,8 @@ def pollyxt_tjk_display_depolcali(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_tjk_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
+    polly_1v2_display_depolcali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()
-    pollyxt_tjk_display_depolcali(sys.argv[1], sys.argv[2])
+    polly_1v2_display_depolcali(sys.argv[1], sys.argv[2])
