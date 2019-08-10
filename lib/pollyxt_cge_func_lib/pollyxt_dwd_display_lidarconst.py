@@ -104,8 +104,8 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC355_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC355_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC355_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim355.tolist())
@@ -114,12 +114,12 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
     # display lidar constants at 532mn
@@ -128,8 +128,8 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC532_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC532_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC532_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim532.tolist())
@@ -138,12 +138,12 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
     
     # display lidar constants at 1064mn
@@ -152,8 +152,8 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC1064_klett, color='#008040', linestyle='--', marker='^', markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
     p2, = ax.plot(thisTime, LC1064_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     p3, = ax.plot(thisTime, LC1064_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('C', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('C', fontweight='semibold', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim1064.tolist())
@@ -162,12 +162,12 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.grid(True)
 
-    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
 def main():
