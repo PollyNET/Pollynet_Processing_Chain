@@ -134,7 +134,7 @@ def pollyxt_tropos_display_targetclassi(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
     plt.close()
 
 def main():

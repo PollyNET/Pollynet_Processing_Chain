@@ -113,7 +113,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
     plt.close()
     
     # display lidar constants at 607mn
@@ -135,7 +135,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fon tsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
     plt.close()
 
 def main():

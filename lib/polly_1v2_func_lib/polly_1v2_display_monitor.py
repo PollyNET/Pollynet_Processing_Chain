@@ -182,13 +182,13 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
         ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     ax5.set_xlabel('UTC', fontweight='semibold', fontsize=15)
-    fig.text(0.05, 0.01, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=14)
-    fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=14)
+    fig.text(0.05, 0.01, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=17)
     if counts.size != 0:
-        fig.text(0.1, 0.93, 'SC begin {:.1f}Mio'.format(counts[0][0]/1e6), fontsize=14)
-        fig.text(0.89, 0.93, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=14)
+        fig.text(0.1, 0.90, 'SC begin {:.1f}Mio'.format(counts[0][0]/1e6), fontsize=17)
+        fig.text(0.89, 0.90, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=17)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
 
     plt.close()
 

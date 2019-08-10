@@ -134,7 +134,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
     plt.close()
     
 def main():

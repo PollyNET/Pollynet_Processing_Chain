@@ -155,7 +155,7 @@ def pollyxt_tau_display_overlap(tmpFile, saveFolder):
 
     fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
  
     plt.close()
 
