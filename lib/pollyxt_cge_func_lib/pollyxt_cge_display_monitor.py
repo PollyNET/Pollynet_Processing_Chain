@@ -113,22 +113,22 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
         if AD[0][0] > 990:
             ax1.plot(time, AD)
             ax1.set_ylim([100, 250])
-            ax1.set_ylabel("AD [au]", fontweight='semibold', fontsize=15)
+            ax1.set_ylabel("AD [au]", fontsize=15)
         else:
             ax1.plot(time, EN)
             # ax1.set_ylim([420, 550])
-            ax1.set_ylabel("EN [mJ]", fontweight='semibold', fontsize=15)
+            ax1.set_ylabel("EN [mJ]", fontsize=15)
     else:
         ax1.plot(time, EN)
         # ax1.set_ylim([420, 550])
-        ax1.set_ylabel("EN [mJ]", fontweight='semibold', fontsize=15)
+        ax1.set_ylabel("EN [mJ]", fontsize=15)
 
-    ax1.set_title('Housekeeping data for {polly} at {site}'.format(polly=pollyVersion, site=location), fontweight='bold', fontsize=17)
+    ax1.set_title('Housekeeping data for {polly} at {site}'.format(polly=pollyVersion, site=location), fontsize=17)
 
     ax2.plot(time, HV1064, marker='.', color='#8000ff')
     # ax2.set_ylim([1, 37])
     ax2.set_xlim([mTime[0], mTime[-1]])
-    ax2.set_ylabel("HV1064 [V]", fontweight='semibold', fontsize=15)
+    ax2.set_ylabel("HV1064 [V]", fontsize=15)
     ax2.grid(True)
 
     ax3.plot(time, HT, color='#8080ff', label='Laser Head')
@@ -138,7 +138,7 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
     ax3.set_xlim([mTime[0], mTime[-1]])
     ax3.set_ylim([0, 40])
     ax3.grid(True)
-    ax3.set_ylabel(r'Temperature [$^\circ C$]', fontweight='semibold', fontsize=15)
+    ax3.set_ylabel(r'Temperature [$^\circ C$]', fontsize=15)
     ax3.yaxis.set_minor_locator(matplotlib.ticker.MultipleLocator(1))
     if len(time):
         ax3.legend(loc='upper left')
@@ -158,10 +158,10 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
     ax4.set_xlim([mTime[0], mTime[-1]])
 
     for ax in (ax1, ax2, ax3, ax4):
-        ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+        ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
         ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax4.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax4.set_xlabel('UTC', fontsize=15)
     fig.text(0.05, 0.01, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=17)
     if counts.size != 0:

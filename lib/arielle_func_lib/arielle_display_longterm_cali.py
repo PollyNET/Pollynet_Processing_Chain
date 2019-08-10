@@ -254,7 +254,7 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     
     ax1.set_ylabel('LC @ 355nm')
     ax1.grid(False)
-    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=20)
+    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=20)
     ax1.set_ylim(yLim355.tolist())
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
