@@ -189,7 +189,7 @@ def pollyxt_tjk_display_monitor(tmpFile, saveFolder):
         fig.text(0.89, 0.90, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=17)
 
     # fig.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename)))dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     
     plt.close()
 
