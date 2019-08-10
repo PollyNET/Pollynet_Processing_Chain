@@ -140,7 +140,7 @@ def pollyxt_noa_display_depolcali(tmpFile, saveFolder):
     fig.text(0.85, 0.015, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontweight='bold', fontsize=10)
 
     caliTime = datenum_to_datetime(thisCaliTime[0])
-    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength))dpi=figDPI)
+    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=figDPI)
     plt.close()
  
 def main():
