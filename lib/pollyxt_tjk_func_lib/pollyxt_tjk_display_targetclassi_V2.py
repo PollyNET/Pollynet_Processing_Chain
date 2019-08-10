@@ -102,18 +102,18 @@ def pollyxt_tjk_display_targetclassi(tmpFile, saveFolder):
     fig = plt.figure(figsize=[12, 5])
     ax = fig.add_axes([0.1, 0.15, 0.6, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, TC_mask, vmin=-0.5, vmax=11.5, cmap=target_classification_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=17)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=17)
+    ax.set_xlabel('UTC', fontweight='semibold', fontsize=15)
+    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))    
     ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=17, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Target classifications (V2) from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=17)
+    ax.set_title('Target classifications (V2) from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=15)
 
     cb_ax = fig.add_axes([0.72, 0.15, 0.015, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 12, 1), orientation='vertical')
@@ -134,7 +134,7 @@ def pollyxt_tjk_display_targetclassi(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
     plt.close()
 
 def main():
