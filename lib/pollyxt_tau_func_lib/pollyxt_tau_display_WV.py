@@ -129,7 +129,6 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -160,7 +159,6 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 

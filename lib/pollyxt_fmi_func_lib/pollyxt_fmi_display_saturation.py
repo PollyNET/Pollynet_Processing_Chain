@@ -131,7 +131,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -163,7 +162,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -193,7 +191,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -223,7 +220,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -255,7 +251,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -287,7 +282,6 @@ def pollyxt_fmi_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_407.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 

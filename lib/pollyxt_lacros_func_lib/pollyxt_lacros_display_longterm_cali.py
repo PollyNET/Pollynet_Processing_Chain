@@ -440,7 +440,6 @@ def pollyxt_lacros_display_longterm_cali(tmpFile, saveFolder):
     fig.text(0.90, 0.03, 'Version: {version}'.format(version=version), fontsize=12)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
     plt.close()
 
