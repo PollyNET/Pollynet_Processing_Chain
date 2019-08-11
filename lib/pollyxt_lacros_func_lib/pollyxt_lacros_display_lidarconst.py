@@ -127,7 +127,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 532mn
@@ -155,7 +155,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display lidar constants at 1064mn
@@ -183,7 +183,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 387mn
@@ -209,7 +209,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 607mn
@@ -235,7 +235,7 @@ def pollyxt_lacros_display_lidarconst(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

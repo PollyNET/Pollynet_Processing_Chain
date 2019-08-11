@@ -130,7 +130,7 @@ def pollyxt_noa_display_WV(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display RH
@@ -161,7 +161,7 @@ def pollyxt_noa_display_WV(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

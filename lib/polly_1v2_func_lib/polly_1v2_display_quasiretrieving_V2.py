@@ -129,7 +129,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
@@ -159,7 +159,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

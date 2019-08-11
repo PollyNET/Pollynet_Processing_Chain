@@ -441,7 +441,7 @@ def pollyxt_tjk_display_longterm_cali(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
     plt.close()
 
 def main():

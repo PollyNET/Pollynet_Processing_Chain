@@ -135,7 +135,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -167,7 +167,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -199,7 +199,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

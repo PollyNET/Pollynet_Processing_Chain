@@ -135,7 +135,7 @@ def pollyxt_tropos_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi backscatter at 1064 nm
@@ -165,7 +165,7 @@ def pollyxt_tropos_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
@@ -195,7 +195,7 @@ def pollyxt_tropos_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi angtroem exponent 532-1064
@@ -225,7 +225,7 @@ def pollyxt_tropos_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

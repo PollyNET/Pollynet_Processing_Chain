@@ -130,7 +130,7 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_SAT_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display status of 532 FR
@@ -162,7 +162,7 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display status of 1064 FR
@@ -192,7 +192,7 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_SAT_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display status of 532 NR
@@ -224,7 +224,7 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 

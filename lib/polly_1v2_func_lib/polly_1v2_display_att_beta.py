@@ -136,7 +136,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
 
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
 def main():

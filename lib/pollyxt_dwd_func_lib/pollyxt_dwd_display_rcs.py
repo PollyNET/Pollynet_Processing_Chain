@@ -139,7 +139,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -171,7 +171,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -203,7 +203,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -235,7 +235,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -267,7 +267,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

@@ -142,7 +142,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -174,7 +174,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -206,7 +206,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 355 NR
@@ -238,7 +238,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -270,7 +270,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -302,7 +302,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 355
@@ -334,7 +334,7 @@ def arielle_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
