@@ -119,7 +119,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.set_title('Quasi backscatter coefficient (V2) at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_532[0], quasi_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
@@ -127,7 +127,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
@@ -147,7 +149,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.set_title('Quasi particle depolarization ratio (V2) at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=12)
@@ -155,7 +157,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

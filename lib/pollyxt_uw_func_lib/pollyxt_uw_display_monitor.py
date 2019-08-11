@@ -186,9 +186,11 @@ def pollyxt_uw_display_monitor(tmpFile, saveFolder):
     fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=17)
     if counts.size != 0:
         fig.text(0.1, 0.90, 'SC begin {:.1f}Mio'.format(counts[0][0]/1e6), fontsize=17)
-        fig.text(0.89, 0.90, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=17)
+        fig.text(0.85, 0.90, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=17)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
 
     plt.close()
 

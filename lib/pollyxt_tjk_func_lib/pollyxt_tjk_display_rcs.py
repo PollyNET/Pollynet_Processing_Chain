@@ -133,14 +133,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS355FRColorRange[0], RCS355FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -163,14 +165,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532FRColorRange[0], RCS532FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -193,14 +197,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Range-Corrected Signal at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS1064FRColorRange[0], RCS1064FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 355 NR
@@ -223,14 +229,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS355NRColorRange[0], RCS355NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -253,14 +261,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Range-Corrected Signal at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(RCS532NRColorRange[0], RCS532NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RCS_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 532 
@@ -283,14 +293,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Volume Depolarization Ratio at {wave}nm from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display voldepol 355
@@ -313,14 +325,16 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     ax.set_title('Volume Depolarization Ratio at {wave}nm from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_VDR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

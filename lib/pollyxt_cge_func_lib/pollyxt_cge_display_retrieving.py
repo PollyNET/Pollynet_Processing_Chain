@@ -170,7 +170,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, 'Version: {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with klett method
@@ -196,7 +198,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with raman method
@@ -222,7 +226,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with Constrained-AOD method
@@ -248,7 +254,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with klett method
@@ -274,7 +282,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with raman method
@@ -299,7 +309,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with Constrained-AOD method
@@ -323,7 +335,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='AERONET'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display LR with raman method
@@ -348,7 +362,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display angstroem exponent with klett method
@@ -373,7 +389,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display angstroem exponent with raman method
@@ -399,7 +417,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display depol ratio with klett method
@@ -424,7 +444,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Klett'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display depol ratio with raman method
@@ -449,7 +471,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(version=version, method='Raman'), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
@@ -472,7 +496,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
@@ -495,7 +521,9 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
 
     fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(version=version, source=meteorSource), fontsize=10)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
 def main():
