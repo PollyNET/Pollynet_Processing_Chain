@@ -115,15 +115,15 @@ def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
     p4, = ax1.plot(overlap532Defaults, height, color='#58B13F', linestyle='--', label=r'default overlap 532 FR')
     ax1.set_ylim([0, 3000])
     ax1.set_xlim([-0.05, 1.1])
-    ax1.set_ylabel('Height (m)', fontweight='semibold', fontsize=15)
-    ax1.set_xlabel('Overlap', fontweight='semibold', fontsize=15)
+    ax1.set_ylabel('Height (m)', fontsize=15)
+    ax1.set_xlabel('Overlap', fontsize=15)
     ax1.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax1.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
     ax1.grid(True)
     ax1.yaxis.set_major_locator(MultipleLocator(500))
     ax1.yaxis.set_minor_locator(MultipleLocator(100))
     start = parse_polly_filename(dataFilename)
-    fig.text(0.5, 0.98, 'Overlap for {instrument} at {location}, {time}'.format(instrument=pollyVersion, location=location, time=start.strftime('%Y%m%d %H:%M')), horizontalalignment='center', fontweight='bold', fontsize=15)
+    fig.text(0.5, 0.98, 'Overlap for {instrument} at {location}, {time}'.format(instrument=pollyVersion, location=location, time=start.strftime('%Y%m%d %H:%M')), horizontalalignment='center', fontsize=15)
     l = ax1.legend(handles=[p1, p2, p3, p4], loc='upper left', fontsize=15)
 
     sig355FR = np.ma.masked_where(sig355FR <= 0, sig355FR)
@@ -147,7 +147,7 @@ def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
         ax2.plot([1e-10, 1e10], [height[normRange532[-1] - 1], height[normRange532[-1] - 1]], linestyle='--', color='#58B13F')
     
     ax2.set_xlim([1e-2, 1e3])
-    ax2.set_xlabel('Signal [MHz]', fontweight='semibold', fontsize=15)
+    ax2.set_xlabel('Signal [MHz]', fontsize=15)
     ax2.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
     ax2.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
     ax2.grid(True)
@@ -155,7 +155,9 @@ def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
 
     fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
  
     plt.close()
 
