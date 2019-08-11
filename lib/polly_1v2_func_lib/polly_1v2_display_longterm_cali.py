@@ -184,7 +184,7 @@ def polly_1v2_display_longterm_cali(tmpFile, saveFolder):
 
     ax1.set_ylabel('LC @ 532nm')
     ax1.grid(False)
-    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontweight='bold', fontsize=20)
+    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=20)
     ax1.set_ylim(yLim532.tolist())
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
@@ -243,6 +243,7 @@ def polly_1v2_display_longterm_cali(tmpFile, saveFolder):
     fig.text(0.03, 0.01, startTime.strftime("%Y"), fontsize=12)
     fig.text(0.90, 0.01, 'Version: {version}'.format(version=version), fontsize=12)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
     plt.close()
 

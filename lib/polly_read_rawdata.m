@@ -63,10 +63,18 @@ end
 %% read data
 try
     rawSignal = double(ncread(file, 'raw_signal'));
-    deadtime = ncread(file, 'deadtime_polynomial');
+    if is_nc_variable(file, 'deadtime_polynomial')
+        deadtime = ncread(file, 'deadtime_polynomial');
+    else
+        deadtime = [];
+    end
     mShots = ncread(file, 'measurement_shots');
     mTime = ncread(file, 'measurement_time');
-    depCalAng = ncread(file, 'depol_cal_angle');
+    if is_nc_variable(file, 'depol_cal_angle')
+        depCalAng = ncread(file, 'depol_cal_angle');
+    else
+        depCalAng = [];
+    end
     hRes = ncread(file, 'measurement_height_resolution') * 0.15; % Unit: m
     zenithAng = ncread(file, 'zenithangle'); % Unit: deg
     repRate = ncread(file, 'laser_rep_rate');
