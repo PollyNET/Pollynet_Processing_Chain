@@ -154,8 +154,10 @@ def arielle_display_overlap(tmpFile, saveFolder):
     l = ax2.legend(handles=[p1, p2, p3, p4, p5, p6], loc='upper right', fontsize=15)
 
     fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=15)
-
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+        
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
  
     plt.close()
 

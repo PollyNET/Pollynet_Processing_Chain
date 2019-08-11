@@ -142,7 +142,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)
@@ -150,7 +150,9 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC355), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display attenuate backscatter at 532 FR
@@ -170,7 +172,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)
@@ -178,7 +180,9 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display attenuate backscatter at 1064 FR
@@ -198,7 +202,7 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_1064[0], att_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)
@@ -206,7 +210,9 @@ def pollyxt_tjk_display_att_beta(tmpFile, saveFolder):
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC1064), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

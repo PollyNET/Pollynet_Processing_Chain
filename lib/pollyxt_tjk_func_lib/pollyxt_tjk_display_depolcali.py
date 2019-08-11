@@ -137,10 +137,11 @@ def pollyxt_tjk_display_depolcali(tmpFile, saveFolder):
     ax2.tick_params(axis='both', which='major', labelsize=15, width=2, length=5)
     ax2.tick_params(axis='both', which='minor', width=1.5, length=3.5)
 
-    fig.text(0.85, 0.015, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontsize=10)
+    fig.text(0.82, 0.015, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontsize=10)
 
-    caliTime = datenum_to_datetime(thisCaliTime[0])
-    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), bbox_inches='tight', dpi=figDPI)
+    caliTime = datenum_to_datetime(thisCaliTime[0])    
+    plt.tight_layput()
+    plt.savefig((os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=figDPI)
     plt.close()
  
 def main():

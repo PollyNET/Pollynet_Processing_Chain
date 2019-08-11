@@ -120,7 +120,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
 
     ax.set_title('Water vapor mixing ratio from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(WVMRColorRange[0], WVMRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
@@ -128,7 +128,9 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display RH
@@ -148,7 +150,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
 
     ax.set_title('Relative humidity from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 100.1, 20), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$\%$]', fontsize=10)
@@ -156,7 +158,9 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), bbox_inches='tight', dpi=figDPI)
+    
+    plt.tight_layout()
+    fig.savefigos.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
