@@ -140,8 +140,8 @@ def pollyxt_tropos_display_depolcali(tmpFile, saveFolder):
     fig.text(0.82, 0.015, '{location}\n{instrument}\nVersion {version}'.format(location=location, instrument=pollyVersion, version=version), fontsize=10)
 
     caliTime = datenum_to_datetime(thisCaliTime[0])    
-    plt.tight_layput()
-    plt.savefig((os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=figDPI)
+    plt.tight_layout()
+    plt.savefig(os.path.join(saveFolder, '{start}_DepolCali_{wave}.png'.format(start=caliTime.strftime('%Y%m%d-%H%M'), wave=wavelength)), dpi=figDPI)
     plt.close()
  
 def main():

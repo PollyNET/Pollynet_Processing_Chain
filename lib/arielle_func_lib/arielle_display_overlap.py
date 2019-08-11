@@ -157,7 +157,7 @@ def arielle_display_overlap(tmpFile, saveFolder):
         
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
  
     plt.close()
 

@@ -153,7 +153,7 @@ def arielle_display_att_beta(tmpFile, saveFolder):
     plt.tight_layout()    
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display attenuate backscatter at 532 FR
@@ -184,7 +184,7 @@ def arielle_display_att_beta(tmpFile, saveFolder):
     plt.tight_layout()    
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
     # display attenuate backscatter at 1064 FR
@@ -215,7 +215,7 @@ def arielle_display_att_beta(tmpFile, saveFolder):
     plt.tight_layout()    
     
     plt.tight_layout()
-    fig.savefigos.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():
