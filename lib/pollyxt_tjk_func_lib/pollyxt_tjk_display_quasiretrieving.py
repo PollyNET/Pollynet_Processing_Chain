@@ -134,7 +134,6 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -164,7 +163,6 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -194,7 +192,6 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -224,7 +221,6 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 

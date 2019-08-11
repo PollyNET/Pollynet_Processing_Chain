@@ -149,10 +149,8 @@ def arielle_display_att_beta(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC355), fontsize=12)
+        
     
-    plt.tight_layout()    
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -180,10 +178,8 @@ def arielle_display_att_beta(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
+        
     
-    plt.tight_layout()    
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -211,10 +207,8 @@ def arielle_display_att_beta(tmpFile, saveFolder):
 
     fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC1064), fontsize=12)
+        
     
-    plt.tight_layout()    
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 

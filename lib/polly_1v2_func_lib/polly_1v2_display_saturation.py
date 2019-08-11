@@ -127,7 +127,6 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -159,7 +158,6 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
     
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
