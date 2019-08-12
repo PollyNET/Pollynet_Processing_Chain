@@ -39,7 +39,7 @@ projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(projectDir, 'lib'));
 addpath(projectDir);
 
-if ~ exist('pollynetConfigFile', 'file')
+if ~ exist('pollynetConfigFile', 'var')
     pollynetConfigFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
 end
 
