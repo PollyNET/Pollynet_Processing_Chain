@@ -19,7 +19,7 @@ clc;
 %% get the project directory
 projectDir = fileparts(mfilename('fullpath'));
 
-if ~ exist('pollynetConfigFile', 'file')
+if ~ exist('pollynetConfigFile', 'var')
     pollynetConfigFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
 end
 
