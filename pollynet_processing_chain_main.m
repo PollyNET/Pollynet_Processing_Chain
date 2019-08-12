@@ -34,11 +34,10 @@ run(fullfile(projectDir, 'lib', 'addlibpath.m'));
 run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 [USER, HOME, OS] = getsysinfo();
 
-configFile = fullfile(projectDir, 'config', pollynetConfigFile);
-if ~ exist(configFile, 'file')
-    error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', configFile);
+if ~ exist(pollynetConfigFile, 'file')
+    error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', pollynetConfigFile,;
 else
-    config = loadjson(configFile);
+    config = loadjson(pollynetConfigFile,;
     config.projectDir = projectDir;
 end
 
