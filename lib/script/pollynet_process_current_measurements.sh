@@ -24,6 +24,8 @@ display_help() {
     echo "                           - polly_1v2"
     echo "   -f, --polly_folder      specify the polly data folder"
     echo "                           e.g., '/oceanethome/pollyxt'"
+    echo "   -c, --config_file       specify the pollynet processing file for the data processing"
+    echo "                           e.g., '/config/pollynet_processing_chain_config.json'"
     echo "   -h, --help              show help message"
     echo
     # echo some stuff here for the -a or --add-options 
@@ -44,10 +46,9 @@ if isempty(pollyFile)
 else 
     for iFile = 1:length(pollyFile)
         write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$TODOLISTFOLDER', 'w');
-        pollynet_processing_chain_main;
+        pollynet_processing_chain_main('$POLLYNET_CONFIG_FILE');
     end
 end
-
 
 exit;
 ENDMATLAB
@@ -59,6 +60,7 @@ echo "Finish"
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
 TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
+POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
 
 ################################
 # Check if parameters options  #
@@ -85,6 +87,13 @@ do
       -t | --todo_folder)
           if [ $# -ne 0 ]; then
               TODOLISTFOLDER="$2"
+          fi
+          shift 2
+          ;;
+
+      -c | --config_file)
+          if [ $# -ne 0 ]; then
+              POLLYNET_CONFIG_FILE="$2"
           fi
           shift 2
           ;;
