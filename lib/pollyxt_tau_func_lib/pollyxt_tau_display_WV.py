@@ -141,7 +141,6 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
 
     ax.set_ylim([0, 8000])
     ax.yaxis.set_major_locator(MultipleLocator(2000))
-    ax.yaxis.set_minor_locator(MultipleLocator(500))ator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
