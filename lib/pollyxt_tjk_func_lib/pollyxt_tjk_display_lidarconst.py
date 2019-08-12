@@ -125,8 +125,6 @@ def pollyxt_tjk_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -153,8 +151,6 @@ def pollyxt_tjk_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -181,8 +177,6 @@ def pollyxt_tjk_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -207,8 +201,6 @@ def pollyxt_tjk_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -233,8 +225,6 @@ def pollyxt_tjk_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
-    
-    plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
