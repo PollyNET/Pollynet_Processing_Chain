@@ -37,7 +37,7 @@ run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 if ~ exist(pollynetConfigFile, 'file')
     error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', pollynetConfigFile);
 else
-    config = loadjson(pollynetConfigFile,;
+    config = loadjson(pollynetConfigFile);
     config.projectDir = projectDir;
 end
 
