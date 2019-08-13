@@ -42,14 +42,14 @@ get_date_input() {
 
 # process the data
 run_matlab() {
-echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\n\n"
+echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPOLLYNET_CONFIG_FILE=$POLLYNET_CONFIG_FILE\n\n"
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
 clc;
 
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $1, $2, $3, 'w');
-pollynet_processing_chain_main;
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$POLLYNET_CONFIG_FILE', $1, $2, $3, 'w');
+pollynet_processing_chain_main('POLLYNET_CONFIG_FILE');
 
 exit;
 ENDMATLAB
@@ -60,7 +60,7 @@ echo "Finish"
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/home/picasso/Pollynet_Processing_Chain/todo_filelist"
+POLLYNET_CONFIG_FILE="/home/picasso/Pollynet_Processing_Chain/config/pollynet_processsing_chain_config.json"
 year="2000"
 month="01"
 day="01"
