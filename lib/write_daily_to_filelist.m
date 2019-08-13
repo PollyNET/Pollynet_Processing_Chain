@@ -53,7 +53,7 @@ for iFile = 1:length(files)
         writeMode = 'a';
     end
 
-    write_single_to_filelist(pollyType, fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), files(iFile).name), pollynetConfigFile, writeMode)
+    write_single_to_filelist(pollyType, fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), files(iFile).name), pollynetConfigFile, writeMode);
 end
 
 end
