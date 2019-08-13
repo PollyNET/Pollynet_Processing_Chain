@@ -56,6 +56,7 @@ end
 pollyZipFolder = fileparts(pollyZipFilepath);
 pollyZipFile = basename(pollyZipFilepath);
 logbookZipFilepath = fullfile(pollyZipFolder, [pollyZipFile(1:(strfind(pollyZipFile, '.zip') - 1)), '.laserlogbook.txt.zip']);
+todolistFolder = fileparts(config.fileinfo_new);
 
 %% unzip laserlogbook files to todofolder
 if ~ exist(logbookZipFilepath, 'file')
