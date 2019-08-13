@@ -26,7 +26,7 @@ end
 fprintf('\n%%------------------------------------------------------%%');
 fprintf('\nStart the pollynet processing chain\n');
 tStart = now();
-fprintf('pollynet_config_file: %s\n', pollyConfigFile);
+fprintf('pollynet_config_file: %s\n', pollynetConfigFile);
 fprintf('%%------------------------------------------------------%%\n');
 
 %------------------------------------------------------%
