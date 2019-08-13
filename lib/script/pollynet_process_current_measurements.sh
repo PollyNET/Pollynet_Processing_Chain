@@ -45,7 +45,7 @@ if isempty(pollyFile)
     exit;
 else 
     for iFile = 1:length(pollyFile)
-        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$TODOLISTFOLDER', 'w');
+        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$POLLYNET_CONFIG_FILE', 'w');
         pollynet_processing_chain_main('$POLLYNET_CONFIG_FILE');
     end
 end
@@ -59,7 +59,6 @@ echo "Finish"
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
 POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
 
 ################################
@@ -80,13 +79,6 @@ do
       -f | --polly_folder)
           if [ $# -ne 0 ]; then
             POLLY_FOLDER="$2"
-          fi
-          shift 2
-          ;;
-
-      -t | --todo_folder)
-          if [ $# -ne 0 ]; then
-              TODOLISTFOLDER="$2"
           fi
           shift 2
           ;;

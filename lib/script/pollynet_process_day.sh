@@ -56,13 +56,13 @@ get_date_input() {
 
 # process the data
 run_matlab() {
-  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nTODOLISTFOLDER=$TODOLISTFOLDER\nPOLLYNET_CONFIG_FILE=$POLLYNET_CONFIG_FILE\nYear=$year\nMonth=$month\nDay=$day\n\n"
+  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPOLLYNET_CONFIG_FILE=$POLLYNET_CONFIG_FILE\nYear=$year\nMonth=$month\nDay=$day\n\n"
 
   matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 
 clc;
 
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$TODOLISTFOLDER', $year, $month, $day, 'w');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$POLLYNET_CONFIG_FILE', $year, $month, $day, 'w');
 pollynet_processing_chain_main('$POLLYNET_CONFIG_FILE');
 
 exit;
@@ -74,7 +74,6 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
 POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
 year="2000"
 month="01"
@@ -103,13 +102,6 @@ while :; do
   -f | --polly_folder)
     if [ $# -ne 0 ]; then
       POLLY_FOLDER="$2"
-    fi
-    shift 2
-    ;;
-
-  -t | --todo_folder)
-    if [ $# -ne 0 ]; then
-      TODOLISTFOLDER="$2"
     fi
     shift 2
     ;;

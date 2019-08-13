@@ -1,4 +1,4 @@
-function [] = pollynet_process_history_data(pollyType, startTime, endTime, saveFolder, todoFolder, pollynetConfigFile)
+function [] = pollynet_process_history_data(pollyType, startTime, endTime, saveFolder, pollynetConfigFile)
 %pollynet_process_history_data process hitorical pollyType data by Pollynet Processing program
 %   Example:
 %       [] = pollynet_process_history_data(pollyType, startTime, endTime)
@@ -21,9 +21,6 @@ function [] = pollynet_process_history_data(pollyType, startTime, endTime, saveF
 %       saveFolder: char
 %           polly data folder. 
 %           e.g., /oceanethome/pollyxt
-%       todoFolder: char
-%           the todolist folder.
-%           e.g., /home/picasso/Pollynet_Processing_Chain/todo_filelist
 %       pollynetConfigFile: char
 %           the absolute path of the pollynet configuration file.
 %           e.g., '/config/pollynet_processing_chain_config.json'
@@ -60,7 +57,7 @@ for thisDate = startTime:endTime
     fprintf('Still left: %d days\n', int32(endTime - thisDate));
 
     % extract data and write to file_infonew.txt
-    write_daily_to_filelist(pollyType, saveFolder, todoFolder, thisYear, thisMonth, thisDay, 'w')
+    write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, thisYear, thisMonth, thisDay, 'w')
 
     % activate the processing program
     pollynet_processing_chain_main(pollynetConfigFile);
