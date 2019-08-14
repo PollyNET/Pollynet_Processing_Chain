@@ -1,5 +1,5 @@
 function [matlab_datenum] = unix_timestamp_2_datenum(unix_timestamp)
-%unix_timestamp_2_datenum convert the matlab datenum to unix timstamp.
+%UNIX_TIMESTAMP_2_DATENUM convert the matlab datenum to unix timstamp.
 %   Example:
 %       [matlab_datenum] = unix_timestamp_2_datenum(unix_timestamp)
 %   Inputs:
@@ -10,7 +10,8 @@ function [matlab_datenum] = unix_timestamp_2_datenum(unix_timestamp)
 %   History:
 %       2019-05-10. First Edition by Zhenping
 %   Note:
-%       unix timestamp is based on the seconds since 1 January 1970. And both of the convention didn't correct the leap seconds.
+%       unix timestamp is based on the seconds since 1 January 1970. And both of 
+%       the convention didn't correct the leap seconds.
 %   Contact:
 %       zhenping@tropos.de
 

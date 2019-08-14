@@ -112,7 +112,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         if snr532RR >= config.minRamanRefSNR607
             tmpAerExt532_RR = thisAerExt532_RR;
             tmpAerExt532_RR(1:hBaseIndx532) = tmpAerExt532_RR(hBaseIndx532);
-            [thisAerBsc532_RR, thisLR532_RR] = polly_raman_bsc_rr(data.distance0, sig532, sig532RR, tmpAerExt532_RR, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
+            [thisAerBsc532_RR, thisLR532_RR] = polly_raman_bsc_rr(data.distance0, sig532, sig532RR, tmpAerExt532_RR, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
             thisLR532_RR = thisAerExt532_RR ./ thisAerBsc532_RR;
             % TODO: uncertainty analysis
         end

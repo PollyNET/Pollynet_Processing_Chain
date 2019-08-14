@@ -1,5 +1,6 @@
 function [signalGen] = sigGenWithNoise(signal, noise, nProfile, method)
-%SIGGENWITHNOISE generate the noise containing signal with certain noise adding algorithm.
+%SIGGENWITHNOISE generate the noise containing signal with certain noise adding 
+%algorithm.
 %   Example:
 %       [signalGen] = sigGenWithNoise(signal, noise, nProfile, method)
 %   Inputs:

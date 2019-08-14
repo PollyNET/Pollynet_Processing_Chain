@@ -1,7 +1,10 @@
-function [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, year, month, day, writeMode)
-%write_daily_to_filelist Unzip the polly data and write the data info to the todolist file for pollynet processing chain.
+function [] = write_daily_to_filelist(pollyType, saveFolder, ...
+            pollynetConfigFile, year, month, day, writeMode)
+%WRITE_DAILY_TO_FILELIST Unzip the polly data and write the data info to the 
+%todolist file for pollynet processing chain.
 %   Example:
-%       [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, year, month, day, writeMode)
+%       [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, 
+%           year, month, day, writeMode)
 %   Inputs:
 %       pollyType: char
 %           polly instrument. 
@@ -16,9 +19,9 @@ function [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile,
 %       month: integer | char
 %       day: integer | char
 %       writeMode: char
-%           If writeMode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
+%           If writeMode was 'a', the polly data info will be appended. If 'w', 
+%           a new todofile will be created.
 %   Outputs:
-%       
 %   History:
 %       2019-07-21. First Edition by Zhenping
 %   Contact:
@@ -39,11 +42,13 @@ if ischar(day)
 end
 
 %% search zip files
-files = dir(fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
+files = dir(fullfile(saveFolder, 'data_zip', ...
+                     sprintf('%04d%02d', year, month), ...
+                     sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
 
 if isempty(files)
     write_single_to_filelist(pollyType, '', pollynetConfigFile, writeMode)
-	return;
+    return;
 end
 
 for iFile = 1:length(files)
@@ -53,7 +58,9 @@ for iFile = 1:length(files)
         writeMode = 'a';
     end
 
-    write_single_to_filelist(pollyType, fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), files(iFile).name), pollynetConfigFile, writeMode);
+    write_single_to_filelist(pollyType, ...
+    fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), ...
+    files(iFile).name), pollynetConfigFile, writeMode);
 end
 
 end

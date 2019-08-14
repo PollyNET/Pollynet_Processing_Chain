@@ -1,7 +1,10 @@
-function [flag] = polly_saturationdetect(signal, height, hBase, hTop, sigThresh, cloudMaxGThickness)
-%polly_saturationdetect saturation bin detection. More detailed information can be found in doc/pollynet_processing_program.md
+function [flag] = polly_saturationdetect(signal, height, hBase, hTop, ...
+                    sigThresh, cloudMaxGThickness)
+%POLLY_SATURATIONDETECT saturation bin detection. More detailed information can 
+%be found in doc/pollynet_processing_program.md
 %   Example:
-%       [flag] = polly_saturationdetect(signal, height, hRange, sigThresh, cloudMaxGThickness)
+%       [flag] = polly_saturationdetect(signal, height, hRange, sigThresh, 
+%                                       cloudMaxGThickness)
 %   Inputs:
 %       signal: array
 %           photon count rate. [MHz] 
@@ -10,7 +13,8 @@ function [flag] = polly_saturationdetect(signal, height, hBase, hTop, sigThresh,
 %       hRange: 2-element array
 %           range constrain for the detection.
 %       sigThresh: float
-%           the maximum signal to be trusted without strong signal satureation. [MHz] 
+%           the maximum signal to be trusted without strong signal satureation. 
+%           [MHz] 
 %       cloudMaxGThickness: float
 %           the maximun penetration depth for strong attenuation clouds. [m]
 %   Outputs:
@@ -32,13 +36,15 @@ hBaseIndx = find(height >= hBase, 1);
 hTopIndx = find(height <= hTop, 1);
 cloudMaxGThicknessIndx = int32(cloudMaxGThickness / (height(2) - height(1)));
 if isempty(hBaseIndx) || isempty(hTopIndx)
-    error('Error in polly_saturationdetect: hBase or hTop is out of range.\nCurrent hBase is %d and hTop is %d\n', hBase, hTop);
+    error(['Error in polly_saturationdetect: hBase or hTop is out of ' ...
+           'range.\nCurrent hBase is %d and hTop is %d\n'], hBase, hTop);
 end
 
 % determine whether the signal is over the saturation threshold
 flag(signal > sigThresh) = true;
 
-indxSaturate = find((signal(hBaseIndx:(hTopIndx - 1)) - sigThresh) .* (signal((hBaseIndx + 1):hTopIndx) - sigThresh) <= 0);
+indxSaturate = find((signal(hBaseIndx:(hTopIndx - 1)) - sigThresh) .* ...
+                    (signal((hBaseIndx + 1):hTopIndx) - sigThresh) <= 0);
 if isempty(indxSaturate) || (numel(indxSaturate) == 1)
     return;
 else

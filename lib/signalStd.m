@@ -1,5 +1,6 @@
 function [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
-%SIGNALSTD description
+%SIGNALSTD The uncertainty of the signal with taking into account of background 
+%noise and additional smoothing.
 %   Example:
 %       [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
 %   Inputs:
@@ -15,7 +16,7 @@ function [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
 %           the dimension which the smoothing is along with.
 %   Outputs:
 %       sigStd: array
-%           std of the signal
+%           uncertainty of the signal
 %   History:
 %       2018-09-02. First edition by Zhenping
 %   Contact:
@@ -38,7 +39,9 @@ end
 
 if ismatrix(smoothWindow)
     if size(smoothWindow, 2) ~= 3
-        error('signalStd:incompatibleSize', 'smoothWindow should be a m*3 matrix if height dependent smoothing is set');
+        error(['signalStd:incompatibleSize' ...
+        'smoothWindow should be a m*3 matrix ' ...
+        'if height dependent smoothing is set']);
     end
 
     sizeSignal = ones(1, ndims(signal));
@@ -46,7 +49,8 @@ if ismatrix(smoothWindow)
 
     thisSmoothWindow = ones(sizeSignal);
     for iWin = 1:size(dimension, 2)
-        thisSmoothWindow(smoothWindow(iWin, 1):smoothWindow(iWin, 2)) = smoothWindow(iWin, 3);
+        thisSmoothWindow(smoothWindow(iWin, 1):smoothWindow(iWin, 2)) = ...
+        smoothWindow(iWin, 3);
     end
 
     sigStd = sqrt(signal.^2 + bg.^2) ./ sqrt(thisSmoothWindow);

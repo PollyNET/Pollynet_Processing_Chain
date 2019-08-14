@@ -1,7 +1,12 @@
-function [refHIndx, dpIndx] = polly_rayleighfit(distance0, sig, sigPCR, bg, molsig, minDecomLogDist, searchBase, searchTop, maxDecomThickness, decomSmoothWin, minRefThickness, minRefDeltaExt, minRefSNR)
-%polly_rayleighfit Search the reference height with rayleighfitting algorithm. More detailed information can be found in doc/pollynet_processing_program.md
+function [refHIndx, dpIndx] = polly_rayleighfit(distance0, sig, sigPCR, bg, ...
+    molsig, minDecomLogDist, searchBase, searchTop, maxDecomThickness, ...
+    decomSmoothWin, minRefThickness, minRefDeltaExt, minRefSNR)
+%POLLY_RAYLEIGHFIT Search the reference height with rayleighfitting algorithm. 
+%More detailed information can be found in doc/pollynet_processing_program.md
 %   Example:
-%       [refHIndx] = polly_rayleighfit(distance0, sig, sigPCR, bg, molsig, minDecomLogDist, searchBase, searchTop, maxDecomThickness, decomSmoothWin, minRefThickness, minRefDeltaExt, minRefSNR)
+%       [refHIndx] = polly_rayleighfit(distance0, sig, sigPCR, bg, molsig, 
+%       minDecomLogDist, searchBase, searchTop, maxDecomThickness, 
+%       decomSmoothWin, minRefThickness, minRefDeltaExt, minRefSNR)
 %   Inputs:
 %       distance0: array
 %           the distance between each range bin to the system. [m] 
@@ -31,21 +36,25 @@ function [refHIndx, dpIndx] = polly_rayleighfit(distance0, sig, sigPCR, bg, mols
 %           minimum integral SNR at reference height.
 %   Outputs:
 %       refHIndx: 2-element array
-%           index of reference height. If no reference height was found, NaN will be returned.
+%           index of reference height. If no reference height was found, NaN 
+%           will be returned.
 %       dpIndx: array
 %           Douglas-Peucker decomposition points.
 %   Note:
-%       For more information about Douglas-Peucker Decomposition and rayleigh fitting, please go to doc/pollynet_processing_program.md.
+%       For more information about Douglas-Peucker Decomposition and rayleigh 
+%       fitting, please go to doc/pollynet_processing_program.md.
 %   History:
 %       2018-12-23. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
 
 molCorSig = sigPCR .* distance0.^2 ./ molsig;
-dpIndx = DouglasPeucker(molCorSig, distance0, minDecomLogDist, searchBase, searchTop, maxDecomThickness, decomSmoothWin);
+dpIndx = DouglasPeucker(molCorSig, distance0, minDecomLogDist, searchBase, ...
+                        searchTop, maxDecomThickness, decomSmoothWin);
 
 RCS = sigPCR .* distance0.^2;
-[hBIndx, hTIndx] = rayleighfit(distance0, RCS, sig, bg, molsig, dpIndx, minRefThickness, minRefDeltaExt, minRefSNR, true);
+[hBIndx, hTIndx] = rayleighfit(distance0, RCS, sig, bg, molsig, dpIndx, ...
+                            minRefThickness, minRefDeltaExt, minRefSNR, true);
 
 refHIndx = [hBIndx, hTIndx];
 

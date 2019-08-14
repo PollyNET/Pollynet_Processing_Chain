@@ -1,5 +1,5 @@
 function [thisStr] = datestr_convert_0(thisDatenum, thisFormat)
-%datestr_convert_0 Convert datenum to datestr with keeping 0 to empty string, instead of '00000100'
+%DATESTR_CONVERT_0 Convert datenum to datestr with keeping 0 to empty string, instead of '00000100'
 %   Example:
 %       [thisStr] = datestr_convert_0(thisDatenum)
 %   Inputs:
