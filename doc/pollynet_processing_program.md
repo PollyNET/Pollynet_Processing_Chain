@@ -505,23 +505,29 @@ processInfo: struct
   minDataSize: int32
     Mininmum data size that was accepted for the data processing.
   institue: char
-    institute full-name.
+    institute full-name. This will be written to the nc files.
   contact: char
-    contact.
+    contact. This will be written to the nc files.
+  homepage: char
+    pollynet home page. This will be written to the nc files.
   programVersion: char
-    program version.
+    program version. This will be written to the nc files.
   visualizationMode: char
     visualization mode, 'matlab' or 'python'. Python is better supported in the server than matlab.
   pyBinDir: char
     path for the appled python interpreter.
+	flagEnableCaliResultsOutput: logical
+    flag bit to control whehter to output the calibration results
+  flagReduceMATLABToolboxDependence: logical
+    flag bit to control whether to use the matlab toolbox (statistical toolbox and curveture toolbox)
   flagDeleteData: logical
     flag bit to control whether to delete the data file after finishing the processing.
   flagEnableResultsOutput: logical
     flag bit to control whether to save the processing results.
   flagEnableDataVisualization: logical
     flag bit to control whether to visualize the results.
-  pollyVersions: cell
-    label of all polly versions.
+  flagSendNotificationEmail: logical
+    flag bit to control whether to send email to the admin for each running task.
 ```
 
 #### done_filelist
