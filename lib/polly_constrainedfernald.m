@@ -1,7 +1,12 @@
-function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
-%polly_constrainedfernald retrieve the aerosol backscatter coefficient with the constrain from the AOD from AERONET.
+function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, ...
+    signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, ...
+    AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+%POLLY_CONSTRAINEDFERNALD retrieve the aerosol backscatter coefficient with AOD 
+%constrain from AERONET.
 %   Usage:
-%       [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+%       [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, 
+%       signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, 
+%       AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
 %   Inputs:
 %       height: array
 %           height. [m]
@@ -24,7 +29,8 @@ function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, si
 %       AOD_AERONET: float
 %           AOD measured by AERONET.
 %       minAODDev: float
-%           minimum deviation of AOD between Lidar and AERONET that can be tolerable.
+%           minimum deviation of AOD between Lidar and AERONET that can be 
+%           tolerable.
 %       LR: float
 %           aerosol lidar ratio. [Sr]
 %       minHeight: float
@@ -45,9 +51,10 @@ function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, si
 %   History:
 %       2018-02-03. First edition by Zhenping
 %       2019-03-29. Fix the bug of returning NaN for lidar ratio.
-%       2019-04-09. Screen out the negative backscatter coefficient during the calculation.
-%   Copyright:
-%       Ground-based remote sensing. (TROPOS)
+%       2019-04-09. Screen out the negative backscatter coefficient during the 
+%                   calculation.
+%   Contact:
+%       zhenping@tropos.de
 
 % initialize
 aerBsc = NaN(size(height));
@@ -62,14 +69,17 @@ if isnan(AOD_AERONET)
 end
 
 %% find the integral range to calculate the AOD
-hBaseIndx = find(height >= minHeight + window_size/2 * (height(2) - height(1)), 1);
+hBaseIndx = find(height >= minHeight + window_size/2 * ...
+                 (height(2) - height(1)), 1);
 if isempty(hBaseIndx)
-    warning('Failure in searching the index of minHeight. Set the default value to be 70');
+    warning(['Failure in searching the index of minHeight. ' ...
+             'Set the default value to be 70']);
     hBaseIndx = 70;
 end
 hTopIndx = find(SNR(hBaseIndx:end) <= minSNR, 1);
 if isempty(hTopIndx)
-    warning('Failure in searching the index of maxHeight. Set the default value to be the length of height.');
+    warning(['Failure in searching the index of maxHeight. ' ...
+             'Set the default value to be the length of height.']);
     hTopIndx = numel(height);
 end
 hTopIndx = hBaseIndx + hTopIndx - 1;
@@ -77,17 +87,26 @@ hTopIndx = hBaseIndx + hTopIndx - 1;
 while AODDev > minAODDev
     midLR = (minLR + maxLR) / 2;
 
-    bscMid = polly_fernald(height, signal, midLR, refHeight, refBeta, molBsc, window_size); 
-    bscMax = polly_fernald(height, signal, maxLR, refHeight, refBeta, molBsc, window_size);
-    bscMin = polly_fernald(height, signal, minLR, refHeight, refBeta, molBsc, window_size);
+    bscMid = polly_fernald(height, signal, midLR, refHeight, refBeta, ...
+                           molBsc, window_size); 
+    bscMax = polly_fernald(height, signal, maxLR, refHeight, refBeta, ...
+                           molBsc, window_size);
+    bscMin = polly_fernald(height, signal, minLR, refHeight, refBeta, ...
+                           molBsc, window_size);
 
     bscMid(1:hBaseIndx) = bscMid(hBaseIndx);
     bscMax(1:hBaseIndx) = bscMax(hBaseIndx);
     bscMin(1:hBaseIndx) = bscMin(hBaseIndx);
 
-    biasAODMax = sum(bscMax(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * maxLR) - AOD_AERONET;
-    biasAODMin = sum(bscMin(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * minLR) - AOD_AERONET;
-    biasAODMid = sum(bscMid(1:hTopIndx) .* [height(1), diff(height(1:hTopIndx))] * midLR) - AOD_AERONET;
+    biasAODMax = sum(bscMax(1:hTopIndx) .* ...
+                     [height(1), diff(height(1:hTopIndx))] * maxLR) - ...
+                     AOD_AERONET;
+    biasAODMin = sum(bscMin(1:hTopIndx) .* ...
+                     [height(1), diff(height(1:hTopIndx))] * minLR) - ...
+                     AOD_AERONET;
+    biasAODMid = sum(bscMid(1:hTopIndx) .* ...
+                     [height(1), diff(height(1:hTopIndx))] * midLR) - ...
+                     AOD_AERONET;
 
     AODDev = abs(biasAODMid);
 
@@ -101,13 +120,15 @@ while AODDev > minAODDev
         biasAOD = AODDev;
         return;
     elseif (nIters >= maxIterations) && (AODDev > minAODDev)
-        warning('Best fit aerosol backscatter coefficient profile can not be found!');
+        warning(['Best fit aerosol backscatter coefficient ' ...
+                 'profile can not be found!']);
         return;
     end
 
     if sign(biasAODMin) == sign(biasAODMax)
         if min(abs([biasAODMin, biasAODMax])) > minAODDev
-            warning('Best fit aerosol backscatter coefficient profile can not be found!');
+            warning(['Best fit aerosol backscatter coefficient ' ...
+                     'profile can not be found!']);
             aerBsc = NaN(size(height));
             bestLR = NaN;
             biasAOD = NaN;

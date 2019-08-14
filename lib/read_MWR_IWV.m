@@ -1,10 +1,13 @@
 function [tIWV, IWV, IWVErr, IWVAttri] = read_MWR_IWV(file)
-%read_MWR_IWV description
+%READ_MWR_IWV read the integrated water vapor from the microwave radiometer 
+%outputs.
 %   Example:
 %       [tIWV, IWV, IWVErr] = read_MWR_IWV(tIWV, IWV, IWVErr Inputs:
 %   Inputs:
 %       file: char
-%           netcdf file of saving the IWV results from HATPRO. Generally you can find the data in our rsd server. Detailed information you can contact with Patric Seifert.
+%           netcdf file of saving the IWV results from HATPRO. Generally you can
+%           find the data in our rsd server. Detailed information you can 
+%           contact with Patric Seifert.
 %   Outputs:
 %       IWV: array
 %           intergrated water vapor. [kg*m^{-2}] 

@@ -1,14 +1,19 @@
 function [ ext_std ] = polly_raman_ext_std(height, signal, bg, lambda_emit, ...
-    lambda_rec, angstrom, pressure, temperature, window_size, C, rh, nProfiles, method, measure_error)
+    lambda_rec, angstrom, pressure, temperature, window_size, C, rh, ...
+    nProfiles, method, measure_error)
 %POLLY_RAMAN_EXT_STD calculate the uncertainty of aerosol
 %extinction coefficient with Raman method.
+%   Example:
+%       [ ext_std ] = polly_raman_ext_std(height, signal, bg, lambda_emit, 
+%       lambda_rec, angstrom, pressure, temperature, window_size, C, rh, 
+%       nProfiles, method, measure_error)
 %   Inputs:
 %       height: array
 %           height[m]
 %       signal: array
 %           measured raman signal. [Photon Count]
-%		bg: array
-%			background. [Photon Count]
+%       bg: array
+%           background. [Photon Count]
 %       lambda_emit: float
 %           the wavelength of the emitted laser beam.[nm]
 %       lambda_rec: float
@@ -29,15 +34,19 @@ function [ ext_std ] = polly_raman_ext_std(height, signal, bg, lambda_emit, ...
 %           number of the generated profiles to calculate the uncertainty.
 %       method: str
 %           method for calculating the signal slope. 
-%				'moving'|'movingslope': using Savitzky-Golay filter.
-%				'smoothing'|'smooth': using finite difference algorithm with smoothed signal.
-%				'chi2': using chi2 linear fit.
+%               'moving'|'movingslope': using Savitzky-Golay filter.
+%               'smoothing'|'smooth': using finite difference algorithm with 
+%               smoothed signal.
+%               'chi2': using chi2 linear fit.
 %       measure_error: array
-%           systematic error of signal. (not random error, normally treated as 0);
+%           systematic error of signal. 
+%           (not random error, normally treated as 0);
 %   Returns:
 %       uncertainty of aerosol extinction coefficient [m^{-1}]
 %   History:
 %       2017-12-18. First edition by Zhenping
+%   Contact:
+%       zhenping@tropos.de
 
 if ~ exist('method', 'var')
     method = 'moving';
@@ -56,7 +65,8 @@ signalGen = sigGenWithNoise(signal, sqrt(signal + bg), nProfiles, 'norm');
 for iProfile = 1:nProfiles
     sig = signalGen(:, iProfile)';
     ext_aer(iProfile, :) = polly_raman_ext(height, sig, lambda_emit, ...
-    lambda_rec, angstrom, pressure, temperature, window_size, C, rh, method, measure_error);
+        lambda_rec, angstrom, pressure, temperature, ...
+        window_size, C, rh, method, measure_error);
 end
 
 ext_std = nanstd(ext_aer);

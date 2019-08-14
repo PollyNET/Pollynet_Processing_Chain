@@ -1,5 +1,6 @@
-function [sigTotCor, bgTotCor, sigTotCorStd] = Polly_trans_correct(sigTot, bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd)
-%Polly_trans_correct correct the effect of different transmission inside the 
+function [sigTotCor, bgTotCor, sigTotCorStd] = polly_trans_correct(sigTot, ...
+    bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd)
+%POLLY_TRANS_CORRECT correct the effect of different transmission inside the 
 %Tot and depol channel.
 %   Example:
 %       [sigTotCor, sigTotCorStd] = Polly_trans_correct(sigEl, sigCross, Rt, 
@@ -50,15 +51,20 @@ if ~ isequal(size(sigTot), size(sigCross))
     error('input signals have different size.')
 end
 
-% uncertainty caused by RcStd and RtStd is neglected because normally this value can be set down very precisely. 
-sigTotCor = (Rc - 1)/(Rc - Rt) .* sigTot + (1 - Rt)/(Rc - Rt)./depolConst .* sigCross;
-bgTotCor = (Rc - 1)/(Rc - Rt) .* bgTot + (1 - Rt)/(Rc - Rt)./depolConst .* bgCross;
-sigTotCorVar = (sigCross./depolConst.^2 * (1-Rt)/(Rc-Rt)).^2 .* ...
-                depolConstStd.^2 + ((Rc - 1)/(Rc - Rt)).^2 .* ...
-                (sigTot + bgTot) + ((1 - Rt)./(depolConst*(Rc - Rt))).^2 .* (sigCross + bgCross);
+% uncertainty caused by RcStd and RtStd is neglected because normally this value
+% can be set down very precisely. 
+sigTotCor = (Rc - 1)/(Rc - Rt) .* sigTot + ...
+            (1 - Rt)/(Rc - Rt) ./ depolConst .* sigCross;
+bgTotCor = (Rc - 1)/(Rc - Rt) .* bgTot + ...
+           (1 - Rt)/(Rc - Rt) ./ depolConst .* bgCross;
+sigTotCorVar = (sigCross ./ depolConst.^2 * (1-Rt) / (Rc-Rt)).^2 .* ...
+                depolConstStd.^2 + ((Rc - 1) / (Rc - Rt)).^2 .* ...
+                (sigTot + bgTot) + ((1 - Rt) ./ ...
+                (depolConst * (Rc - Rt))).^2 .* (sigCross + bgCross);
 
 sigTotCorVar(sigTotCorVar < 0) = 0;   % convert the negative to 0, otherwise 
-                                      % this will make the sqrt value to be complex.
-sigTotCorStd = sqrt(sigTotCorVar);
+                                      % this will make the sqrt value to be 
+                                      % complex.
+sigTotCorStd = sqrt(sigTotCorVar);   % TODO
 
 end

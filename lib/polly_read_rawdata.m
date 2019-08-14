@@ -1,14 +1,16 @@
 function [ data ] = polly_read_rawdata(file, config, flagDelete)
-%polly_read_rawdata read polly data.
+%POLLY_READ_RAWDATA read polly raw data.
 %   Usage:
-%       data = polly_read_rawdata(file, config)
+%       data = polly_read_rawdata(file, config, flagDelete)
 %   Inputs:
 %       file: char
 %           fullpath of polly data file.
 %       config: struct
-%           configuration. Detailed information can be found in doc/polly_config.md.
+%           configuration. Detailed information can be found in 
+%           doc/polly_config.md.
 %       flagDelete: logical
-%           flag to control whether to delete the data files after extracting the data.
+%           flag to control whether to delete the data files after extracting 
+%           the data.
 %   Outputs:
 %       data: struct
 %           rawSignal: array
@@ -37,8 +39,8 @@ function [ data ] = polly_read_rawdata(file, config, flagDelete)
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %       2019-07-08. Read the 'laser_rep_rate'.
-%   Copyright:
-%       Ground-based remote sensing (TROPOS)
+%   Contact:
+%       zhenping@tropos.de
 
 %% variables initialization
 data = struct();
@@ -113,16 +115,21 @@ if config.flagFilterFalseMShots
 
 elseif config.flagCorrectFalseMShots
     mShots(:, flagFalseShots) = 600;
-    mTimeStart = floor(polly_parsetime(file, config.dataFileFormat) / datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
-    [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = datevec(mTimeStart);
+    mTimeStart = floor(polly_parsetime(file, config.dataFileFormat) / ...
+                       datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
+    [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
+                       datevec(mTimeStart);
     mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
-    mTime(2, :) = thisHour * 3600 + thisMinute * 60 + thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+    mTime(2, :) = thisHour * 3600 + ...
+                  thisMinute * 60 + ...
+                  thisSecond + 30 .* (0:(size(mTime, 2) - 1));
 end
 
 data.zenithAng = zenithAng;
 data.hRes = hRes;
 data.mSite = mSite;
-data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
+data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + ...
+             datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
 data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;

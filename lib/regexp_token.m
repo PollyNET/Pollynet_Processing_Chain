@@ -1,5 +1,6 @@
 function [item] = regexp_token(thisStr, pattern, defaults)
-%regexp_token regexp with the input pattern. If not found, return defaults. (Use only 1 output pattern.)
+%REGEXP_TOKEN regexp with the input pattern. If not found, return defaults. (Use 
+%only 1 output token in the 'pattern')
 %   Example:
 %       [item] = regexp_token(thisStr, pattern, defaults)
 %   Inputs:
@@ -7,7 +8,7 @@ function [item] = regexp_token(thisStr, pattern, defaults)
 %           input char array.
 %           e.g., 'a: 2; b: 3' 
 %       pattern: char
-%           search patter.
+%           search patter. (Defailed information can be found in REGEXP)
 %           e.g., '(?<=b: )\d*' 
 %       defaults: char
 %           default return for the searched patter.

@@ -1,5 +1,5 @@
 function [rh] = wvmr_2_rh(wvmr, es, pressure)
-%wvmr_2_rh convert the water vapor mixing ratio to relative humidity.
+%WVMR_2_RH convert the water vapor mixing ratio to relative humidity.
 %   Example:
 %       [rh] = wvmr_2_rh(wvmr, es, pressure)
 %   Inputs:

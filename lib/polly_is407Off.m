@@ -1,5 +1,5 @@
 function [flag] = polly_is407Off(sig407)
-%polly_is407Off determine whether channel 407nm is turned off.
+%POLLY_IS407OFF determine whether channel 407nm is turned off.
 %   Example:
 %       [flag] = polly_is407Off(sig407)
 %   Inputs:

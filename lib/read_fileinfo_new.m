@@ -43,7 +43,8 @@ try
     fileinfo_new.pollyVersion = transpose(data{6});
 
     for iTask = 1:length(data{5})
-        fileinfo_new.dataSize = [fileinfo_new.dataSize, int32(str2num(data{5}{iTask}))];
+        fileinfo_new.dataSize = [fileinfo_new.dataSize, ...
+                                 int32(str2num(data{5}{iTask}))];
     end
 
 catch

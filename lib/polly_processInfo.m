@@ -12,7 +12,8 @@ function [processInfo] = polly_processInfo(task, processInfo_history)
 %           pollyVersion: char
 %           dataTime: datenum
 %       processInfo_history: struct
-%           More detailed info can be found in doc/pollynet.md and doc/polly_overviews.xlsx
+%           More detailed info can be found in doc/pollynet.md and 
+%           doc/polly_overviews.xlsx
 %   Outputs:
 %       processInfo: struct
 %           pollyVersion: char
@@ -37,16 +38,24 @@ processInfo.pollyProcessFunc = '';
 processInfo.pollyUpdateInfo = '';
 processInfo.pollyLoadDefaultsFunc = '';
 
-dataTime = polly_parsetime(task.dataFilename, '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc');
+dataTime = polly_parsetime(task.dataFilename, ...
+'(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc');
 isCurrentPolly = strcmpi(task.pollyVersion, processInfo_history.pollyVersion);
-isWithinTimePeriod = (dataTime < processInfo_history.endTime) & (dataTime >= processInfo_history.startTime);
+isWithinTimePeriod = (dataTime < processInfo_history.endTime) & ...
+                     (dataTime >= processInfo_history.startTime);
 
-if (sum(isCurrentPolly) == 0) || (sum(isWithinTimePeriod) == 0) || (sum(isCurrentPolly & isWithinTimePeriod) == 0)
-    warning('Failure in searching the process info for %s.\nPlease check the pollynet processing config history file.\n', task.dataFilename);
+if (sum(isCurrentPolly) == 0) || (sum(isWithinTimePeriod) == 0) || ...
+   (sum(isCurrentPolly & isWithinTimePeriod) == 0)
+    warning(['Failure in searching the process info for %s.\n' ...
+             'Please check the pollynet processing config history file.\n'], ...
+             task.dataFilename);
     return;
 elseif sum(isWithinTimePeriod & isCurrentPolly) > 1
-    lineOutputStr = sprintf('%d, ', find(isWithinTimePeriod & isCurrentPolly) + 1);
-    warning('More than one process info was found.\nSee line %s\nPlease check the pollynet_processing_config_history file.\nOr check the data file: %s\n', lineOutputStr, task.dataFilename);
+    lineOutputStr = sprintf('%d, ', ...
+                            find(isWithinTimePeriod & isCurrentPolly) + 1);
+    warning(['More than one process info was found.\nSee line %s\n' ...
+             'Please check the pollynet_processing_config_history file.\n' ...
+             'Or check the data file: %s\n'], lineOutputStr, task.dataFilename);
     return;
 elseif sum(isCurrentPolly & isWithinTimePeriod) == 1
     flag = isCurrentPolly & isWithinTimePeriod;
@@ -58,7 +67,8 @@ elseif sum(isCurrentPolly & isWithinTimePeriod) == 1
     processInfo.pollyUpdateInfo = processInfo_history.pollyUpdateInfo{flag};
     processInfo.pollyLoadDefaultsFunc = processInfo_history.pollyLoadDefaultsFunc{flag}(1:(end-2));
 else
-    warning('Unknown error in searching the polly processing config info for %s.\n', task.dataFilename);
+    warning(['Unknown error in searching the polly processing config ' ...
+             'info for %s.\n'], task.dataFilename);
     return;
 end
 

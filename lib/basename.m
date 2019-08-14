@@ -1,5 +1,5 @@
 function [basename] = basename(fileFullpath)
-%basename retrieve the basename from the file fullpath. 
+%BASENAME cut the basename from the file fullpath. 
 %   Example:
 %       [basename] = basename(fileFullpath)
 %   Inputs:

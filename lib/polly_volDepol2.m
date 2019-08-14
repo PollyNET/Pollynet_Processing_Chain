@@ -1,5 +1,6 @@
 function [volDepol] = polly_volDepol2(sigTot, sigCross, Rt, Rc, depolConst)
-%POLLY_VOLDEPOL2 calculate the 2-dimensional volume depolarization ratio for pollyXT system.
+%POLLY_VOLDEPOL2 calculate the 2-dimensional volume depolarization ratio for 
+%pollyXT system.
 %   Example:
 %       [volDepol] = polly_volDepol2(sigTot, sigCross, Rt, Rc, depolConst)
 %   Inputs:
