@@ -171,10 +171,23 @@ tc_mask_V2 = pollyxt_cge_targetclassi_V2(data, config);
 data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
-%% saving results
+%% saving calibration results
+if processInfo.flagEnableCaliResultsOutput
+
+    fprintf('\n[%s] Start to save calibration results.\n', tNow());
+
+    %% save lidar calibration results
+    pollyxt_cge_save_LC_nc(data, taskInfo, config);
+    pollyxt_cge_save_LC_txt(data, taskInfo, config);
+    
+    fprintf('[%s] Finish.\n', tNow());
+
+end
+
+%% saving retrieving results
 if processInfo.flagEnableResultsOutput
 
-    fprintf('\n[%s] Start to save results.\n', tNow());
+    fprintf('\n[%s] Start to save retrieving results.\n', tNow());
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -182,10 +195,6 @@ if processInfo.flagEnableResultsOutput
 
     %% save aerosol optical results
     pollyxt_cge_save_retrieving_results(data, taskInfo, config);
-
-    %% save lidar calibration results
-    pollyxt_cge_save_LC_nc(data, taskInfo, config);
-    pollyxt_cge_save_LC_txt(data, taskInfo, config);
 
     %% save attenuated backscatter
     pollyxt_cge_save_att_bsc(data, taskInfo, config);
