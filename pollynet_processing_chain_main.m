@@ -1,22 +1,44 @@
+function [report] = pollynet_processing_chain_main(pollynetConfigFile)
+%pollynet_processing_chain_main read polly tasks from todo_filelist and assign the processing module for each task.
+%   Example:
+%       [report] = pollynet_processing_chain_main(pollynetConfigFile)
+%   Inputs:
+%       pollynetConfigFile: char
+%           the absolute path of the pollynet configuration file.
+%           e.g., '/home/zhenping/Pollynet_Prcessing_Chain/config/pollynet_processing_chain_config.json'
+%   Outputs:
+%       report: cell
+%           logs for each task.
+%   History:
+%       2019-08-12. First Edition by Zhenping
+%   Contact:
+%       zhenping@tropos.de
+
 clc;
+
+%% get the project directory
+projectDir = fileparts(mfilename('fullpath'));
+
+if ~ exist('pollynetConfigFile', 'var')
+    pollynetConfigFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
+end
 
 fprintf('\n%%------------------------------------------------------%%');
 fprintf('\nStart the pollynet processing chain\n');
 tStart = now();
+fprintf('pollynet_config_file: %s\n', pollynetConfigFile);
 fprintf('%%------------------------------------------------------%%\n');
 
 %------------------------------------------------------%
 % add lib path
-projectDir = fileparts(mfilename('fullpath'));
 run(fullfile(projectDir, 'lib', 'addlibpath.m'));
 run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 [USER, HOME, OS] = getsysinfo();
 
-configFile = fullfile(projectDir, 'config', 'pollynet_processing_chain_config.json');
-if ~ exist(configFile, 'file')
-    error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', configFile);
+if ~ exist(pollynetConfigFile, 'file')
+    error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', pollynetConfigFile);
 else
-    config = loadjson(configFile);
+    config = loadjson(pollynetConfigFile);
     config.projectDir = projectDir;
 end
 
@@ -163,4 +185,6 @@ end
 if config.flagReduceMATLABToolboxDependence
     license('checkout', 'statistics_toolbox', 'enable');
     fprintf('Enable the usage of matlab statistics_toolbox\n');
+end
+
 end

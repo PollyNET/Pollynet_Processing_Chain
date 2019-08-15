@@ -1,5 +1,6 @@
 function [yOut] = interp_meteor(x, y, xOut, method)
-%interp_meteor interp the meteorological parameters which could contain a lot of NaNs.
+%INTERP_METEOR interp the meteorological parameters which could contain a lot 
+%of NaNs.
 %   Example:
 %       [yOut] = interp_meteor(x, y, xOut)
 %   Inputs:

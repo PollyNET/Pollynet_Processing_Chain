@@ -22,10 +22,11 @@ function [ pressure, altitude, temperature, relh, mTime ] = ceilo_bsc_WebSonde( 
 %   mTime       - launching time. [datenum]
 %   
 %   History:
-%       read the radiosonde data in the given time period.
+%       read the radiosonde data in the given time period. (Raw version from Birgit Heese.)
 
 % get data from internet (example url:
-% 'http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=TEXT%3ALIST&YEAR=2015&MONTH=03&FROM=2312&TO=2312&STNM=10393')
+% 'http://weather.uwyo.edu/cgi-bin/sounding?region=europe&TYPE=
+%  TEXT%3ALIST&YEAR=2015&MONTH=03&FROM=2312&TO=2312&STNM=10393')
 
 pressure = cell(0);
 altitude = cell(0);
@@ -39,7 +40,8 @@ if status == 0
     fprintf ('Could not import radiosonde data from web.\n');
 end
 
-startPos = strfind(radiosonde, '-----------------------------------------------------------------------------');
+startPos = strfind(radiosonde, ['--------------------------------------------------------------'...
+                                '---------------']);
 endPos = strfind(radiosonde, '</PRE><H3>Station');
 obTimePos = strfind(radiosonde, 'Observation time:');
 

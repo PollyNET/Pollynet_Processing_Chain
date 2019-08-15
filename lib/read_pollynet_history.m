@@ -50,13 +50,18 @@ try
     pollynetHistory.caption = transpose(data{12});
 
     for iRow = 1:length(data{1})
-        pollynetHistory.startTime = [pollynetHistory.startTime, datenum([data{3}{iRow}, data{4}{iRow}], 'yyyymmddHHMM')];
-        pollynetHistory.endTime = [pollynetHistory.endTime, datenum([data{5}{iRow}, data{6}{iRow}], 'yyyymmddHHMM')];
-        pollynetHistory.lat = [pollynetHistory.lat, str2num(data{7}{iRow})];   % the lat and lon were reversed in the file.
+        pollynetHistory.startTime = [pollynetHistory.startTime, ...
+        datenum([data{3}{iRow}, data{4}{iRow}], 'yyyymmddHHMM')];
+        pollynetHistory.endTime = [pollynetHistory.endTime, ...
+        datenum([data{5}{iRow}, data{6}{iRow}], 'yyyymmddHHMM')];
+        pollynetHistory.lat = [pollynetHistory.lat, ...
+        str2num(data{7}{iRow})];   % the lat and lon were reversed in the file.
         pollynetHistory.lon = [pollynetHistory.lon, str2num(data{8}{iRow})];
         pollynetHistory.asl = [pollynetHistory.asl, str2num(data{9}{iRow})];
-        pollynetHistory.depolConst = [pollynetHistory.depolConst, str2num(data{10}{iRow})];
-        pollynetHistory.molDepol = [pollynetHistory.molDepol, str2num(data{11}{iRow})];
+        pollynetHistory.depolConst = [pollynetHistory.depolConst, ...
+                                      str2num(data{10}{iRow})];
+        pollynetHistory.molDepol = [pollynetHistory.molDepol, ...
+                                    str2num(data{11}{iRow})];
     end
 
 catch

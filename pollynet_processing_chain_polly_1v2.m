@@ -153,20 +153,29 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri_V2 = quasiAttri_V2;
 fprintf('[%s] Finish.\n', tNow());
 
-% saving results
+%% saving calibration results
+if processInfo.flagEnableCaliResultsOutput
 
-if processInfo.flagEnableResultsOutput
+    fprintf('\n[%s] Start to save calibration results.\n', tNow());
 
-    fprintf('\n[%s] Start to save results.\n', tNow());
     %% save depol cali results
     polly_1v2_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
-
-    %% save aerosol optical results
-    polly_1v2_save_retrieving_results(data, taskInfo, config);
 
     %% save lidar calibration results
     polly_1v2_save_LC_nc(data, taskInfo, config);
     polly_1v2_save_LC_txt(data, taskInfo, config);
+    
+    fprintf('[%s] Finish.\n', tNow());
+
+end
+
+% saving retrieving results
+if processInfo.flagEnableResultsOutput
+
+    fprintf('\n[%s] Start to save retrieving results.\n', tNow());
+
+    %% save aerosol optical results
+    polly_1v2_save_retrieving_results(data, taskInfo, config);
 
     %% save attenuated backscatter
     polly_1v2_save_att_bsc(data, taskInfo, config);
@@ -195,6 +204,10 @@ if processInfo.flagEnableDataVisualization
     %% display signal
     disp('Display RCS and volume depolarization ratio')
     polly_1v2_display_rcs(data, taskInfo, config);
+
+    %% display depol calibration results
+    disp('Display depolarization calibration results')
+    polly_1v2_display_depolcali(data, taskInfo, depCaliAttri);
 
     %% display saturation and cloud free tags
     disp('Display signal flags')

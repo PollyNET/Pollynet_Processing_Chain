@@ -1,23 +1,35 @@
 function data = multiscatter(option, varargin)
-% MULTISCATTER  perform multiple scatter modeling for lidar system. This program is just a simple wrapper for the c programs from Hogan R. The original programs of the model can be downloaded at http://www.met.rdg.ac.uk/clouds/multiscatter/. Version 1.2.10 is required for the base of the wrapper function.
+%MULTISCATTER  perform multiple scatter modeling for lidar system. This 
+%program is just a simple wrapper for the c programs from Hogan R. The original 
+%programs of the model can be downloaded at http://www.met.rdg.ac.uk/clouds/multiscatter/. 
+%Version 1.2.10 is required for the base of the wrapper function.
 %   Usage 1:
-%       data = multiscatter('Userdefined', filename);   % User defined cloud parameter file is used. The format of the input file can be referred to the examples in /multiscatter-1.2.10/examples
+%       data = multiscatter('Userdefined', filename);   % User defined cloud 
+%          % parameter file is used. The format of the input file can be 
+%          % referred to the examples in /multiscatter-1.2.10/examples
 %   Inputs:
 %       option: char
-%           To control the ability of the function. ('monodispersed' or 'Userdefined')
+%           To control the ability of the function. 
+%           ('monodispersed' or 'Userdefined')
 %       filename: char
 %           the full path of the input file.
 %   Usage 2:
-%       data = multiscatter('monodispersed', range, cloudBase, cloudExt, cloudRadius, cloudLR, lambda, fov, divergence, altitude);   % monodispersed cloud parameters were assumed.
+%       data = multiscatter('monodispersed', range, cloudBase, ...
+%           cloudExt, cloudRadius, cloudLR, lambda, fov, ...
+%           divergence, altitude);   % monodispersed cloud parameters 
+%                                    % were assumed.
 %   Inputs:
 %       option: char
-%           To control the ability of the function. ('monodispersed' or 'Userdefined')
+%           To control the ability of the function. 
+%           ('monodispersed' or 'Userdefined')
 %       range: array
-%           range of gate above the ground starting with the nearest gate to instrument. [m]
+%           range of gate above the ground starting with the nearest gate to 
+%           instrument. [m]
 %       cloudBase: float
 %           height of the cloud base. Default is 1000. [m]
 %       cloudExt: float
-%           mean extinction coefficient of the cloud layer. Default is 0.01. [m^{-1}]
+%           mean extinction coefficient of the cloud layer. 
+%           Default is 0.01. [m^{-1}]
 %       cloudRadius: float
 %           effective mean radius of the cloud droplets. Default is 5. [microns]
 %       cloudLR: float
@@ -41,7 +53,8 @@ function data = multiscatter(option, varargin)
 %           att_total: array
 %               total attenuated backscatter. [m^{-1}*Sr^{-1}]
 %           att_single: array
-%               attenuated backscatter with single backscattering. [m^{-1}*Sr^{-1}]
+%               attenuated backscatter with single backscattering. 
+%               [m^{-1}*Sr^{-1}]
 %   History:
 %       2018-04-12. First edition by Zhenping.
 
@@ -80,7 +93,8 @@ if strcmpi(option, 'monodispersed')
         error('Wrong inputs.')
     end
 
-    % set molecular extinction coefficient to 0 (you can set it to other values by yourself)
+    % set molecular extinction coefficient to 0 
+    % (you can set it to other values by yourself)
     molecular = zeros(length(range), 1);
     
     extinction = zeros(length(range), 1);
@@ -94,10 +108,14 @@ if strcmpi(option, 'monodispersed')
     filename = tempname;
 
     fid = fopen(filename,'w');
-    fprintf(fid,'%6.0f %14.12f %6.1f %12.8f %12.8f\n',[length(range) lambda/1e9 altitude divergence/1e3 fov/1e3]');
-    fprintf(fid,'%8.2f %12.8f %12.8f %12.8f %12.8f\n',[range' extinction(:) radius(:)/1e6 S(:) molecular(:)]');
+    fprintf(fid,'%6.0f %14.12f %6.1f %12.8f %12.8f\n', ...
+            [length(range) lambda/1e9 altitude divergence/1e3 fov/1e3]');
+    fprintf(fid,'%8.2f %12.8f %12.8f %12.8f %12.8f\n', ...
+            [range' extinction(:) radius(:)/1e6 S(:) molecular(:)]');
     % % taking into account of asymmetry factor
-    %fprintf(fid,'%8.2f %12.8f %12.8f %12.8f %12.8f %f %f %f\n',[range' extinction(:) radius(:)/1e6 S(:) molecular(:) ones(size(range')) 0.86 * ones(size(range')) zeros(size(range'))]');
+    %fprintf(fid,'%8.2f %12.8f %12.8f %12.8f %12.8f %f %f %f\n', ...
+    %[range' extinction(:) radius(:)/1e6 S(:) molecular(:) ...
+    %ones(size(range')) 0.86 * ones(size(range')) zeros(size(range'))]');
     fclose(fid);
 
     data = multiscatter_model(filename);
@@ -107,5 +125,3 @@ if strcmpi(option, 'monodispersed')
 end
 
 end
-
-

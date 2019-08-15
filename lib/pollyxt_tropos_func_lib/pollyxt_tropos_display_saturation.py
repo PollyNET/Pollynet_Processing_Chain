@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
 import os, sys
 import scipy.io as spio
@@ -106,25 +107,30 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -132,25 +138,30 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -158,25 +169,28 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -184,25 +198,28 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
     
@@ -210,25 +227,30 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Near-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_NR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -236,31 +258,36 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_407, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
-    ax.set_xlabel('UTC', fontweight='semibold', fontsize=12)
-    ax.set_ylabel('Height (m)', fontweight='semibold', fontsize=12)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=407, instrument=pollyVersion, location=location), fontweight='bold', fontsize=12)
+    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=407, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.87, 0.15, 0.02, 0.75])
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=10, pad=5)
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
 
+    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_407.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 
 def main():
-    pollyxt_tropos_display_saturation('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\POLLYXT_LACROS\\20180517')
+    pollyxt_tropos_display_saturation('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()

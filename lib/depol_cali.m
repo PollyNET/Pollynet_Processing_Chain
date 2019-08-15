@@ -1,60 +1,68 @@
-function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
+function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol_cali(signal_t, ...
+    bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, ...
+    depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, ...
+    SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
 %DEPOL_CALI depolarization calibration for PollyXT lidar system.
-%	Example:
-%		[depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults)
-%	Inputs:
-%		signal_t: matrix
-%			background removed photon count signal at total channel. (nBins * nProfiles)
-%		bg_t: matrix
-%			background at total channel. (nBins * nProfiles)
-%		signal_x: matrix
-%			background removed photon count signal at cross channel. (nBins * nProfiles)
-%		bg_x: matrix
-%			background at cross channel. (nBins * nProfiles)
-%		time: array
-%			datenum array states the measurement time of each profile.
-%		depol_cali_pAng_time_start: array
-%			datenum array states the start time that the polarizer rotates to the positive angle. 
+%   Example:
+%       [depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, bg_t, signal_x, 
+%       bg_x, time, depol_cali_pAng_time_start, depol_cali_pAng_time_end, 
+%       depol_cali_nAng_time_start, depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, 
+%       SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin, flagShowResults)
+%   Inputs:
+%       signal_t: matrix
+%           background removed photon count signal at total channel. (nBins * nProfiles)
+%       bg_t: matrix
+%           background at total channel. (nBins * nProfiles)
+%       signal_x: matrix
+%           background removed photon count signal at cross channel. (nBins * nProfiles)
+%       bg_x: matrix
+%           background at cross channel. (nBins * nProfiles)
+%       time: array
+%           datenum array states the measurement time of each profile.
+%       depol_cali_pAng_time_start: array
+%           datenum array states the start time that the polarizer rotates to the positive angle. 
 %       depol_cali_pAng_time_end: array
-%			datenum array states the stop time that the polarizer rotates to the positive angle.
-%		depol_cali_nAng_time_start array
-%			datenum array states the start time that the polarizer rotates to the negative angle.
+%           datenum array states the stop time that the polarizer rotates to the positive angle.
+%       depol_cali_nAng_time_start array
+%           datenum array states the start time that the polarizer rotates to the negative angle.
 %       depol_cali_nAng_time_end: array
-%			datenum array states the end time that the polarizer rotates to the negative angle.
-%		TR_t: float
-%			tranmission at total channel.
-%		TR_x: float
-%			transmision at cross channel.
-%		caliHIndxRange: 2-element array
-%			range of height indexes which the signal can be used for depolarization calibration.
-%		SNRmin: array
-%			minimum SNR that signal should have to assure the stability of the calibration results.
-%		sigMax: array
-%			maximum signal strength that could be used in the calibration in case of pulse pileup effects. (Photon Count)
-%		rel_std_dplus: float
-%			maximum relative std of dplus that is allowed.
-%		rel_std_dplus: float
-%			maximum relative std of dminus that is allowed.
-%		segmentLen: integer
-%			length of the segement to test the variability of the calibration results to filter the effects from cloud layers.
-%		smoothWin: integer
-%			width of the sliding smooth window for smoothing the signal.
-%		flagShowResults: boolean
-%			flag to control whether to save the intermediate results.
-%	Outputs:
-%		depol_cal_fac: array
-%			depolarization calibration factor.
-%		depol_cal_fac_std
-%			std of depolarization calibration factor.
-%		depol_cal_time
-%			time for each successful calibration.
+%           datenum array states the end time that the polarizer rotates to the negative angle.
+%       TR_t: float
+%           tranmission at total channel.
+%       TR_x: float
+%           transmision at cross channel.
+%       caliHIndxRange: 2-element array
+%           range of height indexes which the signal can be used for depolarization calibration.
+%       SNRmin: array
+%           minimum SNR that signal should have to assure the stability of the calibration results.
+%       sigMax: array
+%           maximum signal strength that could be used in the calibration in case of pulse pileup 
+%           effects. (Photon Count)
+%       rel_std_dplus: float
+%           maximum relative std of dplus that is allowed.
+%       rel_std_dplus: float
+%           maximum relative std of dminus that is allowed.
+%       segmentLen: integer
+%           length of the segement to test the variability of the calibration results to filter 
+%           the effects from cloud layers.
+%       smoothWin: integer
+%           width of the sliding smooth window for smoothing the signal.
+%       flagShowResults: boolean
+%           flag to control whether to save the intermediate results.
+%   Outputs:
+%       depol_cal_fac: array
+%           depolarization calibration factor.
+%       depol_cal_fac_std
+%           std of depolarization calibration factor.
+%       depol_cal_time
+%           time for each successful calibration.
 %       globalAttri: struct
 %           all the information about the depol calibration.
-%	History:
-%		2018-07-25. First edition by Zhenping.
+%   History:
+%       2018-07-25. First edition by Zhenping.
 %       2019-06-08. If no depol cali, return empty array.
-%	Contact:
-%		zhenping@tropos.de
+%   Contact:
+%       zhenping@tropos.de
     
 %% parameters initialization
 depol_cal_fac = [];
@@ -108,7 +116,8 @@ for iDay = 1:nDays
         end
         thisCaliTime = time(floor(mean([indx_45m, indx_45p])));
 
-        % neglect the first and last profile which could be unstable due to the rotation of the polarizer
+        % neglect the first and last profile which could be unstable due to the rotation of the 
+        % polarizer
         indx_45m = indx_45m(2:end-1);
         indx_45p = indx_45p(2:end-1);
 
@@ -132,8 +141,10 @@ for iDay = 1:nDays
         SNR_x_m = polly_SNR(sig_x_m, bg_x_m);
         sig_x_m(SNR_x_m <= SNRmin(4) | sig_x_m >= sigMax(4)) = NaN;
 
-        dplus = smooth(sig_x_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ smooth(sig_t_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
-        dminus = smooth(sig_x_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ smooth(sig_t_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
+        dplus = smooth(sig_x_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ ...
+                smooth(sig_t_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
+        dminus = smooth(sig_x_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ ...
+                 smooth(sig_t_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
         dplus(isinf(dplus)) = NaN;
         dminus(isinf(dminus)) = NaN;
 
@@ -146,7 +157,8 @@ for iDay = 1:nDays
         % is less than rel_std_dminus and rel_std_dplus
         for iReg = 1:(caliHIndxRange(2) - caliHIndxRange(1) - segmentLen)
 
-            if length(find(~isnan(dplus(iReg:(iReg + segmentLen))))) <= segmentLen/4 || length(find(~isnan(dminus(iReg:(iReg + segmentLen))))) <= segmentLen/4
+            if length(find(~isnan(dplus(iReg:(iReg + segmentLen))))) <= segmentLen/4 || ...
+               length(find(~isnan(dminus(iReg:(iReg + segmentLen))))) <= segmentLen/4
                 continue;
             end
             
@@ -155,13 +167,14 @@ for iDay = 1:nDays
             this_mean_dminus = nanmean(dminus(iReg:(iReg + segmentLen)));
             this_std_dminus = nanstd(dminus(iReg:(iReg + segmentLen)));
 
-            if abs(this_std_dminus / this_mean_dminus) <= rel_std_dminus && abs(this_std_dplus / this_mean_dplus) <= rel_std_dplus
+            if abs(this_std_dminus / this_mean_dminus) <= rel_std_dminus && ...
+               abs(this_std_dplus / this_mean_dplus) <= rel_std_dplus
                 segIndx_tmp = [segIndx_tmp, iReg];
                 mean_dplus_tmp = [mean_dplus_tmp, this_mean_dplus];
                 mean_dminus_tmp = [mean_dminus_tmp, this_mean_dminus];
                 std_dplus_tmp = [std_dplus_tmp, this_std_dplus];
                 std_dminus_tmp = [std_dminus_tmp, this_std_dminus];
-            end	
+            end 
         end
 
         % if there is no stable calibration segment, start the next 
@@ -171,7 +184,8 @@ for iDay = 1:nDays
         end
         
         % find the most stable calbiration region
-        [~, segIndx] = min(sqrt((std_dplus_tmp./mean_dplus_tmp).^2 + (std_dminus_tmp./mean_dminus_tmp).^2));
+        [~, segIndx] = min(sqrt((std_dplus_tmp./mean_dplus_tmp).^2 + ...
+                                (std_dminus_tmp./mean_dminus_tmp).^2));
         indx = segIndx_tmp(segIndx);
         depol_cal_time = [depol_cal_time, thisCaliTime];
         mean_dplus = [mean_dplus, mean_dplus_tmp(segIndx)];
@@ -209,7 +223,8 @@ end
 
 % calculate the depol-calibration factor and std
 depol_cal_fac = nanmean((1 + TR_t) ./ (1 + TR_x) .* sqrt(mean_dplus .* mean_dminus), 1);
-depol_cal_fac_std = nanmean(sqrt(((1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus .* mean_dminus) .* 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus)).^2), 1);
+depol_cal_fac_std = nanmean(sqrt(((1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus .* mean_dminus) .* ...
+                            0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus)).^2), 1);
     
 end
     

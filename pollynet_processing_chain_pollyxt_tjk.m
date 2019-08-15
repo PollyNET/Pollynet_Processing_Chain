@@ -185,28 +185,37 @@ tc_mask_V2 = pollyxt_tjk_targetclassi_V2(data, config);
 data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
-%% saving results
-if processInfo.flagEnableResultsOutput
+%% saving calibration results
+if processInfo.flagEnableCaliResultsOutput
 
-    fprintf('\n[%s] Start to save results.\n', tNow());
+    fprintf('\n[%s] Start to save calibration results.\n', tNow());
+
     %% save depol cali results
     pollyxt_tjk_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
     pollyxt_tjk_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
+
+    %% save water vapor calibration results
+    pollyxt_tjk_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+
+    %% save lidar calibration results
+    pollyxt_tjk_save_LC_nc(data, taskInfo, config);
+    pollyxt_tjk_save_LC_txt(data, taskInfo, config);
+    
+    fprintf('[%s] Finish.\n', tNow());
+    
+end
+
+%% saving retrieving results
+if processInfo.flagEnableResultsOutput
+
+    fprintf('\n[%s] Start to save retrieving results.\n', tNow());
 
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
     pollyxt_tjk_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
-    %% save meteorological results
-    %% save water vapor calibration results
-    pollyxt_tjk_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
-
     %% save aerosol optical results
     pollyxt_tjk_save_retrieving_results(data, taskInfo, config);
-
-    %% save lidar calibration results
-    pollyxt_tjk_save_LC_nc(data, taskInfo, config);
-    pollyxt_tjk_save_LC_txt(data, taskInfo, config);
 
     %% save attenuated backscatter
     pollyxt_tjk_save_att_bsc(data, taskInfo, config);
