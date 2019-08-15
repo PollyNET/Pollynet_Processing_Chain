@@ -20,6 +20,7 @@ Troposphärenforschung e.V.). The high temporal and spatial resolved measurement
 - pollyxt_tropos
 - pollyxt_uw
 - pollyxt_tjk
+- pollyxt_tau
 
 ### polly-related campaigns
 

@@ -97,7 +97,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
     %% search for polly history info
     fprintf('\n[%s] Start to search for polly history info.\n', tNow());
-    campaignInfo = polly_history(taskInfo, pollynet_history);
+    campaignInfo = search_campaigninfo(taskInfo, pollynet_history);
     if isempty(campaignInfo.location) || isempty(campaignInfo.name)
         continue;
     end

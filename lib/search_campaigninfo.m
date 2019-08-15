@@ -1,7 +1,7 @@
-function [pollyHistory] = polly_history(task, pollynetHistory)
-%POLLY_HISTORY search for the history information from polly_history file.
+function [campaign_info] = search_campaigninfo(task, pollynetHistory)
+%SEARCH_CAMPAIGNINFO search for the history information from pollynet_history_places_new.txt
 %    Example:
-%        [pollyHistory] = polly_history(task, config)
+%        [campaign_info] = search_campaigninfo(task, pollynetHistory)
 %    Inputs:
 %        task: struct
 %            todoPath: char
@@ -11,11 +11,19 @@ function [pollyHistory] = polly_history(task, pollynetHistory)
 %            dataSize: integer
 %            pollyVersion: char
 %            dataTime: datenum
-%        config: struct
-%            configurations for polly system. More detailed information can be 
-%            found in doc/polly_config.md
+%        pollynetHistory: struct
+%           name: cell
+%           location: cell
+%           startTime: array (datenum)
+%           endTime: array (datenum)
+%           lon: array (double)
+%           lat: array (double)
+%           asl: array (double)
+%           depolConst: array (double)
+%           molDepol: array (double)
+%           caption: cell
 %    Outputs:
-%        pollyHistory: struct
+%        campaign_info: struct
 %            name: char
 %            location: char
 %            startTime: datenum
@@ -28,20 +36,21 @@ function [pollyHistory] = polly_history(task, pollynetHistory)
 %            caption: char
 %    History:
 %        2018-12-17. First edition by Zhenping
+%        2019-08-15. Change the function name
 %    Contact:
 %        zhenping@tropos.de
 
-pollyHistory = struct();
-pollyHistory.name = '';
-pollyHistory.location = '';
-pollyHistory.startTime = [];
-pollyHistory.endTime = [];
-pollyHistory.lon = [];
-pollyHistory.lat = [];
-pollyHistory.asl = [];
-pollyHistory.depolConst = [];
-pollyHistory.molDepol = [];
-pollyHistory.caption = '';
+campaign_info = struct();
+campaign_info.name = '';
+campaign_info.location = '';
+campaign_info.startTime = [];
+campaign_info.endTime = [];
+campaign_info.lon = [];
+campaign_info.lat = [];
+campaign_info.asl = [];
+campaign_info.depolConst = [];
+campaign_info.molDepol = [];
+campaign_info.caption = '';
 
 dataTime = polly_parsetime(task.dataFilename, ...
 '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc');
@@ -52,7 +61,7 @@ isWithinMeasPeriod = (dataTime < pollynetHistory.endTime) & ...
 if (sum(isCurrentPolly) == 0) || (sum(isWithinMeasPeriod) == 0) || ...
    (sum(isCurrentPolly & isWithinMeasPeriod) == 0)
     warning(['Failure in searching the history info for %s.\n' ...
-             'Please check the pollynet history file.\n'], task.dataFilename);
+             'Please check the pollynet history file.\n%s\n'], task.dataFilename, );
     return;
 elseif sum(isWithinMeasPeriod & isCurrentPolly) > 1
     lineOutputStr = sprintf('%d, ', ...
@@ -63,16 +72,16 @@ elseif sum(isWithinMeasPeriod & isCurrentPolly) > 1
     return;
 elseif sum(isCurrentPolly & isWithinMeasPeriod) == 1
     flag = isCurrentPolly & isWithinMeasPeriod;
-    pollyHistory.name = pollynetHistory.name{flag};
-    pollyHistory.location = pollynetHistory.location{flag};
-    pollyHistory.startTime = pollynetHistory.startTime(flag);
-    pollyHistory.endTime = pollynetHistory.endTime(flag);
-    pollyHistory.lon = pollynetHistory.lon(flag);
-    pollyHistory.lat = pollynetHistory.lat(flag);
-    pollyHistory.asl = pollynetHistory.asl(flag);
-    pollyHistory.depolConst = pollynetHistory.depolConst(flag);
-    pollyHistory.molDepol = pollynetHistory.molDepol(flag);
-    pollyHistory.caption = pollynetHistory.caption{flag}(3:end);
+    campaign_info.name = pollynetHistory.name{flag};
+    campaign_info.location = pollynetHistory.location{flag};
+    campaign_info.startTime = pollynetHistory.startTime(flag);
+    campaign_info.endTime = pollynetHistory.endTime(flag);
+    campaign_info.lon = pollynetHistory.lon(flag);
+    campaign_info.lat = pollynetHistory.lat(flag);
+    campaign_info.asl = pollynetHistory.asl(flag);
+    campaign_info.depolConst = pollynetHistory.depolConst(flag);
+    campaign_info.molDepol = pollynetHistory.molDepol(flag);
+    campaign_info.caption = pollynetHistory.caption{flag}(3:end);
 else
     warning('Unknown error in searching the history info for %s.\n', ...
             task.dataFilename);

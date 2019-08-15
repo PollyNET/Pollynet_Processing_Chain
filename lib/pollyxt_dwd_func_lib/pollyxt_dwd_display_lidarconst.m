@@ -1,4 +1,4 @@
-function [] = pollyxt_dwd_display_lidarconst(data, taskInfo, config)
+sfunction [] = pollyxt_dwd_display_lidarconst(data, taskInfo, config)
 %pollyxt_dwd_display_lidarconst Display the lidar constants.
 %   Example:
 %       [] = pollyxt_dwd_display_lidarconst(data, taskInfo, config)
