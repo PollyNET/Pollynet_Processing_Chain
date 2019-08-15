@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script will help to process the current polly data with using Pollynet processing chain
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 
@@ -46,10 +46,14 @@ echo -e "\nInitial settings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+addpath(POLLYNET_PROCESSING_DIR, 'lib');
+cd(POLLYNET_PROCESSING_DIR);
+
 clc;
 
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$POLLYNET_CONFIG_FILE', $1, $2, $3, 'w');
-pollynet_processing_chain_main('POLLYNET_CONFIG_FILE');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'), $1, $2, $3, 'w');
+pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
 
 exit;
 ENDMATLAB
@@ -60,7 +64,7 @@ echo "Finish"
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-POLLYNET_CONFIG_FILE="/home/picasso/Pollynet_Processing_Chain/config/pollynet_processsing_chain_config.json"
+POLLYNET_CONFIG_FILE="pollynet_processsing_chain_config.json"
 year="2000"
 month="01"
 day="01"
