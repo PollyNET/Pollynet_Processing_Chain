@@ -27,7 +27,7 @@ if ~ exist('deltaTime', 'var')
     deltaTime = datenum(0, 1, 7);
 end
 
-[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_fmi_read_depolconst(file);
+[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_lacros_read_depolconst(file);
 
 index = find((preDepolCaliTime > (currentTime - deltaTime)) & (preDepolCaliTime < (currentTime + deltaTime)));
 if isempty(index)

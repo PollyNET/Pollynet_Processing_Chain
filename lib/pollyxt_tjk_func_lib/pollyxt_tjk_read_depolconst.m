@@ -21,10 +21,11 @@ datetime = [];
 depolconst = [];
 depolconstStd = [];
 
-if ~ exist(depolconstFile, 'file')
+if exist(depolconstFile, 'file') ~= 2
     warning('Lidar depolarization calibration results file does not exist!\n%s\n', depolconstFile);
     return;
 end
+
 fid = fopen(depolconstFile, 'r');
 data = textscan(fid, '%s %f %s %f %f', 'delimiter', ',', 'Headerlines', 1);
 fclose(fid);
