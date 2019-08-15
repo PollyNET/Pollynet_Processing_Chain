@@ -35,7 +35,7 @@ IWVAttri.contact = '';
 IWVAttri.source = '';
 IWVAttri.site = '';
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('HATPRO file does not exist.\n%s\n', file);
     return;
 end

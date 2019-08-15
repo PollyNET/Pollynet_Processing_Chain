@@ -68,7 +68,7 @@ if ~ exist('readMode', 'var')
     readMode = 1;
 end
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
 	warning('radiosonde file does not exist. Please check it.\n%s', file);
 	return;
 end
