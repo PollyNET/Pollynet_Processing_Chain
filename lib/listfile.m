@@ -40,6 +40,7 @@ for iItem = 1:length(tmp)
     if ~ tmp(iItem).isdir
         if exist('exppat', 'var')
             if regexp(tmp(iItem).name, exppat)
+                % if there is required items, return the results
                 indx = indx + 1;
                 files{indx} = fullfile(path, tmp(iItem).name);
             end
@@ -48,8 +49,10 @@ for iItem = 1:length(tmp)
             files{indx} = fullfile(path, tmp(iItem).name);
         end
     else
+        % if there is no matched items, go into the subdirectory
         if depth > 1
-            files = cat(2, files, listfile(fullfile(path, tmp(iItem).name), exppat, depth - 1));
+            files = cat(2, files, ...
+               listfile(fullfile(path, tmp(iItem).name), exppat, depth - 1));
         end
     end
 end

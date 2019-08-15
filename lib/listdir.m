@@ -6,7 +6,7 @@ function [dirs] = listdir(path, exppat, depth)
 %       path: char
 %           the path for searching.
 %       exppat: [optional] 
-%           expression pattern for the searching.
+%           expression pattern for the search.
 %       depth: [optional]
 %           recursive searching depth.
 %   Outputs:
@@ -40,24 +40,29 @@ end
 for iItem = 1:length(tmp)
     if tmp(iItem).isdir
         if exist('exppat', 'var')
+            % if there is required items, return the results
             if regexp(tmp(iItem).name, exppat)
                 dirs{end + 1} = fullfile(path, tmp(iItem).name);
                 if depth > 1
-                    dirs = cat(2, dirs, listdir(fullfile(path, tmp(iItem).name), exppat, depth-1));
+                    dirs = cat(2, dirs, ...
+                    listdir(fullfile(path, tmp(iItem).name), exppat, depth-1));
                 else
                     continue;
                 end
 
             elseif depth > 1
-                dirs = cat(2, dirs, listdir(fullfile(path, tmp(iItem).name), exppat, depth-1));
+                dirs = cat(2, dirs, ...
+                    listdir(fullfile(path, tmp(iItem).name), exppat, depth-1));
             else 
                 continue;
             end
         else
+            % if no required items, go inside of the current directory
             if depth == 1
                 dirs{end + 1} = fullfile(path, tmp(iItem).name);
             else 
-                dirs = cat(2, dirs, listdir(fullfile(path, tmp(iItem).name), exppat, depth-1));
+                dirs = cat(2, dirs, listdir(fullfile(path, tmp(iItem).name), ...
+                exppat, depth-1));
             end
         end
     end

@@ -1,7 +1,10 @@
-function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, meteorAttri)
-%read_meteor_data Read the meteorological data according the input meteorological data type.
+function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, ...
+        altitude, meteorAttri)
+%READ_METEOR_DATA Read the meteorological data according the input 
+%meteorological data type.
 %   Example:
-%       [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, meteorAttri)
+%       [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, 
+%           meteorAttri)
 %   Inputs:
 %       measTime: datenum
 %           the measurement time.
@@ -16,7 +19,9 @@ function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, m
 %           gdas1_folder: str
 %               the main folder of the GDAS1 profiles.
 %           radiosondeSitenum: integer
-%               site number, which can be found in doc/radiosonde-station-list.txt. You can update the list with using download_radiosonde_list.m
+%               site number, which can be found in 
+%               doc/radiosonde-station-list.txt. 
+%               You can update the list with using download_radiosonde_list.m
 %           radiosondeFolder: str
 %               the folder of the sonding files. 
 %   Outputs:
@@ -30,7 +35,8 @@ function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, altitude, m
 %           relative humidity for each range bin. [%]
 %       attri: struct
 %           dataSource: cell
-%               The data source used in the data processing for each cloud-free group.
+%               The data source used in the data processing for each cloud-free 
+%               group.
 %           URL: cell
 %               The data file info for each cloud-free group.
 %           datetime: array
@@ -51,7 +57,8 @@ attri.datetime = [];
 
 switch lower(meteorAttri.meteorDataSource)
 case 'gdas1'
-    [alt, temp, pres, relh, gdas1File] = read_gdas1(measTime, meteorAttri.gdas1Site, meteorAttri.gdas1_folder);
+    [alt, temp, pres, relh, gdas1File] = read_gdas1(measTime, ...
+    meteorAttri.gdas1Site, meteorAttri.gdas1_folder);
 
     if isnan(alt(1))
         alt = [];
@@ -74,7 +81,8 @@ case 'standard_atmosphere'
     attri.datetime = datenum(0,1,0,0,0,0);
 case 'websonde'
     searchTRange = [floor(measTime), ceil(measTime)];
-    [alt, temp, pres, relh, webSondeInfo] = read_websonde(measTime, searchTRange, meteorAttri.radiosondeSitenum);
+    [alt, temp, pres, relh, webSondeInfo] = read_websonde(measTime, ...
+        searchTRange, meteorAttri.radiosondeSitenum);
     
     if ~ isempty(alt)
         attri.dataSource = meteorAttri.meteorDataSource;
@@ -84,10 +92,12 @@ case 'websonde'
 case 'radiosonde'
     % define your read function here for reading collocated radiosonde data
     if ~ isfield(meteorAttri, 'radiosondeFolder')
-        warning('"radiosondeFolder" in the polly config file needs to be set to search the radiosonde file.');
+        warning(['"radiosondeFolder" in the polly config file needs ' ...
+                 'to be set to search the radiosonde file.']);
     else
         sondeFile = radiosonde_search(meteorAttri.radiosondeFolder, measTime);
-        [thisAlt, thisTemp, thisPres, thisRelh, datetime] = read_radiosonde(sondeFile, 1, -999);
+        [thisAlt, thisTemp, thisPres, thisRelh, datetime] = ...
+            read_radiosonde(sondeFile, 1, -999);
        
 		if ~ isempty(thisAlt) 
 			% determine whether retrieve the radiosonde data successfully
@@ -117,12 +127,15 @@ case 'radiosonde'
     end
 
 otherwise
-    error('Unknown meteorological data source.\n%s\n', meteorAttri.meteorDataSource)
+    error('Unknown meteorological data source.\n%s\n', ...
+          meteorAttri.meteorDataSource)
 end
 
 % if predefined data source is not available, go to standard atmosphere.
 if isempty(alt)
-    fprintf('The meteorological data of %s is not ready.\nUse standard_atmosphere data as a replacement.\n', meteorAttri.meteorDataSource);
+    fprintf(['The meteorological data of %s is not ready.\n' ...
+             'Use standard_atmosphere data as a replacement.\n'], ...
+             meteorAttri.meteorDataSource);
     attri.dataSource = 'standard_atmosphere';
     attri.URL = '';
     attri.datetime = datenum(0, 1, 0, 0, 0, 0);

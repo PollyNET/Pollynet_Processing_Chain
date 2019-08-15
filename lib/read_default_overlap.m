@@ -1,10 +1,11 @@
 function [height, overlap] = read_default_overlap(file)
-%read_default_overlap Read the overlap function from file.
+%READ_DEFAULT_OVERLAP Read the overlap function from file.
 %   Example:
 %       [height, overlap] = read_default_overlap(file)
 %   Inputs:
 %       file: char
-%           overlap file. The format of this file can be referred to doc/polly_defaults.md
+%           overlap file. The format of this file can be referred to 
+%           doc/polly_defaults.md
 %   Outputs:
 %       height: array
 %           height for each range bin. [m] 
@@ -18,7 +19,7 @@ function [height, overlap] = read_default_overlap(file)
 height = [];
 overlap = [];
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('overlap file does not exist.\n%s\n', file);
     return;
 end

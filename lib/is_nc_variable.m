@@ -1,5 +1,6 @@
 function [flag] = is_nc_variable(ncFile, varName)
-%is_nc_variable test the ncFile whether contains the variable with name of varName.
+%IS_NC_VARIABLE test the ncFile whether contains the variable with name of 
+%varName.
 %   Example:
 %       [flag] = is_nc_variable(ncFile, varName)
 %   Inputs:
@@ -9,7 +10,8 @@ function [flag] = is_nc_variable(ncFile, varName)
 %           the variable name you want to search.
 %   Outputs:
 %       flag: logical
-%           if flag is true, it means the varName was contained in the ncFile. Vice versa.
+%           if flag is true, it means the varName was contained in the ncFile.
+%           Vice versa.
 %   History:
 %       2019-08-10. First Edition by Zhenping
 %   Contact:
@@ -18,14 +20,16 @@ function [flag] = is_nc_variable(ncFile, varName)
 flag = false;
 
 if ~ exist(ncFile, 'file')
-    warning('Warning in ''is_nc_variable'': input file does not exsit.\n%s', ncFile);
+    warning('Warning in ''is_nc_variable'': input file does not exsit.\n%s', ...
+            ncFile);
     return
 end
 
 %% determine the file type
 [~, ~, ext] = fileparts(ncFile);
 if ~ strcmp(ext, '.nc')
-    warning('Warning in ''is_nc_variable'': input file is not the type of netcdf.\n%s', ncFile);
+    warning(['Warning in ''is_nc_variable'': ' ...
+             'input file is not the type of netcdf.\n%s'], ncFile);
     return
 end
 

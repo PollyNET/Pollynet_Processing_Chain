@@ -1,5 +1,5 @@
 function [AODOut] = interp_AERONET_AOD(wl1, AOD1, wl2, AOD2, wlOut)
-%interp_AERONET_AOD interp the AERONET AOD with the angstroem law.
+%INTERP_AERONET_AOD interp the AERONET AOD with the angstroem law.
 %   Example:
 %       [AODOut] = interp_AERONET_AOD(wl1, AOD1, wl2, AOD2, wlOut)
 %   Inputs:

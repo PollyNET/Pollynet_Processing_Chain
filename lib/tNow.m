@@ -5,6 +5,7 @@ function [tStr] = tNow()
 %   Inputs:
 %   Outputs:
 %       tStr: char
+%           date string for now.
 %   History:
 %       2018-12-16. First edition by Zhenping
 %   Contact:

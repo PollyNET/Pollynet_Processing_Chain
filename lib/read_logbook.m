@@ -1,5 +1,6 @@
 function [logbook] = read_logbook(logbookFile, nChannel)
-%read_logbook read the logbook information from logbookFile. The format of logbookFile can be found in /doc/logbook.md
+%READ_LOGBOOK read the logbook information from logbookFile. The format of 
+%logbookFile can be found in /doc/logbook.md
 %   Example:
 %       [logbook] = read_logbook(logbookFile)
 %   Inputs:
@@ -18,7 +19,8 @@ function [logbook] = read_logbook(logbookFile, nChannel)
 %               flagPulsepower: logical
 %               flagRestart: logical
 %           flag_CH_NDChange: logical matrix (IDs * nChannel)
-%               logical to show whether there is ND filter changes in certain channels.
+%               logical to show whether there is ND filter changes in certain 
+%               channels.
 %   History:
 %       2019-02-08. First Edition by Zhenping
 %   Contact:
@@ -32,7 +34,7 @@ logbook.changes.flagFlashlamps = [];
 logbook.changes.flagPulsepower = [];
 logbook.changes.flagRestart = [];
 logbook.flag_CH_NDChange = [];
-if ~ exist(logbookFile, 'file')
+if exist(logbookFile, 'file') ~= 2
     warning('logbook does not exist! Please check %s', logbookFile);
     return;
 end
@@ -44,8 +46,10 @@ fgetl(fid);
 while ~ feof(fid)
 
     lineStr = fgetl(fid);
-    thisLogInfo = regexp(lineStr, '(?<id>\d+);"(?<time>.{13})";\[(?<operators>.*)\];\[(?<changes>.*)\];\{(?<ND>.*)\};(?<comment>.*)', 'names');
-    logbook.datetime = [logbook.datetime, datenum(thisLogInfo.time, 'yyyymmdd-HHMM')];
+    thisLogInfo = regexp(lineStr, ...
+    '(?<id>\d+);"(?<time>.{13})";\[(?<operators>.*)\];\[(?<changes>.*)\];\{(?<ND>.*)\};(?<comment>.*)', 'names');
+    logbook.datetime = [logbook.datetime, ...
+                        datenum(thisLogInfo.time, 'yyyymmdd-HHMM')];
     % extract the operation information
     [flagOverlap, flagWindowwipe, flagFlashlamps, flagPulsepower, flagRestart] = regexpChanges(thisLogInfo.changes);
     logbook.changes.flagOverlap = [logbook.changes.flagOverlap, flagOverlap];
@@ -60,7 +64,8 @@ while ~ feof(fid)
     
     % fill 0 at the end for those old Polly systems with less channels.
     if size(logbook.flag_CH_NDChange, 2) ~= size(thisFlag_CH_NDChange, 2)
-        maxCh = max([size(logbook.flag_CH_NDChange, 2), size(thisFlag_CH_NDChange, 2)]);
+        maxCh = max([size(logbook.flag_CH_NDChange, 2), ...
+                     size(thisFlag_CH_NDChange, 2)]);
         tmp = zeros(size(logbook.flag_CH_NDChange, 1), maxCh);
         tmp(:, 1:size(logbook.flag_CH_NDChange, 2)) = logbook.flag_CH_NDChange;
         logbook.flag_CH_NDChange = tmp;
@@ -79,23 +84,30 @@ fclose(fid);
 end
 
 function [flagOverlap, flagWindowwipe, flagFlashlamps, flagPulsepower, flagRestart] = regexpChanges(changesStr)
-%regexpChanges extract the operation information from the changes string with regular expression.
+%regexpChanges extract the operation information from the changes string with 
+%regular expression.
 %   Example:
-%       [flagOverlap, flagWindowwipe, flagFlaslamps, flagPulsepower, flagRestart] = regexpChanges(changesStr)
+%       [flagOverlap, flagWindowwipe, flagFlaslamps, flagPulsepower, 
+%        flagRestart] = regexpChanges(changesStr)
 %   Inputs:
 %       changesStr: char
 %           the extracted string from `changes` category in logbook.
 %   Outputs:
 %       flagOverlap: logical
-%           if it is true, the correponding operation is applied in the adjustment.
+%           if it is true, the correponding operation is applied in the 
+%           adjustment.
 %       flagWindowwipe: logical
-%           if it is true, the correponding operation is applied in the adjustment.
+%           if it is true, the correponding operation is applied in the 
+%           adjustment.
 %       flagFlaslamps: logical
-%           if it is true, the correponding operation is applied in the adjustment.
+%           if it is true, the correponding operation is applied in the 
+%           adjustment.
 %       flagPulsepower: logical
-%           if it is true, the correponding operation is applied in the adjustment.
+%           if it is true, the correponding operation is applied in the 
+%           adjustment.
 %       flagRestart: logical
-%           if it is true, the correponding operation is applied in the adjustment.
+%           if it is true, the correponding operation is applied in the 
+%           adjustment.
 %   History:
 %       2019-02-08. First Edition by Zhenping
 %   Contact:

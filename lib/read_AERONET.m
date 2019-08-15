@@ -1,28 +1,31 @@
-function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = read_AERONET(site, mdate, level, flagFilterNegAOD)
-%read_AERONET 
-%   This function determines the Aerosol Optical Depth (AOD) from a
-%   collocated photometer. Available AOD values for a specified day are returned. 
-%   Data is downloaded for the specified location from Aeronet website:
-%   http://aeronet.gsfc.nasa.gov/new_web/aerosols.html
-%   The function accesses the appropriate aeronet website first. This way
-%   the website is triggered to create a compressed file with the requested
-%   data. This file is accessed and unzipped into a temporary file. The
-%   temporary file is then read and finally deleted. AOD values and
-%   corresponding time along with the link to the aeronet website are
-%   returned.   
+function [thisDatetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = ...
+    read_AERONET(site, mdate, level, flagFilterNegAOD)
+%READ_AERONET This function determines the Aerosol Optical Depth (AOD) from a
+%collocated photometer. Available AOD values for a specified day are returned. 
+%Data is downloaded for the specified location from Aeronet website:
+%http://aeronet.gsfc.nasa.gov/new_web/aerosols.html
+%The function accesses the appropriate aeronet website first. This way
+%the website is triggered to create a compressed file with the requested
+%data. This file is accessed and unzipped into a temporary file. The
+%temporary file is then read and finally deleted. AOD values and
+%corresponding time along with the link to the aeronet website are
+%returned.   
 %   Example:
-%       [datetime, AOD, wavelength, IWV, angstrexp440_870, AERONETAttri] = read_AERONET(site, date, level)
+%       [thisDatetime, AOD, wavelength, IWV, angstrexp440_870, AERONETAttri] = 
+%       read_AERONET(site, date, level)
 %   Inputs:
 %       site: char
-%           AERONET site. You can find the nearest site by referring to doc/AERONET-station-list.txt 
+%           AERONET site. You can find the nearest site by referring to 
+%           doc/AERONET-station-list.txt 
 %       mdate: datenum
 %           the measurement day. 
 %       level: char
 %           product level. ('10', '15', '20')
 %       flagFilterNegAOD: logical
-%           flag to control whether to filter out the negative AOD values. (default: true)
+%           flag to control whether to filter out the negative AOD values. 
+%           (default: true)
 %   Outputs:
-%       datetime: array
+%       thisDatetime: array
 %           time of each measurment point.
 %       AOD_{wavelength}: array
 %           AOD at wavelength.
@@ -51,10 +54,11 @@ function [datetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %       ceilo_bsc_readAeronetPhotometerAOD_wget.m
 %   History:
 %       2017-12-19. First edition by Zhenping.
-%       2018-06-22. Add 'TreatAsEmpty' keyword to textscan function to filter
-%       N/A field in AERONET data.
+%       2018-06-22. Add 'TreatAsEmpty' keyword to textscan function to filter 
+%                   N/A field in AERONET data.
 %       2018-12-23. Second Edition by Zhenping
-%       2019-02-06. Add 'flagFilterNegAOD' to keyword to enable filtering out negative AOD values.
+%       2019-02-06. Add 'flagFilterNegAOD' to keyword to enable filtering out 
+%                   negative AOD values.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -62,7 +66,7 @@ if ~ exist('flagFilterNegAOD', 'var')
     flagFilterNegAOD = true;
 end
 
-datetime = [];
+thisDatetime = [];
 AOD_1640 = [];
 AOD_1020 = [];
 AOD_870 = [];
@@ -91,19 +95,23 @@ thisMonthStr = num2str(thismonth);
 thisDayStr = num2str(thisday);
 
 % link to access website to create file
-% https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2
-% https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=Cart_Site&year=100&month=6&day=1&year2=100&month2=6&day2=14&LEV10=1&AVG=20
-% https://aeronet.gsfc.nasa.gov/cgi-bin/print_warning_opera_v2_new?site=CUT-TEPAK&year=117&month=4&day=11&year2=117&month2=4&day2=11&LEV15=1&AVG=10
-
 aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' ...
-    site '&year=' thisYearStr '&month=' thisMonthStr '&day=' thisDayStr '&year2=' thisYearStr ...
+    site '&year=' thisYearStr '&month=' thisMonthStr '&day=' ...
+    thisDayStr '&year2=' thisYearStr ...
     '&month2=' thisMonthStr '&day2=' thisDayStr '&LEV' level '=1&AVG=10'];
 
 % call the system command 'wget' to download the html text
 if ispc
     [status, html_text] = system(['wget -qO- "' aod_url '"']);
     if status ~= 0
-        warning('Error in calling wget in window cmd. Please make sure wget is available and it is in the searching path of window. \nOtherwise, you need to download the suitable version online and add the path to the environment variables manually.\n You can go to https://de.mathworks.com/matlabcentral/answers/94933-how-do-i-edit-my-system-path-in-windows for detailed information');
+        warning(['Error in calling wget in window cmd. Please make sure ' ...
+                 'wget is available and it is in the searching path of ' ...
+                 'window. \nOtherwise, you need to download the suitable ' ...
+                 'version online and add the path to the environment ' ...
+                 'variables manually.\n You can go to ' ...
+                 'https://de.mathworks.com/matlabcentral/answers/' ...
+                 '94933-how-do-i-edit-my-system-path-in-windows ' ...
+                 'for detailed information']);
         return;
     end
 elseif isunix
@@ -111,8 +119,11 @@ elseif isunix
 end
 
 if status == 0
-    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), '%f', '%*s %*s', '%f', '%*s', '%f %f %f', repmat('%*s', 1, 17), '%f', repmat('%*s', 1, 28)];
-    T = textscan(html_text, TextSpec, 'Delimiter', ',', 'HeaderLines', 9, 'TreatAsEmpty', 'N/A');
+    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), ...
+                '%f', '%*s %*s', '%f', '%*s', '%f %f %f', ...
+                repmat('%*s', 1, 17), '%f', repmat('%*s', 1, 28)];
+    T = textscan(html_text, TextSpec, 'Delimiter', ',', ...
+                 'HeaderLines', 9, 'TreatAsEmpty', 'N/A');
     if numel(T{1}) > 1
         AOD_1640 = T{3}(1:end-1);
         AOD_1020 = T{4}(1:end-1);
@@ -122,15 +133,22 @@ if status == 0
         AOD_440 = T{8}(1:end-1);
         AOD_380 = T{9}(1:end-1);
         AOD_340 = T{10}(1:end-1);
-        IWV = T{11}(1:end-1) / 100 * 1000;   % convert the precipitable water vapor (cm) to integrated water vapor (kg * m^{-2}) by timing the density of liquid water.
+        IWV = T{11}(1:end-1) / 100 * 1000;   % convert the precipitable water 
+                                             % vapor (cm) to integrated water 
+                                             % vapor (kg * m^{-2}) by timing 
+                                             % the density of liquid water.
         angstrexp440_870 = T{12}(1:end-1);
         for iRow = 1:(numel(T{1}) - 1)
-            datetime = [datetime; datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
+            thisDatetime = [thisDatetime; ...
+                    datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
         end
 
         if flagFilterNegAOD
-            flagNegValue = (AOD_1640 <= 0) | (AOD_1020 <= 0) | (AOD_870 <= 0) | (AOD_675 <= 0) | (AOD_500 <= 0) | (AOD_440 <= 0) | (AOD_380 <= 0) | (AOD_340 <= 0) | (IWV <= 0);
-            datetime = datetime(~ flagNegValue);
+            flagNegValue = (AOD_1640 <= 0) | (AOD_1020 <= 0) | ...
+                           (AOD_870 <= 0) | (AOD_675 <= 0) | ...
+                           (AOD_500 <= 0) | (AOD_440 <= 0) | ...
+                           (AOD_380 <= 0) | (AOD_340 <= 0) | (IWV <= 0);
+            thisDatetime = thisDatetime(~ flagNegValue);
             AOD_1640 = AOD_1640(~ flagNegValue);
             AOD_1020 = AOD_1020(~ flagNegValue);
             AOD_870 = AOD_870(~ flagNegValue);
@@ -143,7 +161,8 @@ if status == 0
             angstrexp440_870 = angstrexp440_870(~ flagNegValue);
         end
 
-        siteinfo = regexp(html_text, '\w*,PI=(?<PI>.*),Email=(?<Email>\S*)<br', 'names');
+        siteinfo = regexp(html_text, ...
+                          '\w*,PI=(?<PI>.*),Email=(?<Email>\S*)<br', 'names');
         AERONETAttri.URL = aod_url;
         AERONETAttri.level = level;
         AERONETAttri.status = true;
@@ -153,7 +172,8 @@ if status == 0
         AERONETAttri.contact = siteinfo.Email;
         return;
     else   % no valid data
-        fprintf('Could not extract photometer data (Level: %s)\n%s\n', level, aod_url);
+        fprintf('Could not extract photometer data (Level: %s)\n%s\n', ...
+                level, aod_url);
         AERONETAttri.URL = aod_url;
         AERONETAttri.level = level;
         AERONETAttri.status = false;

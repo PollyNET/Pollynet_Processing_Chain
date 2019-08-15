@@ -138,10 +138,9 @@ def pollyxt_noa_display_WV(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(Time, Height, RH, vmin=0, vmax=100, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
 
-
     ax.set_ylim([0, 8000])
     ax.yaxis.set_major_locator(MultipleLocator(2000))
-    ax.yaxis.set_minor_locator(MultipleLocator(500))ator(MultipleLocator(500))e(0, 8001, 1000).tolist())
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_ylim([0, 8000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))

@@ -1,7 +1,7 @@
 #!/bin/bash
 # Process the current available polly data
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
@@ -20,16 +20,19 @@ echo "Month=$Month"
 echo "Day=$Day"
 
 # parameter definition
-pollyList="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk','pollyxt_tau'"
+POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLYNET_CONFIG_FILE='pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
-cd /pollyhome/Picasso/playground;
-pollyList = {${pollyList}};
 
-for iPolly = 1:length(pollyList)
-    saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
-    todoFolder = '/pollyhome/Picasso/todo_filelist';
-    pollynet_process_history_data(pollyList{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, todoFolder);
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+addpath(POLLYNET_PROCESSING_DIR, 'lib');
+cd(POLLYNET_PROCESSING_DIR);
+
+POLLYLIST = {${POLLYLIST}};
+
+for iPolly = 1:length(POLLYLIST)
+    pollynet_process_history_data(POLLYLIST{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
 end
 ENDMATLAB
 

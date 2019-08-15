@@ -1,11 +1,17 @@
 function [tOutTick, tOutTickStr] = timelabellayout(tIn, outFormat)
-%timelabellayout tight layout of time label.
+%TIMELABELLAYOUT tight layout of time label.
 %   Example:
-%       [tOutTick, tOutTickStr] = timelabellayout(tIn)
+%       [tOutTick, tOutTickStr] = timelabellayout(tIn, outFormat)
 %   Inputs:
-%       tIn
+%       tIn: array
+%           measurement time. [datenum]
+%       outFormat: char
+%           output format for the date string.
 %   Outputs:
-%       tOutTick, tOutTickStr
+%       tOutTick: array
+%           datenum for each tick label. 
+%       tOutTickStr: cell
+%           tick label.
 %   History:
 %       2018-12-29. First Edition by Zhenping
 %   Contact:
@@ -32,21 +38,28 @@ if tSpan <= datenum(0, 1, 0, 0, 30, 0)
     if firstIntegerTime > lastIntegerTime
         tOutTick = [tIn(1), tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
         tOutTickStr{end - 1} = '';
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) > tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) > tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
-    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{end - 1} = '';
     else
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
     end
 elseif tSpan <= datenum(0, 1, 0, 0, 180, 0)
@@ -57,21 +70,28 @@ elseif tSpan <= datenum(0, 1, 0, 0, 180, 0)
     if firstIntegerTime > lastIntegerTime
         tOutTick = [tIn(1), tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
         tOutTickStr{end - 1} = '';
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) > tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) > tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
-    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{end - 1} = '';
     else
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
     end
 elseif tSpan <= datenum(0, 1, 0, 0, 360, 0)
@@ -82,21 +102,28 @@ elseif tSpan <= datenum(0, 1, 0, 0, 360, 0)
     if firstIntegerTime > lastIntegerTime
         tOutTick = [tIn(1), tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
         tOutTickStr{end - 1} = '';
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) > tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) > tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
-    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{end - 1} = '';
     else
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
     end
 elseif tSpan <= datenum(0, 1, 0, 0, 1440, 0)
@@ -107,21 +134,28 @@ elseif tSpan <= datenum(0, 1, 0, 0, 1440, 0)
     if firstIntegerTime > lastIntegerTime
         tOutTick = [tIn(1), tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
         tOutTickStr{end - 1} = '';
-    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ((tIn(end) - lastIntegerTime) > tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) <= tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) > tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{2} = '';
-    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ((tIn(end) - lastIntegerTime) <= tInterval/3)
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+    elseif ((firstIntegerTime - tIn(1)) > tInterval/3) && ...
+           ((tIn(end) - lastIntegerTime) <= tInterval/3)
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
         tOutTickStr{end - 1} = '';
     else
-        tOutTick = [tIn(1), firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
+        tOutTick = [tIn(1), ...
+            firstIntegerTime:tInterval:lastIntegerTime, tIn(end)];
         tOutTickStr = cellstr(datestr(tOutTick, outFormat));
     end
 else

@@ -1,5 +1,6 @@
 function [flag] = polly_isLaserShutterOn(sig)
-%polly_isLaserShutterOn determine whether the laser shutter is on due to the flying object..
+%POLLY_ISLASERSHUTTERON determine whether the laser shutter is on due to the 
+%flying object..
 %   Example:
 %       [flag] = polly_isLaserShutterOn(sig)
 %   Inputs:
