@@ -42,7 +42,7 @@ run_matlab() {
 
   matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 
-POLLYNET_PROCESSING_DIR = fileparts(fileparts('$CWD'));
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
 cd(POLLYNET_PROCESSING_DIR);
 addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
 
@@ -60,7 +60,6 @@ POLLY_TYPE="arielle"
 POLLYNET_CONFIG_FILE="pollynet_processing_chain_config.json"
 STARTDATE="20190101"
 ENDDATE="20190103"
-CWD=$(pwd)
 
 ################################
 # Check if parameters options  #

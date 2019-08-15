@@ -25,7 +25,7 @@ POLLYNET_CONFIG_FILE='pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
 
-POLLYNET_PROCESSING_DIR = fileparts(fileparts('$CWD'));
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
 addpath(POLLYNET_PROCESSING_DIR, 'lib');
 cd(POLLYNET_PROCESSING_DIR);
 
