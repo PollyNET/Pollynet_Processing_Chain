@@ -34,7 +34,7 @@ logbook.changes.flagFlashlamps = [];
 logbook.changes.flagPulsepower = [];
 logbook.changes.flagRestart = [];
 logbook.flag_CH_NDChange = [];
-if ~ exist(logbookFile, 'file')
+if exist(logbookFile, 'file') ~= 2
     warning('logbook does not exist! Please check %s', logbookFile);
     return;
 end

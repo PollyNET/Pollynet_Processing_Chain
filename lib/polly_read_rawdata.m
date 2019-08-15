@@ -57,7 +57,7 @@ data.lat = [];
 data.lon = [];
 data.alt0 = [];
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('polly data file does not exist.\n%s\n', file);
     return;
 end

@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script will help to process the history polly data with using Pollynet processing chain
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 #########################
@@ -29,7 +29,7 @@ display_help() {
   echo "   -f, --polly_folder      specify the polly data folder"
   echo "                           e.g., '/pollyhome/pollyxt_lacros'"
   echo "   -c, --config_file       specify the pollynet processing file for the data processing"
-  echo "                           e.g., '/config/pollynet_processing_chain_config.json'"
+  echo "                           e.g., 'pollynet_processing_chain_config.json'"
   echo "   -h, --help              show help message"
   echo
   # echo some stuff here for the -a or --add-options
@@ -42,8 +42,12 @@ run_matlab() {
 
   matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+cd(POLLYNET_PROCESSING_DIR);
+addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
+
 clc;
-pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', '$POLLYNET_CONFIG_FILE');
+pollynet_process_history_data('$POLLY_TYPE', '$STARTDATE', '$ENDDATE', '$POLLY_FOLDER', fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
 exit;
 ENDMATLAB
 
@@ -53,7 +57,7 @@ ENDMATLAB
 # parameter initialization
 POLLY_FOLDER="/pollyhome/arielle"
 POLLY_TYPE="arielle"
-POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
+POLLYNET_CONFIG_FILE="pollynet_processing_chain_config.json"
 STARTDATE="20190101"
 ENDDATE="20190103"
 

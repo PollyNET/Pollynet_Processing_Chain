@@ -19,7 +19,7 @@ function [height, overlap] = read_default_overlap(file)
 height = [];
 overlap = [];
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('overlap file does not exist.\n%s\n', file);
     return;
 end

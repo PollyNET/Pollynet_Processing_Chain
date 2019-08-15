@@ -21,7 +21,7 @@ datetime = [];
 wvconst = [];
 wvconstStd = [];
 
-if ~ exist(wvconstFile, 'file')
+if exist(wvconstFile, 'file') ~= 2
     warning('Water vapor calibration results file does not exist!\n%s\n', wvconstFile);
     return;
 end

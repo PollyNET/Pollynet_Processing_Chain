@@ -24,8 +24,8 @@
     "flagDeleteData": false,
 
     "flagEnableResultsOutput": true,
-	"flagEnableCaliResultsOutput": true,
-    "flagEnableDataVisualization": true,	
+    "flagEnableCaliResultsOutput": true,
+    "flagEnableDataVisualization": true,
     "flagDebugOutput": false,
     "flagReduceMATLABToolboxDependence": false,
     "flagSendNotificationEmail": false
