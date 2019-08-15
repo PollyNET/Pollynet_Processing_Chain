@@ -36,7 +36,7 @@ pollynetHistory.depolConst = [];
 pollynetHistory.molDepol = [];
 pollynetHistory.caption = {};
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('pollynetHistory does not exist. \n%s\n', file);
     return;
 end

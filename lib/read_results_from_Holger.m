@@ -85,7 +85,7 @@ function [data] = read_results_from_Holger(file)
 %   Contact:
 %       zhenping@tropos.de
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('The input file does not exist.\n');
     data = [];
     return;

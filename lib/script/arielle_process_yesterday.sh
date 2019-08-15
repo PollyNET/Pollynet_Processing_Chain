@@ -1,7 +1,7 @@
 #!/bin/bash
 # Process arielle data of yesterday
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 echo "Processing yesterday"

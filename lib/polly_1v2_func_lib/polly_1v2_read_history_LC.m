@@ -35,7 +35,7 @@ LCStd607 = [];
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel607 = config.isFR & config.is607nm;
 
-if ~ exist(LCFile, 'file')
+if exist(LCFile, 'file') ~= 2
     warning('Lidar constant results file does not exist!\n%s\n', LCFile);
     return;
 end
