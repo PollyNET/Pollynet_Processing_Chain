@@ -66,7 +66,7 @@ addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
 
 clc;
 
-write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', '$POLLYNET_CONFIG_FILE', $year, $month, $day, 'w');
+write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), $year, $month, $day, 'w');
 
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
 
