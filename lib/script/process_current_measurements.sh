@@ -1,7 +1,7 @@
 #!/bin/bash
 # Process the current available polly data
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
