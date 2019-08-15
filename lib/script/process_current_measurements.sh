@@ -12,11 +12,14 @@ YYYYMMDD=$(date --utc "+%Y%m%d" -d "today")
 # parameter definition
 POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
 POLLY_ROOT_DIR="/pollyhome"
-POLLYNET_CONFIG_FILE='/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json'
+POLLYNET_CONFIG_FILE='pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
-cd /pollyhome/Picasso/playground;
-addpath /pollyhome/Picasso/Pollynet_Processing_Chain/lib;
+
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$CWD'));
+addpath(POLLYNET_PROCESSING_DIR, 'lib');
+cd(POLLYNET_PROCESSING_DIR);
+
 POLLYLIST = {${POLLYLIST}};
 
 for iPolly = 1:length(POLLYLIST)
@@ -28,7 +31,7 @@ for iPolly = 1:length(POLLYLIST)
     else
         for iFile = 1:length(pollyFile)
             write_single_to_filelist(POLLYLIST{iPolly}, pollyFile{iFile}, '$POLLYNET_CONFIG_FILE', 'w');
-            pollynet_processing_chain_main('$POLLYNET_CONFIG_FILE');
+            pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
         end
     end
 end

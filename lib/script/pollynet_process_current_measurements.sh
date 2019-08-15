@@ -25,7 +25,7 @@ display_help() {
     echo "   -f, --polly_folder      specify the polly data folder"
     echo "                           e.g., '/oceanethome/pollyxt'"
     echo "   -c, --config_file       specify the pollynet processing file for the data processing"
-    echo "                           e.g., '/config/pollynet_processing_chain_config.json'"
+    echo "                           e.g. 'pollynet_processing_chain_config.json'"
     echo "   -h, --help              show help message"
     echo
     # echo some stuff here for the -a or --add-options 
@@ -37,6 +37,10 @@ run_matlab() {
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$CWD'));
+cd(POLLYNET_PROCESSING_DIR);
+addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
+
 clc;
 
 pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0), true);
@@ -46,7 +50,7 @@ if isempty(pollyFile)
 else 
     for iFile = 1:length(pollyFile)
         write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$POLLYNET_CONFIG_FILE', 'w');
-        pollynet_processing_chain_main('$POLLYNET_CONFIG_FILE');
+        pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
     end
 end
 
@@ -60,6 +64,7 @@ echo "Finish"
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
 POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
+CWD=$(pwd)
 
 ################################
 # Check if parameters options  #
