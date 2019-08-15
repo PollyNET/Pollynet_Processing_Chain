@@ -1,5 +1,7 @@
-function [ aerBSC, aerBR ] = polly_fernald(alt, signal, LR_aer, refAlt, refBeta, molBSC, window_size)
-%POLLY_FERNALD retrieve the aerosol backscattering coefficient with Fernald method. 
+function [ aerBSC, aerBR ] = polly_fernald(alt, signal, LR_aer, ...
+                                           refAlt, refBeta, molBSC, window_size)
+%POLLY_FERNALD retrieve the aerosol backscattering coefficient with Fernald 
+%method. 
 %   Inputs:
 %       alt: array
 %           height. [m]
@@ -10,7 +12,8 @@ function [ aerBSC, aerBR ] = polly_fernald(alt, signal, LR_aer, refAlt, refBeta,
 %       refAlt: float or 2-element array
 %           reference altitude or region. [m]
 %       refBeta: float
-%           aerosol backscatter coefficient at the reference region. [m^{-1}Sr^{-1}]       
+%           aerosol backscatter coefficient at the reference region. 
+%           [m^{-1}Sr^{-1}]       
 %       molBSC: array
 %           molecular backscattering coefficient. Unit: m^{-1}*Sr^{-1}
 %       window_size: int32
@@ -26,6 +29,8 @@ function [ aerBSC, aerBR ] = polly_fernald(alt, signal, LR_aer, refAlt, refBeta,
 %       2. Prof. Yi's PPT: A brief introduction to atmospheric lidars
 %   History:
 %       2018-01-04. First Edition by ZP.Yin
+%   Contact:
+%       zhenping@tropos.de
 
 if nargin < 6
     error('Not enough inputs.');
@@ -54,7 +59,8 @@ if length(refAlt) == 1
     indRefAlt = find(alt >= refAlt, 1, 'first');
     indRefAlt = ones(1, 2) * indRefAlt;
 elseif length(refAlt) == 2
-    if (refAlt(1) - alt(end)) * (refAlt(1) - alt(1)) <=0 && (refAlt(2) - alt(end)) * (refAlt(2) - alt(1)) <=0
+    if (refAlt(1) - alt(end)) * (refAlt(1) - alt(1)) <=0 && ...
+        (refAlt(2) - alt(end)) * (refAlt(2) - alt(1)) <=0
         indRefAlt = [floor(refAlt(1) / dAlt), floor(refAlt(2) / dAlt)];
     else
         error('refAlt is out of range.');
@@ -84,20 +90,24 @@ aerBR(indRefMid) = refBeta / molBSC(indRefMid);
 % backward
 for iAlt = indRefMid-1: -1: 1
     A = ((LR_aer(iAlt+1) - LR_mol(iAlt+1)) * molBSC(iAlt+1) + ...
-        (LR_aer(iAlt) - LR_mol(iAlt)) * molBSC(iAlt)) * abs(alt(iAlt+1) - alt(iAlt));
+        (LR_aer(iAlt) - LR_mol(iAlt)) * molBSC(iAlt)) * ...
+        abs(alt(iAlt+1) - alt(iAlt));
     numerator = RCS(iAlt) * exp(A);
     denominator1 = RCS(iAlt+1) / (aerBSC(iAlt+1) + molBSC(iAlt+1));
-    denominator2 = (LR_aer(iAlt+1) * RCS(iAlt+1) + LR_aer(iAlt) * numerator) * abs(alt(iAlt+1) - alt(iAlt));
+    denominator2 = (LR_aer(iAlt+1) * RCS(iAlt+1) + LR_aer(iAlt) * ...
+                   numerator) * abs(alt(iAlt+1) - alt(iAlt));
     aerBSC(iAlt) = numerator/(denominator1 + denominator2) - molBSC(iAlt);
     aerBR(iAlt) = aerBSC(iAlt) / molBSC(iAlt);
 end
 % forward
 for iAlt = indRefMid+1: 1: nAlt
     A = ((LR_aer(iAlt-1) - LR_mol(iAlt-1)) * molBSC(iAlt-1) + ...
-        (LR_aer(iAlt) - LR_mol(iAlt)) * molBSC(iAlt)) * abs(alt(iAlt)-alt(iAlt-1));
+        (LR_aer(iAlt) - LR_mol(iAlt)) * molBSC(iAlt)) * ...
+        abs(alt(iAlt)-alt(iAlt-1));
     numerator = RCS(iAlt) * exp(-A);
     denominator1 = RCS(iAlt-1) / (aerBSC(iAlt-1) + molBSC(iAlt-1));
-    denominator2 = (LR_aer(iAlt-1) * RCS(iAlt-1) + LR_aer(iAlt) * numerator) * abs(alt(iAlt) - alt(iAlt-1));
+    denominator2 = (LR_aer(iAlt-1) * RCS(iAlt-1) + LR_aer(iAlt) * ...
+                   numerator) * abs(alt(iAlt) - alt(iAlt-1));
     aerBSC(iAlt) = numerator / (denominator1 - denominator2) - molBSC(iAlt);
     aerBR(iAlt) = aerBSC(iAlt) / molBSC(iAlt);
 end

@@ -3,7 +3,7 @@
 results/
 tmp/
 !config/template_pollynet_processing_chain_config.json
-!config/template_pollynet_processing_config_history.txt
+!config/template_pollynet_processing_chain_link.txt
 !config/polly_global_config.json
 config/
 recent_plots/

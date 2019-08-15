@@ -1,23 +1,26 @@
-function flagCloudFree = polly_cloudscreen(height, signal, slope_thres, search_region)
-%polly_cloudscreen search cloud-free profiles
+function flagCloudFree = polly_cloudscreen(height, signal, slope_thres, ...
+                                           search_region)
+%POLLY_CLOUDSCREEN mask cloud-free profiles
 %   Usage:
-%       flagCloudFree = polly_cloudscreen(height, signal, slope_thres, search_region)
+%       flagCloudFree = polly_cloudscreen(height, signal, ...
+%                                         slope_thres, search_region)
 %   Inputs:
 %       height: array
 %           height. [m]
 %       signal: array
 %           photon count rate. [MHz] height * time
 %       slope_thres: float
-%           threshold of the slope to determine whether there is strong backscatter signal. [MHz*m]
+%           threshold of the slope to determine whether there is 
+%           strong backscatter signal. [MHz*m]
 %       search_region: 2-elements array
-%           [base, top]. [m]
+%           [baseHeight, topHeight]. [m]
 %   Outputs:
 %       flagCloudFree: boolean
 %           whether the profile is cloud free. 
 %   History:
 %       2018-03-04. First edition by zhenping.
-%   Copyright:
-%       Ground-based remote sensing group. (TROPOS)
+%   Contact:
+%       zhenping@tropos.de
 
 if nargin < 4
     error('Not enough inputs!')
@@ -28,7 +31,8 @@ if search_region(2) <= height(1)
 end
 
 if search_region(1) < height(1)
-    warning('Base of search_region is lower than %f, set it to be %f', height(1), height(1));
+    warning(['Base of search_region is lower than %f, ' ...
+             'set it to be %f'], height(1), height(1));
     search_region(1) = height(1);
 end
 

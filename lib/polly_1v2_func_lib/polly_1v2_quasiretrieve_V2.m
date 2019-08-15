@@ -105,7 +105,7 @@ mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(d
 mol_att_607 = exp(- cumsum(molExt607 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
 
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_532_V2, quasi_par_ext_532_V2] = quasi_retrieving_V2(data.height, att_beta_532, att_beta_607, 532, molExt532, molBsc532, molExt607, molBsc607, 0.5, 50, 3);
+[quasi_par_bsc_532_V2, quasi_par_ext_532_V2] = quasi_retrieving_V2(data.height, att_beta_532, att_beta_607, 532, molExt532, molBsc532, molExt607, 0.5, 50, 3);
 quasi_par_bsc_532_V2 = smooth2(quasi_par_bsc_532_V2, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
 
 %% quasi particle depolarization ratio and Ångström exponents

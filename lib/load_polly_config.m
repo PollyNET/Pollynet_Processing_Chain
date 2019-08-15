@@ -11,27 +11,34 @@ function [pollyConfig] = load_polly_config(configFile, configDir)
 %           polly configurations. Details can be found in doc/polly_config.md
 %   History:
 %       2018-12-16. First edition by Zhenping
-%       2019-08-01. Remove the conversion of depol cali time. (Don't need to set the depol cali time any more)
-%       2019-08-03. Add global polly config for unify the defaults polly settings.
+%       2019-08-01. Remove the conversion of depol cali time. 
+%                   (Don't need to set the depol cali time any more)
+%       2019-08-03. Add global polly config for unify the defaults polly 
+%                   settings.
 %   Contact:
 %       zhenping@tropos.de
 
-%TODO: add the switch part to read the configurature individually for different polly system.
+%TODO: add the switch part to read the configurature individually for 
+%      different polly system.
 
 pollyConfig = '';
 
 if ~ exist(configDir, 'dir')
-    error('Error in load_polly_config: folder does not exist.\n%s\n', configDir);
+    error(['Error in load_polly_config: ' ...
+           'folder does not exist.\n%s\n'], configDir);
 end
 
 configFile = fullfile(configDir, configFile);
 
 if ~ exist(configFile, 'file')
-    error('Error in load_polly_config: config file does not exist.\n%s\n', configFile);
+    error(['Error in load_polly_config: ' ...
+           'config file does not exist.\n%s\n'], configFile);
 end
 
 if ~ exist(fullfile(configDir, 'polly_global_config.json'), 'file')
-    error('Error in load_polly_config: polly global config file does not exist.\n%s\n', fullfile(configDir, 'polly_global_config.json'));
+    error(['Error in load_polly_config: ' ...
+           'polly global config file does not exist.\n%s\n'], ...
+           fullfile(configDir, 'polly_global_config.json'));
 end
 
 %% load polly global config

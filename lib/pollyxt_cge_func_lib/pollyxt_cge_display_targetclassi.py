@@ -135,7 +135,7 @@ def pollyxt_dwd_display_targetclassi(tmpFile, saveFolder):
     fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 def main():

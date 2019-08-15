@@ -1,5 +1,7 @@
-function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, minRelStd)
-%MEAN_STABLE calculate the mean value of x based on the least fluctuated segment of x. The searching is based on the std inside each window of x.
+function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, ...
+                                                 minRelStd)
+%MEAN_STABLE calculate the mean value of x based on the least fluctuated 
+%segment of x. The searching is based on the std inside each window of x.
 %   Example:
 %       [xStable, xIndx, xRelStd] = mean_stable(x, win)
 %   Inputs:

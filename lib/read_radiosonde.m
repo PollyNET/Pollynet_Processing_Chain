@@ -1,27 +1,36 @@
-function [alt, temp, pres, relh, datetime] = read_radiosonde(file, readMode, missingValue)
-%read_radiosonde read the radiosonde data from netCDF file.
+function [alt, temp, pres, relh, datetime] = read_radiosonde(file, ...
+    readMode, missingValue)
+%READ_RADIOSONDE read the radiosonde data from netCDF file.
 %   Example:
 %       [alt, temp, pres, relh, datetime] = read_radiosonde(file, readMode)
 %   Inputs:
 %       file: str
 %           filename of radiosonde data file. 
 %       readMode: integer
-%           reading mode for parsing the file. Only accept 1 for standard nc format.
+%           reading mode for parsing the file. Only accept 1 for standard nc 
+%           format.
 %       missingValue: double
-%           missing value for filling the empty bins. These values need to be replaced with NaN to be compatible with the processing program.
+%           missing value for filling the empty bins. These values need to be 
+%           replaced with NaN to be compatible with the processing program.
 %   Outputs:
 %       alt: array
 %           altitute for each range bin. [m]
 %       temp: array
-%           temperature for each range bin. If no valid data, NaN will be filled. [C]
+%           temperature for each range bin. If no valid data, NaN will be 
+%           filled. [C]
 %       pres: array
-%           pressure for each range bin. If no valid data, NaN will be filled. [hPa]
+%           pressure for each range bin. If no valid data, NaN will be filled. 
+%           [hPa]
 %       rh: array
-%           relative humidity for each range bin. If no valid data, NaN will be filled. [%]
+%           relative humidity for each range bin. If no valid data, NaN will be 
+%           filled. [%]
 %       datetime: datenum
 %           datetime for the radiosonde data.
 %   Note:
-%       The radiosonde file should be in netCDF and must contain the variable of 'altitude', 'temperature', 'pressure' and 'RH'. Below is the description of each variable. (detailed information please see example in '..\example\convert_radiosonde_data\')
+%       The radiosonde file should be in netCDF and must contain the variable of 
+%       'altitude', 'temperature', 'pressure' and 'RH'. Below is the description 
+%       of each variable. (detailed information please see example in 
+%       '..\example\convert_radiosonde_data\')
 %         variables:
 %           double altitude(altitude=6728);
 %             :unit = "m";
@@ -59,7 +68,7 @@ if ~ exist('readMode', 'var')
     readMode = 1;
 end
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
 	warning('radiosonde file does not exist. Please check it.\n%s', file);
 	return;
 end

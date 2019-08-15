@@ -27,7 +27,7 @@ fileinfo_new.zipFile = {};
 fileinfo_new.dataSize = [];
 fileinfo_new.pollyVersion = {};
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('fileinfo_new does not exist. \n%s\n', file);
     return;
 end
@@ -43,7 +43,8 @@ try
     fileinfo_new.pollyVersion = transpose(data{6});
 
     for iTask = 1:length(data{5})
-        fileinfo_new.dataSize = [fileinfo_new.dataSize, int32(str2num(data{5}{iTask}))];
+        fileinfo_new.dataSize = [fileinfo_new.dataSize, ...
+                                 int32(str2num(data{5}{iTask}))];
     end
 
 catch

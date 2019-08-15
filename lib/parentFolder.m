@@ -1,12 +1,14 @@
 function [parentFolder] = parentFolder(folder, level)
-%FUNC description
+%PARENTFOLDER return the parent folder.
 %   Example:
 %       [parentFolder] = parentFolder(folder, level)
 %   Inputs:
 %       folder: char
 %           folder name.
 %       level: integer
-%           parent level. eg. 1 stands for the direct parent of the folder. 2 stands for second parent of the folder.
+%           parent level. 
+%           e.g., 1 stands for the direct parent of the folder. 
+%                 2 stands for second parent of the folder.
 %   Outputs:
 %       parentFolder: char
 %           parent folder.
@@ -31,7 +33,8 @@ if ispc
 elseif isunix
     parentFolder = fullfile(filesep, parts{1:(end - level)});
 else
-    error('MATLAB:unsupportedPlatform', 'Your platform is not Windows, Linux or UNIX');
+    error('MATLAB:unsupportedPlatform', ...
+          'Your platform is not Windows, Linux or UNIX');
 end
 
 end

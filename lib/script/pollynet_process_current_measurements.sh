@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script will help to process the current polly data with using Pollynet processing chain
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 #########################
@@ -24,6 +24,8 @@ display_help() {
     echo "                           - polly_1v2"
     echo "   -f, --polly_folder      specify the polly data folder"
     echo "                           e.g., '/oceanethome/pollyxt'"
+    echo "   -c, --config_file       specify the pollynet processing file for the data processing"
+    echo "                           e.g. 'pollynet_processing_chain_config.json'"
     echo "   -h, --help              show help message"
     echo
     # echo some stuff here for the -a or --add-options 
@@ -35,6 +37,10 @@ run_matlab() {
 
 matlab -nodisplay -nodesktop -nosplash << ENDMATLAB
 
+POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+cd(POLLYNET_PROCESSING_DIR);
+addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
+
 clc;
 
 pollyFile = search_polly_file('$POLLY_FOLDER', now, datenum(0, 1, 0, 9, 0, 0), true);
@@ -43,11 +49,10 @@ if isempty(pollyFile)
     exit;
 else 
     for iFile = 1:length(pollyFile)
-        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$TODOLISTFOLDER', 'w');
-        pollynet_processing_chain_main;
+        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), 'w');
+        pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
     end
 end
-
 
 exit;
 ENDMATLAB
@@ -58,7 +63,7 @@ echo "Finish"
 # parameter initialization
 POLLY_FOLDER="/oceanethome/pollyxt"
 POLLY_TYPE="arielle"
-TODOLISTFOLDER="/pollyhome/Picasso/todo_filelist"
+POLLYNET_CONFIG_FILE="/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json"
 
 ################################
 # Check if parameters options  #
@@ -82,9 +87,9 @@ do
           shift 2
           ;;
 
-      -t | --todo_folder)
+      -c | --config_file)
           if [ $# -ne 0 ]; then
-              TODOLISTFOLDER="$2"
+              POLLYNET_CONFIG_FILE="$2"
           fi
           shift 2
           ;;
