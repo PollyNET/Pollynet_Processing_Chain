@@ -16,18 +16,18 @@ Day=$(echo ${YYYYMMDD} | cut -c7-8)
 echo "Processing $YYYYMMDD"
 
 # parameter definition
-pollyList="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
-pollyRoot="/pollyhome"
+POLLY_LIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLY_ROOT_DIR="/pollyhome"
+POLLYNET_CONFIG_FILE='/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
 cd /pollyhome/Picasso/playground;
 addpath /pollyhome/Picasso/Pollynet_Processing_Chain/lib;
-pollyList = {${pollyList}};
+POLLY_LIST = {${POLLY_LIST}};
 
-for iPolly = 1:length(pollyList)
-    saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
-    todoFolder = '/pollyhome/Picasso/todo_filelist';
-    pollynet_process_history_data(pollyList{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, todoFolder);
+for iPolly = 1:length(POLLY_LIST)
+    saveFolder = fullfile('$POLLY_ROOT_DIR', POLLY_LIST{iPolly});
+    pollynet_process_history_data(POLLY_LIST{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, '$POLLYNET_CONFIG_FILE');
 end
 ENDMATLAB
 

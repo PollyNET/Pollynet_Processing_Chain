@@ -20,16 +20,15 @@ echo "Month=$Month"
 echo "Day=$Day"
 
 # parameter definition
-pollyList="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLYNET_CONFIG_FILE='/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
 cd /pollyhome/Picasso/playground;
-pollyList = {${pollyList}};
+POLLYLIST = {${POLLYLIST}};
 
-for iPolly = 1:length(pollyList)
-    saveFolder = fullfile('$pollyRoot', pollyList{iPolly});
-    todoFolder = '/pollyhome/Picasso/todo_filelist';
-    pollynet_process_history_data(pollyList{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, todoFolder);
+for iPolly = 1:length(POLLYLIST)
+    pollynet_process_history_data(POLLYLIST{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, '%POLLYNET_CONFIG_FILE');
 end
 ENDMATLAB
 

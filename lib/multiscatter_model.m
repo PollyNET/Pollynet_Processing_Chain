@@ -1,4 +1,32 @@
 function data = multiscatter_model(filename)
+%MULTISCATTER_MODEL running the mulple scattering model to calculate the 
+%multiple scattering factor. Detailed information you can find in 
+%'../lib/multiscatter.m'
+%   Inputs: 
+%       filename: char
+%           the absolute path for the lidar configuration file. You can find 
+%           an detailed information about the format and the multiple 
+%           scattering model [here](http://www.met.reading.ac.uk/clouds/multiscatter/)
+%   Outputs:
+%       data: struct
+%           range: array
+%               apparent range above the ground. [m]
+%           cloudExt: array
+%               cloud extintion coefficient. [m^{-1}]
+%           cloudRadius: array
+%               cloud effective mean radius. [microns]
+%           att_total: array
+%               total attenuated backscatter. [m^{-1}*Sr^{-1}]
+%           att_single: array
+%               attenuated backscatter with single backscattering. 
+%               [m^{-1}*Sr^{-1}]
+%   Note:
+%       Make sure you've compiled the multiple scattering model and added it to 
+%       the searching path before you run the function.
+%   History:
+%       2019-08-14. Add comments by Zhenping Yin
+%   Contact: 
+%       zhenping@tropos.de
 
     if ~ exist(filename, 'file')
         error('The configuration file does not exist.');
@@ -7,11 +35,15 @@ function data = multiscatter_model(filename)
     output_file1 = [tempname '.txt'];
     output_file2 = [tempname '.txt'];
     
-    [s1, ~] = system([fullfile(fileparts(which('multiscatter_model')), 'script', 'multiscatter') ' -algorithms original lidar < ' filename ' > ' output_file1]);
-    [s2, ~] = system([fullfile(fileparts(which('multiscatter_model')), 'script', 'multiscatter') ' -algorithms single lidar < ' filename ' > ' output_file2]);
+    [s1, ~] = system([fullfile(fileparts(which('multiscatter_model')), ...
+    'script', 'multiscatter') ' -algorithms original lidar < ' ...
+    filename ' > ' output_file1]);
+    [s2, ~] = system([fullfile(fileparts(which('multiscatter_model')), ...
+    'script', 'multiscatter') ' -algorithms single lidar < ' ...
+    filename ' > ' output_file2]);
 
     if ~ (s1 == 0) || ~ (s2 == 0)
-        error('error in excuting multiscatter program.')
+        error('error in excuting multiscatter program.');
     end
     
     fid1 = fopen(output_file1, 'r');

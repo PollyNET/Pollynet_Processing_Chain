@@ -1,4 +1,5 @@
-function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heightTop, maxHThick, window_size)
+function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, ...
+                                      heightTop, maxHThick, window_size)
 %DOUGLASPEUCKER simplify the signal according to Douglas-Peucker algorithm.
 %   Inputs: 
 %       signal: array
@@ -26,8 +27,8 @@ function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heigh
 %       2018-07-29. Add the height range for the searching instead of SNR restriction.
 %       2018-07-31. Add the maxHThick argument to control the maximum thickness
 %       of each output segment.x
-%   Copyright:
-%       Ground-based remote sensing (TROPOS)
+%   Contact
+%       zhenping@tropos.de
 
 % input check
 if ~ nargin == 6
@@ -41,14 +42,18 @@ if ~ exist('window_size', 'var')
 end
 
 % find the boundary for implementing Douglas-Peucker method
-hBaseIndx = find( (height(1:end-1) - heightBase) .* (height(2:end) - heightBase) <= 0, 1) + 1;
-hTopIndx = find((height(1:(end-1)) - heightTop) .* (height(2:end) - heightTop) <= 0, 1) + 1;
+hBaseIndx = find((height(1:end-1) - heightBase) .* ... 
+                 (height(2:end) - heightBase) <= 0, 1) + 1;
+hTopIndx = find((height(1:(end-1)) - heightTop) .* ...
+                (height(2:end) - heightTop) <= 0, 1) + 1;
 if isempty(hBaseIndx)
-    warning('The base region can not be found. Set default value (%dm)', height(1));
+    warning('The base region can not be found. Set default value (%dm)', ...
+            height(1));
     hBaseIndx = 1;
 end
 if isempty(hTopIndx)
-    warning('The top region can not be found. Set default value (%dm)', height(end));
+    warning('The top region can not be found. Set default value (%dm)', ...
+            height(end));
     hTopIndx = length(height);
 end
 
@@ -107,7 +112,8 @@ end
 
 if dMax > epsilon
     recResult1 = DP_aglorithm(pointList(1:index), epsilon, maxHThick);
-    recResult2 = DP_aglorithm(pointList(index:end), epsilon, maxHThick) + index - 1;
+    recResult2 = DP_aglorithm(pointList(index:end), epsilon, maxHThick) + ...
+                 index - 1;
     sigIndx = [recResult1(1:end-1), recResult2];
 elseif thickness > maxHThick
     for indx1 = 2:(length(pointList) - 1)
@@ -116,7 +122,8 @@ elseif thickness > maxHThick
         end
     end
     recResult1 = DP_aglorithm(pointList(1:indx1), epsilon, maxHThick);
-    recResult2 = DP_aglorithm(pointList(indx1:end), epsilon, maxHThick) + indx1 - 1;
+    recResult2 = DP_aglorithm(pointList(indx1:end), epsilon, maxHThick) + ...
+                 indx1 - 1;
     sigIndx = [recResult1(1:end-1), recResult2];
 else
     sigIndx = [1, length(pointList)];
@@ -125,5 +132,6 @@ end
 end
 
 function [ d ] = my_dist(pointM, pointS, pointE)
-    d = abs(pointM(2) - pointS(2) + (pointS(2) - pointE(2))/(pointS(1) - pointE(1))*(pointS(1) - pointM(1)));
+    d = abs(pointM(2) - pointS(2) + (pointS(2) - pointE(2)) / ...
+            (pointS(1) - pointE(1))*(pointS(1) - pointM(1)));
 end

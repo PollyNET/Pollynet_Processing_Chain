@@ -1,11 +1,13 @@
-function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse, flagLatest)
-%search_polly_file Search the most recent polly measurement data.
+function [filePath] = search_polly_file(pollyFolder, thisTime, ...
+                                        timeLapse, flagLatest)
+%SEARCH_POLLY_FILE Search the most recent polly measurement data.
 %   Example:
 %       [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
 %   Inputs:
 %       pollyFolder: char
 %           the polly folder. 
-%           e.g., 'C:\Users\zhenping\Documents\Data\PollyXT\arielle'. Don't include the 'data_zip'
+%           e.g., 'C:\Users\zhenping\Documents\Data\PollyXT\arielle'. 
+%           Don't include the 'data_zip'
 %       thisTime: datenum
 %           the base time you want to search.
 %       timeLapse: float
@@ -18,7 +20,8 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse, flagLa
 %   History:
 %       2019-07-22. First Edition by Zhenping
 %       2019-08-07. Enable the output of multiple filepaths.
-%       2019-08-09. Add the variable to control the output of the latest polly data file.
+%       2019-08-09. Add the variable to control the output of the latest polly 
+%                   data file.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -38,15 +41,18 @@ if ~ exist(pollyFolder, 'dir')
     return;
 end
 
-[thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = datevec(thisTime);
+[thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
+    datevec(thisTime);
 
-pollyMonthFolder = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'));
+pollyMonthFolder = fullfile(pollyFolder, 'data_zip', ...
+                            datestr(thisTime, 'yyyymm'));
 if ~ exist(pollyMonthFolder, 'dir')
     warning('No current measurement, at least in the same month.');
     return;
 end
 
-files = dir(fullfile(pollyMonthFolder, sprintf('%04d_%02d_%02d*.nc.zip', thisYear, thisMonth, thisDay)));
+files = dir(fullfile(pollyMonthFolder, ...
+            sprintf('%04d_%02d_%02d*.nc.zip', thisYear, thisMonth, thisDay)));
 
 if isempty(files)
     warning('Still no current measurement in the day.');
@@ -57,25 +63,32 @@ end
 startMeasTime = [];
 for iFile = 1:length(files)
     pollyFile = files(iFile).name;
-    startMeasTime = [startMeasTime, datenum([datestr(thisTime, 'yyyymmdd'), pollyFile((end-14):(end-13)), pollyFile((end-11):(end-10)), pollyFile((end-8):(end-7))], 'yyyymmddHHMMSS')];
+    startMeasTime = [startMeasTime, ...
+                     datenum([datestr(thisTime, 'yyyymmdd'), ...
+                     pollyFile((end-14):(end-13)), ...
+                     pollyFile((end-11):(end-10)), ...
+                     pollyFile((end-8):(end-7))], 'yyyymmddHHMMSS')];
 end
 
 % search the closest filename.
 flagWithinTimeLapse = abs(thisTime - startMeasTime) < timeLapse;
 filesWithinTimeLapse = files(flagWithinTimeLapse);
 if sum(flagWithinTimeLapse) == 0
-    warning('No current measurement within %5.2f hour.', timeLapse / datenum(0, 1, 0, 1, 0, 0));
+    warning('No current measurement within %5.2f hour.', ...
+    timeLapse / datenum(0, 1, 0, 1, 0, 0));
     return;
 end
 
 if flagLatest
     % return the latest polly data file
     [~, indx] = min(abs(thisTime - startMeasTime));
-    filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), files(indx).name);
+    filePath{end + 1} = fullfile(pollyFolder, 'data_zip', ...
+        datestr(thisTime, 'yyyymm'), files(indx).name);
 else
     % return all searched data files
     for iFile = 1:length(filesWithinTimeLapse)
-        filePath{end + 1} = fullfile(pollyFolder, 'data_zip', datestr(thisTime, 'yyyymm'), filesWithinTimeLapse(iFile).name);
+        filePath{end + 1} = fullfile(pollyFolder, 'data_zip', ...
+            datestr(thisTime, 'yyyymm'), filesWithinTimeLapse(iFile).name);
     end
 end
 

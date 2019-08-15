@@ -1,10 +1,11 @@
 function [xOut] = fillmissing(xIn, varargin)
-%fillmissing fill the missing values in input array.
+%FILLMISSING fill the missing values in input array.
 %   Example:
 %       [xOut] = fillmissing(xIn, varargin)
 %   Inputs:
 %       xIn: array or matrix
-%           input array which could contain some values that you want to replace.
+%           input array which could contain some values that you want to 
+%           replace.
 %       varargin: cell
 %           leave it blank for updating.
 %   Outputs:

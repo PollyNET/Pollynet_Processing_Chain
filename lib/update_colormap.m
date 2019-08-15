@@ -1,11 +1,14 @@
 function [status_colormap, TC_colormap] = update_colormap()
-%update_colormap Update colormaps used in the pollynet_processing_programss
+%UPDATE_COLORMAP Update user defined colormaps used in the 
+%pollynet_processing_programss
 %   Example:
 %       [status_colormap, TC_colormap] = update_colormap()
 %   Inputs:
-%       
 %   Outputs:
-%       status_colormap, TC_colormap
+%       status_colormap: matrix
+%           color table for the signal status plot. 
+%       TC_colormap: matrix
+%           color table for the aerosol target classification plot.
 %   History:
 %       2018-12-30. First Edition by Zhenping
 %   Contact:

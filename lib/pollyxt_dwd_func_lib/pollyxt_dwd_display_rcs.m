@@ -228,6 +228,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     RCS_FR_1064 = squeeze(data.signal(flagChannel1064, :, :)) ./ repmat(data.mShots(flagChannel1064, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;    
     RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2; 
     yLim_FR = config.yLim_FR;
+    yLim_NR = config.yLim_NR;
     volDepol_532 = data.volDepol_532;
     RCS355FRColorRange = config.RCS355FRColorRange;
     RCS532FRColorRange = config.RCS532FRColorRange;

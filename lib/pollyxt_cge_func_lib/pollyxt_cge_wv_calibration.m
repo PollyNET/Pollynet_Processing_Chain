@@ -1,7 +1,7 @@
-function [wvconst, wvconstStd, globalAttri] = pollyxt_tjk_wv_calibration(data, config)
-%pollyxt_tjk_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
+function [wvconst, wvconstStd, globalAttri] = pollyxt_cge_wv_calibration(data, config)
+%pollyxt_cge_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
 %   Example:
-%       [wvconst, wvconstStd, globalAttri] = pollyxt_tjk_wv_calibration(data, config)
+%       [wvconst, wvconstStd, globalAttri] = pollyxt_cge_wv_calibration(data, config)
 %   Inputs:
 %		data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -21,6 +21,7 @@ function [wvconst, wvconstStd, globalAttri] = pollyxt_tjk_wv_calibration(data, c
 %               index of integration range for calculate the raw IWV from lidar.
 %   History:
 %       2018-12-26. First Edition by Zhenping
+%       2019-08-08. Add the sunrise and sunset to exclude the low SNR calibration periods.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -136,7 +137,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), data.mTime(data.cloudFreeGroups(iGroup, 2))]);
     if (meanT_WVmeas < sunsetTime) && (meanT_WVmeas > sunriseTime)
         flagDaytimeMeas = true;
-        fprintf('Water vapor measurements were performed durign daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf('Water vapor measurements were performed during daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Measurements at daytime.';
     end
@@ -164,6 +165,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         trans387 = exp(-cumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
+        intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
+            
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
         IWVRaw = nansum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}

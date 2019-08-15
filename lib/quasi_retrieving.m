@@ -1,7 +1,10 @@
-function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, molExt, molBsc, LRaer, nIters)
-%quasi_retrieving Retrieve the aerosol optical properties with quasi retrieving method
+function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, ...
+                    molExt, molBsc, LRaer, nIters)
+%QUASI_RETRIEVING Retrieve the aerosol optical properties with quasi retrieving 
+%method
 %   Example:
-%       [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, molExt, molBsc, LRaer)
+%       [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, 
+%                                           molExt, molBsc, LRaer)
 %   Inputs:
 %       height: array
 %           height. [m] 
@@ -18,6 +21,11 @@ function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving(height, att_beta, mol
 %           quasi particle backscatter coefficient. [m^{-1}Sr^{-1}] 
 %       quasi_par_ext: matrix
 %           quasi particle extinction coefficient. [m^{-1}]
+%   Reference:
+%       Baars, H., P. Seifert, R. Engelmann, and U. Wandinger (2017), Target 
+%       categorization of aerosol and clouds by continuous 
+%       multiwavelength-polarization lidar measurements, Atmospheric Measurement
+%       Techniques, 10(9), 3175-3201, doi:10.5194/amt-10-3175-2017.
 %   History:
 %       2018-12-25. First Edition by Zhenping
 %       2019-03-31. Add the keywork of 'nIters' to control the iteration times.
