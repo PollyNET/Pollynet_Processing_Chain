@@ -3,10 +3,6 @@
   - [Description](#description)
   - [Installation](#Installation)
   - [Workflow](#workflow)
-    - [data](#data)
-    - [taskInfo](#taskinfo)
-    - [campaignInfo](#campaigninfo)
-    - [processInfo](#processinfo)
   - [Algorithm](#algorithm)
     - [saturation detection](#saturation-detection)
   - [Products](#products)
@@ -16,6 +12,14 @@
     - [How to add a new polly process function](#How-to-add-a-new-polly-process-function)
     - [How to add a new defaults file](#How-to-add-a-new-defaults-file)
     - [How to add a new water vapor calibration instrument](#How-to-add-a-new-water-vapor-calibration-instrument)
+  - [Appendix](#appendix)
+    - [Variables](#variables)
+      - [data](#data)
+      - [taskInfo](#taskinfo)
+      - [campaignInfo](#campaigninfo)
+      - [processInfo](#processinfo)
+    - [polly_config](#polly-config)
+    - [pollynet_processing_chain_config](#pollynet-processing-chain-config)
 
 ### Description
 
@@ -35,6 +39,16 @@ To install `MATLAB`, you may need to contact with your IT department or find det
 
 An convenient way to install all of these is to download the [Anaconda](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwiV8sS5_sfjAhVM3qQKHePpAZQQFjACegQICBAB&url=https%3A%2F%2Fconda.io%2Fdocs%2Fuser-guide%2Finstall%2Fdownload.html&usg=AOvVaw3pmqgYKVkcF28EUZaVftcT). **Anaconda** is a standard platform for Python data science. Therefore, it will get everything ready for python once you installed it.
 
+After you've installed the dependences, you can check it with using linux command `which`
+
+<center>
+<img src='../img/picasso_installation/matlab_python_dependence.png', width='', height='', alt='matlab_python_dependence'>
+<br>
+<b>
+check matlab and python dependence
+</b>
+</center>
+
 #### Download
 
 The whole program was mangaged with GitHub. You can download it through (make sure `git` was installed in your local environment)
@@ -42,24 +56,42 @@ The whole program was mangaged with GitHub. You can download it through (make su
 ``` bash
 git clone https://github.com/ZPYin/Pollynet_Processing_Chain
 ```
+<center>
+<img src='../img/picasso_installation/download_picasso.png', width='', height='', alt='download_code_base'>
+<br>
+<b>
+download Pollynet_Processing_Chain
+</b>
+</center>
+
+After you downloaded the code, you can find the folder structure of the code base as below,
+
+<center>
+<img src='../img/picasso_installation/picasso_repo.png', width='', height='', alt='folder_structure'>
+<br>
+<b>
+folder structure of Pollynet_Processing_Chain
+</b>
+</center>
 
 #### setup
 
 The repository you've downloaded has not been configured yet. You need to tell it which kind of polly data you want to process. This is achieved through setting up entries in the [**link**](../config/template_pollynet_processing_chain_link.txt) file. Since **polly** has been upgraded after many years, the system configuration could also be different. Therefore, you need to specify the settings for the polly. This can be done by setting up new polly configuration file, which is names as [**polly_config.json**](../config/template_polly_config.json).
 
-``` markdown
 1. Finish the global settings with following the example of [**template_pollynet_processing_chain_config.json**](../config/template_pollynet_processing_chain_config.json). The better way is just changing this file with your own preferences and requirements.
 2. Configure the polly processing settings with creating a json file, naming {polly}_config_{date}.json. Write in the polly settings with the help from the [**template_polly_config.json**](../config/template_polly_config.json).
 3. Add the entry to the processing program with adding a new line in [**template_pollynet_processing_chain_link.txt**](../config/template_pollynet_processing_chain_link.txt). For each polly data, it will search the processing settings in this history file. If no history was found, the polly data will be neglected.
 4. Add the polly campaign history in the **/todo_filelist/pollynet_history_of_places_new.txt**.
-```
 
 ### Workflow
 
-**PollyNET processing program flowchart**
-<p align='center'>
-  <img src="../img/pollynet_processing_program_flowchart.png" height="900" width="500" alt="pollynet processing program flowchart">
-</p>
+<center>
+<img src='../img/PollyNET_Processing_Program_Workflow.jpg', width='', height='', alt='pollynet_flowchart'>
+<br>
+<b>
+flowchart of Pollynet_Processing_Chain
+</b>
+</center>
 
 Top is the flowchart of the processing program. It includes three main processing parts, create processing task, find processing function and activate processing.
 
@@ -143,9 +175,49 @@ Lidar calibration is based on the Raman or Klett retrieving results. At present,
 O'Connor method has been tested. But for the photon counting system, it's not so pratical due to deadtime effects. But we need to keep an eye on this, because this can complement the scope of the calibrated conditions.
 ```
 
-### Variables
+### Algorithm
 
-#### data
+#### saturation detection
+
+### Products
+
+The program can generate 
+
+#### retrieving results
+
+#### depolarization calibration
+
+#### water vapor calibration
+
+#### lidar calibration
+
+#### aerosol categorization
+
+### Error Analysis
+
+### Visualization
+
+### Howto
+
+#### How to add a new polly process function
+
+You can follow the below steps to create a new process procedure for a new polly systems.
+
+- add a new configuration file in config folder to save all the related configurations. You can copy the content from other similar polly systems to speed up this process
+- add a default file in `/lib/pollyDefaults`. Don't forget to add the default overlap files.
+- create a new folder, named with `{polly Version}_func_lib`. Write all the related processing functions inside or copy all the functions from the folder of other polly systems. If you copy all the functions from other folder, don't forget to change the function definitions inside.
+- create a new main processing function in the root folder and name it with `pollynet_processing_chain_{polly version}.m`. Write all the processing part here.
+- add a new entry in `/config/pollynet_processing_config_history.txt`.
+
+#### How to add a new defaults file
+
+#### How to add a new water vapor calibration instrument
+
+### Appendix
+
+#### Variables
+
+##### data
 
 ```
 data: struct
@@ -442,7 +514,7 @@ data: struct
       11: Cloud: likely ice crystals  
 ```
 
-#### defaults
+##### defaults
 
 ```
 defaults: struct
@@ -466,7 +538,7 @@ defaults: struct
     uncertainty of water vapor calibration constant. [g*kg^{-1}]
 ```
 
-#### taskInfo
+##### taskInfo
 
 ```
 taskInfo: struct
@@ -488,7 +560,7 @@ taskInfo: struct
     date and time for the creation of the current polly data. [datenum]
 ```
 
-#### campaignInfo
+##### campaignInfo
 
 ```
 campaignInfo: struct
@@ -514,7 +586,7 @@ campaignInfo: struct
     some description about the campaign.
 ```
 
-#### processInfo
+##### processInfo
 
 ```
 processInfo: struct
@@ -564,7 +636,7 @@ processInfo: struct
     flag bit to control whether to send email to the admin for each running task.
 ```
 
-#### done_filelist
+##### done_filelist
 
 |ident|Name|
 |:---:|:---|
@@ -621,40 +693,10 @@ processInfo: struct
 |WVMR|     water vapour mixing ratio |
 |LT_CaliRes| long term lidar calibration results|
 
-### Algorithm
+#### polly config
 
-#### saturation detection
+Detailed information can be found in [polly_config](../doc/polly_config.md)
 
-### Products
+#### pollynet processing chain config
 
-The program can generate 
-
-#### retrieving results
-
-#### depolarization calibration
-
-#### water vapor calibration
-
-#### lidar calibration
-
-#### aerosol categorization
-
-### Error Analysis
-
-### Visualization
-
-### Howto
-
-#### How to add a new polly process function
-
-You can follow the below steps to create a new process procedure for a new polly systems.
-
-- add a new configuration file in config folder to save all the related configurations. You can copy the content from other similar polly systems to speed up this process
-- add a default file in `/lib/pollyDefaults`. Don't forget to add the default overlap files.
-- create a new folder, named with `{polly Version}_func_lib`. Write all the related processing functions inside or copy all the functions from the folder of other polly systems. If you copy all the functions from other folder, don't forget to change the function definitions inside.
-- create a new main processing function in the root folder and name it with `pollynet_processing_chain_{polly version}.m`. Write all the processing part here.
-- add a new entry in `/config/pollynet_processing_config_history.txt`.
-
-#### How to add a new defaults file
-
-#### How to add a new water vapor calibration instrument
+Detailed information can be found in [pollynet_processing_chain_config](../doc/pollynet_processing_chain_config.md)
