@@ -57,7 +57,7 @@ flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 flagChannel387 = config.isFR & config.is387nm;
 flagChannel607 = config.isFR & config.is607nm;
 
-if ~ exist(LCFile, 'file')
+if exist(LCFile, 'file') ~= 2
     warning('Lidar constant results file does not exist!\n%s\n', LCFile);
     return;
 end

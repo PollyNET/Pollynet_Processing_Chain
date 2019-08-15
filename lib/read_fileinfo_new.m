@@ -27,7 +27,7 @@ fileinfo_new.zipFile = {};
 fileinfo_new.dataSize = [];
 fileinfo_new.pollyVersion = {};
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     warning('fileinfo_new does not exist. \n%s\n', file);
     return;
 end

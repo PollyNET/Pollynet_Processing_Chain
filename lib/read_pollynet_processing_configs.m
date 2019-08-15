@@ -32,7 +32,7 @@ pollyConfigHistory.pollyProcessFunc = {};
 pollyConfigHistory.pollyUpdateInfo = {};
 pollyConfigHistory.pollyLoadDefaultsFunc = {};
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     error(['Error in read_pollynet_processing_configs: ' ...
            'pollynet history configuration file does not exist. \n%s\n'], ...
            file);
