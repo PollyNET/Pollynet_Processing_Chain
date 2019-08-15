@@ -1,6 +1,7 @@
 # PollyNET Processing Program
 
   - [Description](#description)
+  - [Installation](#Installation)
   - [Workflow](#workflow)
     - [data](#data)
     - [taskInfo](#taskinfo)
@@ -19,6 +20,39 @@
 ### Description
 
 This document will show you how the pollynet processing program works and how to add a new processing routine for new polly systems. Before your reading, we highly suggest you to turn to the paper "The automated multiwavelength Raman polarization and water-vapor lidar PollyXT: the neXT generation" to have a general idea about **PollyXT**.
+
+### Installation
+
+#### Requirements
+
+- **MATLAB**
+
+Before you download and install the **pollynet_processing_program**, make sure you've installed `MATLAB 2014a` and `python3` in your development machine. Because nearly all the code was based on **MATLAB** and some part of the data visualization is based on **python3** and python packages of **matplotlib**, **numpy** and **scipy**. 
+
+To install `MATLAB`, you may need to contact with your IT department or find detailed information in the MATLAB official webpage (https://de.mathworks.com/help/install/index.html?s_tid=srctitle). 
+
+- **python** and python packages
+
+An convenient way to install all of these is to download the [Anaconda](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwiV8sS5_sfjAhVM3qQKHePpAZQQFjACegQICBAB&url=https%3A%2F%2Fconda.io%2Fdocs%2Fuser-guide%2Finstall%2Fdownload.html&usg=AOvVaw3pmqgYKVkcF28EUZaVftcT). **Anaconda** is a standard platform for Python data science. Therefore, it will get everything ready for python once you installed it.
+
+#### Download
+
+The whole program was mangaged with GitHub. You can download it through (make sure `git` was installed in your local environment)
+
+``` bash
+git clone https://github.com/ZPYin/Pollynet_Processing_Chain
+```
+
+#### setup
+
+The repository you've downloaded has not been configured yet. You need to tell it which kind of polly data you want to process. This is achieved through setting up entries in the [**link**](../config/template_pollynet_processing_chain_link.txt) file. Since **polly** has been upgraded after many years, the system configuration could also be different. Therefore, you need to specify the settings for the polly. This can be done by setting up new polly configuration file, which is names as [**polly_config.json**](../config/template_polly_config.json).
+
+``` markdown
+1. Finish the global settings with following the example of [**template_pollynet_processing_chain_config.json**](../config/template_pollynet_processing_chain_config.json). The better way is just changing this file with your own preferences and requirements.
+2. Configure the polly processing settings with creating a json file, naming {polly}_config_{date}.json. Write in the polly settings with the help from the [**template_polly_config.json**](../config/template_polly_config.json).
+3. Add the entry to the processing program with adding a new line in [**template_pollynet_processing_chain_link.txt**](../config/template_pollynet_processing_chain_link.txt). For each polly data, it will search the processing settings in this history file. If no history was found, the polly data will be neglected.
+4. Add the polly campaign history in the **/todo_filelist/pollynet_history_of_places_new.txt**.
+```
 
 ### Workflow
 
@@ -610,39 +644,6 @@ The program can generate
 ### Visualization
 
 ### Howto
-
-#### How to install and setup the processing platform in a new environment?
-
-##### Installation
-
-The whole program was mangaged with GitHub. You can download it through (make sure `git` was installed in your local environment)
-
-```
-git clone https://github.com/ZPYin/Pollynet_Processing_Chain
-```
-
-Then you will have it for processing the polly data.
-
-##### setup
-
-`Python 3` and the python packages below are required for data visualization with python
-
-- matplotlib
-- numpy
-- scipy
-
-An convenient way to install this is to download the [anaconda](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=3&ved=2ahUKEwiV8sS5_sfjAhVM3qQKHePpAZQQFjACegQICBAB&url=https%3A%2F%2Fconda.io%2Fdocs%2Fuser-guide%2Finstall%2Fdownload.html&usg=AOvVaw3pmqgYKVkcF28EUZaVftcT). 
-
-The repository you've downloaded has not been configured yet to enable to process any polly data. 
-
-The configurations need to to be done in the following way:
-
-```
-1. Finish the global settings with following the example of **pollynet_processing_chain_config.json**. The better way is just changing this file with your own preferences and requirements.
-2. Configure the polly processing settings with creating a json file, naming {polly}_config_{date}.json. Write in the polly settings with the help from the **template_config.json**.
-3. Add the entry to the processing program with adding a new line in **pollynet_processing_config_history.txt**. For each polly data, it will search the processing settings in this history file. If no history was found, the polly data will be neglected.
-4. Add the polly campaign history in the **/todo_filelist/pollynet_history_of_places_new.txt**.
-```
 
 #### How to add a new polly process function
 

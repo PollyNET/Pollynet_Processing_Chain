@@ -8,7 +8,7 @@
     "defaultsFile_folder": "/pollyhome/Picasso/Pollynet_Processing_Chain/lib/pollyDefaults",
     "results_folder": "/pollyhome/Picasso/results", 
     "pic_folder": "/pollyhome/Picasso/recent_plots", 
-    "pollynet_config_history_file": "/pollyhome/Picasso/Pollynet_Processing_Chain/config/pollynet_processing_config_history.txt",
+    "pollynet_config_history_file": "/pollyhome/Picasso/Pollynet_Processing_Chain/config/template_pollynet_processing_config_link.txt",
 
     "figDPI": 150,
 
