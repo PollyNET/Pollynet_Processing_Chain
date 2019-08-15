@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script will help to process the history polly data with using Pollynet processing chain
 
-cwd=$(dirname "$0")
+cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
 #########################
