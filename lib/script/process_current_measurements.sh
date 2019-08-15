@@ -30,7 +30,7 @@ for iPolly = 1:length(POLLYLIST)
         warning('No measurements within 12 hours.');
     else
         for iFile = 1:length(pollyFile)
-            write_single_to_filelist(POLLYLIST{iPolly}, pollyFile{iFile}, '$POLLYNET_CONFIG_FILE', 'w');
+            write_single_to_filelist(POLLYLIST{iPolly}, pollyFile{iFile}, fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), 'w');
             pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
         end
     end

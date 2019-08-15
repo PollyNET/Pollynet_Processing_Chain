@@ -49,7 +49,7 @@ if isempty(pollyFile)
     exit;
 else 
     for iFile = 1:length(pollyFile)
-        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, '$POLLYNET_CONFIG_FILE', 'w');
+        write_single_to_filelist('$POLLY_TYPE', pollyFile{iFile}, fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), 'w');
         pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
     end
 end
