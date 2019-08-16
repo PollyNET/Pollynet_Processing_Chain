@@ -66,7 +66,7 @@ flagLCWarning532 = false;
 flagLCWarning1064 = false;
 flagLCWarning387 = false;
 flagLCWarning607 = false;
-LCCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
+LCCaliFile = fullfile(folder, config.lcCaliFile);
 
 %% create the LC file if not exist
 if exist(LCCaliFile, 'file') ~= 2
