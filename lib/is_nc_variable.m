@@ -19,7 +19,7 @@ function [flag] = is_nc_variable(ncFile, varName)
 
 flag = false;
 
-if ~ exist(ncFile, 'file')
+if exist(ncFile, 'file') ~= 2
     warning('Warning in ''is_nc_variable'': input file does not exsit.\n%s', ...
             ncFile);
     return

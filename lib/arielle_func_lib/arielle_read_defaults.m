@@ -14,7 +14,7 @@ function [defaults] = arielle_read_defaults()
 
 defaultFile = 'arielle_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for arielle does not exist!\n%s\n', defaultFile);
 end
 

@@ -1,7 +1,9 @@
-function pollyxt_tjk_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, wvconstUsed, wvconstStdUsed, file)
+function pollyxt_tjk_save_wvconst(wvconst, wvconstStd, WVCaliInfo, ...
+       IWVAttri, dataFilename, wvconstUsed, wvconstStdUsed, file)
 %pollyxt_tjk_save_wvconst  save the water vapor calibration results. 
 %   Example:
-%       pollyxt_tjk_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dataFilename, defaults, file)
+%       pollyxt_tjk_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
+%                                   dataFilename, defaults, file)
 %   Inputs:
 %       wvconst: array
 %           water vapor calibration constants. [g*kg^{-1}] 
@@ -26,47 +28,47 @@ function pollyxt_tjk_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, dat
 %       dataFilename: char
 %           the polly netcdf data file.
 %       wvconstUsed: float
-%           the water vapor calibration constant applied for water vapor retrieving. [g*kg^{-1}]
+%           the water vapor calibration constant applied for water vapor 
+%           retrieving. [g*kg^{-1}]
 %       wvconstUsedStd: float
-%           the std of water vapor calibration constant applied for water vapor retrieving. [g*kg^{-1}]
+%           the std of water vapor calibration constant applied for water vapor 
+%           retrieving. [g*kg^{-1}]
 %       file: char
 %           file for saving water vapor calibration results.
 %   Outputs:
 %
 %   History:
 %       2018-12-19. First Edition by Zhenping
-%       2019-02-12. Remove the bug for saving flagCalibration at some time with no calibration constants.
-%       2019-08-09. Saving the real applied water vapor constant instead of the defaults. And remove the outputs of the function.
+%       2019-02-12. Remove the bug for saving flagCalibration at some time with 
+%                   no calibration constants.
+%       2019-08-09. Saving the real applied water vapor constant instead of the 
+%                   defaults. And remove the outputs of the function.
 %   Contact:
 %       zhenping@tropos.de
 
-wvconstUsedInfo = struct();
-
+%% Clean the water vapor calibration results
+% in case there is empty array
 if isempty(wvconst)
+    % if there is not cloud free period
     wvconst = wvconstUsed;
     wvconstStd = wvconstStdUsed;
-    wvCaliTimeStr = '-999';
-    flagWVCali = false;
-    IWVInstrument = 'none';
-    IWVMeasTimeStr = '-999';
-    wvconstUsedInfo.flagCalibrated = false;
-    wvconstUsedInfo.IWVInstrument = 'none';
-    wvconstUsedInfo.nIWVCali = 0;
+    flagCalibrated = false;
 elseif sum(~ isnan(wvconst)) == 0
-    wvconstUsedInfo.flagCalibrated = false;
-    wvconstUsedInfo.IWVInstrument = IWVAttri.source;
-    wvconstUsedInfo.nIWVCali = 0;
+    % if there is no successful calibration
+    wvconst = ones(size(wvconst)) * wvconstUsed;
+    wvconstStd = ones(size(wvconst)) * wvconstStdUsed;
+    flagCalibrated = false(size(wvconst));
 else
     flagCalibrated = ~ isnan(wvconst);
-    wvconstUsedInfo.flagCalibrated = true;
-    wvconstUsedInfo.IWVInstrument = IWVAttri.source;
-    wvconstUsedInfo.nIWVCali = sum(flagCalibrated);
 end
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
+    % if the water vapor calibration file does not exist, create it forcefully.
     fprintf('\n Create %s for saving water vapor calibration results.\n', file);
     fid = fopen(file, 'w');
-    fprintf(fid, 'polly data, calibrated?, calibration time, Standard IWV Instrument, IWV measurement time, wv const(g*kg{-1}), wv const std(g*kg{-1})\n');
+    fprintf(fid, ['polly data, calibrated?, calibration time, Standard IWV ' ...
+                  'Instrument, IWV measurement time, ' ...
+                  'wv const(g*kg{-1}), wv const std(g*kg{-1})\n']);
     fclose(fid);
 end
 
@@ -79,7 +81,8 @@ try
         elseif isnan(IWVAttri.datetime(iWVCali))
             IWVMeasTimeStr = '-999';
         else 
-            IWVMeasTimeStr = datestr(IWVAttri.datetime(iWVCali), 'yyyymmdd HH:MM');
+            IWVMeasTimeStr = datestr(IWVAttri.datetime(iWVCali), ...
+                                     'yyyymmdd HH:MM');
         end
 
         if isempty(WVCaliInfo.datetime)
@@ -87,21 +90,25 @@ try
         elseif isnan(WVCaliInfo.datetime(iWVCali))
             wvCaliTimeStr = '-999';
         else
-            wvCaliTimeStr = datestr(WVCaliInfo.datetime(iWVCali), 'yyyymmdd HH:MM');
+            wvCaliTimeStr = datestr(WVCaliInfo.datetime(iWVCali), ...
+                                    'yyyymmdd HH:MM');
         end
 
         if isnan(wvconst(iWVCali))
-            thisWVconst = -999;
-            thisWVconstStd = -999;
+            thisWVconst = wvconstUsed;
+            thisWVconstStd = wvconstStdUsed;
         else
             thisWVconst = wvconst(iWVCali);
             thisWVconstStd = wvconstStd(iWVCali);
         end
 
-        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, int32(wvconstUsedInfo.flagCalibrated), wvCaliTimeStr, IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
+        fprintf(fid, '%s, %d, %s, %s, %s, %f, %f\n', dataFilename, ...
+                int32(flagCalibrated(iWVCali)), wvCaliTimeStr, ...
+                IWVAttri.source, IWVMeasTimeStr, thisWVconst, thisWVconstStd);
     end
 catch
-    error('Error in %s: Failure in writing water vapor calibration results to %s\n', mfilename, file);
+    error(['Error in %s: Failure in writing water vapor ' ...
+           'calibration results to %s\n'], mfilename, file);
 end
 
 fclose(fid);

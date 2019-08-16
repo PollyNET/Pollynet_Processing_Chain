@@ -14,7 +14,7 @@ function [defaults] = pollyxt_lacros_read_defaults()
 
 defaultFile = 'pollyxt_lacros_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for pollyxt_lacros does not exist!\n%s\n', defaultFile);
 end
 

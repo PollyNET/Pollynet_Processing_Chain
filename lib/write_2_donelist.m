@@ -62,12 +62,20 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 %                   'nproduct_stoptime'.
 %       2019-03-12. Add input parameter of 'product_type' according to the 
 %                   requirement of new pollyWebApplication.
+%       2019-08-16. Add the criteria for 'imageFile'. If the image doesn't 
+%                   exist, throw an warning instead of writing to the 
+%                   done_fielist.
 %   Contact:
 %       zhenping@tropos.de
 
-if ~ exist(file, 'file')
+if exist(file, 'file') == 2
     warning(['Done list file does not exist! For archiving the pic info, ' ...
              'it will be created forcefully. \nDone list file: %s\n'], file);
+end
+
+if exist(imageFile, 'file') ~= 2 == 2
+    warning('image file does not exist.\n%s\n', imageFile);
+    return;
 end
 
 fid = fopen(file, permission);

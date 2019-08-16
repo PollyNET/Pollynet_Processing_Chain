@@ -35,7 +35,7 @@ run(fullfile(projectDir, 'lib', 'addlibpath.m'));
 run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 [USER, HOME, OS] = getsysinfo();
 
-if ~ exist(pollynetConfigFile, 'file')
+if exist(pollynetConfigFile, 'file') ~= 2
     error('Error in pollynet_processing_main: Unrecognizable configuration file\n%s\n', pollynetConfigFile);
 else
     config = loadjson(pollynetConfigFile);
