@@ -14,7 +14,7 @@ function [defaults] = pollyxt_noa_read_defaults()
 
 defaultFile = 'pollyxt_noa_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for pollyxt_noa does not exist!\n%s\n', defaultFile);
 end
 

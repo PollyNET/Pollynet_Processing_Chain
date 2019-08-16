@@ -52,7 +52,7 @@ health.HV1064 = [];
 health.Temp1 = [];
 health.Temp2 = [];
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
        warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
        return;
 end

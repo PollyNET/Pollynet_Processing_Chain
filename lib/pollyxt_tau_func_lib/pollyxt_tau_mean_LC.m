@@ -69,7 +69,7 @@ flagLCWarning607 = false;
 LCCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
 
 %% create the LC file if not exist
-if ~ exist(LCCaliFile, 'file')
+if exist(LCCaliFile, 'file') ~= 2
     fprintf('Create the file to save the lidar constants.\n%s\n', LCCaliFile);
     fid = fopen(LCCaliFile, 'w');
     fprintf(fid, 'polly data, LC355, LC355Std, Calibration status 355, LC532, LC532Std, Calibration status 532, LC1064, LC1064Std, Calibration status 1064, LC387, LC387Std, Calibration status 387, LC607, LC607Std, Calibration status 607\n');

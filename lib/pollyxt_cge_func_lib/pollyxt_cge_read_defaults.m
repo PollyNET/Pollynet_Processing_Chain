@@ -14,7 +14,7 @@ function [defaults] = pollyxt_cge_read_defaults()
 
 defaultFile = 'pollyxt_cge_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for pollyxt_cge does not exist!\n%s\n', defaultFile);
 end
 
