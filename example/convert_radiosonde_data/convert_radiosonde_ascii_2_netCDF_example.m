@@ -14,7 +14,7 @@ pres = [];
 hght = []; 
 temp =[]; 
 relh= [];
-if ~ exist(rsFullfile, 'file')
+if exist(rsFullfile, 'file') ~= 2
     warning('Radiosonde file does not exist. \n %s', rsFullfile);
     return;
 end

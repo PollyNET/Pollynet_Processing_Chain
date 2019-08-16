@@ -36,7 +36,7 @@ LC.LC607History = [];
 LC.LCStd607History = [];
 LC.LC607Status = [];
 
-if ~ exist(LCFile, 'file')
+if exist(LCFile, 'file') ~= 2
     warning('Lidar constant results file does not exist!\n%s\n', LCFile);
     return;
 end

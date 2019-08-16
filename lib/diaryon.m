@@ -11,7 +11,7 @@ function [] = diaryon(file)
 %   Contact:
 %       zhenping@tropos.de
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     fprintf('Create %s for writing log info.\n', file);
     fid = fopen(file, 'w');
     fclose(fid);
