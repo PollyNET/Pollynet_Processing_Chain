@@ -14,7 +14,7 @@ function [defaults] = pollyxt_tjk_read_defaults()
 
 defaultFile = 'pollyxt_tjk_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for pollyxt_tjk does not exist!\n%s\n', defaultFile);
 end
 

@@ -28,7 +28,7 @@ function data = multiscatter_model(filename)
 %   Contact: 
 %       zhenping@tropos.de
 
-    if ~ exist(filename, 'file')
+    if exist(filename, 'file') ~= 2
         error('The configuration file does not exist.');
     end
 

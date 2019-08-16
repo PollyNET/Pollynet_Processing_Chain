@@ -17,7 +17,7 @@ function [fig] = display_labview_results(file, yLim, errorbarInterval)
 %   Contact:
 %       zhenping@tropos.de
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     error('file does not exist.\n%s', file);
 end
 

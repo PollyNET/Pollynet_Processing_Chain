@@ -37,7 +37,7 @@ else
     flagDepolCali = true(size(depolConst));
 end
 
-if ~ exist(file, 'file')
+if exist(file, 'file') ~= 2
     fprintf('\n Create %s for saving depolarization calibration results.\n', file);
     fid = fopen(file, 'w');
     fprintf(fid, 'polly data, calibrated?, calibration time, depol calibration factor, std of depol calibration factor\n');

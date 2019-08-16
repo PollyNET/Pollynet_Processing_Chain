@@ -30,12 +30,12 @@ end
 
 configFile = fullfile(configDir, configFile);
 
-if ~ exist(configFile, 'file')
+if exist(configFile, 'file') ~= 2
     error(['Error in load_polly_config: ' ...
            'config file does not exist.\n%s\n'], configFile);
 end
 
-if ~ exist(fullfile(configDir, 'polly_global_config.json'), 'file')
+if exist(fullfile(configDir, 'polly_global_config.json'), 'file') ~= 2
     error(['Error in load_polly_config: ' ...
            'polly global config file does not exist.\n%s\n'], ...
            fullfile(configDir, 'polly_global_config.json'));

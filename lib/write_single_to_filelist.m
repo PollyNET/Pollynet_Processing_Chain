@@ -47,7 +47,7 @@ end
 flag = true;
 
 % load pollynet_processing_chain config
-if ~ exist(pollynetConfigFile, 'file')
+if exist(pollynetConfigFile, 'file') ~= 2
     error(['Error in pollynet_processing_main: ' ...
            'Unrecognizable configuration file\n%s\n'], pollynetConfigFile);
 else
@@ -69,7 +69,7 @@ logbookZipFilepath = fullfile(pollyZipFolder, ...
 todolistFolder = fileparts(config.fileinfo_new);
 
 %% unzip laserlogbook files to todofolder
-if ~ exist(logbookZipFilepath, 'file')
+if exist(logbookZipFilepath, 'file') ~= 2
     warning('laserlogbook file does not exist.\n%s', logbookZipFilepath);
 else
     try
