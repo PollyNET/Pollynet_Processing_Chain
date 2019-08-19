@@ -1,9 +1,11 @@
 function [wvconst, wvconstStd, globalAttri] = pollyxt_dwd_wv_calibration(data, config)
-%pollyxt_dwd_wv_calibration water vapor calibration. The whole idea is based on the work of Guangyao. More detailed information can be found Guangyao et al, 2018, AMT.
+%pollyxt_dwd_wv_calibration water vapor calibration. The whole idea is based 
+%on the work of Guangyao. More detailed information can be found 
+%Guangyao et al, 2018, AMT.
 %   Example:
 %       [wvconst, wvconstStd, globalAttri] = pollyxt_dwd_wv_calibration(data, config)
 %   Inputs:
-%		data: struct
+%       data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -21,7 +23,8 @@ function [wvconst, wvconstStd, globalAttri] = pollyxt_dwd_wv_calibration(data, c
 %               index of integration range for calculate the raw IWV from lidar.
 %   History:
 %       2018-12-26. First Edition by Zhenping
-%       2019-08-08. Add the sunrise and sunset to exclude the low SNR calibration periods.
+%       2019-08-08. Add the sunrise and sunset to exclude the low SNR 
+%                   calibration periods.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -46,7 +49,7 @@ flag407On = (~ polly_is407Off(squeeze(data.signal(flagChannel407, :, :))));
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisWVconst = NaN;
     thisWVconstStd = NaN;
-    thisDatetime = NaN;
+    thisDatetime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
     thisWVCaliInfo = '407 off';
     thisIntRange = [NaN, NaN];
 
@@ -60,16 +63,23 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %% determine whether 407 is on during the calibration period
     if sum(flag407On & flagWVCali) < 10
-        fprintf('No enough water vapor measurement during %s to %s at %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'), campaignInfo.location);
+        fprintf('No enough water vapor measurement during %s to %s at %s.\n', ...
+            datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+            datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'), ...
+            campaignInfo.location);
         flagNotEnough407Profiles = true;
         thisWVCaliInfo = 'No enough water vapor measurements.';
     end
 
     %% determine whehter there is IWV measurement
     if isnan(data.IWV(iGroup))
-        fprintf('No close IWV measurement for %s at %s during %s to %s.\n', data.IWVAttri.source, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf('No close IWV measurement for %s at %s during %s to %s.\n', ...
+            data.IWVAttri.source, campaignInfo.location, ...
+            datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+            datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagNoIWVMeas = true;
-        thisWVCaliInfo = sprintf('No close IWV measurement from %s', data.IWVAttri.source);
+        thisWVCaliInfo = sprintf('No close IWV measurement from %s', ...
+                                 data.IWVAttri.source);
     end
 
     %% determine SNR
@@ -134,7 +144,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
 
     flagDaytimeMeas = false;
-    meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), data.mTime(data.cloudFreeGroups(iGroup, 2))]);
+    meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), ...
+                         data.mTime(data.cloudFreeGroups(iGroup, 2))]);
     if (meanT_WVmeas < sunsetTime) && (meanT_WVmeas > sunriseTime)
         flagDaytimeMeas = true;
         fprintf('Water vapor measurements were performed during daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
@@ -144,12 +155,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %% determine meteorological stability
     if ~ flagNoIWVMeas
-        [minLag, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGroup)));
+        [~, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGroup)));
         E_tot_1064_IWV = sum(squeeze(data.signal(flagChannel1064, :, closestIndx)));
         E_tot_1064_cali = sum(squeeze(mean(data.signal(flagChannel1064, :, flag407On & flagWVCali), 3)));
         E_tot_1064_cali_std = std(squeeze(sum(data.signal(flagChannel1064, :, flag407On & flagWVCali), 2)));
 
-        if (abs(E_tot_1064_IWV - E_tot_1064_cali) / E_tot_1064_IWV > 0.2) || ((E_tot_1064_cali_std / E_tot_1064_cali) > 0.2)
+        if (abs(E_tot_1064_IWV - E_tot_1064_cali) / E_tot_1064_IWV > 0.2) || ...
+            ((E_tot_1064_cali_std / E_tot_1064_cali) > 0.2)
             fprintf('Meteorological condition is not stable enough for the calibration at %s during %s to %s.\n', campaignInfo.location, datestr(min([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'yyyymmdd HH:MM'), datestr(max([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'HH:MM'));
             flagNotMeteorStable = true;
             thisWVCaliInfo = 'Meteorological condition is not stable.';
@@ -157,23 +169,28 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% wv calibration
-    if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Profiles) && (~ flagDaytimeMeas) && (~ flagNotMeteorStable)
+    if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Profiles) && ...
+       (~ flagDaytimeMeas) && (~ flagNotMeteorStable)
         IWV_Cali = data.IWV(iGroup);   % kg*m{-2}
 
-        [~, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
-        [~, molExt407] = rayleigh_scattering(407, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+        [~, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), ...
+            data.temperature(iGroup, :) + 273.17, 380, 70);
+        [~, molExt407] = rayleigh_scattering(407, data.pressure(iGroup, :), ...
+            data.temperature(iGroup, :) + 273.17, 380, 70);
         trans387 = exp(-cumsum(molExt387 .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(molExt407 .* [data.distance0(1), diff(data.distance0)]));
 
-        intFlag = false(size(sig387));   % integration flag to filter the infinite or very large wvmr due to the signal noise.
-            
         wvmrRaw = sig407 ./ sig387 .* trans387 ./ trans407;
         rhoAir = rho_air(data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17);
-        IWVRaw = nansum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* rhoAir(hIntBaseIndx:hIntTopIndx) .* [data.height(hIntBaseIndx), diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
+        IWVRaw = nansum(wvmrRaw(hIntBaseIndx:hIntTopIndx) .* ...
+                        rhoAir(hIntBaseIndx:hIntTopIndx) .* ...
+                        [data.height(hIntBaseIndx), ...
+                        diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
 
         thisWVconst = IWV_Cali ./ IWVRaw;   % g*kg^{-1}
-        thisWVconstStd = 0;   % TODO: this can be done by taking into account the uncertainty of IWV by AERONET and the signal uncertainty by lidar.
-        thisDatetime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
+        thisWVconstStd = 0;   % TODO: this can be done by taking into account 
+                              % the uncertainty of IWV by AERONET and the signal
+                              % uncertainty by lidar.
     end
 
     % concatenate data

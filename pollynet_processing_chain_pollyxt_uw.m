@@ -138,7 +138,7 @@ fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
 data.IWVAttri = IWVAttri;
 [wvconst, wvconstStd, wvCaliInfo] = pollyxt_uw_wv_calibration(data, config);
 % if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_uw_select_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), defaults, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = pollyxt_uw_select_wvconst(wvconst, wvconstStd, data.IWVAttri, polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile), config.flagUsePreviousLC);
 [data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_uw_wv_retrieve(data, config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 

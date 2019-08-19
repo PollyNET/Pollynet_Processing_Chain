@@ -1,7 +1,7 @@
-function [depolconst, depolconstStd, depolCaliTime] = pollyxt_tjk_search_history_depolconst(currentTime, file, deltaTime, defaults, wavelength)
-%pollyxt_tjk_search_history_depolconst Search the previous calibration constants with a time lag less than deltaTime.
+function [depolconst, depolconstStd, depolCaliTime] = polly_1v2_search_history_depolconst(currentTime, file, deltaTime, defaults, wavelength)
+%polly_1v2_search_history_depolconst Search the previous calibration constants with a time lag less than deltaTime.
 %   Example:
-%       [depolconst, depolconstStd, depolCaliTime] = pollyxt_tjk_search_history_depolconst(file, deltaTime, defaults)
+%       [depolconst, depolconstStd, depolCaliTime] = polly_1v2_search_history_depolconst(file, deltaTime, defaults)
 %   Inputs:
 %       file: char
 %           full path of the depol calibration file.
@@ -27,7 +27,7 @@ if ~ exist('deltaTime', 'var')
     deltaTime = datenum(0, 1, 7);
 end
 
-[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_tjk_read_depolconst(file);
+[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_lacros_read_depolconst(file);
 
 index = find((preDepolCaliTime > (currentTime - deltaTime)) & (preDepolCaliTime < (currentTime + deltaTime)));
 if isempty(index)

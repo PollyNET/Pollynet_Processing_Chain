@@ -14,7 +14,7 @@ function [defaults] = polly_1v2_read_defaults()
 
 defaultFile = 'polly_1v2_defaults.json';
 
-if ~ exist(defaultFile, 'file')
+if exist(defaultFile, 'file') ~= 2
     error('Default file for polly_1v2 does not exist!\n%s\n', defaultFile);
 end
 
