@@ -71,9 +71,11 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 if exist(file, 'file') == 2
     warning(['Done list file does not exist! For archiving the pic info, ' ...
              'it will be created forcefully. \nDone list file: %s\n'], file);
+    fid = fopen(file, 'w');
+    fclose(fid);
 end
 
-if exist(imageFile, 'file') ~= 2 == 2
+if exist(imageFile, 'file') ~= 2
     warning('image file does not exist.\n%s\n', imageFile);
     return;
 end
