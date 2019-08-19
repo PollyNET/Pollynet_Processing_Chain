@@ -43,7 +43,9 @@ if isempty(index)
         error('Unknown wavelength for depolarization calibration.');
     end
 else
-    [~, indx] = min(abs(preDepolCaliTime - currentTime));
+    thisLag = abs(preDepolCaliTime - currentTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1);
     depolconst = preDepolconst(indx);
     depolconstStd = preDepolconstStd(indx);
     depolCaliTime = 0;

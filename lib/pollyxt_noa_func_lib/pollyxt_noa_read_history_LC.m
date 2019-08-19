@@ -34,6 +34,7 @@ function [LC355, LC532, LC1064, LC387, LC607, LCStd355, LCStd532, LCStd1064, LCS
 %       2018-12-31. First Edition by Zhenping
 %       2019-01-28. Add support for 387 and 607 channels
 %       2019-08-06. If no history results, using the last Raman calibration results.
+%       2019-08-19. If there are multi- close calibration results, choose the last one which is the newest one.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -105,41 +106,56 @@ fclose(fid);
 
 %% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
 % 355 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC355 = LC355History(indx);
     LCStd355 = LCStd355History(indx);
 end
 
 % 532 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
 end
 
 % 1064 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC1064 = LC1064History(indx);
     LCStd1064 = LCStd1064History(indx);
 end
 
 % 387 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC387 = LC387History(indx);
     LCStd387 = LCStd387History(indx);
 end
 
 % 607 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC607 = LC607History(indx);
     LCStd607 = LCStd607History(indx);
 end
