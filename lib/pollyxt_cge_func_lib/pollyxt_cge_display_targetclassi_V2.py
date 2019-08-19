@@ -130,7 +130,6 @@ def pollyxt_cge_display_targetclassi(tmpFile, saveFolder):
                  'Cloud: likely water droplets',
                  'Cloud: ice crystals',
                  'Cloud: likely ice crystals'])
-    cbar.ax.yaxis.set_tick_params(rotation=0)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
