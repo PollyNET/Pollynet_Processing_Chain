@@ -184,6 +184,7 @@
     "att_beta_cRange_355": [0, 15],
     "att_beta_cRange_532": [0, 5],
     "att_beta_cRange_1064": [0, 2],
+    "quasi_beta_cRange_355": [0, 8],
     "quasi_beta_cRange_532": [0, 5],
     "quasi_beta_cRange_1064": [0, 2],
     "quasi_Par_DR_cRange_532": [0, 0.4],
