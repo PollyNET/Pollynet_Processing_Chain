@@ -21,6 +21,7 @@ function [LC532, LCStd532, LC607, LCStd607] = polly_1v2_read_history_LC(thisTime
 %   History:
 %       2018-12-31. First Edition by Zhenping
 %       2019-08-04. Add the output of LC at 607 mn.
+%       2019-08-19. If there are multi- close calibration results, choose the last one which is the newest one.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -65,17 +66,23 @@ fclose(fid);
 
 %% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
 % 532 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC532 = LC532History(indx);
     LCStd532 = LCStd532History(indx);
 end
 
 % 607 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2));
+index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2), 1);
 if ~ isempty(index)
-    [~, indx] = min(abs(LCTime - thisTime));
+    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTime - thisTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1, 'last');
     LC607 = LC607History(indx);
     LCStd607 = LCStd607History(indx);
 end
