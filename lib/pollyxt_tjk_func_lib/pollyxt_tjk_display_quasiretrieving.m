@@ -172,6 +172,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     quasi_bsc_532 = data.quasi_par_beta_532;
     quality_mask_532 = data.quality_mask_532;
+    quasi_bsc_355 = data.quasi_par_beta_355;
+    quality_mask_355 = data.quality_mask_355;
     quasi_bsc_1064 = data.quasi_par_beta_1064;
     quality_mask_1064 = data.quality_mask_1064;
     quasi_pardepol_532 = data.quasi_parDepol_532;
@@ -180,6 +182,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     time = data.mTime;
     figDPI = processInfo.figDPI;
     quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
+    quasi_beta_cRange_355 = config.quasi_beta_cRange_355;
     quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
     quasi_beta_cRange_1064 = config.quasi_beta_cRange_1064;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -191,7 +194,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display quasi results
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
+    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
     tmpFile = fullfile(tmpFolder, 'tmp.mat');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tjk_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0

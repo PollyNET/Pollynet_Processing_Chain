@@ -11,6 +11,23 @@ function [time, height, res] = read_processed_data(instrument, parameter, ...
 %                              'pollyxt_tropos', 'pollyxt_fmi', 'arielle'} 
 %       parameter: str
 %           the label of the parameter which you want to extract.
+%           data
+%           LC_aeronet_1064nm
+%           LC_aeronet_355nm
+%           LC_aeronet_532nm
+%           LC_klett_1064nm
+%           LC_klett_355nm
+%           LC_klett_532nm
+%           LC_raman_1064nm
+%           LC_raman_355nm
+%           LC_raman_532nm
+%           attenuated_backscatter_1064nm
+%           attenuated_backscatter_355nm
+%           attenuated_backscatter_532nm
+%           target_classification
+%           target_classification_V2
+%           volume_depolarization_ratio_355nm
+%           volume_depolarization_ratio_532nm
 %       tRange: 2-element array (datenum)
 %           start time and end time of the extraction. 
 %       resFolder: str
@@ -295,6 +312,26 @@ case 'target_classification'
         datestr(double(iDay), 'yyyy'), ...
         datestr(double(iDay), 'mm'), ...
         datestr(double(iDay), 'dd')), '\w*_target_classification.nc');
+        for iFile = 1:length(files)
+            fprintf('Reading %s.\n', files{iFile});
+            time = [time; ...
+            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
+            height = ncread(files{iFile}, 'height');
+            res = [res, ncread(files{iFile}, 'target_classification')];
+        end
+    end
+
+    indx = (time >= tRange(1)) & (time <= tRange(2));
+    res = res(:, indx);
+    time = time(indx);
+
+case 'target_classification_V2'
+    
+    for iDay = fix(tRange(1)):fix(tRange(2))
+        files = listfile(fullfile(resFolder, instrument, ...
+        datestr(double(iDay), 'yyyy'), ...
+        datestr(double(iDay), 'mm'), ...
+        datestr(double(iDay), 'dd')), '\w*_target_classification_V2.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
             time = [time; ...
