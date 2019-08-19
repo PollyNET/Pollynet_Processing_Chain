@@ -7,7 +7,7 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 %       [] = write_2_donelist(file, permission, lidar, location, startTime, 
 %       endTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, 
 %       nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, 
-%       software_version, comment)
+%       software_version, comment);
 %   Inputs:
 %       file: char
 %           filename of the done list file. 
@@ -17,7 +17,7 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 %           lidar label. Please go to /doc/pollynet.md for detailed information.
 %       location: char
 %           location of the current measurement campaign. This info can be 
-%           found in /config/pollynet_processing_config_history.txt 
+%           found in /config/pollynet_processing_chain_link.txt 
 %       startTime: char
 %           start time of the current measurement. (yyyy-mm-dd HH:MM:SS) 
 %       stopTime: char
@@ -28,12 +28,12 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 %           wavelength label for the image. 
 %       imageFile: char
 %           relative directory of the image.
-%      level: char
+%       level: char
 %          level of the image. (Need to be updated) 
-%      thisinfo: char
+%       thisinfo: char
 %           information about the image. 
 %           (like which configurations you've used for the retrieving.)
-%      nc_zip_file: char
+%       nc_zip_file: char
 %           data file. 
 %       nc_zip_file_size: char
 %           size of the data file. 
@@ -68,12 +68,16 @@ function [] = write_2_donelist(file, permission, lidar, location, startTime, ...
 %   Contact:
 %       zhenping@tropos.de
 
-if exist(file, 'file') == 2
+global processInfo
+
+if exist(file, 'file') ~= 2
     warning(['Done list file does not exist! For archiving the pic info, ' ...
              'it will be created forcefully. \nDone list file: %s\n'], file);
+    fid = fopen(file, 'w');
+    fclose(fid);
 end
 
-if exist(imageFile, 'file') ~= 2 == 2
+if exist(fullfile(processInfo.pic_folder, imageFile), 'file') ~= 2
     warning('image file does not exist.\n%s\n', imageFile);
     return;
 end
