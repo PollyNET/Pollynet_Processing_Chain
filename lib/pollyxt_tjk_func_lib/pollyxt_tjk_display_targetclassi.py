@@ -99,8 +99,8 @@ def pollyxt_tjk_display_targetclassi(tmpFile, saveFolder):
         raise ImportError('python_colormap module is necessary.')
 
     # display aerosol target classification
-    fig = plt.figure(figsize=[12, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.6, 0.75])
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.1, 0.15, 0.7, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, TC_mask, vmin=-0.5, vmax=11.5, cmap=target_classification_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -115,21 +115,22 @@ def pollyxt_tjk_display_targetclassi(tmpFile, saveFolder):
 
     ax.set_title('Target classifications (V2) from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.72, 0.15, 0.015, 0.75])
+    cb_ax = fig.add_axes([0.82, 0.15, 0.01, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 12, 1), orientation='vertical')
-    cbar.ax.tick_params(direction='out', labelsize=7, pad=5)
+    cbar.ax.tick_params(direction='out', labelsize=10, pad=5)
     cbar.ax.set_yticklabels(['No signal',
                  'Clean atmosphere',
-                 'Non-typed particles/low conc.',
+                 'Non-typed particleslow conc.',
                  'Aerosol: small',
                  'Aerosol: large, spherical',
-                 'Aerosol: mixture, partly non-spherical',
+                 'Aerosol: mix., non-spherical',
                  'Aerosol: large, non-spherical',
                  'Cloud: non-typed',
                  'Cloud: water droplets',
                  'Cloud: likely water droplets',
                  'Cloud: ice crystals',
-                 'Cloud: likely ice crystals'], fontsize=10)
+                 'Cloud: likely ice crystals'])
+    cbar.ax.yaxis.set_tick_params(rotation=0)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
