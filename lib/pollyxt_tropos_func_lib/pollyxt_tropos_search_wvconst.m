@@ -48,7 +48,9 @@ if isempty(index) || (~ flagUsePrevWVConst)
     wvconst = defaults.wvconst;
     wvconstStd = defaults.wvconstStd;
 else
-    [~, indx] = min(abs(preWVlCaliTime - currentTime));
+    thisLag = abs(preWVlCaliTime - currentTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1);
     wvconst = preWVconst(indx);
     wvconstStd = preWVconstStd(indx);
 end
