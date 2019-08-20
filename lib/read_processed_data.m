@@ -1,5 +1,5 @@
 function [time, height, res] = read_processed_data(instrument, parameter, ...
-                                                   tRange, resFolder)
+                                                   hRange, tRange, resFolder)
 %READ_PROCESSED_DATA read the processed data from pollynet processing program 
 %in the given range.
 %   Example:
@@ -28,6 +28,8 @@ function [time, height, res] = read_processed_data(instrument, parameter, ...
 %           target_classification_V2
 %           volume_depolarization_ratio_355nm
 %           volume_depolarization_ratio_532nm
+%       hRange: 2-element array
+%           vertical range. [km]
 %       tRange: 2-element array (datenum)
 %           start time and end time of the extraction. 
 %       resFolder: str
@@ -59,7 +61,6 @@ case 'data'
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
             load(files{iFile});
-            height = data.height;
             time = [time, data.mTime];
             height = data.height;
             signal = cat(3, signal, data.signal);
@@ -260,9 +261,11 @@ case 'attenuated_backscatter_1064nm'
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_1064nm')];
         end
     end
-
+    
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'attenuated_backscatter_355nm'
@@ -280,9 +283,11 @@ case 'attenuated_backscatter_355nm'
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_355nm')];
         end
     end
-
+    
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'attenuated_backscatter_532nm'
@@ -300,9 +305,11 @@ case 'attenuated_backscatter_532nm'
             res = [res, ncread(files{iFile}, 'attenuated_backscatter_532nm')];
         end
     end
-
+    
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'target_classification'
@@ -320,9 +327,11 @@ case 'target_classification'
             res = [res, ncread(files{iFile}, 'target_classification')];
         end
     end
-
+    
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'target_classification_V2'
@@ -340,9 +349,11 @@ case 'target_classification_V2'
             res = [res, ncread(files{iFile}, 'target_classification')];
         end
     end
-
+    
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'volume_depolarization_ratio_355nm'
@@ -361,9 +372,11 @@ case 'volume_depolarization_ratio_355nm'
             ncread(files{iFile}, 'volume_depolarization_ratio_355nm')];
         end
     end
-
+    
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 
 case 'volume_depolarization_ratio_532nm'
@@ -382,9 +395,11 @@ case 'volume_depolarization_ratio_532nm'
             ncread(files{iFile}, 'volume_depolarization_ratio_532nm')];
         end
     end
-
+    
+    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     indx = (time >= tRange(1)) & (time <= tRange(2));
-    res = res(:, indx);
+    res = res(hIndx, indx);
+    height = height(hIndx);
     time = time(indx);
 otherwise
     warning('Unkown parameter.');
