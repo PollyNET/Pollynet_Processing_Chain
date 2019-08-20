@@ -255,18 +255,18 @@ case 'attenuated_backscatter_1064nm'
         datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ncread(files{iFile}, 'attenuated_backscatter_1064nm')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'attenuated_backscatter_1064nm');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
-    indx = (time >= tRange(1)) & (time <= tRange(2));
-    hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
-    res = res(hIndx, indx);
-    height = height(hIndx);
-    time = time(indx);
 
 case 'attenuated_backscatter_355nm'
     
@@ -277,10 +277,16 @@ case 'attenuated_backscatter_355nm'
         datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ncread(files{iFile}, 'attenuated_backscatter_355nm')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'attenuated_backscatter_355nm');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
@@ -299,10 +305,16 @@ case 'attenuated_backscatter_532nm'
         datestr(double(iDay), 'dd')), '\w*_att_bsc.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ncread(files{iFile}, 'attenuated_backscatter_532nm')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'attenuated_backscatter_532nm');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
@@ -321,10 +333,16 @@ case 'target_classification'
         datestr(double(iDay), 'dd')), '\w*_target_classification.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ncread(files{iFile}, 'target_classification')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'target_classification');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
@@ -343,10 +361,16 @@ case 'target_classification_V2'
         datestr(double(iDay), 'dd')), '\w*_target_classification_V2.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ncread(files{iFile}, 'target_classification')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'target_classification');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
@@ -365,11 +389,16 @@ case 'volume_depolarization_ratio_355nm'
         datestr(double(iDay), 'dd')), '\w*_vol_depol.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ...
-            ncread(files{iFile}, 'volume_depolarization_ratio_355nm')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'volume_depolarization_ratio_355nm');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
@@ -388,11 +417,16 @@ case 'volume_depolarization_ratio_532nm'
         datestr(double(iDay), 'dd')), '\w*_vol_depol.nc');
         for iFile = 1:length(files)
             fprintf('Reading %s.\n', files{iFile});
-            time = [time; ...
-            unix_timestamp_2_datenum(ncread(files{iFile}, 'time'))];
-            height = ncread(files{iFile}, 'height');
-            res = [res, ...
-            ncread(files{iFile}, 'volume_depolarization_ratio_532nm')];
+            time_raw = unix_timestamp_2_datenum(ncread(files{iFile}, 'time'));
+            height_raw = ncread(files{iFile}, 'height');
+            res_raw = ncread(files{iFile}, 'volume_depolarization_ratio_532nm');
+
+            % partition the array
+            tIndx = (time_raw >= tRange(1)) & (time_raw <= tRange(2));
+            hIndx = (height_raw/1e3 >= hRange(1)) & (height_raw/1e3 <= hRange(2));
+            time = [time; time_raw(tIndx)];
+            height = height_raw(hIndx);
+            res = [res, res_raw(hIndx, tIndx)];
         end
     end
     
