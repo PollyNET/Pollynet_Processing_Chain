@@ -101,6 +101,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         yLim_FR = mat['yLim_FR'][:][0]
         yLim_NR = mat['yLim_NR'][:][0]
@@ -113,9 +114,13 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
         print('Failed reading %s' % (tmpFile))
         return
 
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
     # display signal
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.semilogx(rcs532 * 6e6, height, color='#80ff00', linestyle='-', label='FR 532 nm (X6)', zorder=1)
     p2, = ax.semilogx(molRCS532 * 6e6, height, color='#00b300', linestyle='--', label='mol 532 nm (X6)', zorder=2)
 
@@ -146,7 +151,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
     # display backscatter with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
@@ -165,14 +170,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
@@ -191,14 +196,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with raman method (RR signal)
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_RR * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
@@ -224,7 +229,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
     # display extinction with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontsize=15)
@@ -243,14 +248,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontsize=15)
@@ -268,14 +273,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with raman method (RR signal)
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_532_RR * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontsize=15)
@@ -299,7 +304,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
     # display LR with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Lidar Ratio [$Sr$]', fontsize=15)
@@ -318,14 +323,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display LR with raman method (RR signal)
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(LR532_RR, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
     ax.set_xlabel('Lidar Ratio [$Sr$]', fontsize=15)
@@ -351,7 +356,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
     # display depol ratio with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(voldepol532_klett, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_klett, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
@@ -371,14 +376,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display depol ratio with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(voldepol532_raman, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p2, = ax.plot(pardepol532_raman, height, color='#008040', linestyle='--', label='$\delta_{par, 532}$', zorder=3)
 
@@ -398,14 +403,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(temperature, height, color='#ff0000', linestyle='-', zorder=2)
 
     ax.set_xlabel('Temperature ($^\circ C$)', fontsize=15)
@@ -423,14 +428,14 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(pressure, height, color='#ff0000', linestyle='-', zorder=2)
 
     ax.set_xlabel('Pressure ($hPa$)', fontsize=15)
@@ -448,7 +453,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()

@@ -88,6 +88,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
         yLim_FR = mat['yLim_FR'][:][0]
@@ -102,6 +103,10 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
         print('Failed reading %s' % (tmpFile))
         return
 
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+    
     # meshgrid
     Time, Height = np.meshgrid(mTime, height)
     depCalMask = np.tile(depCalMask, (RCS_FR_1064.shape[0], 1))
@@ -118,7 +123,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     RCS_FR_355 = np.ma.masked_where(depCalMask != 0, RCS_FR_355)
     RCS_FR_355 = np.ma.masked_where(fogMask == 1, RCS_FR_355)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_355/1e6, vmin=RCS355FRColorRange[0], vmax=RCS355FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -149,7 +154,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     RCS_FR_532 = np.ma.masked_where(depCalMask != 0, RCS_FR_532)
     RCS_FR_532 = np.ma.masked_where(fogMask == 1, RCS_FR_532)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_532/1e6, vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -180,7 +185,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     RCS_FR_1064 = np.ma.masked_where(depCalMask != 0, RCS_FR_1064)
     RCS_FR_1064 = np.ma.masked_where(fogMask == 1, RCS_FR_1064)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_FR_1064/1e6, vmin=RCS1064FRColorRange[0], vmax=RCS1064FRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -211,7 +216,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     RCS_NR_355 = np.ma.masked_where(depCalMask != 0, RCS_NR_355)
     RCS_NR_355 = np.ma.masked_where(fogMask == 1, RCS_NR_355)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_NR_355/1e6, vmin=RCS355NRColorRange[0], vmax=RCS355NRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -242,7 +247,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     RCS_NR_532 = np.ma.masked_where(depCalMask != 0, RCS_NR_532)
     RCS_NR_532 = np.ma.masked_where(fogMask == 1, RCS_NR_532)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, RCS_NR_532/1e6, vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -273,7 +278,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     volDepol_532 = np.ma.masked_where(depCalMask != 0, volDepol_532)
     volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, volDepol_532, vmin=0.0, vmax=0.4, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -304,7 +309,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     volDepol_355 = np.ma.masked_where(depCalMask != 0, volDepol_355)
     volDepol_355 = np.ma.masked_where(fogMask == 1, volDepol_355)
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, volDepol_355, vmin=0.0, vmax=0.4, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)

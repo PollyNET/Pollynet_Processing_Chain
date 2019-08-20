@@ -84,6 +84,7 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         WVMRColorRange = mat['WVMRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
@@ -91,6 +92,10 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
