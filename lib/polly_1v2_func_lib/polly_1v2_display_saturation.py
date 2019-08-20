@@ -81,12 +81,17 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(mTime, height)
@@ -101,7 +106,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
 
     # display status of 532 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -132,7 +137,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     
     # display status of 532 NR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)

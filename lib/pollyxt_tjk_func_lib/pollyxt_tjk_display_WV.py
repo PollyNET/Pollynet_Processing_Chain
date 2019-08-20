@@ -84,6 +84,7 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         WVMRColorRange = mat['WVMRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
@@ -91,6 +92,10 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
@@ -125,10 +130,9 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
-    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
@@ -154,10 +158,9 @@ def pollyxt_tjk_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$\%$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
-    
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 

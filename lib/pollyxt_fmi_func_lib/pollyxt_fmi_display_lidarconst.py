@@ -95,6 +95,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
@@ -102,6 +103,9 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
         print('Failed reading %s' % (tmpFile))
         return
 
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
     # display lidar constants at 355mn
     fig = plt.figure(figsize=[9, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
@@ -110,7 +114,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
     p3, = ax.plot(thisTime, LC355_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim355.tolist())
     ax.set_xticks(xtick.tolist())
@@ -123,8 +127,8 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -137,7 +141,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
     p3, = ax.plot(thisTime, LC532_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim532.tolist())
     ax.set_xticks(xtick.tolist())
@@ -150,8 +154,8 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -164,7 +168,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
     p3, = ax.plot(thisTime, LC1064_aeronet, color='#804000', linestyle='--', marker='*', markersize=10, mfc='#800040', mec='#000000', label='Constrained-AOD Method')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
-    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
+    l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim1064.tolist())
     ax.set_xticks(xtick.tolist())
@@ -177,8 +181,8 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -189,7 +193,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC387_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
-    l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
+    l = ax.legend(handles=[p1], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim387.tolist())
     ax.set_xticks(xtick.tolist())
@@ -202,8 +206,8 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=387, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
@@ -214,7 +218,7 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
     p1, = ax.plot(thisTime, LC607_raman, color='#400080', linestyle='--', marker='o', markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
-    l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
+    l = ax.legend(handles=[p1], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim607.tolist())
     ax.set_xticks(xtick.tolist())
@@ -227,8 +231,8 @@ def pollyxt_fmi_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=607, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()

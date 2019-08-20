@@ -93,6 +93,7 @@ def pollyxt_tjk_display_monitor(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
@@ -117,6 +118,10 @@ def pollyxt_tjk_display_monitor(tmpFile, saveFolder):
     EN = np.ma.masked_outside(EN, 0, 990)
 
     flags = np.transpose(np.ma.hstack((rain, roof, shutter, shutter2)))
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
     
     # visualization (credits to Martin's python program)
     fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, figsize=(15, 14), sharex=True, gridspec_kw = {'height_ratios':[1, 1, 1.6, 1, 0.6]})

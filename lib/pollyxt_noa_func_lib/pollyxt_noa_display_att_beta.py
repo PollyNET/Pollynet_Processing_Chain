@@ -106,12 +106,17 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
@@ -127,7 +132,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
 
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_355 * 1e6, vmin=att_beta_cRange_355[0], vmax=att_beta_cRange_355[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -142,7 +147,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)
@@ -156,7 +161,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
 
     # display attenuate backscatter at 532 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -171,7 +176,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)
@@ -185,7 +190,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
     
     # display attenuate backscatter at 1064 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_1064 * 1e6, vmin=att_beta_cRange_1064[0], vmax=att_beta_cRange_1064[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -200,7 +205,7 @@ def pollyxt_noa_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_1064[0], att_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=10)

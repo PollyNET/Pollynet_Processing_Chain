@@ -99,9 +99,14 @@ def arielle_display_depolcali(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # display
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1, 1]})
@@ -129,7 +134,7 @@ def arielle_display_depolcali(tmpFile, saveFolder):
     p2, = ax2.plot(dminus, height[(caliHIndxRange[0] - 1):(caliHIndxRange[1])], color='#1770E7', label=r'$Ratio_{-45^\circ}$')
     p3, = ax2.plot([0, 1e10], [height[indx + caliHIndxRange[0] - 2], height[indx + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
     p4, = ax2.plot([0, 1e10], [height[indx + segmentLen + caliHIndxRange[0] - 2], height[indx + segmentLen + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
-    ax2.set_xlim([0, 50])
+    # ax2.set_xlim([0, 50])
     ax2.set_xlabel('Ratio', fontsize=15)
     l = ax2.legend(handles=[p1, p2], loc='upper right', fontsize=12)
     ax2.text(0, 0.7, '$mean_{dplus}=%5.2f, std_{dplus}=%5.3f$\n$mean_{dminus}=%5.2f, std_{dminus}=%5.3f$\n$K=%6.4f, std_K=%6.4f$' % (mean_dplus_tmp[segIndx - 1], std_dplus_tmp[segIndx - 1], mean_dminus_tmp[segIndx - 1], std_dminus_tmp[segIndx - 1], (1 + TRt)/(1 + TRx)*np.sqrt(mean_dplus_tmp[segIndx-1]*mean_dminus_tmp[segIndx - 1]), (1 + TRt)/(1 + TRx) / np.sqrt(mean_dplus_tmp[segIndx - 1] * mean_dminus_tmp[segIndx - 1]) * 0.5 * (mean_dplus_tmp[segIndx - 1] * std_dminus_tmp[segIndx - 1] + mean_dminus_tmp[segIndx - 1] * std_dplus_tmp[segIndx - 1])), fontsize=12, transform=ax2.transAxes)

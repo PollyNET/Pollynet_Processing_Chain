@@ -182,7 +182,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     time = data.mTime;
     figDPI = processInfo.figDPI;
     quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
-    quasi_beta)cRange_355 = config.quasi_beta_cRange_355;
+    quasi_beta_cRange_355 = config.quasi_beta_cRange_355;
     quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
     quasi_beta_cRange_1064 = config.quasi_beta_cRange_1064;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');

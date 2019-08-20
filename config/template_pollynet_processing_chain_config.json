@@ -11,7 +11,8 @@
     "pollynet_config_history_file": "/pollyhome/Picasso/Pollynet_Processing_Chain/config/template_pollynet_processing_config_link.txt",
 
     "figDPI": 150,
-
+    "fontname": "DejaVu Serif",
+    
     "minDataSize": 100000,
 
     "institute": "Ground-based Remote Sensing Group (TROPOS)",

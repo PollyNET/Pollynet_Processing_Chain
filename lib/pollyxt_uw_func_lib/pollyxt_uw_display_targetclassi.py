@@ -80,12 +80,17 @@ def pollyxt_uw_display_targetclassi(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
@@ -100,7 +105,7 @@ def pollyxt_uw_display_targetclassi(tmpFile, saveFolder):
 
     # display aerosol target classification
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.7, 0.75])
+    ax = fig.add_axes([0.09, 0.15, 0.67, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, TC_mask, vmin=-0.5, vmax=11.5, cmap=target_classification_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -110,12 +115,12 @@ def pollyxt_uw_display_targetclassi(tmpFile, saveFolder):
     ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     ax.set_title('Target classifications (V2) from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.82, 0.15, 0.01, 0.75])
+    cb_ax = fig.add_axes([0.77, 0.15, 0.01, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 12, 1), orientation='vertical')
     cbar.ax.tick_params(direction='out', labelsize=10, pad=5)
     cbar.ax.set_yticklabels(['No signal',
@@ -131,8 +136,8 @@ def pollyxt_uw_display_targetclassi(tmpFile, saveFolder):
                  'Cloud: ice crystals',
                  'Cloud: likely ice crystals'])
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.64, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
