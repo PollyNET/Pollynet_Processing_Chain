@@ -100,10 +100,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     aerBsc_355_aeronet = data.aerBsc355_aeronet(iGroup, :);
     aerBsc_532_aeronet = data.aerBsc532_aeronet(iGroup, :);
     aerBsc_1064_aeronet = data.aerBsc1064_aeronet(iGroup, :);
-    aerBsc355_NR_klett = data.aerBsc355_NR_klett(iGroup, :);
-    aerBsc532_NR_klett = data.aerBsc532_NR_klett(iGroup, :);
-    aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGroup, :);
-    aerBsc532_NR_raman = data.aerBsc532_NR_raman(iGroup, :);
 
     % extinction
     aerExt_355_klett = data.aerExt355_klett(iGroup, :);
@@ -115,16 +111,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     aerExt_355_aeronet = data.aerExt355_aeronet(iGroup, :);
     aerExt_532_aeronet = data.aerExt532_aeronet(iGroup, :);
     aerExt_1064_aeronet = data.aerExt1064_aeronet(iGroup, :);
-    aerExt355_NR_raman = data.aerExt355_NR_raman(iGroup, :);
-    aerExt532_NR_raman = data.aerExt532_NR_raman(iGroup, :);
-    aerExt355_NR_klett = data.aerExt355_NR_klett(iGroup, :);
-    aerExt532_NR_klett = data.aerExt532_NR_klett(iGroup, :);
 
     % lidar ratio
     LR355_raman = data.LR355_raman(iGroup, :);
     LR532_raman = data.LR532_raman(iGroup, :);
-    LR355_NR_raman = data.LR355_NR_raman(iGroup, :);
-    LR532_NR_raman = data.LR532_NR_raman(iGroup, :);
 
     % angstroem exponent
     ang_bsc_355_532_klett = data.ang_bsc_355_532_klett(iGroup, :);
@@ -132,9 +122,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     ang_bsc_355_532_raman = data.ang_bsc_355_532_raman(iGroup, :);
     ang_bsc_532_1064_raman = data.ang_bsc_532_1064_raman(iGroup, :);
     ang_ext_355_532_raman = data.ang_ext_355_532_raman(iGroup, :);
-    ang_bsc_355_532_klett_NR = data.ang_bsc_355_532_klett_NR(iGroup, :);
-    ang_bsc_355_532_raman_NR = data.ang_bsc_355_532_raman_NR(iGroup, :);
-    ang_ext_355_532_raman_NR = data.ang_ext_355_532_raman_NR(iGroup, :);
     
     % depool ratio
     voldepol355_klett = data.voldepol355_klett(iGroup, :);
@@ -652,7 +639,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         end
         
         %% display rcs 
-        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc355_NR_klett', 'aerBsc532_NR_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc355_NR_raman', 'aerBsc532_NR_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt355_NR_klett', 'aerExt532_NR_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt355_NR_raman', 'aerExt532_NR_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'LR355_NR_raman', 'LR532_NR_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'ang_bsc_355_532_klett_NR', 'ang_bsc_355_532_raman_NR', 'ang_ext_355_532_raman_NR', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerBsc_NR_Lim', 'aerExtLim', 'aerExt_NR_Lim', 'aerLRLim', 'aerLR_NR_Lim', 'wvmrLim', '-v7');
+        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman',  'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerBsc_NR_Lim', 'aerExtLim', 'aerExt_NR_Lim', 'aerLRLim', 'aerLR_NR_Lim', 'wvmrLim', '-v7');
         tmpFile = fullfile(tmpFolder, 'tmp.mat');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0

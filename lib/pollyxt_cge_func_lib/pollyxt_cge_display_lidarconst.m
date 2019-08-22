@@ -147,5 +147,4 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end
-
 end

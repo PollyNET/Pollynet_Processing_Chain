@@ -40,19 +40,22 @@ end
 
 [preWVlCaliTime, preWVconst, preWVconstStd] = pollyxt_lacros_read_wvconst(file);
 
-index = find((preWVlCaliTime > (currentTime - deltaTime)) & ...
-                     (preWVlCaliTime < (currentTime + deltaTime)), 1);
-if isempty(index) || (~ flagUsePrevWVConst)
+flagValid = (preWVlCaliTime > (currentTime - deltaTime)) & ...
+                     (preWVlCaliTime < (currentTime + deltaTime));
+if (sum(flagValid) == 0) || (~ flagUsePrevWVConst)
     % if there is no previous calibration results with time lag less than 
     % required, or flagUsePrevWVConst was set to be true
     wvconst = defaults.wvconst;
     wvconstStd = defaults.wvconstStd;
 else
-    thisLag = abs(preWVlCaliTime - currentTime);
+    preWVlCaliTimeValid = preWVlCaliTime(flagValid);
+    preWVconstValid = preWVconst(flagValid);
+    preWVconstStdValid = preWVconstStd(flagValid);
+    thisLag = abs(preWVlCaliTimeValid - currentTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1);
-    wvconst = preWVconst(indx);
-    wvconstStd = preWVconstStd(indx);
+    wvconst = preWVconstValid(indx);
+    wvconstStd = preWVconstStdValid(indx);
 end
     
 end
