@@ -53,9 +53,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, file_quasi_bsc_532, '-transparent', '-r300', '-painters');
+    export_fig(gcf, file_quasi_bsc_532, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % Quasi Bsc 1064 nm 
@@ -88,9 +88,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, file_quasi_bsc_1064, '-transparent', '-r300', '-painters');
+    export_fig(gcf, file_quasi_bsc_1064, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % Quasi particle depolarization ratio at 532 nm 
@@ -123,9 +123,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, file_quasi_parDepol_532, '-transparent', '-r300', '-painters');
+    export_fig(gcf, file_quasi_parDepol_532, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % Quasi angstroem exponent 532-1064 nm
@@ -158,15 +158,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, file_quasi_AngExp_532_1064, '-transparent', '-r300', '-painters');
+    export_fig(gcf, file_quasi_AngExp_532_1064, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

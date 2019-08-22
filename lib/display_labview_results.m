@@ -323,6 +323,6 @@ text(-2.3, 1.03, sprintf('Averaged from %s to %s (smooth %d)', ...
      datestr(startTime, 'yyyymmdd HH:MM'), datestr(endTime, 'HH:MM'), smoothWin), ...
      'Units', 'Normalized', 'FontWeight', 'Bold');
 
-set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+set(findall(gcf, '-Property', 'FontName'), 'FontName', processInfo.fontname);
 
 end

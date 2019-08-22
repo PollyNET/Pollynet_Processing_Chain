@@ -95,16 +95,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
 
-    set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
+    set(findall(gcf, '-property', 'FontName'), 'FontName', processInfo.fontname);
 
     %% save figure
-    export_fig(gcf, overlapPicFile, '-transparent', '-r300', '-painters');
+    export_fig(gcf, overlapPicFile, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
     figDPI = processInfo.figDPI;

@@ -56,9 +56,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileWVMR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileWVMR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % RH
@@ -92,15 +92,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     colormap(chiljet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileRH, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileRH, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
