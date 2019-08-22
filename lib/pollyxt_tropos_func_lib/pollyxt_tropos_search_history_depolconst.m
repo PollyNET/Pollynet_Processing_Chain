@@ -17,7 +17,7 @@ function [depolconst, depolconstStd, depolCaliTime] = pollyxt_tropos_search_hist
 %       depolconstStd: double
 %           standard deviation of depol calibration constants. 
 %       depolCaliTime: double
-%           depol calibration time. (it was set 0 if there is no real depol calibration.)
+%           depol calibration time. (it was set 0 if there is no depol calibration.)
 %   History:
 %       2019-02-26. First Edition by Zhenping
 %   Contact:
@@ -27,10 +27,10 @@ if ~ exist('deltaTime', 'var')
     deltaTime = datenum(0, 1, 7);
 end
 
-[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_tropos_read_depolconst(file);
+[preDepolCaliTime, preDepolconst, preDepolconstStd] = pollyxt_lacros_read_depolconst(file);
 
-index = find((preDepolCaliTime > (currentTime - deltaTime)) & (preDepolCaliTime < (currentTime + deltaTime)));
-if isempty(index)
+flagValid = (preDepolCaliTime > (currentTime - deltaTime)) & (preDepolCaliTime < (currentTime + deltaTime));
+if (sum(flagValid) == 0)
     % if there is no previous calibration results with time lag less than required
     depolCaliTime = 0;
     if wavelength == 532
@@ -43,11 +43,15 @@ if isempty(index)
         error('Unknown wavelength for depolarization calibration.');
     end
 else
-    thisLag = abs(preDepolCaliTime - currentTime);
+    preDepolCaliTimeValid = preDepolCaliTime(flagValid);
+    preDepolconstValid = preDepolconst(flagValid);
+    preDepolconstStdValid = preDepolconstStd(flagValid);
+
+    thisLag = abs(preDepolCaliTimeValid - currentTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1);
-    depolconst = preDepolconst(indx);
-    depolconstStd = preDepolconstStd(indx);
+    depolconst = preDepolconstValid(indx);
+    depolconstStd = preDepolconstStdValid(indx);
     depolCaliTime = 0;
 end
     
