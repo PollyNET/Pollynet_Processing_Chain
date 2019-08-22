@@ -91,12 +91,17 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
@@ -114,7 +119,7 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     # display quasi backscatter at 355 nm
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_355 * 1e6, vmin=quasi_beta_cRange_355[0], vmax=quasi_beta_cRange_355[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -132,17 +137,17 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_355[0], quasi_beta_cRange_355[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_355_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi backscatter at 532 nm
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_532 * 1e6, vmin=quasi_beta_cRange_532[0], vmax=quasi_beta_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -160,17 +165,17 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_532[0], quasi_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi backscatter at 1064 nm
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_bsc_1064 * 1e6, vmin=quasi_beta_cRange_1064[0], vmax=quasi_beta_cRange_1064[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -188,17 +193,17 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_1064[0], quasi_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_Bsc_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_pardepol_532, vmin=quasi_Par_DR_cRange_532[0], vmax=quasi_Par_DR_cRange_532[1], cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -218,15 +223,15 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
     # display quasi angtroem exponent 532-1064
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, quasi_ang_532_1064, vmin=0, vmax=2, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -246,8 +251,8 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064_V2.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()

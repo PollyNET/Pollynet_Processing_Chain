@@ -93,13 +93,20 @@ def pollyxt_dwd_display_overlap(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
 
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
+
     # display
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1, 1]}, )
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1.2, 1]})
+    fig.subplots_adjust(wspace=0)
 
     # display signal
     p1, = ax1.plot(overlap532, height, color='#58B13F', linestyle='-', label=r'overlap 532 FR')
@@ -135,10 +142,8 @@ def pollyxt_dwd_display_overlap(tmpFile, saveFolder):
     ax2.grid(True)
     l = ax2.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
-    fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=15)
-
-    
-    plt.tight_layout()
+    fig.text(0.87, 0.02, 'Version {version}'.format(version=version), fontsize=10)
+    # plt.tight_layout()
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_overlap.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
  
     plt.close()

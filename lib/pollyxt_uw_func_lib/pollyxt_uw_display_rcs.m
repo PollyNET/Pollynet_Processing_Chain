@@ -7,8 +7,7 @@ function [] = pollyxt_uw_display_rcs(data, taskInfo, config)
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%
+%   Outputlacros%
 %   History:
 %       2018-12-29. First Edition by Zhenping
 %   Contact:
@@ -21,6 +20,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     fileRCS355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
     fileRCS532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
     fileRCS1064FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_1064.png', rmext(taskInfo.dataFilename)));
+    fileRCS355NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_NR_355.png', rmext(taskInfo.dataFilename)));
     fileRCS532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
     fileVolDepol355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
     fileVolDepol532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
@@ -28,9 +28,11 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     flagChannel532 = config.isFR & config.is532nm & config.isTot;
     flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
     flagChannel532NR = config.isNR & config.is532nm & config.isTot;
+    flagChannel355NR = config.isNR & config.is355nm & config.isTot;
 
     %% visualization
-    load('chiljet_colormap.mat')
+    load('myjet_colormap.mat')   % load colormap
+    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % 355 nm FR
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -38,32 +40,31 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     RCS_FR_355 = squeeze(data.signal(flagChannel355, :, :)) ./ repmat(data.mShots(flagChannel355, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
-    RCS_FR_355(:, data.depCalMask) = NaN;
-    p1 = pcolor(data.mTime, data.height, RCS_FR_355); hold on;
+    RCS_FR_355(:, (data.depCalMask ~= 0) | data.fogMask) = NaN;
+    p1 = pcolor(data.mTime, data.height, RCS_FR_355/1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([3e5, 2e7]);
+    caxis(config.RCS355FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '355', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_FR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_FR(1):2500:config.yLim_FR(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '[a.u]');
+    set(titleHandle, 'string', '[a.u.]', 'FontSize', 6);
 
-    colormap(chiljet);
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileRCS355FR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileRCS355FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % 532 nm FR
@@ -72,33 +73,32 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(flagChannel532, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
-    RCS_FR_532(:, data.depCalMask) = NaN;
-    p1 = pcolor(data.mTime, data.height, RCS_FR_532); hold on;
+    RCS_FR_532(:, (data.depCalMask ~= 0) | data.fogMask) = NaN;
+    p1 = pcolor(data.mTime, data.height, RCS_FR_532/1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([3e5, 2e7]);
+    caxis(config.RCS532FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_FR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_FR(1):2500:config.yLim_FR(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '[a.u]');
+    set(titleHandle, 'string', '[a.u.]', 'FontSize', 6);
 
-    colormap(chiljet);
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileRCS532FR, '-transparent', '-r300', '-painters');
-    close()
+    export_fig(gcf, fileRCS532FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    close();
 
     % 1064 nm FR
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -106,66 +106,97 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     RCS_FR_1064 = squeeze(data.signal(flagChannel1064, :, :)) ./ repmat(data.mShots(flagChannel1064, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
-    RCS_FR_1064(:, data.depCalMask) = NaN;
-    p1 = pcolor(data.mTime, data.height, RCS_FR_1064); hold on;
+    RCS_FR_1064(:, (data.depCalMask ~= 0) | data.fogMask) = NaN;
+    p1 = pcolor(data.mTime, data.height, RCS_FR_1064/1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([3e5, 2e7]);
+    caxis(config.RCS1064FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '1064', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_FR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '1064', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_FR(1):2500:config.yLim_FR(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '[a.u]');
+    set(titleHandle, 'string', '[a.u.]', 'FontSize', 6);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    colormap(chiljet);
-    export_fig(gcf, fileRCS1064FR, '-transparent', '-r300', '-painters');
-    close()
+    export_fig(gcf, fileRCS1064FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    close();
 
+    % 355 nm NR
+    figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
+
+    subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
+
+    RCS_NR_355 = squeeze(data.signal(flagChannel355NR, :, :)) ./ repmat(data.mShots(flagChannel355NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
+    RCS_NR_355(:, (data.depCalMask ~= 0) | data.fogMask) = NaN;
+    p1 = pcolor(data.mTime, data.height, RCS_NR_355/1e6); hold on;
+    set(p1, 'EdgeColor', 'none');
+    caxis(config.RCS355NRColorRange);
+    xlim([data.mTime(1), data.mTime(end)]);
+    ylim(config.yLim_NR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Range-Corrected Signal at %snm Near-Range from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
+    set(gca, 'Box', 'on', 'TickDir', 'out');
+    set(gca, 'ytick', config.yLim_NR(1):1000:config.yLim_NR(2), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
+
+    % colorbar
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
+    set(gca, 'TickDir', 'out', 'Box', 'on');
+    titleHandle = get(c, 'Title');
+    set(titleHandle, 'string', '[a.u.]', 'FontSize', 6);
+
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+
+    export_fig(gcf, fileRCS355NR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    close();
+    
     % 532 nm NR
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
     RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
-    RCS_NR_532(:, data.depCalMask) = NaN;
-    p1 = pcolor(data.mTime, data.height, RCS_NR_532); hold on;
+    RCS_NR_532(:, (data.depCalMask ~= 0) | data.fogMask) = NaN;
+    p1 = pcolor(data.mTime, data.height, RCS_NR_532/1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([1e5, 2e6]);
+    caxis(config.RCS532NRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 3000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Near-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_NR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Range-Corrected Signal at %snm Near-Range from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:500:3000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_NR(1):1000:config.yLim_NR(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '[a.u]');
+    set(titleHandle, 'string', '[a.u.]', 'FontSize', 6);
 
-    colormap(chiljet);
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileRCS532NR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileRCS532NR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % 532 nm vol depol
@@ -173,31 +204,32 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
-    p1 = pcolor(data.mTime, data.height, data.volDepol_532); hold on;
+    volDepol_532 = data.volDepol_532;
+    volDepol_532(:, (data.depCalMask ~= 0) | (data.fogMask)) = NaN;
+    p1 = pcolor(data.mTime, data.height, volDepol_532); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([0, 0.4]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_FR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Volume Depolarization Ratio at %snm from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_FR(1):2500:config.yLim_FR(2), 'yminortick', 'on');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '');
+    set(titleHandle, 'string', '', 'FontSize', 6);
 
-    colormap(chiljet);
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileVolDepol532, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileVolDepol532, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % 355 nm vol depol
@@ -205,37 +237,38 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
-    p1 = pcolor(data.mTime, data.height, data.volDepol_355); hold on;
+    volDepol_355 = data.volDepol_355;
+    volDepol_355(:, (data.depCalMask ~= 0) | (data.fogMask)) = NaN;
+    p1 = pcolor(data.mTime, data.height, volDepol_355); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([0, 0.4]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '355', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    ylim(config.yLim_FR);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Volume Depolarization Ratio at %snm from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', config.yLim_FR(1):2500:config.yLim_FR(2), 'yminortick', 'on');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
 
     % colorbar
-    c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
+    c = colorbar('Position', [0.92, 0.20, 0.02, 0.65]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '');
+    set(titleHandle, 'string', '', 'FontSize', 6);
 
-    colormap(chiljet);
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    colormap(myjet);
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileVolDepol355, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileVolDepol355, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

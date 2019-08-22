@@ -82,8 +82,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s'], processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -120,8 +120,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -158,8 +158,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -196,8 +196,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'AERONET'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -234,8 +234,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -270,8 +270,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -308,8 +308,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'AERONET'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -344,8 +344,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -380,8 +380,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -418,8 +418,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -457,8 +457,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -496,8 +496,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -529,8 +529,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'From: %s'], processInfo.programVersion, data.meteorAttri.dataSource{iGroup}), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
@@ -562,15 +562,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'From: %s'], processInfo.programVersion, data.meteorAttri.dataSource{iGroup}), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-        export_fig(gcf, picFile, '-transparent', '-r300');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+        export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
         
     end
     
 elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

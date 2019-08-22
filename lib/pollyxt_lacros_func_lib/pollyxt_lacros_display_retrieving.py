@@ -135,6 +135,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         yLim_FR = mat['yLim_FR'][:][0]
         yLim_NR = mat['yLim_NR'][0]
@@ -148,9 +149,13 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
         print('Failed reading %s' % (tmpFile))
         return
 
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
     # display signal
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.semilogx(rcs355 * 1e6, height, color='#0080ff', linestyle='-', label='FR 355 nm', zorder=3)
     p2, = ax.semilogx(rcs532 * 6e6, height, color='#80ff00', linestyle='-', label='FR 532 nm (X6)', zorder=2)
     p3, = ax.semilogx(rcs1064 * 1.2e8, height, color='#ff6060', linestyle='-', label='FR 1064 nm (X120)', zorder=1)
@@ -189,12 +194,12 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
 
     # display backscatter with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
@@ -210,19 +215,19 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
@@ -238,19 +243,19 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display backscatter with Constrained-AOD method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_355_aeronet * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerBsc_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
@@ -266,14 +271,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='AERONET'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='AERONET'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_355_klett * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
@@ -294,14 +299,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_355_raman * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
@@ -322,14 +327,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display extinction with Constrained-AOD method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerExt_355_aeronet * 1e6, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(aerExt_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerExt_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
@@ -350,14 +355,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='AERONET'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='AERONET'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display LR with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(LR355_raman, height, color='#0000ff', linestyle='-', label='355 nm', zorder=2)
     p2, = ax.plot(LR532_raman, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
@@ -377,14 +382,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display angstroem exponent with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(ang_bsc_355_532_klett, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_klett, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
 
@@ -404,14 +409,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display angstroem exponent with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(ang_bsc_355_532_raman, height, color='#ff8000', linestyle='-', label='BSC 355-532', zorder=2)
     p2, = ax.plot(ang_bsc_532_1064_raman, height, color='#ff00ff', linestyle='-', label='BSC 532-1064', zorder=2)
     p3, = ax.plot(ang_ext_355_532_raman, height, color='#000000', linestyle='-', label='EXT 355-532', zorder=2)
@@ -432,14 +437,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display depol ratio with klett method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(voldepol355_klett, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
     p2, = ax.plot(voldepol532_klett, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p3, = ax.plot(pardepol355_klett, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
@@ -461,14 +466,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Klett'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display depol ratio with raman method
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(voldepol355_raman, height, color='#2492ff', linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
     p2, = ax.plot(voldepol532_raman, height, color='#80ff00', linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
     p3, = ax.plot(pardepol355_raman, height, color='#0000ff', linestyle='--', label='$\delta_{par, 355}$', zorder=3)
@@ -490,14 +495,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Method: {method}'.format(version=version, method='Raman'), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display WVMR
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(wvmr, height, color='#2492ff', linestyle='-', zorder=2)
 
     ax.set_xlabel('Water Vapor Mixing Ratio ($g*kg^{-1}$)', fontsize=15)
@@ -515,14 +520,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Calibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Calibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_WVMR.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display RH
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(rh, height, color='#2492ff', linestyle='-', label=pollyVersion, zorder=2)
     p2, = ax.plot(rh_meteor, height, color='#ff0080', linestyle='-', label=meteorSource, zorder=2)
 
@@ -542,14 +547,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(instrument=pollyVersion, location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  Calibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  Calibrated?: {status}'.format(version=version, status=flagWVCalibration), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_RH.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(temperature, height, color='#ff0000', linestyle='-', zorder=2)
 
     ax.set_xlabel('Temperature ($^\circ C$)', fontsize=15)
@@ -567,14 +572,14 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()
 
     # display meteorological paramters
     fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.20, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(pressure, height, color='#ff0000', linestyle='-', zorder=2)
 
     ax.set_xlabel('Pressure ($hPa$)', fontsize=15)
@@ -592,7 +597,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     endtime = time[endIndx - 1]
     ax.set_title('Meteorological Parameters at {location}\n {starttime}-{endtime}'.format(location=location, starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'), endtime=datenum_to_datetime(endtime).strftime('%H:%M')), fontsize=15)
 
-    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=15)
+    fig.text(0.1, 0.02, 'Version: {version}  From: {source}'.format(version=version, source=meteorSource), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(dataFilename=rmext(dataFilename), starttime=datenum_to_datetime(starttime).strftime('%H%M'), endtime=datenum_to_datetime(endtime).strftime('%H%M'))), dpi=figDPI)
     plt.close()

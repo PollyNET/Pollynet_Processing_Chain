@@ -55,9 +55,9 @@ set(titleHandle, 'string', 'g*kg^{-1}');
 
 colormap(chiljet);
 
-set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-export_fig(gcf, fileWVMR, '-transparent', '-r300', '-painters');
+export_fig(gcf, fileWVMR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
 close();
 
 % RH
@@ -91,9 +91,9 @@ set(titleHandle, 'string', '%');
 
 colormap(chiljet);
 
-set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-export_fig(gcf, fileRH, '-transparent', '-r300', '-painters');
+export_fig(gcf, fileRH, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
 close();
 
 end

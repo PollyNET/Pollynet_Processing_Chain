@@ -56,9 +56,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(c, 'TickDir', 'out', 'Box', 'on');
     set(c, 'ytick', (0.5:1:2.5)/3*2, 'yticklabel', tickLabels);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileStatus532FR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileStatus532FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     %% 532 nm NR
@@ -94,15 +94,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(c, 'TickDir', 'out', 'Box', 'on');
     set(c, 'ytick', (0.5:1:2.5)/3*2, 'yticklabel', tickLabels);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileStatus532NR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileStatus532NR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

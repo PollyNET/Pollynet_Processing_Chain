@@ -85,12 +85,17 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
 
     # meshgrid
     Time, Height = np.meshgrid(mTime, height)
@@ -105,7 +110,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
 
     # display status of 355 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -136,7 +141,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
 
     # display status of 532 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -167,7 +172,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     
     # display status of 1064 FR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -186,6 +191,8 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -196,7 +203,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     
     # display status of 355 NR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -215,6 +222,8 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -225,7 +234,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
     
     # display status of 532 NR
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_NR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -256,7 +265,7 @@ def pollyxt_tropos_display_saturation(tmpFile, saveFolder):
 
     # display status of 407
     fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.75, 0.75])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, SAT_FR_407, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)

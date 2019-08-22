@@ -202,9 +202,15 @@ def pollyxt_tjk_display_longterm_cali(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         startTime = mat['campaignInfo']['startTime'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
 
     # convert matlab datenum tp datetime 
     startTime = datenum_to_datetime(float(startTime[0]))
@@ -447,5 +453,5 @@ def main():
     pollyxt_tjk_display_longterm_cali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
-    main()
-    # pollyxt_tjk_display_longterm_cali(sys.argv[1], sys.argv[2])
+    # main()
+    pollyxt_tjk_display_longterm_cali(sys.argv[1], sys.argv[2])
