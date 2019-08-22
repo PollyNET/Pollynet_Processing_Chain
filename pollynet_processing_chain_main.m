@@ -75,7 +75,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     taskInfo.dataFilename = fileinfo_new.dataFilename{iTask};
     taskInfo.zipFile = fileinfo_new.zipFile{iTask};
     taskInfo.dataSize = fileinfo_new.dataSize(iTask);
-    taskInfo.pollyVersion = lower(fileinfo_new.pollyVersion{iTask});
+    % taskInfo.pollyVersion = lower(fileinfo_new.pollyVersion{iTask});   % keeping the same naming of polly in the `pollynet_history_of_places_new.txt`
     taskInfo.startTime = now();
 
     %% turn on the diary to log all the command output for future debugging
@@ -98,6 +98,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     %% search for polly history info
     fprintf('\n[%s] Start to search for polly history info.\n', tNow());
     campaignInfo = search_campaigninfo(taskInfo, pollynet_history);
+    taskInfo.pollyVersion = campaignInfo.name;   % keep the same naming of polly
     if isempty(campaignInfo.location) || isempty(campaignInfo.name)
         continue;
     end
