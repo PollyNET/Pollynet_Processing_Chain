@@ -202,9 +202,15 @@ def pollyxt_noa_display_longterm_cali(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         startTime = mat['campaignInfo']['startTime'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
+        fontname = mat['processInfo']['fontname'][0][0][0]
     except Exception as e:
         print('Failed reading %s' % (tmpFile))
         return
+
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
 
     # convert matlab datenum tp datetime 
     startTime = datenum_to_datetime(float(startTime[0]))

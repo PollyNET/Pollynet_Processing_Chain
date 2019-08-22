@@ -30,6 +30,14 @@ LC1064_raman = data.LC.LC_raman_1064;
 LC1064_aeronet = data.LC.LC_aeronet_1064;
 LC387_raman = data.LC.LC_raman_387;
 LC607_raman = data.LC.LC_raman_607;
+time = data.mTime;
+figDPI = processInfo.figDPI;
+yLim355 = config.LC355Range;
+yLim532 = config.LC532Range;
+yLim1064 = config.LC1064Range;
+yLim387 = config.LC387Range;
+yLim607 = config.LC607Range;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization
@@ -42,149 +50,135 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
-    p1 = plot(thisTime, LC355_klett, 'Color', 'r', 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
-    p2 = plot(thisTime, LC355_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
-    p3 = plot(thisTime, LC355_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
+    p1 = plot(thisTime, LC355_klett, 'Color', [0, 128, 64]/255, 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', [0, 128, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
+    p2 = plot(thisTime, LC355_raman, 'Color', [64, 0, 128]/255, 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', [64, 0, 128]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+    p3 = plot(thisTime, LC355_aeronet, 'Color', [128, 0, 64]/255, 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', [128, 0, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(config.LC355Range);
+    ylim(yLim355);
 
-    xlabel('UTC');
-    ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '355', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    xlabel('UTC', 'FontSize', 15);
+    ylabel('C', 'FontSize', 15);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '355', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 15);
 
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     set(gca, 'YMinorTick', 'on');
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
 
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
-    set(l, 'FontSize', 7);
+    set(l, 'FontSize', 12);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC355, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC355, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
 
     %% 532 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
-    p1 = plot(thisTime, LC532_klett, 'Color', 'r', 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
-    p2 = plot(thisTime, LC532_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
-    p3 = plot(thisTime, LC532_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
+    p1 = plot(thisTime, LC532_klett, 'Color', [0, 128, 64]/255, 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', [0, 128, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
+    p2 = plot(thisTime, LC532_raman, 'Color', [64, 0, 128]/255, 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', [64, 0, 128]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+    p3 = plot(thisTime, LC532_aeronet, 'Color', [128, 0, 64]/255, 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', [128, 0, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(config.LC532Range);
+    ylim(yLim532);
 
-    xlabel('UTC');
-    ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '532', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    xlabel('UTC', 'FontSize', 15);
+    ylabel('C', 'FontSize', 15);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '532', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 15);
 
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     set(gca, 'YMinorTick', 'on');
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12, 'FontSize', 15);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
 
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
-    set(l, 'FontSize', 7);
+    set(l, 'FontSize', 12);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC532, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC532, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
 
     %% 1064 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
-    p1 = plot(thisTime, LC1064_klett, 'Color', 'r', 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
-    p2 = plot(thisTime, LC1064_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
-    p3 = plot(thisTime, LC1064_aeronet, 'Color', 'g', 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
+    p1 = plot(thisTime, LC1064_klett, 'Color', [0, 128, 64]/255, 'LineStyle', '--', 'Marker', '^', 'MarkerFaceColor', [0, 128, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Klett Method'); hold on;
+    p2 = plot(thisTime, LC1064_raman, 'Color', [64, 0, 128]/255, 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', [64, 0, 128]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+    p3 = plot(thisTime, LC1064_aeronet, 'Color', [128, 0, 64]/255, 'LineStyle', '--', 'Marker', 'o', 'MarkerFaceColor', [128, 0, 64]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Constrained-AOD Method'); hold on;
 
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(config.LC1064Range);
+    ylim(yLim1064);
 
-    xlabel('UTC');
-    ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '1064', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    xlabel('UTC', 'FontSize', 15);
+    ylabel('C', 'FontSize', 15);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '1064', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 15);
 
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     set(gca, 'YMinorTick', 'on');
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12, 'FontSize', 15);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
 
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
-    set(l, 'FontSize', 7);
+    set(l, 'FontSize', 12);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC1064, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC1064, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
     
     %% 387 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
-    p1 = plot(thisTime, LC387_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+    p1 = plot(thisTime, LC387_raman, 'Color', [64, 0, 128]/255, 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', [64, 0, 128]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
 
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(config.LC387Range);
+    ylim(yLim387);
 
-    xlabel('UTC');
-    ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '387', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    xlabel('UTC', 'FontSize', 15);
+    ylabel('C', 'FontSize', 15);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '387', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 15);
 
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     set(gca, 'YMinorTick', 'on');
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12, 'FontSize', 15);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
 
     l = legend([p1], 'Location', 'NorthEast');
-    set(l, 'FontSize', 7);
+    set(l, 'FontSize', 12);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC387, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC387, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
  
     %% 607 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
-    p1 = plot(thisTime, LC607_raman, 'Color', 'b', 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
+    p1 = plot(thisTime, LC607_raman, 'Color', [64, 0, 128]/255, 'LineStyle', '--', 'Marker', '*', 'MarkerFaceColor', [64, 0, 128]/255, 'MarkerEdgeColor', 'k', 'DisplayName', 'Raman Method'); hold on;
 
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(config.LC607Range);
+    ylim(yLim607);
 
-    xlabel('UTC');
-    ylabel('C');
-    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '607', campaignInfo.name, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 7);
+    xlabel('UTC', 'FontSize', 15);
+    ylabel('C', 'FontSize', 15);
+    title(sprintf('Lidar Constant %s-%snm for %s at %s', 'Far-Range', '607', taskInfo.pollyVersion, campaignInfo.location), 'Interpreter', 'none', 'FontWeight', 'bold', 'FontSize', 15);
 
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     set(gca, 'YMinorTick', 'on');
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12, 'FontSize', 15);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
 
     l = legend([p1], 'Location', 'NorthEast');
-    set(l, 'FontSize', 7);
+    set(l, 'FontSize', 12);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC607, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC607, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    yLim355 = config.LC355Range;
-    yLim532 = config.LC532Range;
-    yLim1064 = config.LC1064Range;
-    yLim387 = config.LC387Range;
-    yLim607 = config.LC607Range;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
