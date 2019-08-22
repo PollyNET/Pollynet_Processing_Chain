@@ -16,13 +16,26 @@ global defaults processInfo campaignInfo
 flagChannel407 = config.is407nm & config.isFR;
 flagChannel387 = config.is387nm & config.isFR;
 
+%% read data
+WVMR = data.WVMR;
+RH = data.RH;
+lowSNRMask = (squeeze(data.lowSNRMask(flagChannel387, :, :)) | squeeze(data.lowSNRMask(flagChannel407, :, :)));
+flagCalibrated = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+flagCalibrated = flagCalibrated{1};
+height = data.height;
+time = data.mTime;
+figDPI = processInfo.figDPI;
+WVMRColorRange = config.WVMRColorRange;
+meteorSource = data.quasiAttri.meteorSource;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
     fileWVMR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
     fileRH = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
-    load('chiljet_colormap.mat');
+    load('myjet_colormap.mat');
 
     % WVMR
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -33,32 +46,29 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     WVMR(squeeze(data.lowSNRMask(flagChannel387, :, :) | data.lowSNRMask(flagChannel407, :, :))) = NaN;
     p1 = pcolor(data.mTime, data.height, WVMR); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis([0, 8]);
+    caxis(WVMRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 8000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Water vapor mixing ratio from %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    xlabel('UTC', 'FontSize', 6);
+    ylabel('Height (m)', 'FontSize', 6);
+    title(sprintf('Water vapor mixing ratio from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
-    flagCalibratedStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
-    text(0.90, -0.18, sprintf('Calibration %s', flagCalibratedStr{1}), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s\nMeteor Data: %s',  datestr(data.mTime(1), 'yyyy-mm-dd'), meteorSource), 'Units', 'Normal', 'FontSize', 6);
+    text(0.90, -0.13, sprintf('Version: %s\nCalibration: %s', processInfo.programVersion, flagCalibrated), 'Units', 'Normal', 'FontSize', 6);
 
     % colorbar
     c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', 'g*kg^{-1}');
+    set(titleHandle, 'string', 'g*kg^{-1}', 'FontSize', 5);
 
-    colormap(chiljet);
+    colormap(myjet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileWVMR, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileWVMR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
     % RH
@@ -73,48 +83,34 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     caxis([0, 100]);
     xlim([data.mTime(1), data.mTime(end)]);
     ylim([0, 8000]);
-    xlabel('UTC');
-    ylabel('Height (m)');
-    title(sprintf('Relative humidity from %s at %s', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    xlabel('UTC', 'FontSize', 6);
+    ylabel('Height (m)', 'FontSize', 6);
+    title(sprintf('Relative humidity from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on');
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
-    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
-    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
-    text(0.90, -0.18, sprintf('Meteor Info %s', 'GDAS1'), 'Units', 'Normal');
+    text(-0.04, -0.13, sprintf('%s\nMeteor Source: %s', datestr(data.mTime(1), 'yyyy-mm-dd'), meteorSource), 'Units', 'Normal', 'FontSize', 6);
+    text(0.90, -0.13, sprintf('Version: %s\nCalibration: %s', processInfo.programVersion, flagCalibrated), 'Units', 'Normal', 'FontSize', 6);
 
     % colorbar
     c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
     set(gca, 'TickDir', 'out', 'Box', 'on');
     titleHandle = get(c, 'Title');
-    set(titleHandle, 'string', '%');
+    set(titleHandle, 'string', '[%]', 'FontSize', 5);
 
-    colormap(chiljet);
+    colormap(myjet);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileRH, '-transparent', '-r300', '-painters');
+    export_fig(gcf, fileRH, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-
-    WVMR = data.WVMR;
-    RH = data.RH;
-    lowSNRMask = (squeeze(data.lowSNRMask(flagChannel387, :, :)) | squeeze(data.lowSNRMask(flagChannel407, :, :)));
-    flagCalibrated = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
-    flagCalibrated = flagCalibrated{1};
-    height = data.height;
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    WVMRColorRange = config.WVMRColorRange;
-    meteorSource = data.quasiAttri.meteorSource;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')

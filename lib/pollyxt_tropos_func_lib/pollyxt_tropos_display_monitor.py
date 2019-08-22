@@ -130,7 +130,7 @@ def pollyxt_tropos_display_monitor(tmpFile, saveFolder):
         if AD[0][0] > 990:
             ax1.plot(time, AD)
             ax1.set_ylim([100, 250])
-            ax1.set_ylabel("AD [au]", fontsize=15)
+            ax1.set_ylabel("AD [a.u.]", fontsize=15)
         else:
             ax1.plot(time, EN)
             # ax1.set_ylim([420, 550])

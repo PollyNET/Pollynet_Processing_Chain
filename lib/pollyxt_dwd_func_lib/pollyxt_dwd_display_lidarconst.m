@@ -57,8 +57,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
     set(l, 'FontSize', 7);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC355, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC355, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
 
     %% 532 nm
@@ -84,8 +84,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
     set(l, 'FontSize', 7);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC532, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC532, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
 
     %% 1064 nm
@@ -111,14 +111,14 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     l = legend([p1, p2, p3], 'Location', 'NorthEast');
     set(l, 'FontSize', 7);
 
-    set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
-    export_fig(gcf, fileLC1064, '-transparent', '-r300');
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+    export_fig(gcf, fileLC1064, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
  
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

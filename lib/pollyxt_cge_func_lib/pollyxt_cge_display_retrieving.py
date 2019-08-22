@@ -185,7 +185,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_klett * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
@@ -211,7 +211,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_raman * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
@@ -237,7 +237,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     p2, = ax.plot(aerBsc_532_aeronet * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
     p3, = ax.plot(aerBsc_1064_aeronet * 1e6, height, color='#e60000', linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=10)
 

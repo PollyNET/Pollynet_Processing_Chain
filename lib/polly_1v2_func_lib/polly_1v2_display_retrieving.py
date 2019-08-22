@@ -154,7 +154,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_klett * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
 
@@ -180,7 +180,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_raman * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
 
@@ -206,7 +206,7 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
     p1, = ax.plot(aerBsc_532_RR * 1e6, height, color='#00b300', linestyle='-', label='532 nm', zorder=2)
 
-    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*Sr^{-1}$]', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
     l = ax.legend(handles=[p1], loc='upper right', fontsize=15)
 

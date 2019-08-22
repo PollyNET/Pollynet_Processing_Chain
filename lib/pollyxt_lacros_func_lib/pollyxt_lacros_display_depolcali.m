@@ -51,8 +51,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         p3 = semilogx(sig_x_p, alt, '-r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, +45\circ}'); 
         p4 = semilogx(sig_x_m, alt, '--r', 'LineWidth', 1, 'DisplayName', 'Sig_{x, -45\circ}');
         ylim(alt(caliHIndxRange));
-        ylabel('Height (m)');
-        xlabel('Signal (.a.u)');
+        ylabel('Height (m)', 'FontSize', 7);
+        xlabel('Signal (.a.u)', 'FontSize', 7);
         text(1.2, 1.03, sprintf('Depolarization Calibration for %dnm at %s - %s', wavelength, datestr(data.mTime(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')), 'fontweight', 'bold', 'Units', 'Normal', 'HorizontalAlignment', 'center');
         grid();
         set(gca, 'xminortick', 'on', 'YMinorTick', 'on');
@@ -66,22 +66,22 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         plot([0, 1e10], alt([indx + segmentLen + caliHIndxRange(1) - 1, indx + segmentLen + caliHIndxRange(1) - 1]), '--k');
         ylim(alt(caliHIndxRange));
         xlim([0.1*min([dplus; dminus]), 3*max([dplus; dminus])]);
-        xlabel('Ratio');
+        xlabel('Ratio', 'FontSize', 7);
         set(gca, 'xminortick', 'on', 'YMinorTick', 'on');
         text(0.2, 0.8, sprintf('mean_{dplus}=%6.2f, std_{dplus}=%5.2f\nmean_{dminus}=%6.2f, std_{dminus}=%5.2f\nK=%6.4f, delta_K=%8.6f', ...
                 mean_dplus_tmp(segIndx), std_dplus_tmp(segIndx), mean_dminus_tmp(segIndx), ...
                 std_dminus_tmp(segIndx), (1 + TR_t) ./ (1 + TR_x) .* sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)), ...
                 (1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)) .* 0.5 .* (mean_dplus_tmp(segIndx) .* std_dminus_tmp(segIndx) + mean_dminus_tmp(segIndx) .* std_dplus_tmp(segIndx))), ...
-                'Units', 'Normalized', 'fontsize', 8);
+                'Units', 'Normalized', 'fontsize', 6);
         grid();
         l = legend([p1, p2], 'Location', 'NorthEast');
         set(l, 'FontSize', 6);
 
-        text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
+        text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-        export_fig(gcf, fileDepolCali355, '-transparent', '-r300');
+        export_fig(gcf, fileDepolCali355, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close();
 
     end
@@ -149,16 +149,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
-        set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+        set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-        export_fig(gcf, fileDepolCali532, '-transparent', '-r300');
+        export_fig(gcf, fileDepolCali532, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close();
 
     end
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 

@@ -74,10 +74,10 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     overlapPicFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
 
-    figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
+    figure('Position', [0, 0, 600, 600], 'Units', 'Pixels', 'Visible', 'off');
 
     % overlap
-    subplot(121);
+    subplot('Position', [0.12, 0.13, 0.45, 0.8]);
     p1 = plot(overlap532, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 532'); hold on;
     p2 = plot(overlap355, height, 'Color', config.overlap355Color/255, 'LineWidth', 1, 'LineStyle', '-', 'DisplayName', 'overlap 355'); hold on;
     p3 = plot(overlap532Defaults, height, 'Color', config.overlap532Color/255, 'LineWidth', 1, 'LineStyle', '--', 'DisplayName', 'default overlap 532'); hold on;
@@ -87,16 +87,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     xlim([-0.05, 1.1]);
     ylim([0, 3000]);
-    xlabel('Overlap');
-    ylabel('Height (m)');
-    text(1.2, 1.04, sprintf('Overlap-%s-%s at %s', campaignInfo.name, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 9, 'FontWeight', 'bold', 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
+    xlabel('Overlap', 'FontSize', 6);
+    ylabel('Height (m)', 'FontSize', 6);
+    text(1, 1.04, sprintf('Overlap-%s-%s at %s', campaignInfo.name, campaignInfo.location, datestr(taskInfo.dataTime, 'yyyymmdd HH:MM')), 'FontSize', 6, 'interpreter', 'none', 'HorizontalAlignment', 'center', 'Units', 'normal');
 
-    set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on');
+    set(gca, 'XMinorTick', 'on', 'XTick', 0:0.2:1, 'YTick', 500:500:3000, 'YMinorTick', 'on', 'FontSize', 6);
     l = legend([p1, p2, p3, p4], 'Location', 'NorthWest');
-    set(l, 'FontSize', 6);
+    set(l, 'FontSize', 5);
 
     % signal gluing
-    subplot(122)
+    subplot('Position', [0.59, 0.13, 0.36, 0.8]);
     sig355FR(sig355FR <= 0) = NaN;
     sig355NR(sig355NR <= 0) = NaN;
     sig355Gl(sig355Gl <= 0) = NaN;
@@ -121,25 +121,24 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     xlim([1e-2, 1e3]);
     ylim([0, 3000]);
-    xlabel('Signal [MHz]');
-    text(0.2, 0.2, sprintf('Cloud-free assured'), 'Units', 'normal', 'color', 'r', 'fontsize', 5);
+    xlabel('Signal [MHz]', 'FontSize', 6);
 
-    set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000, 'YMinorTick', 'on');
+    set(gca, 'XTick', logspace(-2, 3, 6), 'XMinorTick', 'on', 'YTick', 500:500:3000, 'YTickLabel', '', 'YMinorTick', 'on', 'FontSize', 6);
     l = legend([p1, p2, p3, p4, p5, p6], 'Location', 'NorthEast');
-    set(l, 'FontSize', 6);
+    set(l, 'FontSize', 5);
 
-    text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
+    text(0.74, -0.10, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 3, 'fontweight', 'bold');
 
-    set(findall(gcf, '-property', 'FontName'), 'FontName', 'Times New Roman');
+    set(findall(gcf, '-property', 'FontName'), 'FontName', processInfo.fontname);
 
     %% save figure
-    export_fig(gcf, overlapPicFile, '-transparent', '-r300', '-painters');
+    export_fig(gcf, overlapPicFile, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
     
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');
-    pyFolder = fileparts(mfilename('fullpath'));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
     figDPI = processInfo.figDPI;

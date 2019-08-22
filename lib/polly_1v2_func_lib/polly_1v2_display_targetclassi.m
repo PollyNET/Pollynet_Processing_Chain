@@ -60,9 +60,9 @@ set(titleHandle, 'string', '');
 set(c, 'TickDir', 'out', 'Box', 'on');
 set(c, 'ytick', (0.5:1:11.5)/12*11, 'yticklabel', TC_TickLabels);
 
-set(findall(gcf, '-property', 'fontname'), 'fontname', 'Times New Roman');
+set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-export_fig(gcf, fileTC, '-transparent', '-r300', '-painters');
+export_fig(gcf, fileTC, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
 close();
 
 end

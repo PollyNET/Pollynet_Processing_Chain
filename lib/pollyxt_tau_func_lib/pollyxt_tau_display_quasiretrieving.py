@@ -137,7 +137,7 @@ def pollyxt_ltaudisplay_quasiretrieving(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_355[0], quasi_beta_cRange_355[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
@@ -166,7 +166,7 @@ def pollyxt_ltaudisplay_quasiretrieving(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_532[0], quasi_beta_cRange_532[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
@@ -195,7 +195,7 @@ def pollyxt_ltaudisplay_quasiretrieving(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(quasi_beta_cRange_1064[0], quasi_beta_cRange_1064[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*Sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=12)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=12)
