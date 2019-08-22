@@ -104,60 +104,89 @@ LC607Status = transpose(data{16});
 
 fclose(fid);
 
-%% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
-% 355 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2), 1);
-if ~ isempty(index)
-    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
-    thisLag = abs(LCTime - thisTime);
+%% 355 nm
+% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+flagValid = (LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC355Status == 2);
+if sum(flagValid) ~= 0
+
+    LCTimeValid = LCTime(flagValid);
+    LC355HistoryValid = LC355History(flagValid);
+    LCStd355HistoryValid = LCStd355History(flagValid);
+
+    % find closest calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTimeValid - thisTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1, 'last');
-    LC355 = LC355History(indx);
-    LCStd355 = LCStd355History(indx);
+    LC355 = LC355HistoryValid(indx);
+    LCStd355 = LCStd355HistoryValid(indx);
 end
 
-% 532 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2), 1);
-if ~ isempty(index)
-    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
-    thisLag = abs(LCTime - thisTime);
+%% 532 nm
+% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+flagValid = (LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC532Status == 2);
+if sum(flagValid) ~= 0
+
+    LCTimeValid = LCTime(flagValid);
+    LC532HistoryValid = LC532History(flagValid);
+    LCStd532HistoryValid = LCStd532History(flagValid);
+
+    % find closest calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTimeValid - thisTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1, 'last');
-    LC532 = LC532History(indx);
-    LCStd532 = LCStd532History(indx);
+    LC532 = LC532HistoryValid(indx);
+    LCStd532 = LCStd532HistoryValid(indx);
 end
 
-% 1064 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2), 1);
-if ~ isempty(index)
-    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
-    thisLag = abs(LCTime - thisTime);
+%% 1064 nm
+% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+flagValid = (LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC1064Status == 2);
+if sum(flagValid) ~= 0
+
+    LCTimeValid = LCTime(flagValid);
+    LC1064HistoryValid = LC1064History(flagValid);
+    LCStd1064HistoryValid = LCStd1064History(flagValid);
+
+    % find closest calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTimeValid - thisTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1, 'last');
-    LC1064 = LC1064History(indx);
-    LCStd1064 = LCStd1064History(indx);
+    LC1064 = LC1064HistoryValid(indx);
+    LCStd1064 = LCStd1064HistoryValid(indx);
 end
 
-% 387 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2), 1);
-if ~ isempty(index)
-    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
-    thisLag = abs(LCTime - thisTime);
+%% 387 nm
+% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+flagValid = (LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC387Status == 2);
+if sum(flagValid) ~= 0
+
+    LCTimeValid = LCTime(flagValid);
+    LC387HistoryValid = LC387History(flagValid);
+    LCStd387HistoryValid = LCStd387History(flagValid);
+
+    % find closest calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTimeValid - thisTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1, 'last');
-    LC387 = LC387History(indx);
-    LCStd387 = LCStd387History(indx);
+    LC387 = LC387HistoryValid(indx);
+    LCStd387 = LCStd387HistoryValid(indx);
 end
 
-% 607 nm
-index = find((LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2), 1);
-if ~ isempty(index)
-    % find most close calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
-    thisLag = abs(LCTime - thisTime);
+%% 607 nm
+% find the most closest calibrated value in the +- 1 week with Raman method (status=2)
+flagValid = (LCTime > (thisTime - datenum(0,1,7))) & (LCTime < (thisTime + datenum(0,1,7))) & (LC607Status == 2);
+if sum(flagValid) ~= 0
+
+    LCTimeValid = LCTime(flagValid);
+    LC607HistoryValid = LC607History(flagValid);
+    LCStd607HistoryValid = LCStd607History(flagValid);
+
+    % find closest calibration results. If there are multi-values, choose the last one which is the lastest calibrated results.
+    thisLag = abs(LCTimeValid - thisTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1, 'last');
-    LC607 = LC607History(indx);
-    LCStd607 = LCStd607History(indx);
+    LC607 = LC607HistoryValid(indx);
+    LCStd607 = LCStd607HistoryValid(indx);
 end
 
 end
