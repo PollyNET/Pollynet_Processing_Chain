@@ -129,7 +129,7 @@ def pollyxt_lacros_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
@@ -160,7 +160,7 @@ def pollyxt_lacros_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
@@ -253,7 +253,7 @@ def pollyxt_lacros_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
@@ -284,7 +284,7 @@ def pollyxt_lacros_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)

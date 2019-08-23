@@ -91,6 +91,6 @@ if exist(file, 'file') ~= 2
     return;
 end
 
-data = dlmread(file, '  ', 1, 0);
+data = dlmread(file, '\t', 1, 0);
 
 end
