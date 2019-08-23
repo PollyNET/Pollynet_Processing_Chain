@@ -132,8 +132,8 @@ def pollyxt_tau_display_depolcali(tmpFile, saveFolder):
 
     p1, = ax2.plot(dplus, height[(caliHIndxRange[0] - 1):(caliHIndxRange[1])], color='#E75A17', label=r'$Ratio_{+45^\circ}$')
     p2, = ax2.plot(dminus, height[(caliHIndxRange[0] - 1):(caliHIndxRange[1])], color='#1770E7', label=r'$Ratio_{-45^\circ}$')
-    p3, = ax2.plot([0, 1e10], [height[indx + caliHIndxRange[0] - 2], height[indx + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
-    p4, = ax2.plot([0, 1e10], [height[indx + segmentLen + caliHIndxRange[0] - 2], height[indx + segmentLen + caliHIndxRange[1] - 1]], linestyle='--', color='#000000')
+    ax2.axhline(y=height[indx + caliHIndxRange[0] - 2], linestyle='--', color='#000000')
+    ax2.axhline(y=height[indx + segmentLen + caliHIndxRange[0] - 2], linestyle='--', color='#000000')
     # ax2.set_xlim([0, 50])
     ax2.set_xlabel('Ratio', fontsize=15)
     l = ax2.legend(handles=[p1, p2], loc='upper right', fontsize=12)
