@@ -111,7 +111,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             % use refH at 532 nm
 
             % determine 355 SNR at the refH
-            SNR355 = polly_SNR(sum(sig355PC(thisRefH532(1):thisRefH532(2))), bg355PC(thisRefH532(1):thisRefH532(2)));
+            SNR355 = polly_SNR(sum(sig355PC(thisRefH532(1):thisRefH532(2))), sum(bg355PC(thisRefH532(1):thisRefH532(2))));
             if SNR355 < config.minRefSNR355
                 fprintf('355 nm signal at the reference height (%f-%f m) was too noisy.\n', data.height(thisRefH532(1)), data.height(thisRefH532(2)));
                 thisRefH355 = [NaN, NaN];
@@ -123,7 +123,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             end
 
             % determine 1064 SNR at the refH
-            SNR1064 = polly_SNR(sum(sig1064PC(thisRefH532(1):thisRefH532(2))), bg1064PC(thisRefH532(1):thisRefH532(2)));
+            SNR1064 = polly_SNR(sum(sig1064PC(thisRefH532(1):thisRefH532(2))), sum(bg1064PC(thisRefH532(1):thisRefH532(2))));
             if SNR1064 < config.minRefSNR1064
                 fprintf('1064 nm signal at the reference height (%f-%f m) was too noisy.\n', data.height(thisRefH532(1)), data.height(thisRefH532(2)));
                 thisRefH1064 = [NaN, NaN];
@@ -143,7 +143,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                 % use refH at 1064 nm
     
                 % determine 355 SNR at the refH
-                SNR355 = polly_SNR(sum(sig355PC(thisRefH1064(1):thisRefH1064(2))), bg355PC(thisRefH1064(1):thisRefH1064(2)));
+                SNR355 = polly_SNR(sum(sig355PC(thisRefH1064(1):thisRefH1064(2))), sum(bg355PC(thisRefH1064(1):thisRefH1064(2))));
                 if SNR355 < config.minRefSNR355
                     fprintf('355 nm signal at the reference height (%f-%f m) was too noisy.\n', data.height(thisRefH1064(1)), data.height(thisRefH1064(2)));
                     thisRefH355 = [NaN, NaN];
@@ -155,7 +155,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                 end
                 
                 % determine 532 SNR at the refH
-                SNR532 = polly_SNR(sum(sig532PC(thisRefH1064(1):thisRefH1064(2))), bg532PC(thisRefH1064(1):thisRefH1064(2)));
+                SNR532 = polly_SNR(sum(sig532PC(thisRefH1064(1):thisRefH1064(2))), sum(bg532PC(thisRefH1064(1):thisRefH1064(2))));
                 if SNR532 < config.minRefSNR532
                     fprintf('532 nm signal at the reference height (%f-%f m) was too noisy.\n', data.height(thisRefH1064(1)), data.height(thisRefH1064(2)));
                     thisRefH532 = [NaN, NaN];

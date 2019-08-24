@@ -118,7 +118,7 @@ def pollyxt_noa_display_targetclassi(tmpFile, saveFolder):
     ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
-    ax.set_title('Target classifications (V2) from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title('Target classifications from {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=15)
 
     cb_ax = fig.add_axes([0.77, 0.15, 0.01, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(0, 12, 1), orientation='vertical')

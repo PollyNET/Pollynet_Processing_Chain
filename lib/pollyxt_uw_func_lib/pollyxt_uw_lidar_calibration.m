@@ -276,10 +276,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
         % round-trip transmission
         trans_355_387 = exp(- (aerAOD355 + molAOD355 + aerAOD387 + molAOD387));
-        totBsc387 = molBsc387;
+        totBsc355 = molBsc355;
     
         % lidar calibration
-        LC_raman_387_Profile = sig387 .* data.distance0.^2 ./ totBsc387 ./ trans_355_387;
+        LC_raman_387_Profile = transpose(smooth(sig387 .* data.distance0.^2, config.smoothWin_raman_355)) ./ totBsc355 ./ trans_355_387;
         [LC_raman_387, ~] = mean_stable(LC_raman_387_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
     
     end
@@ -304,10 +304,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
         % round-trip transmission
         trans_532_607 = exp(- (aerAOD532 + molAOD532 + aerAOD607 + molAOD607));
-        totBsc607 = molBsc607;
+        totBsc532 = molBsc532;
     
         % lidar calibration
-        LC_raman_607_Profile = sig607 .* data.distance0.^2 ./ totBsc607 ./ trans_532_607;
+        LC_raman_607_Profile = transpose(smooth(sig607 .* data.distance0.^2, config.smoothWin_raman_532)) ./ totBsc532 ./ trans_532_607;
         [LC_raman_607, ~] = mean_stable(LC_raman_607_Profile, config.LCMeanWindow, config.LCMeanMinIndx, config.LCMeanMaxIndx);
     
     end

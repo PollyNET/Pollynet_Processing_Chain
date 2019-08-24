@@ -46,7 +46,15 @@ volDepol_532(:, data.depCalMask) = NaN;
 quality_mask_532 = zeros(size(data.att_beta_532));
 quality_mask_volDepol_532 = zeros(size(data.att_beta_532));
 
-SNR = polly_SNR(data.signal, data.bg);
+% SNR after temporal and vertical accumulation
+SNR = NaN(size(data.signal));
+for iChannel = 1:size(data.signal, 1)
+    signal_sm = smooth2(squeeze(data.signal(iChannel, :, :)), config.quasi_smooth_h(iChannel), config.quasi_smooth_t(iChannel));
+    signal_int = signal_sm * (config.quasi_smooth_h(iChannel) * config.quasi_smooth_t(iChannel));
+    bg_sm = smooth2(squeeze(data.bg(iChannel, :, :)), config.quasi_smooth_h(iChannel), config.quasi_smooth_t(iChannel));
+    bg_int = bg_sm * (config.quasi_smooth_h(iChannel) * config.quasi_smooth_t(iChannel));
+    SNR(iChannel, :, :) = polly_SNR(signal_int, bg_int);
+end
 
 % 0 in quality_mask means good data
 % 1 in quality_mask means low-SNR data

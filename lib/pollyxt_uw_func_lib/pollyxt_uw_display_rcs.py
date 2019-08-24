@@ -279,7 +279,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, volDepol_532, vmin=0.0, vmax=0.4, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, volDepol_532, vmin=0.0, vmax=0.3, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -310,7 +310,7 @@ def pollyxt_uw_display_rcs(tmpFile, saveFolder):
     volDepol_355 = np.ma.masked_where(fogMask == 1, volDepol_355)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, volDepol_355, vmin=0.0, vmax=0.4, cmap=cmap)
+    pcmesh = ax.pcolormesh(Time, Height, volDepol_355, vmin=0.0, vmax=0.3, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
