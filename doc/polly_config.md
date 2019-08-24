@@ -6,7 +6,7 @@ The filename of polly config should be names as {polly version}_config.json. And
 
 I will summarize all the configurations in the table below. But you should keep in mind there could be different settings for different polly, so you should create a new configuration file according to your demands.
 
-|keyword |Description |Example |Reference|
+|keyword |            Description       |Example |Reference|
 |:-------:|:------------|:-------:|:--------|
 |flagCorrectFalseMShots|whether to correct the invalid shots stored in the netcdf files. (I don't know the reason yet, but it does exist in pollyxt_tropos for a period of time)|true|
 |flagFilterFalseMShots|whether to filter out the profiles with invalid shots. (Since I don't know whether it's trustable for these profiles, I will leave this keyword for future development.)|false||
