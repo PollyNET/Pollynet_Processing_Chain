@@ -156,13 +156,6 @@ quasiAttri_V2.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri_V2.meteorSource = globalAttri.source;
 quasiAttri_V2.timestamp = globalAttri.datetime;
 
-% molecule attenuation
-mol_att_355 = exp(- cumsum(molExt355 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-mol_att_532 = exp(- cumsum(molExt532 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-mol_att_1064 = exp(- cumsum(molExt1064 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-mol_att_387 = exp(- cumsum(molExt387 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-mol_att_607 = exp(- cumsum(molExt607 .* repmat(transpose([data.height(1), diff(data.height)]), 1, numel(data.mTime))));
-
 % quasi particle backscatter and extinction coefficents
 [quasi_par_bsc_355_V2, quasi_par_ext_355_V2] = quasi_retrieving_V2(data.height, att_beta_355, att_beta_387, 355, molExt355, molBsc355, molExt387, 0.5, 50, 3);
 quasi_par_bsc_355_V2 = smooth2(quasi_par_bsc_355_V2, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));

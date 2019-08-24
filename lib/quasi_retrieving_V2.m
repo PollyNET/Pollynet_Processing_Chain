@@ -62,7 +62,7 @@ case 355
 
         quasi_par_bsc = att_beta_el ./ ...
         att_beta_ra .* exp((1 - (355/387)^AE) * OD_par_355 + ...
-        (OD_mol_355 - OD_mol_387)) .* molBsc387 - molBscEl;
+        (OD_mol_355 - OD_mol_387)) .* molBscEl - molBscEl;
         quasi_par_ext = quasi_par_bsc * LR;
     end
 case 532
@@ -74,7 +74,7 @@ case 532
 
         quasi_par_bsc = att_beta_el ./ att_beta_ra .* ...
             exp((1 - (532/607)^AE) * OD_par_532 + ...
-            (OD_mol_532 - OD_mol_607)) .* molBsc607 - molBscEl;
+            (OD_mol_532 - OD_mol_607)) .* molBscEl - molBscEl;
         quasi_par_ext = quasi_par_bsc * LR;
     end
 case 1064
@@ -88,7 +88,7 @@ case 1064
 
         quasi_par_bsc = (att_beta_el ./ att_beta_ra .* ...
             exp((2 - (1064/607)^AE - (1064/532)^AE) * OD_par_1064 + ...
-            (2*OD_mol_1064 - OD_mol_532 - OD_mol_607))) .* molBsc607 - ...
+            (2*OD_mol_1064 - OD_mol_532 - OD_mol_607))) .* molBsc532 - ...
             molBscEl;
         quasi_par_ext = quasi_par_bsc * LR;
     end
