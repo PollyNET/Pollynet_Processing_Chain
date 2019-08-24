@@ -126,11 +126,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -157,11 +157,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -188,11 +188,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    cbar.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -219,11 +219,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    cbar.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -250,11 +250,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -281,11 +281,11 @@ def pollyxt_uw_display_saturation(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
