@@ -125,8 +125,8 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
@@ -156,8 +156,8 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
 
     fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
