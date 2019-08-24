@@ -1,5 +1,5 @@
 function [report] = pollynet_processing_chain_pollyxt_fmi(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_POLLYXT_FMI processing the data from pollyxt_fmi
+%POLLYNET_PROCESSING_CHAIN_pollyxt_fmi processing the data from pollyxt_fmi
 %	Example:
 %		[report] = pollynet_processing_chain_pollyxt_fmi(taskInfo, config)
 %	Inputs:
@@ -123,12 +123,24 @@ for iMeteor = 1:length(meteorAttri.dataSource)
 end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
+% Klett method 
 [data.el355, data.bgEl355, data.el532, data.bgEl532] = pollyxt_fmi_transratioCor(data, config);
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_fmi_klett(data, config);
+[data.aerBsc355_NR_klett, data.aerBsc532_NR_klett, data.aerExt355_NR_klett, data.aerExt532_NR_klett, data.refBeta_NR_355_klett, data.refBeta_NR_532_klett] = pollyxt_fmi_NR_klett(data, config);
+
+% Constrained-AOD Klett method
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_fmi_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
+
+% Raman method
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_fmi_raman(data, config);
+[data.aerBsc355_NR_raman, data.aerBsc532_NR_raman, data.aerExt355_NR_raman, data.aerExt532_NR_raman, data.LR355_NR_raman, data.LR532_NR_raman, data.refBeta_NR_355_raman, data.refBeta_NR_532_raman] = pollyxt_fmi_NR_raman(data,config);
+
+% Vol- and Par-depol
 [data.voldepol355_klett, data.pardepol355_klett, data.pardepolStd355_klett, data.voldepol355_raman, data.pardepol355_raman, data.pardepolStd355_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355, data.voldepol532_klett, data.pardepol532_klett, data.pardepolStd532_klett, data.voldepol532_raman, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_fmi_depolratio(data, config);
+
+% Angstroem exponent
 [data.ang_ext_355_532_raman, data.ang_bsc_355_532_raman, data.ang_bsc_532_1064_raman, data.ang_bsc_355_532_klett, data.ang_bsc_532_1064_klett] = pollyxt_fmi_angstrexp(data, config);
+[data.ang_ext_355_532_raman_NR, data.ang_bsc_355_532_raman_NR, data.ang_bsc_355_532_klett_NR] = pollyxt_fmi_NR_angstrexp(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% water vapor calibration
@@ -202,20 +214,20 @@ if processInfo.flagEnableCaliResultsOutput
     pollyxt_fmi_save_LC_txt(data, taskInfo, config);
     
     fprintf('[%s] Finish.\n', tNow());
-    
+
 end
 
 %% saving retrieving results
 if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save retrieving results.\n', tNow());
-
     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
     pollyxt_fmi_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
     %% save aerosol optical results
     pollyxt_fmi_save_retrieving_results(data, taskInfo, config);
+    pollyxt_fmi_save_NR_retrieving_results(data, taskInfo, config);
 
     %% save attenuated backscatter
     pollyxt_fmi_save_att_bsc(data, taskInfo, config);
