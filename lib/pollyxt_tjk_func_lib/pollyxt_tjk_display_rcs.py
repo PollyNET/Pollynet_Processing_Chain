@@ -114,7 +114,7 @@ def pollyxt_tjk_display_rcs(tmpFile, saveFolder):
 
     # define the colormap
     cmap = plt.cm.jet
-    cmap.set_bad('w', alpha=1)
+    cmap.set_bad('k', alpha=1)
     cmap.set_over('w', alpha=1)
     cmap.set_under('k', alpha=1)
 
