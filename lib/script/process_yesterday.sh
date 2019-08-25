@@ -32,6 +32,9 @@ cd(POLLYNET_PROCESSING_DIR);
 POLLYLIST = {${POLLYLIST}};
 
 for iPolly = 1:length(POLLYLIST)
+
+    saveFolder = fullfile('/pollyhome', POLLYLIST{iPolly});
+
     pollynet_process_history_data(POLLYLIST{iPolly}, '$YYYYMMDD', '$YYYYMMDD', saveFolder, fullfile(POLLYNET_PROCESSING_DIR,  'config', '$POLLYNET_CONFIG_FILE'));
 end
 ENDMATLAB
