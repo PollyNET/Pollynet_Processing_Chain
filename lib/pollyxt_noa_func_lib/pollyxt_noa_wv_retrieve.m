@@ -106,11 +106,19 @@ SIG387(:, data.depCalMask) = NaN;
 SIG407 = squeeze(data.signal(flagChannel407, :, :));
 SIG407(:, data.depCalMask) = NaN;
 
-SNR = polly_SNR(data.signal, data.bg);
+% SNR after temporal and vertical accumulation
+SNR = NaN(size(data.signal));
+for iChannel = 1:size(data.signal, 1)
+    signal_sm = smooth2(squeeze(data.signal(iChannel, :, :)), config.quasi_smooth_h(iChannel), config.quasi_smooth_t(iChannel));
+    signal_int = signal_sm * (config.quasi_smooth_h(iChannel) * config.quasi_smooth_t(iChannel));
+    bg_sm = smooth2(squeeze(data.bg(iChannel, :, :)), config.quasi_smooth_h(iChannel), config.quasi_smooth_t(iChannel));
+    bg_int = bg_sm * (config.quasi_smooth_h(iChannel) * config.quasi_smooth_t(iChannel));
+    SNR(iChannel, :, :) = polly_SNR(signal_int, bg_int);
+end
 
-% quality mask to filter low snr points
+% quality mask to filter low snr bits
 quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
-quality_mask_WVMR((nanrunmedian(squeeze(SNR(flagChannel387, :, :)), config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387)) < config.mask_SNRmin(flagChannel387)./sqrt(config.quasi_smooth_h(flagChannel387)*config.quasi_smooth_t(flagChannel387))) | (nanrunmedian(squeeze(SNR(flagChannel407, :, :)), config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407)) < config.mask_SNRmin(flagChannel407)./sqrt(config.quasi_smooth_h(flagChannel407)*config.quasi_smooth_t(flagChannel407)))) = 1;
+quality_mask_WVMR((squeeze(SNR(flagChannel387, :, :)) < config.mask_SNRmin(flagChannel387)) | (squeeze(SNR(flagChannel407, :, :)) < config.mask_SNRmin(flagChannel407))) = 1;
 quality_mask_WVMR(:, data.depCalMask) = 2;
 quality_mask_RH = quality_mask_WVMR;
 

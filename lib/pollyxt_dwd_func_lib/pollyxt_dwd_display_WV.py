@@ -104,7 +104,7 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
 
     # define the colormap
     cmap = plt.cm.jet
-    cmap.set_bad('w', alpha=1)
+    cmap.set_bad('k', alpha=1)
     cmap.set_over('w', alpha=1)
     cmap.set_under('k', alpha=1)
 
@@ -130,8 +130,8 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
     
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
@@ -159,8 +159,8 @@ def pollyxt_dwd_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$\%$]', fontsize=10)
 
-    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=15)
+    fig.text(0.05, 0.02, '{time}\nMeteor Data: {meteorSource}'.format(time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), meteorSource=meteorSource), fontsize=12)
+    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(version=version, status=flagCalibrated), fontsize=12)
 
     
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
