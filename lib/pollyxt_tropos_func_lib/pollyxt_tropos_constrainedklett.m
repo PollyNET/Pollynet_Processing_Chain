@@ -3,7 +3,7 @@ function [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_ae
 %   Example:
 %       [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet] = pollyxt_tropos_constrainedklett(data, AERONET, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       AERONET: struct
 %          datetime: array

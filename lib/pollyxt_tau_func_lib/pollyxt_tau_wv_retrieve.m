@@ -3,7 +3,7 @@ function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mas
 %   Example:
 %       [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_tau_wv_retrieve(data, config, IWVIntRangeIndx)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

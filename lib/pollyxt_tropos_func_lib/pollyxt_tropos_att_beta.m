@@ -3,7 +3,7 @@ function [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607]
 %   Example:
 %       [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_tropos_att_beta(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

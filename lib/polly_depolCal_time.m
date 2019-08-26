@@ -42,7 +42,14 @@ depCal_N_Ang_time_start = [];
 depCal_N_Ang_time_end = [];
 depCal_P_Ang_time_start = [];
 depCal_P_Ang_time_end = [];
-maskDepCal = [];
+maskDepCal = false(size(mTime));
+
+if isempty(depCalAng)
+    % depCalAng is empty, which means the polly does not support auto depol
+    % calibration
+    maskDepCal = transpose(maskDepCal);
+    return;
+end
 
 if ~ exist('maskDepCalAng', 'var')
     maskDepCalAng = {'none', 'none', 'p', 'p', 'p', 'p', 'p', 'p', 'p', ...
@@ -97,7 +104,7 @@ for iDepCalPeriod = 1:nDepCalPeriods
     t_all_p_depCal = tIDepCal(flagPDepCal);
     t_all_n_depCal = tIDepCal(flagNDepCal);
 
-    if isempty(t_all_n_depCal) | isempty(t_all_p_depCal)
+    if isempty(t_all_n_depCal) || isempty(t_all_p_depCal)
         warning(['There are no profiles for p/n depolarization ' ...
                  'calibration. Please check the data.']);
         return;

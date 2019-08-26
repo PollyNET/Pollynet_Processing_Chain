@@ -3,7 +3,7 @@ function [temp, pres, relh, meteorAttri] = pollyxt_uw_readmeteor(data, config)
 %   Example:
 %       [temp, pres, relh, meteorAttri] = pollyxt_uw_readmeteor(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

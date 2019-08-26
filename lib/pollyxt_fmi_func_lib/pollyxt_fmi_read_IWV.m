@@ -3,7 +3,7 @@ function [IWV, globalAttri] = pollyxt_fmi_read_IWV(data, config)
 %   Example:
 %       [IWV, globalAttri] = pollyxt_fmi_read_IWV(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

@@ -3,7 +3,7 @@ function [tc_mask] = pollyxt_noa_targetclassi_V2(data, config)
 %   Example:
 %       [tc_mask] = pollyxt_noa_targetclassi_V2(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

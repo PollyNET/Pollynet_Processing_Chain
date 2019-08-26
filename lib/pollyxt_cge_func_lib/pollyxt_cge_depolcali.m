@@ -3,14 +3,14 @@ function [data, depCalAttri] = pollyxt_cge_depolcali(data, config, taskInfo)
 %	Example:
 %		[data] = pollyxt_cge_depolcali(data, config)
 %	Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %	Outputs:
-%		data: struct
+%       data.struct
 %           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md
 %       depCalAttri: struct
 %           depolarization calibration information for each calibration period.

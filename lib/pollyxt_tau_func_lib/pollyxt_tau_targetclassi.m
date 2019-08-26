@@ -3,7 +3,7 @@ function [tc_mask] = pollyxt_tau_targetclassi(data, config)
 %   Example:
 %       [tc_mask] = pollyxt_tau_targetclassi(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

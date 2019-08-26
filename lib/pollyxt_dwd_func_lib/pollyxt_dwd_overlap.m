@@ -3,7 +3,7 @@ function [data, overlapAttri] = pollyxt_dwd_overlap(data, config)
 %   Example:
 %       [data] = pollyxt_dwd_overlap(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

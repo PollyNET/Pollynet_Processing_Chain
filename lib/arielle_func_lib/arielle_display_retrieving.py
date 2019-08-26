@@ -162,6 +162,7 @@ def arielle_display_retrieving(tmpFile, saveFolder):
         wvmrLim = mat['wvmrLim'][:][0]
 
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 
