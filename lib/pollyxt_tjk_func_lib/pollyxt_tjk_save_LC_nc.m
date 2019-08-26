@@ -3,7 +3,7 @@ function [] = pollyxt_tjk_save_LC_nc(data, taskInfo, config)
 %   Example:
 %       pollyxt_tjk_save_LC_nc(data, taskInfo, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

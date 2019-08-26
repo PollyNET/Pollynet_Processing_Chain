@@ -71,8 +71,8 @@ end
 
 if (max(config.max_height_bin + config.first_range_gate_indx - 1) > size(data.rawSignal, 2))
     tmpStr = sprintf('%d, ', config.first_range_gate_indx);
-    warning('%s_config.max_height_bin or %s_config.first_range_gate_indx is out of range.\nTotal number of range bin is %d.\n%s_config.max_height_bin is %d\n%s_config.first_range_gate_indx is %s\n', config.pollyVersion, config.pollyVersion, size(data.rawSignal, 2), config.max_height_bin, config.first_range_gate_indx);
-    fprintf('Set the %s_config.max_height_bin and %s_config.first_range_gate_indx to be default value.\n', config.pollyVersion, config.pollyVersion);
+    warning('%s_config.max_height_bin or %s_config.first_range_gate_indx is out of range.\nTotal number of range bin is %d.\n%s_config.max_height_bin is %d\n%s_config.first_range_gate_indx is %s\n', config.pollyVersion, size(data.rawSignal, 2), config.max_height_bin, config.first_range_gate_indx);
+    fprintf('Set the %s_config.max_height_bin and %s_config.first_range_gate_indx to be default value.\n', config.pollyVersion);
     config.max_height_bin = 251;
     config.first_range_gate_indx = ones(1, size(data.rawSignal, 1));
 end

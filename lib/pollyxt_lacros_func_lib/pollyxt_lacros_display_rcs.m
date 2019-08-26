@@ -3,7 +3,7 @@ function [] = pollyxt_lacros_display_rcs(data, taskInfo, config)
 %   Example:
 %       [] = pollyxt_lacros_display_rcs(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

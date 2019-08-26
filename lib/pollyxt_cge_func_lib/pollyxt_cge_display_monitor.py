@@ -39,7 +39,7 @@ def rmext(filename):
     file, _ = os.path.splitext(filename)
     return file
 
-def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
+def pollyxt_cge_display_monitor(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -54,7 +54,7 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_dwd_display_monitor(tmpFile)
+    pollyxt_cge_display_monitor(tmpFile)
 
     History
     -------
@@ -92,6 +92,7 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 
@@ -180,8 +181,8 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
     plt.close()
 
 def main():
-    pollyxt_dwd_display_monitor('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
+    pollyxt_cge_display_monitor('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
 
 if __name__ == '__main__':
     # main()
-    pollyxt_dwd_display_monitor(sys.argv[1], sys.argv[2])
+    pollyxt_cge_display_monitor(sys.argv[1], sys.argv[2])

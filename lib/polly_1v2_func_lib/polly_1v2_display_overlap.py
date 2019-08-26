@@ -96,6 +96,7 @@ def polly_1v2_display_overlap(tmpFile, saveFolder):
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

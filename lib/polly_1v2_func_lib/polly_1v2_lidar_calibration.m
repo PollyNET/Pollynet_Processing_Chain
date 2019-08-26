@@ -3,7 +3,7 @@ function [LC] = polly_1v2_lidar_calibration(data, config)
 %   Example:
 %       [LC] = polly_1v2_lidar_calibration(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

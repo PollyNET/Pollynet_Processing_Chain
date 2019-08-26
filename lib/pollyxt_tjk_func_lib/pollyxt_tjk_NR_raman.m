@@ -3,7 +3,7 @@ function [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_
 %   Example:
 %       [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = pollyxt_tjk_NR_raman(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

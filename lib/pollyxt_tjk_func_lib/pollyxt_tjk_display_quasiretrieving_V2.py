@@ -96,6 +96,7 @@ def pollyxt_tjk_display_quasiretrieving_V2(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

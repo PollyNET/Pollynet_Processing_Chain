@@ -3,7 +3,7 @@ function [LC] = arielle_lidar_calibration(data, config)
 %   Example:
 %       [LC] = arielle_lidar_calibration(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

@@ -36,7 +36,7 @@ function health = pollyxt_cge_read_laserlogbook(file, config, flagDeleteData)
 %       zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')
-       flagDeleteData = false;
+    flagDeleteData = false;
 end
 
 %% initialize parameters
@@ -53,8 +53,8 @@ health.Temp1 = [];
 health.Temp2 = [];
 
 if exist(file, 'file') ~= 2
-       warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
-       return;
+    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
+    return;
 end
 
 %% read laserlog (credits to Martin's python script "pollyhk_standalone.py")
@@ -76,37 +76,37 @@ fid = fopen(file, 'r');
 %% read information
 iLine = 0;
 try
-       while ~ feof(fid)
-             iLine = iLine + 1;
-             thisLine = fgetl(fid);
-             
-             tokenInfo = regexp(thisLine, dateSpec, 'names');
-             if ~ isempty(tokenInfo)
-                  health.time = [health.time; datenum(str2num(tokenInfo.year), str2num(tokenInfo.month), str2num(tokenInfo.day), str2num(tokenInfo.hour), str2num(tokenInfo.minute), str2num(tokenInfo.second))];
-             else
-                  health.time = [health.time; datenum(0,1,0,0,0,0)];
-             end
-             health.AD = [health.AD; str2num(regexp_token(thisLine, AD_regexp, '999'))];
-             health.EN = [health.EN; str2num(regexp_token(thisLine, EN_regexp, '999'))];
-             health.counts = [health.counts; str2num(regexp_token(thisLine, SC_regexp, '999'))];
-             health.HT = [health.HT; str2num(regexp_token(thisLine, HT_regexp, '999'))];
-             health.WT = [health.WT; str2num(regexp_token(thisLine, WT_regexp, '999'))];
-             health.LS = [health.LS; str2num(regexp_token(thisLine, LS_regexp, '999'))];
-             health.HV1064 = [health.HV1064; str2num(regexp_token(thisLine, HV1064_regexp, '999'))];
-             health.Temp1 = [health.Temp1; str2num(regexp_token(thisLine, Temp1_regexp, '999'))];
-             health.Temp2 = [health.Temp2; str2num(regexp_token(thisLine, Temp2_regexp, '999'))];
-       end
+    while ~ feof(fid)
+        iLine = iLine + 1;
+        thisLine = fgetl(fid);
+        
+        tokenInfo = regexp(thisLine, dateSpec, 'names');
+        if ~ isempty(tokenInfo)
+            health.time = [health.time; datenum(str2num(tokenInfo.year), str2num(tokenInfo.month), str2num(tokenInfo.day), str2num(tokenInfo.hour), str2num(tokenInfo.minute), str2num(tokenInfo.second))];
+        else
+            health.time = [health.time; datenum(0,1,0,0,0,0)];
+        end
+        health.AD = [health.AD; str2num(regexp_token(thisLine, AD_regexp, '999'))];
+        health.EN = [health.EN; str2num(regexp_token(thisLine, EN_regexp, '999'))];
+        health.counts = [health.counts; str2num(regexp_token(thisLine, SC_regexp, '999'))];
+        health.HT = [health.HT; str2num(regexp_token(thisLine, HT_regexp, '999'))];
+        health.WT = [health.WT; str2num(regexp_token(thisLine, WT_regexp, '999'))];
+        health.LS = [health.LS; str2num(regexp_token(thisLine, LS_regexp, '999'))];
+        health.HV1064 = [health.HV1064; str2num(regexp_token(thisLine, HV1064_regexp, '999'))];
+        health.Temp1 = [health.Temp1; str2num(regexp_token(thisLine, Temp1_regexp, '999'))];
+        health.Temp2 = [health.Temp2; str2num(regexp_token(thisLine, Temp2_regexp, '999'))];
+    end
 
-       % delete the laserlogbook file
-       if flagDeleteData
-             fclose(fid);
-             delete(file);
-       end
+    % delete the laserlogbook file
+    if flagDeleteData
+        fclose(fid);
+        delete(file);
+    end
        
 catch
-       fclose(fid);
-       warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyVersion, iLine, file);
-       return
+    fclose(fid);
+    warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyVersion, iLine, file);
+    return
 end
 
 end
