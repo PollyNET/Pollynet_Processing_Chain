@@ -164,7 +164,7 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
 
     if len(time):
         cmap = ListedColormap(['navajowhite', 'coral'])
-        pcmesh = ax5.pcolormesh(np.transpose(time), np.arange(2), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
+        pcmesh = ax5.pcolormesh(np.transpose(time), np.arange(2), flags, cmap=cmap, vmin=-0.5, vmax=1.5)
         cb_ax = fig.add_axes([0.84, 0.11, 0.12, 0.016])
         cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1], orientation='horizontal')
         cbar.ax.set_xticklabels(['closed', 'open'])
