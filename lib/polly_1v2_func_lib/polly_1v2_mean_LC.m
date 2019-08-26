@@ -3,7 +3,7 @@ function [LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed607, LCUsedTag607, fl
 %   Example:
 %       [LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed607, LCUsedTag607, flagLCWarning607] = polly_1v2_mean_LC(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

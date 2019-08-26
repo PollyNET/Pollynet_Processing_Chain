@@ -86,6 +86,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

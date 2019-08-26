@@ -204,6 +204,7 @@ def pollyxt_uw_display_longterm_cali(tmpFile, saveFolder):
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

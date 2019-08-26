@@ -3,7 +3,7 @@ function [aerBsc355_NR_klett, aerBsc532_NR_klett, aerExt355_NR_klett, aerExt532_
 %   Example:
 %       [aerBsc355_NR_klett, aerBsc532_NR_klett, aerExt355_NR_klett, aerExt532_NR_klett, refBeta_NR_355_klett, refBeta_NR_532_klett] = pollyxt_lacros_NR_klett(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

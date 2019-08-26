@@ -3,7 +3,7 @@ function [refH355, refH532, refH1064, dpIndx355, dpIndx532, dpIndx1064] = pollyx
 %   Example:
 %       [refH355, refH532, refH1064] = pollyxt_noa_rayleighfit(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

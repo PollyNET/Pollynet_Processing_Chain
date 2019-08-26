@@ -3,7 +3,7 @@ function [cloudFreeSubContGroup] = pollyxt_tau_splitcloudfree(data, config)
 %   Example:
 %       [cloudFreeSubContGroup] = pollyxt_tau_splitcloudfree(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

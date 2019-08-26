@@ -1,16 +1,16 @@
 function [report] = pollynet_processing_chain_arielle(taskInfo, config)
 %POLLYNET_PROCESSING_CHAIN_arielle processing the data from arielle
-%	Example:
-%		[report] = pollynet_processing_chain_arielle(taskInfo, config)
-%	Inputs:
-%		taskInfo, config
-%	Outputs:
-%		report: cell array
+%   Example:
+%       [report] = pollynet_processing_chain_arielle(taskInfo, config)
+%   Inputs:
+%       taskInfo, config
+%   Outputs:
+%       report: cell array
 %           information about each figure.
-%	History:
-%		2018-12-17. First edition by Zhenping   
-%	Contact:
-%		zhenping@tropos.de
+%   History:
+%       2018-12-17. First edition by Zhenping   
+%   Contact:
+%       zhenping@tropos.de
 
 report = cell(0);
 global processInfo campaignInfo defaults

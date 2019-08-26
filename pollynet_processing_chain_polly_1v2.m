@@ -1,16 +1,16 @@
 function [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %POLLYNET_PROCESSING_CHAIN_polly_1v2 processing the data from polly_1v2
-%	Example:
-%		[report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
-%	Inputs:
-%		taskInfo, config
-%	Outputs:
-%		report: cell array
+%   Example:
+%       [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
+%   Inputs:
+%       taskInfo, config
+%   Outputs:
+%       report: cell array
 %           information about each figure.
-%	History:
-%		2018-12-17. First edition by Zhenping   
-%	Contact:
-%		zhenping@tropos.de
+%   History:
+%       2018-12-17. First edition by Zhenping   
+%   Contact:
+%       zhenping@tropos.de
 
 report = cell(0);
 global processInfo campaignInfo defaults
