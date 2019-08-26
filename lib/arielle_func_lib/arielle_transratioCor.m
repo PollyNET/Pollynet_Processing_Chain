@@ -3,7 +3,7 @@ function [el355, bgEl355, el532, bgEl532] = arielle_transratioCor(data, config)
 %   Example:
 %       [el355, bgEl355, el532, bgEl532] = arielle_transratioCor(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

@@ -100,6 +100,7 @@ def pollyxt_noa_display_lidarconst(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

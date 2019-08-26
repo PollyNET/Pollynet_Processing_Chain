@@ -3,7 +3,7 @@ function [] = pollyxt_tropos_save_retrieving_results(data, taskInfo, config)
 %   Example:
 %       [] = pollyxt_tropos_save_retrieving_results(data, taskInfo, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -556,7 +556,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
     netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
     netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
-
+    cwd = pwd;
+    cd(processInfo.projectDir);
+    gitInfo = getGitInfo();
+    cd(cwd);
+    netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
+        
     % close file
     netcdf.close(ncID);
     

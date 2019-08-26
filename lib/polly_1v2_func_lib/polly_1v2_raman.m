@@ -3,7 +3,7 @@ function [aerBsc532_raman, aerBsc532_RR, aerExt532_raman, aerExt532_RR, LR532_ra
 %   Example:
 %       [aerBsc532_raman, aerBsc532_RR, aerExt532_raman, aerExt532_RR, LR532_raman, LR532_RR] = polly_1v2_raman(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
