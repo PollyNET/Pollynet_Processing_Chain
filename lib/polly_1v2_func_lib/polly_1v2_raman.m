@@ -51,6 +51,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     proIndx_607On = flagCloudFree & (~ data.mask607Off);
     if sum(proIndx_607On) == 0
         warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+
+        % concatenate the results
+        aerBsc532_raman = cat(1, aerBsc532_raman, thisAerBsc532_raman);
+        aerExt532_raman = cat(1, aerExt532_raman, thisAerExt532_raman);
+        LR532_raman = cat(1, LR532_raman, thisLR532_raman);
+
         continue;
     end
     
@@ -105,6 +111,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     proIndx_RROn = flagCloudFree & (~ data.maskRROff);
     if sum(proIndx_RROn) == 0
         warning('No Rotational Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+
+        % concatenate the results
+        aerBsc532_RR = cat(1, aerBsc532_RR, thisAerBsc532_RR);
+        aerExt532_RR = cat(1, aerExt532_RR, thisAerExt532_RR);
+        LR532_RR = cat(1, LR532_RR, thisLR532_RR);
+
         continue;
     end
 

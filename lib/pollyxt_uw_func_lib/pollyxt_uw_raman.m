@@ -61,6 +61,12 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_387On = flagCloudFree & (~ data.mask387Off);
         if sum(proIndx_387On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+    
+            % concatenate the results
+            aerBsc355_raman = cat(1, aerBsc355_raman, thisAerBsc355_raman);
+            aerExt355_raman = cat(1, aerExt355_raman, thisAerExt355_raman);
+            LR355_raman = cat(1, LR355_raman, thisLR355_raman);
+            
             continue;
         end
 
@@ -115,6 +121,12 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_607On = flagCloudFree & (~ data.mask607Off);
         if sum(proIndx_607On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+    
+            % concatenate the results
+            aerBsc532_raman = cat(1, aerBsc532_raman, thisAerBsc532_raman);
+            aerExt532_raman = cat(1, aerExt532_raman, thisAerExt532_raman);
+            LR532_raman = cat(1, LR532_raman, thisLR532_raman);
+            
             continue;
         end
 
@@ -169,6 +181,12 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_607On = flagCloudFree & (~ data.mask607Off);
         if sum(proIndx_607On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+    
+            % concatenate the results
+            aerBsc1064_raman = cat(1, aerBsc1064_raman, thisAerBsc1064_raman);
+            aerExt1064_raman = cat(1, aerExt1064_raman, thisAerExt1064_raman);
+            LR1064_raman = cat(1, LR1064_raman, thisLR1064_raman);
+            
             continue;
         end
         
