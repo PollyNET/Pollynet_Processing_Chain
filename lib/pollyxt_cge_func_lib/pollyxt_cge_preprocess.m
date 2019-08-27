@@ -145,14 +145,14 @@ data.depCalMask = false(1, size(data.signal, 3));
 %% mask for laser shutter
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 flagChannel355FR = config.isFR & config.is355nm & config.isTot;
-if flagChannel532FR
+if sum(flagChannel532FR) > 0
     flagChannel4Shutter = flagChannel532FR;
     data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(flagChannel4Shutter, :, :)));
-elseif flagChannel355FR
+elseif sum(flagChannel355FR) > 0
     flagChannel4Shutter = flagChannel355FR;
     data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(flagChannel4Shutter, :, :)));
 else
-    warning('No suitable channel to determine whether the shutter status');
+    warning('No suitable channel to determine the shutter status');
     data.shutterOnMask = false(size(data.mTime));
 end
 
