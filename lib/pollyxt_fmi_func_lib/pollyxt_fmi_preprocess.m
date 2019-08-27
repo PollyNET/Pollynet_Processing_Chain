@@ -60,6 +60,7 @@ function [ data ] = pollyxt_fmi_preprocess(data, config)
 %   History:
 %       2018-12-16. First edition by Zhenping.
 %       2019-07-10. Add mask for laser shutter due to approaching airplanes.
+%       2019-08-27. Add mask for turnoff of PMT at 607 and 387nm.
 %   Copyright:
 %       Ground-based remote sensing (tropos)
 
@@ -70,7 +71,6 @@ if isempty(data.rawSignal)
 end
 
 if (max(config.max_height_bin + config.first_range_gate_indx - 1) > size(data.rawSignal, 2))
-    tmpStr = sprintf('%d, ', config.first_range_gate_indx);
     warning('%s_config.max_height_bin or %s_config.first_range_gate_indx is out of range.\nTotal number of range bin is %d.\n%s_config.max_height_bin is %d\n%s_config.first_range_gate_indx is %s\n', config.pollyVersion, size(data.rawSignal, 2), config.max_height_bin, config.first_range_gate_indx);
     fprintf('Set the %s_config.max_height_bin and %s_config.first_range_gate_indx to be default value.\n', config.pollyVersion);
     config.max_height_bin = 251;
@@ -149,12 +149,35 @@ data.depol_cal_ang_n_time_end = depol_cal_ang_n_time_end;
 data.depCalMask = transpose(depCalMask);
 
 %% mask for laser shutter
-data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(5, :, :)));
+flagChannel532FR = config.isFR & config.is532nm & config.isTot;
+flagChannel355FR = config.isFR & config.is355nm & config.isTot;
+if flagChannel532FR
+    flagChannel4Shutter = flagChannel532FR;
+    data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(flagChannel4Shutter, :, :)));
+elseif flagChannel355FR
+    flagChannel4Shutter = flagChannel355FR;
+    data.shutterOnMask = polly_isLaserShutterOn(squeeze(data.signal(flagChannel4Shutter, :, :)));
+else
+    warning('No suitable channel to determine whether the shutter status');
+    data.shutterOnMask = false(size(data.mTime));
+end
 
 %% mask for fog profiles
 data.fogMask = false(1, size(data.signal, 3));
 is_channel_532_FR_Tot = config.isFR & config.is532nm & config.isTot;
 % signal strength is weak and not caused by laser shutter on.
 data.fogMask(transpose(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :), 2)) <= config.minPC_fog) & (~ data.shutterOnMask)) = true;
+
+%% mask for PMT607 off
+flagChannel607 = config.isFR & config.is607nm;
+data.mask607Off = polly_is607Off(squeeze(data.signal(flagChannel607, :, :)));
+
+%% mask for PMT387 off
+flagChannel387 = config.isFR & config.is387nm;
+data.mask387Off = polly_is387Off(squeeze(data.signal(flagChannel387, :, :)));
+
+%% mask for PMT407 off
+flagChannel407 = config.isFR & config.is407nm;
+data.mask407Off = polly_is407Off(squeeze(data.signal(flagChannel407, :, :)));
 
 end

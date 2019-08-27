@@ -355,8 +355,8 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
     ax6.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax6.grid(False)
     ax6.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
-    fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.90, 0.03, 'Version: {version}'.format(version=version), fontsize=12)
+    fig.text(0.03, 0.015, startTime.strftime("%Y"), fontsize=12)
+    fig.text(0.90, 0.015, 'Version: {version}'.format(version=version), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
     plt.close()
