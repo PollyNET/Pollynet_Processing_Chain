@@ -140,7 +140,7 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
     ax2.plot(time, OutsideRH, marker='.', color='#8000ff')
     ax2.set_ylim([0, 100])
     ax2.set_xlim([mTime[0], mTime[-1]])
-    ax2.set_ylabel("RH [%]", fontsize=15)
+    ax2.set_ylabel("OutsideRH [%]", fontsize=15)
     ax2.grid(True)
 
     ax3.plot(time, HT, color='#8080ff', label='Laser Head')

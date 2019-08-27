@@ -53,10 +53,21 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
 
         flagChannel355 = config.isFR & config.isTot & config.is355nm;
         flagChannel387 = config.isFR & config.is387nm;
-        sig355 = squeeze(sum(data.signal(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg355 = squeeze(sum(data.bg(flagChannel355, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        sig387 = squeeze(sum(data.signal(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg387 = squeeze(sum(data.bg(flagChannel387, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+
+        % Only take into account of profiles with PMT on
+        proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_387On = flagCloudFree & (~ data.mask387Off);
+        if sum(proIndx_387On) == 0
+            warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+            continue;
+        end
+
+        sig355 = squeeze(sum(data.signal(flagChannel355, :, proIndx_387On), 3));
+        bg355 = squeeze(sum(data.bg(flagChannel355, :, proIndx_387On), 3));
+        sig387 = squeeze(sum(data.signal(flagChannel387, :, proIndx_387On), 3));
+        bg387 = squeeze(sum(data.bg(flagChannel387, :, proIndx_387On), 3));
 
         % retrieve extinction
         thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
@@ -97,10 +108,20 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
 
         flagChannel532 = config.isFR & config.isTot & config.is532nm;
         flagChannel607 = config.isFR & config.is607nm;
-        sig532 = transpose(squeeze(sum(data.el532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
-        bg532 = transpose(squeeze(sum(data.bgEl532(:, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 2)));
-        sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        % Only take into account of profiles with PMT on
+        proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_607On = flagCloudFree & (~ data.mask607Off);
+        if sum(proIndx_607On) == 0
+            warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+            continue;
+        end
+
+        sig532 = transpose(squeeze(sum(data.el532(:, proIndx_607On), 2)));
+        bg532 = transpose(squeeze(sum(data.bgEl532(:, proIndx_607On), 2)));
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx_607On), 3));
+        bg607 = squeeze(sum(data.bg(flagChannel607, :, proIndx_607On), 3));
 
         % retrieve extinction
         thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
@@ -141,10 +162,20 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
 
         flagChannel1064 = config.isFR & config.isTot & config.is1064nm;
         flagChannel607 = config.isFR & config.is607nm;
-        sig1064 = squeeze(sum(data.signal(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg1064 = squeeze(sum(data.bg(flagChannel1064, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        sig607 = squeeze(sum(data.signal(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
-        bg607 = squeeze(sum(data.bg(flagChannel607, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
+        % Only take into account of profiles with PMT on
+        proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_607On = flagCloudFree & (~ data.mask607Off);
+        if sum(proIndx_607On) == 0
+            warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+            continue;
+        end
+        
+        sig1064 = squeeze(sum(data.signal(flagChannel1064, :, proIndx_607On), 3));
+        bg1064 = squeeze(sum(data.bg(flagChannel1064, :, proIndx_607On), 3));
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx_607On), 3));
+        bg607 = squeeze(sum(data.bg(flagChannel607, :, proIndx_607On), 3));
 
         % retrieve extinction
         thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
