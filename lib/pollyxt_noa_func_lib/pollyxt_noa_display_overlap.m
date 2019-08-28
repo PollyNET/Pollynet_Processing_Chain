@@ -150,12 +150,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_noa_display_overlap.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
 
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');

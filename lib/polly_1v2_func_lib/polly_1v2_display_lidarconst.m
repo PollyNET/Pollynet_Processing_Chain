@@ -103,12 +103,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC607_raman', 'LC532_aeronet', 'yLim532', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_lidarconst.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
     
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
