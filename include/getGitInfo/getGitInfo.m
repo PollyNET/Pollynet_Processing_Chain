@@ -86,10 +86,14 @@ branchName=name;
 %save branchname
 gitInfo.branch=branchName;
 
-
 %Read in SHA1
-SHA1text=fileread(fullfile(['.git/' pathstr],[name ext]));
-SHA1=textscan(SHA1text,'%s');
+try
+    SHA1text=fileread(fullfile(['.git/' pathstr],[name ext]));
+    SHA1=textscan(SHA1text,'%s');
+catch err
+    warning('The branch info was not found.');
+    return;
+end
 gitInfo.hash=SHA1{1}{1};
 
 
@@ -120,9 +124,6 @@ for k=1:length(lines)
             
             m=m+1;
         end
-        
-        
-    
     end
 end
 gitInfo.remote=remote;
@@ -149,9 +150,6 @@ for k=1:length(lines)
             
             m=m+1;
         end
-        
-        
-    
     end
 end
 
