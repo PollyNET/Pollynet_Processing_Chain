@@ -344,12 +344,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_fmi_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_fmi_display_rcs.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
     
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');

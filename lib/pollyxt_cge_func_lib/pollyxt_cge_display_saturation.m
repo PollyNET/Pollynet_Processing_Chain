@@ -168,12 +168,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
 
     save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_cge_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_cge_display_saturation.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

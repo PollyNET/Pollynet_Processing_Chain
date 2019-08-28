@@ -197,12 +197,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         %% display rcs 
         save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
-        tmpFile = fullfile(tmpFolder, 'tmp.mat');
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_tropos_display_depolcali.py');
         end
-        delete(fullfile(tmpFolder, 'tmp.mat'));
+        delete(tmpFile);
     end
 
     % 355 nm
@@ -233,12 +233,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         %% display rcs 
         save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
-        tmpFile = fullfile(tmpFolder, 'tmp.mat');
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_tropos_display_depolcali.py');
         end
-        delete(fullfile(tmpFolder, 'tmp.mat'));
+        delete(tmpFile);
     end
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
