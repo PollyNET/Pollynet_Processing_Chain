@@ -124,8 +124,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
     SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_saturation.py');

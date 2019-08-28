@@ -39,8 +39,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     monitorStatus = data.monitorStatus;
     figDPI = processInfo.figDPI;
     mTime = data.mTime;
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v7');
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v7');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_monitor.py');

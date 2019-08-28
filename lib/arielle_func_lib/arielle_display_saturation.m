@@ -291,8 +291,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
     SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'arielle_display_saturation.py');
