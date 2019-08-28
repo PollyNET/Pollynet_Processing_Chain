@@ -45,6 +45,7 @@ function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, fl
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %       2019-01-28. Add support for 387 and 607 channels
+%       2019-08-28. Add flag to control whether to do lidar calibration.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -67,6 +68,23 @@ flagLCWarning1064 = false;
 flagLCWarning387 = false;
 flagLCWarning607 = false;
 LCCaliFile = fullfile(folder, config.lcCaliFile);
+
+flagChannel355 = config.isFR & config.is355nm & config.isTot;
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel387 = config.isFR & config.is387nm;
+flagChannel607 = config.isFR & config.is607nm;
+
+if ~ config.flagLCCalibration
+    % disable lidar calibration and use default lidar constants
+    LCUsed355 = defaults.LC(flagChannel355);
+    LCUsed532 = defaults.LC(flagChannel532);
+    LCUsed1064 = defaults.LC(flagChannel1064);
+    LCUsed387 = defaults.LC(flagChannel387);
+    LCUsed607 = defaults.LC(flagChannel607);
+
+    return;
+end
 
 %% create the LC file if not exist
 if exist(LCCaliFile, 'file') ~= 2
@@ -98,12 +116,6 @@ LC_klett_532_std = nanstd(data.LC.LC_klett_532);
 LC_klett_1064_std = nanstd(data.LC.LC_klett_1064);
 LC_raman_387_std = nanstd(data.LC.LC_raman_387);
 LC_raman_607_std = nanstd(data.LC.LC_raman_607);
-
-flagChannel355 = config.isFR & config.is355nm & config.isTot;
-flagChannel532 = config.isFR & config.is532nm & config.isTot;
-flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-flagChannel387 = config.isFR & config.is387nm;
-flagChannel607 = config.isFR & config.is607nm;
 
 %% read history lidar constants
 [LC355History, LC532History, LC1064History, LC387History, LC607History, LCStd355History, LCStd532History, LCStd1064History, LCStd387History, LCStd607History] = pollyxt_ift_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
