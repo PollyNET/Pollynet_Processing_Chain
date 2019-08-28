@@ -125,8 +125,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 		figDPI = processInfo.figDPI;
 
 	    %% display rcs 
-	    save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
 	    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+	    save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
 	    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_depolcali.py'), tmpFile, saveFolder));
 	    if flag ~= 0
 	        warning('Error in executing %s', 'pollyxt_dwd_display_depolcali.py');

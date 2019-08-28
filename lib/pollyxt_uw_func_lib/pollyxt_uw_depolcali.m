@@ -16,6 +16,7 @@ function [data, depCalAttri] = pollyxt_uw_depolcali(data, config, taskInfo)
 %           depolarization calibration information for each calibration period.
 %	History:
 %		2018-12-17. First edition by Zhenping
+%       2019-08-28. Add flag to control whether to do depolarization calibration.
 %	Contact:
 %		zhenping@tropos.de
 
@@ -51,23 +52,23 @@ depCalAttri.depol_cal_time_532 = depol_cal_time_532;
 
 % if no successful calibration, set the calibration factor to default
 % values or other values as you like    
-if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali
+if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali && config.flagDepolCali
     % Apply historical calibration results
-    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = pollyxt_lacros_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
+    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = pollyxt_uw_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
     data.depol_cal_fac_532 = depol_cal_fac_532;
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532;
     data.depol_cal_time_532 = depol_cal_time_532;
-elseif sum(~ isnan(depol_cal_fac_532)) < 1 && ~ config.flagUsePreviousDepolCali
-    % Apply default settings
-    data.depol_cal_fac_532 = defaults.depolCaliConst532;
-    data.depol_cal_fac_std_532 = defaults.depolCaliConstStd532;
-    data.depol_cal_time_532 = 0;
-else
+elseif config.flagDepolCali && (sum(~ isnan(depol_cal_fac_532)) >= 1)
     % Apply current calibration results
     [~, indx] = min(depol_cal_fac_std_532);
     data.depol_cal_fac_532 = depol_cal_fac_532(indx);
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532(indx);
     data.depol_cal_time_532 = depol_cal_time_532(indx);
+else
+    % Apply default settings
+    data.depol_cal_fac_532 = defaults.depolCaliConst532;
+    data.depol_cal_fac_std_532 = defaults.depolCaliConstStd532;
+    data.depol_cal_time_532 = 0;
 end
 
 % 355 nm
@@ -91,23 +92,23 @@ depCalAttri.depol_cal_time_355 = depol_cal_time_355;
 
 % if no successful calibration, set the calibration factor to default
 % values or other values as you like    
-if sum(~ isnan(depol_cal_fac_355)) < 1 && config.flagUsePreviousDepolCali
+if sum(~ isnan(depol_cal_fac_355)) < 1 && config.flagUsePreviousDepolCali && config.flagDepolCali
     % Apply historical calibration results
-    [depol_cal_fac_355, depol_cal_fac_std_355, depol_cal_time_355] = pollyxt_lacros_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355), datenum(0,1,7,0,0,0), defaults, 355);
+    [depol_cal_fac_355, depol_cal_fac_std_355, depol_cal_time_355] = pollyxt_uw_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355), datenum(0,1,7,0,0,0), defaults, 355);
     data.depol_cal_fac_355 = depol_cal_fac_355;
     data.depol_cal_fac_std_355 = depol_cal_fac_std_355;
     data.depol_cal_time_355 = depol_cal_time_355;
-elseif sum(~ isnan(depol_cal_fac_355)) < 1 && ~ config.flagUsePreviousDepolCali
-    % Apply default settings
-    data.depol_cal_fac_355 = defaults.depolCaliConst355;
-    data.depol_cal_fac_std_355 = defaults.depolCaliConstStd355;
-    data.depol_cal_time_355 = 0;
-else
+elseif config.flagDepolCali && (sum(~ isnan(depol_cal_fac_355)) >= 1)
     % Apply current calibration results
     [~, indx] = min(depol_cal_fac_std_355);
     data.depol_cal_fac_355 = depol_cal_fac_355(indx);
     data.depol_cal_fac_std_355 = depol_cal_fac_std_355(indx);
     data.depol_cal_time_355 = depol_cal_time_355(indx);
+else
+    % Apply default settings
+    data.depol_cal_fac_355 = defaults.depolCaliConst355;
+    data.depol_cal_fac_std_355 = defaults.depolCaliConstStd355;
+    data.depol_cal_time_355 = 0;
 end
     
 end

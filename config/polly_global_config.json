@@ -2,6 +2,8 @@
     "flagCorrectFalseMShots": true,	
     "flagFilterFalseMShots": false,
     "flagDTCor": true,
+    "flagLCCalibration": true,
+    "flagDepolCali": true,
     "flagWVCalibration": true,
     "flagUsePreviousDepolCali": true,
     "flagUsePreviousWVconst": true,
