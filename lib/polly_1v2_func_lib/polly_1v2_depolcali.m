@@ -3,14 +3,14 @@ function [data, depCalAttri] = polly_1v2_depolcali(data, config, taskInfo)
 %	Example:
 %		[data] = polly_1v2_depolcali(data, config, taskInfo, defaults)
 %	Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %	Outputs:
-%		data: struct
+%       data.struct
 %           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md
 %	History:
 %		2018-12-17. First edition by Zhenping
@@ -50,23 +50,23 @@ depCalAttri.depol_cal_time_532 = depol_cal_time_532;
 
 % if no successful calibration, set the calibration factor to default
 % values or other values as you like    
-if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali
+if sum(~ isnan(depol_cal_fac_532)) < 1 && config.flagUsePreviousDepolCali && config.flagDepolCali
     % Apply historical calibration results
-    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = polly_1v2_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
+    [depol_cal_fac_532, depol_cal_fac_std_532, depol_cal_time_532] = pollyxt_fmi_search_history_depolconst(mean(time), fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532), datenum(0,1,7,0,0,0), defaults, 532);
     data.depol_cal_fac_532 = depol_cal_fac_532;
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532;
     data.depol_cal_time_532 = depol_cal_time_532;
-elseif sum(~ isnan(depol_cal_fac_532)) < 1 && ~ config.flagUsePreviousDepolCali
-    % Apply default settings
-    data.depol_cal_fac_532 = defaults.depolCaliConst532;
-    data.depol_cal_fac_std_532 = defaults.depolCaliConstStd532;
-    data.depol_cal_time_532 = 0;
-else
+elseif config.flagDepolCali && (sum(~ isnan(depol_cal_fac_532)) >= 1)
     % Apply current calibration results
     [~, indx] = min(depol_cal_fac_std_532);
     data.depol_cal_fac_532 = depol_cal_fac_532(indx);
     data.depol_cal_fac_std_532 = depol_cal_fac_std_532(indx);
     data.depol_cal_time_532 = depol_cal_time_532(indx);
+else
+    % Apply default settings
+    data.depol_cal_fac_532 = defaults.depolCaliConst532;
+    data.depol_cal_fac_std_532 = defaults.depolCaliConstStd532;
+    data.depol_cal_time_532 = 0;
 end
     
 end

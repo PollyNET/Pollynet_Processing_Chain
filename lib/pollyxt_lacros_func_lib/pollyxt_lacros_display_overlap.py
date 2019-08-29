@@ -103,13 +103,13 @@ def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 
     # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
-
 
     # display
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 8), sharey=True, gridspec_kw={'width_ratios': [1.2, 1]})

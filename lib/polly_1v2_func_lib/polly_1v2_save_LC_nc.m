@@ -2,7 +2,7 @@ function [] = polly_1v2_save_LC_nc(data, taskInfo, config)
 %polly_1v2_save_LC_nc save the lidar constants.
 %   Example:
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

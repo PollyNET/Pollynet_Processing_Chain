@@ -221,13 +221,13 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     %% display quasi results
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'quasi_bsc_355', 'quality_mask_355', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'quasi_bsc_355', 'quality_mask_355', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_noa_display_quasiretrieving.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
     
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');

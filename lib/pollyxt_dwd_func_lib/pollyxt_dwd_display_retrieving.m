@@ -710,13 +710,13 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         end
         
         %% display rcs 
-        save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', '-v7');
-        tmpFile = fullfile(tmpFolder, 'tmp.mat');
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', '-v7');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_dwd_display_retrieving.py');
         end
-        delete(fullfile(tmpFolder, 'tmp.mat'));
+        delete(tmpFile);
     end
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');

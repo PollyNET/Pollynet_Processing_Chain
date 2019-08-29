@@ -134,6 +134,7 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
         aerLRLim = mat['aerLRLim'][:][0]
 
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

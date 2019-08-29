@@ -3,7 +3,7 @@ function [LC] = pollyxt_tjk_lidar_calibration(data, config)
 %   Example:
 %       [LC] = pollyxt_tjk_lidar_calibration(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -185,7 +185,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     if ~ isnan(data.aerBsc355_raman(iGroup, 80))
         [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-        sig355 = squeeze(sum(data.signal(flagChannel355, :, proIndx), 3)) / nPros;
+        % Only take into account of profiles with PMT on
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_387On = flagCloudFree & (~ data.mask387Off);
+        sig355 = squeeze(sum(data.signal(flagChannel355, :, proIndx_387On), 3)) / sum(proIndx_387On);
 
         % AOD
         aerExt355_raman = data.aerBsc355_raman(iGroup, :) * config.LR355;
@@ -211,7 +215,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     if ~ isnan(data.aerBsc532_raman(iGroup, 80))
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-        sig532 = squeeze(sum(data.signal(flagChannel532, :, proIndx), 3)) / nPros;
+        % Only take into account of profiles with PMT on
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_607On = flagCloudFree & (~ data.mask607Off);
+        sig532 = squeeze(sum(data.signal(flagChannel532, :, proIndx_607On), 3)) / sum(proIndx_607On);
 
         % AOD
         aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;
@@ -237,7 +245,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     if ~ isnan(data.aerBsc1064_raman(iGroup, 80))
         [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-        sig1064 = squeeze(sum(data.signal(flagChannel1064, :, proIndx), 3)) / nPros;
+        % Only take into account of profiles with PMT on
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_607On = flagCloudFree & (~ data.mask607Off);
+        sig1064 = squeeze(sum(data.signal(flagChannel1064, :, proIndx_607On), 3)) / sum(proIndx_607On);
 
         % AOD
         aerExt1064_raman = data.aerBsc1064_raman(iGroup, :) * config.LR1064;
@@ -264,7 +276,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc387, molExt387] = rayleigh_scattering(387, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
     
-        sig387 = squeeze(sum(data.signal(flagChannel387, :, proIndx), 3)) / nPros;
+        % Only take into account of profiles with PMT on
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_387On = flagCloudFree & (~ data.mask387Off);
+        sig387 = squeeze(sum(data.signal(flagChannel387, :, proIndx_387On), 3)) / sum(proIndx_387On);
     
         % AOD
         aerExt355_raman = data.aerBsc355_raman(iGroup, :) * config.LR355;
@@ -292,7 +308,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
         [molBsc607, molExt607] = rayleigh_scattering(607, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
     
-        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx), 3)) / nPros;
+        % Only take into account of profiles with PMT on
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_607On = flagCloudFree & (~ data.mask607Off);
+        sig607 = squeeze(sum(data.signal(flagChannel607, :, proIndx_607On), 3)) / sum(proIndx_607On);
     
         % AOD
         aerExt532_raman = data.aerBsc532_raman(iGroup, :) * config.LR532;

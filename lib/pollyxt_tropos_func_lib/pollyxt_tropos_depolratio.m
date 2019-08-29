@@ -3,7 +3,7 @@ function [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol35
 %   Example:
 %       [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol355_raman, pardepol355_raman, pardepolStd355_raman, moldepol355, moldepolStd355, flagDefaultMoldepol355, voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_tropos_depolratio(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

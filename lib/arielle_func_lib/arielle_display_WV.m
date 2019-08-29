@@ -118,14 +118,13 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
     
-    %% display rcs 
-    save(fullfile(tmpFolder, 'tmp.mat'), 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange', '-v7');
-    tmpFile = fullfile(tmpFolder, 'tmp.mat');
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange', '-v7');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'arielle_display_WV.py');
     end
-    delete(fullfile(tmpFolder, 'tmp.mat'));
+    delete(tmpFile);
     
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');

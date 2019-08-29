@@ -3,7 +3,7 @@ function [aerBsc532_aeronet, aerExt532_aeronet, LR532_aeronet, deltaAOD532] = po
 %   Example:
 %       [aerBsc532_aeronet, aerExt532_aeronet, LR532_aeronet] = polly_1v2_constrainedklett(data, AERONET, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       AERONET: struct
 %          datetime: array
