@@ -3,7 +3,7 @@ function [] = pollyxt_uw_save_overlap(data, taskInfo, config, globalAttri, file)
 %   Example:
 %       [] = pollyxt_uw_save_overlap(data, taskInfo, config, globalAttri, file);
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           polly processing configuration. More detailed information can be found in doc/polly_config.md

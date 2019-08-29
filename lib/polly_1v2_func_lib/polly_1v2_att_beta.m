@@ -3,7 +3,7 @@ function [att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config)
 %   Example:
 %       [att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

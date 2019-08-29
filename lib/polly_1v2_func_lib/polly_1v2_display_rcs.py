@@ -93,6 +93,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
     except Exception as e:
+        print(e)
         print('Failed reading %s' % (tmpFile))
         return
 

@@ -3,7 +3,7 @@ function [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_355_532_klett] =
 %   Example:
 %       [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_355_532_klett] = pollyxt_lacros_NR_angstrexp(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

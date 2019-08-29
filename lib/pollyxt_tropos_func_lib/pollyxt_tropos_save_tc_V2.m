@@ -3,7 +3,7 @@ function [] = pollyxt_tropos_save_tc_V2(data, taskInfo, config)
 %   Example:
 %       [] = pollyxt_tropos_save_tc_V2(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       taskInfo: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

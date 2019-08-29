@@ -3,7 +3,7 @@ function [aerBsc355_klett, aerBsc532_klett, aerBsc1064_klett, aerExt355_klett, a
 %   Example:
 %       [aerBsc355_klett, aerBsc532_klett, aerBsc1064_klett, aerExt355_klett, aerExt532_klett, aerExt1064_klett] = pollyxt_fmi_klett(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

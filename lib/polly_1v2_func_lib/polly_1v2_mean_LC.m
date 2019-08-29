@@ -3,7 +3,7 @@ function [LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed607, LCUsedTag607, fl
 %   Example:
 %       [LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed607, LCUsedTag607, flagLCWarning607] = polly_1v2_mean_LC(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -27,6 +27,7 @@ function [LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed607, LCUsedTag607, fl
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %       2019-08-04. Add the output of lidar constant at 607 nm.
+%       2019-08-28. Add flag to control whether to do lidar calibration.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -40,6 +41,15 @@ LCUsed607 = [];
 LCUsedTag607 = 0;
 flagLCWarning607 = false;
 LCCaliFile = fullfile(folder, config.lcCaliFile);
+
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel607 = config.isFR & config.is607nm;
+
+if ~ config.flagLCCalibration
+    % disable lidar calibration and take default lidar constants
+    LCUsed532 = defaults.LC(flagChannel532);
+    LCUsed607 = defaults.LC(flagChannel607);
+end
 
 %% create the LC file if not exist
 if exist(LCCaliFile, 'file') ~= 2
@@ -61,9 +71,6 @@ LC_raman_607_mean = nanmean(data.LC.LC_raman_607);
 LC_raman_532_std = nanstd(data.LC.LC_raman_532);
 LC_klett_532_std = nanstd(data.LC.LC_klett_532);
 LC_raman_607_std = nanstd(data.LC.LC_raman_607);
-
-flagChannel532 = config.isFR & config.is532nm & config.isTot;
-flagChannel607 = config.isFR & config.is607nm;
 
 %% read history lidar constants
 [LC532History, LCStd532History, LC607History, LCStd607History] = polly_1v2_read_history_LC(taskInfo.dataTime, LCCaliFile, config);

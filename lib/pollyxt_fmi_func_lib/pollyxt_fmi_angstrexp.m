@@ -3,7 +3,7 @@ function [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_532_1064_raman, 
 %   Example:
 %       [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_532_1064_raman, ang_bsc_355_532_klett, ang_bsc_532_1064_klett] = pollyxt_fmi_angstrexp(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

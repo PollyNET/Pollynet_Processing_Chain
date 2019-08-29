@@ -8,19 +8,19 @@ Troposphärenforschung e.V.). The high temporal and spatial resolved measurement
 ### polly version 
 
 - arielle
-- polly
-- polly_1v2
-- pollyxt_cge
-- pollyxt_dwd
-- pollyxt_fmi
-- pollyxt_ift
-- pollyxt_lacros
-- pollyxt_nier
-- pollyxt_noa
-- pollyxt_tropos
-- pollyxt_uw
-- pollyxt_tjk
-- pollyxt_tau
+- Polly
+- Polly_1V2
+- PollyXT_CGE
+- PollyXT_DWD
+- PollyXT_FMI
+- PollyXT_IFT
+- PollyXT_LACROS
+- PollyXT_NIER
+- PollyXT_NOA
+- PollyXT_TROPOS
+- PollyXT_UW
+- PollyXT_TJK
+- PollyXT_TAU
 
 ### polly-related campaigns
 

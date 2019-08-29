@@ -3,7 +3,7 @@ function [quasi_par_bsc_532_V2, quasi_par_depol_532_V2, volDepol_532, quality_ma
 %   Example:
 %       [quasi_par_bsc_532_V2, quasi_par_depol_532_V2, volDepol_532, quality_mask_532_V2, quality_mask_volDepol_532_V2] = polly_1v2_quasiretrieve_V2(data, config)
 %   Inputs:
-%		data: struct
+%       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
 %       config: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
