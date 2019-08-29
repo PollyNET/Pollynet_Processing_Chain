@@ -60,9 +60,9 @@ end
 
 SNRCross = polly_SNR(sigCross, bgCross);
 SNRTot = polly_SNR(sigTot, bgTot);
-hIndxLowSNR = (SNRCross < 1) | (SNRTot < 1);
-sigCross(hIndxLowSNR) = NaN;
-sigTot(hIndxLowSNR) = NaN;
+% hIndxLowSNR = (SNRCross < 1) | (SNRTot < 1);
+% sigCross(hIndxLowSNR) = NaN;
+% sigTot(hIndxLowSNR) = NaN;
 if flagSmoothBefore
     sigRatio = transpose(smoothWin(sigCross, smoothWindow) ./ ...
                          smoothWin(sigTot, smoothWindow));
