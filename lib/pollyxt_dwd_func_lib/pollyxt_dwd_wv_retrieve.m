@@ -135,7 +135,7 @@ SIG407_QC(:, flag407Off) = NaN;
 SIG387_QC = smooth2(SIG387_QC, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
 SIG407_QC = smooth2(SIG407_QC, config.quasi_smooth_h(flagChannel407), config.quasi_smooth_t(flagChannel407));
 
-% redistribute the meteorological data to 30-s intervals.
+% read the meteorological data
 [altRaw, tempRaw, presRaw, relhRaw, ~] = read_meteor_data(mean(data.mTime), data.alt, config);
 
 % interp the parameters
