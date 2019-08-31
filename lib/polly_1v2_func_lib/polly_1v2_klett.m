@@ -14,6 +14,7 @@ function [aerBsc532_klett, aerExt532_klett] = polly_1v2_klett(data, config)
 %           aerosol extinction coefficient at 355 nm with klett method. [m^{-1}] 
 %   History:
 %       2018-12-23. First Edition by Zhenping
+%       2019-08-31. Add SNR control for the reference height.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -36,8 +37,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-        [thisAerBsc532_klett, ~] = polly_fernald(data.distance0, sig532, config.LR532, refH, config.refBeta532, molBsc532, config.smoothWin_klett_532);
-        thisAerExt532_klett = config.LR532 * thisAerBsc532_klett;
+        refSig532 = sum(sig532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        refBg532 = sum(bg532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        snr532 = polly_SNR(refSig532, refBg532);
+
+        if (snr532 >= config.minRefSNR532)
+            [thisAerBsc532_klett, ~] = polly_fernald(data.distance0, sig532, config.LR532, refH, config.refBeta532, molBsc532, config.smoothWin_klett_532);
+            thisAerExt532_klett = config.LR532 * thisAerBsc532_klett;
+        end
 
         % TODO: uncertainty analysis
     end
