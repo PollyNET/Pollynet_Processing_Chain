@@ -297,7 +297,7 @@ function [imageData, alpha] = export_fig(varargin) %#ok<*STRCL1>
         try jf = get(handle(ancestor(fig,'figure')),'JavaFrame'); catch, jf=1; end
         warning(oldWarn);
         if isempty(jf)
-            error('Figures created using the uifigure command or App Designer are not supported by export_fig. See <a href="https://github.com/altmany/export_fig/issues/261">issue #261</a> for details.');
+            % error('Figures created using the uifigure command or App Designer are not supported by export_fig. See <a href="https://github.com/altmany/export_fig/issues/261">issue #261</a> for details.');
         end
     end
 
