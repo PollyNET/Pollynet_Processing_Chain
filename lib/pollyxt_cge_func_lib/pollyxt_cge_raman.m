@@ -28,6 +28,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
 %           lidar ratio at 1064 nm. [Sr]
 %   History:
 %       2018-12-23. First Edition by Zhenping
+%       2019-08-31. Add SNR control for elastic signal at reference height as well.
 %   Contact:
 %       zhenping@tropos.de
     
@@ -87,11 +88,14 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+            refSig355 = sum(sig355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
+            refBg355 = sum(bg355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
             refSig387 = sum(sig387(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
             refBg387 = sum(bg387(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
+            snr355 = polly_SNR(refSig355, refBg355);
             snr387 = polly_SNR(refSig387, refBg387);
             
-            if snr387 >= config.minRamanRefSNR387
+            if (snr387 >= config.minRamanRefSNR387) && (snr355 >= config.minRamanRefSNR355)
                 tmpAerExt355_raman = thisAerExt355_raman;
                 tmpAerExt355_raman(1:hBaseIndx355) = tmpAerExt355_raman(hBaseIndx355);
                 [thisAerBsc355_raman, thisLR355_raman] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_raman, config.angstrexp, molExt355, molBsc355, refH, 355, config.refBeta355, config.smoothWin_raman_355, true);
@@ -147,11 +151,14 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+            refSig532 = sum(sig532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+            refBg532 = sum(bg532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
             refSig607 = sum(sig607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
             refBg607 = sum(bg607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+            snr532 = polly_SNR(refSig532, refBg532);
             snr607 = polly_SNR(refSig607, refBg607);
             
-            if snr607 >= config.minRamanRefSNR607
+            if (snr607 >= config.minRamanRefSNR607) && (snr532 >= config.minRamanRefSNR532)
                 tmpAerExt532_raman = thisAerExt532_raman;
                 tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
                 [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);
@@ -207,11 +214,14 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
             end
             [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+            refSig1064 = sum(sig1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            refBg1064 = sum(bg1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
             refSig607 = sum(sig607(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
             refBg607 = sum(bg607(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            snr1064 = polly_SNR(refSig1064, refBg1064);
             snr607 = polly_SNR(refSig607, refBg607);
             
-            if snr607 >= config.minRamanRefSNR607
+            if (snr607 >= config.minRamanRefSNR607) && (snr1064 >= config.minRamanRefSNR1064)
                 thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^config.angstrexp;
                 tmpAerExt1064_raman = thisAerExt1064_raman;
                 tmpAerExt1064_raman(1:hBaseIndx1064) = tmpAerExt1064_raman(hBaseIndx1064);

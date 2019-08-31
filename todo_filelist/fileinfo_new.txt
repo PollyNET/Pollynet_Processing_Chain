@@ -1,1 +1,1 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_02_05_Tue_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201902\2019_02_05_Tue_LACROS_18_00_01.nc.zip, 239666052, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_ift\data_zip, 2011_11_19_Saturday_12_00_13.nc, pollyxt_ift\data_zip\201111\2011_11_19_Saturday_12_00_13.nc.zip, 45583280, POLLYXT_IFT
