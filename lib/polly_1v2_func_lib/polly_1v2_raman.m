@@ -22,6 +22,7 @@ function [aerBsc532_raman, aerBsc532_RR, aerExt532_raman, aerExt532_RR, LR532_ra
 %           lidar ratio at 532 nm with RR signal. [Sr]
 %   History:
 %       2018-12-23. First Edition by Zhenping
+%       2019-08-31. Add SNR control for elastic signal at reference height as well.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -77,11 +78,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         end
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+        refSig532 = sum(sig532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        refBg532 = sum(bg532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
         refSig607 = sum(sig607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
         refBg607 = sum(bg607(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        snr532 = polly_SNR(refSig532, refBg532);
         snr607 = polly_SNR(refSig607, refBg607);
         
-        if snr607 >= config.minRamanRefSNR607
+        if (snr607 >= config.minRamanRefSNR607) && (snr532 >= config.minRamanRefSNR532)
             tmpAerExt532_raman = thisAerExt532_raman;
             tmpAerExt532_raman(1:hBaseIndx532) = tmpAerExt532_raman(hBaseIndx532);
             [thisAerBsc532_raman, thisLR532_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_raman, config.angstrexp, molExt532, molBsc532, refH, 532, config.refBeta532, config.smoothWin_raman_532, true);

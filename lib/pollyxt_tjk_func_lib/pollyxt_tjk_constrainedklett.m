@@ -60,6 +60,7 @@ function [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_ae
 %           the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
 %   History:
 %       2018-12-23. First Edition by Zhenping
+%       2019-08-31. Add SNR control for the signal at reference height
 %   Contact:
 %       zhenping@tropos.de
 
@@ -96,9 +97,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         refH = [data.distance0(data.refHIndx355(iGroup, 1)), data.distance0(data.refHIndx355(iGroup, 2))];
         [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+        % calculate the SNR at the reference height
+        refSig355 = sum(sig355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
+        refBg355 = sum(bg355(data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2)));
+        snr355 = polly_SNR(refSig355, refBg355);
+
         % search the closest AERONET AOD
         AERONETIndx = search_close_AERONET_AOD(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
-        if ~ isempty(AERONETIndx)
+
+        if (~ isempty(AERONETIndx)) && (snr355 >= config.minRefSNR355)
             AOD_355_aeronet = interp_AERONET_AOD(340, AERONET.AOD_340(AERONETIndx), 380, AERONET.AOD_380(AERONETIndx), 355);
 
             % constrained klett method
@@ -130,9 +137,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
         [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+        % calculate the SNR at the reference height
+        refSig532 = sum(sig532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        refBg532 = sum(bg532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
+        snr532 = polly_SNR(refSig532, refBg532);
+
         % search the closest AERONET AOD
         AERONETIndx = search_close_AERONET_AOD(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
-        if ~ isempty(AERONETIndx)
+
+        if (~ isempty(AERONETIndx)) && (snr532 >= config.minRefSNR532)
             AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETIndx), 675, AERONET.AOD_675(AERONETIndx), 532);
 
             % constrained klett method
@@ -164,9 +177,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         refH = [data.distance0(data.refHIndx1064(iGroup, 1)), data.distance0(data.refHIndx1064(iGroup, 2))];
         [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
+        % calculate the SNR at the reference height
+        refSig1064 = sum(sig1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+        refBg1064 = sum(bg1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+        snr1064 = polly_SNR(refSig1064, refBg1064);
+
         % search the closest AERONET AOD
         AERONETIndx = search_close_AERONET_AOD(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
-        if ~ isempty(AERONETIndx)
+
+        if (~ isempty(AERONETIndx)) && (snr1064 >= config.minRefSNR1064)
             AOD_1064_aeronet = interp_AERONET_AOD(1020, AERONET.AOD_1020(AERONETIndx), 1640, AERONET.AOD_1640(AERONETIndx), 1064);
 
             % constrained klett method
