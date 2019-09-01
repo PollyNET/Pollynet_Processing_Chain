@@ -123,7 +123,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm is too noisy.';
-    elseif (data.height(hIndxLowSNR387) <= config.hWVCaliBase)
+    elseif (data.height(hIndxLowSNR387 + hIndxFullOverlap387 - 1) <= config.hWVCaliBase)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm channel is too noisy.';

@@ -117,8 +117,6 @@ end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
 [data.el532, data.bgEl532] = polly_1v2_transratioCor(data, config);
-
-% TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc532_klett, data.aerExt532_klett] = polly_1v2_klett(data, config);
 [data.aerBsc532_aeronet, data.aerExt532_aeronet, data.LR532_aeronet, data.deltaAOD532] = polly_1v2_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc532_raman, data.aerBsc532_RR, data.aerExt532_raman, data.aerExt532_RR, data.LR532_raman, data.LR532_RR] = polly_1v2_raman(data, config);
