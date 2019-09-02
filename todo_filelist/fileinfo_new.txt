@@ -1,2 +1,1 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_ift\data_zip, 2011_11_27_Sunday_06_00_26.nc, pollyxt_ift\data_zip\201111\2011_11_27_Sunday_06_00_26.nc.zip, 46435872, POLLYXT_IFT
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_ift\data_zip, 2011_11_27_Sunday_18_00_10.nc, pollyxt_ift\data_zip\201111\2011_11_27_Sunday_18_00_10.nc.zip, 46239120, POLLYXT_IFT
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_ift\data_zip, 2013_04_04_Thursday_18_00_07.nc, pollyxt_ift\data_zip\201304\2013_04_04_Thursday_18_00_07.nc.zip, 45452104, POLLYXT_IFT
