@@ -17,6 +17,8 @@ function [dirs] = listdir(path, exppat, depth)
 %       2018-09-14. Add the depth parameter for supporting recursive searching.
 %       2018-11-11. Remove the searched . and .. folder. Rearrange the search 
 %                   logic
+%   Contact:
+%       zhenping@tropos.de
 
 dirs = cell(0);
 
