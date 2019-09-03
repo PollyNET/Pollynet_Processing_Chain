@@ -10,7 +10,7 @@ PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 POLLYNET_CONFIG_FILE="pollynet_processing_chain_config.json"
 
 # Unzip the polly data
-/pollyhome/Picasso/locatenewfiles_newdb.pl
+/pollyhome/Picasso/script/locatenewfiles_newdb.pl
 
 matlab -nodesktop -nosplash << ENDMATLAB
 
