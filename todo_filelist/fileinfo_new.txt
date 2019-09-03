@@ -1,1 +1,4 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_ift\data_zip, 2013_04_04_Thursday_18_00_07.nc, pollyxt_ift\data_zip\201304\2013_04_04_Thursday_18_00_07.nc.zip, 45452104, POLLYXT_IFT
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_09_02_Mon_LACROS_00_00_01.nc, C:\Users\zhenping\Documents\Data\PollyXT\pollyxt_lacros\data_zip\201909, 4232917, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_09_01_Sun_LACROS_06_00_01.nc, C:\Users\zhenping\Documents\Data\PollyXT\pollyxt_lacros\data_zip\201909, 12955862, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2019_09_01_Sun_LACROS_12_00_01.nc, C:\Users\zhenping\Documents\Data\PollyXT\pollyxt_lacros\data_zip\201909, 59094309, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tjk\data_zip, 2019_08_27_Tue_TJK_18_00_01.nc, C:\Users\zhenping\Documents\Data\PollyXT\pollyxt_tjk\data_zip\201908, 13377310, POLLYXT_TJK
