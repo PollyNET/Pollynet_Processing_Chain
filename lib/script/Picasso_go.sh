@@ -8,13 +8,19 @@ PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
 
 # parameter definition
 POLLYNET_CONFIG_FILE="pollynet_processing_chain_config.json"
-
-# Unzip the polly data
-/pollyhome/Picasso/script/locatenewfiles_newdb.pl
+POLLYAPP_CONFIG_FILE="/pollyhome/Picasso/pollyAPP/config/config.private";
 
 matlab -nodesktop -nosplash << ENDMATLAB
 
 POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+
+addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
+addlibpath;
+addincludepath;
+
+% unzip the file
+locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', 50000, now, datenum(0, 1, 4), true);
+
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
 ENDMATLAB
