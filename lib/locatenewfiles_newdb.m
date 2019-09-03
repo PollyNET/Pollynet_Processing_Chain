@@ -79,8 +79,10 @@ todoPath = fileparts(picassoConfig.fileinfo_new);
 picassoLinkFile = picassoConfig.pollynet_config_history_file;
 
 %% connect to the polly database
-% conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, pollyAPPConfig.DATABASE_PASSWORD, 'Vendor', pollyAPPConfig.DATABASE_DRIVER, 'Server', pollyAPPConfig.DATABASE_HOST, 'PortNumber', pollyAPPConfig.DATABASE_PORT);
-conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7801/');
+% connect to database (server)
+conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, pollyAPPConfig.DATABASE_PASSWORD, 'Vendor', pollyAPPConfig.DATABASE_DRIVER, 'Server', pollyAPPConfig.DATABASE_HOST, 'PortNumber', pollyAPPConfig.DATABASE_PORT);
+% connect to database (local test)
+% conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7801/');
 
 %% Retrieve the list of supported system by Picasso
 picassoLinkInfo = read_pollynet_processing_configs(picassoLinkFile);
@@ -100,7 +102,14 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
     sqlCmd = sprintf('SELECT l.name, ld.nc_zip_file, ld.nc_zip_file_size, loc.name, ld.gdas FROM lidar_data ld inner join lidar l, location loc where ld.lidar_fk=l.id and ld.location_fk=loc.id and l.name=''%s'';', pollyUniqNameTable.polly{iPolly});
     res = exec(conn, sqlCmd);
     dbRet = fetch(res);
-    pollyDBDataTable = cell2table(dbRet.Data, 'VariableNames', {'pollyName', 'fileName', 'fileSize', 'location', 'GDAS1'});
+
+    if (length(dbRet.Data) == 1 ) && (strcmpi(dbRet.Data{1}, 'no data'))
+        fprintf('No data was found.\n');
+        pollyDBDataTable = cell2table(cell(0, 5), 'VariableNames', {'pollyName', 'fileName', 'fileSize', 'location', 'GDAS1'});
+    else
+        fprintf('%d polly data file logs were found.\n', size(dbRet.Data, 1));
+        pollyDBDataTable = cell2table(dbRet.Data, 'VariableNames', {'pollyName', 'fileName', 'fileSize', 'location', 'GDAS1'});
+    end
 
     % search all the polly files in the server
     pollySaveData = struct('pollyName', {}, 'GDAS1', {}, 'filePath', {}, 'fileName', {}, 'fileSize', {}, 'date', {});
