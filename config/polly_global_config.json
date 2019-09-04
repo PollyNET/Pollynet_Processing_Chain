@@ -1,5 +1,5 @@
 {
-    "flagCorrectFalseMShots": true,	
+    "flagCorrectFalseMShots": true, 
     "flagFilterFalseMShots": false,
     "flagDTCor": true,
     "flagLCCalibration": true,
@@ -145,8 +145,8 @@
     "quasi_smooth_h": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
     "quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
     "hWVCaliBase": 120,
-	"hWVCaliTop": 8000,
-	"minSNRWVCali": 10,
+    "hWVCaliTop": 8000,
+    "minSNRWVCali": 10,
 
     "clear_thres_par_beta_1064": 1e-8,
     "turbid_thres_par_beta_1064": 2e-7,

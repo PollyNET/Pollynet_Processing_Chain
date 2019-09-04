@@ -1,5 +1,5 @@
 function [filePath] = search_polly_file(pollyFolder, thisTime, ...
-                                        timeLapse, flagLatest)
+                                        timeLapse, flagLatest, flagModifiedTime)
 %SEARCH_POLLY_FILE Search the most recent polly measurement data.
 %   Example:
 %       [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
@@ -14,6 +14,8 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, ...
 %           the search range of the base time. [datenum]
 %       flagLatest: logical
 %           whether to take the latest file only. (Defaults: false)
+%       flagModifiedTime: logical
+%           whether to search file based on its modified time. (Defaults: true)
 %   Outputs:
 %       filePath: cell
 %           the absolute path of the found polly data files.
@@ -22,6 +24,8 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, ...
 %       2019-08-07. Enable the output of multiple filepaths.
 %       2019-08-09. Add the variable to control the output of the latest polly 
 %                   data file.
+%       2019-09-02. Add the flag to search the recent files based on the 
+%                   modiefied time.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -31,6 +35,10 @@ end
 
 if ~ exist('flagLatest', 'var')
     flagLatest = false;
+end
+
+if ~ exist('flagModifiedTime', 'var')
+    flagModifiedTime = false;
 end
 
 % parameter initialization
@@ -60,18 +68,40 @@ if isempty(files)
 end
 
 % convert the filename to the measurement time
-startMeasTime = [];
-for iFile = 1:length(files)
-    pollyFile = files(iFile).name;
-    startMeasTime = [startMeasTime, ...
-                     datenum([datestr(thisTime, 'yyyymmdd'), ...
-                     pollyFile((end-14):(end-13)), ...
-                     pollyFile((end-11):(end-10)), ...
-                     pollyFile((end-8):(end-7))], 'yyyymmddHHMMSS')];
+fileTime = [];
+if ~ flagModifiedTime
+
+    startMeasTime = [];
+    % search file based on the measurement start time
+    % this will omit the files when the files was uploaded with several hours 
+    % delay
+    for iFile = 1:length(files)
+        pollyFile = files(iFile).name;
+        startMeasTime = [startMeasTime, ...
+                        datenum([datestr(thisTime, 'yyyymmdd'), ...
+                        pollyFile((end-14):(end-13)), ...
+                        pollyFile((end-11):(end-10)), ...
+                        pollyFile((end-8):(end-7))], 'yyyymmddHHMMSS')];
+    end
+
+    fileTime = startMeasTime;
+
+elseif flagModifiedTime
+
+    fileModifiedTime = NaN(size(files));
+
+    % search file based on the modified time
+    for iFile = 1:length(files)
+        fileModifiedTime(iFile) = datenum(files(iFile).date, 'dd-mmm-yyyy HH:MM:SS');
+    end
+
+    fileTime = fileModifiedTime;
+else
+    error('flagModifiedTime can only be logical value.');
 end
 
 % search the closest filename.
-flagWithinTimeLapse = abs(thisTime - startMeasTime) < timeLapse;
+flagWithinTimeLapse = abs(thisTime - fileTime) < timeLapse;
 filesWithinTimeLapse = files(flagWithinTimeLapse);
 if sum(flagWithinTimeLapse) == 0
     warning('No current measurement within %5.2f hour.', ...
@@ -81,7 +111,7 @@ end
 
 if flagLatest
     % return the latest polly data file
-    [~, indx] = min(abs(thisTime - startMeasTime));
+    [~, indx] = min(abs(thisTime - fileTime));
     filePath{end + 1} = fullfile(pollyFolder, 'data_zip', ...
         datestr(thisTime, 'yyyymm'), files(indx).name);
 else
