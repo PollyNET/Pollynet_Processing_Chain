@@ -141,7 +141,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
 
     ax.set_title('Lidar constants {wave}nm Far-Range for {instrument} at {location}'.format(wave=607, instrument=pollyVersion, location=location), fontsize=15)
 
-    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fon tsize=15)
+    fig.text(0.05, 0.02, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(0.8, 0.02, 'Version: {version}'.format(version=version), fontsize=15)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
