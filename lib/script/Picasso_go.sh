@@ -1,5 +1,6 @@
 #!/bin/bash
 # Process the current available polly data
+# main script for running Picasso on rsd server
 
 cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
@@ -80,17 +81,23 @@ matlab -nodesktop -nosplash << ENDMATLAB
 POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
 cd(POLLYNET_PROCESSING_DIR);
 
+% add path
 addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
 addlibpath;
 addincludepath;
 
-% unzip the file
-locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', 50000, now, datenum(0, 1, 4), $flagCheckGDAS);
+% load Picasso configuration
+pollynetConfig = loadjson(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
+% unzip the file
+locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', pollynetConfig.minDataSize, now, datenum(0, 1, 4), $flagCheckGDAS);
+
+% running Picasso
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
-ENDMATLAB
+% add done_filelist to the database
+unix(sprintf('/pollyhome/Picasso/pollyAPP/src/util/add_new_data2pollydb.pl %s', pollynetConfig.doneListFile));
 
-/pollyhome/Picasso/pollyAPP/src/util/add_new_data2pollydb.pl /pollyhome/Picasso/done_filelist/done_filelist.txt
+ENDMATLAB
 
 echo "Finish"
