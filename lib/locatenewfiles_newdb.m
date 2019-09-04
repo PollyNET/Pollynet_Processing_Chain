@@ -93,7 +93,7 @@ pollyNamesTab = cell2table(pollyNames, 'VariableNames', {'polly'});
 pollyUniqNameTable = unique(pollyNamesTab, 'rows');   % [table]
 
 %% Search the saved polly data files for each supported lidar
-taskTable = cell2table(cell(0, 5), 'variablenames', {'pollyName', 'filename', 'filePath', 'fileSize', 'GDAS1'});
+taskTable = cell2table(cell(0, 6), 'variablenames', {'pollyName', 'filename', 'filePath', 'fileSize', 'GDAS1', 'date'});
 for iPolly = 1:length(pollyUniqNameTable.polly)
 
     % retrieve the filesize and gdas status from the database
@@ -141,8 +141,8 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
 
         % search the file size in the database
         maskFile = ismember(pollyDBDataTable.fileName, [datestr(pollySaveData(iFile).date,'yyyymm'), '/', filename]);
-        fileSizeOld = pollyDBDataTable(maskFile, 'fileSize');
-        processedWithGDAS1 = pollyDBDataTable(maskFile, 'GDAS1');
+        fileSizeOld = pollyDBDataTable.fileSize(maskFile);
+        processedWithGDAS1 = pollyDBDataTable.GDAS1(maskFile);
         if sum(maskFile) == 0
             % if the file is not in the database
 
@@ -151,17 +151,19 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
             taskEntry.filePath = {pollySaveData(iFile).filePath};
             taskEntry.fileSize = fileSizeNew;
             taskEntry.GDAS1 = pollySaveData(iFile).GDAS1;
+            taskEntry.date = pollySaveData(iFile).date;
 
             taskTable = [taskTable; struct2table(taskEntry)];
             continue;
         end
 
         if fileSizeNew ~= fileSizeOld || (flagCheckGDAS1 && (~ processedWithGDAS1))
-            taskEntry.pollyName = {pollyDBDataTable(maskFile, 'pollyName')};
-            taskEntry.filename = {pollyDBDataTable(maskFile, 'fileName')};
+            taskEntry.pollyName = {pollyDBDataTable.pollyName{maskFile}};
+            taskEntry.filename = {basename(pollyDBDataTable.fileName{maskFile})};
             taskEntry.filePath = {pollySaveData(iFile).filePath};
             taskEntry.fileSize = fileSizeNew;
-            taskEntry.GDAS1 = pollyDBDataTable(maskFile, 'GDAS1');
+            taskEntry.GDAS1 = pollyDBDataTable.GDAS1(maskFile);
+            taskEntry.date = pollySaveData(iFile).date;
 
             taskTable = [taskTable; struct2table(taskEntry)];
         end
@@ -205,7 +207,7 @@ fid = fopen(picassoConfig.fileinfo_new, 'w');
 
 for iTask = 1:length(taskTable.filename)
     if unzipStatus(iTask)
-        fprintf(fid, '%s, %s, %s, %s, %d, %s\n', todoPath, fullfile(taskTable.pollyName{iTask}, 'data_zip'), basename(unzipFilename{iTask}), taskTable.filePath{iTask}, taskTable.fileSize(iTask), upper(taskTable.pollyName{iTask}));
+        fprintf(fid, '%s, %s, %s, %s, %d, %s\n', todoPath, fullfile(taskTable.pollyName{iTask}, 'data_zip'), basename(unzipFilename{iTask}), fullfile(datestr(taskTable.date(iTask), 'yyyymm'), taskTable.filename{iTask}), taskTable.fileSize(iTask), upper(taskTable.pollyName{iTask}));
     end
 end
 
