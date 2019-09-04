@@ -23,6 +23,7 @@ function [tc_mask] = pollyxt_tau_targetclassi_V2(data, config)
 %			'11: Cloud: likely ice crystal
 %   History:
 %       2019-08-03. First Edition by Zhenping
+%       2019-08-30. Add SNR criteria to treat the bits with low SNR as 'No Signal'.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -78,6 +79,9 @@ end
 
 %% set the value during the depolarization calibration period or in fog conditions to 0
 tc_mask(:, data.depCalMask | data.fogMask | data.shutterOnMask) = 0;
+
+%% set the value with low SNR to 0
+tc_mask((data.quality_mask_532_V2 ~= 0) | (data.quality_mask_1064_V2 ~= 0) | (data.quality_mask_volDepol_532_V2 ~= 0)) = 0;
 
 
 function flag_cloud = flag_cloud_search(height, beta_1064, config)

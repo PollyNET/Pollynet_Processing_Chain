@@ -76,12 +76,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         % calculate the SNR at the reference height
         refSig532 = sum(sig532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
         refBg532 = sum(bg532(data.refHIndx532(iGroup, 1):data.refHIndx532(iGroup, 2)));
-        snr532 = polly_SNR(refSig532, refBg532);
+        snrRef532 = polly_SNR(refSig532, refBg532);
 
         % search the closest AERONET AOD
         AERONETIndx = search_close_AERONET_AOD(mean(data.mTime(data.cloudFreeGroups(iGroup, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
 
-        if (~ isempty(AERONETIndx)) && (snr532 >= config.m532)
+        if (~ isempty(AERONETIndx)) && (snrRef532 >= config.minRefSNR532)
             AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETIndx), 675, AERONET.AOD_675(AERONETIndx), 532);
 
             % constrained klett method

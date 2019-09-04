@@ -17,8 +17,8 @@ function [thisDatetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, 
 %       site: char
 %           AERONET site. You can find the nearest site by referring to 
 %           doc/AERONET-station-list.txt 
-%       mdate: datenum
-%           the measurement day. 
+%       mdate: integer or two-element array
+%           the measurement day or [startDate, endDate]. [datenum] 
 %       level: char
 %           product level. ('10', '15', '20')
 %       flagFilterNegAOD: logical
@@ -59,6 +59,7 @@ function [thisDatetime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, 
 %       2018-12-23. Second Edition by Zhenping
 %       2019-02-06. Add 'flagFilterNegAOD' to keyword to enable filtering out 
 %                   negative AOD values.
+%       2019-09-01. Enable download the AERONET data between two dates.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -87,18 +88,29 @@ AERONETAttri.PI = '';
 AERONETAttri.contact = '';
 
 % specify date to download appropriate AOD file
-[thisyear, thismonth, thisday] = datevec(mdate);
+if length(mdate) == 1
+    [thisyear1, thismonth1, thisday1] = datevec(mdate);
+    [thisyear2, thismonth2, thisday2] = datevec(mdate);
+elseif length(mdate) == 2
+    [thisyear1, thismonth1, thisday1] = datevec(mdate(1));
+    [thisyear2, thismonth2, thisday2] = datevec(mdate(end));
+else
+    warning('mdate can only be an integer or an 2-element array.');
+    return;
+end
 
-% year = datestr(time, 'yy');
-thisYearStr = num2str(thisyear - 1900);
-thisMonthStr = num2str(thismonth);
-thisDayStr = num2str(thisday);
+thisYearStr1 = num2str(thisyear1 - 1900);
+thisMonthStr1 = num2str(thismonth1);
+thisDayStr1 = num2str(thisday1);
+thisYearStr2 = num2str(thisyear2 - 1900);
+thisMonthStr2 = num2str(thismonth2);
+thisDayStr2 = num2str(thisday2);
 
 % link to access website to create file
-aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' ...
-    site '&year=' thisYearStr '&month=' thisMonthStr '&day=' ...
-    thisDayStr '&year2=' thisYearStr ...
-    '&month2=' thisMonthStr '&day2=' thisDayStr '&LEV' level '=1&AVG=10'];
+aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' site ...
+    '&year=' thisYearStr1 '&month=' thisMonthStr1 '&day=' thisDayStr1 ...
+    '&year2=' thisYearStr2 '&month2=' thisMonthStr2 '&day2=' thisDayStr2 ...
+    '&LEV' level '=1&AVG=10'];
 
 % call the system command 'wget' to download the html text
 if ispc
