@@ -78,6 +78,7 @@ done
 matlab -nodesktop -nosplash << ENDMATLAB
 
 POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
+cd(POLLYNET_PROCESSING_DIR);
 
 addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
 addlibpath;
