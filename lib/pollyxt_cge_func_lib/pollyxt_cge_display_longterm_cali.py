@@ -172,7 +172,6 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
     LCTime = [datenum_to_datetime(thisTime) for thisTime in thisLCTime]
     logbookTime = [datenum_to_datetime(thisTime) for thisTime in thisLogbookTime]
     elseTime = [datenum_to_datetime(thisElseTime) for thisElseTime in else_time]
-    depolCaliTime532 = [datenum_to_datetime(thisTime) for thisTime in thisDepolCaliTime532]
 
     lineColor = {'overlap': '#f48f42', 'windowwipe': '#ff66ff', 'flashlamps': '#993333', 'pulsepower': '#990099', 'restart': '#ffff00', 'NDChange': '#333300', 'else': '#00ff00'}
 
