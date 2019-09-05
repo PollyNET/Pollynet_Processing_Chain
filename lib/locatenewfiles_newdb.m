@@ -115,17 +115,19 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
     pollySaveData = struct('pollyName', {}, 'GDAS1', {}, 'filePath', {}, 'fileName', {}, 'fileSize', {}, 'date', {});
 
     fprintf('Start to search data files for %s in the server.\n', pollyUniqNameTable.polly{iPolly});
+    fileCount = 0;
     for thisDate = floor(tSearchStart - tSearchRange):floor(tSearchStart)
         [year, month, day] = datevec(thisDate);
         files = dir(fullfile(pollyDataBaseDir, pollyUniqNameTable.polly{iPolly}, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
 
         for iFile = 1:length(files)
-            pollySaveData(iFile).pollyName = pollyUniqNameTable.polly{iPolly};
-            pollySaveData(iFile).GDAS1 = false;
-            pollySaveData(iFile).filePath = fullfile(pollyDataBaseDir, pollyUniqNameTable.polly{iPolly}, 'data_zip', sprintf('%04d%02d', year, month));
-            pollySaveData(iFile).fileName = files(iFile).name;
-            pollySaveData(iFile).fileSize = files(iFile).bytes;
-            pollySaveData(iFile).date = datenum(year, month, day);
+            fileCount = fileCount + 1;
+            pollySaveData(fileCount).pollyName = pollyUniqNameTable.polly{iPolly};
+            pollySaveData(fileCount).GDAS1 = false;
+            pollySaveData(fileCount).filePath = fullfile(pollyDataBaseDir, pollyUniqNameTable.polly{iPolly}, 'data_zip', sprintf('%04d%02d', year, month));
+            pollySaveData(fileCount).fileName = files(iFile).name;
+            pollySaveData(fileCount).fileSize = files(iFile).bytes;
+            pollySaveData(fileCount).date = datenum(year, month, day);
         end
     end
 
@@ -157,7 +159,7 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
             continue;
         end
 
-        if fileSizeNew ~= fileSizeOld || (flagCheckGDAS1 && (~ processedWithGDAS1))
+        if (fileSizeNew ~= fileSizeOld) || (flagCheckGDAS1 && (~ processedWithGDAS1))
             taskEntry.pollyName = {pollyDBDataTable.pollyName{maskFile}};
             taskEntry.filename = {basename(pollyDBDataTable.fileName{maskFile})};
             taskEntry.filePath = {pollySaveData(iFile).filePath};
