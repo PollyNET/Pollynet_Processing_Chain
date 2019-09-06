@@ -80,9 +80,8 @@ picassoLinkFile = picassoConfig.pollynet_config_history_file;
 
 %% connect to the polly database
 % connect to database (server)
-% conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, pollyAPPConfig.DATABASE_PASSWORD, 'Vendor', pollyAPPConfig.DATABASE_DRIVER, 'Server', pollyAPPConfig.DATABASE_HOST, 'PortNumber', pollyAPPConfig.DATABASE_PORT);
-% connect to database (local test)
-conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7802/');
+conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, pollyAPPConfig.DATABASE_PASSWORD, 'Vendor', pollyAPPConfig.DATABASE_DRIVER, 'Server', pollyAPPConfig.DATABASE_HOST, 'PortNumber', pollyAPPConfig.DATABASE_PORT);
+% conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7802/');
 
 %% Retrieve the list of supported system by Picasso
 picassoLinkInfo = read_pollynet_processing_configs(picassoLinkFile);
