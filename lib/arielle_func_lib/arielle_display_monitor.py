@@ -128,7 +128,7 @@ def arielle_display_monitor(tmpFile, saveFolder):
     fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(5, figsize=(15, 14), sharex=True, gridspec_kw = {'height_ratios':[1, 1, 1.6, 1, 0.6]})
 
     if AD.size != 0:
-        if AD[0][0] > 990:
+        if AD[0][0] <= 990:
             ax1.plot(time, AD)
             ax1.set_ylim([100, 250])
             ax1.set_ylabel("AD [a.u.]", fontsize=15)
