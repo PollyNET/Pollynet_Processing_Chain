@@ -61,6 +61,8 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol
 %   History:
 %       2018-07-25. First edition by Zhenping.
 %       2019-06-08. If no depol cali, return empty array.
+%       2019-09-06. Remove the part to replace the bins of low SNR with NaN, 
+%                   because it will lead to bias when doing smoothing.
 %   Contact:
 %       zhenping@tropos.de
     
@@ -124,29 +126,35 @@ for iDay = 1:nDays
         sig_t_p = nanmean(signal_t(:, indx_45p), 2);
         bg_t_p = nanmean(bg_t(:, indx_45p), 2);
         SNR_t_p = polly_SNR(sig_t_p, bg_t_p);
-        sig_t_p(SNR_t_p <= SNRmin(1) | sig_t_p >= sigMax(1)) = NaN;
+        % sig_t_p(SNR_t_p <= SNRmin(1) | sig_t_p >= sigMax(1)) = NaN;
+        indxBad_t_p = (SNR_t_p <= SNRmin(1)) | (sig_t_p >= sigMax(1));
 
         sig_t_m = nanmean(signal_t(:, indx_45m), 2);
         bg_t_m = nanmean(bg_t(:, indx_45m), 2);
         SNR_t_m = polly_SNR(sig_t_m, bg_t_m);
-        sig_t_m(SNR_t_m <= SNRmin(2) | sig_t_m >= sigMax(2)) = NaN;
+        % sig_t_m(SNR_t_m <= SNRmin(2) | sig_t_m >= sigMax(2)) = NaN;
+        indxBad_t_m = (SNR_t_m <= SNRmin(2)) | (sig_t_m >= sigMax(2));
 
         sig_x_p = nanmean(signal_x(:, indx_45p), 2);
         bg_x_p = nanmean(bg_x(:, indx_45p), 2);
         SNR_x_p = polly_SNR(sig_x_p, bg_x_p);
-        sig_x_p(SNR_x_p <= SNRmin(3) | sig_x_p >= sigMax(3)) = NaN;
+        % sig_x_p(SNR_x_p <= SNRmin(3) | sig_x_p >= sigMax(3)) = NaN;
+        indxBad_x_p = (SNR_x_p <= SNRmin(3)) | (sig_x_p >= sigMax(3));
 
         sig_x_m = nanmean(signal_x(:, indx_45m), 2);
         bg_x_m = nanmean(bg_x(:, indx_45m), 2);
         SNR_x_m = polly_SNR(sig_x_m, bg_x_m);
-        sig_x_m(SNR_x_m <= SNRmin(4) | sig_x_m >= sigMax(4)) = NaN;
+        % sig_x_m(SNR_x_m <= SNRmin(4) | sig_x_m >= sigMax(4)) = NaN;
+        indxBad_x_m = (SNR_x_m <= SNRmin(4)) | (sig_x_m >= sigMax(4));
 
-        dplus = smooth(sig_x_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ ...
-                smooth(sig_t_p(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
-        dminus = smooth(sig_x_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin) ./ ...
-                 smooth(sig_t_m(caliHIndxRange(1):caliHIndxRange(2)), 'moving', smoothWin);
+        dplus = smooth(sig_x_p, 'moving', smoothWin) ./ smooth(sig_t_p, 'moving', smoothWin);
+        dminus = smooth(sig_x_m, 'moving', smoothWin) ./ smooth(sig_t_m, 'moving', smoothWin);
         dplus(isinf(dplus)) = NaN;
         dminus(isinf(dminus)) = NaN;
+        dplus(indxBad_t_p | indxBad_x_p) = NaN;
+        dminus(indxBad_t_m | indxBad_x_m) = NaN;
+        dplus = dplus(caliHIndxRange(1):caliHIndxRange(2));
+        dminus = dminus(caliHIndxRange(1):caliHIndxRange(2));
 
         mean_dplus_tmp = [];
         std_dplus_tmp = [];
