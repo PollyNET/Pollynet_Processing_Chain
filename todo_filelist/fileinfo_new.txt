@@ -1,4 +1,1 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2018_01_08_Mon_LACROS_00_00_01.nc, pollyxt_lacros\data_zip\201801\2018_01_08_Mon_LACROS_00_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2018_01_08_Mon_LACROS_06_00_01.nc, pollyxt_lacros\data_zip\201801\2018_01_08_Mon_LACROS_06_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2018_01_08_Mon_LACROS_12_00_01.nc, pollyxt_lacros\data_zip\201801\2018_01_08_Mon_LACROS_12_00_01.nc.zip, 221231092, POLLYXT_LACROS
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_lacros\data_zip, 2018_01_08_Mon_LACROS_18_00_01.nc, pollyxt_lacros\data_zip\201801\2018_01_08_Mon_LACROS_18_00_01.nc.zip, 221231092, POLLYXT_LACROS
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_fmi\data_zip, 2019_09_10_Tue_FMI_06_00_01.nc, pollyxt_fmi\data_zip\201909\2019_09_10_Tue_FMI_06_00_01.nc.zip, 46400152, POLLYXT_FMI
