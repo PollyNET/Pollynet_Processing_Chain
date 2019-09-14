@@ -2,7 +2,7 @@ function [tIWV, IWV, IWVErr, IWVAttri] = read_MWR_IWV(file)
 %READ_MWR_IWV read the integrated water vapor from the microwave radiometer 
 %outputs.
 %   Example:
-%       [tIWV, IWV, IWVErr] = read_MWR_IWV(tIWV, IWV, IWVErr Inputs:
+%       [tIWV, IWV, IWVErr] = read_MWR_IWV(tIWV, IWV, IWVErr Inputs)
 %   Inputs:
 %       file: char
 %           netcdf file of saving the IWV results from HATPRO. Generally you can
