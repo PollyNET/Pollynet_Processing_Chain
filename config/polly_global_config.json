@@ -71,7 +71,7 @@
     "TR": [0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1],
     "overlapCalMode": 1,
     "maxSigSlope4FilterCloud": 3e6,
-    "maxSigSlope4FilterCloud_NR": 0.5e5,
+    "maxSigSlope4FilterCloud_NR": 4e5,
     "saturate_thresh": 100,
     "heightFullOverlap": [500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150],
     "minSNR_4_sigNorm": [10],
