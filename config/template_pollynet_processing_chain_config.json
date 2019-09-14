@@ -22,8 +22,9 @@
 
     "visualizationMode": "python",
     "pyBinDir": "/pollyhome/Picasso/anaconda3/bin",
-    "flagDeleteData": false,
 
+    "flagDeleteData": false,
+    "flagDeletePreOutputs": true,
     "flagEnableResultsOutput": true,
     "flagEnableCaliResultsOutput": true,
     "flagEnableDataVisualization": true,

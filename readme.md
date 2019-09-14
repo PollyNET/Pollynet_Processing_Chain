@@ -25,7 +25,7 @@ Detailed information about the program and the algorithms used inside can be fou
 
 ### Requirement
 
-The program has been tested in matlab 2014a. And it can run on both window 10 and centos 6, which has been fully tested. 
+The program has been tested in **MATLAB 2014a** and **2018a**. And it can run on both **window 10** and **centos 6**, which has been fully tested. 
 
 ### Download
 
