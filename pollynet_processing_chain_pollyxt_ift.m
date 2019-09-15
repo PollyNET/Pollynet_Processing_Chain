@@ -206,7 +206,7 @@ if processInfo.flagEnableResultsOutput
         % This is only necessary when you run the code on the live server, 
         % where the polly data keep being updated every now and then. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
-        fprintf('\n[%s] Start tp delete previous nc files.\n', tNow());
+        fprintf('\n[%s] Start to delete previous nc files.\n', tNow());
 
         % search files associated with the same start time
         fileList = listfile(fullfile(processInfo.results_folder, ...
@@ -263,7 +263,7 @@ if processInfo.flagEnableDataVisualization
         % This is only necessary when you run the code on the live server, 
         % where the polly data keep being updated every now and then. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
-        fprintf('\n[%s] Start tp delete previous figures.\n', tNow());
+        fprintf('\n[%s] Start to delete previous figures.\n', tNow());
 
         % search files associated with the same start time
         fileList = listfile(fullfile(processInfo.pic_folder, ...
