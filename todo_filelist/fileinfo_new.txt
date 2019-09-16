@@ -1,1 +1,5 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_14_Sat_TAU_00_00_01.nc, pollyxt_tau\data_zip\201909\2019_09_14_Sat_TAU_00_00_01.nc.zip, 221231076, POLLYXT_TAU
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_15_Sun_TAU_00_00_01.nc, pollyxt_tau\data_zip\201909\2019_09_15_Sun_TAU_00_00_01.nc.zip, 221231076, POLLYXT_TAU
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_15_Sun_TAU_06_00_01.nc, pollyxt_tau\data_zip\201909\2019_09_15_Sun_TAU_06_00_01.nc.zip, 88802016, POLLYXT_TAU
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_15_Sun_TAU_10_13_57.nc, pollyxt_tau\data_zip\201909\2019_09_15_Sun_TAU_10_13_57.nc.zip, 64221216, POLLYXT_TAU
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_15_Sun_TAU_12_00_01.nc, pollyxt_tau\data_zip\201909\2019_09_15_Sun_TAU_12_00_01.nc.zip, 2769216, POLLYXT_TAU
+C:\Users\zhenping\Desktop\Picasso\todo_filelist, pollyxt_tau\data_zip, 2019_09_15_Sun_TAU_13_16_07.nc, pollyxt_tau\data_zip\201909\2019_09_15_Sun_TAU_13_16_07.nc.zip, 155170176, POLLYXT_TAU

@@ -51,6 +51,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, ...
 %                   New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
 %       2019-08-03. Using the SNR for the final determination. The higher SNR of
 %                   the reference, the better.
+%       2019-09-15. Fix the bug in slope criteria.
 %  Contact:
 %       zhenping@tropos.de
 
@@ -161,12 +162,12 @@ for iIndx = 1:length(dpIndx) - 1
     residual_fit = thisIntersect + thisSlope * x;
     et = residual - residual_fit;
     d = sum((et(2:end) - et(1:(end-1))).^2) / sum(et.^2);
-    if ~((d >= 1.5) && (d <= 2.5)) && (flagShowDetail)
+    if ~((d >= 1) && (d <= 3)) && (flagShowDetail)
         fprintf('Region %d: %f - %f fails in white-noise criterion.\n', ...
                 iIndx, height(iDpBIndx), height(iDpTIndx));
         test3 = false;
         continue;
-    elseif ~((d >= 1.5) && (d <= 2.5))
+    elseif ~((d >= 1) && (d <= 3))
         test3 = false;
         continue;
     end
@@ -219,8 +220,10 @@ for iIndx = 1:length(dpIndx) - 1
                 height(iDpBIndx), height(iDpTIndx));
         test5 = false;
         continue;
-    elseif ~ (molSlope <= (aerSlope + deltaAerSlope * slopeConstrain) && ...
-             (molSlope >= (aerSlope - deltaAerSlope * slopeConstrain)))
+    elseif ~ (molSlope <= (aerSlope + (deltaAerSlope + deltaMolSlope) * ...
+                          slopeConstrain) && ...
+             (molSlope >= (aerSlope - (deltaAerSlope + deltaMolSlope) * ...
+                          slopeConstrain)))
         test5 = false;
         continue;
     end
