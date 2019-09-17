@@ -141,7 +141,8 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
         end
 
         % search the file size in the database
-        maskFile = ismember(pollyDBDataTable.fileName, [datestr(pollySaveData(iFile).date,'yyyymm'), '/', filename]);
+        maskFile = ismember(pollyDBDataTable.fileName, ...
+                 [datestr(pollySaveData(iFile).date,'yyyymm'), '/', filename]);
         fileSizeOld = pollyDBDataTable.fileSize(maskFile);
         processedWithGDAS1 = pollyDBDataTable.GDAS1(maskFile);
         if sum(maskFile) == 0
@@ -156,6 +157,18 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
 
             taskTable = [taskTable; struct2table(taskEntry)];
             continue;
+        end
+
+        if sum(maskFile) > 1
+            % if multiple files were found, choose the file with the largest
+            % file size
+            warning('Multiple entries were found for %s',  [datestr(pollySaveData(iFile).date,'yyyymm'), '/', filename]);
+
+            [maxFileSizeOld, maxIndx] = max(fileSizeOld);
+            fileSizeOld = maxFileSizeOld;
+            processedWithGDAS1 = pollyDBDataTable.GDAS1(maxIndx);
+            maskFile = false(size(maskFile));
+            maskFile(maxIndx) = true;
         end
 
         if (fileSizeNew ~= fileSizeOld) || (flagCheckGDAS1 && (~ processedWithGDAS1))
