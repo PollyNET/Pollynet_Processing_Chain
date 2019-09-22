@@ -116,7 +116,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v7');
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_quasiretrieving.py');

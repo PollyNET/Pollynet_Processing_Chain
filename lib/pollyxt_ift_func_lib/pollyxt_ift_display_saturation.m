@@ -211,7 +211,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo', '-v7');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_saturation.py');
