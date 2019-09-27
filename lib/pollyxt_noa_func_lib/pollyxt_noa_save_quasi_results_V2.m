@@ -13,6 +13,7 @@ function [] = pollyxt_noa_save_quasi_results_V2(data, taskInfo, config)
 %       
 %   History:
 %       2019-08-03. First Edition by Zhenping
+%       2019-09-27. Turn on the netCDF4 compression.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -20,7 +21,10 @@ global processInfo defaults campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results_V2.nc', rmext(taskInfo.dataFilename)));
 
-ncID = netcdf.create(ncfile, 'clobber');
+mode = netcdf.getConstant('NETCDF4');
+mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
+mode = bitor(mode, netcdf.getConstant('CLOBBER'));
+ncID = netcdf.create(ncfile, mode);
 
 % define dimensions
 dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
@@ -40,6 +44,18 @@ varID_quasi_ang_532_1064 = netcdf.defVar(ncID, 'quasi_ang_532_1064', 'NC_DOUBLE'
 varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
+
+% define the filling value
+netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_1064, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_ang_532_1064, false, -999);
+
+% define the data compression
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_1064, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_pardepol_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_ang_532_1064, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -98,7 +114,6 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
-netcdf.putAtt(ncID, varID_quasi_bsc_532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
@@ -112,7 +127,6 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'long_name', 'quasi aerosol backscatter coefficients at 1064 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'standard_name', 'quasi_bsc_1064');
-netcdf.putAtt(ncID, varID_quasi_bsc_1064, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_range', config.quasi_beta_cRange_1064/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', campaignInfo.name);
@@ -125,7 +139,6 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'comment', 'This parameter is retrieve
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'unit', '');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'long_name', 'quasi particle depolarization ratio at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'standard_name', 'quasi_pardepol_532');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.quasi_Par_DR_cRange_532);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', campaignInfo.name);
@@ -138,7 +151,6 @@ netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'comment', 'This parameter is retr
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'long_name', 'quasi backscatter-related angstroem exponent at 532-1064');
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'standard_name', 'quasi_ang_532_1064');
-netcdf.putAtt(ncID, varID_quasi_ang_532_1064, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'plot_range', [0, 2]);
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'source', campaignInfo.name);
