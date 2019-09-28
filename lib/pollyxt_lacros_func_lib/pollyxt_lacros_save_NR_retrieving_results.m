@@ -13,6 +13,7 @@ function [] = pollyxt_lacros_save_NR_retrieving_results(data, taskInfo, config)
 %       
 %   History:
 %       2019-08-06. First Edition by Zhenping
+%       2019-09-27. Turn on the netCDF4 compression.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -30,7 +31,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     refH532 = config.refH_NR_532;
 
     % create .nc file by overwriting any existing file with the name filename
-    ncID = netcdf.create(ncFile, 'clobber');
+    mode = netcdf.getConstant('NETCDF4');
+    mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
+    mode = bitor(mode, netcdf.getConstant('CLOBBER'));
+    ncID = netcdf.create(ncFile, mode);
 
     %% define dimensions
     dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
@@ -56,6 +60,34 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_DOUBLE', dimID_height);
     varID_reference_height_355 = netcdf.defVar(ncID, 'reference_height_355', 'NC_DOUBLE', dimID_refHeight);
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
+
+    % define the filling value
+    netcdf.defVarFill(ncID, varID_aerBsc_klett_NR_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_klett_NR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_raman_NR_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_raman_NR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerExt_raman_NR_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerExt_raman_NR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerLR_raman_NR_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerLR_raman_NR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
+    netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
+    netcdf.defVarFill(ncID, varID_reference_height_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_reference_height_532, false, missing_value);
+
+    % define the data compression
+    netcdf.defVarDeflate(ncID, varID_aerBsc_klett_NR_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerBsc_klett_NR_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerBsc_raman_NR_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerBsc_raman_NR_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerExt_raman_NR_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerExt_raman_NR_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerLR_raman_NR_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerLR_raman_NR_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_pressure, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_reference_height_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_reference_height_532, true, true, 5);
 
     % leve define mode
     netcdf.endDef(ncID);
@@ -125,7 +157,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'long_name', 'aerosol backscatter coefficient at near-range 355 nm retrieved with Klett method');
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'standard_name', 'beta (aer, 355 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'plot_range', config.aerBscProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_355, 'source', campaignInfo.name);
@@ -137,7 +168,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'long_name', 'aerosol backscatter coefficient at near-range 532 nm retrieved with Klett method');
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'standard_name', 'beta (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'plot_range', config.aerBscProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_NR_532, 'source', campaignInfo.name);
@@ -149,7 +179,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'long_name', 'aerosol backscatter coefficient at near-range 355 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'standard_name', 'beta (aer, 355 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'plot_range', config.aerBscProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_355, 'source', campaignInfo.name);
@@ -161,7 +190,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'long_name', 'aerosol backscatter coefficient at near-range 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'standard_name', 'beta (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'plot_range', config.aerBscProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_NR_532, 'source', campaignInfo.name);
@@ -173,7 +201,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'unit_html', 'm<sup>-1</sup>');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'long_name', 'aerosol extinction coefficient at 355 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'standard_name', 'alpha (aer, 355 nm)');
-    netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'plot_range', config.aerExtProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_355, 'source', campaignInfo.name);
@@ -185,7 +212,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'unit_html', 'm<sup>-1</sup>');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'long_name', 'aerosol extinction coefficient at 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'standard_name', 'alpha (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'plot_range', config.aerExtProfileRange/1e6);
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_NR_532, 'source', campaignInfo.name);
@@ -196,7 +222,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'unit', 'sr');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'long_name', 'aerosol lidar ratio at 355 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'standard_name', 'S (aer, 355 nm)');
-    netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'plot_range', config.aerLRProfileRange);
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_355, 'source', campaignInfo.name);
@@ -207,7 +232,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'unit', 'sr');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'long_name', 'aerosol lidar ratio at 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'standard_name', 'S (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'plot_range', config.aerLRProfileRange);
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_NR_532, 'source', campaignInfo.name);
@@ -219,8 +243,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_temperature, 'unit_html', '&#176C');
     netcdf.putAtt(ncID, varID_temperature, 'long_name', 'Temperature');
     netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'air_temperature');
-    netcdf.putAtt(ncID, varID_temperature, 'missing_value', missing_value);
-    netcdf.putAtt(ncID, varID_temperature, '_FillValue', -999);
     netcdf.putAtt(ncID, varID_temperature, 'plot_range', [-60, 40]);
     netcdf.putAtt(ncID, varID_temperature, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_temperature, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
@@ -229,8 +251,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
     netcdf.putAtt(ncID, varID_pressure, 'long_name', 'Pressure');
     netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'air_pressure');
-    netcdf.putAtt(ncID, varID_pressure, 'missing_value', missing_value);
-    netcdf.putAtt(ncID, varID_pressure, '_FillValue', -999);
     netcdf.putAtt(ncID, varID_pressure, 'plot_range', [0, 1000]);
     netcdf.putAtt(ncID, varID_pressure, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_pressure, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
@@ -239,7 +259,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_reference_height_355, 'unit', 'm');
     netcdf.putAtt(ncID, varID_reference_height_355, 'long_name', 'Reference height for near-range 355 nm');
     netcdf.putAtt(ncID, varID_reference_height_355, 'standard_name', 'ref_h_355');
-    netcdf.putAtt(ncID, varID_reference_height_355, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_reference_height_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_355, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_reference_height_355, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
@@ -248,7 +267,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_reference_height_532, 'unit', 'm');
     netcdf.putAtt(ncID, varID_reference_height_532, 'long_name', 'Reference height for near-range 532 nm');
     netcdf.putAtt(ncID, varID_reference_height_532, 'standard_name', 'ref_h_532');
-    netcdf.putAtt(ncID, varID_reference_height_532, 'missing_value', missing_value);
     netcdf.putAtt(ncID, varID_reference_height_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_reference_height_532, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
@@ -260,14 +278,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
     netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
-cwd = pwd;
-cd(processInfo.projectDir);
-gitInfo = getGitInfo();
-cd(cwd);
-netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
+    netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+    cwd = pwd;
+    cd(processInfo.projectDir);
+    gitInfo = getGitInfo();
+    cd(cwd);
+    netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
     
-% close file
+    % close file
     netcdf.close(ncID);
-    
+end
+
 end

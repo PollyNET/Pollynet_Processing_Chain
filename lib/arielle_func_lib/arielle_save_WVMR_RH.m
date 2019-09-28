@@ -9,6 +9,7 @@ function [] = arielle_save_WVMR_RH(data, taskInfo, config)
 %   History:
 %       2019-03-15. First Edition by Zhenping
 %       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%       2019-09-27. Turn on the netCDF4 compression.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -18,7 +19,10 @@ global processInfo defaults campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
 
-ncID = netcdf.create(ncfile, 'clobber');
+mode = netcdf.getConstant('NETCDF4');
+mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
+mode = bitor(mode, netcdf.getConstant('CLOBBER'));
+ncID = netcdf.create(ncfile, mode);
 
 % define dimensions
 dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
@@ -33,6 +37,14 @@ varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
+
+% define the filling value
+netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
+netcdf.defVarFill(ncID, varID_RH, false, missing_value);
+
+% define the data compression
+netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -86,7 +98,6 @@ netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-netcdf.putAtt(ncID, varID_WVMR, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
@@ -98,7 +109,6 @@ netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The water vapor channel was 
 netcdf.putAtt(ncID, varID_RH, 'unit', '%');
 netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
-netcdf.putAtt(ncID, varID_RH, '_FillValue', missing_value);
 netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
 netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);

@@ -19,6 +19,7 @@ function [] = polly_1v2_save_overlap(data, taskInfo, config, globalAttri, file)
 %   History:
 %       2018-12-21. First Edition by Zhenping
 %       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%       2019-09-27. Turn on the netCDF4 compression.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -39,7 +40,10 @@ if isempty(overlap532Defaults)
 end
 
 % Create .nc file by overwriting any existing file with the name filename
-ncID = netcdf.create(file, 'CLOBBER');
+mode = netcdf.getConstant('NETCDF4');
+mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
+mode = bitor(mode, netcdf.getConstant('CLOBBER'));
+ncID = netcdf.create(file, mode);
 
 % define dimensions
 dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
@@ -56,6 +60,14 @@ varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
 varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_DOUBLE', dimID_height);
 varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_DOUBLE', dimID_height);
 varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
+
+% define the filling value
+netcdf.defVarFill(ncID, varID_overlap532, false, -999);
+netcdf.defVarFill(ncID, varID_overlap532Defaults, false, -999);
+
+% define the data compression
+netcdf.defVarDeflate(ncID, varID_overlap532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_overlap355Defaults, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -114,7 +126,6 @@ netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
 % overlap 532
 netcdf.putAtt(ncID, varID_overlap532, 'unit', '');
 netcdf.putAtt(ncID, varID_overlap532, 'long_name', 'overlap function for 532nm far-range channel');
-netcdf.putAtt(ncID, varID_overlap532, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_overlap532, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532, 'valid_max', 100);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_range', [0, 1.1]);
@@ -125,7 +136,6 @@ netcdf.putAtt(ncID, varID_overlap532, 'comment', 'This variable is not quality-a
 % Default overlap 532
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'unit', '');
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'long_name', 'Default overlap function for 532nm far-range channel');
-netcdf.putAtt(ncID, varID_overlap532Defaults, '_FillValue', -999.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_range', [0, 1.1]);
