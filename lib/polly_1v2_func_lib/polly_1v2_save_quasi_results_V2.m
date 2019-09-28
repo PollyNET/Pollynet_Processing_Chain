@@ -43,6 +43,14 @@ varID_quasi_pardepol_532 = netcdf.defVar(ncID, 'quasi_pardepol_532', 'NC_DOUBLE'
 varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
 
+% define the filling value
+netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
+
+% define the data compression
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_pardepol_532, true, true, 5);
+
 % leave define mode
 netcdf.endDef(ncID);
 
@@ -56,14 +64,6 @@ netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532_V2);
 netcdf.putVar(ncID, varID_quasi_pardepol_532, data.quasi_parDepol_532_V2);
 netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532_V2);
 netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_volDepol_532_V2);
-
-% define the filling value
-netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
-netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
-
-% define the data compression
-netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_quasi_pardepol_532, true, true, 5);
 
 % re enter define mode
 netcdf.reDef(ncID);
