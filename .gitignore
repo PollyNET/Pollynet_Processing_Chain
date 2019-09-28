@@ -13,3 +13,4 @@ todo_filelist/
 test/
 lib/__pycache__/
 debug.mat
+netcdf4/
