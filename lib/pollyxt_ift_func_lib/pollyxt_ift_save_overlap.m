@@ -70,13 +70,11 @@ varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method)
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_overlap532, false, -999);
-netcdf.defVarFill(ncID, varID_overlap355, false, -999);
 netcdf.defVarFill(ncID, varID_overlap532Defaults, false, -999);
 netcdf.defVarFill(ncID, varID_overlap355Defaults, false, -999);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_overlap532, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_overlap355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_overlap355Defaults, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_overlap532Defaults, true, true, 5);
 
