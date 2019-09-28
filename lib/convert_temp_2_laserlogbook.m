@@ -3,7 +3,12 @@ function [] = convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs
 %   Example:
 %       [] = convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
 %   Inputs:
-%       fileinfo_new, pollyList, pollyTempDirs
+%       fileinfo_new: char
+%           absolute path of the fileinfo_new
+%       pollyList: cell
+%           python list whose temps file needs to be converted.
+%       pollyTempDirs: cell
+%           the respective temps folder.
 %   Outputs:
 %       
 %   References:

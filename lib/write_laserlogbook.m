@@ -36,7 +36,9 @@ function [] = write_laserlogbook(file, data, mode)
 
 fid = fopen(file, mode);
 
-for iRow = 1:
+for iRow = 1:length(data.time)
+    fprintf(fid, '%sSC,0\tExtPyro: %6.4f mJ\tTemp1064: %5.1f C, Temp1: %4.1f C, Temp2: %4.1f C, OutsideRH: %4.1f %%, OutsideT: %4.1f C', datestr(data.time(iRow), 'yyyy-mm-dd HH:MM:SS'), data.pyro(iRow), data.T1064(iRow), data.T1(iRow), data.T2(iRow), RHout(iRow), Tout(iRow));
+end
 
 fclose(fid);
 
