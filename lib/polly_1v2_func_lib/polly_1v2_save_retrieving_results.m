@@ -70,20 +70,20 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
 
     % define the filling value
-    netcdf.defValFill(ncID, varID_aerBsc_klett_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerBsc_raman_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerExt_raman_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerLR_raman_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerBsc_RR_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerExt_RR_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_aerLR_RR_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_volDepol_klett_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_volDepol_raman_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_parDepol_klett_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_parDepol_raman_532, false, missing_value);
-    netcdf.defValFill(ncID, varID_temperature, false, missing_value);
-    netcdf.defValFill(ncID, varID_pressure, false, missing_value);
-    netcdf.defValFill(ncID, varID_reference_height_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_klett_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerExt_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerLR_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerBsc_RR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerExt_RR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerLR_RR_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_volDepol_klett_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_volDepol_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_klett_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
+    netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
+    netcdf.defVarFill(ncID, varID_reference_height_532, false, missing_value);
 
     % define the data compression
     netcdf.defVarDeflate(ncID, varID_aerBsc_klett_532, true, true, 5);
