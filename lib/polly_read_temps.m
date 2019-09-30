@@ -1,7 +1,7 @@
-function [res] = polly_read_temps(file)
-%polly_read_temps read the polly housekeeping data saved in a temporary file.
+function [res] = pollly_read_temps(file)
+%pollly_read_temps read the polly housekeeping data saved in a temporary file.
 %   Example:
-%       [res] = polly_read_temps(file)
+%       [res] = pollly_read_temps(file)
 %   Inputs:
 %       file: char
 %           filename. (absolute filename)
@@ -60,19 +60,17 @@ resRaw = textscan(fid, '%s %f %f %f %f %f %f %f %f %f %f', ...
                   'delimiter', '\t', ...
                   'HeaderLines', 3);
 
-for iRow = 1:length(resRaw{1})
-    res.time = [res.time, datenum(resRaw{1}{iRow}, 'dd.mm.yyyy HH:MM:SS')];
-    res.T1064 = [res.T1064, resRaw{2}(iRow)];
-    res.pyro = [res.pyro, resRaw{3}(iRow)];
-    res.T1 = [res.T1, resRaw{4}(iRow)];
-    res.RH1 = [res.RH1, resRaw{5}(iRow)];
-    res.T2 = [res.T2, resRaw{6}(iRow)];
-    res.RH2 = [res.RH2, resRaw{7}(iRow)];
-    res.Tout = [res.Tout, resRaw{8}(iRow)];
-    res.RHout = [res.RHout, resRaw{9}(iRow)];
-    res.Status = [res.Status, resRaw{10}(iRow)];
-    res.Dout = [res.Dout, resRaw{11}(iRow)];
-end
+res.time = datenum(reshape(resRaw{1}, 1, []), 'dd.mm.yyyy HH:MM:SS');
+res.T1064 = resRaw{2};
+res.pyro = resRaw{3};
+res.T1 = resRaw{4};
+res.RH1 = resRaw{5};
+res.T2 = resRaw{6};
+res.RH2 = resRaw{7};
+res.Tout = resRaw{8};
+res.RHout = resRaw{9};
+res.Status = resRaw{10};
+res.Dout = resRaw{11};
 
 fclose(fid);
 
