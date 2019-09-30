@@ -49,16 +49,18 @@ for iTask = 1:length(taskInfo.zipFile)
     case 'pollyxt_tjk'
         pollyDataFileFormat = '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc';
         pollyTempDir = pollyTempDirs{ismember(lower(pollyList), 'pollyxt_tjk')};
-
+        
         %% find the polly temps file
         measTime = polly_parsetime(pollyDataFile, pollyDataFileFormat);
         pollyTempsFile = fullfile(pollyTempDir, sprintf('%s_temps.txt', datestr(measTime, 'yyyymmdd')));
         
         %% read the polly temps file
         laserlogData = polly_read_temps(pollyTempsFile);
-
+        
         %% create a fake laserlogbook file
-        write_laserlogbook(pollyLaserlogbookFile, laserlogData, 'w');
+        fprintf('Start to convert the %s to %s\n', basename(pollyTempsFile), basename(pollyLaserlogbookFile));
+        laserlogbookFullpath = fullfile(taskInfo.todoPath{iTask}, taskInfo.dataPath{iTask}, pollyLaserlogbookFile);
+        write_laserlogbook(laserlogbookFullpath, laserlogData, 'w');
     end
 end
 
