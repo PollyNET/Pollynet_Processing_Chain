@@ -43,7 +43,7 @@ taskInfo = read_fileinfo_new(fileinfo_new);
 for iTask = 1:length(taskInfo.zipFile)
     pollyVersion = taskInfo.pollyVersion{iTask};
     pollyDataFile = taskInfo.zipFile{iTask};
-    pollyLaserlogbookFile = sprintf('%s.laserlogbook.txt.', taskInfo.dataFilename{iTask});
+    pollyLaserlogbookFile = sprintf('%s.laserlogbook.txt', taskInfo.dataFilename{iTask});
 
     switch lower(pollyVersion)
     case 'pollyxt_tjk'
