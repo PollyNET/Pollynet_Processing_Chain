@@ -46,10 +46,14 @@ varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532
 % define the filling value
 netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
+netcdf.defVarFill(ncID, varID_quality_mask_532, false, -999);
+netcdf.defVarFill(ncID, varID_quality_mask_voldepol_532, false, -999);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quasi_pardepol_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quality_mask_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quality_mask_voldepol_532, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
