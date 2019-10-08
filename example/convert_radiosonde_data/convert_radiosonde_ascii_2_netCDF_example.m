@@ -1,11 +1,11 @@
 function [] = convert_radiosonde_ascii_2_netCDF_example(rsFile, ncFile)
-clc; close all;
+
 projectDir = fileparts(mfilename('fullpath'));
 addpath(fullfile(fileparts(fileparts(projectDir)), 'lib'));
 
 %% parameter definitions
-%rsFile = '2018112511_pangaea.txt';
-%ncFile = 'radiosonde_20181125_110000.nc';
+% rsFile = '2018111511_pangaea.txt';
+% ncFile = 'radiosonde_20181115_110000.nc';
 missing_value = -999;
 
 %% read radiosonde data
@@ -42,7 +42,10 @@ end
 
 %% save to nc file
 ncFullfile = fullfile(projectDir, ncFile);
-ncID = netcdf.create(ncFile, 'clobber');
+mode = netcdf.getConstant('NETCDF4');
+mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
+mode = bitor(mode, netcdf.getConstant('CLOBBER'));
+ncID = netcdf.create(ncFullfile, mode);
 
 % define dimensions
 dimID_altitude = netcdf.defDim(ncID, 'altitude', length(hght));
@@ -54,6 +57,20 @@ varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_DOUBLE', dimID_altitu
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', dimID_altitude);
 varID_wind_direction = netcdf.defVar(ncID, 'wind_direction', 'NC_DOUBLE', dimID_altitude);
 varID_wind_speed = netcdf.defVar(ncID, 'wind_speed', 'NC_DOUBLE', dimID_altitude);
+
+% define the filling value
+netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
+netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
+netcdf.defVarFill(ncID, varID_wind_speed, false, missing_value);
+netcdf.defVarFill(ncID, varID_wind_direction, false, missing_value);
+netcdf.defVarFill(ncID, varID_RH, false, missing_value);
+
+% define the data compression
+netcdf.defVarDeflate(ncID, varID_pressure, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_wind_speed, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_wind_direction, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -81,31 +98,26 @@ netcdf.putAtt(ncID, varID_altitude, 'axis', 'Z');
 netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
 netcdf.putAtt(ncID, varID_pressure, 'long_name', 'air pressure');
 netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'pressure');
-netcdf.putAtt(ncID, varID_pressure, '_FillValue', missing_value);
 
 % temperature
 netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree celsius');
 netcdf.putAtt(ncID, varID_temperature, 'long_name', 'air temperature');
 netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'temperature');
-netcdf.putAtt(ncID, varID_temperature, '_FillValue', missing_value);
 
 % RH
 netcdf.putAtt(ncID, varID_RH, 'unit', '%');
 netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
-netcdf.putAtt(ncID, varID_RH, '_FillValue', missing_value);
 
 % wind_direction
 netcdf.putAtt(ncID, varID_wind_direction, 'unit', 'degree');
 netcdf.putAtt(ncID, varID_wind_direction, 'long_name', 'wind direction clockwise from north');
 netcdf.putAtt(ncID, varID_wind_direction, 'standard_name', 'wind_direction');
-netcdf.putAtt(ncID, varID_wind_direction, '_FillValue', missing_value);
 
 % wind_speed
 netcdf.putAtt(ncID, varID_wind_speed, 'unit', 'm/s');
 netcdf.putAtt(ncID, varID_wind_speed, 'long_name', 'wind speed');
 netcdf.putAtt(ncID, varID_wind_speed, 'standard_name', 'wind_speed');
-netcdf.putAtt(ncID, varID_wind_speed, '_FillValue', missing_value);
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
