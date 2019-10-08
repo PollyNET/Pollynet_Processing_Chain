@@ -12,7 +12,7 @@ This file was used to configure the `Pollynet_Processing_Chain` to find data, li
 |gdas1_folder|base directory for saving gdas1 data|string|"C:\\Users\\zhenping\\Documents\\Data\\GDAS"|
 |defaultsFile_folder|folder for saving polly default files|string|"C:\\Users\\zhenping\\Desktop\\Picasso\\lib\\pollyDefaults"|
 |results_folder|folder for saving the output results|string|"C:\\Users\\zhenping\\Desktop\\Picasso\\results"|
-|pic_folder|folder for saving the ouput figures|string|"C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots"|
+|pic_folder|folder for saving the output figures|string|"C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots"|
 |pollynet_config_history_file|file to link the polly data with polly configuration and processing program|string|"C:\\Users\\zhenping\\Desktop\\Picasso\\config\\pollynet_processing_config_history.txt"|
 |figDPI|dpi for the generated figures|integer|80|
 |minDataSize|minimum size requirement for the polly data to activate the processing program|integer|1000000|
