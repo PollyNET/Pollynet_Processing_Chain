@@ -27,6 +27,8 @@ function [wvconst, wvconstStd] = arielle_search_wvconst(currentTime, ...
 %       2019-02-26. First Edition by Zhenping
 %       2019-08-16. Add 'flagUsePrevWVConst' to control whether to use previous
 %                   calibration results.
+%       2019-10-12. Enable using uncalibrated results if there is no calibrated
+%                   results within the given time period.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -38,19 +40,37 @@ if ~ exist('flagUsePrevWVConst', 'var')
     flagUsePrevWVConst = false;
 end
 
-[preWVlCaliTime, preWVconst, preWVconstStd] = pollyxt_lacros_read_wvconst(file);
+[preWVlCaliTime, preWVCaliFlag, preWVconst, preWVconstStd] = arielle_read_wvconst(file);
 
-flagValid = (preWVlCaliTime > (currentTime - deltaTime)) & ...
-                     (preWVlCaliTime < (currentTime + deltaTime));
-if (sum(flagValid) == 0) || (~ flagUsePrevWVConst)
-    % if there is no previous calibration results with time lag less than 
-    % required, or flagUsePrevWVConst was set to be true
+% previous water vapor constants
+flagWVconst = (preWVlCaliTime > (currentTime - deltaTime)) & ...
+              (preWVlCaliTime < (currentTime + deltaTime));
+% previous water vapor constants that were calibrated successfully
+flagWVconstValid = (preWVlCaliTime > (currentTime - deltaTime)) & ...
+                   (preWVlCaliTime < (currentTime + deltaTime)) & ...
+                   (preWVCaliFlag == 1);
+
+if ((sum(flagWVconst) == 0) && sum(flagWVconstValid == 0)) || (~ flagUsePrevWVConst)
+    % if there is no previous results with time lag less than 
+    % required, or flagUsePrevWVConst was set to be false
     wvconst = defaults.wvconst;
     wvconstStd = defaults.wvconstStd;
+if ((sum(flagWVconst) ~= 0) && sum(flagWVconstValid == 0)) || (flagUsePrevWVConst)
+    % if there is no previous calibration results but has water vapor constant (within 7 days)
+    % select the closest results (uncalibrated)
+    preWVlCaliTimeValid = preWVlCaliTime(flagWVconst);
+    preWVconstValid = preWVconst(flagWVconst);
+    preWVconstStdValid = preWVconstStd(flagWVconst);
+    thisLag = abs(preWVlCaliTimeValid - currentTime);
+    minLag = min(thisLag);
+    indx = find(thisLag == minLag, 1);
+    wvconst = preWVconstValid(indx);
+    wvconstStd = preWVconstStdValid(indx);
 else
-    preWVlCaliTimeValid = preWVlCaliTime(flagValid);
-    preWVconstValid = preWVconst(flagValid);
-    preWVconstStdValid = preWVconstStd(flagValid);
+    % select the closest calibration results
+    preWVlCaliTimeValid = preWVlCaliTime(flagWVconstValid);
+    preWVconstValid = preWVconst(flagWVconstValid);
+    preWVconstStdValid = preWVconstStd(flagWVconstValid);
     thisLag = abs(preWVlCaliTimeValid - currentTime);
     minLag = min(thisLag);
     indx = find(thisLag == minLag, 1);

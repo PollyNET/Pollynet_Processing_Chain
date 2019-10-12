@@ -16,12 +16,15 @@
 6. Enable easy installation
 7. Enable fully auto depol calibration
 8. `Professional` git branches and management
+9. Optimizing the figure layout and annotations
+10. Seamless working with Polly database
    
 #### TODO 
 
 * Documentations for algorithms and programs
 * Products design (Product level and structure and variables)
 * Error analysis
+* Management calibration results with using database
 
 ### Version 1.2
 
