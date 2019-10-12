@@ -57,13 +57,13 @@ wvconstUsed = NaN;
 wvconstUsedStd = NaN;
 
 if isempty(wvconst)
-    [wvconstUsed, wvconstUsedStd] = pollyxt_lacros_search_wvconst(currentTime, ...
+    [wvconstUsed, wvconstUsedStd] = pollyxt_noa_search_wvconst(currentTime, ...
                 file, datenum(0,1,7), defaults, flagUsePreviousWVConst);
     wvconstUsedInfo.flagCalibrated = false;
     wvconstUsedInfo.IWVInstrument = 'none';
     wvconstUsedInfo.nIWVCali = 0;
 elseif sum(~ isnan(wvconst)) == 0
-    [wvconstUsed, wvconstUsedStd] = pollyxt_lacros_search_wvconst(currentTime, ...
+    [wvconstUsed, wvconstUsedStd] = pollyxt_noa_search_wvconst(currentTime, ...
                 file, datenum(0,1,7), defaults, flagUsePreviousWVConst);
     wvconstUsedInfo.flagCalibrated = false;
     wvconstUsedInfo.IWVInstrument = IWVAttri.source;
