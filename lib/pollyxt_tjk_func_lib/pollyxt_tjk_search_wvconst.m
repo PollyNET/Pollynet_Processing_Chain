@@ -50,12 +50,12 @@ flagWVconstValid = (preWVlCaliTime > (currentTime - deltaTime)) & ...
                    (preWVlCaliTime < (currentTime + deltaTime)) & ...
                    (preWVCaliFlag == 1);
 
-if ((sum(flagWVconst) == 0) && sum(flagWVconstValid == 0)) || (~ flagUsePrevWVConst)
+if ((sum(flagWVconst) == 0) && (sum(flagWVconstValid) == 0)) || (~ flagUsePrevWVConst)
     % if there is no previous results with time lag less than 
     % required, or flagUsePrevWVConst was set to be false
     wvconst = defaults.wvconst;
     wvconstStd = defaults.wvconstStd;
-elseif ((sum(flagWVconst) ~= 0) && sum(flagWVconstValid == 0)) || (flagUsePrevWVConst)
+elseif ((sum(flagWVconst) ~= 0) && (sum(flagWVconstValid) == 0)) || (flagUsePrevWVConst)
     % if there is no previous calibration results but has water vapor constant (within 7 days)
     % select the closest results (uncalibrated)
     preWVlCaliTimeValid = preWVlCaliTime(flagWVconst);
