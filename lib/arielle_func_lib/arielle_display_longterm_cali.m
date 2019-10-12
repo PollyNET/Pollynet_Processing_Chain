@@ -40,7 +40,7 @@ LCStd607History = LC.LCStd607History(flagTillNow);
 
 %% read wv calibration constant
 wvCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile);
-[WVCaliTime, WVConst] = arielle_read_wvconst(wvCaliFile);
+[WVCaliTime, ~, WVConst] = arielle_read_wvconst(wvCaliFile);
 flagTillNow = WVCaliTime <= taskInfo.dataTime;
 WVConst = WVConst(flagTillNow);
 WVCaliTime = WVCaliTime(flagTillNow);
