@@ -369,7 +369,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Bsc_Klett_NR.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
         dpi=figDPI
         )
     plt.close()
@@ -418,7 +418,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -472,7 +472,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Bsc_Raman_NR.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -523,7 +523,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -574,7 +574,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -680,7 +680,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
         '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(
             dataFilename=rmext(dataFilename),
             starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-            endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+            endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
@@ -735,7 +735,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Ext_Raman_NR.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
@@ -786,7 +786,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
@@ -835,7 +835,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
@@ -888,7 +888,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_LR_Raman_NR.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -937,7 +937,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -988,7 +988,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -1038,7 +1038,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
@@ -1091,7 +1091,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -1144,7 +1144,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -1284,7 +1284,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
@@ -1328,7 +1328,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
                 ),
         dpi=figDPI
         )
