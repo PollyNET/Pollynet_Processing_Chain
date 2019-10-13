@@ -1,14 +1,27 @@
+import sys
+import os
+from datetime import datetime, timedelta
+import numpy as np
+import scipy.io as spio
+from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
+    MinuteLocator, date2num
+from matplotlib.colors import ListedColormap
+import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-import os, sys
-import scipy.io as spio
-import numpy as np
-from datetime import datetime, timedelta
+
 
 def celltolist(xtickstr):
+    """
+    convert list of list to list of string.
+
+    Examples
+    --------
+
+    [['2010-10-11'], [], ['2011-10-12]] =>
+    ['2010-10-11], '', '2011-10-12']
+    """
+
     tmp = []
     for iElement in range(0, len(xtickstr)):
         if not len(xtickstr[iElement][0]):
@@ -18,26 +31,46 @@ def celltolist(xtickstr):
 
     return tmp
 
+
 def datenum_to_datetime(datenum):
     """
     Convert Matlab datenum into Python datetime.
-    :param datenum: Date in datenum format
-    :return:        Datetime object corresponding to datenum.
+
+    Parameters
+    ----------
+    Date: float
+
+    Returns
+    -------
+    dtObj: datetime object
+
     """
     days = datenum % 1
     hours = days % 1 * 24
     minutes = hours % 1 * 60
     seconds = minutes % 1 * 60
-    return datetime.fromordinal(int(datenum)) \
-           + timedelta(days=int(days)) \
-           + timedelta(hours=int(hours)) \
-           + timedelta(minutes=int(minutes)) \
-           + timedelta(seconds=round(seconds)) \
-- timedelta(days=366)
+
+    dtObj = datetime.fromordinal(int(datenum)) + \
+        timedelta(days=int(days)) + \
+        timedelta(hours=int(hours)) + \
+        timedelta(minutes=int(minutes)) + \
+        timedelta(seconds=round(seconds)) - timedelta(days=366)
+
+    return dtObj
+
 
 def rmext(filename):
+    """
+    remove the file extension.
+
+    Parameters
+    ----------
+    filename: str
+    """
+
     file, _ = os.path.splitext(filename)
     return file
+
 
 def pollyxt_cge_display_monitor(tmpFile, saveFolder):
     '''
@@ -47,10 +80,10 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
 
     Parameters
     ----------
-    - tmpFile: the .mat file which stores the housekeeping data.
+    tmpFile: str
+    the .mat file which stores the housekeeping data.
 
-    Return
-    ------ 
+    saveFolder: str
 
     Usage
     -----
@@ -59,17 +92,13 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
     History
     -------
     2019-01-10. First edition by Zhenping
-
-    Copyright
-    ---------
-    Ground-based Remote Sensing (TROPOS)
     '''
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
         return
-    
-    # read matlab .mat data
+
+    # read data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
@@ -107,13 +136,15 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
     EN = np.ma.masked_outside(EN, 0, 990)
 
     flags = np.transpose(np.ma.hstack((shutter2, shutter2)))
-    
+
     # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
-    
+
     # visualization (credits to Martin's python program)
-    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, figsize=(15, 11), sharex=True, gridspec_kw = {'height_ratios':[1, 1, 1.6, 0.2]})
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(
+        4, figsize=(15, 11),
+        sharex=True, gridspec_kw={'height_ratios': [1, 1, 1.6, 0.2]})
 
     if AD.size != 0:
         if AD[0][0] <= 990:
@@ -129,7 +160,8 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
         # ax1.set_ylim([420, 550])
         ax1.set_ylabel("EN [mJ]", fontsize=15)
 
-    ax1.set_title('Housekeeping data for {polly} at {site}'.format(polly=pollyVersion, site=location), fontsize=17)
+    ax1.set_title('Housekeeping data for {polly} at {site}'.format(
+        polly=pollyVersion, site=location), fontsize=17)
 
     ax2.plot(time, HV1064, marker='.', color='#8000ff')
     # ax2.set_ylim([1, 37])
@@ -150,11 +182,15 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
         ax3.legend(loc='upper left')
 
     if len(time):
-        cmap = ListedColormap(['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine'])
-        pcmesh = ax4.pcolormesh(np.transpose(time), np.arange(2), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
+        cmap = ListedColormap(
+            ['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine'])
+        pcmesh = ax4.pcolormesh(np.transpose(time), np.arange(
+            2), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
         cb_ax = fig.add_axes([0.84, 0.11, 0.12, 0.016])
-        cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2, 3, 4], orientation='horizontal')
-        cbar.ax.tick_params(labeltop=True, direction='in', labelbottom=False, bottom=False, top=True, labelsize=12, pad=0.00)
+        cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                            0, 1, 2, 3, 4], orientation='horizontal')
+        cbar.ax.tick_params(labeltop=True, direction='in', labelbottom=False,
+                            bottom=False, top=True, labelsize=12, pad=0.00)
 
     ax4.set_ylim([0, 1])
     ax4.set_yticks([0.5])
@@ -164,24 +200,34 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
     ax4.set_xlim([mTime[0], mTime[-1]])
 
     for ax in (ax1, ax2, ax3, ax4):
-        ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-        ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+        ax.tick_params(axis='both', which='major', labelsize=15,
+                       right=True, top=True, width=2, length=5)
+        ax.tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
 
     ax4.set_xlabel('UTC', fontsize=15)
-    fig.text(0.05, 0.01, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
-    fig.text(0.8, 0.01, 'Version: {version}'.format(version=version), fontsize=17)
+    fig.text(0.05, 0.01, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=17)
+    fig.text(0.8, 0.01, 'Version: {version}'.format(
+        version=version), fontsize=17)
     if counts.size != 0:
-        fig.text(0.1, 0.90, 'SC begin {:.1f}Mio'.format(counts[0][0]/1e6), fontsize=17)
-        fig.text(0.85, 0.90, 'end {:.1f}Mio'.format(counts[0][-1]/1e6), fontsize=17)
+        fig.text(0.1, 0.90, 'SC begin {:.1f}Mio'.format(
+            counts[0][0]/1e6), fontsize=17)
+        fig.text(0.85, 0.90, 'end {:.1f}Mio'.format(
+            counts[0][-1]/1e6), fontsize=17)
 
-    
     plt.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(
+        dataFilename=rmext(dataFilename))), dpi=figDPI)
 
     plt.close()
 
+
 def main():
-    pollyxt_cge_display_monitor('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
+    pollyxt_cge_display_monitor(
+        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
+        'C:\\Users\\zhenping\\Desktop')
+
 
 if __name__ == '__main__':
     # main()
