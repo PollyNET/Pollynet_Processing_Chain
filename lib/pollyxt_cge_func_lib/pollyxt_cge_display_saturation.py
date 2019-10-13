@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
-                             MinuteLocator, date2num
+    MinuteLocator, date2num
 matplotlib.use('Agg')
 
 
@@ -74,17 +74,17 @@ def rmext(filename):
 
 
 def pollyxt_cge_display_saturation(tmpFile, saveFolder):
-    '''
+    """
     Description
     -----------
     Display the housekeeping data from laserlogbook file.
 
     Parameters
     ----------
-    - tmpFile: the .mat file which stores the housekeeping data.
+    tmpFile: str
+    the .mat file which stores the housekeeping data.
 
-    Return
-    ------ 
+    saveFolder: str
 
     Usage
     -----
@@ -93,16 +93,12 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     History
     -------
     2019-01-10. First edition by Zhenping
-
-    Copyright
-    ---------
-    Ground-based Remote Sensing (TROPOS)
-    '''
+    """
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
         return
-    
+
     # read matlab .mat data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
@@ -142,7 +138,8 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     # display status of 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -150,30 +147,48 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range from {instrument} at {location}'.format(
+            wave=355,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(
+        saveFolder, '{dataFilename}_SAT_FR_355.png'.format(
+            dataFilename=rmext(dataFilename)
+        )), dpi=figDPI)
     plt.close()
 
     # display status of 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -181,30 +196,52 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title('Signal Status at ' +
+                 '{wave}nm Far-Range from {instrument} at {location}'.format(
+                    wave=532,
+                    instrument=pollyVersion,
+                    location=location
+                    ),
+                 fontsize=15
+                 )
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_532.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
-    
+
     # display status of 1064 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064, vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -212,29 +249,55 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
 
-    ax.set_title('Signal Status at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range from {instrument} at {location}'.format(
+            wave=1064,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
 
     cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[0, 1, 2], orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
     cbar.ax.tick_params(direction='in', pad=5)
     cbar.ax.set_title('', fontsize=9)
     cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.ax.tick_params(axis='both', which='major', labelsize=12, right=True, top=True, width=2, length=5)
-    cbar.ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(version=version), fontsize=14)
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_SAT_FR_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_1064.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
 
 def main():
-    pollyxt_cge_display_saturation('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
+    pollyxt_cge_display_saturation(
+        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
+        'C:\\Users\\zhenping\\Desktop'
+        )
+
 
 if __name__ == '__main__':
     # main()
