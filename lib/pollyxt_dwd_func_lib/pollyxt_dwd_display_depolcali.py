@@ -9,7 +9,7 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
                              MinuteLocator, date2num
-matplotlib.use('Agg')
+plt.switch_backend('Agg')
 
 
 def celltolist(xtickstr):

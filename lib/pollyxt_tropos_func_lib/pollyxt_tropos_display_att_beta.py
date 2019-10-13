@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 import matplotlib
 
 # generating figure without X server
-matplotlib.use('Agg')
+plt.switch_backend('Agg')
 
 
 def celltolist(xtickstr):

@@ -8,7 +8,7 @@ from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
 from matplotlib.colors import ListedColormap
 import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('Agg')
+plt.switch_backend('Agg')
 
 
 def celltolist(xtickstr):
