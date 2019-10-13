@@ -9,7 +9,7 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
     MinuteLocator, date2num
-matplotlib.use('Agg')
+plt.switch_backend('Agg')
 
 
 def celltolist(xtickstr):
@@ -1258,7 +1258,7 @@ def pollyxt_lacros_display_retrieving(tmpFile, saveFolder):
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-100, 50])
     ax.grid(True)
-    ax.tick_params(axis='both', which='major', labelsize=15
+    ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)

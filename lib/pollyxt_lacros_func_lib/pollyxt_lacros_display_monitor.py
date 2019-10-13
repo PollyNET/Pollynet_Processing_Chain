@@ -6,9 +6,9 @@ import scipy.io as spio
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
                              MinuteLocator, date2num
 from matplotlib.colors import ListedColormap
-import matplotlib.pyplot as plt
 import matplotlib
-matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+plt.switch_backend('Agg')
 
 
 def celltolist(xtickstr):

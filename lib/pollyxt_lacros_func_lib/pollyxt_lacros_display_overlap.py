@@ -10,7 +10,7 @@ import scipy.io as spio
 import numpy as np
 from datetime import datetime, timedelta
 import re
-matplotlib.use('Agg')
+plt.switch_backend('Agg')
 
 
 def parse_polly_filename(pollyFile):
