@@ -1,14 +1,27 @@
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-import os, sys
-import scipy.io as spio
-import numpy as np
+import sys
+import os
 from datetime import datetime, timedelta
+import numpy as np
+import scipy.io as spio
+from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
+                             MinuteLocator, date2num
+from matplotlib.colors import ListedColormap
+import matplotlib.pyplot as plt
+import matplotlib
+plt.switch_backend('Agg')
+
 
 def celltolist(xtickstr):
+    """
+    convert list of list to list of string.
+
+    Examples
+    --------
+
+    [['2010-10-11'], [], ['2011-10-12]] =>
+    ['2010-10-11], '', '2011-10-12']
+    """
+
     tmp = []
     for iElement in range(0, len(xtickstr)):
         if not len(xtickstr[iElement][0]):
@@ -18,26 +31,46 @@ def celltolist(xtickstr):
 
     return tmp
 
+
 def datenum_to_datetime(datenum):
     """
     Convert Matlab datenum into Python datetime.
-    :param datenum: Date in datenum format
-    :return:        Datetime object corresponding to datenum.
+
+    Parameters
+    ----------
+    Date: float
+
+    Returns
+    -------
+    dtObj: datetime object
+
     """
     days = datenum % 1
     hours = days % 1 * 24
     minutes = hours % 1 * 60
     seconds = minutes % 1 * 60
-    return datetime.fromordinal(int(datenum)) \
-           + timedelta(days=int(days)) \
-           + timedelta(hours=int(hours)) \
-           + timedelta(minutes=int(minutes)) \
-           + timedelta(seconds=round(seconds)) \
-           - timedelta(days=366)
+
+    dtObj = datetime.fromordinal(int(datenum)) + \
+        timedelta(days=int(days)) + \
+        timedelta(hours=int(hours)) + \
+        timedelta(minutes=int(minutes)) + \
+        timedelta(seconds=round(seconds)) - timedelta(days=366)
+
+    return dtObj
+
 
 def rmext(filename):
+    """
+    remove the file extension.
+
+    Parameters
+    ----------
+    filename: str
+    """
+
     file, _ = os.path.splitext(filename)
     return file
+
 
 def arielle_display_longterm_cali(tmpFile, saveFolder):
     '''
@@ -47,10 +80,10 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
 
     Parameters
     ----------
-    - tmpFile: the .mat file which stores the housekeeping data.
+    tmpFile: str
+    the .mat file which stores the housekeeping data.
 
-    Return
-    ------ 
+    saveFolder: str
 
     Usage
     -----
@@ -59,17 +92,13 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     History
     -------
     2019-01-10. First edition by Zhenping
-
-    Copyright
-    ---------
-    Ground-based Remote Sensing (TROPOS)
     '''
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
         return
-    
-    # read data
+
+    # read matlab .mat data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
@@ -212,78 +241,130 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
 
-
-    # convert matlab datenum tp datetime 
+    # convert matlab datenum tp datetime
     startTime = datenum_to_datetime(float(startTime[0]))
     dataTime = datenum_to_datetime(float(dataTime[0]))
     LCTime = [datenum_to_datetime(thisTime) for thisTime in thisLCTime]
-    logbookTime = [datenum_to_datetime(thisTime) for thisTime in thisLogbookTime]
-    elseTime = [datenum_to_datetime(thisElseTime) for thisElseTime in else_time]
+    logbookTime = [datenum_to_datetime(thisTime)
+                   for thisTime in thisLogbookTime]
+    elseTime = [datenum_to_datetime(thisElseTime)
+                for thisElseTime in else_time]
     WVCaliTime = [datenum_to_datetime(thisTime) for thisTime in thisWVCaliTime]
-    depolCaliTime355 = [datenum_to_datetime(thisTime) for thisTime in thisDepolCaliTime355]
-    depolCaliTime532 = [datenum_to_datetime(thisTime) for thisTime in thisDepolCaliTime532]
+    depolCaliTime355 = [datenum_to_datetime(
+        thisTime) for thisTime in thisDepolCaliTime355]
+    depolCaliTime532 = [datenum_to_datetime(
+        thisTime) for thisTime in thisDepolCaliTime532]
 
-    lineColor = {'overlap': '#f48f42', 'windowwipe': '#ff66ff', 'flashlamps': '#993333', 'pulsepower': '#990099', 'restart': '#ffff00', 'NDChange': '#333300', 'else': '#00ff00'}
+    lineColor = {
+        'overlap': '#f48f42',
+        'windowwipe': '#ff66ff',
+        'flashlamps': '#993333',
+        'pulsepower': '#990099',
+        'restart': '#ffff00',
+        'NDChange': '#333300',
+        'else': '#00ff00'
+        }
 
     # display lidar constants at 355mn
-    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8) = plt.subplots(8, figsize=(10,18), sharex=True, gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1], 'hspace': 0.1})
+    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8) = plt.subplots(
+        8,
+        figsize=(10, 18),
+        sharex=True,
+        gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1], 'hspace': 0.1}
+        )
     plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
 
     # lidar constants at 355 nm
-    p1 = ax1.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if LC355Status[indx] == 2], LC355History[LC355Status == 2], s=7, c='#0000ff', marker='o', label='lidar constant')
+    LCTime355 = [LCTime[indx]
+                 for indx in np.arange(0, len(LCTime))
+                 if LC355Status[indx] == 2]
+    p1 = ax1.scatter(
+        LCTime355, LC355History[LC355Status == 2],
+        s=7, c='#0000ff', marker='o', label='lidar constant'
+        )
     # default line for create legend
-    l1 = ax1.axvline(x=0, linestyle='--', color=lineColor['overlap'], label='overlap')
-    l2 = ax1.axvline(x=0, linestyle='--', color=lineColor['pulsepower'], label='pulsepower')
-    l3 = ax1.axvline(x=0, linestyle='--', color=lineColor['windowwipe'], label='windowwipe')
-    l4 = ax1.axvline(x=0, linestyle='--', color=lineColor['restart'], label='restart')
-    l5 = ax1.axvline(x=0, linestyle='--', color=lineColor['flashlamps'], label='flashlamps')
-    l6 = ax1.axvline(x=0, linestyle='--', color=lineColor['NDChange'], label='NDChange')
-    l7 = ax1.axvline(x=0, linestyle='--', color=lineColor['else'], label=else_label[0])
+    l1 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['overlap'], label='overlap')
+    l2 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['pulsepower'], label='pulsepower')
+    l3 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['windowwipe'], label='windowwipe')
+    l4 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['restart'], label='restart')
+    l5 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['flashlamps'], label='flashlamps')
+    l6 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['NDChange'], label='NDChange')
+    l7 = ax1.axvline(x=0, linestyle='--',
+                     color=lineColor['else'], label=else_label[0])
 
-    l = ax1.legend(handles=[p1, l1, l2, l3, l4, l5, l6, l7], loc='upper left', fontsize=11)
+    ax1.legend(
+        handles=[p1, l1, l2, l3, l4, l5, l6, l7],
+        loc='upper left',
+        fontsize=11
+        )
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
         if flag_CH_NDChange[iLogbookInfo, flagCH355FR == 1]:
-            ax1.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
+            ax1.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
 
     for elseTime in else_time:
-        ax1.axvline(x=elseTime, linestyle='--', color=lineColor['else'])        
-    
+        ax1.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
+
     ax1.set_ylabel('LC @ 355nm')
     ax1.grid(False)
-    ax1.set_title('Lidar constants for {instrument} at {location}'.format(instrument=pollyVersion, location=location), fontsize=20)
+    ax1.set_title('Lidar constants for {instrument} at {location}'.format(
+        instrument=pollyVersion, location=location), fontsize=20)
     ax1.set_ylim(yLim355.tolist())
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # lidar constant at 532 nm
-    p1 = ax2.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if LC532Status[indx] == 2], LC532History[LC532Status == 2], s=7, c='#0000ff', marker='o')
+    LCTime532 = [LCTime[indx]
+                 for indx in np.arange(0, len(LCTime))
+                 if LC532Status[indx] == 2]
+    p1 = ax2.scatter(
+        LCTime532, LC532History[LC532Status == 2],
+        s=7, c='#0000ff', marker='o'
+        )
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
         if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1]:
-            ax2.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
- 
+            ax2.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax2.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax2.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax2.set_ylabel('LC @ 532nm')
     ax2.grid(False)
@@ -291,24 +372,36 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # lidar constant at 1064 nm
-    p1 = ax3.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if LC1064Status[indx] == 2], LC1064History[LC1064Status == 2], s=7, c='#0000ff', marker='o')
+    LCTime1064 = [LCTime[indx]
+                  for indx in np.arange(0, len(LCTime))
+                  if LC1064Status[indx] == 2]
+    p1 = ax3.scatter(
+        LCTime1064, LC1064History[LC1064Status == 2],
+        s=7, c='#0000ff', marker='o'
+        )
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
         if flag_CH_NDChange[iLogbookInfo, flagCH1064FR == 1]:
-            ax3.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
- 
+            ax3.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax3.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax3.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax3.set_ylabel('LC @ 1064nm')
     ax3.grid(False)
@@ -317,24 +410,37 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 355/387 nm
     flagRamanLC = np.logical_and(LC355Status == 2, LC387Status == 2)
-    p1 = ax4.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC355History[flagRamanLC] / LC387History[flagRamanLC], s=7, c='#0000ff', marker='o')
+    LCTimeRaman = [LCTime[indx]
+                   for indx in np.arange(0, len(LCTime))
+                   if flagRamanLC[indx]]
+    p1 = ax4.scatter(
+        LCTimeRaman, LC355History[flagRamanLC] / LC387History[flagRamanLC],
+        s=7, c='#0000ff', marker='o'
+        )
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
-        if flag_CH_NDChange[iLogbookInfo, flagCH355FR == 1] or flag_CH_NDChange[iLogbookInfo, flagCH387FR == 1]:
-            ax4.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
-   
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH355FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH387FR == 1]:
+            ax4.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax4.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax4.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax4.set_ylabel('Ratio 355/387')
     ax4.grid(False)
@@ -343,49 +449,69 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
-    p1 = ax5.scatter([LCTime[indx] for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]], LC532History[flagRamanLC] / LC607History[flagRamanLC], s=7, c='#0000ff', marker='o')
+    LCTimeRaman = [LCTime[indx]
+                   for indx in np.arange(0, len(LCTime))
+                   if flagRamanLC[indx]]
+    p1 = ax5.scatter(
+        LCTimeRaman, LC532History[flagRamanLC] / LC607History[flagRamanLC],
+        s=7, c='#0000ff', marker='o'
+        )
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
-        if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1] or flag_CH_NDChange[iLogbookInfo, flagCH607FR == 1]:
-            ax5.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH607FR == 1]:
+            ax5.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
 
     for elseTime in else_time:
-        ax5.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax5.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax5.set_ylabel('Ratio 532/607')
     ax5.grid(False)
     ax5.set_ylim([0, 1])
     ax5.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
-    
+
     # wv calibration constant
     p1 = ax6.scatter(WVCaliTime, WVConst, s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
-        if flag_CH_NDChange[iLogbookInfo, flagCH407FR == 1] or flag_CH_NDChange[iLogbookInfo, flagCH387FR == 1]:
-            ax6.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
-   
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH407FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH387FR == 1]:
+            ax6.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax6.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax6.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax6.set_ylabel('WV const [g*kg^{-1}]')
     ax6.grid(False)
@@ -393,24 +519,32 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax6.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # depolarization calibration constant at 355 nm
-    p1 = ax7.scatter(depolCaliTime355, depolCaliConst355, s=7, c='#0000ff', marker='o')
+    p1 = ax7.scatter(depolCaliTime355, depolCaliConst355,
+                     s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
-        if flag_CH_NDChange[iLogbookInfo, flagCH355FR == 1] or flag_CH_NDChange[iLogbookInfo, flagCH355FR_X == 1]:
-            ax7.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
-   
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH355FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH355FR_X == 1]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax7.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax7.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax7.set_ylabel('V* 355')
     ax7.grid(False)
@@ -418,24 +552,32 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax7.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # depolarization calibration constant at 532 nm
-    p1 = ax8.scatter(depolCaliTime532, depolCaliConst532, s=7, c='#0000ff', marker='o')
+    p1 = ax8.scatter(depolCaliTime532, depolCaliConst532,
+                     s=7, c='#0000ff', marker='o')
 
     for iLogbookInfo in np.arange(0, len(logbookTime)):
         if flagOverlap[iLogbookInfo]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['overlap'])
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
         if flagPulsepower[iLogbookInfo]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['pulsepower'])
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
         if flagWindowwipe[iLogbookInfo]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['windowwipe'])
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
         if flagRestart[iLogbookInfo]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['restart'])
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
         if flagFlashlamps[iLogbookInfo]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['flashlamps'])
-        if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1] or flag_CH_NDChange[iLogbookInfo, flagCH532FR_X == 1]:
-            ax8.axvline(x=logbookTime[iLogbookInfo], linestyle='--', color=lineColor['NDChange'])
-   
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH532FR_X == 1]:
+            ax8.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
     for elseTime in else_time:
-        ax8.axvline(x=elseTime, linestyle='--', color=lineColor['else'])      
+        ax8.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax8.set_ylabel('V* 532')
     ax8.set_xlabel('Date (mm-dd)')
@@ -444,14 +586,28 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax8.grid(False)
     ax8.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
     fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.90, 0.03, 'Version: {version}'.format(version=version), fontsize=12)
-        
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_long_term_cali_results.png'.format(dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
+    fig.text(0.90, 0.03, 'Version: {version}'.format(
+        version=version), fontsize=12)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_long_term_cali_results.png'.format(
+                dataFilename=dataTime.strftime('%Y%m%d')
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
+
 def main():
-    arielle_display_longterm_cali('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\arielle\\20181214')
+    arielle_display_longterm_cali(
+        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
+        'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\' +
+        'arielle\\20181214'
+        )
+
 
 if __name__ == '__main__':
     # main()
