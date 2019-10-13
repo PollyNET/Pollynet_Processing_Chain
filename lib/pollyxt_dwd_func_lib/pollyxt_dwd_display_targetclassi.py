@@ -103,7 +103,7 @@ def pollyxt_dwd_display_targetclassi(tmpFile, saveFolder):
         print('{filename} does not exists.'.format(filename=tmpFile))
         return
     
-    # read data
+    # read matlab .mat data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
