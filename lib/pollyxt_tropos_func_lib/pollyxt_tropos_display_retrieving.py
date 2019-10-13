@@ -316,7 +316,7 @@ def pollyxt_tropos_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M')
+                endtime=datenum_to_datetime(endtime).strftime('%H%M')
                 )),
         dpi=figDPI)
     plt.close()
@@ -629,7 +629,7 @@ def pollyxt_tropos_display_retrieving(tmpFile, saveFolder):
             '{dataFilename}_{starttime}_{endtime}_Ext_Klett_NR.png'.format(
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetim(endtime).strftime('%H%M')
+                endtime=datenum_to_datetime(endtime).strftime('%H%M')
                 )
             ),
         dpi=figDPI

@@ -141,7 +141,7 @@ def pollyxt_cge_display_depolcali(tmpFile, saveFolder):
     # display
     fig, (ax1, ax2) = plt.subplots(
         1, 2,
-        igsize=(8, 8),
+        figsize=(8, 8),
         sharey=True,
         gridspec_kw={'width_ratios': [1, 1]}
         )
