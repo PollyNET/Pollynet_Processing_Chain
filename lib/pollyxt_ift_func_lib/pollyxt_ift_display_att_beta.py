@@ -1,15 +1,28 @@
-import matplotlib
-matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-from matplotlib.colors import ListedColormap
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter
-from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-import os, sys
+import os
+import sys
 import scipy.io as spio
 import numpy as np
 from datetime import datetime, timedelta
+import matplotlib
+import matplotlib.pyplot as plt
+from matplotlib.ticker import MultipleLocator, FormatStrFormatter
+from matplotlib.colors import ListedColormap
+from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
+                             MinuteLocator, date2num
+matplotlib.use('Agg')
+
 
 def celltolist(xtickstr):
+    """
+    convert list of list to list of string.
+
+    Examples
+    --------
+
+    [['2010-10-11'], [], ['2011-10-12]] =>
+    ['2010-10-11], '', '2011-10-12']
+    """
+
     tmp = []
     for iElement in range(0, len(xtickstr)):
         if not len(xtickstr[iElement][0]):
@@ -19,26 +32,46 @@ def celltolist(xtickstr):
 
     return tmp
 
+
 def datenum_to_datetime(datenum):
     """
     Convert Matlab datenum into Python datetime.
-    :param datenum: Date in datenum format
-    :return:        Datetime object corresponding to datenum.
+
+    Parameters
+    ----------
+    Date: float
+
+    Returns
+    -------
+    dtObj: datetime object
+
     """
     days = datenum % 1
     hours = days % 1 * 24
     minutes = hours % 1 * 60
     seconds = minutes % 1 * 60
-    return datetime.fromordinal(int(datenum)) \
-           + timedelta(days=int(days)) \
-           + timedelta(hours=int(hours)) \
-           + timedelta(minutes=int(minutes)) \
-           + timedelta(seconds=round(seconds)) \
-- timedelta(days=366)
+
+    dtObj = datetime.fromordinal(int(datenum)) + \
+        timedelta(days=int(days)) + \
+        timedelta(hours=int(hours)) + \
+        timedelta(minutes=int(minutes)) + \
+        timedelta(seconds=round(seconds)) - timedelta(days=366)
+
+    return dtObj
+
 
 def rmext(filename):
+    """
+    remove the file extension.
+
+    Parameters
+    ----------
+    filename: str
+    """
+
     file, _ = os.path.splitext(filename)
     return file
+
 
 def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
     '''
