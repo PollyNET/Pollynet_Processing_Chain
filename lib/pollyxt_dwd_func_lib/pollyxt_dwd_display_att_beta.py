@@ -1,15 +1,30 @@
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 from matplotlib.ticker import MultipleLocator, FormatStrFormatter
-from matplotlib.dates import DateFormatter, DayLocator, HourLocator, MinuteLocator, date2num
-import os, sys
+from matplotlib.dates import DateFormatter, \
+                             DayLocator, HourLocator, MinuteLocator, date2num
+import os
+import sys
 import scipy.io as spio
 import numpy as np
 from datetime import datetime, timedelta
+import matplotlib
+
+# generating figure without X server
+plt.switch_backend('Agg')
+
 
 def celltolist(xtickstr):
+    """
+    convert list of list to list of string.
+
+    Examples
+    --------
+
+    [['2010-10-11'], [], ['2011-10-12]] =>
+    ['2010-10-11], '', '2011-10-12']
+    """
+
     tmp = []
     for iElement in range(0, len(xtickstr)):
         if not len(xtickstr[iElement][0]):
@@ -19,58 +34,74 @@ def celltolist(xtickstr):
 
     return tmp
 
+
 def datenum_to_datetime(datenum):
     """
     Convert Matlab datenum into Python datetime.
-    :param datenum: Date in datenum format
-    :return:        Datetime object corresponding to datenum.
+
+    Parameters
+    ----------
+    Date: float
+
+    Returns
+    -------
+    dtObj: datetime object
+
     """
     days = datenum % 1
     hours = days % 1 * 24
     minutes = hours % 1 * 60
     seconds = minutes % 1 * 60
-    return datetime.fromordinal(int(datenum)) \
-           + timedelta(days=int(days)) \
-           + timedelta(hours=int(hours)) \
-           + timedelta(minutes=int(minutes)) \
-           + timedelta(seconds=round(seconds)) \
-- timedelta(days=366)
+
+    dtObj = datetime.fromordinal(int(datenum)) + \
+        timedelta(days=int(days)) + \
+        timedelta(hours=int(hours)) + \
+        timedelta(minutes=int(minutes)) + \
+        timedelta(seconds=round(seconds)) - timedelta(days=366)
+
+    return dtObj
+
 
 def rmext(filename):
+    """
+    remove the file extension.
+
+    Parameters
+    ----------
+    filename: str
+    """
+
     file, _ = os.path.splitext(filename)
     return file
 
+
 def pollyxt_dwd_display_att_beta(tmpFile, saveFolder):
-    '''
+    """
     Description
     -----------
     Display the housekeeping data from laserlogbook file.
 
     Parameters
     ----------
-    - tmpFile: the .mat file which stores the housekeeping data.
+    tmpFile: str
+    the .mat file which stores the housekeeping data.
 
-    Return
-    ------ 
+    saveFolder: str
 
     Usage
     -----
-    pollyxt_dwd_display_att_beta(tmpFile)
+    pollyxt_dwd_display_att_beta(tmpFile, saveFolder)
 
     History
     -------
     2019-01-10. First edition by Zhenping
-
-    Copyright
-    ---------
-    Ground-based Remote Sensing (TROPOS)
-    '''
+    """
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
         return
-    
-    # read data
+
+    # read matlab .mat data
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
@@ -134,7 +165,12 @@ def pollyxt_dwd_display_att_beta(tmpFile, saveFolder):
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_355 * 1e6, vmin=att_beta_cRange_355[0], vmax=att_beta_cRange_355[1], cmap=cmap)
+    pcmesh = ax.pcolormesh(
+        Time, Height, ATT_BETA_355 * 1e6,
+        vmin=att_beta_cRange_355[0],
+        vmax=att_beta_cRange_355[1],
+        cmap=cmap
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -143,27 +179,68 @@ def pollyxt_dwd_display_att_beta(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(
+        axis='both', which='major', labelsize=15, right=True,
+        top=True, width=2, length=5
+        )
+    ax.tick_params(
+        axis='both', which='minor', width=1.5, length=3.5,
+        right=True, top=True
+        )
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=355, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title(
+        'Attenuated Backscatter at {wave}nm'.format(wave=355) +
+        ' Far-Range from {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
 
     cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5), orientation='vertical')
+    cbar = fig.colorbar(
+        pcmesh,
+        cax=cb_ax,
+        ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5),
+        orientation='vertical'
+        )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC355), fontsize=12)
+    fig.text(
+        0.05, 0.04,
+        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+        fontsize=15
+        )
+    fig.text(
+        0.8, 0.02,
+        'Version: {version}\nCalibration: {method}'.format(
+            version=version,
+            method=flagLC355
+            ),
+        fontsize=12
+        )
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_355.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_ATT_BETA_355.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
     # display attenuate backscatter at 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_532 * 1e6, vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap)
+    pcmesh = ax.pcolormesh(
+        Time, Height, ATT_BETA_532 * 1e6,
+        vmin=att_beta_cRange_532[0],
+        vmax=att_beta_cRange_532[1],
+        cmap=cmap
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -172,27 +249,81 @@ def pollyxt_dwd_display_att_beta(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(
+        axis='both',
+        which='major',
+        labelsize=15,
+        right=True,
+        top=True,
+        width=2,
+        length=5
+        )
+    ax.tick_params(
+        axis='both',
+        which='minor',
+        width=1.5,
+        length=3.5,
+        right=True,
+        top=True
+        )
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=532, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title(
+        'Attenuated Backscatter at {wave}nm'.format(wave=532) +
+        ' Far-Range from {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
 
     cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5), orientation='vertical')
+    cbar = fig.colorbar(
+        pcmesh,
+        cax=cb_ax,
+        ticks=np.linspace(
+            att_beta_cRange_532[0],
+            att_beta_cRange_532[1],
+            5
+            ),
+        orientation='vertical'
+        )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC532), fontsize=12)
+    fig.text(
+        0.05, 0.04,
+        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+        fontsize=15
+        )
+    fig.text(
+        0.8, 0.02,
+        'Version: {version}\nCalibration: {method}'.format(
+            version=version,
+            method=flagLC532
+            ),
+        fontsize=12
+        )
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_ATT_BETA_532.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
-    
+
     # display attenuate backscatter at 1064 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, ATT_BETA_1064 * 1e6, vmin=att_beta_cRange_1064[0], vmax=att_beta_cRange_1064[1], cmap=cmap)
+    pcmesh = ax.pcolormesh(
+        Time, Height, ATT_BETA_1064 * 1e6,
+        vmin=att_beta_cRange_1064[0],
+        vmax=att_beta_cRange_1064[1],
+        cmap=cmap
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -201,25 +332,69 @@ def pollyxt_dwd_display_att_beta(tmpFile, saveFolder):
     ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15, right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5, length=3.5, right=True, top=True)
+    ax.tick_params(
+        axis='both', which='major', labelsize=15,
+        right=True, top=True, width=2, length=5
+        )
+    ax.tick_params(
+        axis='both', which='minor', width=1.5,
+        length=3.5, right=True, top=True
+        )
 
-    ax.set_title('Attenuated Backscatter at {wave}nm Far-Range from {instrument} at {location}'.format(wave=1064, instrument=pollyVersion, location=location), fontsize=15)
+    ax.set_title(
+        'Attenuated Backscatter at {wave}nm'.format(wave=1064) +
+        ' Far-Range from {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
 
     cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(att_beta_cRange_1064[0], att_beta_cRange_1064[1], 5), orientation='vertical')
+    cbar = fig.colorbar(
+        pcmesh, cax=cb_ax,
+        ticks=np.linspace(
+            att_beta_cRange_1064[0],
+            att_beta_cRange_1064[1],
+            5
+            ),
+        orientation='vertical'
+        )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
     cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
 
-    fig.text(0.05, 0.04, datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {method}'.format(version=version, method=flagLC1064), fontsize=12)
+    fig.text(
+        0.05, 0.04,
+        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+        fontsize=15
+        )
+    fig.text(
+        0.8, 0.02,
+        'Version: {version}\nCalibration: {method}'.format(
+            version=version,
+            method=flagLC1064
+            ),
+        fontsize=12
+        )
 
-    
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_ATT_BETA_1064.png'.format(dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_ATT_BETA_1064.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
+
 def main():
-    pollyxt_dwd_display_att_beta('C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat', 'C:\\Users\\zhenping\\Desktop')
+    pollyxt_dwd_display_att_beta(
+        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
+        'C:\\Users\\zhenping\\Desktop'
+        )
+
 
 if __name__ == '__main__':
     # main()
