@@ -240,22 +240,18 @@ def pollyxt_noa_display_depolcali(tmpFile, saveFolder):
         )
     ax2.text(
         0, 0.7,
-        '$mean_{dplus}={0:5.2f}, std_{dplus}={1:5.3f}$\n'.format(
-            mean_dplus_tmp[segIndx - 1],
-            std_dplus_tmp[segIndx - 1]
-        ) + '$mean_{dminus}={0:5.2f}, std_{dminus}={1:5.3f}$\n'.format(
-            mean_dminus_tmp[segIndx - 1],
-            std_dminus_tmp[segIndx - 1]
-        ) + '$K={0:6.4f}, std_K={1:6.4f}$'.format(
-            (1 + TRt) / (1 + TRx) *
-            np.sqrt(mean_dplus_tmp[segIndx-1] * mean_dminus_tmp[segIndx - 1]),
-            (1 + TRt) / (1 + TRx) / np.sqrt(
-                mean_dplus_tmp[segIndx - 1] *
-                mean_dminus_tmp[segIndx - 1]
-                ) * 0.5 *
-            (mean_dplus_tmp[segIndx - 1] * std_dminus_tmp[segIndx - 1] +
-             mean_dminus_tmp[segIndx - 1] * std_dplus_tmp[segIndx - 1])
-            ),
+        '$mean_{dplus}=%5.2f, std_{dplus}=%5.3f$\n' %
+        mean_dplus_tmp[segIndx - 1], std_dplus_tmp[segIndx - 1] +
+        '$mean_{dminus}=%5.2f, std_{dminus}=%5.3f$\n' %
+        mean_dminus_tmp[segIndx - 1], std_dminus_tmp[segIndx - 1] +
+        '$K=%6.4f, std_K=%6.4f$' %
+        (1 + TRt) / (1 + TRx) *
+        np.sqrt(mean_dplus_tmp[segIndx-1] * mean_dminus_tmp[segIndx - 1]),
+        (1 + TRt) / (1 + TRx) / np.sqrt(
+            mean_dplus_tmp[segIndx - 1] * mean_dminus_tmp[segIndx - 1]
+            ) * 0.5 *
+        (mean_dplus_tmp[segIndx - 1] * std_dminus_tmp[segIndx - 1] +
+            mean_dminus_tmp[segIndx - 1] * std_dplus_tmp[segIndx - 1]),
         fontsize=12,
         transform=ax2.transAxes
         )

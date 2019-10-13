@@ -1209,7 +1209,7 @@ def pollyxt_uw_display_retrieving(tmpFile, saveFolder):
 
     ax.set_ylim([0, 7000])
     ax.yaxis.set_major_locator(MultipleLocator(150))
-    ax.yxis.set_minor_locator(MultipleLocator(500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 100])
     ax.grid(True)
     ax.tick_params(axis='both', which='major', labelsize=15,
