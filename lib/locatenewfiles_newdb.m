@@ -98,7 +98,31 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
     % retrieve the filesize and gdas status from the database
     fprintf('Start to fetch polly data filenames for %s from %s\n', pollyUniqNameTable.polly{iPolly}, pollyAPPConfig.DATABASE_NAME);
 
-    sqlCmd = sprintf('SELECT l.name, ld.nc_zip_file, ld.nc_zip_file_size, loc.name, ld.gdas FROM lidar_data ld inner join lidar l, location loc where ld.lidar_fk=l.id and ld.location_fk=loc.id and l.name=''%s'';', pollyUniqNameTable.polly{iPolly});
+    % TODO:
+    % Speed up the searching with add a criteria of datetime in the SQL command.
+    % SQL command:
+    % '''
+    % SELECT 
+    %     l.name,
+    %     ld.nc_zip_file,
+    %     ld.nc_zip_file_size,
+    %     loc.name,
+    %     ld.gdas,
+    %     ld.starttime
+    % FROM 
+    %     lidar_data ld
+    % INNER JOIN
+    %     lidar l
+    % INNER JOIN
+    %     location loc
+    % WHERE
+    %     ld.lidar_fk=l.id AND
+    %     ld.location_fk=loc.id AND
+    %     l.name='Polly_1V2' AND
+    %     (ld.starttime >= '20191007') AND (ld.stoptime <= '20191014')
+    % '''
+    % You are at your own responsibility to test this.
+    sqlCmd = sprintf('SELECT l.name, ld.nc_zip_file, ld.nc_zip_file_size, loc.name, ld.gdas FROM lidar_data ld INNER JOIN lidar l, location loc WHERE ld.lidar_fk=l.id AND ld.location_fk=loc.id AND l.name=''%s'';', pollyUniqNameTable.polly{iPolly});
     res = exec(conn, sqlCmd);
     dbRet = fetch(res);
 
@@ -110,7 +134,7 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
         pollyDBDataTable = cell2table(dbRet.Data, 'VariableNames', {'pollyName', 'fileName', 'fileSize', 'location', 'GDAS1'});
     end
 
-    % search all the polly files in the server
+    % search all the polly files in the server in the given period (start - stop)
     pollySaveData = struct('pollyName', {}, 'GDAS1', {}, 'filePath', {}, 'fileName', {}, 'fileSize', {}, 'date', {});
 
     fprintf('Start to search data files for %s in the server.\n', pollyUniqNameTable.polly{iPolly});
