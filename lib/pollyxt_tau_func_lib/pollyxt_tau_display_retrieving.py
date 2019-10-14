@@ -1208,7 +1208,7 @@ def pollyxt_tau_display_retrieving(tmpFile, saveFolder):
     ax.legend(handles=[p1, p2], loc='upper right', fontsize=15)
 
     ax.set_ylim([0, 7000])
-    ax.yaxis.set_major_locator(MultipleLocator(150))
+    ax.yaxis.set_major_locator(MultipleLocator(1500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 100])
     ax.grid(True)
