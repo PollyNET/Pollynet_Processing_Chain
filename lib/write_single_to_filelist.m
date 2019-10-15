@@ -70,7 +70,7 @@ todolistFolder = fileparts(config.fileinfo_new);
 
 %% unzip laserlogbook files to todofolder
 if exist(logbookZipFilepath, 'file') ~= 2
-    warning('laserlogbook file does not exist.\n%s', logbookZipFilepath);
+    warning('Zipped laserlogbook file does not exist.\n%s', logbookZipFilepath);
 else
     try
         logbookUnzipFile = unzip(logbookZipFilepath, ...
@@ -91,12 +91,6 @@ catch
     warning('Failure in unzipping the file %s', pollyZipFile);
 	return;
 end
-
-%% convert polly housekeeping temp file to laserlogbook file
-% This part is only necessary to be configured when you run this code on the rsd server
-pollyList = {'pollyxt_tjk'};   % polly list of which needs to be converted
-pollyTempFolder = {'/pollyhome/pollyxt_tjk/log'};   % root directory of the temps file
-convert_temp_2_laserlogbook(config.fileinfo_new, pollyList, pollyTempFolder);
 
 %% write the file to fileinfo_new.txt
 fid = fopen(config.fileinfo_new, writeMode);

@@ -41,15 +41,18 @@ if ischar(day)
     day = str2double(day);
 end
 
+% load pollynet_processing_chain config
+if exist(pollynetConfigFile, 'file') ~= 2
+    error(['Error in pollynet_processing_main: ' ...
+           'Unrecognizable configuration file\n%s\n'], pollynetConfigFile);
+else
+    config = loadjson(pollynetConfigFile);
+end
+
 %% search zip files
 files = dir(fullfile(saveFolder, 'data_zip', ...
                      sprintf('%04d%02d', year, month), ...
                      sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
-
-if isempty(files)
-    write_single_to_filelist(pollyType, '', pollynetConfigFile, writeMode)
-    return;
-end
 
 for iFile = 1:length(files)
 
@@ -62,5 +65,11 @@ for iFile = 1:length(files)
     fullfile(saveFolder, 'data_zip', sprintf('%04d%02d', year, month), ...
     files(iFile).name), pollynetConfigFile, writeMode);
 end
+
+%% convert polly housekeeping temp file to laserlogbook file
+% This part is only necessary to be configured when you run this code on the rsd server
+pollyList = {'pollyxt_tjk'};   % polly list of which needs to be converted
+pollyTempFolder = {'/pollyhome/pollyxt_tjk/log'};   % root directory of the temps file
+convert_temp_2_laserlogbook(config.fileinfo_new, pollyList, pollyTempFolder);
 
 end
