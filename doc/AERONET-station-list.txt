@@ -1,4 +1,4 @@
-AERONET_Database_Site_List,Num=2,Date_Generated=30:09:2019
+AERONET_Database_Site_List,Num=2,Date_Generated=15:10:2019
 Site_Name,Longitude(decimal_degrees),Latitude(decimal_degrees),Elevation(meters)
 Cuiaba,-56.070214,-15.555244,234.000000
 Alta_Floresta,-56.104453,-9.871339,277.000000

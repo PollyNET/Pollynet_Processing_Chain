@@ -90,7 +90,7 @@ addincludepath;
 pollynetConfig = loadjson(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
 % unzip the file
-locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', pollynetConfig.minDataSize, now, datenum(0, 1, 4), $flagCheckGDAS);
+locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', pollynetConfig.minDataSize, now, datenum(0, 1, 7), $flagCheckGDAS);
 
 % running Picasso
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
