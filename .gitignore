@@ -7,7 +7,7 @@ tmp/
 !config/polly_global_config.json
 config/
 recent_plots/
-!todo_filelist/fileinfo_new.txt
+todo_filelist/fileinfo_new.txt
 !todo_filelist/pollynet_history_of_places_new.txt
 todo_filelist/
 test/
