@@ -77,7 +77,8 @@ if exist(file, 'file') ~= 2
     fclose(fid);
 end
 
-if exist(fullfile(processInfo.pic_folder, imageFile), 'file') ~= 2
+% imageFile contain the basedir of pic_folder
+if exist(fullfile(fileparts(processInfo.pic_folder), imageFile), 'file') ~= 2
     warning('image file does not exist.\n%s\n', imageFile);
     return;
 end
