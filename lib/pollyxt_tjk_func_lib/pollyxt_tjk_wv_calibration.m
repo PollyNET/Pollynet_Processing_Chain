@@ -135,10 +135,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             thisWVCaliInfo = 'Signal at 387 nm channel is too noisy.';
         end
 
-        % TODO: replace the integration range from [hIntBaseIndx, hIntTopIndx] to
-        % [hIntBaseIndx, hIndxLowSNR387]. Check it whether it works, depends on the SNR 
-        % and finally reprocess all the data.
-        thisIntRange = [hIntBaseIndx, hIntTopIndx];
+        thisIntRange = [hIntBaseIndx, hIndxLowSNR387];
     end
 
     %% determine whether the water vapor measurements were performed at daytime

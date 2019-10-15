@@ -11,7 +11,7 @@ This repository provides an automatic processing chain for [PollyNET](http://pol
     - [Requirement](#requirement)
     - [Download](#download)
     - [Usage](#usage)
-    - [Author](#author)
+    - [Authors](#authors)
     - [Acknowledgements](#acknowledgements)
     - [Cooperation](#cooperation)
 
@@ -43,9 +43,10 @@ The program is highly sensitive to the folder structure of the Lidar and [GDAS1]
 
 For internal users, please click [here](/doc/pollynet_processing_program.md) for further information.
 
-### Author
+### Authors
 
-- Zhenping Yin: First version of the program.
+- [Zhenping Yin](zhenping@tropos.de)
+- [Holger Baars](baars@tropos.de)
 
 ### Acknowledgements
 
@@ -55,7 +56,7 @@ For internal users, please click [here](/doc/pollynet_processing_program.md) for
 - matlab [JSONlab](https://de.mathworks.com/matlabcentral/fileexchange/33381-jsonlab-a-toolbox-to-encode-decode-json-files) by Qianqian Fang
 - ceilometer matlab programs from [Birgit Heese](https://www.tropos.de/institut/ueber-uns/mitarbeitende/birgit-heese/)
 
-Special thanks to [Holger Baars](https://www.tropos.de/institut/ueber-uns/mitarbeitende/holger-baars/) and [Patric Seifert](https://www.tropos.de/institut/ueber-uns/mitarbeitende/patric-seifert/) for their valuable suggestions and advice.
+Special thanks to [Patric Seifert](https://www.tropos.de/institut/ueber-uns/mitarbeitende/patric-seifert/) for his valuable suggestions and advice.
 
 ### Cooperation
 
