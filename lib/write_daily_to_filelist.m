@@ -27,6 +27,12 @@ function [] = write_daily_to_filelist(pollyType, saveFolder, ...
 %   Contact:
 %       zhenping@tropos.de
 
+projectDir = fileparts(fileparts(mfilename('fullpath')));
+
+%% add library path
+addpath(fullfile(projectDir, 'lib'));
+addpath(fullfile(projectDir, 'include', 'jsonlab-1.5'))
+
 if ~ exist('writeMode', 'var')
     writeMode = 'w';
 end
