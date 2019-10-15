@@ -40,10 +40,10 @@ LCStd607History = LC.LCStd607History(flagTillNow);
 
 %% read wv calibration constant
 wvCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile);
-[WVCaliTime, ~, WVConst] = pollyxt_fmi_read_wvconst(wvCaliFile);
-flagTillNow = WVCaliTime <= taskInfo.dataTime;
-WVConst = WVConst(flagTillNow);
-WVCaliTime = WVCaliTime(flagTillNow);
+[WVCaliTime, WVCaliFlag, WVConst] = pollyxt_fmi_read_wvconst(wvCaliFile);
+flagTillNow = (WVCaliTime <= taskInfo.dataTime);
+WVConst = WVConst(flagTillNow & WVCaliFlag);
+WVCaliTime = WVCaliTime(flagTillNow & WVCaliFlag);
 
 %% read depol calibration constant
 % 355 nm

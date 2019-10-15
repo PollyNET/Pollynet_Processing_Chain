@@ -92,6 +92,12 @@ catch
 	return;
 end
 
+%% convert polly housekeeping temp file to laserlogbook file
+% This part is only necessary to be configured when you run this code on the rsd server
+pollyList = {'pollyxt_tjk'};   % polly list of which needs to be converted
+pollyTempFolder = {'/pollyhome/pollyxt_tjk/log'};   % root directory of the temps file
+convert_temp_2_laserlogbook(config.fileinfo_new, pollyList, pollyTempFolder);
+
 %% write the file to fileinfo_new.txt
 fid = fopen(config.fileinfo_new, writeMode);
 
