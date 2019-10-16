@@ -1,4 +1,4 @@
-function [report] = pollynet_processing_chain_main(pollynetConfigFile)
+function report = pollynet_processing_chain_main(pollynetConfigFile)
 %pollynet_processing_chain_main read polly tasks from todo_filelist and assign the processing module for each task.
 %   Example:
 %       [report] = pollynet_processing_chain_main(pollynetConfigFile)
@@ -158,7 +158,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
     %% realtime process
     fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), campaignInfo.name, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
-    reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
+    [reportTmp] = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
     report = cat(2, report, reportTmp);
     fprintf('[%s] Finish.\n', tNow());
 
