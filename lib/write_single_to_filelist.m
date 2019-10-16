@@ -70,7 +70,7 @@ todolistFolder = fileparts(config.fileinfo_new);
 
 %% unzip laserlogbook files to todofolder
 if exist(logbookZipFilepath, 'file') ~= 2
-    warning('laserlogbook file does not exist.\n%s', logbookZipFilepath);
+    warning('Zipped laserlogbook file does not exist.\n%s', logbookZipFilepath);
 else
     try
         logbookUnzipFile = unzip(logbookZipFilepath, ...
