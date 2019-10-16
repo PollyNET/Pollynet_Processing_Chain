@@ -30,7 +30,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     WT = data.monitorStatus.WT;
     shutter2 = data.monitorStatus.LS;
     counts = data.monitorStatus.counts;
-    ExtPyro = data.monitorStatus.ExtPyro;
+    %ExtPyro = data.monitorStatus.ExtPyro;
     Temp1064 = data.monitorStatus.Temp1064;
     Temp1 = data.monitorStatus.Temp1;
     Temp2 = data.monitorStatus.Temp2;
