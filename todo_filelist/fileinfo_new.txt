@@ -1,4 +1,1 @@
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, polly_1v2\data_zip, 2019_06_29_Sat_1v2_00_00_01.nc, polly_1v2\data_zip\201906\2019_06_29_Sat_1v2_00_00_01.nc.zip, 92192140, POLLY_1V2
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, polly_1v2\data_zip, 2019_06_29_Sat_1v2_06_00_01.nc, polly_1v2\data_zip\201906\2019_06_29_Sat_1v2_06_00_01.nc.zip, 92192140, POLLY_1V2
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, polly_1v2\data_zip, 2019_06_29_Sat_1v2_12_00_01.nc, polly_1v2\data_zip\201906\2019_06_29_Sat_1v2_12_00_01.nc.zip, 92192140, POLLY_1V2
-C:\Users\zhenping\Desktop\Picasso\todo_filelist, polly_1v2\data_zip, 2019_06_29_Sat_1v2_18_00_01.nc, polly_1v2\data_zip\201906\2019_06_29_Sat_1v2_18_00_01.nc.zip, 92192140, POLLY_1V2
+C:\Users\baars\Desktop\polly_try\Pollynet_Processing_Chain\todo_filelist, polly_first\data_zip, 2014_07_13_Sunday_00_00_06.nc, 201407\2014_07_13_Sunday_00_00_06.nc.zip, 12627196, POLLY_1ST

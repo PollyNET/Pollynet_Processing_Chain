@@ -1,4 +1,4 @@
-function [flag] = pollyxt_ift_saturationdetect(data, config)
+function [flag] = pollyxt_first_saturationdetect(data, config)
 %pollyxt_ift_saturationdetect detect the bins which is fully saturated by the clouds. The description about the detection algorithm can be found in doc/polly_defaults.md
 %   Example:
 %       [flag] = pollyxt_ift_saturationdetect(data, height, config)

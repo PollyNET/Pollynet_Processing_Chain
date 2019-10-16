@@ -1,4 +1,4 @@
-function [] = pollyxt_ift_display_overlap(data, taskInfo, attri, config)
+function [] = pollyxt_first_display_overlap(data, taskInfo, attri, config)
 %pollyxt_ift_display_overlap display the overlap function.
 %   Example:
 %       [] = pollyxt_ift_display_overlap(data, taskInfo, attri, config)
@@ -116,10 +116,10 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
-    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_overlap.py'), tmpFile, saveFolder));
+    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_first_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
-        warning('Error in executing %s', 'pollyxt_ift_display_overlap.py');
+        warning('Error in executing %s', 'pollyxt_first_display_overlap.py');
     end
     delete(tmpFile);
 

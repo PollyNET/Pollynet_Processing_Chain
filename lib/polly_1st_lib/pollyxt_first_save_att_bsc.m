@@ -1,7 +1,7 @@
-function [] = pollyxt_ift_save_att_bsc(data, taskInfo, config)
-%pollyxt_ift_save_att_bsc save the attenuated backscatter.
+function [] = pollyxt_first_save_att_bsc(data, taskInfo, config)
+%polly_1v2_save_att_bsc save the attenuated backscatter.
 %   Example:
-%       [] = pollyxt_ift_save_att_bsc(data, taskInfo, config)
+%       [] = polly_1v2_save_att_bsc(data, taskInfo, config)
 %   Inputs:
 %       data, taskInfo, config
 %   Outputs:
@@ -35,19 +35,13 @@ varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
 varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_att_bsc_355 = netcdf.defVar(ncID, 'attenuated_backscatter_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_att_bsc_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_1064nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
 
 % define the filling value
-netcdf.defVarFill(ncID, varID_att_bsc_355, false, missing_value);
 netcdf.defVarFill(ncID, varID_att_bsc_532, false, missing_value);
-netcdf.defVarFill(ncID, varID_att_bsc_1064, false, missing_value);
 
 % define the data compression
-netcdf.defVarDeflate(ncID, varID_att_bsc_355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_att_bsc_532, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_att_bsc_1064, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -58,9 +52,7 @@ netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_att_bsc_355, fillmissing(data.att_beta_355, missing_value));
 netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_532, missing_value));
-netcdf.putVar(ncID, varID_att_bsc_1064, fillmissing(data.att_beta_1064, missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -97,18 +89,6 @@ netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
 
-% att_bsc_355
-netcdf.putAtt(ncID, varID_att_bsc_355, 'unit', 'sr^-1 m^-1');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'long_name', 'attenuated backscatter at 355 nm');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'standard_name', 'att_beta_355');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', config.att_beta_cRange_355/1e6);
-netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'source', campaignInfo.name);
-% netcdf.putAtt(ncID, varID_att_bsc_355, 'error_variable', 'att_beta_355_error');
-% netcdf.putAtt(ncID, varID_att_bsc_355, 'bias_variable', 'att_beta_355_bias');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');
-
 % att_bsc_532
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
@@ -120,18 +100,6 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');
-
-% att_bsc_1064
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit', 'sr^-1 m^-1');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'long_name', 'attenuated backscatter at 1064 nm');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'standard_name', 'att_beta_1064');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', config.att_beta_cRange_1064/1e6);
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', campaignInfo.name);
-% netcdf.putAtt(ncID, varID_att_bsc_1064, 'error_variable', 'att_beta_1064_error');
-% netcdf.putAtt(ncID, varID_att_bsc_1064, 'bias_variable', 'att_beta_1064_bias');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

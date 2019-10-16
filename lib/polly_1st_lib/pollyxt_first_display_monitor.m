@@ -1,4 +1,4 @@
-function [] = pollyxt_ift_display_monitor(data, taskInfo, config)
+function [] = pollyxt_first_display_monitor(data, taskInfo, config)
 %pollyxt_ift_display_monitor display the values of sensors.
 %   Example:
 %       [] = pollyxt_ift_display_monitor(data, taskInfo, config)
@@ -41,9 +41,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     mTime = data.mTime;
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v6');
-    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_monitor.py'), tmpFile, saveFolder));
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_first_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
-        warning('Error in executing %s', 'pollyxt_ift_display_monitor.py');
+        warning('Error in executing %s', 'pollyxt_first_display_monitor.py');
     end
     delete(tmpFile);
     
