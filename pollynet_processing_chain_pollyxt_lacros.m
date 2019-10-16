@@ -8,7 +8,7 @@ function [report] = pollynet_processing_chain_pollyxt_lacros(taskInfo, config)
 %       report: cell array
 %           information about each figure.
 %   History:
-%       2018-12-17. First edition by Zhenping   
+%       2018-12-17. First edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
 
