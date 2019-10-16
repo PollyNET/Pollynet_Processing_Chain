@@ -1,6 +1,6 @@
 function [] = write_daily_to_filelist(pollyType, saveFolder, ...
             pollynetConfigFile, year, month, day, writeMode)
-%WRITE_DAILY_TO_FILELIST Unzip the polly data and write the data info to the 
+        %WRITE_DAILY_TO_FILELIST Unzip the polly data and write the data info to the 
 %todolist file for pollynet processing chain.
 %   Example:
 %       [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, 
@@ -58,7 +58,7 @@ end
 %% search zip files
 files = dir(fullfile(saveFolder, 'data_zip', ...
                      sprintf('%04d%02d', year, month), ...
-                     sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
+                     sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)))
 
 for iFile = 1:length(files)
 
