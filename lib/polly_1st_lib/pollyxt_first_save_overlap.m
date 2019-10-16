@@ -1,7 +1,7 @@
-function [] = pollyxt_ift_save_overlap(data, taskInfo, config, globalAttri, file)
-%pollyxt_ift_save_overlap Save the overlap file.
+function [] = pollyxt_first_save_overlap(data, taskInfo, config, globalAttri, file)
+%polly_1v2_save_overlap Save the overlap file.
 %   Example:
-%       [] = pollyxt_ift_save_overlap(data, taskInfo, config, globalAttri, file);
+%       [] = polly_first_save_overlap(data, taskInfo, config, globalAttri, file);
 %   Inputs:
 %       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -12,8 +12,6 @@ function [] = pollyxt_ift_save_overlap(data, taskInfo, config, globalAttri, file
 %               calculated overlap for 532 nm far range total channel.
 %           overlap532Defaults: array
 %               default overlap for 532 nm far range total channel.
-%           overlap355Defaults: array
-%               default overlap for 355 nm far range total channel.
 %       file: char
 %           netcdf file to save the overlap parameters.
 %   Outputs:
@@ -33,13 +31,9 @@ end
 
 % convert empty array to defaults
 overlap532 = globalAttri.overlap532;
-overlap355Defaults = globalAttri.overlap355DefaultInterp;
 overlap532Defaults = globalAttri.overlap532DefaultInterp;
 if isempty(overlap532)
     overlap532 = -999 * ones(size(data.height));
-end
-if isempty(overlap355Defaults)
-    overlap355Defaults = -999 * ones(size(data.height));
 end
 if isempty(overlap532Defaults)
     overlap532Defaults = -999 * ones(size(data.height));
@@ -65,17 +59,14 @@ varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
 varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_DOUBLE', dimID_height);
 varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_DOUBLE', dimID_height);
-varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_DOUBLE', dimID_height);
 varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_overlap532, false, -999);
 netcdf.defVarFill(ncID, varID_overlap532Defaults, false, -999);
-netcdf.defVarFill(ncID, varID_overlap355Defaults, false, -999);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_overlap532, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_overlap355Defaults, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_overlap532Defaults, true, true, 5);
 
 % leave define mode
@@ -90,7 +81,6 @@ netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_overlap532, overlap532);
 netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
-netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
 netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCalMode);
 
 % re enter define mode
@@ -152,16 +142,6 @@ netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
-
-% Default overlap 355
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'unit', '');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'long_name', 'Default overlap function for 355nm far-range channel');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_min', 0.0);
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_max', 1.0);
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_range', [0, 1.1]);
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
 
 % overlap calibration method
 netcdf.putAtt(ncID, varID_overlapCalMethod, 'unit', '');

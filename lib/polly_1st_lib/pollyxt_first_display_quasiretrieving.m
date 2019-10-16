@@ -1,7 +1,7 @@
-function [] = pollyxt_first_display_att_beta(data, taskInfo, config)
-%pollyxt_first_display_att_beta display attenuated signal
+function [] = polly_1v2_display_quasiretrieving(data, taskInfo, config)
+%polly_1v2_display_quasiretrieving display the quasi retrievings results
 %   Example:
-%       [] = polly_1v2_display_att_beta(data, taskInfo, config)
+%       [] = polly_1v2_display_quasiretrieving(data, taskInfo, config)
 %   Inputs:
 %       data, taskInfo, config
 %   Outputs:
@@ -10,38 +10,37 @@ function [] = pollyxt_first_display_att_beta(data, taskInfo, config)
 %       2018-12-30. First Edition by Zhenping
 %   Contact:
 %       zhenping@tropos.de
-
+    
 global defaults processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
-
+    file_quasi_bsc_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
+    
     %% visualization
     load('chiljet_colormap.mat')
 
-    % 532 nm FR
+    % Quasi Bsc 532 nm 
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 
     subplot('Position', [0.1, 0.15, 0.8, 0.75]);   % mainframe
 
-    ATT_BETA_532 = data.att_beta_532;
-    ATT_BETA_532(data.quality_mask_532 > 0) = NaN;
-    p1 = pcolor(data.mTime, data.height, ATT_BETA_532 * 1e6); hold on;
+    quasi_bsc_532 = data.quasi_par_beta_532;
+    quasi_bsc_532(data.quality_mask_532 ~= 0) = NaN;
+    p1 = pcolor(data.mTime, data.height, quasi_bsc_532 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis(config.att_beta_cRange_532);
+    caxis(config.quasi_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim([0, 12000]);
     xlabel('UTC');
     ylabel('Height (m)');
-    title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
+    title(sprintf('Quasi Backscatter Coefficient at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
+    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal');
-    text(0.90, -0.18, sprintf('Calibration %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1}), 'Units', 'Normal');
 
     % colorbar
     c = colorbar('Position', [0.92, 0.15, 0.02, 0.75]);
@@ -53,8 +52,10 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
-    export_fig(gcf, fileATT_BETA_532, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    export_fig(gcf, file_quasi_bsc_532, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
+
+    
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
     
@@ -63,13 +64,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
-    ATT_BETA_532 = data.att_beta_532;
-    %quality_mask_532 = data.quality_mask_532;
+    quasi_bsc_532 = data.quasi_par_beta_532;
+    quality_mask_532 = data.quality_mask_532;
     height = data.height;
     time = data.mTime;
     figDPI = processInfo.figDPI;
-    att_beta_cRange_532 = config.att_beta_cRange_532;
-    flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
+    quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
@@ -78,12 +78,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
     
-    %% display rcs 
+    %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
-    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_first_display_att_beta.py'), tmpFile, saveFolder));
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'height', 'time', 'quasi_beta_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_first_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
-        warning('Error in executing %s', 'pollyxt_first_display_att_beta.py');
+        warning('Error in executing %s', 'polly_1v2_display_quasiretrieving.py');
     end
     delete(tmpFile);
     

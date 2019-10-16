@@ -301,18 +301,18 @@ if processInfo.flagEnableDataVisualization
     pollyxt_first_display_att_beta(data, taskInfo, config);
      %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
-    pollyxt_first_display_quasiretrieving(data, taskInfo, config);
+    %pollyxt_ift_display_quasiretrieving(data, taskInfo, config);
     
     %% display quasi backscatter, particle depol and angstroem exponent V2 
     %disp('Display quasi parameters V2')
    % pollyxt_ift_display_quasiretrieving_V2(data, taskInfo, config);
 
     %% target classification
-    %disp('Display target classifications')
+    disp('Display target classifications')
     %pollyxt_ift_display_targetclassi(data, taskInfo, config);
 
     %% target classification V2
-    %disp('Display target classifications V2')
+    disp('Display target classifications V2')
     %pollyxt_ift_display_targetclassi_V2(data, taskInfo, config);
 
     %% display lidar calibration constants

@@ -1,23 +1,26 @@
-function [] = pollyxt_first_save_att_bsc(data, taskInfo, config)
-%polly_1v2_save_att_bsc save the attenuated backscatter.
+function [] = pollyxt_first_save_quasi_results(data, taskInfo, config)
+%polly_1v2_save_quasi_results Saving the target classification results to netcdf file.
 %   Example:
-%       [] = polly_1v2_save_att_bsc(data, taskInfo, config)
+%       [] = polly_1v2_save_quasi_results(data, config)
 %   Inputs:
-%       data, taskInfo, config
+%       data.struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       taskInfo: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
+%       config: struct
+%           More detailed information can be found in doc/pollynet_processing_program.md
 %   Outputs:
 %       
 %   History:
-%       2019-01-10. First Edition by Zhenping
+%       2018-12-30. First Edition by Zhenping
 %       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
 %       2019-09-27. Turn on the netCDF4 compression.
 %   Contact:
 %       zhenping@tropos.de
 
-missing_value = -999;
-
 global processInfo defaults campaignInfo
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_att_bsc.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results.nc', rmext(taskInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -29,30 +32,32 @@ dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
 dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
-%% define variables
+% define variables
 varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
 varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
 varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_quasi_bsc_532 = netcdf.defVar(ncID, 'quasi_bsc_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
 
 % define the filling value
-netcdf.defVarFill(ncID, varID_att_bsc_532, false, missing_value);
+netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
 
 % define the data compression
-netcdf.defVarDeflate(ncID, varID_att_bsc_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
 
-%% write data to .nc file
+% write data to .nc file
 netcdf.putVar(ncID, varID_altitude, data.alt0);
 netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_532, missing_value));
+netcdf.putVar(ncID, varID_quasi_bsc_532, data.quasi_par_beta_532);
+netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532);
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -89,17 +94,18 @@ netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
 
-% att_bsc_532
-netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter at 532 nm');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.att_beta_cRange_532/1e6);
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
-% netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
-% netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the strength of aerosol and molecule backscatter.');
+% quasi_bsc_532
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'bias_variable', 'quasi_beta_532_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', config.LR532));
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

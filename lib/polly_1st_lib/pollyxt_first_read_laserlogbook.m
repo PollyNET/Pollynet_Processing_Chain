@@ -1,4 +1,4 @@
-function health = pollyxt_ift_read_laserlogbook(file, config, flagDeleteData)
+function health = pollyxt_first_read_laserlogbook(file, config, flagDeleteData)
 %POLLYXT_IFT_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
 %   Usage:

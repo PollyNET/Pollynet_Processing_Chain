@@ -12,10 +12,10 @@ function [defaults] = pollyxt_first_read_defaults()
 %   Contact:
 %       zhenping@tropos.de
 
-defaultFile = 'pollyxt_1st_defaults.json';
+defaultFile = 'pollyxt_first_defaults.json';
 
 if exist(defaultFile, 'file') ~= 2
-    error('Default file for pollyxt_ift does not exist!\n%s\n', defaultFile);
+    error('Default file for pollyxt_first does not exist!\n%s\n', defaultFile);
 end
 
 defaults = loadjson(defaultFile);

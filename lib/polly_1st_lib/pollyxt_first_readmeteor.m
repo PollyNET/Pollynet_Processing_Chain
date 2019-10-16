@@ -1,4 +1,4 @@
-function [temp, pres, relh, meteorAttri] = pollyxt_ift_readmeteor(data, config)
+function [temp, pres, relh, meteorAttri] = pollyxt_first_readmeteor(data, config)
 %pollyxt_ift_readmeteor Read meteorological data.
 %   Example:
 %       [temp, pres, relh, meteorAttri] = pollyxt_ift_readmeteor(data, config)
