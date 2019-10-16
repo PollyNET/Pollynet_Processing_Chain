@@ -1,7 +1,7 @@
-function [] = polly_1v2_save_overlap(data, taskInfo, config, globalAttri, file)
+function [] = pollyxt_first_save_overlap(data, taskInfo, config, globalAttri, file)
 %polly_1v2_save_overlap Save the overlap file.
 %   Example:
-%       [] = polly_1v2_save_overlap(data, taskInfo, config, globalAttri, file);
+%       [] = polly_first_save_overlap(data, taskInfo, config, globalAttri, file);
 %   Inputs:
 %       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
