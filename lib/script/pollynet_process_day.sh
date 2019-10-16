@@ -12,7 +12,7 @@ display_help() {
   echo
   echo "Process the polly data at any give time."
   echo "   -d, --yyyymmdd          set the date for the polly data"
-  echo "   -p, --polly_type        set the instrument type"
+  echo "   -p, --polly_type        set the instrument type (case-sensitive)"
   echo "                           - PollyXT_LACROS"
   echo "                           - PollyXT_TROPOS"
   echo "                           - PollyXT_NOA"
@@ -24,6 +24,7 @@ display_help() {
   echo "                           - PollyXT_IfT"
   echo "                           - PollyXT_CGE"
   echo "                           - arielle"
+  echo "                           - Polly_1st"
   echo "                           - Polly_1v2"
   echo "   -f, --polly_folder      specify the polly data folder"
   echo "                           e.g., '/pollyhome/pollyxt_lacros'"
