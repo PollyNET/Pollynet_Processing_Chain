@@ -67,7 +67,7 @@ netcdf.defVarFill(ncID, varID_overlap532Defaults, false, -999);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_overlap532, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_overlap355Defaults, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_overlap532Defaults, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
