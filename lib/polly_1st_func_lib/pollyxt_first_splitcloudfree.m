@@ -20,7 +20,7 @@ cloudFreeSubContGroup = [];
 if isempty(data.rawSignal)
     return;
 end
-data.depCalMask=data.fogMask   %manioulated by Holge
+data.depCalMask=data.fogMask;   %manioulated by Holger
 % mark the continues cloud-free, nonfog, no depol calibration profile
 validProfile = double(data.flagCloudFree8km & (~ data.fogMask) & (~ data.depCalMask));
 validProfile(validProfile == 0) = NaN;
