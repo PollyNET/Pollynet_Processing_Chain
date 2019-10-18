@@ -118,9 +118,7 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 
 %Manipulated in a way that eltrans is there....
 [data.el532, data.bgEl532] = pollyxt_first_transratioCor(data, config);
-fprintf('data.rawSignal');
 % TODO: replace the total 532nm signal with elastic 532 nm signal
-disp(data)
 [data.aerBsc532_klett, data.aerExt532_klett] = pollyxt_first_klett(data, config);
 [data.aerBsc532_aeronet, data.aerExt532_aeronet, data.LR532_aeronet, data.deltaAOD532] = pollyxt_first_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc532_raman, data.aerExt532_raman, data.LR532_raman] = pollyxt_first_raman(data, config);
