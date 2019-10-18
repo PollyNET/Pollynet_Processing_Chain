@@ -1,4 +1,4 @@
-AERONET_Database_Site_List,Num=2,Date_Generated=15:10:2019
+AERONET_Database_Site_List,Num=2,Date_Generated=18:10:2019
 Site_Name,Longitude(decimal_degrees),Latitude(decimal_degrees),Elevation(meters)
 Cuiaba,-56.070214,-15.555244,234.000000
 Alta_Floresta,-56.104453,-9.871339,277.000000
@@ -1499,3 +1499,4 @@ McCall_Dragon_9,-115.849037,45.272417,1875.000000
 Section-7_Platform,29.446600,44.545800,30.000000
 BMKG_Jakarta,106.842212,-6.154622,10.000000
 Kupang,123.552777,-10.172377,30.000000
+ARM_Andenes,15.684166,69.141281,2.000000
