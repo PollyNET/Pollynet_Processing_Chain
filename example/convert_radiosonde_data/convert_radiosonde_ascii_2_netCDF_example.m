@@ -92,32 +92,37 @@ netcdf.reDef(ncID);
 netcdf.putAtt(ncID, varID_altitude, 'unit', 'm');
 netcdf.putAtt(ncID, varID_altitude, 'long_name', 'Height of lidar above mean sea level');
 netcdf.putAtt(ncID, varID_altitude, 'standard_name', 'altitude');
-netcdf.putAtt(ncID, varID_altitude, 'axis', 'Z');
+netcdf.putAtt(ncID, varID_altitude, 'axis', 'Y');
 
 % pressure
 netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
 netcdf.putAtt(ncID, varID_pressure, 'long_name', 'air pressure');
 netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'pressure');
+netcdf.putAtt(ncID, varID_altitude, 'axis', 'X');
 
 % temperature
 netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree celsius');
 netcdf.putAtt(ncID, varID_temperature, 'long_name', 'air temperature');
 netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'temperature');
+netcdf.putAtt(ncID, varID_temperature, 'axis', 'X');
 
 % RH
 netcdf.putAtt(ncID, varID_RH, 'unit', '%');
 netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
+netcdf.putAtt(ncID, varID_RH, 'axis', 'X');
 
 % wind_direction
 netcdf.putAtt(ncID, varID_wind_direction, 'unit', 'degree');
 netcdf.putAtt(ncID, varID_wind_direction, 'long_name', 'wind direction clockwise from north');
 netcdf.putAtt(ncID, varID_wind_direction, 'standard_name', 'wind_direction');
+netcdf.putAtt(ncID, varID_wind_direction, 'axis', 'X');
 
 % wind_speed
 netcdf.putAtt(ncID, varID_wind_speed, 'unit', 'm/s');
 netcdf.putAtt(ncID, varID_wind_speed, 'long_name', 'wind speed');
 netcdf.putAtt(ncID, varID_wind_speed, 'standard_name', 'wind_speed');
+netcdf.putAtt(ncID, varID_wind_speed, 'axis', 'X');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
@@ -128,4 +133,5 @@ netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s
     
 % close file
 netcdf.close(ncID);
+
 end
