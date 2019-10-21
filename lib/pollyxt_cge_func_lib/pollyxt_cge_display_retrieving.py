@@ -73,22 +73,22 @@ def rmext(filename):
     return file
 
 
-def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
+def pollyxt_cge_display_retrieving(tmpFile, saveFolder):
     '''
     Description
     -----------
-    Display the housekeeping data from laserlogbook file.
+    Display the profiles of aerosol optical properties and meteorological data.
 
     Parameters
     ----------
     tmpFile: str
-    the .mat file which stores the housekeeping data.
+    the .mat file which stores the data.
 
     saveFolder: str
 
     Usage
     -----
-    pollyxt_cge_display_lidarconst(tmpFile)
+    pollyxt_cge_display_retrieving(tmpFile)
 
     History
     -------
