@@ -97,7 +97,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     
     snr407 = polly_SNR(sig407, bg407) * sqrt(smoothWidth);
     snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
-    
+
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
     hIntTopIndx = find(data.height >= config.hWVCaliTop, 1);
     if isempty(hIntBaseIndx)
@@ -134,7 +134,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             flagLowSNR = true;
             thisWVCaliInfo = 'Signal at 387 nm channel is too noisy.';
         end
-        thisIntRange = [hIntBaseIndx, hIntTopIndx];
+
+        thisIntRange = [hIntBaseIndx, hIndxLowSNR387];
     end
 
     %% determine whether the water vapor measurements were performed at daytime

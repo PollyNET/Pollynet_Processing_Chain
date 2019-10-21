@@ -54,7 +54,7 @@ flagSaturation = polly_1v2_saturationdetect(data, config);
 data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
 
-%% depol calibration (The current polly_1v2 has no capability for depol calibration. Therefore, only use defaults)
+%% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
 [data, depCaliAttri] = polly_1v2_depolcali(data, config, taskInfo);
 data.depCaliAttri = depCaliAttri;

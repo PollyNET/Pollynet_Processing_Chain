@@ -24,6 +24,8 @@ display_help() {
   echo "                           - PollyXT_DWD"
   echo "                           - PollyXT_TJK"
   echo "                           - PollyXT_TAU"
+  echo "                           - PollyXT_IfT"
+  echo "                           - PollyXT_CGE"
   echo "                           - arielle"
   echo "                           - Polly_1v2"
   echo "   -f, --polly_folder      specify the polly data folder"
