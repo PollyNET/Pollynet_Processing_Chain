@@ -73,22 +73,22 @@ def rmext(filename):
     return file
 
 
-def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
+def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     '''
     Description
     -----------
-    Display the housekeeping data from laserlogbook file.
+    Display the profiles of aerosol optical properties and meteorological data.
 
     Parameters
     ----------
     tmpFile: str
-    the .mat file which stores the housekeeping data.
+    the .mat file which stores the data.
 
     saveFolder: str
 
     Usage
     -----
-    pollyxt_dwd_display_lidarconst(tmpFile)
+    pollyxt_dwd_display_retrieving(tmpFile)
 
     History
     -------
@@ -147,7 +147,6 @@ def pollyxt_dwd_display_lidarconst(tmpFile, saveFolder):
         pardepolStd532_klett = mat['pardepolStd532_klett'][:][0]
         pardepol532_raman = mat['pardepol532_raman'][:][0]
         pardepolStd532_raman = mat['pardepolStd532_raman'][:][0]
-        rh_meteor = mat['rh_meteor'][:][0]
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
