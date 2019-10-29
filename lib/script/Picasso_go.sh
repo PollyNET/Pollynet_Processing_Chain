@@ -96,7 +96,7 @@ locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
 % add done_filelist to the database
-unix(['export PERL5LIB=/pollyhome/Picasso/.perlbrew/libs/perl-5.22.2@devel/lib/perl5;/pollyhome/Picasso/perl5/perlbrew/perls/perl-5.22.2/bin/perl /pollyhome/Picasso/pollyAPP/src/util/add_new_data2pollydb.pl ' pollynetConfig.doneListFile ';echo $PERL5LIB;']);
+unix(['export PERL5LIB=/pollyhome/Picasso/.perlbrew/libs/perl-5.22.2@devel/lib/perl5;/pollyhome/Picasso/perl5/perlbrew/perls/perl-5.22.2/bin/perl /pollyhome/Picasso/pollyAPP/src/util/add_new_data2pollydb.pl ' pollynetConfig.doneListFile ';']);
 
 ENDMATLAB
 
