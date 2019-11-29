@@ -192,4 +192,48 @@ else
     data.flagOverlapUseDefault355 = false;
 end
 
+%% overlap correction
+if config.overlapSmoothBins <= 3
+    error('In order to decrease the effects of signal noise on the overlap correction, config.overlapSmoothBins should be set to be larger than 3');
+end
+
+overlap355Sm = smooth(data.overlap355, config.overlapSmoothBins, 'sgolay', 2);
+overlap532Sm = smooth(data.overlap532, config.overlapSmoothBins, 'sgolay', 2);
+
+flag355 = config.is355nm & config.isTot & config.isFR;
+flag532 = config.is532nm & config.isTot & config.isFR;
+
+% find the minimum range bin with complete overlap function
+flagFullOverlap355 = (overlap355Sm >= 1) & (data.height >= config.heightFullOverlap(flag355));
+flagFullOverlap532 = (overlap532Sm >= 1) & (data.height >= config.heightFullOverlap(flag532));
+minBinFullOverlap355 = find(flagFullOverlap355, 1);
+minBinFullOverlap532 = find(flagFullOverlap532, 1);
+
+if isempty(minBinFullOverlap355)
+    warning('Error in searching the minimum bin of complete overlap for total signal at 355 nm. Check the default overlap function and your configurations.');
+    flagFullOverlap355 = find(data.height >= config.heightFullOverlap(flag355), 1);
+end
+if isempty(minBinFullOverlap532)
+    warning('Error in searching the minimum bin of complete overlap for total signal at 532 nm. Check the default overlap function and your configurations.');
+    flagFullOverlap532 = find(data.height >= config.heightFullOverlap(flag532), 1);
+end
+
+% set the overlap function to be 1 above the minimun range with complete overlap function
+overlap355Sm(minBinFullOverlap355:end) = 1;
+overlap532Sm(minBinFullOverlap532:end) = 1;
+
+% overlap correction for the total signal from Far-range channels
+data.signal355OverlapCor = squeeze(data.signal(config.isFR & config.is355nm & config.isTot, :, :)) ./ repmat(overlap355Sm, 1, size(data.signal, 3));
+data.bg355OverlapCor = squeeze(data.bg(config.isFR & config.is355nm & config.isTot, :, :)) ./ repmat(overlap355Sm, 1, size(data.signal, 3));
+data.signal532OverlapCor = squeeze(data.signal(config.isFR & config.is532nm & config.isTot, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+data.bg532OverlapCor = squeeze(data.bg(config.isFR & config.is532nm & config.isTot, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+data.signal387OverlapCor = squeeze(data.signal(config.isFR & config.is387nm, :, :)) ./ repmat(overlap355Sm, 1, size(data.signal, 3));
+data.bg387OverlapCor = squeeze(data.bg(config.isFR & config.is387nm, :, :)) ./ repmat(overlap355Sm, 1, size(data.signal, 3));
+data.signal607OverlapCor = squeeze(data.signal(config.isFR & config.is607nm, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+data.bg607OverlapCor = squeeze(data.bg(config.isFR & config.is607nm, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+
+% overlap correction for signal at 1064 nm (under test)
+data.signal1064OverlapCor = squeeze(data.signal(config.isFR & config.is1064nm & config.isTot, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+data.bg1064OverlapCor = squeeze(data.bg(config.isFR & config.is1064nm & config.isTot, :, :)) ./ repmat(overlap532Sm, 1, size(data.signal, 3));
+
 end

@@ -27,9 +27,10 @@ flagLC355 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag355 + 1});
 flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 flagLC1064 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1});
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-att_beta_cRange_355 = config.att_beta_cRange_355;
-att_beta_cRange_532 = config.att_beta_cRange_532;
-att_beta_cRange_1064 = config.att_beta_cRange_1064;
+att_beta_cRange_355 = config.zLim_att_beta_355;
+att_beta_cRange_532 = config.zLim_att_beta_532;
+att_beta_cRange_1064 = config.zLim_att_beta_1064;
+yLim_att_beta = config.yLim_att_beta;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
@@ -53,12 +54,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(att_beta_cRange_355);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_att_beta);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '355', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', linspace(yLim_att_beta(1), yLim_att_beta(2), 6), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version %s\nCalibration %s', processInfo.programVersion, flagLC355), 'Units', 'Normal', 'FontSize', 5);
@@ -87,12 +88,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(att_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_att_beta);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', linspace(yLim_att_beta(1), yLim_att_beta(2), 6), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version %s\nCalibration %s', processInfo.programVersion, flagLC532), 'Units', 'Normal', 'FontSize', 5);
@@ -121,12 +122,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(att_beta_cRange_1064);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_att_beta);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '1064', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', linspace(yLim_att_beta(1), yLim_att_beta(2), 6), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version %s\nCalibration %s', processInfo.programVersion, flagLC1064), 'Units', 'Normal', 'FontSize', 5);
@@ -159,7 +160,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_uw_display_att_beta.py');

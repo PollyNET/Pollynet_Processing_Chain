@@ -73,8 +73,8 @@ def rmext(filename):
     return file
 
 
-def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
-    '''
+def pollyxt_ift_display_quasiretrieving_V2(tmpFile, saveFolder):
+    """
     Description
     -----------
     Display the housekeeping data from laserlogbook file.
@@ -88,12 +88,12 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder)
+    pollyxt_ift_display_quasiretrieving_V2(tmpFile, saveFolder)
 
     History
     -------
     2019-01-10. First edition by Zhenping
-    '''
+    """
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
@@ -103,16 +103,17 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
-        quasi_bsc_532 = mat['quasi_bsc_532'][:]
-        quality_mask_532 = mat['quality_mask_532'][:]
         quasi_bsc_355 = mat['quasi_bsc_355'][:]
         quality_mask_355 = mat['quality_mask_355'][:]
+        quasi_bsc_532 = mat['quasi_bsc_532'][:]
+        quality_mask_532 = mat['quality_mask_532'][:]
         quasi_bsc_1064 = mat['quasi_bsc_1064'][:]
         quality_mask_1064 = mat['quality_mask_1064'][:]
         quasi_pardepol_532 = mat['quasi_pardepol_532'][:]
         quasi_ang_532_1064 = mat['quasi_ang_532_1064'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         quasi_beta_cRange_355 = mat['quasi_beta_cRange_355'][0][:]
         quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
         quasi_beta_cRange_1064 = mat['quasi_beta_cRange_1064'][0][:]
@@ -143,7 +144,10 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         quasi_pardepol_532
     )
     quasi_ang_532_1064 = np.ma.masked_where(
-        np.logical_or(quality_mask_532 > 0, quality_mask_1064 > 0),
+        np.logical_or(
+            quality_mask_532 > 0,
+            quality_mask_1064 > 0
+        ),
         quasi_ang_532_1064
     )
 
@@ -161,13 +165,13 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         vmin=quasi_beta_cRange_355[0],
         vmax=quasi_beta_cRange_355[1],
         cmap=cmap
-        )
+    )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -176,7 +180,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Quasi backscatter coefficient at {wave}nm'.format(wave=355) +
+        'Quasi backscatter coefficient (V2) at {wave}nm'.format(wave=355) +
         ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
@@ -201,10 +205,15 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_355.png'.format(
-            dataFilename=rmext(dataFilename)
-            )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_Quasi_Bsc_355_V2.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
     # display quasi backscatter at 532 nm
@@ -221,7 +230,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -230,7 +239,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Quasi backscatter coefficient at {wave}nm'.format(wave=532) +
+        'Quasi backscatter coefficient (V2) at {wave}nm'.format(wave=532) +
         ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
@@ -255,10 +264,15 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_532.png'.format(
-            dataFilename=rmext(dataFilename)
-        )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_Quasi_Bsc_532_V2.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
     # display quasi backscatter at 1064 nm
@@ -275,7 +289,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -284,7 +298,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Quasi backscatter coefficient at {wave}nm'.format(wave=1064) +
+        'Quasi backscatter coefficient (V2) at {wave}nm'.format(wave=1064) +
         ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
@@ -309,10 +323,15 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_1064.png'.format(
-            dataFilename=rmext(dataFilename)
-        )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_Quasi_Bsc_1064_V2.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
@@ -329,7 +348,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -338,13 +357,13 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Quasi particle depolarization ratio at 532nm ' +
-        'from {instrument} at {location}'.format(
-            instrument=pollyVersion,
-            location=location
-            ),
-        fontsize=15
-        )
+      'Quasi particle depolarization ratio (V2) at {wave}nm'.format(wave=532) +
+      ' from {instrument} at {location}'.format(
+        instrument=pollyVersion,
+        location=location
+        ),
+      fontsize=15
+      )
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(
@@ -357,10 +376,15 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_PDR_532.png'.format(
-            dataFilename=rmext(dataFilename)
-        )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_Quasi_PDR_532_V2.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
     # display quasi angtroem exponent 532-1064
@@ -373,7 +397,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -382,8 +406,8 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Quasi BSC Angstoem Exponent 532-1064 ' +
-        'from {instrument} at {location}'.format(
+        'Quasi BSC Angstoem Exponent 532-1064 (V2) from ' +
+        '{instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
@@ -401,15 +425,20 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.png'.format(
-            dataFilename=rmext(dataFilename)
-            )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_Quasi_ANGEXP_532_1064_V2.png'.format(
+                dataFilename=rmext(dataFilename)
+                )
+            ),
+        dpi=figDPI
+        )
     plt.close()
 
 
 def main():
-    pollyxt_ift_display_quasiretrieving(
+    pollyxt_ift_display_quasiretrieving_V2(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
         'C:\\Users\\zhenping\\Desktop'
         )
@@ -417,4 +446,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyxt_ift_display_quasiretrieving(sys.argv[1], sys.argv[2])
+    pollyxt_ift_display_quasiretrieving_V2(sys.argv[1], sys.argv[2])

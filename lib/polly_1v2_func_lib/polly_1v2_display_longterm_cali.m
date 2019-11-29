@@ -62,8 +62,8 @@ flagCH532FR_X = config.is532nm & config.isFR & config.isCross;
 flagCH607FR = config.is607nm & config.isFR & config.isTot;
 
 % yLim setting
-yLim532 = config.LC532Range;
-depolConstLim532 = config.depolConstRange532;
+yLim532 = config.yLim_LC_532;
+depolConstLim532 = config.yLim_depolConst_532;
 
 %% data visualization 
 % visualization with matlab (low efficiency and less compatible)

@@ -71,8 +71,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         continue;
     end
 
-    sig355 = squeeze(sum(data.signal(flagChannel355, :, proIndx_387On), 3));
-    bg355 = squeeze(sum(data.bg(flagChannel355, :, proIndx_387On), 3));
+    sig355 = transpose(squeeze(sum(data.el355(:, proIndx_387On), 2)));
+    bg355 = transpose(squeeze(sum(data.bg355(:, proIndx_387On), 2)));
     sig387 = squeeze(sum(data.signal(flagChannel387, :, proIndx_387On), 3));
     bg387 = squeeze(sum(data.bg(flagChannel387, :, proIndx_387On), 3));
 
