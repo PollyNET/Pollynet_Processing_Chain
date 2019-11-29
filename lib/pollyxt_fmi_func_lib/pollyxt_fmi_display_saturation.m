@@ -13,20 +13,42 @@ function [] = pollyxt_fmi_display_saturation(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
+flagChannel355 = config.isFR & config.is355nm & config.isTot;
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel532NR = config.isNR & config.is532nm & config.isTot;
+flagChannel355NR = config.isNR & config.is355nm & config.isTot;
+flagChannel407 = config.isFR & config.is407nm;
+
+time = data.mTime;
+figDPI = processInfo.figDPI;
+height = data.height;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
+SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;    
+SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
+SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
+SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
+SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
+SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
+SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
+SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
+SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
+SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
+SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
+yLim_FR_RCS = config.yLim_FR_RCS;
+yLim_NR_RCS = config.yLim_NR_RCS;
+yLim_WV_RH = config.yLim_WV_RH;
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
-%% initialization 
+
+    %% initialization 
     fileStatus355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_355.png', rmext(taskInfo.dataFilename)));
     fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.png', rmext(taskInfo.dataFilename)));
     fileStatus1064FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_1064.png', rmext(taskInfo.dataFilename)));
     fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.png', rmext(taskInfo.dataFilename)));
     fileStatus355NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_355.png', rmext(taskInfo.dataFilename)));
     fileStatus407FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_407.png', rmext(taskInfo.dataFilename)));
-    flagChannel355 = config.isFR & config.is355nm & config.isTot;
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-    flagChannel532NR = config.isNR & config.is532nm & config.isTot;
-    flagChannel355NR = config.isNR & config.is355nm & config.isTot;
-    flagChannel407 = config.isFR & config.is407nm;
 
     %% visualization
     load('status_colormap.mat')
@@ -37,18 +59,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
-    SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;
     p1 = pcolor(data.mTime, data.height, SAT_FR_355); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '355', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -74,18 +94,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
-    SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
     p1 = pcolor(double(data.mTime), data.height, SAT_FR_532); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '532', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', , linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -111,18 +129,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
-    SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
     p1 = pcolor(double(data.mTime), data.height, SAT_FR_1064); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '1064', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', , linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -148,18 +164,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
-    SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
     p1 = pcolor(double(data.mTime), data.height, SAT_NR_355); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 3000]);
+    ylim(yLim_NR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '355', 'Near-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:3000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', , linspace(yLim_NR_RCS(1), yLim_NR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -185,18 +199,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
-    SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
     p1 = pcolor(double(data.mTime), data.height, SAT_NR_532); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 3000]);
+    ylim(yLim_NR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '532', 'Near-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:3000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', , linspace(yLim_NR_RCS(1), yLim_NR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -222,18 +234,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
-    SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
     p1 = pcolor(double(data.mTime), data.height, SAT_FR_407); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([-0.5, 2.5]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 8000]);
+    ylim(yLim_WV_RH);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Signal Status at %snm %s from %s at %s', '407', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:8000, 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'ytick', linspace(yLim_WV_RH(1), yLim_WV_RH(2), 6), 'yminortick', 'on', 'FontSize', 6);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
@@ -267,32 +277,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
 
-    flagChannel355 = config.isFR & config.is355nm & config.isTot;
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-    flagChannel532NR = config.isNR & config.is532nm & config.isTot;
-    flagChannel355NR = config.isNR & config.is355nm & config.isTot;
-    flagChannel407 = config.isFR & config.is407nm;
-
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    height = data.height;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
-    SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;    
-    SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
-    SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
-    SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
-    SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
-    SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
-    SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
-    SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
-    SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
-    SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
-    SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
-
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'yLim_FR_RCS', 'yLim_NR_RCS', 'yLim_WV_RH', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_fmi_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_fmi_display_saturation.py');

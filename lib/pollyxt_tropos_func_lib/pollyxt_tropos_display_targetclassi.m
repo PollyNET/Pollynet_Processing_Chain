@@ -18,6 +18,7 @@ TC_mask = data.tc_mask;
 height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
+yLim_Quasi_Params = config.yLim_Quasi_Params;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
@@ -37,12 +38,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 11]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 15);
     ylabel('Height (m)', 'FontSize', 15);
     title(sprintf('Target Classification from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 15);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 6), 'yminortick', 'on');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 12);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 12);
@@ -87,7 +88,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_targetclassi.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_tropos_display_targetclassi.py');

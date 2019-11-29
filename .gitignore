@@ -6,7 +6,8 @@ tmp/
 !config/template_pollynet_processing_chain_link.txt
 !config/polly_global_config.json
 config/
-recent_plots/
+recent_plots_new/
+results_new/
 todo_filelist/fileinfo_new.txt
 !todo_filelist/pollynet_history_of_places_new.txt
 todo_filelist/
@@ -15,3 +16,4 @@ lib/__pycache__/
 debug.mat
 netcdf4/
 log/
+done_filelist/

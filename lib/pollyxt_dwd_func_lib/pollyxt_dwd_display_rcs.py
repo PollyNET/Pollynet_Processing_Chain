@@ -272,8 +272,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             RCS1064FRColorRange[0],
-            RCS1064FRColorRange[1],
-            5), orientation='vertical')
+            RCS1064FRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -320,8 +319,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             RCS532NRColorRange[0],
-            RCS532NRColorRange[1],
-            5), orientation='vertical')
+            RCS532NRColorRange[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -343,8 +341,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, volDepol_532,
-                           vmin=0.0, vmax=0.3, cmap=cmap)
+    pcmesh = ax.pcolormesh(
+        Time, Height, volDepol_532,
+        vmin=0.0, vmax=0.3, cmap=cmap)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -374,8 +373,11 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_VDR_532.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_VDR_532.png'.format(
+                dataFilename=rmext(dataFilename))), dpi=figDPI)
     plt.close()
 
 
