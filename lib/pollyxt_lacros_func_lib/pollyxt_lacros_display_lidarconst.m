@@ -32,11 +32,11 @@ LC387_raman = data.LC.LC_raman_387;
 LC607_raman = data.LC.LC_raman_607;
 time = data.mTime;
 figDPI = processInfo.figDPI;
-yLim355 = config.LC355Range;
-yLim532 = config.LC532Range;
-yLim1064 = config.LC1064Range;
-yLim387 = config.LC387Range;
-yLim607 = config.LC607Range;
+yLim355 = config.yLim_LC_355;
+yLim532 = config.yLim_LC_532;
+yLim1064 = config.yLim_LC_1064;
+yLim387 = config.yLim_LC_387;
+yLim607 = config.yLim_LC_607;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
@@ -148,7 +148,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
     export_fig(gcf, fileLC387, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
- 
+    
     %% 607 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 

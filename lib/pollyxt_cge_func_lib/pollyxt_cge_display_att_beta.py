@@ -119,18 +119,10 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
             time = mat['time'][0][:]
         else:
             time = np.array([])
-        if mat['att_beta_cRange_355'].size:
-            att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
-        else:
-            att_beta_cRange_355 = np.array([])
-        if mat['att_beta_cRange_532'].size:
-            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
-        else:
-            att_beta_cRange_532 = np.array([])
-        if mat['att_beta_cRange_1064'].size:
-            att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
-        else:
-            att_beta_cRange_1064 = np.array([])
+        att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
+        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        yLim_att_beta = mat['yLim_att_beta'][:][0]
         flagLC355 = mat['flagLC355'][:][0]
         flagLC532 = mat['flagLC532'][:][0]
         flagLC1064 = mat['flagLC1064'][:][0]
@@ -176,7 +168,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -246,7 +238,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -329,7 +321,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
