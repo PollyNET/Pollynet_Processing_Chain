@@ -106,6 +106,7 @@ def pollyxt_tau_display_targetclassi(tmpFile, saveFolder):
         TC_mask = mat['TC_mask'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -145,7 +146,7 @@ def pollyxt_tau_display_targetclassi(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=12,

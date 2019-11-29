@@ -25,10 +25,11 @@ quasi_ang_532_1064 = data.quasi_ang_532_1064;
 height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
-quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
-quasi_beta_cRange_355 = config.quasi_beta_cRange_355;
-quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
-quasi_beta_cRange_1064 = config.quasi_beta_cRange_1064;
+yLim_Quasi_Params = config.yLim_Quasi_Params;
+quasi_Par_DR_cRange_532 = config.zLim_quasi_Par_DR_532;
+quasi_beta_cRange_355 = config.zLim_quasi_beta_355;
+quasi_beta_cRange_532 = config.zLim_quasi_beta_532;
+quasi_beta_cRange_1064 = config.zLim_quasi_beta_1064;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
@@ -52,12 +53,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(quasi_beta_cRange_355);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Quasi Backscatter Coefficient at %snm from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 7), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 5);
@@ -85,12 +86,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(quasi_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Quasi Backscatter Coefficient at %snm from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 7), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 5);
@@ -118,12 +119,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(quasi_beta_cRange_1064);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Quasi Backscatter Coefficient at %snm from %s at %s', '1064', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 7), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 5);
@@ -151,12 +152,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(quasi_Par_DR_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Quasi Particle Depolarization Ratio at %snm from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 7), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 5);
@@ -184,12 +185,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 2]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 12000]);
+    ylim(yLim_Quasi_Params);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Quasi BSC Angstroem Exponent 532-1064 from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2000:12000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_Quasi_Params(1), yLim_Quasi_Params(2), 7), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 5);
     text(0.90, -0.13, sprintf('Version: %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 5);
@@ -222,7 +223,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_355', 'quality_mask_355', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_bsc_355', 'quality_mask_355', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'yLim_Quasi_Params', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_uw_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_uw_display_quasiretrieving.py');

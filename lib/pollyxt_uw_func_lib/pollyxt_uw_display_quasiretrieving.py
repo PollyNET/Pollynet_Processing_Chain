@@ -113,6 +113,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
         quasi_ang_532_1064 = mat['quasi_ang_532_1064'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         quasi_beta_cRange_355 = mat['quasi_beta_cRange_355'][0][:]
         quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
         quasi_beta_cRange_1064 = mat['quasi_beta_cRange_1064'][0][:]
@@ -170,7 +171,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -229,7 +230,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -288,7 +289,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -347,7 +348,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -396,7 +397,7 @@ def pollyxt_uw_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,

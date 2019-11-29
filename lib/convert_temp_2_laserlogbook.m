@@ -30,7 +30,8 @@ function [] = convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs
 %       zhenping@tropos.de
 
 if exist(fileinfo_new, 'file') ~= 2
-    error('%s file does not exist.', fileinfo_new);
+    warning('%s file does not exist.', fileinfo_new);
+    return;
 end
 
 if length(pollyList) ~= length(pollyTempDirs)

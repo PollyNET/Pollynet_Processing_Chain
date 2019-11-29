@@ -13,7 +13,19 @@ function [] = polly_1v2_display_att_beta(data, taskInfo, config)
 
 global defaults processInfo campaignInfo
 
+%% read data
+ATT_BETA_532 = data.att_beta_532;
+quality_mask_532 = data.quality_mask_532;
+height = data.height;
+time = data.mTime;
+figDPI = processInfo.figDPI;
+flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+att_beta_cRange_532 = config.zLim_att_beta_532;
+yLim_att_beta = config.yLim_att_beta;
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
+
     %% parameter initialize
     fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
 
@@ -29,14 +41,14 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     ATT_BETA_532(data.quality_mask_532 > 0) = NaN;
     p1 = pcolor(data.mTime, data.height, ATT_BETA_532 * 1e6); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis(config.att_beta_cRange_532);
+    caxis(att_beta_cRange_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_att_beta);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Attenuated Backscatter at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_att_beta(1), yLim_att_beta(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -63,15 +75,6 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
-    ATT_BETA_532 = data.att_beta_532;
-    quality_mask_532 = data.quality_mask_532;
-    height = data.height;
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    att_beta_cRange_532 = config.att_beta_cRange_532;
-    flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
@@ -80,7 +83,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_att_beta.py');

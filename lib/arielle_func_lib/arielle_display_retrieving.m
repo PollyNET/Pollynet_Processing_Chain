@@ -136,7 +136,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     ang_bsc_355_532_raman_NR = data.ang_bsc_355_532_raman_NR(iGroup, :);
     ang_ext_355_532_raman_NR = data.ang_ext_355_532_raman_NR(iGroup, :);
     
-    % depool ratio
+    % depol ratio
     voldepol355_klett = data.voldepol355_klett(iGroup, :);
     voldepol532_klett = data.voldepol532_klett(iGroup, :);
     voldepol355_raman = data.voldepol355_raman(iGroup, :);
@@ -169,16 +169,20 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     pressure = data.pressure(iGroup, :);
 
     % display range
-    yLim_FR = config.yLim_FR;
-    yLim_NR = config.yLim_NR;
-    rcsLim = config.RCSProfileRange;
-    aerBscLim = config.aerBscProfileRange;
-    aerBsc_NR_Lim = config.aerBsc_NR_ProfileRange;
-    aerExtLim = config.aerExtProfileRange;
-    aerExt_NR_Lim = config.aerExt_NR_ProfileRange;
-    aerLRLim = config.aerLRProfileRange;
-    aerLR_NR_Lim = config.aerLRProfileRange;
-    wvmrLim = config.WVMRProfileRange;
+    yLim_Profi_Ext = config.yLim_Profi_Ext;
+    yLim_Profi_LR = config.yLim_Profi_LR;
+    yLim_Profi_DR = config.yLim_Profi_DR;
+    yLim_Profi_Bsc = config.yLim_Profi_Bsc;
+    yLim_Profi_WV_RH = config.yLim_Profi_WV_RH;
+    yLim_FR_RCS = config.yLim_FR_RCS;
+    yLim_NR_RCS = config.yLim_NR_RCS;
+    xLim_Profi_Bsc = config.xLim_Profi_Bsc
+    xLim_Profi_NR_Bsc = config.xLim_Profi_NR_Bsc;
+    xLim_Profi_Ext = config.xLim_Profi_Ext;
+    xLim_Profi_NR_Ext = config.xLim_Profi_NR_Ext;
+    xLim_Profi_WV_RH = config.xLim_Profi_WV_RH;
+    xLim_Profi_RCS = config.xLim_Profi_RCS;
+    xLim_Profi_LR = config.xLim_Profi_LR;
 
     if strcmpi(processInfo.visualizationMode, 'matlab')
 
@@ -208,14 +212,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             refL = semilogx(rcs1064(refHIndx) * 1.2e8, height(refHIndx), 'Color', 'k', 'LineWidth', 1);
         end
 
-        xlim(rcsLim);
-        ylim(yLim_FR);
+        xlim(xLim_Profi_RCS);
+        ylim(yLim_FR_RCS);
 
         xlabel('Range-Corrected Signal [Mm^{-1}sr^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_FR_RCS(1):2500:yLim_FR_RCS(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid()
@@ -237,14 +241,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(aerBsc_532_klett * 1e6, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
         p3 = plot(aerBsc_1064_klett * 1e6, height, 'Color', [230, 0, 0]/255, 'LineWidth', 1, 'DisplayName', '1064 nm'); hold on;
 
-        xlim(aerBscLim);
-        ylim(yLim_FR);
+        xlim(xLim_Profi_Bsc);
+        ylim(yLim_Profi_Bsc);
 
         xlabel('Backscatter Coefficient [Mm^{-1}*sr^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_Profi_Bsc(1):2500:yLim_Profi_Bsc(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -265,14 +269,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(aerBsc_532_raman * 1e6, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
         p3 = plot(aerBsc_1064_raman * 1e6, height, 'Color', [230, 0, 0]/255, 'LineWidth', 1, 'DisplayName', '1064 nm'); hold on;
 
-        xlim(aerBscLim);
-        ylim(yLim_FR);
+        xlim(xLim_Profi_Bsc);
+        ylim(yLim_Profi_Bsc);
 
         xlabel('Backscatter Coefficient [Mm^{-1}*sr^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_Profi_Bsc(1):2500:yLim_Profi_Bsc(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -293,14 +297,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(aerBsc_532_aeronet * 1e6, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
         p3 = plot(aerBsc_1064_aeronet * 1e6, height, 'Color', [230, 0, 0]/255, 'LineWidth', 1, 'DisplayName', '1064 nm'); hold on;
 
-        xlim(aerBscLim);
-        ylim(yLim_FR);
+        xlim(xLim_Profi_Bsc);
+        ylim(yLim_Profi_Bsc);
 
         xlabel('Backscatter Coefficient [Mm^{-1}*sr^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_Profi_Bsc(1):2500:yLim_Profi_Bsc(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -321,14 +325,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(aerExt_532_klett * 1e6, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
         p3 = plot(aerExt_1064_klett * 1e6, height, 'Color', [230, 0, 0]/255, 'LineWidth', 1, 'DisplayName', '1064 nm'); hold on;
 
-        xlim(aerExtLim);
-        ylim([0, 5000]);
+        xlim(xLim_Profi_Ext);
+        ylim(yLim_Profi_Ext);
 
         xlabel('Extinction Coefficient [Mm^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:5000);
+        set(gca, 'ytick', yLim_Profi_Ext(1):1000:yLim_Profi_Ext(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -348,14 +352,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p1 = plot(aerExt_355_raman * 1e6, height, 'Color', 'b', 'LineWidth', 1, 'DisplayName', '355  nm'); hold on;
         p2 = plot(aerExt_532_raman * 1e6, height, 'Color', 'g', 'LineWidth', 1, 'DisplayName', '532n m'); hold on;
 
-        xlim(aerExtLim);
-        ylim([0, 5000]);
+        xlim(xLim_Profi_Ext);
+        ylim(yLim_Profi_Ext);
 
         xlabel('Extinction Coefficient [Mm^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:5000);
+        set(gca, 'ytick', yLim_Profi_Ext(1):1000:yLim_Profi_Ext(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -376,14 +380,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(aerExt_532_aeronet * 1e6, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
         p3 = plot(aerExt_1064_aeronet * 1e6, height, 'Color', [230, 0, 0]/255, 'LineWidth', 1, 'DisplayName', '1064 nm'); hold on;
 
-        xlim(aerExtLim);
-        ylim([0, 5000]);
+        xlim(xLim_Profi_Ext);
+        ylim(yLim_Profi_Ext);
 
         xlabel('Extinction Coefficient [Mm^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:5000);
+        set(gca, 'ytick', yLim_Profi_Ext(1):1000:yLim_Profi_Ext(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -403,14 +407,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p1 = plot(LR355_raman, height, 'Color', [0, 0, 255]/255, 'LineWidth', 1, 'DisplayName', '355 nm'); hold on;
         p2 = plot(LR532_raman, height, 'Color', [0, 179, 0]/255, 'LineWidth', 1, 'DisplayName', '532 nm'); hold on;
 
-        xlim([aerLRLim]);
-        ylim([0, 5000]);
+        xlim(xLim_Profi_LR);
+        ylim(yLim_Profi_LR);
 
         xlabel('Lidar Ratio [sr]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:5000);
+        set(gca, 'ytick', yLim_Profi_LR(1):1000:yLim_Profi_LR(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -431,13 +435,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(ang_bsc_532_1064_klett, height, 'Color', [255, 0, 255]/255, 'LineWidth', 1, 'DisplayName', 'BSC 532-1064'); hold on;
 
         xlim([-1, 2]);
-        ylim([0, 5000]);
+        ylim(yLim_Profi_Ext);
 
         xlabel('Angtroem Exponent', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:500:5000, 'xtick', -1:0.5:2);
+        set(gca, 'ytick', yLim_Profi_Ext(1):500:yLim_Profi_Ext(2), 'xtick', -1:0.5:2);
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -459,13 +463,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p3 = plot(ang_ext_355_532_raman, height, 'Color', [0, 0, 0]/255, 'LineWidth', 1, 'DisplayName', 'EXT 355-532'); hold on;
 
         xlim([-1, 2]);
-        ylim([0, 5000]);
+        ylim(yLim_Profi_Ext);
 
         xlabel('Angtroem Exponent', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:500:5000, 'xtick', -1:0.5:2);
+        set(gca, 'ytick', yLim_Profi_Ext(1):500:yLim_Profi_Ext(2), 'xtick', -1:0.5:2);
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -488,13 +492,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p4 = plot(pardepol532_klett, height, 'Color', [0, 128, 64]/255, 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
 
         xlim([-0.01, 0.4]);
-        ylim(yLim_FR);
+        ylim(yLim_Profi_DR);
 
         xlabel('Depolarization Ratio', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_Profi_DR(1):2500:yLim_Profi_DR(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -517,13 +521,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p4 = plot(pardepol532_raman, height, 'Color', [0, 128, 64]/255, 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', '\delta_{par, 532}'); hold on;
 
         xlim([-0.01, 0.4]);
-        ylim(yLim_FR);
+        ylim(yLim_Profi_DR);
 
         xlabel('Depolarization Ratio', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_Profi_DR(1):2500:yLim_Profi_DR(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -542,14 +546,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         figure('Position', [0, 0, 500, 800], 'Units', 'Pixels', 'Visible', 'off');
         p1 = plot(wvmr, height, 'Color', [36, 146, 255]/255, 'LineStyle', '-', 'LineWidth', 1); hold on;
 
-        xlim(config.WVMRProfileRange);
-        ylim([0, 7000]);
+        xlim(xLim_Profi_WV_RH);
+        ylim(yLim_Profi_WV_RH);
 
         xlabel('Water Vapor Mixing Ratio [g*kg^{-1}]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:7000);
+        set(gca, 'ytick', yLim_Profi_WV_RH(1):1000:yLim_Profi_WV_RH(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -569,13 +573,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p2 = plot(rh_meteor, height, 'Color', [255, 0, 128]/255, 'LineStyle', '-', 'LineWidth', 1, 'DisplayName', meteorSource);
 
         xlim([0, 100]);
-        ylim([0, 7000]);
+        ylim(yLim_Profi_WV_RH);
 
         xlabel('Relative Humidity [%]', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['%s at %s' char(10) '[Averaged] %s-%s'], taskInfo.pollyVersion, campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold', 'FontSize', 6);
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', 0:1000:7000);
+        set(gca, 'ytick', yLim_Profi_WV_RH(1):1000:yLim_Profi_WV_RH(2));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -597,13 +601,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p1 = plot(temperature, height, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
 
         xlim([-100, 50]);
-        ylim(yLim_FR);
+        ylim(yLim_FR_RCS);
 
         xlabel('Temperature (\circC)', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['Meteorological Parameters at %s' char(10) '%s-%s'], campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_FR_RCS(1):2500:yLim_FR_RCS(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -622,13 +626,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         p1 = plot(pressure, height, 'Color', 'r', 'LineStyle', '-', 'LineWidth', 1); hold on;
 
         xlim([0, 1000]);
-        ylim(yLim_FR);
+        ylim(yLim_FR_RCS);
 
         xlabel('Pressure (hPa)', 'FontSize', 6);
         ylabel('Height (m)', 'FontSize', 6);
         title(sprintf(['Meteorological Parameters at %s' char(10) '%s-%s'], campaignInfo.location, datestr(data.mTime(startIndx), 'yyyymmdd HH:MM'), datestr(data.mTime(endIndx), 'HH:MM')), 'Interpreter', 'none', 'fontweight', 'bold');
         set(gca, 'Box', 'on', 'TickDir', 'out', 'FontSize', 6);
-        set(gca, 'ytick', yLim_FR(1):2500:yLim_FR(end));
+        set(gca, 'ytick', yLim_FR_RCS(1):2500:yLim_FR_RCS(end));
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
@@ -653,7 +657,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc355_NR_klett', 'aerBsc532_NR_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc355_NR_raman', 'aerBsc532_NR_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt355_NR_klett', 'aerExt532_NR_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt355_NR_raman', 'aerExt532_NR_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'LR355_NR_raman', 'LR532_NR_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'ang_bsc_355_532_klett_NR', 'ang_bsc_355_532_raman_NR', 'ang_ext_355_532_raman_NR', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerBsc_NR_Lim', 'aerExtLim', 'aerExt_NR_Lim', 'aerLRLim', 'aerLR_NR_Lim', 'wvmrLim', '-v6');
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc355_NR_klett', 'aerBsc532_NR_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc355_NR_raman', 'aerBsc532_NR_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt355_NR_klett', 'aerExt532_NR_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt355_NR_raman', 'aerExt532_NR_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'LR355_NR_raman', 'LR532_NR_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'ang_bsc_355_532_klett_NR', 'ang_bsc_355_532_raman_NR', 'ang_ext_355_532_raman_NR', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'wvmr', 'flagWVCalibration', 'flagWVCalibration', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_Ext', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Bsc', 'yLim_Profi_WV_RH', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_WV_RH', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'arielle_display_retrieving.py');
