@@ -1,0 +1,864 @@
+
+[2019-11-27 13:09:46] Start to search for polly history info.
+PollyXT_TAU campaign info:
+location: Leipzig4
+Lat: 12.000000
+Lon: 51.000000
+asl(m): 125.000000
+startTime: 2019-08-08 00:00
+caption: Leipzig, Germany
+[2019-11-27 13:09:46] Finish.
+
+[2019-11-27 13:09:46] Start to search for polly config, process function and polly defaults.
+pollyxt_tau process info:
+config file: pollyxt_tau_config_20190910.json
+process func: pollynet_processing_chain_pollyxt_tau
+Instrument info: Tel Aviv
+polly load defaults function: pollyxt_tau_read_defaults
+[2019-11-27 13:09:46] Finish.
+
+[2019-11-27 13:09:46] Start to load the polly config.
+[2019-11-27 13:09:47] Finish.
+
+[2019-11-27 13:09:47] Start to load the polly defaults.
+[2019-11-27 13:09:47] Finish.
+
+[2019-11-27 13:09:47] Start to process the PollyXT_TAU data.
+data source: C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc
+
+[2019-11-27 13:09:47] Start to read PollyXT_TAU data.
+2019_08_09_Fri_TAU_06_00_01.nc
+[2019-11-27 13:09:47] Finish reading data.
+
+[2019-11-27 13:09:47] Start to read PollyXT_TAU laserlogbook data.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt
+[Warning: PollyXT_TAU laserlogbook file does not exist.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_read_laserlogbook', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m', 70)" style="font-weight:bold">pollyxt_tau_read_laserlogbook</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m',70,0)">line 70</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 42)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',42,0)">line 42</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:09:47] Finish reading laserlogbook.
+
+[2019-11-27 13:09:47] Start to preprocess PollyXT_TAU data.
+[Warning: The depol cal profiles between 06:00 and 08:47 are not compatible with your settings.
+Please check the 'maskDepCalAng' in the polly config file.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polly_depolCal_time', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m', 95)" style="font-weight:bold">polly_depolCal_time</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m',95,0)">line 95</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_preprocess', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m', 144)" style="font-weight:bold">pollyxt_tau_preprocess</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m',144,0)">line 144</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 48)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',48,0)">line 48</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:09:49] Finish signal preprocessing.
+
+[2019-11-27 13:09:49] Start to detect signal saturation.
+
+[2019-11-27 13:09:49] Finish.
+
+[2019-11-27 13:09:49] Start to calibrate PollyXT_TAU depol channel.
+[2019-11-27 13:09:49] Finish depol calibration.
+
+[2019-11-27 13:09:49] Start to cloud-screen.
+[2019-11-27 13:09:49] Finish cloud-screen.
+
+[2019-11-27 13:09:49] Start to estimate the overlap function.
+[2019-11-27 13:09:49] Finish.
+
+[2019-11-27 13:09:49] Start to split the cloud free profiles.
+No qualified cloud-free profiles were found.
+No qualified cloud-free groups were found.
+[2019-11-27 13:09:49] Finish.
+
+[2019-11-27 13:09:49] Start to load meteorological data.
+[2019-11-27 13:09:49] Finish.
+
+[2019-11-27 13:09:49] Start to load AERONET data.
+[2019-11-27 13:09:53] Finish.
+
+[2019-11-27 13:09:53] Start to apply rayleigh fitting.
+Number of reference height for 355 nm:  0
+Number of reference height for 532 nm:  0
+Number of reference height for 1064 nm:  0
+[2019-11-27 13:09:53] Finish.
+
+[2019-11-27 13:09:53] Start to retrieve aerosol optical properties.
+Meteorological file : .
+[2019-11-27 13:09:53] Finish.
+
+[2019-11-27 13:09:53] Start to water vapor calibration.
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[Warning: Number of valid parameter data points is less than 3.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('interp_meteor', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\interp_meteor.m', 29)" style="font-weight:bold">interp_meteor</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\interp_meteor.m',29,0)">line 29</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_wv_retrieve', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_wv_retrieve.m', 144)" style="font-weight:bold">pollyxt_tau_wv_retrieve</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_wv_retrieve.m',144,0)">line 144</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 154)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',154,0)">line 154</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:09:56] Finish.
+
+[2019-11-27 13:09:56] Start to lidar calibration.
+[2019-11-27 13:09:56] Finish.
+
+[2019-11-27 13:09:56] Start to calculate attenuated backscatter.
+[2019-11-27 13:09:56] Finish.
+
+[2019-11-27 13:09:56] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[2019-11-27 13:09:59] Finish.
+
+[2019-11-27 13:09:59] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[2019-11-27 13:10:03] Finish.
+
+[2019-11-27 13:10:03] Start to aerosol target classification with quasi results.
+[2019-11-27 13:10:03] Finish.
+
+[2019-11-27 13:10:03] Start to aerosol target classification with quasi results (V2).
+[2019-11-27 13:10:03] Finish.
+
+[2019-11-27 13:10:03] Start to save calibration results.
+[2019-11-27 13:10:03] Finish.
+
+[2019-11-27 13:10:03] Start to delete previous nc files.
+
+[2019-11-27 13:10:03] Start to save retrieving results.
+[2019-11-27 13:10:05] Finish.
+
+[2019-11-27 13:10:05] Start to delete previous figures.
+
+[2019-11-27 13:10:05] Start to visualize results.
+Display housekeeping
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_monitor.py", line 4, in <module> 
+    import numpy as np 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_monitor.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_monitor', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_monitor.m', 165)" style="font-weight:bold">pollyxt_tau_display_monitor</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_monitor.m',165,0)">line 165</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 305)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',305,0)">line 305</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display RCS and volume depolarization ratio
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_rcs.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_rcs.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_rcs', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_rcs.m', 350)" style="font-weight:bold">pollyxt_tau_display_rcs</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_rcs.m',350,0)">line 350</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 309)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',309,0)">line 309</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display depolarization calibration results
+Display the results with Python.
+Display signal flags
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_saturation.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_saturation.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_saturation', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_saturation.m', 298)" style="font-weight:bold">pollyxt_tau_display_saturation</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_saturation.m',298,0)">line 298</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 317)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',317,0)">line 317</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display overlap
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_overlap.py", line 1, in <module> 
+    import matplotlib 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\matplotlib\__init__.py", line 138, in <module> 
+    from . import cbook, rcsetup 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\matplotlib\cbook\__init__.py", line 31, in <module> 
+    import numpy as np 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_overlap.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_overlap', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_overlap.m', 156)" style="font-weight:bold">pollyxt_tau_display_overlap</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_overlap.m',156,0)">line 156</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 321)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',321,0)">line 321</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display profiles
+Display attnuated backscatter
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_att_beta.py", line 1, in <module> 
+    import matplotlib.pyplot as plt 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\matplotlib\__init__.py", line 138, in <module> 
+    from . import cbook, rcsetup 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\matplotlib\cbook\__init__.py", line 31, in <module> 
+    import numpy as np 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_att_beta.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_att_beta', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_att_beta.m', 165)" style="font-weight:bold">pollyxt_tau_display_att_beta</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_att_beta.m',165,0)">line 165</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 329)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',329,0)">line 329</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display WVMR and RH
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_WV.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_WV.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_WV', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_WV.m', 125)" style="font-weight:bold">pollyxt_tau_display_WV</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_WV.m',125,0)">line 125</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 333)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',333,0)">line 333</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display quasi parameters
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_quasiretrieving.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_quasiretrieving', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving.m', 228)" style="font-weight:bold">pollyxt_tau_display_quasiretrieving</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving.m',228,0)">line 228</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 337)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',337,0)">line 337</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display quasi parameters V2
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving_V2.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_quasiretrieving_V2.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_quasiretrieving_V2', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving_V2.m', 228)" style="font-weight:bold">pollyxt_tau_display_quasiretrieving_V2</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_quasiretrieving_V2.m',228,0)">line 228</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 341)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',341,0)">line 341</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display target classifications
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_targetclassi.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_targetclassi', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi.m', 93)" style="font-weight:bold">pollyxt_tau_display_targetclassi</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi.m',93,0)">line 93</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 345)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',345,0)">line 345</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display target classifications V2
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi_V2.py", line 3, in <module> 
+    import scipy.io as spio 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\scipy\__init__.py", line 62, in <module> 
+    from numpy import show_config as show_numpy_config 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_targetclassi_V2.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_targetclassi_V2', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi_V2.m', 92)" style="font-weight:bold">pollyxt_tau_display_targetclassi_V2</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_targetclassi_V2.m',92,0)">line 92</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 349)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',349,0)">line 349</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display Lidar constants.
+Display Long-Term lidar cosntants.
+[Warning: logbook does not exist! Please check /pollyhome/pollyxt_tau/logbook_pollyxt_tau.csv] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('read_logbook', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\read_logbook.m', 38)" style="font-weight:bold">read_logbook</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\read_logbook.m',38,0)">line 38</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_longterm_cali', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m', 68)" style="font-weight:bold">pollyxt_tau_display_longterm_cali</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m',68,0)">line 68</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 357)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',357,0)">line 357</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display the results with Python.
+Traceback (most recent call last): 
+  File "C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.py", line 4, in <module> 
+    import numpy as np 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\__init__.py", line 140, in <module> 
+    from . import _distributor_init 
+  File "C:\Users\zpyin\Anaconda3\lib\site-packages\numpy\_distributor_init.py", line 34, in <module> 
+    from . import _mklinit 
+ImportError: DLL load failed:  
+[Warning: Error in executing pollyxt_tau_display_longterm_cali.py] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_longterm_cali', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m', 367)" style="font-weight:bold">pollyxt_tau_display_longterm_cali</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m',367,0)">line 367</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 357)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',357,0)">line 357</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:10:09] Finish.
+[Warning: Done list file does not exist! For archiving the pic info, it will be created
+forcefully.
+Done list file:
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\done_filelist\done_filelist.txt
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 74)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',74,0)">line 74</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 107)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',107,0)">line 107</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_monitor.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 107)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',107,0)">line 107</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RCS_FR_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 110)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',110,0)">line 110</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RCS_FR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 113)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',113,0)">line 113</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RCS_FR_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 116)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',116,0)">line 116</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RCS_NR_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 119)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',119,0)">line 119</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RCS_NR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 122)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',122,0)">line 122</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_FR_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 137)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',137,0)">line 137</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_FR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 140)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',140,0)">line 140</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_FR_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 143)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',143,0)">line 143</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_NR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 146)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',146,0)">line 146</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_NR_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 149)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',149,0)">line 149</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_SAT_FR_407.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 152)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',152,0)">line 152</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_overlap.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 155)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',155,0)">line 155</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_ATT_BETA_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 239)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',239,0)">line 239</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_ATT_BETA_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 242)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',242,0)">line 242</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_ATT_BETA_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 245)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',245,0)">line 245</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_WVMR.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 248)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',248,0)">line 248</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_RH.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 251)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',251,0)">line 251</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_VDR_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 254)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',254,0)">line 254</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_VDR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 257)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',257,0)">line 257</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_Quasi_Bsc_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 260)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',260,0)">line 260</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_Quasi_Bsc_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 263)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',263,0)">line 263</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_Quasi_Bsc_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 266)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',266,0)">line 266</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_Quasi_PDR_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 269)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',269,0)">line 269</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_Quasi_ANGEXP_532_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 272)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',272,0)">line 272</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 275)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',275,0)">line 275</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 278)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',278,0)">line 278</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 281)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',281,0)">line 281</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_TC.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 290)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',290,0)">line 290</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:10:09] Finish.
+
+[2019-11-27 13:22:57] Start to search for polly history info.
+PollyXT_TAU campaign info:
+location: Leipzig4
+Lat: 12.000000
+Lon: 51.000000
+asl(m): 125.000000
+startTime: 2019-08-08 00:00
+caption: Leipzig, Germany
+[2019-11-27 13:22:57] Finish.
+
+[2019-11-27 13:22:57] Start to search for polly config, process function and polly defaults.
+pollyxt_tau process info:
+config file: pollyxt_tau_config_20190910.json
+process func: pollynet_processing_chain_pollyxt_tau
+Instrument info: Tel Aviv
+polly load defaults function: pollyxt_tau_read_defaults
+[2019-11-27 13:22:57] Finish.
+
+[2019-11-27 13:22:57] Start to load the polly config.
+[2019-11-27 13:22:57] Finish.
+
+[2019-11-27 13:22:57] Start to load the polly defaults.
+[2019-11-27 13:22:57] Finish.
+
+[2019-11-27 13:22:57] Start to process the PollyXT_TAU data.
+data source: C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc
+
+[2019-11-27 13:22:57] Start to read PollyXT_TAU data.
+2019_08_09_Fri_TAU_06_00_01.nc
+[Warning: polly data file does not exist.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polly_read_rawdata', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_read_rawdata.m', 61)" style="font-weight:bold">polly_read_rawdata</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_read_rawdata.m',61,0)">line 61</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 32)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',32,0)">line 32</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: No measurement data in 2019_08_09_Fri_TAU_06_00_01.nc for PollyXT_TAU.
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 34)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',34,0)">line 34</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 13:22:57] Finish.
+
+[2019-11-27 14:10:41] Start to search for polly history info.
+PollyXT_TAU campaign info:
+location: Leipzig4
+Lat: 12.000000
+Lon: 51.000000
+asl(m): 125.000000
+startTime: 2019-08-08 00:00
+caption: Leipzig, Germany
+[2019-11-27 14:10:41] Finish.
+
+[2019-11-27 14:10:41] Start to search for polly config, process function and polly defaults.
+pollyxt_tau process info:
+config file: pollyxt_tau_config_20190910.json
+process func: pollynet_processing_chain_pollyxt_tau
+Instrument info: Tel Aviv
+polly load defaults function: pollyxt_tau_read_defaults
+[2019-11-27 14:10:41] Finish.
+
+[2019-11-27 14:10:41] Start to load the polly config.
+[2019-11-27 14:10:41] Finish.
+
+[2019-11-27 14:10:41] Start to load the polly defaults.
+[2019-11-27 14:10:41] Finish.
+
+[2019-11-27 14:10:41] Start to process the PollyXT_TAU data.
+data source: C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc
+
+[2019-11-27 14:10:41] Start to read PollyXT_TAU data.
+2019_08_09_Fri_TAU_06_00_01.nc
+[2019-11-27 14:10:42] Finish reading data.
+
+[2019-11-27 14:10:42] Start to read PollyXT_TAU laserlogbook data.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt
+[Warning: PollyXT_TAU laserlogbook file does not exist.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_read_laserlogbook', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m', 70)" style="font-weight:bold">pollyxt_tau_read_laserlogbook</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m',70,0)">line 70</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 42)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',42,0)">line 42</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 14:10:42] Finish reading laserlogbook.
+
+[2019-11-27 14:10:42] Start to preprocess PollyXT_TAU data.
+[Warning: The depol cal profiles between 06:00 and 08:47 are not compatible with your settings. Please check the 'maskDepCalAng' in the polly
+config file.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polly_depolCal_time', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m', 95)" style="font-weight:bold">polly_depolCal_time</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m',95,0)">line 95</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_preprocess', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m', 144)" style="font-weight:bold">pollyxt_tau_preprocess</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m',144,0)">line 144</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 48)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',48,0)">line 48</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 14:10:44] Finish signal preprocessing.
+
+[2019-11-27 14:10:44] Start to detect signal saturation.
+
+[2019-11-27 14:10:44] Finish.
+
+[2019-11-27 14:10:44] Start to calibrate PollyXT_TAU depol channel.
+[2019-11-27 14:10:44] Finish depol calibration.
+
+[2019-11-27 14:10:44] Start to cloud-screen.
+[2019-11-27 14:10:44] Finish cloud-screen.
+
+[2019-11-27 14:10:44] Start to estimate the overlap function.
+[2019-11-27 14:10:45] Finish.
+
+[2019-11-27 14:10:45] Start to split the cloud free profiles.
+No qualified cloud-free profiles were found.
+No qualified cloud-free groups were found.
+[2019-11-27 14:10:45] Finish.
+
+[2019-11-27 14:10:45] Start to load meteorological data.
+[2019-11-27 14:10:45] Finish.
+
+[2019-11-27 14:10:45] Start to load AERONET data.
+[2019-11-27 14:10:47] Finish.
+
+[2019-11-27 14:10:47] Start to apply rayleigh fitting.
+Number of reference height for 355 nm:  0
+Number of reference height for 532 nm:  0
+Number of reference height for 1064 nm:  0
+[2019-11-27 14:10:47] Finish.
+
+[2019-11-27 14:10:47] Start to retrieve aerosol optical properties.
+Meteorological file : .
+[2019-11-27 14:10:47] Finish.
+
+[2019-11-27 14:10:47] Start to water vapor calibration.
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[Warning: Number of valid parameter data points is less than 3.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('interp_meteor', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\interp_meteor.m', 29)" style="font-weight:bold">interp_meteor</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\interp_meteor.m',29,0)">line 29</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_wv_retrieve', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_wv_retrieve.m', 144)" style="font-weight:bold">pollyxt_tau_wv_retrieve</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_wv_retrieve.m',144,0)">line 144</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 154)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',154,0)">line 154</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 14:10:50] Finish.
+
+[2019-11-27 14:10:50] Start to lidar calibration.
+[2019-11-27 14:10:50] Finish.
+
+[2019-11-27 14:10:50] Start to calculate attenuated backscatter.
+[2019-11-27 14:10:50] Finish.
+
+[2019-11-27 14:10:50] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[2019-11-27 14:10:53] Finish.
+
+[2019-11-27 14:10:53] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).
+gdas File (tel-aviv\2019\08\*_20190809_06_*.gdas1) does not exist.
+The meteorological data of gdas1 is not ready.
+Use standard_atmosphere data as a replacement.
+[2019-11-27 14:10:57] Finish.
+
+[2019-11-27 14:10:57] Start to aerosol target classification with quasi results.
+[2019-11-27 14:10:57] Finish.
+
+[2019-11-27 14:10:57] Start to aerosol target classification with quasi results (V2).
+[2019-11-27 14:10:57] Finish.
+
+[2019-11-27 14:10:57] Start to save calibration results.
+[2019-11-27 14:10:57] Finish.
+
+[2019-11-27 14:10:57] Start to delete previous nc files.
+
+[2019-11-27 14:10:57] Start to save retrieving results.
+[2019-11-27 14:10:59] Finish.
+
+[2019-11-27 14:10:59] Start to delete previous figures.
+
+[2019-11-27 14:10:59] Start to visualize results.
+Display housekeeping
+Display the results with Python.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_monitor.py:234: UserWarning: Attempting to set identical bottom == top == 0 results in singular transformations; automatically expanding. 
+  ax5.set_ylim([0, flags.shape[0]]) 
+Display RCS and volume depolarization ratio
+Display the results with Python.
+Display depolarization calibration results
+Display the results with Python.
+Display signal flags
+Display the results with Python.
+Display overlap
+Display the results with Python.
+Display profiles
+Display attnuated backscatter
+Display the results with Python.
+Display WVMR and RH
+Display the results with Python.
+Display quasi parameters
+Display the results with Python.
+Display quasi parameters V2
+Display the results with Python.
+Display target classifications
+Display the results with Python.
+Display target classifications V2
+Display the results with Python.
+Display Lidar constants.
+Display Long-Term lidar cosntants.
+[Warning: logbook does not exist! Please check /pollyhome/pollyxt_tau/logbook_pollyxt_tau.csv] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('read_logbook', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\read_logbook.m', 38)" style="font-weight:bold">read_logbook</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\read_logbook.m',38,0)">line 38</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_display_longterm_cali', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m', 68)" style="font-weight:bold">pollyxt_tau_display_longterm_cali</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_display_longterm_cali.m',68,0)">line 68</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 357)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',357,0)">line 357</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+Display the results with Python.
+[2019-11-27 14:11:35] Finish.
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_355.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 275)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',275,0)">line 275</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_532.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 278)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',278,0)">line 278</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[Warning: image file does not exist.
+recent_plots_new\PollyXT_TAU\2019\08\09\2019_08_09_Fri_TAU_06_00_01_LC_1064.png
+] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('write_2_donelist', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m', 82)" style="font-weight:bold">write_2_donelist</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\write_2_donelist.m',82,0)">line 82</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_results_report', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m', 281)" style="font-weight:bold">pollyxt_tau_results_report</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_results_report.m',281,0)">line 281</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 363)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',363,0)">line 363</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 14:11:35] Finish.
+
+[2019-11-27 20:43:09] Start to search for polly history info.
+PollyXT_TAU campaign info:
+location: Leipzig4
+Lat: 12.000000
+Lon: 51.000000
+asl(m): 125.000000
+startTime: 2019-08-08 00:00
+caption: Leipzig, Germany
+[2019-11-27 20:43:09] Finish.
+
+[2019-11-27 20:43:09] Start to search for polly config, process function and polly defaults.
+pollyxt_tau process info:
+config file: pollyxt_tau_config_20190910.json
+process func: pollynet_processing_chain_pollyxt_tau
+Instrument info: Tel Aviv
+polly load defaults function: pollyxt_tau_read_defaults
+[2019-11-27 20:43:09] Finish.
+
+[2019-11-27 20:43:09] Start to load the polly config.
+[2019-11-27 20:43:09] Finish.
+
+[2019-11-27 20:43:09] Start to load the polly defaults.
+[2019-11-27 20:43:09] Finish.
+
+[2019-11-27 20:43:09] Start to process the PollyXT_TAU data.
+data source: C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc
+
+[2019-11-27 20:43:09] Start to read PollyXT_TAU data.
+2019_08_09_Fri_TAU_06_00_01.nc
+[2019-11-27 20:43:09] Finish reading data.
+
+[2019-11-27 20:43:09] Start to read PollyXT_TAU laserlogbook data.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt
+[Warning: PollyXT_TAU laserlogbook file does not exist.
+C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\todo_filelist\pollyxt_tau\data_zip\2019_08_09_Fri_TAU_06_00_01.nc.laserlogbook.txt] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_read_laserlogbook', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m', 70)" style="font-weight:bold">pollyxt_tau_read_laserlogbook</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_read_laserlogbook.m',70,0)">line 70</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 42)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',42,0)">line 42</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 20:43:09] Finish reading laserlogbook.
+
+[2019-11-27 20:43:09] Start to preprocess PollyXT_TAU data.
+[Warning: The depol cal profiles between 06:00 and 08:47 are not compatible with your settings.
+Please check the 'maskDepCalAng' in the polly config file.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('polly_depolCal_time', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m', 95)" style="font-weight:bold">polly_depolCal_time</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\polly_depolCal_time.m',95,0)">line 95</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_preprocess', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m', 144)" style="font-weight:bold">pollyxt_tau_preprocess</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_preprocess.m',144,0)">line 144</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 48)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',48,0)">line 48</a>)
+  In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)] 
+[2019-11-27 20:43:12] Finish signal preprocessing.
+
+[2019-11-27 20:43:12] Start to detect signal saturation.
+
+[2019-11-27 20:43:12] Finish.
+
+[2019-11-27 20:43:12] Start to calibrate PollyXT_TAU depol channel.
+[2019-11-27 20:43:12] Finish depol calibration.
+
+[2019-11-27 20:43:12] Start to cloud-screen.
+[2019-11-27 20:43:12] Finish cloud-screen.
+
+[2019-11-27 20:43:12] Start to estimate the overlap function.
+{Operation terminated by user during <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollyxt_tau_overlap', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_overlap.m', 226)" style="font-weight:bold">pollyxt_tau_overlap</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\lib\pollyxt_tau_func_lib\pollyxt_tau_overlap.m',226,0)">line 226</a>)
+
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_pollyxt_tau', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m', 80)" style="font-weight:bold">pollynet_processing_chain_pollyxt_tau</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_pollyxt_tau.m',80,0)">line 80</a>)
+[data, overlapAttri] = pollyxt_tau_overlap(data, config);
+
+In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('pollynet_processing_chain_main', 'C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m', 161)" style="font-weight:bold">pollynet_processing_chain_main</a> (<a href="matlab: opentoline('C:\Users\zpyin\Desktop\Pollynet_Processing_Chain\pollynet_processing_chain_main.m',161,0)">line 161</a>)
+    reportTmp = eval(sprintf('%s(taskInfo, pollyConfig);',
+    pollyProcessInfo.pollyProcessFunc));
+} 
+linspace(0, 1500, 5)
+
+ans =
+
+           0         375         750        1125        1500
+
+linspace(0, 15000, 5)
+
+ans =
+
+           0        3750        7500       11250       15000
+
+linspace(0, 15000, 3)
+
+ans =
+
+           0        7500       15000
+
+linspace(0, 15000, 4)
+
+ans =
+
+           0        5000       10000       15000
+
+linspace(0, 15000, 6)
+
+ans =
+
+           0        3000        6000        9000       12000       15000
+
+linspace(0, 12000, 7)
+
+ans =
+
+           0        2000        4000        6000        8000       10000       12000
+
