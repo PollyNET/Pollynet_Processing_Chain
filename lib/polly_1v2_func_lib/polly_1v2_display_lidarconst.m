@@ -17,7 +17,6 @@ if isempty(data.cloudFreeGroups)
     return;
 end
 
-
 thisTime = mean(data.mTime(data.cloudFreeGroups), 2);
 LC532_klett = data.LC.LC_klett_532;
 LC532_raman = data.LC.LC_raman_532;
