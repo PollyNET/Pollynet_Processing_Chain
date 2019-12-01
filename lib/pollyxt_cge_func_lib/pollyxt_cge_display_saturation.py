@@ -108,6 +108,7 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
         SAT_FR_355 = mat['SAT_FR_355'][:]
         SAT_FR_532 = mat['SAT_FR_532'][:]
         SAT_FR_1064 = mat['SAT_FR_1064'][:]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -143,8 +144,9 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -192,8 +194,9 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -245,8 +248,9 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,

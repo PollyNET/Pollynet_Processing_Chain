@@ -115,7 +115,8 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
-        WVMRColorRange = mat['WVMRColorRange'][:][0]
+        yLim_WV_RH = mat['yLim_WV_RH'][:][0]
+        xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
     except Exception as e:
@@ -143,14 +144,14 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, WVMR,
-        vmin=WVMRColorRange[0],
-        vmax=WVMRColorRange[1],
+        vmin=xLim_Profi_WV_RH[0],
+        vmax=xLim_Profi_WV_RH[1],
         cmap=cmap
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim([0, 8000])
+    ax.set_ylim(yLim_WV_RH.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
@@ -169,7 +170,7 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(
-        WVMRColorRange[0], WVMRColorRange[1], 5), orientation='vertical')
+        xLim_Profi_WV_RH[0], xLim_Profi_WV_RH[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
 
@@ -195,7 +196,7 @@ def pollyxt_tau_display_WV(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim([0, 8000])
+    ax.set_ylim(yLim_WV_RH.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())

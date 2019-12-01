@@ -127,6 +127,7 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 [data.el355, data.bgEl355, data.el532, data.bgEl532] = pollyxt_tau_transratioCor(data, config);
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_tau_klett(data, config);
 [data.aerBsc355_NR_klett, data.aerBsc532_NR_klett, data.aerExt355_NR_klett, data.aerExt532_NR_klett, data.refBeta_NR_355_klett, data.refBeta_NR_532_klett] = pollyxt_tau_NR_klett(data, config);
+[data.aerBsc355_OC_klett, data.aerBsc532_OC_klett, data.aerBsc1064_OC_klett, data.aerExt355_OC_klett, data.aerExt532_OC_klett, data.aerExt1064_OC_klett] = pollyxt_tau_OC_klett(data, config);
 
 % Constrained-AOD Klett method
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_tau_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
@@ -134,12 +135,15 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 % Raman method
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_tau_raman(data, config);
 [data.aerBsc355_NR_raman, data.aerBsc532_NR_raman, data.aerExt355_NR_raman, data.aerExt532_NR_raman, data.LR355_NR_raman, data.LR532_NR_raman, data.refBeta_NR_355_raman, data.refBeta_NR_532_raman] = pollyxt_tau_NR_raman(data,config);
+[data.aerBsc355_OC_raman, data.aerBsc532_OC_raman, data.aerBsc1064_OC_raman, data.aerExt355_OC_raman, data.aerExt532_OC_raman, data.aerExt1064_OC_raman, data.LR355_OC_raman, data.LR532_OC_raman, data.LR1064_OC_raman] = pollyxt_tau_OC_raman(data, config);
 
 % Vol- and Par-depol
 [data.voldepol355_klett, data.pardepol355_klett, data.pardepolStd355_klett, data.voldepol355_raman, data.pardepol355_raman, data.pardepolStd355_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355, data.voldepol532_klett, data.pardepol532_klett, data.pardepolStd532_klett, data.voldepol532_raman, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_tau_depolratio(data, config);
+[data.voldepol355_OC_klett, data.pardepol355_OC_klett, data.pardepolStd355_OC_klett, data.voldepol355_OC_raman, data.pardepol355_OC_raman, data.pardepolStd355_OC_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355, data.voldepol532_OC_klett, data.pardepol532_OC_klett, data.pardepolStd532_OC_klett, data.voldepol532_OC_raman, data.pardepol532_OC_raman, data.pardepolStd532_OC_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_tau_OC_depolratio(data, config);
 
 % Angstroem exponent
 [data.ang_ext_355_532_raman, data.ang_bsc_355_532_raman, data.ang_bsc_532_1064_raman, data.ang_bsc_355_532_klett, data.ang_bsc_532_1064_klett] = pollyxt_tau_angstrexp(data, config);
+[data.ang_ext_355_532_raman_OC, data.ang_bsc_355_532_raman_OC, data.ang_bsc_532_1064_raman_OC, data.ang_bsc_355_532_klett_OC, data.ang_bsc_532_1064_klett_OC] = pollyxt_tau_OC_angstrexp(data, config);
 [data.ang_ext_355_532_raman_NR, data.ang_bsc_355_532_raman_NR, data.ang_bsc_355_532_klett_NR] = pollyxt_tau_NR_angstrexp(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
@@ -171,6 +175,12 @@ data.att_beta_532 = att_beta_532;
 data.att_beta_1064 = att_beta_1064;
 data.att_beta_387 = att_beta_387;
 data.att_beta_607 = att_beta_607;
+[att_beta_OC_355, att_beta_OC_532, att_beta_OC_1064, att_beta_OC_387, att_beta_OC_607] = pollyxt_tau_OC_att_beta(data, config);
+data.att_beta_OC_355 = att_beta_OC_355;
+data.att_beta_OC_532 = att_beta_OC_532;
+data.att_beta_OC_1064 = att_beta_OC_1064;
+data.att_beta_OC_387 = att_beta_OC_387;
+data.att_beta_OC_607 = att_beta_OC_607;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -249,9 +259,11 @@ if processInfo.flagEnableResultsOutput
     %% save aerosol optical results
     pollyxt_tau_save_retrieving_results(data, taskInfo, config);
     pollyxt_tau_save_NR_retrieving_results(data, taskInfo, config);
+    pollyxt_tau_save_OC_retrieving_results(data, taskInfo, config);
 
     %% save attenuated backscatter
     pollyxt_tau_save_att_bsc(data, taskInfo, config);
+    pollyxt_tau_save_OC_att_bsc(data, taskInfo, config);
 
     %% save water vapor mixing ratio and relative humidity
     pollyxt_tau_save_WVMR_RH(data, taskInfo, config);
@@ -323,10 +335,12 @@ if processInfo.flagEnableDataVisualization
     %% display optical profiles
     disp('Display profiles')
     pollyxt_tau_display_retrieving(data, taskInfo, config);
+    pollyxt_tau_display_OC_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
     disp('Display attnuated backscatter')
     pollyxt_tau_display_att_beta(data, taskInfo, config);
+    pollyxt_tau_display_OC_att_beta(data, taskInfo, config);
 
     %% display WVMR and RH
     disp('Display WVMR and RH')

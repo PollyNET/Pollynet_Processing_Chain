@@ -73,10 +73,12 @@ flagCH607FR = config.is607nm & config.isFR;
 flagCH532FR_X = config.is532nm & config.isFR & config.isCross;
 
 % yLim setting
-yLim355 = config.LC355Range;
-yLim532 = config.LC532Range;
-yLim1064 = config.LC1064Range;
-wvLim = config.WVConstRange;
+yLim355 = config.yLim_LC_355;
+yLim532 = config.yLim_LC_532;
+yLim1064 = config.yLim_LC_1064;
+wvLim = config.yLim_WVConst;
+depolConstLim355 = config.yLim_depolConst_355;
+depolConstLim532 = config.yLim_depolConst_532;
 
 %% data visualization 
 % visualization with matlab (low efficiency and less compatible)

@@ -94,7 +94,7 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.att_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.zLim_att_beta_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');

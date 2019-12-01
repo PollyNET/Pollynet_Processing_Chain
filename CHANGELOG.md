@@ -21,10 +21,12 @@
    
 #### TODO 
 
-* Documentations for algorithms and programs
+* Documentation for algorithms and programs (ongoing)
 * Products design (Product level and structure and variables)
 * Error analysis
 * Management calibration results with using database
+* Interpolation of GDAS1 temperature to get a continuous RH
+* Update the defaults for all pollys
 
 ### Version 1.2
 
