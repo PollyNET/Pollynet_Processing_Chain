@@ -164,7 +164,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'long_name', 'aerosol backscatter coefficient at 532 nm retrieved with Klett method');
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'standard_name', 'beta (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_range', config.aerBscProfileRange/1e6);
+    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'retrieved_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', config.LR532, config.refBeta532 * 1e6, config.smoothWin_klett_532 * data.hRes));
@@ -175,7 +175,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'long_name', 'aerosol backscatter coefficient at 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'standard_name', 'beta (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_range', config.aerBscProfileRange/1e6);
+    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'retrieved_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta532 * 1e6, config.smoothWin_raman_532 * data.hRes, config.angstrexp));
@@ -186,7 +186,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit_html', 'm<sup>-1</sup>');
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'long_name', 'aerosol extinction coefficient at 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'standard_name', 'alpha (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_range', config.aerExtProfileRange/1e6);
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_range', config.xLim_Profi_Ext/1e6);
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_532 * data.hRes, config.angstrexp));
@@ -196,7 +196,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'unit', 'sr');
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'long_name', 'aerosol lidar ratio at 532 nm retrieved with Raman method');
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'standard_name', 'S (aer, 532 nm)');
-    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'plot_range', config.aerLRProfileRange);
+    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));

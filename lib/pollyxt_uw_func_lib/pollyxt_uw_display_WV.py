@@ -170,7 +170,7 @@ def pollyxt_uw_display_WV(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(
-        WVMRColorRange[0], WVMRColorRange[1], 5), orientation='vertical')
+        xLim_Profi_WV_RH[0], xLim_Profi_WV_RH[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
 

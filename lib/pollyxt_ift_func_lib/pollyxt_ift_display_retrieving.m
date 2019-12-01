@@ -712,7 +712,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         yLim_Profi_WV_RH = config.yLim_Profi_WV_RH;
         yLim_FR_RCS = config.yLim_FR_RCS;
         yLim_NR_RCS = config.yLim_NR_RCS;
-        xLim_Profi_Bsc = config.xLim_Profi_Bsc
+        xLim_Profi_Bsc = config.xLim_Profi_Bsc;
         xLim_Profi_NR_Bsc = config.xLim_Profi_NR_Bsc;
         xLim_Profi_Ext = config.xLim_Profi_Ext;
         xLim_Profi_NR_Ext = config.xLim_Profi_NR_Ext;

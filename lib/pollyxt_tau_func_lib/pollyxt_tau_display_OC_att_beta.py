@@ -75,7 +75,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
+def pollyxt_tau_display_OC_att_beta(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -90,7 +90,7 @@ def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_uw_display_att_beta(tmpFile, saveFolder)
+    pollyxt_tau_display_OC_att_beta(tmpFile, saveFolder)
 
     History
     -------
@@ -216,7 +216,7 @@ def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_355.png'.format(
+            '{dataFilename}_ATT_BETA_OC_355.png'.format(
                 dataFilename=rmext(dataFilename)
                 )
             ),
@@ -299,7 +299,7 @@ def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_532.png'.format(
+            '{dataFilename}_ATT_BETA_OC_532.png'.format(
                 dataFilename=rmext(dataFilename)
                 )
             ),
@@ -372,7 +372,7 @@ def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_1064.png'.format(
+            '{dataFilename}_ATT_BETA_OC_1064.png'.format(
                 dataFilename=rmext(dataFilename)
                 )
             ),
@@ -382,7 +382,7 @@ def pollyxt_uw_display_att_beta(tmpFile, saveFolder):
 
 
 def main():
-    pollyxt_uw_display_att_beta(
+    pollyxt_tau_display_OC_att_beta(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
         'C:\\Users\\zhenping\\Desktop'
         )
@@ -390,4 +390,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyxt_uw_display_att_beta(sys.argv[1], sys.argv[2])
+    pollyxt_tau_display_OC_att_beta(sys.argv[1], sys.argv[2])

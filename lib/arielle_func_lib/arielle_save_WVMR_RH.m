@@ -98,7 +98,7 @@ netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
+netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');

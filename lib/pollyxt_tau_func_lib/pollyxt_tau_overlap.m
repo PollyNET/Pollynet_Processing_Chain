@@ -157,9 +157,13 @@ end
 %% interpolate the default overlap
 if ~ isempty(overlap355Default)
     overlap355DefaultInterp = interp1(height355, overlap355Default, data.height, 'linear');
+else
+    overlap355DefaultInterp = NaN(size(data.height));
 end
 if ~ isempty(overlap532Default)
     overlap532DefaultInterp = interp1(height532, overlap532Default, data.height, 'linear');
+else
+    overlap532DefaultInterp = NaN(size(data.height));
 end
 
 %% saving the results
@@ -197,15 +201,24 @@ if config.overlapSmoothBins <= 3
     error('In order to decrease the effects of signal noise on the overlap correction, config.overlapSmoothBins should be set to be larger than 3');
 end
 
-overlap355Sm = smooth(data.overlap355, config.overlapSmoothBins, 'sgolay', 2);
-overlap532Sm = smooth(data.overlap532, config.overlapSmoothBins, 'sgolay', 2);
+if config.overlapCorMode == 1
+    % overlap correction with using the default overlap function
+    overlap355Sm = smooth(overlap355DefaultInterp, config.overlapSmoothBins, 'sgolay', 2);
+    overlap532Sm = smooth(overlap532DefaultInterp, config.overlapSmoothBins, 'sgolay', 2);
+elseif config.overlapCorMode == 2
+    % overlap correction with using the calculated overlap function in realtime
+    overlap355Sm = smooth(data.overlap355, config.overlapSmoothBins, 'sgolay', 2);
+    overlap532Sm = smooth(data.overlap532, config.overlapSmoothBins, 'sgolay', 2);
+else
+    error('Wrong setting for overlapCorMode. Only 1 and 2 are accepted!');
+end
 
 flag355 = config.is355nm & config.isTot & config.isFR;
 flag532 = config.is532nm & config.isTot & config.isFR;
 
 % find the minimum range bin with complete overlap function
-flagFullOverlap355 = (overlap355Sm >= 1) & (data.height >= config.heightFullOverlap(flag355));
-flagFullOverlap532 = (overlap532Sm >= 1) & (data.height >= config.heightFullOverlap(flag532));
+flagFullOverlap355 = (overlap355Sm >= 1) & (transpose(data.height) >= config.heightFullOverlap(flag355));
+flagFullOverlap532 = (overlap532Sm >= 1) & (transpose(data.height) >= config.heightFullOverlap(flag532));
 minBinFullOverlap355 = find(flagFullOverlap355, 1);
 minBinFullOverlap532 = find(flagFullOverlap532, 1);
 

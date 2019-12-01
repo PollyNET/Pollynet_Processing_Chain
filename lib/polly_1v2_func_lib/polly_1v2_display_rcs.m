@@ -28,10 +28,13 @@ fogMask = data.fogMask;
 RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(flagChannel532, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
+volDepol_532 = data.volDepol_532;
+volDepol_532(:, (data.depCalMask ~= 0) | (data.fogMask)) = NaN;
+
 yLim_FR = config.yLim_FR_RCS;
 yLim_NR = config.yLim_NR_RCS;
 RCS532FRColorRange = config.zLim_FR_RCS_532;
-RCS532NRColorRange = config.zLim_NR_RCS_532
+RCS532NRColorRange = config.zLim_NR_RCS_532;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
