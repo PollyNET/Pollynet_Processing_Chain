@@ -58,9 +58,13 @@ overlap355_std = [];
 %% interpolate the default overlap
 if ~ isempty(overlap355Default)
     overlap355DefaultInterp = interp1(height355, overlap355Default, data.height, 'linear');
+else
+    overlap355DefaultInterp = NaN(size(data.height));
 end
 if ~ isempty(overlap532Default)
     overlap532DefaultInterp = interp1(height532, overlap532Default, data.height, 'linear');
+else
+    overlap532DefaultInterp = NaN(size(data.height));
 end
 
 %% saving the results

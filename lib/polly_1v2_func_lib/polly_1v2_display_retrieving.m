@@ -536,7 +536,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         LR532_raman = data.LR532_raman(iGroup, :);
         LR532_RR = data.LR532_RR(iGroup, :);
         
-        % depool ratio
+        % depol ratio
         voldepol532_klett = data.voldepol532_klett(iGroup, :);
         voldepol532_raman = data.voldepol532_raman(iGroup, :);
         pardepol532_klett = data.pardepol532_klett(iGroup, :);
@@ -552,12 +552,18 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         pressure = data.pressure(iGroup, :);
 
         % display range
-        yLim_FR = config.yLim_FR;
-        yLim_NR = config.yLim_NR;
-        rcsLim = config.RCSProfileRange;
-        aerBscLim = config.aerBscProfileRange;
-        aerExtLim = config.aerExtProfileRange;
-        aerLRLim = config.aerLRProfileRange;
+        yLim_Profi_Ext = config.yLim_Profi_Ext;
+        yLim_Profi_LR = config.yLim_Profi_LR;
+        yLim_Profi_DR = config.yLim_Profi_DR;
+        yLim_Profi_Bsc = config.yLim_Profi_Bsc;
+        yLim_FR_RCS = config.yLim_FR_RCS;
+        yLim_NR_RCS = config.yLim_NR_RCS;
+        xLim_Profi_Bsc = config.xLim_Profi_Bsc;
+        xLim_Profi_NR_Bsc = config.xLim_Profi_NR_Bsc;
+        xLim_Profi_Ext = config.xLim_Profi_Ext;
+        xLim_Profi_NR_Ext = config.xLim_Profi_NR_Ext;
+        xLim_Profi_RCS = config.xLim_Profi_RCS;
+        xLim_Profi_LR = config.xLim_Profi_LR;
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -567,7 +573,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_FR', 'yLim_NR', 'rcsLim', 'aerBscLim', 'aerExtLim', 'aerLRLim', '-v6');
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'polly_1v2_display_retrieving.py');

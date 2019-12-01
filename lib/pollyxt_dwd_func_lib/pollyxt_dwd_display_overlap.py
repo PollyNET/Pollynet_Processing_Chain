@@ -94,7 +94,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
+def pollyxt_dwd_display_overlap(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -109,7 +109,7 @@ def pollyxt_lacros_display_overlap(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_lacros_display_overlap(tmpFile, saveFolder)
+    pollyxt_dwd_display_overlap(tmpFile, saveFolder)
 
     History
     -------

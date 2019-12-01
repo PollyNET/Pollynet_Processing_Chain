@@ -109,7 +109,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
-netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.zLim_quasi_beta_532/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
@@ -121,7 +121,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'comment', 'This parameter is retrieved
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'unit', '');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'long_name', 'quasi particle depolarization ratio at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'standard_name', 'quasi_pardepol_532');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.quasi_Par_DR_cRange_532);
+netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.zLim_quasi_Par_DR_532);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'error_variable', 'quasi_pardepol_532_error');
