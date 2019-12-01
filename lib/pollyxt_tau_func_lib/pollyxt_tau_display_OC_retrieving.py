@@ -441,7 +441,7 @@ def pollyxt_tau_display_OC_retrieving(tmpFile, saveFolder):
         '{dataFilename}_{starttime}_{endtime}_OC_Ext_Raman.png'.format(
             dataFilename=rmext(dataFilename),
             starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-            endtime=datenum_to_datetime(endtime).strftime('%H%OC_M'))
+            endtime=datenum_to_datetime(endtime).strftime('%H%M'))
             ),
         dpi=figDPI
         )
