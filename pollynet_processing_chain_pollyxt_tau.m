@@ -335,10 +335,12 @@ if processInfo.flagEnableDataVisualization
     %% display optical profiles
     disp('Display profiles')
     pollyxt_tau_display_retrieving(data, taskInfo, config);
+    pollyxt_tau_display_OC_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
     disp('Display attnuated backscatter')
     pollyxt_tau_display_att_beta(data, taskInfo, config);
+    pollyxt_tau_display_OC_att_beta(data, taskInfo, config);
 
     %% display WVMR and RH
     disp('Display WVMR and RH')

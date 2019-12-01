@@ -91,8 +91,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     time = data.mTime;
     figDPI = processInfo.figDPI;
-    yLim532 = config.LC532Range;
-    yLim607 = config.LC607Range;
+    yLim532 = config.yLim_LC_532;
+    yLim607 = config.yLim_LC_607;
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
     % create tmp folder by force, if it does not exist.
