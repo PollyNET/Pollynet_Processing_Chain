@@ -17,3 +17,4 @@ debug.mat
 netcdf4/
 log/
 done_filelist/
+*.asv
