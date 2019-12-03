@@ -155,7 +155,7 @@ def pollyxt_dwd_display_targetclassi(tmpFile, saveFolder):
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Target classifications (V2) from {instrument} at {location}'.format(
+        'Target classifications from {instrument} at {location}'.format(
             instrument=pollyVersion, location=location
             ),
         fontsize=15
