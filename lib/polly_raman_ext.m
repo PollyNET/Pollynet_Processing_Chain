@@ -23,7 +23,7 @@ function [ ext_aer ] = polly_raman_ext(height, sig, lambda_emit, ...
 %       temperature: array
 %           temperature of the atmosphere. [K]
 %       window_size: integer
-%           window_size for smoothing the signal h sgolay filter.
+%           window_size for smoothing the signal with sgolay filter.
 %       order: integer
 %           order of the implemented sgolay filter.
 %       C: array
