@@ -14,7 +14,7 @@ function [datetime, location] = gdas1FileTimestamp(gdas1File)
 %       zhenping@tropos.de
 
 data = regexp(gdas1File, ...
-             '(?<location>.*)_(?<date>\d{8})_(?<hour>\d{2})_\w*', 'names');
+             '(?<location>.*)_(?<date>\d{8})_(?<hour>\d{2})\w*', 'names');
 
 if isempty(data)
     warning('Failure in converting gdas1 filename to timestamp.\n%s\n', gdas1File);
