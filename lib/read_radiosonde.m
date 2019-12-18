@@ -70,9 +70,13 @@ if ~ exist('fileType', 'var')
     fileType = 1;
 end
 
+if ~ exist('missingValue', 'var')
+    missingValue = -999;
+end
+
 if exist(file, 'file') ~= 2
-	warning('radiosonde file does not exist. Please check it.\n%s', file);
-	return;
+    warning('radiosonde file does not exist. Please check it.\n%s', file);
+    return;
 end
 
 switch fileType
