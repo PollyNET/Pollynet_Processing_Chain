@@ -111,7 +111,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     lineColor.else = [0, 255, 0]/255;
 
     %% initialization
-    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_long_term_LC.png', datestr(taskInfo.dataTime, 'yyyymmdd')));
+    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_%s_long_term_cali_results.png', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd')));
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 5, 1);

@@ -270,7 +270,6 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     ax2.set_ylim([0, 2])
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
-    
     fig.text(0.03, 0.01, startTime.strftime("%Y"), fontsize=12)
     fig.text(0.90, 0.01, 'Version: {version}'.format(
         version=version), fontsize=12)
@@ -278,8 +277,10 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_long_term_cali_results.png'.format(
-                dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
+            '{pollyType}_{date}_long_term_cali_results.png'.format(
+                pollyType=pollyVersion,
+                date=dataTime.strftime('%Y%m%d')
+            )), dpi=figDPI)
     plt.close()
 
 
