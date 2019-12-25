@@ -434,8 +434,10 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_long_term_cali_results.png'.format(
-                dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
+            '{pollyType}_{date}_long_term_cali_results.png'.format(
+                pollyType=pollyVersion,
+                date=dataTime.strftime('%Y%m%d')
+            )), dpi=figDPI)
     plt.close()
 
 
