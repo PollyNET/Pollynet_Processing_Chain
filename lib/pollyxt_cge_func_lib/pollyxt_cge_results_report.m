@@ -86,7 +86,7 @@ reportStr{end + 1} = sprintf('Lidar constant at 1064 nm: %3.1e', data.LCUsed.LCU
 reportStr{end + 1} = sprintf('Lidar calibration status at 1064 nm: %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1});
 
 %% write the pic info to done list file
-if (data.mTime(end) - data.mTime(1)) >= datenum(0, 1, 0, 0, 10, 0)
+if (now <= campaignInfo.endTime) && (now >= campaignInfo.startTime)
     active = 1;
 else
     active = 0;
