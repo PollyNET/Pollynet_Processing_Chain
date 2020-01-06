@@ -67,7 +67,10 @@ PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(fl
 
 flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 
-data.flagCloudFree8km = flagCloudFree8km_FR;
+% mask for internal shutter when it rains
+flagShutter = polly_isLaserShutterOn(PCR532FR);
+
+data.flagCloudFree8km = flagCloudFree8km_FR & (~ flagShutter);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
