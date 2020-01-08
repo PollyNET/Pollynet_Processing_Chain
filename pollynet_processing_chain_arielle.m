@@ -71,11 +71,8 @@ flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4F
 flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
 
-% mask for internal shutter when it rains
-flagShutter = polly_isLaserShutterOn(PCR532FR);
-
-data.flagCloudFree2km = flagCloudFree2km & (~ flagShutter);
-data.flagCloudFree8km = flagCloudFree8km & (~ flagShutter);
+data.flagCloudFree2km = flagCloudFree2km & (~ data.shutterOnMask);
+data.flagCloudFree8km = flagCloudFree8km & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -203,20 +200,20 @@ fprintf('[%s] Finish.\n', tNow());
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
-%     fprintf('\n[%s] Start to save calibration results.\n', tNow());
-% 
-%     %% save depol cali results
-%     arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
-%     arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
-% 
-%     %% save water vapor calibration results
-%     arielle_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
-% 
-%     %% save lidar calibration results
-%     arielle_save_LC_nc(data, taskInfo, config);
-%     arielle_save_LC_txt(data, taskInfo, config);
-%     
-%     fprintf('[%s] Finish.\n', tNow());
+    fprintf('\n[%s] Start to save calibration results.\n', tNow());
+
+    %% save depol cali results
+    arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
+    arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
+
+    %% save water vapor calibration results
+    arielle_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+
+    %% save lidar calibration results
+    arielle_save_LC_nc(data, taskInfo, config);
+    arielle_save_LC_txt(data, taskInfo, config);
+    
+    fprintf('[%s] Finish.\n', tNow());
 
 end
 

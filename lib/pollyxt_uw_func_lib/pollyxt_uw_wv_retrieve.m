@@ -60,7 +60,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     flagCloudFree = false(size(data.mTime));
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagCloudFree(proIndx) = true;
-    flag407On = (~ polly_is407Off(squeeze(data.signal(flagChannel407, :, :))));
+    flag407On = (~ data.mask407Off);
     thisn407Pros = sum(flagCloudFree & flag407On);
     
     if thisn407Pros >= 10
@@ -123,14 +123,13 @@ quality_mask_WVMR(:, data.depCalMask) = 2;
 quality_mask_RH = quality_mask_WVMR;
 
 % mask the signal
-flag407Off = polly_is407Off(SIG407);
-quality_mask_WVMR(:, flag407Off) = 3;
+quality_mask_WVMR(:, data.mask407Off) = 3;
 SIG407_QC = SIG407;
 SIG407_QC(:, data.depCalMask) = NaN;
-SIG407_QC(:, flag407Off) = NaN;
+SIG407_QC(:, data.mask407Off) = NaN;
 SIG387_QC = SIG387;
 SIG387_QC(:, data.depCalMask) = NaN;
-SIG387_QC(:, flag407Off) = NaN;
+SIG387_QC(:, data.mask407Off) = NaN;
 
 % smooth the signal
 SIG387_QC = smooth2(SIG387_QC, config.quasi_smooth_h(flagChannel387), config.quasi_smooth_t(flagChannel387));
