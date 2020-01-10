@@ -179,6 +179,14 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
             yLim1064 = mat['yLim1064'][0][:]
         else:
             yLim1064 = np.array([])
+        if mat['yLim_LC_ratio_355_387'].size:
+            yLim_LC_ratio_355_387 = mat['yLim_LC_ratio_355_387'][0][:]
+        else:
+            yLim_LC_ratio_355_387 = np.array([])
+        if mat['yLim_LC_ratio_532_607'].size:
+            yLim_LC_ratio_532_607 = mat['yLim_LC_ratio_532_607'][0][:]
+        else:
+            yLim_LC_ratio_532_607 = np.array([])
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         dataTime = mat['taskInfo']['dataTime'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
@@ -384,7 +392,7 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
 
     ax4.set_ylabel('Ratio 355/387')
     ax4.grid(False)
-    ax4.set_ylim([0, 1])
+    ax4.set_ylim(yLim_LC_ratio_355_387.tolist())
     ax4.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # transmission ratio at 532/607 nm
@@ -422,7 +430,7 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
         ax5.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax5.set_ylabel('Ratio 532/607')
-    ax5.set_ylim([0, 1])
+    ax5.set_ylim(yLim_LC_ratio_532_607.tolist())
     ax5.set_xlabel('Date (mm-dd)')
     ax5.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax5.grid(False)

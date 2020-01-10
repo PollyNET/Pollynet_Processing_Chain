@@ -191,6 +191,8 @@
     "yLim_Profi_DR": [0, 20000],
     "yLim_Profi_Bsc": [0, 20000],
     "yLim_Profi_WV_RH": [0, 7000],
+    "yLim_LC_ratio_355_387": [0, 1],
+    "yLim_LC_ratio_532_607": [0, 1],
     "yLim_depolConst_355": [0, 0.2],
     "yLim_depolConst_532": [0, 0.2],
     "zLim_att_beta_355": [0, 15],

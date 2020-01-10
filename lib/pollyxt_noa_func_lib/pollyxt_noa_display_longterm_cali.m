@@ -93,6 +93,8 @@ flagCH532FR_X = config.is532nm & config.isFR & config.isCross;
 yLim355 = config.yLim_LC_355;
 yLim532 = config.yLim_LC_532;
 yLim1064 = config.yLim_LC_1064;
+yLim_LC_ratio_355_387 = config.yLim_LC_ratio_355_387;
+yLim_LC_ratio_532_607 = config.yLim_LC_ratio_532_607;
 wvLim = config.yLim_WVConst;
 depolConstLim355 = config.yLim_depolConst_355;
 depolConstLim532 = config.yLim_depolConst_532;
@@ -361,7 +363,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_noa_display_longterm_cali.py');
