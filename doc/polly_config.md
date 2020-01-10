@@ -109,6 +109,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |xLim_Profi_RCS|x-range of the profile of range corrected signal|[0.3, 10] (*1e6 a.u.)||
 |xLim_Profi_LR|x-range of the profile of lidar ratio|[0, 120] sr||
 |yLim_LC_{wavelength}|y-range of the profile of lidar constant at certain wavelength|[0, 1e14]||
+|yLim_LC_ratio_{wavelength1}_{wavelength2}|y-range of the scatter plot of the lidar constant ratio at two given wavelength|[0, 1]||
 |yLim_WVConst|y-range of the profile of water vapor calibration constant|[0, 20]|[Guangyao D. et al, AMT, 2018](https://ui.adsabs.harvard.edu/link_gateway/2018AMT....11.2735D/doi:10.5194/amt-11-2735-2018)|
 |yLim_FR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from far-range channels|[0, 20000] m||
 |yLim_NR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from near-range channels|[0, 3000] m||

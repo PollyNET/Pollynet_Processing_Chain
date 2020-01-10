@@ -164,6 +164,10 @@ def polly_1v2_display_longterm_cali(tmpFile, saveFolder):
             yLim532 = mat['yLim532'][0][:]
         else:
             yLim532 = np.array([])
+        if mat['yLim_LC_ratio_532_607'].size:
+            yLim_LC_ratio_532_607 = mat['yLim_LC_ratio_532_607'][0][:]
+        else:
+            yLim_LC_ratio_532_607 = np.array([])
         if mat['depolConstLim532'].size:
             depolConstLim532 = mat['depolConstLim532'][0][:]
         else:
@@ -285,7 +289,7 @@ def polly_1v2_display_longterm_cali(tmpFile, saveFolder):
 
     ax2.set_ylabel('Ratio 532/607')
     ax2.grid(False)
-    ax2.set_ylim([0, 2])
+    ax2.set_ylim(yLim_LC_ratio_532_607.tolist())
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # depolarization calibration constant at 532 nm
