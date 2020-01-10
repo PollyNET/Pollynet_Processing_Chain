@@ -77,6 +77,8 @@ flagCH532FR_X = config.is532nm & config.isFR & config.isCross;
 yLim355 = config.yLim_LC_355;
 yLim532 = config.yLim_LC_532;
 yLim1064 = config.yLim_LC_1064;
+yLim_LC_ratio_355_387 = config.yLim_LC_ratio_355_387;
+yLim_LC_ratio_532_607 = config.yLim_LC_ratio_532_607;
 depolConstLim355 = config.yLim_depolConst_355;
 depolConstLim532 = config.yLim_depolConst_532;
 
