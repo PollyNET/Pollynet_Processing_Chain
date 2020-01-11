@@ -168,14 +168,14 @@ def polly_first_display_att_beta(tmpFile, saveFolder):
         '{wave}nm Far-Range from {instrument} at {location}'.format(
             wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
 
     fig.text(
         0.05, 0.04,
