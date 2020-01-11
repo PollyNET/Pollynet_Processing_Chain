@@ -1,7 +1,7 @@
-function [res] = pollly_read_temps(file)
-%pollly_read_temps read the polly housekeeping data saved in a temporary file.
+function [res] = polly_read_temps(file)
+%polly_read_temps read the polly housekeeping data saved in a temporary file.
 %   Example:
-%       [res] = pollly_read_temps(file)
+%       [res] = polly_read_temps(file)
 %   Inputs:
 %       file: char
 %           filename. (absolute filename)
