@@ -188,7 +188,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_355[0],
@@ -198,7 +198,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -247,7 +247,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_532[0],
@@ -257,7 +257,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -306,7 +306,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_1064[0],
@@ -316,7 +316,7 @@ def pollyxt_tau_display_quasiretrieving_V2(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
