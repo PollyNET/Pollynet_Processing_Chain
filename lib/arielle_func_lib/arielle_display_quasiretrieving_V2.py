@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def arielle_display_quasiretrieving(tmpFile, saveFolder):
+def arielle_display_quasiretrieving_V2(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -88,7 +88,7 @@ def arielle_display_quasiretrieving(tmpFile, saveFolder):
 
     Usage
     -----
-    arielle_display_quasiretrieving(tmpFile, saveFolder)
+    arielle_display_quasiretrieving_V2(tmpFile, saveFolder)
 
     History
     -------
@@ -410,7 +410,7 @@ def arielle_display_quasiretrieving(tmpFile, saveFolder):
 
 
 def main():
-    arielle_display_quasiretrieving(
+    arielle_display_quasiretrieving_V2(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
         'C:\\Users\\zhenping\\Desktop'
         )
@@ -418,4 +418,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    arielle_display_quasiretrieving(sys.argv[1], sys.argv[2])
+    arielle_display_quasiretrieving_V2(sys.argv[1], sys.argv[2])
