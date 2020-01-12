@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
+def pollyxt_cge_display_quasiretrieving(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder)
+    pollyxt_cge_display_quasiretrieving(tmpFile, saveFolder)
 
     History
     -------
@@ -438,7 +438,7 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
 
 
 def main():
-    pollyxt_cge_display_quasiretrieving_V2(
+    pollyxt_cge_display_quasiretrieving(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
         'C:\\Users\\zhenping\\Desktop'
         )
@@ -446,4 +446,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyxt_cge_display_quasiretrieving_V2(sys.argv[1], sys.argv[2])
+    pollyxt_cge_display_quasiretrieving(sys.argv[1], sys.argv[2])
