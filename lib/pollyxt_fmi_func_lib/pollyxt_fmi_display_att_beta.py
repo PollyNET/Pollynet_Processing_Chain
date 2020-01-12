@@ -342,7 +342,7 @@ def pollyxt_fmi_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.9e, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(
