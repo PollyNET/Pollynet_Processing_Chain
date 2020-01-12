@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
+def pollyxt_tjk_display_quasiretrieving_V2(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder)
+    pollyxt_tjk_display_quasiretrieving_V2(tmpFile, saveFolder)
 
     History
     -------
@@ -410,7 +410,7 @@ def pollyxt_tjk_display_quasiretrieving(tmpFile, saveFolder):
 
 
 def main():
-    pollyxt_tjk_display_quasiretrieving(
+    pollyxt_tjk_display_quasiretrieving_V2(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
         'C:\\Users\\zhenping\\Desktop'
         )
@@ -418,4 +418,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyxt_tjk_display_quasiretrieving(sys.argv[1], sys.argv[2])
+    pollyxt_tjk_display_quasiretrieving_V2(sys.argv[1], sys.argv[2])
