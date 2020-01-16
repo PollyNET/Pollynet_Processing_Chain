@@ -1,9 +1,7 @@
 function [wvconst, wvconstStd, globalAttri] = pollyxt_uw_wv_calibration(data, config)
-%pollyxt_uw_wv_calibration water vapor calibration. The whole idea is based 
-%on the work of Guangyao. More detailed information can be found 
-%Guangyao et al, 2018, AMT.
+%POLLYXT_WV_WV_CALIBRATION water vapor calibration. 
 %   Example:
-%       [wvconst, wvconstStd, globalAttri] = pollyxt_uw_wv_calibration(data, config)
+%       [wvconst, wvconstStd, globalAttri] = pollyxt_wv_wv_calibration(data, config)
 %   Inputs:
 %       data: struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
@@ -21,6 +19,12 @@ function [wvconst, wvconstStd, globalAttri] = pollyxt_uw_wv_calibration(data, co
 %               calibration information for each calibration period.
 %           IntRange: matrix
 %               index of integration range for calculate the raw IWV from lidar.
+%   References:
+%       Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P.,
+%       Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
+%       lidar water vapor profiles by means of AERONET photometer observations
+%       and GDAS meteorological data, Atmospheric Measurement Techniques,
+%       11, 2735-2748, 2018.
 %   History:
 %       2018-12-26. First Edition by Zhenping
 %       2019-08-08. Add the sunrise and sunset to exclude the low SNR 
@@ -61,7 +65,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     flagNoIWVMeas = false;
     flagNotMeteorStable = false;
 
-    %% determine whether 407 is on during the calibration period
+    %% determine whether 407 nm channel was turn on during the calibration period
     if sum(flag407On & flagWVCali) < 10
         fprintf('No enough water vapor measurement during %s to %s at %s.\n', ...
             datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
@@ -71,7 +75,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         thisWVCaliInfo = 'No enough water vapor measurements.';
     end
 
-    %% determine whehter there is IWV measurement
+    %% determine whehter there was collocated IWV measurement
     if isnan(data.IWV(iGroup))
         fprintf('No close IWV measurement for %s at %s during %s to %s.\n', ...
             data.IWVAttri.source, campaignInfo.location, ...
@@ -107,7 +111,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         hIntTopIndx = 1000;
     end
 
-    % index of full overlap
+    % index with complete overlap
     hIndxFullOverlap387 = find(data.height >= config.heightFullOverlap(flagChannel387), 1);
     hIndxFullOverlap407 = find(data.height >= config.heightFullOverlap(flagChannel407), 1);
     if isempty(hIndxFullOverlap387) 
@@ -117,7 +121,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         hIndxFullOverlap407 = 70;
     end
 
-    % search the index of low SNR
+    % search the index with low SNR
     hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.minSNRWVCali, 1);
     if isempty(hIndxLowSNR387)
         fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
@@ -138,7 +142,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine whether the water vapor measurements were performed at daytime
-    % retrieve the time of sun rise and sun set
+    % retrieve the time of local sunrise and sunset
     sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, floor(data.mTime(1)), 2880);
     sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
     sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
@@ -188,7 +192,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                         diff(data.height(hIntBaseIndx:hIntTopIndx))]) / 1e6;   % 1000 kg*m^{-2}
 
         thisWVconst = IWV_Cali ./ IWVRaw;   % g*kg^{-1}
-        thisWVconstStd = 0;   % TODO: this can be done by taking into account 
+        thisWVconstStd = 0;   % TODO: this can be done by taking into account of
                               % the uncertainty of IWV by AERONET and the signal
                               % uncertainty by lidar.
     end
