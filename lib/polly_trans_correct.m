@@ -37,11 +37,11 @@ function [sigTotCor, bgTotCor, sigTotCorStd] = polly_trans_correct(sigTot, ...
 %           background of transmission corrected elastic signal.
 %       sigTotCorStd: array
 %           uncertainty of transmission corrected elastic signal.
-%   Notes:
-%       specified deduction about how to accomplish the correction can be 
-%       found in "Systematic error of lidar profiles caused by a 
-%       polarization-dependent receiver transmission: quantification and
-%       error correction scheme"
+%   References:
+%       Mattis, I., Tesche, M., Grein, M., Freudenthaler, V., and Müller, D.:
+%       Systematic error of lidar profiles caused by a polarization-dependent
+%       receiver transmission: Quantification and error correction scheme,
+%       Appl. Opt., 48, 2742-2751, 2009.
 %   History:
 %       2018-08-23. First edition by Zhenping
 %   Contact:
@@ -51,8 +51,8 @@ if ~ isequal(size(sigTot), size(sigCross))
     error('input signals have different size.')
 end
 
-% uncertainty caused by RcStd and RtStd is neglected because normally this value
-% can be set down very precisely. 
+% uncertainty caused by RcStd and RtStd is neglected because usually it
+% is very small. 
 sigTotCor = (Rc - 1)/(Rc - Rt) .* sigTot + ...
             (1 - Rt)/(Rc - Rt) ./ depolConst .* sigCross;
 bgTotCor = (Rc - 1)/(Rc - Rt) .* bgTot + ...
@@ -62,9 +62,7 @@ sigTotCorVar = (sigCross ./ depolConst.^2 * (1-Rt) / (Rc-Rt)).^2 .* ...
                 (sigTot + bgTot) + ((1 - Rt) ./ ...
                 (depolConst * (Rc - Rt))).^2 .* (sigCross + bgCross);
 
-sigTotCorVar(sigTotCorVar < 0) = 0;   % convert the negative to 0, otherwise 
-                                      % this will make the sqrt value to be 
-                                      % complex.
+sigTotCorVar(sigTotCorVar < 0) = 0;   % convert non-negative
 sigTotCorStd = sqrt(sigTotCorVar);   % TODO
 
 end

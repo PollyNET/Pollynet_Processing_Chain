@@ -197,8 +197,8 @@ if processInfo.flagEnableResultsOutput
 
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous nc files.\n', tNow());
 
@@ -251,8 +251,8 @@ if processInfo.flagEnableDataVisualization
         
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous figures.\n', tNow());
 
