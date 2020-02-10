@@ -13,13 +13,25 @@ function [] = polly_1v2_display_quasiretrieving(data, taskInfo, config)
     
 global defaults processInfo campaignInfo
 
+%% read data
+quasi_bsc_532 = data.quasi_par_beta_532_V2;
+quality_mask_532 = data.quality_mask_532_V2;
+quasi_pardepol_532 = data.quasi_parDepol_532_V2;
+height = data.height;
+time = data.mTime;
+figDPI = processInfo.figDPI;
+yLim_Quasi_Params = config.yLim_Quasi_Params;
+quasi_Par_DR_cRange_532 = config.zLim_quasi_Par_DR_532;
+quasi_beta_cRange_532 = config.zLim_quasi_beta_532;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
     file_quasi_bsc_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
     file_quasi_parDepol_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename)));
 
     %% visualization
-    load('chiljet_colormap.mat')
+    load('myjet_colormap.mat')
 
     % Quasi Bsc 532 nm 
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
@@ -49,7 +61,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     titleHandle = get(c, 'Title');
     set(titleHandle, 'string', 'Mm^{-1}*Sr^{-1}');
 
-    colormap(chiljet);
+    colormap(myjet);
 
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
@@ -84,7 +96,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     titleHandle = get(c, 'Title');
     set(titleHandle, 'string', '');
 
-    colormap(chiljet);
+    colormap(myjet);
 
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
@@ -98,16 +110,6 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
-    quasi_bsc_532 = data.quasi_par_beta_532;
-    quality_mask_532 = data.quality_mask_532;
-    quasi_pardepol_532 = data.quasi_parDepol_532;
-    height = data.height;
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    quasi_Par_DR_cRange_532 = config.quasi_Par_DR_cRange_532;
-    quasi_beta_cRange_532 = config.quasi_beta_cRange_532;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
@@ -116,7 +118,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_quasiretrieving.py');

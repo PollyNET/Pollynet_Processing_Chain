@@ -108,8 +108,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
         quasi_pardepol_532 = mat['quasi_pardepol_532'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
-        quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
-        quasi_Par_DR_cRange_532 = mat['quasi_Par_DR_cRange_532'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
+        quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][:][0]
+        quasi_Par_DR_cRange_532 = mat['quasi_Par_DR_cRange_532'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -148,9 +149,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_Quasi_Params)
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -165,7 +166,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
             instrument=pollyVersion,
             location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(
@@ -173,7 +174,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
             quasi_beta_cRange_532[1],
             5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -197,9 +198,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_Quasi_Params)
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,

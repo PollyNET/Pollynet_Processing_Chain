@@ -51,8 +51,10 @@ case 'mwr'
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
-        warning('More than two mwr products were found.\n%s\n%s\nOnly choose the first one for the calibration.\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
-        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
+        mwrResFile = {};
+        for iFile = 1:length(mwrResFileSearch)
+            mwrResFile{iFile} = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(iFile).name);
+        end
     else
         mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     end

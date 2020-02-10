@@ -67,7 +67,7 @@ PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(fl
 
 flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 
-data.flagCloudFree8km = flagCloudFree8km_FR;
+data.flagCloudFree8km = flagCloudFree8km_FR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -188,8 +188,8 @@ if processInfo.flagEnableResultsOutput
 
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous nc files.\n', tNow());
 
@@ -242,8 +242,8 @@ if processInfo.flagEnableDataVisualization
         
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous figures.\n', tNow());
 

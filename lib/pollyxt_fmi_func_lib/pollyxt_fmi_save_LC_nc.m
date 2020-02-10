@@ -219,7 +219,7 @@ netcdf.putAtt(ncID, varID_time, 'calendar', 'julian');
 netcdf.putAtt(ncID, varID_LC_klett_355, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_klett_355, 'long_name', 'Lidar constant at 355 nm with Klett method');
 netcdf.putAtt(ncID, varID_LC_klett_355, 'standard_name', 'LC_klett_355');
-netcdf.putAtt(ncID, varID_LC_klett_355, 'plot_range', config.LC355Range);
+netcdf.putAtt(ncID, varID_LC_klett_355, 'plot_range', config.yLim_LC_355);
 netcdf.putAtt(ncID, varID_LC_klett_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_klett_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_klett_355, 'comment', 'Lidar constant at 355 nm based on klett method. The constant value is aimed at 30-s profile.');
@@ -228,7 +228,7 @@ netcdf.putAtt(ncID, varID_LC_klett_355, 'comment', 'Lidar constant at 355 nm bas
 netcdf.putAtt(ncID, varID_LC_klett_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_klett_532, 'long_name', 'Lidar constant at 532 nm with Klett method');
 netcdf.putAtt(ncID, varID_LC_klett_532, 'standard_name', 'LC_klett_532');
-netcdf.putAtt(ncID, varID_LC_klett_532, 'plot_range', config.LC532Range);
+netcdf.putAtt(ncID, varID_LC_klett_532, 'plot_range', config.yLim_LC_532);
 netcdf.putAtt(ncID, varID_LC_klett_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_klett_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_klett_532, 'comment', 'Lidar constant at 532 nm based on klett method. The constant value is aimed at 30-s profile.');
@@ -237,7 +237,7 @@ netcdf.putAtt(ncID, varID_LC_klett_532, 'comment', 'Lidar constant at 532 nm bas
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'long_name', 'Lidar constant at 1064 nm with Klett method');
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'standard_name', 'LC_klett_1064');
-netcdf.putAtt(ncID, varID_LC_klett_1064, 'plot_range', config.LC1064Range);
+netcdf.putAtt(ncID, varID_LC_klett_1064, 'plot_range', config.yLim_LC_1064);
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_klett_1064, 'comment', 'Lidar constant at 1064 nm based on klett method. The constant value is aimed at 30-s profile.');
@@ -246,7 +246,7 @@ netcdf.putAtt(ncID, varID_LC_klett_1064, 'comment', 'Lidar constant at 1064 nm b
 netcdf.putAtt(ncID, varID_LC_raman_355, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_raman_355, 'long_name', 'Lidar constant at 355 nm with Raman method');
 netcdf.putAtt(ncID, varID_LC_raman_355, 'standard_name', 'LC_raman_355');
-netcdf.putAtt(ncID, varID_LC_raman_355, 'plot_range', config.LC355Range);
+netcdf.putAtt(ncID, varID_LC_raman_355, 'plot_range', config.yLim_LC_355);
 netcdf.putAtt(ncID, varID_LC_raman_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_raman_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_355, 'comment', 'Lidar constant at 355 nm based on raman method. The constant value is aimed at 30-s profile.');
@@ -255,7 +255,7 @@ netcdf.putAtt(ncID, varID_LC_raman_355, 'comment', 'Lidar constant at 355 nm bas
 netcdf.putAtt(ncID, varID_LC_raman_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_raman_532, 'long_name', 'Lidar constant at 532 nm with Raman method');
 netcdf.putAtt(ncID, varID_LC_raman_532, 'standard_name', 'LC_raman_532');
-netcdf.putAtt(ncID, varID_LC_raman_532, 'plot_range', config.LC532Range);
+netcdf.putAtt(ncID, varID_LC_raman_532, 'plot_range', config.yLim_LC_532);
 netcdf.putAtt(ncID, varID_LC_raman_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_raman_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_532, 'comment', 'Lidar constant at 532 nm based on raman method. The constant value is aimed at 30-s profile.');
@@ -264,7 +264,7 @@ netcdf.putAtt(ncID, varID_LC_raman_532, 'comment', 'Lidar constant at 532 nm bas
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'long_name', 'Lidar constant at 1064 nm with Raman method');
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'standard_name', 'LC_raman_1064');
-netcdf.putAtt(ncID, varID_LC_raman_1064, 'plot_range', config.LC1064Range);
+netcdf.putAtt(ncID, varID_LC_raman_1064, 'plot_range', config.yLim_LC_1064);
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_1064, 'comment', 'Lidar constant at 1064 nm based on raman method. The constant value is aimed at 30-s profile.');
@@ -273,7 +273,7 @@ netcdf.putAtt(ncID, varID_LC_raman_1064, 'comment', 'Lidar constant at 1064 nm b
 netcdf.putAtt(ncID, varID_LC_raman_387, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_raman_387, 'long_name', 'Lidar constant at 387 nm with Raman method');
 netcdf.putAtt(ncID, varID_LC_raman_387, 'standard_name', 'LC_raman_387');
-netcdf.putAtt(ncID, varID_LC_raman_387, 'plot_range', config.LC387Range);
+netcdf.putAtt(ncID, varID_LC_raman_387, 'plot_range', config.yLim_LC_387);
 netcdf.putAtt(ncID, varID_LC_raman_387, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_raman_387, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_387, 'comment', 'Lidar constant at 387 nm based on raman method. The constant value is aimed at 30-s profile.');
@@ -282,7 +282,7 @@ netcdf.putAtt(ncID, varID_LC_raman_387, 'comment', 'Lidar constant at 387 nm bas
 netcdf.putAtt(ncID, varID_LC_raman_607, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_raman_607, 'long_name', 'Lidar constant at 607 nm with Raman method');
 netcdf.putAtt(ncID, varID_LC_raman_607, 'standard_name', 'LC_raman_607');
-netcdf.putAtt(ncID, varID_LC_raman_607, 'plot_range', config.LC607Range);
+netcdf.putAtt(ncID, varID_LC_raman_607, 'plot_range', config.yLim_LC_607);
 netcdf.putAtt(ncID, varID_LC_raman_607, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_raman_607, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_raman_607, 'comment', 'Lidar constant at 607 nm based on raman method. The constant value is aimed at 30-s profile.');
@@ -291,7 +291,7 @@ netcdf.putAtt(ncID, varID_LC_raman_607, 'comment', 'Lidar constant at 607 nm bas
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'long_name', 'Lidar constant at 355 nm with Constrained-AOD method');
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'standard_name', 'LC_aeronet_355');
-netcdf.putAtt(ncID, varID_LC_aeronet_355, 'plot_range', config.LC355Range);
+netcdf.putAtt(ncID, varID_LC_aeronet_355, 'plot_range', config.yLim_LC_355);
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_aeronet_355, 'comment', 'Lidar constant at 355 nm based on Constrained-AOD method. The constant value is aimed at 30-s profile.');
@@ -300,7 +300,7 @@ netcdf.putAtt(ncID, varID_LC_aeronet_355, 'comment', 'Lidar constant at 355 nm b
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'long_name', 'Lidar constant at 532 nm with Constrained-AOD method');
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'standard_name', 'LC_aeronet_532');
-netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_range', config.LC532Range);
+netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_range', config.yLim_LC_532);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_aeronet_532, 'comment', 'Lidar constant at 532 nm based on Constrained-AOD method. The constant value is aimed at 30-s profile.');
@@ -309,7 +309,7 @@ netcdf.putAtt(ncID, varID_LC_aeronet_532, 'comment', 'Lidar constant at 532 nm b
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'long_name', 'Lidar constant at 1064 nm with Constrained-AOD method');
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'standard_name', 'LC_aeronet_1064');
-netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'plot_range', config.LC1064Range);
+netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'plot_range', config.yLim_LC_1064);
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'comment', 'Lidar constant at 1064 nm based on Constrained-AOD method. The constant value is aimed at 30-s profile.');
@@ -318,7 +318,7 @@ netcdf.putAtt(ncID, varID_LC_aeronet_1064, 'comment', 'Lidar constant at 1064 nm
 netcdf.putAtt(ncID, varID_LC_used_355, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_355, 'long_name', 'Actual lidar constant at 355 nm in application.');
 netcdf.putAtt(ncID, varID_LC_used_355, 'standard_name', 'LC_used_355');
-netcdf.putAtt(ncID, varID_LC_used_355, 'plot_range', config.LC355Range);
+netcdf.putAtt(ncID, varID_LC_used_355, 'plot_range', config.yLim_LC_355);
 netcdf.putAtt(ncID, varID_LC_used_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_used_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_355, 'comment', 'The constant value is aimed at 30-s profile.');
@@ -327,7 +327,7 @@ netcdf.putAtt(ncID, varID_LC_used_355, 'comment', 'The constant value is aimed a
 netcdf.putAtt(ncID, varID_LC_used_532, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_532, 'long_name', 'Actual lidar constant at 532 nm in application.');
 netcdf.putAtt(ncID, varID_LC_used_532, 'standard_name', 'LC_used_532');
-netcdf.putAtt(ncID, varID_LC_used_532, 'plot_range', config.LC532Range);
+netcdf.putAtt(ncID, varID_LC_used_532, 'plot_range', config.yLim_LC_532);
 netcdf.putAtt(ncID, varID_LC_used_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_used_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_532, 'comment', 'The constant value is aimed at 30-s profile.');
@@ -336,7 +336,7 @@ netcdf.putAtt(ncID, varID_LC_used_532, 'comment', 'The constant value is aimed a
 netcdf.putAtt(ncID, varID_LC_used_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_1064, 'long_name', 'Actual lidar constant at 1064 nm in application.');
 netcdf.putAtt(ncID, varID_LC_used_1064, 'standard_name', 'LC_used_1064');
-netcdf.putAtt(ncID, varID_LC_used_1064, 'plot_range', config.LC1064Range);
+netcdf.putAtt(ncID, varID_LC_used_1064, 'plot_range', config.yLim_LC_1064);
 netcdf.putAtt(ncID, varID_LC_used_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_used_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_1064, 'comment', 'The constant value is aimed at 30-s profile.');
@@ -345,7 +345,7 @@ netcdf.putAtt(ncID, varID_LC_used_1064, 'comment', 'The constant value is aimed 
 netcdf.putAtt(ncID, varID_LC_used_387, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_387, 'long_name', 'Actual lidar constant at 387 nm in application.');
 netcdf.putAtt(ncID, varID_LC_used_387, 'standard_name', 'LC_used_387');
-netcdf.putAtt(ncID, varID_LC_used_387, 'plot_range', config.LC387Range);
+netcdf.putAtt(ncID, varID_LC_used_387, 'plot_range', config.yLim_LC_387);
 netcdf.putAtt(ncID, varID_LC_used_387, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_used_387, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_387, 'comment', 'The constant value is aimed at 30-s profile.');
@@ -354,7 +354,7 @@ netcdf.putAtt(ncID, varID_LC_used_387, 'comment', 'The constant value is aimed a
 netcdf.putAtt(ncID, varID_LC_used_607, 'unit', '');
 netcdf.putAtt(ncID, varID_LC_used_607, 'long_name', 'Actual lidar constant at 607 nm in application.');
 netcdf.putAtt(ncID, varID_LC_used_607, 'standard_name', 'LC_used_607');
-netcdf.putAtt(ncID, varID_LC_used_607, 'plot_range', config.LC607Range);
+netcdf.putAtt(ncID, varID_LC_used_607, 'plot_range', config.yLim_LC_607);
 netcdf.putAtt(ncID, varID_LC_used_607, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_LC_used_607, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_LC_used_607, 'comment', 'The constant value is aimed at 30-s profile.');
