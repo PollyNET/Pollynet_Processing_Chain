@@ -113,11 +113,9 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
             time = mat['time'][0][:]
         else:
             time = np.array([])
-        if mat['att_beta_cRange_532'].size:
-            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
-        else:
-            att_beta_cRange_532 = np.array([])
+        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
         flagLC532 = mat['flagLC532'][:][0]
+        yLim_att_beta = mat['yLim_att_beta'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -153,9 +151,9 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -172,14 +170,14 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         '{wave}nm Far-Range from {instrument} at {location}'.format(
             wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
-    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
 
     fig.text(
         0.05, 0.04,

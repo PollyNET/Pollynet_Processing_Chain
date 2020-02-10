@@ -71,8 +71,8 @@ flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4F
 flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
 
-data.flagCloudFree2km = flagCloudFree2km;
-data.flagCloudFree8km = flagCloudFree8km;
+data.flagCloudFree2km = flagCloudFree2km & (~ data.shutterOnMask);
+data.flagCloudFree8km = flagCloudFree8km & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -200,20 +200,20 @@ fprintf('[%s] Finish.\n', tNow());
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
-%     fprintf('\n[%s] Start to save calibration results.\n', tNow());
-% 
-%     %% save depol cali results
-%     arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
-%     arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
-% 
-%     %% save water vapor calibration results
-%     arielle_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
-% 
-%     %% save lidar calibration results
-%     arielle_save_LC_nc(data, taskInfo, config);
-%     arielle_save_LC_txt(data, taskInfo, config);
-%     
-%     fprintf('[%s] Finish.\n', tNow());
+    fprintf('\n[%s] Start to save calibration results.\n', tNow());
+
+    %% save depol cali results
+    arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
+    arielle_save_depolcaliconst(depCaliAttri.depol_cal_fac_355, depCaliAttri.depol_cal_fac_std_355, depCaliAttri.depol_cal_time_355, taskInfo.dataFilename, data.depol_cal_fac_355, data.depol_cal_fac_std_355, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355));
+
+    %% save water vapor calibration results
+    arielle_save_wvconst(wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, taskInfo.dataFilename, data.wvconstUsed, data.wvconstUsedStd, fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile));
+
+    %% save lidar calibration results
+    arielle_save_LC_nc(data, taskInfo, config);
+    arielle_save_LC_txt(data, taskInfo, config);
+    
+    fprintf('[%s] Finish.\n', tNow());
 
 end
 
@@ -222,8 +222,8 @@ if processInfo.flagEnableResultsOutput
 
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous nc files.\n', tNow());
 
@@ -242,7 +242,8 @@ if processInfo.flagEnableResultsOutput
     end
 
     fprintf('\n[%s] Start to save retrieving results.\n', tNow());
-    %% save overlap results
+    
+     %% save overlap results
     saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
     arielle_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
@@ -279,8 +280,8 @@ if processInfo.flagEnableDataVisualization
         
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
-        % This is only necessary when you run the code on the live server, 
-        % where the polly data keep being updated every now and then. If the 
+        % This is only necessary when you run the code on the server, 
+        % where the polly data was updated in time. If the 
         % previous outputs were not cleared, it will piled up to a huge amount.
         fprintf('\n[%s] Start to delete previous figures.\n', tNow());
 

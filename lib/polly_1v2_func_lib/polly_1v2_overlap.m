@@ -98,6 +98,8 @@ end
 %% interpolate the default overlap
 if ~ isempty(overlap532Default)
     overlap532DefaultInterp = interp1(height532, overlap532Default, data.height, 'linear');
+else
+    overlap532DefaultInterp = NaN(size(data.height));
 end
 
 %% saving the results

@@ -24,8 +24,9 @@ flagCalibrated = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
 flagCalibrated = flagCalibrated{1};
 height = data.height;
 time = data.mTime;
+yLim_WV_RH = config.yLim_WV_RH;
 figDPI = processInfo.figDPI;
-WVMRColorRange = config.WVMRColorRange;
+xLim_Profi_WV_RH = config.xLim_Profi_WV_RH;
 meteorSource = data.quasiAttri.meteorSource;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
@@ -46,14 +47,14 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     WVMR(squeeze(data.lowSNRMask(flagChannel387, :, :) | data.lowSNRMask(flagChannel407, :, :))) = NaN;
     p1 = pcolor(data.mTime, data.height, WVMR); hold on;
     set(p1, 'EdgeColor', 'none');
-    caxis(WVMRColorRange);
+    caxis(xLim_Profi_WV_RH);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 8000]);
+    ylim(yLim_WV_RH);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Water vapor mixing ratio from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 6);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(yLim_WV_RH(1), yLim_WV_RH(2), 6), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s\nMeteor Data: %s',  datestr(data.mTime(1), 'yyyy-mm-dd'), meteorSource), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version: %s\nCalibration: %s', processInfo.programVersion, flagCalibrated), 'Units', 'Normal', 'FontSize', 6);
@@ -82,12 +83,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 100]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 8000]);
+    ylim(yLim_WV_RH);
     xlabel('UTC', 'FontSize', 6);
     ylabel('Height (m)', 'FontSize', 6);
     title(sprintf('Relative humidity from %s at %s', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:1000:8000, 'yminortick', 'on', 'FontSize', 5);
+    set(gca, 'ytick', linspace(xLim_Profi_WV_RH(1), xLim_Profi_WV_RH(2), 6), 'yminortick', 'on', 'FontSize', 5);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s\nMeteor Source: %s', datestr(data.mTime(1), 'yyyy-mm-dd'), meteorSource), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version: %s\nCalibration: %s', processInfo.programVersion, flagCalibrated), 'Units', 'Normal', 'FontSize', 6);
@@ -119,7 +120,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
     
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'WVMRColorRange', '-v6');
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_noa_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_noa_display_WV.py');

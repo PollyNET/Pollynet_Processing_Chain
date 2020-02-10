@@ -214,6 +214,14 @@ def pollyxt_fmi_display_longterm_cali(tmpFile, saveFolder):
             yLim1064 = mat['yLim1064'][0][:]
         else:
             yLim1064 = np.array([])
+        if mat['yLim_LC_ratio_355_387'].size:
+            yLim_LC_ratio_355_387 = mat['yLim_LC_ratio_355_387'][0][:]
+        else:
+            yLim_LC_ratio_355_387 = np.array([])
+        if mat['yLim_LC_ratio_532_607'].size:
+            yLim_LC_ratio_532_607 = mat['yLim_LC_ratio_532_607'][0][:]
+        else:
+            yLim_LC_ratio_532_607 = np.array([])
         if mat['wvLim'].size:
             wvLim = mat['wvLim'][0][:]
         else:
@@ -444,7 +452,7 @@ def pollyxt_fmi_display_longterm_cali(tmpFile, saveFolder):
 
     ax4.set_ylabel('Ratio 355/387')
     ax4.grid(False)
-    ax4.set_ylim([0, 1])
+    ax4.set_ylim(yLim_LC_ratio_355_387.tolist())
     ax4.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # transmission ratio at 532/607 nm
@@ -483,7 +491,7 @@ def pollyxt_fmi_display_longterm_cali(tmpFile, saveFolder):
 
     ax5.set_ylabel('Ratio 532/607')
     ax5.grid(False)
-    ax5.set_ylim([0, 1])
+    ax5.set_ylim(yLim_LC_ratio_532_607.tolist())
     ax5.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # wv calibration constant
@@ -592,8 +600,9 @@ def pollyxt_fmi_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_long_term_cali_results.png'.format(
-                dataFilename=dataTime.strftime('%Y%m%d')
+            '{pollyType}_{date}_long_term_cali_results.png'.format(
+                pollyType=pollyVersion,
+                date=dataTime.strftime('%Y%m%d')
                 )
             ),
         dpi=figDPI

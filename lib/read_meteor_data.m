@@ -23,7 +23,11 @@ function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, ...
 %               doc/radiosonde-station-list.txt. 
 %               You can update the list with using download_radiosonde_list.m
 %           radiosondeFolder: str
-%               the folder of the sonding files. 
+%               the folder of the sonding files.
+%           radiosondeType: integer
+%               file type of the radiosonde file.
+%               - 1: radiosonde file for MOSAiC (default)
+%               - 2: radiosonde file for MUA
 %   Outputs:
 %       alt: array
 %           height above the mean sea surface. [m]
@@ -95,9 +99,12 @@ case 'radiosonde'
         warning(['"radiosondeFolder" in the polly config file needs ' ...
                  'to be set to search the radiosonde file.']);
     else
-        sondeFile = radiosonde_search(meteorAttri.radiosondeFolder, measTime);
+        if ~ isfield(meteorAttri, 'radiosondeType')
+            meteorAttri.radiosondeType = 1;
+        end
+        sondeFile = radiosonde_search(meteorAttri.radiosondeFolder, measTime, meteorAttri.radiosondeType);
         [thisAlt, thisTemp, thisPres, thisRelh, datetime] = ...
-            read_radiosonde(sondeFile, 1, -999);
+            read_radiosonde(sondeFile, meteorAttri.radiosondeType);
        
 		if ~ isempty(thisAlt) 
 			% determine whether retrieve the radiosonde data successfully

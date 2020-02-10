@@ -13,12 +13,24 @@ function [] = polly_1v2_display_saturation(data, taskInfo, config)
 
 global processInfo defaults campaignInfo
 
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel532NR = flagChannel532;
+
+time = data.mTime;
+figDPI = processInfo.figDPI;
+height = data.height;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
+SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
+SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
+SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
+yLim_FR_RCS = config.yLim_FR_RCS;
+yLim_NR_RCS = config.yLim_NR_RCS;
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 
     fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.png', rmext(taskInfo.dataFilename)));
     fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.png', rmext(taskInfo.dataFilename)));
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel532NR = config.isFR & config.is532nm & config.isTot;
 
     %% visualization
     load('status_colormap.mat')
@@ -28,18 +40,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     subplot('Position', [0.1, 0.15, 0.7, 0.75]);   % mainframe
 
-    SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
-    SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
     p1 = pcolor(data.mTime, data.height, SAT_FR_532); hold on;
     set(p1, 'EdgeColor', 'none');
     caxis([0, 2]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 15000]);
+    ylim(yLim_FR_RCS);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Signal Status at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:2500:15000, 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -72,12 +82,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 2]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim([0, 3000]);
+    ylim(yLim_NR_RCS);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Signal Status at %snm %s for %s at %s', '532', 'Near-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', 0:500:3000, 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_NR_RCS(1), yLim_NR_RCS(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -112,20 +122,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         mkdir(tmpFolder);
     end
 
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel532NR = flagChannel532;
-
-    time = data.mTime;
-    figDPI = processInfo.figDPI;
-    height = data.height;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
-    SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
-    SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
-    SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
-
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'yLim_FR_RCS', 'yLim_NR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_saturation.py');

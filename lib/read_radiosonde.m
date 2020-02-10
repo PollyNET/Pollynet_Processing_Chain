@@ -1,14 +1,15 @@
 function [alt, temp, pres, relh, datetime] = read_radiosonde(file, ...
-    readMode, missingValue)
+    fileType, missingValue)
 %READ_RADIOSONDE read the radiosonde data from netCDF file.
 %   Example:
-%       [alt, temp, pres, relh, datetime] = read_radiosonde(file, readMode)
+%       [alt, temp, pres, relh, datetime] = read_radiosonde(file, fileType)
 %   Inputs:
 %       file: str
 %           filename of radiosonde data file. 
-%       readMode: integer
-%           reading mode for parsing the file. Only accept 1 for standard nc 
-%           format.
+%       fileType: integer
+%           file type of the radiosonde file.
+%           - 1: radiosonde file for MOSAiC (default)
+%           - 2: radiosonde file for MUA
 %       missingValue: double
 %           missing value for filling the empty bins. These values need to be 
 %           replaced with NaN to be compatible with the processing program.
@@ -55,6 +56,7 @@ function [alt, temp, pres, relh, datetime] = read_radiosonde(file, ...
 %   History:
 %       2019-07-19. First Edition by Zhenping
 %		2019-07-28. Add the criteria for empty file.
+%       2019-12-18. Add `fileType` to specify the type of the radiosonde file.
 %   Contact:
 %       zhenping@tropos.de
 
@@ -64,17 +66,22 @@ relh = [];
 alt = [];
 datetime = [];
 
-if ~ exist('readMode', 'var')
-    readMode = 1;
+if ~ exist('fileType', 'var')
+    fileType = 1;
+end
+
+if ~ exist('missingValue', 'var')
+    missingValue = -999;
 end
 
 if exist(file, 'file') ~= 2
-	warning('radiosonde file does not exist. Please check it.\n%s', file);
-	return;
+    warning('radiosonde file does not exist. Please check it.\n%s', file);
+    return;
 end
 
-switch readMode
-case 1
+switch fileType
+case 1   % MOSAiC
+
     thisFilename = basename(file);
     datetime = datenum(thisFilename(12:26), 'yyyymmdd_HHMMSS');
     
@@ -87,6 +94,19 @@ case 1
     temp(abs(temp - missingValue) < 1e-5) = NaN;
     pres(abs(pres - missingValue) < 1e-5) = NaN;
     relh(abs(relh - missingValue) < 1e-5) = NaN;
+
+case 2   % MUA radiosonde standard file
+
+    thisFilename = basename(file);
+    datetime = datenum(thisFilename(end-15:end-3), 'yyyymmdd_HHMMSS');
+    
+    alt = ncread(file, 'altitude'); 
+    temp = ncread(file, 'temperature');
+    pres = ncread(file, 'pressure'); 
+    relh = ncread(file, 'relative_humidity');
+
+otherwise
+    error('Unknown fileType %d', fileType);
 end
 
 end

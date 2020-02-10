@@ -63,7 +63,7 @@ if hTopIndx <= hBaseIndx
     return;
 end
 
-% create cell array for storing the point
+% create cell array for storing the points
 signalTemp = smooth(signal(hBaseIndx:hTopIndx), window_size, 'moving');
 heightTemp = height(hBaseIndx:hTopIndx);
 posIndx = find(signalTemp > 0);
@@ -83,7 +83,6 @@ end
 sigIndx = DP_aglorithm(pointList, epsilon, maxHThick);
 
 sigIndx = posIndx(sigIndx) + hBaseIndx - 1;
-
 
 end
 
@@ -131,7 +130,9 @@ end
 
 end
 
+
 function [ d ] = my_dist(pointM, pointS, pointE)
+%calculate the distance between pointM and the line connecting pointS and pointE
     d = abs(pointM(2) - pointS(2) + (pointS(2) - pointE(2)) / ...
             (pointS(1) - pointE(1))*(pointS(1) - pointM(1)));
 end
