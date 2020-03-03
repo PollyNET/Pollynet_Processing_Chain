@@ -92,11 +92,7 @@ reportStr{end + 1} = sprintf('Lidar calibration status at 1064 nm: %s', config.L
 %% write the pic info to done list file
 % TODO:
 %   the 'active' status should be obtained from the database
-if (now <= campaignInfo.endTime) && (now >= campaignInfo.startTime)
-    active = 1;
-else
-    active = 0;
-end
+active = 1;
 
 flag355FR = config.isFR & config.is355nm & config.isTot;
 flag532FR = config.isFR & config.is532nm & config.isTot;
