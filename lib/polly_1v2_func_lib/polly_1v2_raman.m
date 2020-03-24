@@ -33,7 +33,7 @@ aerBsc532_RR = [];
 aerExt532_RR = [];
 LR532_RR = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 
