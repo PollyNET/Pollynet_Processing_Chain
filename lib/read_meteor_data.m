@@ -96,7 +96,7 @@ case 'websonde'
 case 'radiosonde'
     % define your read function here for reading collocated radiosonde data
     if ~ isfield(meteorAttri, 'radiosondeFolder')
-        warning(['"radiosondeFolder" in the polly config file needs ' ...
+        warning(['"radiosondeFolder" in the config file needs ' ...
                  'to be set to search the radiosonde file.']);
     else
         if ~ isfield(meteorAttri, 'radiosondeType')
