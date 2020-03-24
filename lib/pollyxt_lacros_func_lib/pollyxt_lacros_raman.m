@@ -42,7 +42,7 @@ LR355_raman = [];
 LR532_raman = [];
 LR1064_raman = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 
