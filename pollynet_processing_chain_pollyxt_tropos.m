@@ -66,18 +66,18 @@ flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 if any(flagChannel532FR)
     PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
+    flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 else
-    PCR532FR = NaN(size(data.signal, 2), size(data.signal, 3));
+    flagCloudFree8km_FR = true(size(data.mTime));
 end
 
 if any(flagChannel532NR)
     PCR532NR = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / data.hRes;
+    flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud_NR, [config.heightFullOverlap(flagChannel532NR), 3000]);
 else
-    PCR532NR = NaN(size(data.signal, 2), size(data.signal, 3));
+    flagCloudFree2km = true(size(data.mTime));
 end
-flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud_NR, [config.heightFullOverlap(flagChannel532NR), 3000]);
 
-flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
 flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
 
 data.flagCloudFree2km = flagCloudFree2km & (~ data.shutterOnMask);
