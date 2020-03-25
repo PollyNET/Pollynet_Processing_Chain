@@ -38,7 +38,7 @@ LR532_NR_raman = [];
 refBeta355_NR_raman = [];
 refBeta532_NR_raman = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 

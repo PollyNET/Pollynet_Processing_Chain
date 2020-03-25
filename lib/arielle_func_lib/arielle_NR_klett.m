@@ -32,7 +32,7 @@ aerExt532_NR_klett = [];
 refBeta_NR_355_klett = [];
 refBeta_NR_532_klett = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 

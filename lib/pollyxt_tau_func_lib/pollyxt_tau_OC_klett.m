@@ -32,7 +32,7 @@ aerExt355_klett = [];
 aerExt532_klett = [];
 aerExt1064_klett = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 
