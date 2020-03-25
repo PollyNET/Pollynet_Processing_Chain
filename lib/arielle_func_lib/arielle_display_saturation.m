@@ -30,10 +30,18 @@ SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
 SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
 SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
 SAT_FR_1064(data.lowSNRMask(flagChannel1064, :, :)) = 2;
-SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
-SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
-SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
-SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
+if any(flagChannel532NR)
+    SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
+    SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
+else
+    SAT_NR_532 = NaN(size(data.signal, 2), size(data.signal, 3));
+end
+if any(flagChannel355NR)
+    SAT_NR_355 = double(squeeze(data.flagSaturation(flagChannel355NR, :, :)));
+    SAT_NR_355(data.lowSNRMask(flagChannel355NR, :, :)) = 2;
+else
+    SAT_NR_355 = NaN(size(data.signal, 2), size(data.signal, 3));
+end
 SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
 SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
 yLim_FR_RCS = config.yLim_FR_RCS;
