@@ -21,7 +21,7 @@ function [aerBsc532_klett, aerExt532_klett] = polly_first_klett(data, config)
 aerBsc532_klett = [];
 aerExt532_klett = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 
