@@ -31,19 +31,39 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     startIndx = data.cloudFreeGroups(iGroup, 1);
     endIndx = data.cloudFreeGroups(iGroup, 2);
-    sig355 = squeeze(mean(data.signal(flagChannel355, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355, startIndx:endIndx), 2) * 150 / data.hRes;
+    if any(flagChannel355)
+        sig355 = squeeze(mean(data.signal(flagChannel355, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355, startIndx:endIndx), 2) * 150 / data.hRes;
+    else
+        sig355 = NaN(1, size(data.signal, 2));
+    end
     rcs355 = sig355 .* data.height.^2;
     rcs355 = transpose(smooth(rcs355, smoothWin_355));
-    sig532 = squeeze(mean(data.signal(flagChannel532, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
+    if any(flagChannel532)
+        sig532 = squeeze(mean(data.signal(flagChannel532, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
+    else
+        sig532 = NaN(1, size(data.signal, 2));
+    end
     rcs532 = sig532 .* data.height.^2;
     rcs532 = transpose(smooth(rcs532, smoothWin_532));
-    sig1064 = squeeze(mean(data.signal(flagChannel1064, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;
+    if any(flagChannel1064)
+        sig1064 = squeeze(mean(data.signal(flagChannel1064, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel1064, startIndx:endIndx), 2) * 150 / data.hRes;
+    else
+        sig1064 = NaN(1, size(data.signal, 2));
+    end
     rcs1064 = sig1064 .* data.height.^2;
     rcs1064 = transpose(smooth(rcs1064, smoothWin_1064));
-    sig355_NR = squeeze(mean(data.signal(flagChannel355_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+    if any(flagChannel355_NR)
+        sig355_NR = squeeze(mean(data.signal(flagChannel355_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel355_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+    else
+        sig355_NR = NaN(1, size(data.signal, 2));
+    end
     rcs355_NR = sig355_NR .* data.height.^2;
     rcs355_NR = transpose(smooth(rcs355_NR, smoothWin_NR_355));
-    sig532_NR = squeeze(mean(data.signal(flagChannel532_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+    if any(flagChannel532_NR)
+        sig532_NR = squeeze(mean(data.signal(flagChannel532_NR, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532_NR, startIndx:endIndx), 2) * 150 / data.hRes;
+    else
+        sig532_NR = NaN(1, size(data.signal, 2));
+    end
     rcs532_NR = sig532_NR .* data.height.^2;
     rcs532_NR = transpose(smooth(rcs532_NR, smoothWin_NR_532));
 

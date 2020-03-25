@@ -1,7 +1,7 @@
 function [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = pollyxt_tropos_NR_raman(data, config)
-%pollyxt_lacros_NR_raman Retrieve aerosol optical properties for near-range channels with raman method
+%pollyxt_tropos_NR_raman Retrieve aerosol optical properties for near-range channels with raman method
 %   Example:
-%       [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = pollyxt_lacros_NR_raman(data, config)
+%       [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = pollyxt_tropos_NR_raman(data, config)
 %   Inputs:
 %       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md
