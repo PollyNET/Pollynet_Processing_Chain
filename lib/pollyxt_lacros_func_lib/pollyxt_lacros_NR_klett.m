@@ -42,9 +42,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisAerExt355_NR_klett = NaN(size(data.height));
     flagRefSNRLow_355 = false;
     refBeta355 = NaN;
+    flagChannel355_NR = config.isNR & config.isTot & config.is355nm;
 
-    if ~ isnan(data.refHIndx355(iGroup, 1))
-        flagChannel355_NR = config.isNR & config.isTot & config.is355nm;
+    if (~ isnan(data.refHIndx355(iGroup, 1))) && (any(flagChannel355_NR))
         sig355 = squeeze(sum(data.signal(flagChannel355_NR, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         bg355 = squeeze(sum(data.bg(flagChannel355_NR, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         refH355 = config.refH_NR_355;
@@ -89,9 +89,9 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisAerExt532_NR_klett = NaN(size(data.height));
     flagRefSNRLow_532 = false;
     refBeta532 = NaN;
+    flagChannel532_NR = config.isNR & config.isTot & config.is532nm;
 
-    if ~ isnan(data.refHIndx532(iGroup, 1))
-        flagChannel532_NR = config.isNR & config.isTot & config.is532nm;
+    if (~ isnan(data.refHIndx532(iGroup, 1))) && (any(flagChannel532_NR))
         sig532 = squeeze(sum(data.signal(flagChannel532_NR, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         bg532 = squeeze(sum(data.bg(flagChannel532_NR, :, data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2)), 3));
         refH532 = config.refH_NR_532;
