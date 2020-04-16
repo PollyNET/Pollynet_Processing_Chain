@@ -3,14 +3,7 @@
 %   2019-08-14 Add the comments by Zhenping Yin
 
 includePath = fullfile(fileparts(fileparts(mfilename('fullpath'))), 'include');
-addpath(includePath);
-
-%% find subdirectories in lib 
-subdirs = listdir(includePath);
-
-for iSubdir = 1:length(subdirs)
-    addpath(subdirs{iSubdir});
-end
+addpath(genpath(includePath));
 
 %% add the path of netcdf toolbox
 if exist('netcdf.m', 'file') ~= 2
