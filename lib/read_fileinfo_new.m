@@ -1,23 +1,29 @@
 function [fileinfo_new] = read_fileinfo_new(file)
 %READ_FILEINFO_NEW read the new file info for activating the target 
 %classification processing
-%   Example:
-%       [fileinfo_new] = read_fileinfo_new(file)
-%   Inputs:
-%       file: char
-%           filename of the fileinfo_new which locates in todo_filelist
-%   Outputs:
-%       fileinfo_new: struct
-%           todoPath: cell
-%           dataPath: cell
-%           dataFilename: cell
-%           zipFile: cell
-%           dataSize: array
-%           pollyVersion: cell
-%   History:
-%       2018-12-15. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [fileinfo_new] = read_fileinfo_new(file)
+%Inputs:
+%   file: char
+%       filename of the fileinfo_new which locates in todo_filelist
+%Outputs:
+%   fileinfo_new: struct
+%       todoPath: cell
+%           path of the todo_filelist
+%       dataPath: cell
+%           directory to the respective polly lidar data
+%       dataFilename: cell
+%           filename of the polly data
+%       zipFile: cell
+%           filename of the zipped polly data
+%       dataSize: array
+%           file size of the zipped polly data
+%       pollyVersion: cell
+%           polly lidar label. e.g., 'POLLYXT_TROPOS'
+%History:
+%   2018-12-15. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 fileinfo_new = struct();
 fileinfo_new.todoPath = {};

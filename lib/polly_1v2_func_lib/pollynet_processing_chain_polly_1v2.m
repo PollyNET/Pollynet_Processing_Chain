@@ -1,16 +1,30 @@
 function [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_polly_1v2 processing the data from polly_1v2
-%   Example:
-%       [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
-%   Inputs:
-%       taskInfo, config
-%   Outputs:
-%       report: cell array
-%           information about each figure.
-%   History:
-%       2018-12-17. First edition by Zhenping   
-%   Contact:
-%       zhenping@tropos.de
+%POLLYNET_PROCESSING_CHAIN_POLLY_1V2 processing the data from polly_1v2
+%Example:
+%    [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
+%Inputs:
+%   fileinfo_new: struct
+%       todoPath: cell
+%           path of the todo_filelist
+%       dataPath: cell
+%           directory to the respective polly lidar data
+%       dataFilename: cell
+%           filename of the polly data
+%       zipFile: cell
+%           filename of the zipped polly data
+%       dataSize: array
+%           file size of the zipped polly data
+%       pollyVersion: cell
+%           polly lidar label. e.g., 'POLLYXT_TROPOS'
+%   config: struct
+%       polly processing configurations.
+%Outputs:
+%    report: cell array
+%        information about each figure.
+%History:
+%    2018-12-17. First edition by Zhenping   
+%Contact:
+%    zhenping@tropos.de
 
 report = cell(0);
 global processInfo campaignInfo defaults
@@ -29,7 +43,12 @@ end
 
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
-data = polly_read_rawdata(fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename), config, processInfo.flagDeleteData);
+data = polly_read_rawdata(fullfile(taskInfo.todoPath, ...
+                                   taskInfo.dataPath, ...
+                                   taskInfo.dataFilename), ...
+                'flagCorrectFalseMShots', config.flagCorrectFalseMShots, ...
+                'flagDelete', processInfo.flagDelete, ...
+                'dataFileFormat', config.dataFileFormat);
 if isempty(data.rawSignal)
     warning('No measurement data in %s for %s.\n', taskInfo.dataFilename, campaignInfo.name);
     return;
