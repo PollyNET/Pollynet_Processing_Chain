@@ -187,20 +187,24 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     fprintf('\n[%s] Start to load the polly defaults.\n', tNow());
     defaults = eval(sprintf('%s();', pollyProcessInfo.pollyLoadDefaultsFunc));
     if ~ isstruct(defaults)
-        fprintf('Failure in running %s for %s.\n', pollyProcessInfo.pollyLoadDefaultsFunc, campaignInfo.name);
+        fprintf('Failure in running %s for %s.\n', ...
+                pollyProcessInfo.pollyLoadDefaultsFunc, campaignInfo.name);
         continue;
     end
     fprintf('[%s] Finish.\n', tNow());
 
     %% realtime process
-    fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', tNow(), campaignInfo.name, fullfile(taskInfo.todoPath, taskInfo.dataPath, taskInfo.dataFilename));
-    [reportTmp] = eval(sprintf('%s(taskInfo, pollyConfig);', pollyProcessInfo.pollyProcessFunc));
+    fprintf('\n[%s] Start to process the %s data.\ndata source: %s\n', ...
+            tNow(), campaignInfo.name, ...
+            fullfile(taskInfo.todoPath, taskInfo.dataPath, ...
+                     taskInfo.dataFilename));
+    [reportTmp] = eval(sprintf('%s(taskInfo, pollyConfig);', ...
+                       pollyProcessInfo.pollyProcessFunc));
     report = cat(2, report, reportTmp);
     fprintf('[%s] Finish.\n', tNow());
 
     %% cleanup
     diaryoff;
-    
 end
 
 %% cleanup
@@ -214,8 +218,12 @@ fprintf('%%------------------------------------------------------%%\n');
 
 %% publish the report
 if config.flagSendNotificationEmail
-    % publish_report(report, config);
-    system(sprintf('%s %s %s %s "%s" "%s" "%s"', fullfile(config.pyBinDir, 'python'), fullfile(projectDir, 'lib', 'sendmail_msg.py'), 'yzp528172875@gmail.com', 'zhenping@tropos.de', sprintf('[%s] PollyNET Processing Report', tNow()), 'Have an overview', config.fileinfo_new));
+    system(sprintf('%s %s %s %s "%s" "%s" "%s"', ...
+           fullfile(config.pyBinDir, 'python'), ...
+           fullfile(projectDir, 'lib', 'sendmail_msg.py'), ...
+           'yzp528172875@gmail.com', 'zhenping@tropos.de', ...
+           sprintf('[%s] PollyNET Processing Report', tNow()), ...
+           'Have an overview', config.fileinfo_new));
 end
 
 % enable the usage of matlab toolbox
