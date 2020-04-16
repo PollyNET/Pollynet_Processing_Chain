@@ -1,33 +1,42 @@
 function [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = arielle_NR_raman(data, config)
-%arielle_NR_raman Retrieve aerosol optical properties for near-range channels with raman method
-%   Example:
-%       [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = arielle_NR_raman(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc355_NR_raman: matrix
-%           aerosol backscatter coefficient at 355 nm with raman method. [m^{-1}*sr^{-1}] 
-%       aerBsc532_NR_raman: matrix
-%           aerosol backscatter coefficient at 532 nm with raman method. [m^{-1}*sr^{-1}] 
-%       aerExt355_NR_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
-%       aerExt532_NR_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
-%       LR355_NR_raman: matrix
-%           lidar ratio at 355 nm. [sr]
-%       LR532_NR_raman: matrix
-%           lidar ratio at 532 nm. [sr] 
-%       refBeta355_NR_raman: array
-%           reference value used for retrieving the Near-range backscatter at 355 nm with Raman method. [m^{-1}*sr^{-1}]
-%       refBeta532_NR_raman: array
-%           reference value used for retrieving the Near-range backscatter at 532 nm with Raman method. [m^{-1}*sr^{-1}]
-%   History:
-%       2019-08-06. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%arielle_NR_raman Retrieve aerosol optical properties for near-range channels
+%with raman method
+%Example:
+%   [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman,
+%    aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman,
+%    refBeta532_NR_raman] = arielle_NR_raman(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc355_NR_raman: matrix
+%       aerosol backscatter coefficient at 355 nm with raman method.
+%       [m^{-1}*sr^{-1}] 
+%   aerBsc532_NR_raman: matrix
+%       aerosol backscatter coefficient at 532 nm with raman method.
+%       [m^{-1}*sr^{-1}] 
+%   aerExt355_NR_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
+%   aerExt532_NR_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
+%   LR355_NR_raman: matrix
+%       lidar ratio at 355 nm. [sr]
+%   LR532_NR_raman: matrix
+%       lidar ratio at 532 nm. [sr] 
+%   refBeta355_NR_raman: array
+%       reference value used for retrieving the Near-range backscatter
+%       at 355 nm with Raman method. [m^{-1}*sr^{-1}]
+%   refBeta532_NR_raman: array
+%       reference value used for retrieving the Near-range backscatter
+%       at 532 nm with Raman method. [m^{-1}*sr^{-1}]
+%History:
+%   2019-08-06. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 aerBsc355_NR_raman = [];
 aerBsc532_NR_raman = [];
@@ -49,7 +58,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisLR355_NR_raman = NaN(size(data.height));
     refBeta355 = NaN;
     flagRefSNRLow_355 = false;
-    
+
     flagChannel355_NR = config.isNR & config.isTot & config.is355nm;
     flagChannel387_NR = config.isNR & config.is387nm;
 
@@ -99,7 +108,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         if (~ flagRefSNRLow_355) && (~ isnan(refBeta355))
             tmpAerExt355_NR_raman = thisAerExt355_NR_raman;
             tmpAerExt355_NR_raman(1:hBaseIndx355) = tmpAerExt355_NR_raman(hBaseIndx355);
-            [thisAerBsc355_NR_raman, thisLR355_NR_raman] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_NR_raman, config.angstrexp_NR, molExt355, molBsc355, refH355, 355, refBeta355, config.smoothWin_raman_NR_355, true);
+            [thisAerBsc355_NR_raman, ~] = polly_raman_bsc(data.distance0, sig355, sig387, tmpAerExt355_NR_raman, config.angstrexp_NR, molExt355, molBsc355, refH355, 355, refBeta355, config.smoothWin_raman_NR_355, true);
             thisLR355_NR_raman = thisAerExt355_NR_raman ./ thisAerBsc355_NR_raman;
             % TODO: uncertainty analysis
         end
@@ -109,7 +118,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     aerBsc355_NR_raman = cat(1, aerBsc355_NR_raman, thisAerBsc355_NR_raman);
     aerExt355_NR_raman = cat(1, aerExt355_NR_raman, thisAerExt355_NR_raman);
     LR355_NR_raman = cat(1, LR355_NR_raman, thisLR355_NR_raman);
-    refBeta355_NR_raman = [refBeta355_NR_raman, refBeta355];
+    refBeta355_NR_raman = cat(2, refBeta355_NR_raman, refBeta355);
 end
 
 %% 532 nm
@@ -164,11 +173,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
         % retrieve the reference value from the far-range retrieving results
         refBeta532 = mean(data.aerBsc532_raman(iGroup, refHBottomIndx532:refHTopIndx532), 2);
-        
+
         if (~ flagRefSNRLow_532) && (~ isnan(refBeta532))
             tmpAerExt532_NR_raman = thisAerExt532_NR_raman;
             tmpAerExt532_NR_raman(1:hBaseIndx532) = tmpAerExt532_NR_raman(hBaseIndx532);
-            [thisAerBsc532_NR_raman, thisLR532_NR_raman] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_NR_raman, config.angstrexp_NR, molExt532, molBsc532, refH532, 532, refBeta532, config.smoothWin_raman_NR_532, true);
+            [thisAerBsc532_NR_raman, ~] = polly_raman_bsc(data.distance0, sig532, sig607, tmpAerExt532_NR_raman, config.angstrexp_NR, molExt532, molBsc532, refH532, 532, refBeta532, config.smoothWin_raman_NR_532, true);
             thisLR532_NR_raman = thisAerExt532_NR_raman ./ thisAerBsc532_NR_raman;
             % TODO: uncertainty analysis
         end
@@ -178,7 +187,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     aerBsc532_NR_raman = cat(1, aerBsc532_NR_raman, thisAerBsc532_NR_raman);
     aerExt532_NR_raman = cat(1, aerExt532_NR_raman, thisAerExt532_NR_raman);
     LR532_NR_raman = cat(1, LR532_NR_raman, thisLR532_NR_raman);
-    refBeta532_NR_raman = [refBeta532_NR_raman, refBeta532];
+    refBeta532_NR_raman = cat(2, refBeta532_NR_raman, refBeta532);
 end
 
 end

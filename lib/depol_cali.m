@@ -186,11 +186,11 @@ for iDay = 1:nDays
 
             if abs(this_std_dminus / this_mean_dminus) <= rel_std_dminus && ...
                abs(this_std_dplus / this_mean_dplus) <= rel_std_dplus
-                segIndx_tmp = cat(1, segIndx_tmp, iReg);
-                mean_dplus_tmp = cat(1, mean_dplus_tmp, this_mean_dplus);
-                mean_dminus_tmp = cat(1, mean_dminus_tmp, this_mean_dminus);
-                std_dplus_tmp = cat(1, std_dplus_tmp, this_std_dplus);
-                std_dminus_tmp = cat(1, std_dminus_tmp, this_std_dminus);
+                segIndx_tmp = cat(2, segIndx_tmp, iReg);
+                mean_dplus_tmp = cat(2, mean_dplus_tmp, this_mean_dplus);
+                mean_dminus_tmp = cat(2, mean_dminus_tmp, this_mean_dminus);
+                std_dplus_tmp = cat(2, std_dplus_tmp, this_std_dplus);
+                std_dminus_tmp = cat(2, std_dminus_tmp, this_std_dminus);
             end 
         end
 
@@ -204,11 +204,11 @@ for iDay = 1:nDays
         [~, segIndx] = min(sqrt((std_dplus_tmp./mean_dplus_tmp).^2 + ...
                                 (std_dminus_tmp./mean_dminus_tmp).^2));
         indx = segIndx_tmp(segIndx);
-        depol_cal_time = cat(1, depol_cal_time, thisCaliTime);
-        mean_dplus = cat(1, mean_dplus, mean_dplus_tmp(segIndx));
-        std_dplus = cat(1, std_dplus, std_dplus_tmp(segIndx));
-        mean_dminus = cat(1, mean_dminus, mean_dminus_tmp(segIndx));
-        std_dminus = cat(1, std_dminus, std_dminus_tmp(segIndx));
+        depol_cal_time = cat(2, depol_cal_time, thisCaliTime);
+        mean_dplus = cat(2, mean_dplus, mean_dplus_tmp(segIndx));
+        std_dplus = cat(2, std_dplus, std_dplus_tmp(segIndx));
+        mean_dminus = cat(2, mean_dminus, mean_dminus_tmp(segIndx));
+        std_dminus = cat(2, std_dminus, std_dminus_tmp(segIndx));
 
         % save the intermiadte results
         globalAttri.sig_t_p{end + 1} = sig_t_p;
