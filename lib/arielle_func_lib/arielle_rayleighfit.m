@@ -57,7 +57,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
         fprintf('\nStart to search reference height for 355 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
         [thisRefH355, thisDpIndx355] = polly_rayleighfit(data.distance0, sig355PC, sig355PCR, bg355PC, molSig355, config.minDecomLogDist355, config.heightFullOverlap(config.isFR & config.isTot & config.is355nm), config.maxDecomHeight355, config.maxDecomThickness355, config.decomSmoothWin355, config.minRefThickness355, config.minRefDeltaExt355, config.minRefSNR355);
-        
+
         % rayleigh fitting for 532 nm
         sig532PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is532nm, :, proIndx), 3));   % photon count
         nShots532 = nansum(data.mShots(flagChannel532, proIndx), 2);
@@ -68,7 +68,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
         fprintf('\nStart to search reference height for 532 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
         [thisRefH532, thisDpIndx532] = polly_rayleighfit(data.distance0, sig532PC, sig532PCR, bg532PC, molSig532, config.minDecomLogDist532, config.heightFullOverlap(config.isFR & config.isTot & config.is532nm), config.maxDecomHeight532, config.maxDecomThickness532, config.decomSmoothWin532, config.minRefThickness532, config.minRefDeltaExt532, config.minRefSNR532);
-        
+
         % rayleigh fitting for 1064 nm
         sig1064PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is1064nm, :, proIndx), 3));   % photon count
         nShots1064 = nansum(data.mShots(flagChannel1064, proIndx), 2);
@@ -95,10 +95,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         bg532PC = squeeze(sum(data.bg(config.isFR & config.isTot & config.is532nm, :, proIndx), 3));   % photon count
         [molBsc532, molExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
         molSig532 = molBsc532 .* exp(-2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
-        
+
         fprintf('\nStart to search reference height for 532 nm, period from %s to %s.\n', datestr(data.mTime(proIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(proIndx(end)), 'HH:MM'))
         [thisRefH532, thisDpIndx532] = polly_rayleighfit(data.distance0, sig532PC, sig532PCR, bg532PC, molSig532, config.minDecomLogDist532, config.heightFullOverlap(config.isFR & config.isTot & config.is532nm), config.maxDecomHeight532, config.maxDecomThickness532, config.decomSmoothWin532, config.minRefThickness532, config.minRefDeltaExt532, config.minRefSNR532);
-        
+
         % signal 355
         sig355PC = squeeze(sum(data.signal(config.isFR & config.isTot & config.is355nm, :, proIndx), 3));   % photon count
         nShots355 = nansum(data.mShots(flagChannel355, proIndx), 2);
@@ -141,7 +141,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
             if ~ isnan(thisRefH1064(1))
                 % use refH at 1064 nm
-    
+
                 % determine 355 SNR at the refH
                 SNR355 = polly_SNR(sum(sig355PC(thisRefH1064(1):thisRefH1064(2))), sum(bg355PC(thisRefH1064(1):thisRefH1064(2))));
                 if SNR355 < config.minRefSNR355
@@ -153,7 +153,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
                     thisRefH355 = thisRefH1064;
                     thisDpIndx355 = thisDpIndx1064;
                 end
-                
+
                 % determine 532 SNR at the refH
                 SNR532 = polly_SNR(sum(sig532PC(thisRefH1064(1):thisRefH1064(2))), sum(bg532PC(thisRefH1064(1):thisRefH1064(2))));
                 if SNR532 < config.minRefSNR532

@@ -1,21 +1,24 @@
 function [data, overlapAttri] = arielle_overlap(data, config)
 %arielle_overlap description
-%   Example:
-%       [data] = arielle_overlap(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       data: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       overlapAttri: struct
-%           All information about overlap.
-%   History:
-%       2018-12-19. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [data] = arielle_overlap(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%Outputs:
+%   data: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   overlapAttri: struct
+%       All information about overlap.
+%History:
+%   2018-12-19. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo defaults
 
@@ -50,16 +53,22 @@ overlap532_std = [];
 overlap355 = [];
 overlap355_std = [];
 
+flag355NR = config.isNR & config.is355nm & config.isTot;
+flag355FR = config.isFR & config.is355nm & config.isTot;
+flag532NR = config.isNR & config.is532nm & config.isTot;
+flag532FR = config.isFR & config.is532nm & config.isTot;
+
 if ~ sum(data.flagCloudFree2km) == 0
 
     switch config.overlapCalMode
+
     case 1   % ratio of near and far range signal
 
         % 355 nm
-        sig355NR = squeeze(sum(data.signal(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg355NR = squeeze(sum(data.bg(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        sig355FR = squeeze(sum(data.signal(config.isFR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg355FR = squeeze(sum(data.bg(config.isFR & config.is355nm &config.isTot, :, data.flagCloudFree2km), 3));
+        sig355NR = squeeze(sum(data.signal(flag355NR, :, data.flagCloudFree2km), 3));
+        bg355NR = squeeze(sum(data.bg(flag355NR, :, data.flagCloudFree2km), 3));
+        sig355FR = squeeze(sum(data.signal(flag355FR, :, data.flagCloudFree2km), 3));
+        bg355FR = squeeze(sum(data.bg(flag355FR, :, data.flagCloudFree2km), 3));
 
         if (~ isempty(sig355NR)) && (~ isempty(sig355FR))
             % if both near- and far-range channel exist
@@ -68,10 +77,9 @@ if ~ sum(data.flagCloudFree2km) == 0
 
             % calculate the SNR
             snr355NR = polly_SNR(sig355NR, bg355NR);
-            snr355FR = polly_SNR(sig355FR, bg355FR);
 
             % find the index for full overlap (base of signal normalization)
-            fullOverlapIndx = find(data.height >= config.heightFullOverlap(config.isFR & config.is355nm & config.isTot), 1);
+            fullOverlapIndx = find(data.height >= config.heightFullOverlap(flag355FR), 1);
             if isempty(fullOverlapIndx)
                 error('The index of full overlap can not be found for 355 nm.');
             end
@@ -84,7 +92,7 @@ if ~ sum(data.flagCloudFree2km) == 0
                 lowSNRBaseIndx = lowSNRBaseIndx + fullOverlapIndx - 1;
 
                 % calculate the channel ratio of near range and far range total signal
-                [sigRatio355, normRange355, ~] = mean_stable(sig355NR./sig355FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
+                [sigRatio355, normRange355, ~] = mean_stable(sig355NR ./ sig355FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
 
                 % calculate the overlap of FR channel
                 if ~ isempty(normRange355)
@@ -101,10 +109,10 @@ if ~ sum(data.flagCloudFree2km) == 0
         end
 
         % 532 nm
-        sig532NR = squeeze(sum(data.signal(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree2km), 3));
+        sig532NR = squeeze(sum(data.signal(flag532NR, :, data.flagCloudFree2km), 3));
+        bg532NR = squeeze(sum(data.bg(flag532NR, :, data.flagCloudFree2km), 3));
+        sig532FR = squeeze(sum(data.signal(flag532FR, :, data.flagCloudFree2km), 3));
+        bg532FR = squeeze(sum(data.bg(flag532FR, :, data.flagCloudFree2km), 3));
 
         if (~ isempty(sig532NR)) && (~ isempty(sig532FR))
             % if both near- and far-range channel exist
@@ -113,10 +121,9 @@ if ~ sum(data.flagCloudFree2km) == 0
 
             % calculate the SNR
             snr532NR = polly_SNR(sig532NR, bg532NR);
-            snr532FR = polly_SNR(sig532FR, bg532FR);
 
             % find the index for full overlap (base of signal normalization)
-            fullOverlapIndx = find(data.height >= config.heightFullOverlap(config.isFR & config.is532nm & config.isTot), 1);
+            fullOverlapIndx = find(data.height >= config.heightFullOverlap(flag532FR), 1);
             if isempty(fullOverlapIndx)
                 error('The index of full overlap can not be found for 532 nm.');
             end
@@ -129,7 +136,7 @@ if ~ sum(data.flagCloudFree2km) == 0
                 lowSNRBaseIndx = lowSNRBaseIndx + fullOverlapIndx - 1;
 
                 % calculate the channel ratio of near range and far range total signal
-                [sigRatio532, normRange532, ~] = mean_stable(sig532NR./sig532FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
+                [sigRatio532, normRange532, ~] = mean_stable(sig532NR ./ sig532FR, 40, fullOverlapIndx, lowSNRBaseIndx, 0.1);
 
                 % calculate the overlap of FR channel
                 if ~ isempty(normRange532)

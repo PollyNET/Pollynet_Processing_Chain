@@ -1,56 +1,72 @@
-function [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, LCUsed387, LCUsedTag387, flagLCWarning387, LCUsed607, LCUsedTag607, flagLCWarning607] = arielle_mean_LC(data, config, taskInfo, folder)
-%arielle_mean_LC calculate and save the lidar calibration constant based on the optional constants and defaults.
-%   Example:
-%       [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532, flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064, LCUsed387, LCUsedTag387, flagLCWarning387, LCUsed607, LCUsedTag607, flagLCWarning607] = arielle_mean_LC(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       folder: char
-%           folder for saving the history lidar constants.
-%   Outputs:
-%       LCUsed355: float
-%           applied lidar constant at 355 nm. 
-%       LCUsedTag355: integer
-%           source of the applied lidar constant at 355 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
-%      flagLCWarning355: integer
-%           flag to show whether the calibration constant is unstable. 
-%       LCUsed532: float
-%           applied lidar constant at 532 nm. 
-%       LCUsedTag532: integer
-%           source of the applied lidar constant at 532 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
-%      flagLCWarning532: integer
-%           flag to show whether the calibration constant is unstable. 
-%       LCUsed1064: float
-%           applied lidar constant at 1064 nm. 
-%       LCUsedTag1064: integer
-%           source of the applied lidar constant at 1064 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
-%      flagLCWarning1064: integer
-%           flag to show whether the calibration constant is unstable. 
-%       LCUsed387: float
-%           applied lidar constant at 387 nm. 
-%       LCUsedTag387: integer
-%           source of the applied lidar constant at 387 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
-%      flagLCWarning387: integer
-%           flag to show whether the calibration constant is unstable. 
-%       LCUsed607: float
-%           applied lidar constant at 607 nm. 
-%       LCUsedTag607: integer
-%           source of the applied lidar constant at 607 nm. (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
-%      flagLCWarning607: integer
-%           flag to show whether the calibration constant is unstable. 
-%   History:
-%       2018-12-24. First Edition by Zhenping
-%       2019-01-28. Add support for 387 and 607 channels
-%       2019-08-28. Add flag to control whether to do lidar calibration.
-%   Contact:
-%       zhenping@tropos.de
+function [LCUsed355, LCUsedTag355, flagLCWarning355, ...
+          LCUsed532, LCUsedTag532, flagLCWarning532, ...
+          LCUsed1064, LCUsedTag1064, flagLCWarning1064, ...
+          LCUsed387, LCUsedTag387, flagLCWarning387, ...
+          LCUsed607, LCUsedTag607, flagLCWarning607] = ...
+            arielle_mean_LC(data, config, taskInfo, folder)
+%arielle_mean_LC calculate and save the lidar calibration constant based on the
+%optional constants and defaults.
+%Example:
+%   [LCUsed355, LCUsedTag355, flagLCWarning355, LCUsed532, LCUsedTag532,
+%    flagLCWarning532, LCUsed1064, LCUsedTag1064, flagLCWarning1064,
+%    LCUsed387, LCUsedTag387, flagLCWarning387, LCUsed607, LCUsedTag607,
+%    flagLCWarning607] = arielle_mean_LC(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   folder: char
+%       folder for saving the history lidar constants.
+%Outputs:
+%   LCUsed355: float
+%       applied lidar constant at 355 nm. 
+%   LCUsedTag355: integer
+%       source of the applied lidar constant at 355 nm.
+%       (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%   flagLCWarning355: integer
+%       flag to show whether the calibration constant is unstable. 
+%   LCUsed532: float
+%       applied lidar constant at 532 nm. 
+%   LCUsedTag532: integer
+%       source of the applied lidar constant at 532 nm.
+%       (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%   flagLCWarning532: integer
+%       flag to show whether the calibration constant is unstable. 
+%   LCUsed1064: float
+%       applied lidar constant at 1064 nm. 
+%   LCUsedTag1064: integer
+%       source of the applied lidar constant at 1064 nm.
+%       (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%   flagLCWarning1064: integer
+%       flag to show whether the calibration constant is unstable. 
+%   LCUsed387: float
+%       applied lidar constant at 387 nm. 
+%   LCUsedTag387: integer
+%       source of the applied lidar constant at 387 nm.
+%       (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%   flagLCWarning387: integer
+%       flag to show whether the calibration constant is unstable. 
+%   LCUsed607: float
+%       applied lidar constant at 607 nm. 
+%   LCUsedTag607: integer
+%       source of the applied lidar constant at 607 nm.
+%       (0: no calibration; 1: klett; 2: raman; 3: defaults; 4: history) 
+%   flagLCWarning607: integer
+%       flag to show whether the calibration constant is unstable. 
+%History:
+%   2018-12-24. First Edition by Zhenping
+%   2019-01-28. Add support for 387 and 607 channels
+%   2019-08-28. Add flag to control whether to do lidar calibration.
+%Contact:
+%   zhenping@tropos.de
 
-
-global defaults campaignInfo processInfo
+global defaults
 
 LCUsed355 = [];
 LCUsed532 = [];
@@ -62,7 +78,7 @@ LCUsedTag532 = 0;
 LCUsedTag1064 = 0;
 LCUsedTag387 = 0;
 LCUsedTag607 = 0;
-flagLCWarning355 = false;   % if there is large uncertainty of lidar constants, throw a warning.
+flagLCWarning355 = false;
 flagLCWarning532 = false;
 flagLCWarning1064 = false;
 flagLCWarning387 = false;
@@ -90,7 +106,11 @@ end
 if exist(LCCaliFile, 'file') ~= 2
     fprintf('Create the file to save the lidar constants.\n%s\n', LCCaliFile);
     fid = fopen(LCCaliFile, 'w');
-    fprintf(fid, 'polly data, LC355, LC355Std, Calibration status 355, LC532, LC532Std, Calibration status 532, LC1064, LC1064Std, Calibration status 1064, LC387, LC387Std, Calibration status 387, LC607, LC607Std, Calibration status 607\n');
+    fprintf(fid, ['polly data, LC355, LC355Std, Calibration status 355, ', ...
+                  'LC532, LC532Std, Calibration status 532, LC1064, ', ...
+                  'LC1064Std, Calibration status 1064, LC387, LC387Std, ', ...
+                  'Calibration status 387, LC607, LC607Std, ', ...
+                  'Calibration status 607\n']);
     fclose(fid);
 end
 
@@ -118,7 +138,9 @@ LC_raman_387_std = nanstd(data.LC.LC_raman_387);
 LC_raman_607_std = nanstd(data.LC.LC_raman_607);
 
 %% read history lidar constants
-[LC355History, LC532History, LC1064History, LC387History, LC607History, LCStd355History, LCStd532History, LCStd1064History, LCStd387History, LCStd607History] = arielle_read_history_LC(taskInfo.dataTime, LCCaliFile, config);
+[LC355History, LC532History, LC1064History, ...
+ LC387History, LC607History, ~, ~, ~, ~, ~] = arielle_read_history_LC(...
+    taskInfo.dataTime, LCCaliFile, config);
 
 % choose the most suitable lidar constants for 355 nm
 if ~ isnan(LC_raman_355_mean)

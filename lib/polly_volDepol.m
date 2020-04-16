@@ -58,11 +58,6 @@ if ~ exist('flagSmoothBefore', 'var')
     flagSmoothBefore = true;
 end
 
-SNRCross = polly_SNR(sigCross, bgCross);
-SNRTot = polly_SNR(sigTot, bgTot);
-% hIndxLowSNR = (SNRCross < 1) | (SNRTot < 1);
-% sigCross(hIndxLowSNR) = NaN;
-% sigTot(hIndxLowSNR) = NaN;
 if flagSmoothBefore
     sigRatio = transpose(smoothWin(sigCross, smoothWindow) ./ ...
                          smoothWin(sigTot, smoothWindow));
@@ -74,6 +69,8 @@ sigCrossStd = signalStd(sigCross, bgCross, smoothWindow, 2);
 sigTotStd = signalStd(sigTot, bgTot, smoothWindow, 2);
 
 volDepol = (1 - sigRatio ./ depolConst) ./ (sigRatio * Rt / depolConst - Rc);
+% TODO:
+%   1. taking into account of the uncertainty of Rt, Rc
 volDepolStd = (sigRatio .* (Rt - Rc) ./ ...
               (sigRatio .* Rt - depolConst .* Rc).^2).^2 .* ...
                depolConstStd.^2 + ...
