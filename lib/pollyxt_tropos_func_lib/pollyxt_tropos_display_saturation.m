@@ -19,6 +19,13 @@ flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel355NR = config.isNR & config.is355nm & config.isTot;
 flagChannel407 = config.isFR & config.is407nm;
+%new
+flagChannel387 = config.isFR & config.is387nm;
+flagChannel607 = config.isFR & config.is607nm;
+flagChannel387NR = config.isNR & config.is387nm;
+flagChannel607NR = config.isNR & config.is607nm;
+flagChannel355s = config.isFR & config.is355nm & config.isCross;
+flagChannel532s = config.isFR & config.is532nm & config.isCross;
 
 time = data.mTime;
 figDPI = processInfo.figDPI;
@@ -44,6 +51,21 @@ else
 end
 SAT_FR_407 = double(squeeze(data.flagSaturation(flagChannel407, :, :)));
 SAT_FR_407(data.lowSNRMask(flagChannel407, :, :)) = 2;
+%new
+SAT_FR_387 = double(squeeze(data.flagSaturation(flagChannel387, :, :)));
+SAT_FR_387(data.lowSNRMask(flagChannel387, :, :)) = 2;
+SAT_FR_607 = double(squeeze(data.flagSaturation(flagChannel607, :, :)));
+SAT_FR_607(data.lowSNRMask(flagChannel607, :, :)) = 2;
+SAT_NR_387 = double(squeeze(data.flagSaturation(flagChannel387NR, :, :)));
+SAT_NR_387(data.lowSNRMask(flagChannel387NR, :, :)) = 2;
+SAT_NR_607 = double(squeeze(data.flagSaturation(flagChannel607NR, :, :)));
+SAT_NR_607(data.lowSNRMask(flagChannel607NR, :, :)) = 2;
+SAT_FR_355s = double(squeeze(data.flagSaturation(flagChannel355s, :, :)));
+SAT_FR_355s(data.lowSNRMask(flagChannel355s, :, :)) = 2;    
+SAT_FR_532s = double(squeeze(data.flagSaturation(flagChannel532s, :, :)));
+SAT_FR_532s(data.lowSNRMask(flagChannel532s, :, :)) = 2;
+
+
 yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
 yLim_WV_RH = config.yLim_WV_RH;
@@ -57,7 +79,14 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.png', rmext(taskInfo.dataFilename)));
     fileStatus355NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_355.png', rmext(taskInfo.dataFilename)));
     fileStatus407FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_407.png', rmext(taskInfo.dataFilename)));
-
+    %new
+    fileStatus387FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_387.png', rmext(taskInfo.dataFilename)));
+    fileStatus607FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_607.png', rmext(taskInfo.dataFilename)));
+    fileStatus387NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_387.png', rmext(taskInfo.dataFilename)));
+    fileStatus607NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_607.png', rmext(taskInfo.dataFilename)));
+    fileStatus355FRs = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_355s.png', rmext(taskInfo.dataFilename)));
+    fileStatus532FRs = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532s.png', rmext(taskInfo.dataFilename)));
+    
     %% visualization
     load('status_colormap.mat')
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -255,8 +284,8 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
-
-    % colorbar
+    
+     % colorbar
     tickLabels = {'Good signal', ...
                 'Saturated', ...
                 'Low SNR'};
@@ -270,6 +299,81 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
 
     export_fig(gcf, fileStatus407FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    close();
+
+
+    %%%%%%%%%%%%%%%%%%new
+     % 387 nm FR
+    figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
+
+    subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
+
+    p1 = pcolor(double(data.mTime), data.height, SAT_FR_387); hold on;
+    set(p1, 'EdgeColor', 'none');
+    caxis([-0.5, 2.5]);
+    xlim([data.mTime(1), data.mTime(end)]);
+    ylim(yLim_WV_RH);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Signal Status at %snm %s from %s at %s', '387', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
+    set(gca, 'Box', 'on', 'TickDir', 'out');
+    set(gca, 'ytick', linspace(yLim_WV_RH(1), yLim_WV_RH(2), 6), 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
+
+    
+     % colorbar
+    tickLabels = {'Good signal', ...
+                'Saturated', ...
+                'Low SNR'};
+    c = colorbar('position', [0.83, 0.20, 0.02, 0.65]); 
+    colormap(status_colormap);
+    titleHandle = get(c, 'Title');
+    set(titleHandle, 'string', '');
+    set(c, 'TickDir', 'out', 'Box', 'on');
+    set(c, 'ytick', 0:2, 'yticklabel', tickLabels, 'FontSize', 5);
+
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+
+    export_fig(gcf, fileStatus387FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
+    close();
+
+    
+     % 607 nm FR
+    figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
+
+    subplot('Position', [0.12, 0.15, 0.7, 0.75]);   % mainframe
+
+    p1 = pcolor(double(data.mTime), data.height, SAT_FR_607); hold on;
+    set(p1, 'EdgeColor', 'none');
+    caxis([-0.5, 2.5]);
+    xlim([data.mTime(1), data.mTime(end)]);
+    ylim(yLim_WV_RH);
+    xlabel('UTC', 'FontSize', 7);
+    ylabel('Height (m)', 'FontSize', 7);
+    title(sprintf('Signal Status at %snm %s from %s at %s', '607', 'Far-Range', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
+    set(gca, 'Box', 'on', 'TickDir', 'out');
+    set(gca, 'ytick', linspace(yLim_WV_RH(1), yLim_WV_RH(2), 6), 'yminortick', 'on', 'FontSize', 6);
+    set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
+    text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 6);
+    text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 6);
+
+    
+    % colorbar
+    tickLabels = {'Good signal', ...
+                'Saturated', ...
+                'Low SNR'};
+    c = colorbar('position', [0.83, 0.20, 0.02, 0.65]); 
+    colormap(status_colormap);
+    titleHandle = get(c, 'Title');
+    set(titleHandle, 'string', '');
+    set(c, 'TickDir', 'out', 'Box', 'on');
+    set(c, 'ytick', 0:2, 'yticklabel', tickLabels, 'FontSize', 5);
+
+    set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
+
+    export_fig(gcf, fileStatus607FR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
@@ -286,7 +390,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407', 'yLim_FR_RCS', 'yLim_NR_RCS', 'yLim_WV_RH', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'SAT_NR_355', 'SAT_FR_407','SAT_FR_387','SAT_FR_607','SAT_NR_387','SAT_NR_607','SAT_FR_355s', 'SAT_FR_532s', 'yLim_FR_RCS', 'yLim_NR_RCS', 'yLim_WV_RH', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_tropos_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_tropos_display_saturation.py');
