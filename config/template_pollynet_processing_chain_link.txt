@@ -1,3 +1,4 @@
 name,start time,end time,config file,processing function, update Info(as short as possible, and not use comma),load defaults function
 pollyxt_dwd,2017-06-09 00:00:00,2019-06-06 00:00:00,pollyxt_dwd_config.json,pollynet_processing_chain_pollyxt_dwd.m,This is really state_of_the_art,pollyxt_dwd_read_defaults.m
 pollyxt_tau,2019-01-01 00:00:00,2020-01-01 00:00:00,pollyxt_tau_config_20190910.json,pollynet_processing_chain_pollyxt_tau.m,Tel Aviv,pollyxt_tau_read_defauts.m
+pollyxt_tropos,2019-07-02 00:00:00,2020-12-31 00:00:00,pollyxt_tropos_config_20190702.json,pollynet_processing_chain_pollyxt_tropos.m,Move to Leipzig for mantainence,pollyxt_tropos_read_defaults_20190826.m
