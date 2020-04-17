@@ -1,1 +1,0 @@
-pollynet_process_history_data('PollyXT_TAU', '20191108', '20191109','C:\\Users\\baars\\Desktop\\polly_try\\Pollynet_Processing_Chain\\todo_filelist\\pollyxt_tau\\','C:\\Users\\baars\\Desktop\\polly_try\\Pollynet_Processing_Chain\\config\\pollynet_processing_chain_config_new.json')
