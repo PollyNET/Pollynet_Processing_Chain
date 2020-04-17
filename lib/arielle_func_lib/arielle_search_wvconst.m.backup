@@ -40,42 +40,16 @@ if ~ exist('flagUsePrevWVConst', 'var')
     flagUsePrevWVConst = false;
 end
 
-[preWVlCaliTime, preWVCaliFlag, preWVconst, preWVconstStd] = arielle_read_wvconst(file);
+[preWVCaliConst, preWVCaliConstStd] = ...
+    load_wvconst(currentTime, file, pollyType, ...
+                 'deltaTime', deltaTime, 'flagClosest', true);
 
-% previous water vapor constants
-flagWVconst = (preWVlCaliTime > (currentTime - deltaTime)) & ...
-              (preWVlCaliTime < (currentTime + deltaTime));
-% previous water vapor constants that were calibrated successfully
-flagWVconstValid = (preWVlCaliTime > (currentTime - deltaTime)) & ...
-                   (preWVlCaliTime < (currentTime + deltaTime)) & ...
-                   (preWVCaliFlag == 1);
-
-if ((sum(flagWVconst) == 0) && (sum(flagWVconstValid) == 0)) || (~ flagUsePrevWVConst)
-    % if there is no previous results with time lag less than 
-    % required, or flagUsePrevWVConst was set to be false
+if (~ flagUsePrevWVConst) || isempty(preWVconst)
     wvconst = defaults.wvconst;
     wvconstStd = defaults.wvconstStd;
-elseif ((sum(flagWVconst) ~= 0) && (sum(flagWVconstValid) == 0)) || (flagUsePrevWVConst)
-    % if there is no previous calibration results but has water vapor constant (within 7 days)
-    % select the closest results (uncalibrated)
-    preWVlCaliTimeValid = preWVlCaliTime(flagWVconst);
-    preWVconstValid = preWVconst(flagWVconst);
-    preWVconstStdValid = preWVconstStd(flagWVconst);
-    thisLag = abs(preWVlCaliTimeValid - currentTime);
-    minLag = min(thisLag);
-    indx = find(thisLag == minLag, 1);
-    wvconst = preWVconstValid(indx);
-    wvconstStd = preWVconstStdValid(indx);
 else
-    % select the closest calibration results
-    preWVlCaliTimeValid = preWVlCaliTime(flagWVconstValid);
-    preWVconstValid = preWVconst(flagWVconstValid);
-    preWVconstStdValid = preWVconstStd(flagWVconstValid);
-    thisLag = abs(preWVlCaliTimeValid - currentTime);
-    minLag = min(thisLag);
-    indx = find(thisLag == minLag, 1);
-    wvconst = preWVconstValid(indx);
-    wvconstStd = preWVconstStdValid(indx);
+    wvconst = preWVCaliConst;
+    wvconstStd = preWVCaliConstStd;
 end
     
 end
