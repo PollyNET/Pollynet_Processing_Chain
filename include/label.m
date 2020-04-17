@@ -77,10 +77,10 @@ function [L,num,sz] = label(I,n)
 %   http://www.biomecardio.com
 
 % Check input arguments
-error(nargchk(1,2,nargin));
+narginchk(1, 2);
 if nargin==1, n=8; end
 
-assert(ndims(I)==2,'The input I must be a 2-D array')
+assert(ismatrix(I),'The input I must be a 2-D array')
 
 % -----
 % The Union-Find algorithm is based on the following document:

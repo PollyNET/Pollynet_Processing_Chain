@@ -73,6 +73,11 @@ global processInfo
 if exist(file, 'file') ~= 2
     warning(['Done list file does not exist! For archiving the pic info, ' ...
              'it will be created forcefully. \nDone list file: %s\n'], file);
+
+    if ~ exist(fileparts(file), 'dir')
+        mkdir(fileparts(file));
+    end
+
     fid = fopen(file, 'w');
     fclose(fid);
 end

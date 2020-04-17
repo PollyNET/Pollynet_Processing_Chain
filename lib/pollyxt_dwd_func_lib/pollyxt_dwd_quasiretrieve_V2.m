@@ -33,7 +33,7 @@ function [quasi_par_bsc_355_V2, quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, qua
 %   Contact:
 %       zhenping@tropos.de
 
-global defaults
+global defaults processInfo
 
 quasi_par_bsc_355_V2 = [];
 quasi_par_bsc_1064_V2 = [];
@@ -151,7 +151,13 @@ volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(data.mTime, data.alt, config);
+meteorInfo.meteorDataSource = config.meteorDataSource;
+meteorInfo.gdas1Site = config.gdas1Site;
+meteorInfo.gdas1_folder = processInfo.gdas1_folder;
+meteorInfo.radiosondeSitenum = config.radiosondeSitenum;
+meteorInfo.radiosondeFolder = config.radiosondeFolder;
+meteorInfo.radiosondeType = config.radiosondeType;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(data.mTime, data.alt, meteorInfo);
 quasiAttri_V2.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri_V2.meteorSource = globalAttri.source;
 quasiAttri_V2.timestamp = globalAttri.datetime;
