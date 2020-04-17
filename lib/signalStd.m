@@ -1,28 +1,26 @@
 function [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
 %SIGNALSTD The uncertainty of the signal with taking into account of background 
 %noise and additional smoothing.
-%   Example:
-%       [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
-%   Inputs:
-%       signal: array
-%           signal strength
-%       bg: array
-%           background
-%       smoothWindow: scalar or matrix
-%           the width of the smoothing window. If smoothWindow is a scalar, 
-%           the width is fixed. Otherwise, the width of smoothing window is 
-%           dependent of the height.
-%       dimension: integer
-%           the dimension which the smoothing is along with.
-%   Outputs:
-%       sigStd: array
-%           uncertainty of the signal
-%   History:
-%       2018-09-02. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
-
-
+%Example:
+%   [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
+%Inputs:
+%   signal: array
+%       signal strength
+%   bg: array
+%       background
+%   smoothWindow: scalar or matrix
+%       the width of the smoothing window. If smoothWindow is a scalar, 
+%       the width is fixed. Otherwise, the width of smoothing window is 
+%       dependent of the height.
+%   dimension: integer
+%       the dimension which the smoothing is along with.
+%Outputs:
+%   sigStd: array
+%       uncertainty of the signal
+%History:
+%   2018-09-02. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('smoothWindow', 'var')
     smoothWindow = 1;
@@ -54,7 +52,6 @@ if ismatrix(smoothWindow)
     end
 
     sigStd = sqrt(signal.^2 + bg.^2) ./ sqrt(thisSmoothWindow);
-
 end
 
 end

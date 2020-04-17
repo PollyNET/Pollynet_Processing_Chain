@@ -7,9 +7,9 @@
     "LCStd": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "overlapFile532": "pollyxt_lacros_overlap_532.txt",
     "overlapFile355": "pollyxt_lacros_overlap_355.txt",
-    "molDepol532": 0.0055,
+    "molDepol532": 0.0100,
     "molDepolStd532": 0.001,
-    "molDepol355": 0.0240,
+    "molDepol355": 0.0250,
     "molDepolStd355": 0.0015,
     "wvconst": 19.1,
     "wvconstStd": 0

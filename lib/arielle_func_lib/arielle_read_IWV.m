@@ -1,29 +1,33 @@
 function [IWV, globalAttri] = arielle_read_IWV(data, config)
-%arielle_read_IWV read integrated water vapor from external instruments, like Cimel sunphotometer and MWR.
-%   Example:
-%       [IWV, globalAttri] = arielle_read_IWV(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       IWV: array
-%           integrated water vapor. (kg * m^{-2})
-%       globalAttri:
-%           source: char
-%               data source. ('AERONET', 'MWR' or else)
-%           site: char
-%               measurement site.
-%           datetime: array
-%               datetime of applied IWV.
-%           PI: char
-%           contact: char
-%   History:
-%       2018-12-26. First Edition by Zhenping
-%       2019-05-19. Fix the bug of returning empty IWV when more than 2 MWR files were found.
-%   Contact:
-%       zhenping@tropos.de
+%ARIELLE_READ_IWV read integrated water vapor from external instruments, like
+%sunphotometer or microwave radiometer.
+%Example:
+%   [IWV, globalAttri] = arielle_read_IWV(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
+%Outputs:
+%   IWV: array
+%       integrated water vapor. (kg * m^{-2})
+%   globalAttri:
+%       source: char
+%           data source. ('AERONET', 'MWR' or else)
+%       site: char
+%           measurement site.
+%       datetime: array
+%           datetime of applied IWV.
+%       PI: char
+%       contact: char
+%History:
+%   2018-12-26. First Edition by Zhenping
+%   2019-05-19. Fix the bug of returning empty IWV when more than 2 MWR files
+%               were found.
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo
 
@@ -47,22 +51,31 @@ case 'aeronet'
     globalAttri.PI = data.AERONET.AERONETAttri.PI;
     globalAttri.contact = data.AERONET.AERONETAttri.contact;
 case 'mwr'
-    mwrResFileSearch = dir(fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), sprintf('ioppta_lac_mwr00_l2_prw_v00_%s*.nc', datestr(data.mTime(1), 'yyyymmdd'))));
+    mwrResFileSearch = dir(fullfile(config.MWRFolder,...
+         datestr(data.mTime(1), 'yymm'), ...
+         sprintf('ioppta_lac_mwr00_l2_prw_v00_%s*.nc', ...
+            datestr(data.mTime(1), 'yyyymmdd'))));
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
-        warning('More than two mwr products were found.\n%s\n%s\nOnly choose the first one for the calibration.\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
-        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
+        warning(['More than two mwr products were found.\n', ...
+                 '%s\n%s\n', ...
+                 'Only choose the first one for the calibration.\n'], ...
+                 mwrResFileSearch(1).name, mwrResFileSearch(2).name);
+        mwrResFile = fullfile(config.MWRFolder, ...
+            datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     else
-        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
+        mwrResFile = fullfile(config.MWRFolder, ...
+            datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     end
-    
+
     [tIWV_mwr, IWV_mwr, ~, attri_mwr] = read_MWR_IWV(mwrResFile);
 
     globalAttri.source = attri_mwr.source;
     globalAttri.site = attri_mwr.site;
     if ~ isempty(attri_mwr.contact)
-        contactInfo = regexp(attri_mwr.contact, '(?<PI>.*) \((?<contact>.*)\)', 'names');
+        contactInfo = regexp(attri_mwr.contact, ...
+            '(?<PI>.*) \((?<contact>.*)\)', 'names');
         globalAttri.PI = contactInfo.PI;
         globalAttri.contact = contactInfo.contact;
     end
@@ -76,14 +89,20 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     switch lower(config.IWV_instrument)
     case 'aeronet'
         if isempty(data.AERONET.IWV)
-            fprintf('No IWV measurement for AERONET at %s, %s.\n', datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
+            fprintf('No IWV measurement for AERONET at %s, %s.\n', ...
+                datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
             IWV = NaN(1, size(data.cloudFreeGroups, 1));
             globalAttri.datetime = NaN(1, size(data.cloudFreeGroups, 1));
             return;
         else
-            [tLag, IWVIndx] = min(abs(data.AERONET.datetime - mean(data.mTime(data.cloudFreeGroups(iGroup, :)))));
+            [tLag, IWVIndx] = min(abs(data.AERONET.datetime - ...
+                        mean(data.mTime(data.cloudFreeGroups(iGroup, :)))));
             if tLag > config.maxIWVTLag
-                fprintf('No close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+                fprintf('No close measurement for IWV at %s - %s.\n', ...
+                    datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), ...
+                        'yyyymmdd HH:MM'), ...
+                    datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), ...
+                        'HH:MM'));
             else
                 thisIWV = data.AERONET.IWV(IWVIndx);
                 thisDatetime = data.AERONET.datetime(IWVIndx);
@@ -91,16 +110,23 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         end
     case 'mwr'        
         if isempty(tIWV_mwr)
-            fprintf('No IWV measurement for HATPRO at %s, %s.\n', datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
+            fprintf('No IWV measurement for HATPRO at %s, %s.\n', ...
+                datestr(data.mTime(1), 'yyyy-mm-dd'), campaignInfo.location);
             IWV = NaN(1, size(data.cloudFreeGroups, 1));
             globalAttri.datetime = NaN(1, size(data.cloudFreeGroups, 1));
             return;
         else
-            [tLagStart, tStartIndx] = min(abs(tIWV_mwr - data.mTime(data.cloudFreeGroups(iGroup, 1))));
-            [tLagEnd, tEndIndx] = min(abs(tIWV_mwr - data.mTime(data.cloudFreeGroups(iGroup, 2))));
+            [tLagStart, tStartIndx] = min(abs(tIWV_mwr - ...
+                data.mTime(data.cloudFreeGroups(iGroup, 1))));
+            [tLagEnd, tEndIndx] = min(abs(tIWV_mwr - ...
+                data.mTime(data.cloudFreeGroups(iGroup, 2))));
             
             if (tLagStart > config.maxIWVTLag) || (tLagEnd > config.maxIWVTLag)
-                fprintf('No close measurement for IWV at %s - %s.\n', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'yyyymmdd HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+                fprintf('No close measurement for IWV at %s - %s.\n', ...
+                    datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), ...
+                        'yyyymmdd HH:MM'), ...
+                    datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), ...
+                        'HH:MM'));
             else
                 thisIWV = nanmean(IWV_mwr(tStartIndx:tEndIndx));
                 thisDatetime = mean(tIWV_mwr(tStartIndx:tEndIndx));

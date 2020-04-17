@@ -3,21 +3,9 @@
 
 This repository provides an automatic processing chain for [PollyNET](http://polly.rsd.tropos.de/?p=home) data.
 
-### Content
-
-- [PollyNET Automatic Processing Program](#pollynet-automatic-processing-program)
-    - [Content](#content)
-    - [Description](#description)
-    - [Requirement](#requirement)
-    - [Download](#download)
-    - [Usage](#usage)
-    - [Authors](#authors)
-    - [Acknowledgements](#acknowledgements)
-    - [Cooperation](#cooperation)
-
 ### Description
 
-This repository contains the matlab codes for processing and visualizing the data from [PollyNET](/doc/pollynet.md) automatically. This network consists of novel multiwavelength raman polarization lidars around the world, like Haifa Isreal, Beijing China and Punta-Arenas Chile. The lidar system is maintained and updated in the past 30 years. It can monitor the tiny floated particles and water vapor in the atmosphere. For the most advanced version - [PollyXT](https://www.atmos-meas-tech.net/9/1767/2016/), it has 12 channels, including 8 far-range channels and 4 near-range channels. It can deliver the 3$\beta$+2$\alpha$+2$S$ information and also about the water vapor mixing ratio profile if calibrated carefully.
+This repository contains the matlab codes for processing and visualizing the data from [PollyNET](/doc/pollynet.md) automatically. This network consists of novel multiwavelength raman polarization lidars around the world, like Haifa Isreal, Beijing China and Punta-Arenas Chile. The lidar system is maintained and updated in the past 30 years. It can monitor the tiny floated particles and water vapor in the atmosphere. For the most advanced version - [PollyXT](https://www.atmos-meas-tech.net/9/1767/2016/), it has 12 channels, including 8 far-range channels and 4 near-range channels. It can deliver the 3β+2α+2S information and also about the water vapor mixing ratio profile if calibrated carefully.
 
 As the development of PollyNET, the data accumulated dramatically and the realtime dataflow can be as large as ~ GB. Therefore, the automatic processing program is essential for translating the information about aerosol distribution, transportation and aerosol-cloud interaction simultaneously from the lidar recorded lidar. The program in this repository can automatically calibrate the lidar depolarization, total and water vapor channels, retrieving 1-h averaged cloud-free profiles of aerosol intensive properties and categorizing the aerosol groups with [aerosol target classification algorithm](https://www.atmos-meas-tech.net/10/3175/2017/).
 
