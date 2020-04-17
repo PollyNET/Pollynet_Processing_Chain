@@ -57,11 +57,7 @@ reportStr{end + 1} = sprintf('Lidar constant at 532 nm: %3.1e', data.LCUsed.LCUs
 reportStr{end + 1} = sprintf('Lidar calibration status at 532 nm: %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 
 %% write the pic info to done list file
-if (now <= campaignInfo.endTime) && (now >= campaignInfo.startTime)
-    active = 1;
-else
-    active = 0;
-end
+active = 1;
 
 flag532FR = config.isFR & config.is532nm & config.isTot;
 flag532NR = config.isFR & config.is532nm & config.isTot;

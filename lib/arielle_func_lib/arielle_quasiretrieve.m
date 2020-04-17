@@ -1,12 +1,23 @@
-function [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532, quasiAttri] = arielle_quasiretrieve(data, config)
-%arielle_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+function [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, ...
+          quasi_par_depol_532, volDepol_355, volDepol_532, ...
+          quasi_ang_532_1064, quality_mask_355, quality_mask_532, ...
+          quality_mask_1064, quality_mask_volDepol_355, ...
+          quality_mask_volDepol_532, quasiAttri] = arielle_quasiretrieve(data, config)
+%arielle_quasiretrieve Retrieving the intensive aerosol optical properties with
+%Quasi-retrieving method.
 %   Example:
-%       [quasi_par_bsc_532, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_355, quality_mask_volDepol_532] = arielle_quasiretrieve(data, config)
+%       [quasi_par_bsc_532, quasi_par_bsc_532, quasi_par_bsc_1064,
+%        quasi_par_depol_532, volDepol_355, volDepol_532, quasi_ang_532_1064,
+%        quality_mask_355, quality_mask_532, quality_mask_1064,
+%        quality_mask_volDepol_355,
+%        quality_mask_volDepol_532] = arielle_quasiretrieve(data, config)
 %   Inputs:
 %       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
+%           More detailed information can be found in
+%           doc/pollynet_processing_program.md
 %       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
+%           More detailed information can be found in
+%           doc/pollynet_processing_program.md
 %   Outputs:
 %       quasi_par_bsc_355: matrix
 %           quasi particle backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}]
@@ -23,22 +34,27 @@ function [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_de
 %       quasi_angstrexp_532_1064: matrix
 %           quasi backscatter related Ångström exponent at 532-1064.
 %       quality_mask_355: matrix
-%           quality mask for attenuated backscatter at 355 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%           quality mask for attenuated backscatter at 355 nm.
+%           (0: good data, 1: low-SNR and 2: depolarization calibration periods.)
 %       quality_mask_532: matrix
-%           quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%           quality mask for attenuated backscatter at 532 nm.
+%           (0: good data, 1: low-SNR and 2: depolarization calibration periods.)
 %       quality_mask_1064: matrix
-%           quality mask for attenuated backscatter at 1064 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%           quality mask for attenuated backscatter at 1064 nm.
+%           (0: good data, 1: low-SNR and 2: depolarization calibration periods.)
 %       quality_mask_volDepol_355: matrix
-%           quality mask for volume depolarization ratio at 355 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%           quality mask for volume depolarization ratio at 355 nm.
+%           (0: good data, 1: low-SNR and 2: depolarization calibration periods.)
 %       quality_mask_volDepol_532: matrix
-%           quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%           quality mask for volume depolarization ratio at 532 nm.
+%           (0: good data, 1: low-SNR and 2: depolarization calibration periods.)
 %   History:
 %       2018-12-24. First Edition by Zhenping
 %       2019-08-03. Add the data mask for fog and laser shutter
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo defaults
+global defaults processInfo
 
 quasi_par_bsc_355 = [];
 quasi_par_bsc_1064 = [];
@@ -68,9 +84,15 @@ flagChannel387 = config.isFR & config.is387nm;
 flagChannel607 = config.isFR & config.is607nm;
 
 %% calculate volDepol 532 and 355 nm
-volDepol_532 = polly_volDepol2(squeeze(data.signal(flagChannel532Tot, :, :)), squeeze(data.signal(flagChannel532Cro, :, :)), config.TR(flagChannel532Tot), config.TR(flagChannel532Cro), data.depol_cal_fac_532);
+volDepol_532 = polly_volDepol2(squeeze(data.signal(flagChannel532Tot, :, :)), ...
+                               squeeze(data.signal(flagChannel532Cro, :, :)), ...
+                               config.TR(flagChannel532Tot), ...
+                               config.TR(flagChannel532Cro), data.depol_cal_fac_532);
 volDepol_532(:, data.depCalMask) = NaN;
-volDepol_355 = polly_volDepol2(squeeze(data.signal(flagChannel355Tot, :, :)), squeeze(data.signal(flagChannel355Cro, :, :)), config.TR(flagChannel355Tot), config.TR(flagChannel355Cro), data.depol_cal_fac_355);
+volDepol_355 = polly_volDepol2(squeeze(data.signal(flagChannel355Tot, :, :)), ...
+                               squeeze(data.signal(flagChannel355Cro, :, :)), ...
+                               config.TR(flagChannel355Tot), ...
+                               config.TR(flagChannel355Cro), data.depol_cal_fac_355);
 volDepol_355(:, data.depCalMask) = NaN;
 
 %% calculate the quality mask to filter the points with high SNR
@@ -149,7 +171,13 @@ volDepol_355_smooth = polly_volDepol2(smooth2(sig355Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
+meteorInfo.meteorDataSource = config.meteorDataSource;
+meteorInfo.gdas1Site = config.gdas1Site;
+meteorInfo.gdas1_folder = processInfo.gdas1_folder;
+meteorInfo.radiosondeSitenum = config.radiosondeSitenum;
+meteorInfo.radiosondeFolder = config.radiosondeFolder;
+meteorInfo.radiosondeType = config.radiosondeType;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, meteorInfo);
 quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri.meteorSource = globalAttri.source;
 quasiAttri.timestamp = globalAttri.datetime;

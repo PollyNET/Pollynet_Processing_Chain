@@ -67,23 +67,19 @@ function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, gl
 %   Contact:
 %       zhenping@tropos.de
 
-molBsc355 = [];
-molExt355 = [];
-molBsc532 = [];
-molExt532 = [];
-molBsc1064 = [];
-molExt1064 = [];
-molBsc387 = [];
-molExt387 = [];
-molBsc532 = [];
-molExt532 = [];
 globalAttri = struct();
 globalAttri.source = 'none';
 globalAttri.datetime = [];
 
 % redistribute the meteorological data to 30-s intervals.
-[altRaw, tempRaw, presRaw, relhRaw, attri] = read_meteor_data(mean(mTime), ...
-        alt, meteorInfo);
+[altRaw, tempRaw, presRaw, ~, attri] = read_meteor_data(...
+                mean(mTime), alt, ...
+                'meteorDataSource', meteorInfo.meteorDataSource, ...
+                'gdas1Site', meteorInfo.gdas1Site, ...
+                'gdas1_folder', meteorInfo.gdas1_folder, ...
+                'radiosondeSitenum', meteorInfo.radiosondeSitenum, ...
+                'radiosondeFolder', meteorInfo.radiosondeFolder, ...
+                'radiosondeType', meteorInfo.radiosondeType);
 globalAttri.source = attri.dataSource;
 globalAttri.datetime = attri.datetime;
 

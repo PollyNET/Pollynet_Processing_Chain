@@ -1,36 +1,36 @@
-function [ aerBSC, aerBR ] = polly_fernald(alt, signal, LR_aer, ...
+function [aerBSC, aerBR] = polly_fernald(alt, signal, LR_aer, ...
                                            refAlt, refBeta, molBSC, window_size)
 %POLLY_FERNALD retrieve the aerosol backscattering coefficient with Fernald 
 %method. 
-%   Inputs:
-%       alt: array
-%           height. [m]
-%       signal: array
-%           elastic signal without background. [Photon Count]
-%       LR_aer: float or array
-%           aerosol lidar ratio. [Sr]
-%       refAlt: float or 2-element array
-%           reference altitude or region. [m]
-%       refBeta: float
-%           aerosol backscatter coefficient at the reference region. 
-%           [m^{-1}Sr^{-1}]       
-%       molBSC: array
-%           molecular backscattering coefficient. Unit: m^{-1}*Sr^{-1}
-%       window_size: int32
-%           Bins of the smoothing window for the signal. [default, 40 bins]
-%   Returns:
-%       aerBSC: array
-%           aerosol backscatter coefficient. [m^{-1}*Sr^{-1}]
-%       aerBR: array
-%           aerosol backscatter ratio.l backscatter ratio. (If err=True)
-%   References:
-%       1. Fernald, Frederick G. "Analysis of Atmospheric Lidar Observations $
-%         - Some Comments." Applied optics 23, no. 5 (1984): 652-653.
-%       2. Prof. Yi's PPT: A brief introduction to atmospheric lidars
-%   History:
-%       2018-01-04. First Edition by ZP.Yin
-%   Contact:
-%       zhenping@tropos.de
+%Inputs:
+%   alt: array
+%       height. [m]
+%   signal: array
+%       elastic signal without background. [Photon Count]
+%   LR_aer: float or array
+%       aerosol lidar ratio. [Sr]
+%   refAlt: float or 2-element array
+%       reference altitude or region. [m]
+%   refBeta: float
+%       aerosol backscatter coefficient at the reference region. 
+%       [m^{-1}Sr^{-1}]       
+%   molBSC: array
+%       molecular backscattering coefficient. Unit: m^{-1}*Sr^{-1}
+%   window_size: int32
+%       Bins of the smoothing window for the signal. [default, 40 bins]
+%Returns:
+%   aerBSC: array
+%       aerosol backscatter coefficient. [m^{-1}*Sr^{-1}]
+%   aerBR: array
+%       aerosol backscatter ratio.l backscatter ratio. (If err=True)
+%References:
+%   1. Fernald, Frederick G. "Analysis of Atmospheric Lidar Observations $
+%     - Some Comments." Applied optics 23, no. 5 (1984): 652-653.
+%   2. Prof. Yi's PPT: A brief introduction to atmospheric lidars
+%History:
+%   2018-01-04. First Edition by ZP.Yin
+%Contact:
+%   zhenping@tropos.de
 
 if nargin < 6
     error('Not enough inputs.');

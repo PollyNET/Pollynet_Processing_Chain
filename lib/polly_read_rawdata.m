@@ -1,46 +1,62 @@
-function [ data ] = polly_read_rawdata(file, config, flagDelete)
+function [ data ] = polly_read_rawdata(file, varargin)
 %POLLY_READ_RAWDATA read polly raw data.
-%   Usage:
-%       data = polly_read_rawdata(file, config, flagDelete)
-%   Inputs:
-%       file: char
-%           fullpath of polly data file.
-%       config: struct
-%           configuration. Detailed information can be found in 
-%           doc/polly_config.md.
-%       flagDelete: logical
-%           flag to control whether to delete the data files after extracting 
-%           the data.
-%   Outputs:
-%       data: struct
-%           rawSignal: array
-%               signal. [Photon Count]
-%           mShots: array
-%               number of the laser shots for each profile.
-%           mTime: array
-%               datetime array for the measurement time of each profile.
-%           depCalAng: array
-%               angle of the polarizer in the receiving channel. (>0 means 
-%               calibration process starts)
-%           zenithAng: array
-%               zenith angle of the laer beam.
-%           repRate: float
-%               laser pulse repetition rate. [s^-1]
-%           hRes: float
-%               spatial resolution [m]
-%           mSite: char
-%               measurement site.
-%           lat: float
-%               latitude of measurement site. [degree]
-%           lon: float
-%               longitude of measurement site. [degree]
-%           alt: float
-%               altitude of measurement site. [degree]
-%   History:
-%       2018-12-16. First edition by Zhenping.
-%       2019-07-08. Read the 'laser_rep_rate'.
-%   Contact:
-%       zhenping@tropos.de
+%Usage:
+%   data = polly_read_rawdata(file)
+%Inputs:
+%   file: char
+%       absolute path of the polly data.
+%Keywords:
+%   flagFilterFalseMShots: logical
+%       whether to filter out profiles with false shots number.
+%   flagCorrectFalseMShots: logical
+%       whether to correct false shots number.
+%   flagDeleteData: logical
+%       flag to control whether to delete the data files after extracting 
+%       the data.
+%   dataFileFormat: char
+%       parsing rules for polly data filename.
+%Outputs:
+%   data: struct
+%       rawSignal: array
+%           signal. [Photon Count]
+%       mShots: array
+%           number of the laser shots for each profile.
+%       mTime: array
+%           datetime array for the measurement time of each profile.
+%       depCalAng: array
+%           angle of the polarizer in the receiving channel. (>0 means 
+%           calibration process starts)
+%       zenithAng: array
+%           zenith angle of the laer beam.
+%       repRate: float
+%           laser pulse repetition rate. [s^-1]
+%       hRes: float
+%           spatial resolution [m]
+%       mSite: char
+%           measurement site.
+%       lat: float
+%           latitude of measurement site. [degree]
+%       lon: float
+%           longitude of measurement site. [degree]
+%       alt: float
+%           altitude of measurement site. [degree]
+%History:
+%   2018-12-16. First edition by Zhenping.
+%   2019-07-08. Read the 'laser_rep_rate'.
+%   2020-04-16. Unify the argument interface.
+%Contact:
+%   zhenping@tropos.de
+
+%% parse arguments
+p = inputParser;
+
+addRequired(p, 'file', @ischar);
+addParameter(p, 'flagFilterFalseMShots', false, @islogical);
+addParameter(p, 'flagCorrectFalseMShots', false, @islogical);
+addParameter(p, 'flagDeleteData', false, @islogical);
+addParameter(p, 'dataFileFormat', '', @ischar);
+
+parse(p, file, varargin{:});
 
 %% variables initialization
 data = struct();
@@ -89,7 +105,7 @@ catch
     return;
 end
 
-if flagDelete
+if p.Results.flagDeleteData
     delete(file);
 end
 
@@ -101,10 +117,11 @@ for iChannel = 1:size(mShots, 1)
 end
 
 % filter non 30s profiles
-if config.flagFilterFalseMShots
+if p.Results.flagFilterFalseMShots
 
     if sum(~ flagFalseShots) == 0
-        fprintf('No profile with mshots < 1e6 and mshots > 0 was found.\nPlease take a look inside %s\n', file);
+        fprintf(['No profile with mshots < 1e6 and mshots > 0 was found.\n', ...
+                 'Please take a look inside %s\n'], file);
         return;
     else
         rawSignal = rawSignal(:, :, ~ flagFalseShots);
@@ -113,9 +130,9 @@ if config.flagFilterFalseMShots
         depCalAng = depCalAng(~ flagFalseShots);
     end
 
-elseif config.flagCorrectFalseMShots
+elseif p.Results.flagCorrectFalseMShots
     mShots(:, flagFalseShots) = 600;
-    mTimeStart = floor(polly_parsetime(file, config.dataFileFormat) / ...
+    mTimeStart = floor(polly_parsetime(file, p.Results.dataFileFormat) / ...
                        datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
     [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
                        datevec(mTimeStart);
