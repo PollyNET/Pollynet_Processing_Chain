@@ -149,7 +149,13 @@ volDepol_355_smooth = polly_volDepol2(smooth2(sig355Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
+meteorInfo.meteorDataSource = config.meteorDataSource;
+meteorInfo.gdas1Site = config.gdas1Site;
+meteorInfo.gdas1_folder = processInfo.gdas1_folder;
+meteorInfo.radiosondeSitenum = config.radiosondeSitenum;
+meteorInfo.radiosondeFolder = config.radiosondeFolder;
+meteorInfo.radiosondeType = config.radiosondeType;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, meteorInfo);
 quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri.meteorSource = globalAttri.source;
 quasiAttri.timestamp = globalAttri.datetime;

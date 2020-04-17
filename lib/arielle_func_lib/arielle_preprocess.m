@@ -92,6 +92,7 @@ rawSignal = data.rawSignal;
 MShots = repmat(...
         reshape(data.mShots, size(data.mShots, 1), 1, size(data.mShots, 2)), ...
         [1, size(data.rawSignal, 2), 1]);
+
 if config.flagDTCor
     PCR = data.rawSignal ./ MShots * 150.0 ./ data.hRes;   % [MHz]
 
@@ -100,7 +101,8 @@ if config.flagDTCor
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = polyval(data.deadtime(iChannel, end:-1:1), ...
                               PCR(iChannel, :, :));
-            rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* MShots;
+            rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
+                                        MShots(iChannel, :, :);
         end
 
     % nonparalyzable correction
@@ -108,7 +110,8 @@ if config.flagDTCor
         for iChannel = 1:size(data.rawSignal, 1)
             PCR_Cor = PCR(iChannel, :, :) ./ ...
                       (1.0 - config.dt(iChannel) * 1e-3 * PCR(iChannel, :, :));
-            rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* MShots;
+            rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
+                                        MShots(iChannel, :, :);
         end
 
     % user defined deadtime.
@@ -119,7 +122,7 @@ if config.flagDTCor
                 PCR_Cor = polyval(config.dt(iChannel, end:-1:1), ...
                                   PCR(iChannel, :, :));
                 rawSignal(iChannel, :, :) = PCR_Cor / (150.0 / data.hRes) .* ...
-                    MShots;
+                    MShots(iChannel, :, :);
             end
         else
             warning(['User defined deadtime parameters were not found. ', ...

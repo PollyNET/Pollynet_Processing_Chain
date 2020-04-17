@@ -52,6 +52,7 @@ function [alt, temp, pres, relh, attri] = read_meteor_data(measTime, ...
 
 %% parse arguments
 p = inputParser;
+p.KeepUnmatched = true;
 
 addRequired(p, 'measTime', @isnumeric);
 addRequired(p, 'altitude', @isnumeric);

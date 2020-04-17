@@ -6,9 +6,11 @@ function [ data ] = polly_read_rawdata(file, varargin)
 %   file: char
 %       absolute path of the polly data.
 %Keywords:
+%   flagFilterFalseMShots: logical
+%       whether to filter out profiles with false shots number.
 %   flagCorrectFalseMShots: logical
 %       whether to correct false shots number.
-%   flagDelete: logical
+%   flagDeleteData: logical
 %       flag to control whether to delete the data files after extracting 
 %       the data.
 %   dataFileFormat: char
@@ -50,10 +52,11 @@ p = inputParser;
 
 addRequired(p, 'file', @ischar);
 addParameter(p, 'flagFilterFalseMShots', false, @islogical);
-addParameter(p, 'flagDelete', false, @islogical);
+addParameter(p, 'flagCorrectFalseMShots', false, @islogical);
+addParameter(p, 'flagDeleteData', false, @islogical);
 addParameter(p, 'dataFileFormat', '', @ischar);
 
-parse(p, measTime, altitude, varargin{:});
+parse(p, file, varargin{:});
 
 %% variables initialization
 data = struct();
@@ -102,7 +105,7 @@ catch
     return;
 end
 
-if p.Results.flagDelete
+if p.Results.flagDeleteData
     delete(file);
 end
 
