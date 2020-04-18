@@ -15,8 +15,10 @@ function [wvconst, wvconstStd, globalAttri] = arielle_wv_calibration(data, confi
 %   wvconstStd: array
 %       uncertainty of water vapor calibration constant. [g/kg]
 %   globalAttri: struct
-%       datetime: array
-%           water vapor calibration time. [datenum]
+%       cali_start_time: array
+%           water vapor calibration start time. [datenum]
+%       cali_stop_time: array
+%           water vapor calibration stop time. [datenum]
 %       WVCaliInfo: cell
 %           calibration information for each calibration period.
 %       IntRange: matrix
@@ -39,7 +41,8 @@ global campaignInfo
 wvconst = [];
 wvconstStd = [];
 globalAttri = struct();
-globalAttri.datetime = [];
+globalAttri.cali_start_time = [];
+globalAttri.cali_stop_time = [];
 globalAttri.WVCaliInfo = {};
 globalAttri.IntRange = [];
 
@@ -55,7 +58,8 @@ flag407On = (~ polly_is407Off(squeeze(data.signal(flagChannel407, :, :))));
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisWVconst = NaN;
     thisWVconstStd = NaN;
-    thisDatetime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
+    thisCaliStartTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
+    thisCaliStopTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
     thisWVCaliInfo = '407 off';
     thisIntRange = [NaN, NaN];
 
@@ -213,7 +217,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     % concatenate data
     wvconst = cat(1, wvconst, thisWVconst);
     wvconstStd = cat(1, wvconstStd, thisWVconstStd);
-    globalAttri.datetime = cat(1, globalAttri.datetime, thisDatetime);
+    globalAttri.cali_start_time = cat(1, globalAttri.cali_start_time, thisCaliStartTime);
+    globalAttri.cali_stop_time = cat(1, globalAttri.cali_stop_time, thisCaliStopTime);
     globalAttri.WVCaliInfo{end + 1} = thisWVCaliInfo;
     globalAttri.IntRange = cat(1, globalAttri.IntRange, thisIntRange);
 end

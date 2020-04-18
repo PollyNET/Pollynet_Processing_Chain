@@ -15,7 +15,7 @@ function [] = arielle_save_WVMR_RH(data, taskInfo, config)
 
 missing_value = -999;
 
-global processInfo defaults campaignInfo
+global processInfo campaignInfo
 
 ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
 
@@ -103,9 +103,10 @@ netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
-netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
+thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
-% WVMR
+% RH
 netcdf.putAtt(ncID, varID_RH, 'unit', '%');
 netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
@@ -114,7 +115,7 @@ netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
-netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The water vapor channel was calibrated using IWV from %s.', config.IWV_instrument));
+netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

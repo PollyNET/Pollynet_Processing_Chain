@@ -1,4 +1,4 @@
-function [] = arielle_display_longterm_cali(taskInfo, config)
+function [] = arielle_display_longterm_cali(dbFile, taskInfo, config)
 %arielle_display_longterm_cali Display the lidar constants.
 %   Example:
 %       [] = arielle_display_longterm_cali(taskInfo, config)
@@ -14,51 +14,79 @@ function [] = arielle_display_longterm_cali(taskInfo, config)
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo campaignInfo defaults
+global processInfo campaignInfo
 
 %% read lidar constant
 lcCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
-LC = arielle_read_LC(lcCaliFile, config.dataFileFormat);
-% extract the logbook info till the current measurement
-flagTillNow = LC.LCTime <= taskInfo.dataTime;
-LCTime = LC.LCTime(flagTillNow);
-LC355Status = LC.LC355Status(flagTillNow);
-LC532Status = LC.LC532Status(flagTillNow);
-LC1064Status = LC.LC1064Status(flagTillNow);
-LC387Status = LC.LC387Status(flagTillNow);
-LC607Status = LC.LC607Status(flagTillNow);
-LC355History = LC.LC355History(flagTillNow);
-LCStd355History = LC.LCStd355History(flagTillNow);
-LC532History = LC.LC532History(flagTillNow);
-LCStd532History = LC.LCStd532History(flagTillNow);
-LC1064History = LC.LC1064History(flagTillNow);
-LCStd1064History = LC.LCStd1064History(flagTillNow);
-LC387History = LC.LC387History(flagTillNow);
-LCStd387History = LC.LCStd387History(flagTillNow);
-LC607History = LC.LC607History(flagTillNow);
-LCStd607History = LC.LCStd607History(flagTillNow);
+[LC355History, LCStd355History, startTime355, stopTime355] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '355', 'Raman_Method', 'flagBeforeQuery', true);
+[LC532History, LCStd532History, startTime532, stopTime532] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'Raman_Method', 'flagBeforeQuery', true);
+[LC1064History, LCStd1064History, startTime1064, stopTime1064] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '1064', 'Raman_Method', 'flagBeforeQuery', true);
+[LC387History, LCStd387History, startTime387, stopTime387] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '387', 'Raman_Method', 'flagBeforeQuery', true);
+[LC607History, LCStd607History, startTime607, stopTime607] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
+if ~ isempty(startTime355)
+    LCTime355 = mean([startTime355, stopTime355]);
+else
+    LCTime355 = [];
+end
+LC355Status = 2 * ones(size(startTime355));
+if ~ isempty(startTime532)
+    LCTime532 = mean([startTime532, stopTime532]);
+else
+    LCTime532 = [];
+end
+LC532Status = 2 * ones(size(startTime532));
+if ~ isempty(startTime1064)
+    LCTime1064 = mean([startTime1064, stopTime1064]);
+else
+    LCTime1064 = [];
+end
+LC1064Status = 2 * ones(size(startTime1064));
+if ~ isempty(startTime387)
+    LCTime387 = mean([startTime387, stopTime387]);
+else
+    LCTime387 = [];
+end
+LC387Status = 2 * ones(size(startTime387));
+if ~ isempty(startTime607)
+    LCTime607 = mean([startTime607, stopTime607]);
+else
+    LCTime607 = [];
+end
+LC607Status = 2 * ones(size(startTime607));
 
 %% read wv calibration constant
-wvCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile);
-[WVCaliTime, WVCaliFlag, WVConst] = arielle_read_wvconst(wvCaliFile);
-flagTillNow = (WVCaliTime <= taskInfo.dataTime);
-WVConst = WVConst(flagTillNow & WVCaliFlag);
-WVCaliTime = WVCaliTime(flagTillNow & WVCaliFlag);
+[WVConst, ~, WVCaliStartTime, WVCaliStopTime] = ...
+    load_wvconst(taskInfo.dataTime, dbFile, campaignInfo.name, 'flagBeforeQuery', true);
+if ~ isempty(WVCaliStartTime)
+    WVCaliTime = mean([WVCaliStartTime, WVCaliStopTime]);
+else
+    WVCaliTime = [];
+end
+
 
 %% read depol calibration constant
 % 355 nm
-depolCaliFile355 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile355);
-[depolCaliTime355, depolCaliConst355] = arielle_read_depolconst(depolCaliFile355);
-flagTillNow = depolCaliTime355 <= taskInfo.dataTime;
-depolCaliTime355 = depolCaliTime355(flagTillNow);
-depolCaliConst355 = depolCaliConst355(flagTillNow);
+[depolCaliConst355, ~, caliStartTime355, caliStopTime355] = ...
+    load_depolconst(taskInfo.dataTime, dbFile, campaignInfo.name, '355', 'flagBeforeQuery', true);
+if ~ isempty(caliStartTime355)
+    depolCaliTime355 = mean([caliStartTime355, caliStopTime355]);
+else
+    depolCaliTime355 = [];
+end
 
 % 532 nm
-depolCaliFile532 = fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532);
-[depolCaliTime532, depolCaliConst532] = arielle_read_depolconst(depolCaliFile532);
-flagTillNow = depolCaliTime532 <= taskInfo.dataTime;
-depolCaliTime532 = depolCaliTime532(flagTillNow);
-depolCaliConst532 = depolCaliConst532(flagTillNow);
+[depolCaliConst532, ~, caliStartTime532, caliStopTime532] = ...
+    load_depolconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'flagBeforeQuery', true);
+    if ~ isempty(caliStartTime532)
+        depolCaliTime532 = mean([caliStartTime532, caliStopTime532]);
+    else
+        depolCaliTime532 = [];
+    end
 
 %% read logbook file
 if ~ isfield(config, 'logbookFile')
@@ -121,7 +149,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355 nm
     subplot('Position', figPos(1, :), 'Units', 'Normalized');
     flagRamanLC = (LC355Status == 2);
-    s1 = scatter(LCTime(flagRamanLC), LC355History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b', 'DisplayName', 'Lidar constants'); hold on;
+    s1 = scatter(LCTime355(flagRamanLC), LC355History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b', 'DisplayName', 'Lidar constants'); hold on;
     
     p1 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.overlap, 'LineWidth', 2, 'DisplayName', 'overlap');
     p2 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.pulsepower, 'LineWidth', 2, 'DisplayName', 'pulsepower');
@@ -174,7 +202,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 532 nm
     subplot('Position', figPos(2, :), 'Units', 'Normalized');
     flagRamanLC = (LC532Status == 2);
-    s1 = scatter(LCTime(flagRamanLC), LC532History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
+    s1 = scatter(LCTime532(flagRamanLC), LC532History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -216,7 +244,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 1064 nm
     subplot('Position', figPos(3, :), 'Units', 'Normalized');
     flagRamanLC = (LC1064Status == 2);
-    s1 = scatter(LCTime(flagRamanLC), LC1064History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r'); hold on;
+    s1 = scatter(LCTime1064(flagRamanLC), LC1064History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'r'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -258,7 +286,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355/387 nm
     subplot('Position', figPos(4, :), 'Units', 'Normalized');
     flagRamanLC = (LC387Status == 2) & (LC355Status == 2);
-    scatter(LCTime(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
+    scatter(LCTime387(flagRamanLC), LC355History(flagRamanLC)./LC387History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -300,7 +328,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 532/607 nm
     subplot('Position', figPos(5, :), 'Units', 'Normalized');
     flagRamanLC = (LC607Status == 2) & (LC532Status == 2);
-    scatter(LCTime(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
+    scatter(LCTime607(flagRamanLC), LC532History(flagRamanLC)./LC607History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'g', 'MarkerEdgeColor', 'g'); hold on;
 
     for iLogbookInfo = 1:numel(logbookTime)
         if flagOverlap(iLogbookInfo)
@@ -363,7 +391,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'arielle_display_longterm_cali.py');

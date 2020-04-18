@@ -1,8 +1,10 @@
-function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol_cali(signal_t, ...
-    bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, ...
-    depol_cali_pAng_time_end, depol_cali_nAng_time_start, ...
-    depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, ...
-    SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
+function [depol_cal_fac, depol_cal_fac_std, depol_cal_start_time, ...
+    depol_cal_stop_time, globalAttri] = ...
+    depol_cali(signal_t, ...
+        bg_t, signal_x, bg_x, time, depol_cali_pAng_time_start, ...
+        depol_cali_pAng_time_end, depol_cali_nAng_time_start, ...
+        depol_cali_nAng_time_end, TR_t, TR_x, caliHIndxRange, ...
+        SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
 %DEPOL_CALI depolarization calibration for PollyXT lidar system.
 %Example:
 %   [depol_cal_fac, depol_cal_fac_std, depol_cal_time] = depol_cali(signal_t, 
@@ -62,10 +64,12 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_time, globalAttri] = depol
 %Outputs:
 %   depol_cal_fac: array
 %       depolarization calibration factor.
-%   depol_cal_fac_std
+%   depol_cal_fac_std: array
 %       std of depolarization calibration factor.
-%   depol_cal_time
-%       time for each successful calibration.
+%   depol_cal_start_time: array
+%       start time for each successful calibration.
+%   depol_cal_stop_time: array
+%       stop time for each successful calibration.
 %   globalAttri: struct
 %       all the information about the depol calibration.
 %History:
@@ -83,7 +87,8 @@ mean_dminus = [];
 mean_dplus = [];
 std_dminus = [];
 std_dplus = [];
-depol_cal_time = [];
+depol_cal_start_time = [];
+depol_cal_stop_time = [];
 globalAttri = struct();
 globalAttri.sig_t_p = cell(0);
 globalAttri.sig_t_m = cell(0);
@@ -103,7 +108,7 @@ globalAttri.std_dminus_tmp = cell(0);
 globalAttri.TR_t = cell(0);
 globalAttri.TR_x = cell(0);
 globalAttri.segIndx = cell(0);
-globalAttri.thisCaliTime = cell(0);
+globalAttri.caliTime = cell(0);
 
 if isempty(signal_t) || isempty(signal_x) 
     warning('No data for depolarization calibration.');
@@ -117,16 +122,20 @@ for iDay = 1:nDays
     for iDepolCal = 1:length(depol_cali_nAng_time_start)
         indx_45p = find(time >= days(iDay) & time < (days(iDay) + 1) & ...
                         time >= depol_cali_pAng_time_start(iDepolCal) & ...
-                        time <= (depol_cali_pAng_time_end(iDepolCal)));
+                        time <= depol_cali_pAng_time_end(iDepolCal));
         indx_45m = find(time >= days(iDay) & time < (days(iDay) + 1) & ...
                         time >= depol_cali_nAng_time_start(iDepolCal) & ... 
-                        time <= (depol_cali_nAng_time_end(iDepolCal)));
+                        time <= depol_cali_nAng_time_end(iDepolCal));
 
         if (length(indx_45p) < 4) || (length(indx_45m) < 4)
             % if not enough depol cali profiles were found, break the loop
             break;
         end
-        thisCaliTime = time(floor(mean([indx_45m, indx_45p])));
+
+        thisCaliStartTime = min([depol_cali_pAng_time_start(iDepolCal), ...
+                                 depol_cali_nAng_time_start(iDepolCal)]);
+        thisCaliStopTime = max([depol_cali_pAng_time_end(iDepolCal), ...
+                                depol_cali_nAng_time_end(iDepolCal)]);
 
         % neglect the first and last profile which could be unstable due to
         % the rotation of the polarizer
@@ -204,13 +213,14 @@ for iDay = 1:nDays
         [~, segIndx] = min(sqrt((std_dplus_tmp./mean_dplus_tmp).^2 + ...
                                 (std_dminus_tmp./mean_dminus_tmp).^2));
         indx = segIndx_tmp(segIndx);
-        depol_cal_time = cat(2, depol_cal_time, thisCaliTime);
+        depol_cal_start_time = cat(2, depol_cal_start_time, thisCaliStartTime);
+        depol_cal_stop_time = cat(2, depol_cal_stop_time, thisCaliStopTime);
         mean_dplus = cat(2, mean_dplus, mean_dplus_tmp(segIndx));
         std_dplus = cat(2, std_dplus, std_dplus_tmp(segIndx));
         mean_dminus = cat(2, mean_dminus, mean_dminus_tmp(segIndx));
         std_dminus = cat(2, std_dminus, std_dminus_tmp(segIndx));
 
-        % save the intermiadte results
+        % save the intermediate results
         globalAttri.sig_t_p{end + 1} = sig_t_p;
         globalAttri.sig_t_m{end + 1} = sig_t_m;
         globalAttri.sig_x_p{end + 1} = sig_x_p;
@@ -229,7 +239,7 @@ for iDay = 1:nDays
         globalAttri.TR_t{end + 1} = TR_t;
         globalAttri.TR_x{end + 1} = TR_x;
         globalAttri.segIndx{end + 1} = segIndx;
-        globalAttri.thisCaliTime{end + 1} = thisCaliTime;
+        globalAttri.caliTime{end + 1} = mean([thisCaliStartTime, thisCaliStopTime]);
 
     end
 end

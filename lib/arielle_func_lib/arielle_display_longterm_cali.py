@@ -102,10 +102,26 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
-        if mat['LCTime'].size:
-            thisLCTime = mat['LCTime'][0][:]
+        if mat['LCTime355'].size:
+            thisLCTime355 = mat['LCTime355'][0][:]
         else:
-            thisLCTime = np.array([])
+            thisLCTime355 = np.array([])
+        if mat['LCTime532'].size:
+            thisLCTime532 = mat['LCTime532'][0][:]
+        else:
+            thisLCTime532 = np.array([])
+        if mat['LCTime1064'].size:
+            thisLCTime1064 = mat['LCTime1064'][0][:]
+        else:
+            thisLCTime1064 = np.array([])
+        if mat['LCTime387'].size:
+            thisLCTime387 = mat['LCTime387'][0][:]
+        else:
+            thisLCTime387 = np.array([])
+        if mat['LCTime607'].size:
+            thisLCTime607 = mat['LCTime607'][0][:]
+        else:
+            thisLCTime607 = np.array([])
         LC355Status = mat['LC355Status'][:]
         LC532Status = mat['LC532Status'][:]
         LC1064Status = mat['LC1064Status'][:]
@@ -252,7 +268,11 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     # convert matlab datenum tp datetime
     startTime = datenum_to_datetime(float(startTime[0]))
     dataTime = datenum_to_datetime(float(dataTime[0]))
-    LCTime = [datenum_to_datetime(thisTime) for thisTime in thisLCTime]
+    LCTime355 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime355]
+    LCTime532 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime532]
+    LCTime1064 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime1064]
+    LCTime387 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime387]
+    LCTime607 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime607]
     logbookTime = [datenum_to_datetime(thisTime)
                    for thisTime in thisLogbookTime]
     elseTime = [datenum_to_datetime(thisElseTime)
@@ -283,8 +303,8 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
 
     # lidar constants at 355 nm
-    LCTime355 = [LCTime[indx]
-                 for indx in np.arange(0, len(LCTime))
+    LCTime355 = [LCTime355[indx]
+                 for indx in np.arange(0, len(LCTime355))
                  if LC355Status[indx] == 2]
     p1 = ax1.scatter(
         LCTime355, LC355History[LC355Status == 2],
@@ -343,8 +363,8 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # lidar constant at 532 nm
-    LCTime532 = [LCTime[indx]
-                 for indx in np.arange(0, len(LCTime))
+    LCTime532 = [LCTime532[indx]
+                 for indx in np.arange(0, len(LCTime532))
                  if LC532Status[indx] == 2]
     p1 = ax2.scatter(
         LCTime532, LC532History[LC532Status == 2],
@@ -380,8 +400,8 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # lidar constant at 1064 nm
-    LCTime1064 = [LCTime[indx]
-                  for indx in np.arange(0, len(LCTime))
+    LCTime1064 = [LCTime1064[indx]
+                  for indx in np.arange(0, len(LCTime1064))
                   if LC1064Status[indx] == 2]
     p1 = ax3.scatter(
         LCTime1064, LC1064History[LC1064Status == 2],
@@ -418,11 +438,11 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 355/387 nm
     flagRamanLC = np.logical_and(LC355Status == 2, LC387Status == 2)
-    LCTimeRaman = [LCTime[indx]
-                   for indx in np.arange(0, len(LCTime))
-                   if flagRamanLC[indx]]
+    LCTime387 = [LCTime387[indx]
+                 for indx in np.arange(0, len(LCTime387))
+                 if LC387Status[indx] == 2]
     p1 = ax4.scatter(
-        LCTimeRaman, LC355History[flagRamanLC] / LC387History[flagRamanLC],
+        LCTime387, LC355History[flagRamanLC] / LC387History[flagRamanLC],
         s=7, c='#0000ff', marker='o'
         )
 
@@ -457,11 +477,11 @@ def arielle_display_longterm_cali(tmpFile, saveFolder):
 
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
-    LCTimeRaman = [LCTime[indx]
-                   for indx in np.arange(0, len(LCTime))
-                   if flagRamanLC[indx]]
+    LCTime607 = [LCTime607[indx]
+                 for indx in np.arange(0, len(LCTime607))
+                 if LC607Status[indx] == 2]
     p1 = ax5.scatter(
-        LCTimeRaman, LC532History[flagRamanLC] / LC607History[flagRamanLC],
+        LCTime607, LC532History[flagRamanLC] / LC607History[flagRamanLC],
         s=7, c='#0000ff', marker='o'
         )
 

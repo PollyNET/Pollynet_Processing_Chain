@@ -124,7 +124,7 @@ def arielle_display_depolcali(tmpFile, saveFolder):
         TRt = np.concatenate(mat['TR_t'])
         TRx = np.concatenate(mat['TR_x'])
         segIndx = np.concatenate(mat['segIndx'])
-        thisCaliTime = np.concatenate(mat['thisCaliTime'])
+        thisCaliTime = np.concatenate(mat['caliTime'])
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
