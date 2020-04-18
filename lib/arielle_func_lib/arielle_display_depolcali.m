@@ -16,7 +16,7 @@ global processInfo defaults campaignInfo
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% 355 nm
     % interate over the cali periods
-    for iCali = 1:length(attri.depCalAttri355.thisCaliTime)  
+    for iCali = 1:length(attri.depCalAttri355.caliTime)  
         wavelength = 355; 
         time = data.mTime;
         alt = data.height;
@@ -38,9 +38,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         TR_t = attri.depCalAttri355.TR_t{iCali};
         TR_x = attri.depCalAttri355.TR_x{iCali};
         segIndx = attri.depCalAttri355.segIndx{iCali};
-        thisCaliTime = attri.depCalAttri355.thisCaliTime{iCali};
+        caliTime = attri.depCalAttri355.caliTime{iCali};
 
-        fileDepolCali355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_355.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+        fileDepolCali355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_355.png', datestr(caliTIme, 'yyyymmdd-HHMM'), wavelength));
 
         % visualize calibration process
         figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -56,7 +56,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         text(1.2, 1.03, sprintf('Depolarization Calibration for %dnm at %s - %s', wavelength, datestr(data.mTime(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')), 'fontweight', 'bold', 'Units', 'Normal', 'HorizontalAlignment', 'center');
         grid();
         set(gca, 'xminortick', 'on', 'YMinorTick', 'on');
-        l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
+        legend([p1, p2, p3, p4], 'Location', 'NorthEast');
         set(l, 'FontSize', 6);
 
         subplot(122);
@@ -74,7 +74,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
                 (1 + TR_t) ./ (1 + TR_x) ./ sqrt(mean_dplus_tmp(segIndx) .* mean_dminus_tmp(segIndx)) .* 0.5 .* (mean_dplus_tmp(segIndx) .* std_dminus_tmp(segIndx) + mean_dminus_tmp(segIndx) .* std_dplus_tmp(segIndx))), ...
                 'Units', 'Normalized', 'fontsize', 6);
         grid();
-        l = legend([p1, p2], 'Location', 'NorthEast');
+        legend([p1, p2], 'Location', 'NorthEast');
         set(l, 'FontSize', 6);
 
         text(0.67, -0.08, sprintf(['%s' char(10) '%s' char(10) 'Version %s'], campaignInfo.location, campaignInfo.name, processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 5, 'fontweight', 'bold');
@@ -88,7 +88,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     %% 532 nm
     % interate over the cali periods
-    for iCali = 1:length(attri.depCalAttri532.thisCaliTime)  
+    for iCali = 1:length(attri.depCalAttri532.caliTime)  
         wavelength = 532; 
         time = data.mTime;
         alt = data.height;
@@ -110,9 +110,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         TR_t = attri.depCalAttri532.TR_t{iCali};
         TR_x = attri.depCalAttri532.TR_x{iCali};
         segIndx = attri.depCalAttri532.segIndx{iCali};
-        thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
+        caliTime = attri.depCalAttri532.caliTime{iCali};
 
-        fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+        fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(caliTime, 'yyyymmdd-HHMM'), wavelength));
 
         % visualize calibration process
         figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -128,7 +128,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         text(1.2, 1.03, sprintf('Depolarization Calibration for %dnm at %s - %s', wavelength, datestr(data.mTime(indx_45p(1) - 1), 'yyyymmdd HH:MM'), datestr(time(indx_45m(end) + 1), 'HH:MM')), 'fontweight', 'bold', 'Units', 'Normal', 'HorizontalAlignment', 'center');
         grid();
         set(gca, 'xminortick', 'on', 'YMinorTick', 'on');
-        l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
+        legend([p1, p2, p3, p4], 'Location', 'NorthEast');
 
         subplot(122);
         p1 = plot(dplus, alt(caliHIndxRange(1):caliHIndxRange(2)), '-b', 'LineWidth', 1, 'DisplayName', 'Ratio_{+45\circ}'); hold on;
@@ -170,7 +170,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% interate over the cali periods
     % 532 nm
-    for iCali = 1:length(attri.depCalAttri532.thisCaliTime)  
+    for iCali = 1:length(attri.depCalAttri532.caliTime)  
         wavelength = 532; 
         time = data.mTime;
         height = data.height;
@@ -193,11 +193,11 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         TR_t = attri.depCalAttri532.TR_t{iCali};
         TR_x = attri.depCalAttri532.TR_x{iCali};
         segIndx = attri.depCalAttri532.segIndx{iCali};
-        thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
+        caliTime = attri.depCalAttri532.caliTime{iCali};
 
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'arielle_display_depolcali.py');
@@ -206,7 +206,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     % 355 nm
-    for iCali = 1:length(attri.depCalAttri355.thisCaliTime)  
+    for iCali = 1:length(attri.depCalAttri355.caliTime)  
         wavelength = 355; 
         time = data.mTime;
         height = data.height;
@@ -229,11 +229,11 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         TR_t = attri.depCalAttri355.TR_t{iCali};
         TR_x = attri.depCalAttri355.TR_x{iCali};
         segIndx = attri.depCalAttri355.segIndx{iCali};
-        thisCaliTime = attri.depCalAttri355.thisCaliTime{iCali};
+        caliTime = attri.depCalAttri355.caliTime{iCali};
 
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'arielle_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'arielle_display_depolcali.py');

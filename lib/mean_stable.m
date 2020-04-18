@@ -47,7 +47,7 @@ for iX = minBin:(maxBin - win)
     thisStd = nanstd(x(iX:(iX + win)));
     thisMean = nanmean(x(iX:(iX + win)));
 
-    relStd = [relStd, thisStd / abs(thisMean)];
+    relStd = cat(2, relStd, thisStd / abs(thisMean));
 end
 
 if ~ exist('minRelStd', 'var')

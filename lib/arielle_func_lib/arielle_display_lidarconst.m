@@ -1,18 +1,16 @@
-function [] = arielle_display_lidarconst(data, taskInfo, config)
+function arielle_display_lidarconst(data, taskInfo, config)
 %arielle_display_lidarconst Display the lidar constants.
-%   Example:
-%       [] = arielle_display_lidarconst(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%       2019-01-28. Add support for 387 and 607 channels.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   arielle_display_lidarconst(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%   2019-01-28. Add support for 387 and 607 channels.
+%Contact:
+%   zhenping@tropos.de
 
-global processInfo campaignInfo defaults
+global processInfo campaignInfo
 
 if isempty(data.cloudFreeGroups)
     return;
