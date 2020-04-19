@@ -342,7 +342,6 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     yLim_FR = config.yLim_FR_RCS;
     yLim_NR = config.yLim_NR_RCS;
-    volDepol_355 = data.volDepol_355;
     volDepol_532 = data.volDepol_532;
     RCS355FRColorRange = config.zLim_FR_RCS_355;
     RCS532FRColorRange = config.zLim_FR_RCS_532;
@@ -352,7 +351,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_rcs.py');

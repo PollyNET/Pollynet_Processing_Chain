@@ -409,8 +409,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.arange(
-            0, 0
-            41, 0.05), orientation='vertical')
+            0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 

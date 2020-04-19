@@ -1,7 +1,7 @@
-function [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_OC_att_beta(data, config)
-%pollyxt_OC_att_beta Calculate the overlap corrected attenuated backscatter.
+function [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_tau_OC_att_beta(data, config)
+%pollyxt_tau_OC_att_beta Calculate the overlap corrected attenuated backscatter.
 %   Example:
-%       [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_OC_att_beta(data, config)
+%       [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_tau_OC_att_beta(data, config)
 %   Inputs:
 %       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

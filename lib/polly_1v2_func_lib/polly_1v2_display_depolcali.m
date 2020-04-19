@@ -11,13 +11,13 @@ function [] = polly_1v2_display_depolcali(data, taskInfo, attri)
 %   Contact:
 %       zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+global processInfo campaignInfo
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
 	%% 532 nm
 	% interate over the cali periods
-	for iCali = 1:length(attri.depCalAttri532.thisCaliTime)  
+	for iCali = 1:length(attri.depCalAttri532.caliTime)  
 		wavelength = 532; 
 		time = data.mTime;
 		alt = data.height;
@@ -39,9 +39,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 		TR_t = attri.depCalAttri532.TR_t{iCali};
 		TR_x = attri.depCalAttri532.TR_x{iCali};
 		segIndx = attri.depCalAttri532.segIndx{iCali};
-		thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
+		caliTime = attri.depCalAttri532.caliTime{iCali};
 
-		fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(thisCaliTime, 'yyyymmdd-HHMM'), wavelength));
+		fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(caliTime, 'yyyymmdd-HHMM'), wavelength));
 
 		% visualize calibration process
 		figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -99,7 +99,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
 	%% interate over the cali periods
 	% 532 nm
-	for iCali = 1:length(attri.depCalAttri532.thisCaliTime)  
+	for iCali = 1:length(attri.depCalAttri532.caliTime)  
 		wavelength = 532; 
 		time = data.mTime;
 		height = data.height;
@@ -121,12 +121,12 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 		TR_t = attri.depCalAttri532.TR_t{iCali};
 		TR_x = attri.depCalAttri532.TR_x{iCali};
 		segIndx = attri.depCalAttri532.segIndx{iCali};
-		thisCaliTime = attri.depCalAttri532.thisCaliTime{iCali};
+		caliTime = attri.depCalAttri532.caliTime{iCali};
 		figDPI = processInfo.figDPI;
 
 	    %% display rcs 
 	    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-	    save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'thisCaliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+	    save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
 	    flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_depolcali.py'), tmpFile, saveFolder));
 	    if flag ~= 0
 	        warning('Error in executing %s', 'polly_1v2_display_depolcali.py');

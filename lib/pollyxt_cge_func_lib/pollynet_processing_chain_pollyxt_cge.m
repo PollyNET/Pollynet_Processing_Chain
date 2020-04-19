@@ -41,6 +41,9 @@ if ~ exist(pic_folder, 'dir')
     mkdir(pic_folder);
 end
 
+dbFile = fullfile(processInfo.results_folder, campaignInfo.name , ...
+                  sprintf('%s_calibration.db', campaignInfo.name));
+
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, ...
@@ -134,7 +137,7 @@ fprintf('[%s] Finish.\n', tNow());
 fprintf('\n[%s] Start to retrieve aerosol optical properties.\n', tNow());
 meteorStr = '';
 for iMeteor = 1:length(meteorAttri.dataSource)
-    meteorStr = [meteorStr, ' ', meteorAttri.dataSource{iMeteor}];
+    meteorStr = cat(2, meteorStr, ' ', meteorAttri.dataSource{iMeteor});
 end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
@@ -149,21 +152,16 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% lidar calibration
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
-LC = pollyxt_cge_lidar_calibration(data, config);
+LC = pollyxt_lidar_calibration(data, config);
 data.LC = LC;
-LCUsed = struct();
-[LCUsed.LCUsed355, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355, LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed1064, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064, LCUsed.LCUsed387, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = pollyxt_cge_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
-data.LCUsed = LCUsed;
+
+% select lidar calibration constant
+data.LCUsed = pollyxt_select_liconst(data, config, dbFile);
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_cge_att_beta(data, config);
-data.att_beta_355 = att_beta_355;
-data.att_beta_532 = att_beta_532;
-data.att_beta_1064 = att_beta_1064;
-data.att_beta_387 = att_beta_387;
-data.att_beta_607 = att_beta_607;
+[data.att_beta_355, data.att_beta_532, data.att_beta_1064, data.att_beta_387, data.att_beta_607] = pollyxt_cge_att_beta(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -196,9 +194,40 @@ if processInfo.flagEnableCaliResultsOutput
     fprintf('\n[%s] Start to save calibration results.\n', tNow());
 
     %% save lidar calibration results
-    pollyxt_cge_save_LC_nc(data, taskInfo, config);
-    pollyxt_cge_save_LC_txt(data, taskInfo, config);
-    
+    save_liconst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '355', 'Klett_Method');
+    save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Klett_Method');
+    save_liconst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '1064', 'Klett_Method');
+    save_liconst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '355', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '1064', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '387', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '355', 'AOD_Constrained_Method');
+    save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+    save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '1064', 'AOD_Constrained_Method');
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -325,7 +354,7 @@ if processInfo.flagEnableDataVisualization
     
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
-    pollyxt_cge_display_longterm_cali(taskInfo, config);
+    pollyxt_cge_display_longterm_cali(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end

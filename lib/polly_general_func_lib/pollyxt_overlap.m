@@ -1,7 +1,7 @@
-function [data, overlapAttri] = pollyxt_tropos_overlap(data, config)
-%pollyxt_tropos_overlap description
+function [data, overlapAttri] = pollyxt_overlap(data, config)
+%pollyxt_overlap description
 %   Example:
-%       [data] = pollyxt_tropos_overlap(data, config)
+%       [data] = pollyxt_overlap(data, config)
 %   Inputs:
 %       data.struct
 %           More detailed information can be found in doc/pollynet_processing_program.md

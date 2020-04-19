@@ -1,35 +1,35 @@
 function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_OC_raman(data, config)
-%pollyxt_tau_OC_raman Retrieve aerosol optical properties for overlap corrected total and raman signal with raman method
-%   Example:
-%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_OC_raman(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc355_raman: matrix
-%           aerosol backscatter coefficient at 355 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerBsc532_raman: matrix
-%           aerosol backscatter coefficient at 532 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerBsc1064_raman: matrix
-%           aerosol backscatter coefficient at 1064 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerExt355_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
-%       aerExt532_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
-%       aerExt1064_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
-%       LR355_raman: matrix
-%           lidar ratio at 355 nm. [Sr]
-%       LR532_raman: matrix
-%           lidar ratio at 532 nm. [Sr]
-%       LR1064_raman: matrix
-%           lidar ratio at 1064 nm. [Sr]
-%   History:
-%       2019-11-27. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_OC_RAMAN Retrieve aerosol optical properties for overlap corrected total and raman signal with raman method
+%Example:
+%   [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_OC_raman(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc355_raman: matrix
+%       aerosol backscatter coefficient at 355 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerBsc532_raman: matrix
+%       aerosol backscatter coefficient at 532 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerBsc1064_raman: matrix
+%       aerosol backscatter coefficient at 1064 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerExt355_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
+%   aerExt532_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
+%   aerExt1064_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
+%   LR355_raman: matrix
+%       lidar ratio at 355 nm. [Sr]
+%   LR532_raman: matrix
+%       lidar ratio at 532 nm. [Sr]
+%   LR1064_raman: matrix
+%       lidar ratio at 1064 nm. [Sr]
+%History:
+%   2019-11-27. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 aerBsc355_raman = [];
 aerBsc532_raman = [];
