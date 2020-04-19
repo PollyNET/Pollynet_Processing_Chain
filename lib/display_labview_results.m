@@ -1,21 +1,21 @@
 function [fig] = display_labview_results(file, yLim, errorbarInterval)
 %DISPLAY_LABVIEW_RESULTS display thelabview retrieving results.
-%   Example:
-%       [fig] = display_labview_results(file, yLim, errorbarInterval)
-%   Inputs:
-%       file: char
-%           the absolute path of the file which contains the data from LabView program. 
-%       yLim: array [2 elements] 
-%           height range for the figure. [km]
-%       errorbarInterval: integer
-%           interval for each error bar.
-%   Outputs:
-%       fig: handle
-%           handle of the figure.
-%   History:
-%       2019-02-18. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [fig] = display_labview_results(file, yLim, errorbarInterval)
+%Inputs:
+%   file: char
+%       the absolute path of the file which contains the data from LabView program. 
+%   yLim: array [2 elements] 
+%       height range for the figure. [km]
+%   errorbarInterval: integer
+%       interval for each error bar.
+%Outputs:
+%   fig: handle
+%       handle of the figure.
+%History:
+%   2019-02-18. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if exist(file, 'file') ~= 2
     error('file does not exist.\n%s', file);

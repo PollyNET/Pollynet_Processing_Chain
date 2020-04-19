@@ -1,27 +1,28 @@
 function [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_532_1064_raman, ang_bsc_355_532_klett, ang_bsc_532_1064_klett] = polly_1v2_angstrexp(data, config)
-%polly_1v2_angstrexp Retrieve the angstroem exponent with klett-retrieve and raman-retrieved aerosol optical properties.
-%   Example:
-%       [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_532_1064_raman, ang_bsc_355_532_klett, ang_bsc_532_1064_klett] = polly_1v2_angstrexp(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       ang_ext_355_532_raman: matrix
-%           angstroem exponent.
-%       ang_bsc_355_532_raman: matrix
-%           angstroem exponent.
-%       ang_bsc_532_1064_raman: matrix
-%           angstroem exponent.
-%       ang_bsc_355_532_klett: matrix
-%           angstroem exponent.
-%       ang_bsc_532_1064_klett: matrix
-%           angstroem exponent.
-%   History:
-%       2018-12-24. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_ANGSTREXP Retrieve the angstroem exponent with klett-retrieve and
+%raman-retrieved aerosol optical properties.
+%Example:
+%   [ang_ext_355_532_raman, ang_bsc_355_532_raman, ang_bsc_532_1064_raman, ang_bsc_355_532_klett, ang_bsc_532_1064_klett] = polly_1v2_angstrexp(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   ang_ext_355_532_raman: matrix
+%       angstroem exponent.
+%   ang_bsc_355_532_raman: matrix
+%       angstroem exponent.
+%   ang_bsc_532_1064_raman: matrix
+%       angstroem exponent.
+%   ang_bsc_355_532_klett: matrix
+%       angstroem exponent.
+%   ang_bsc_532_1064_klett: matrix
+%       angstroem exponent.
+%History:
+%   2018-12-24. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 ang_ext_355_532_raman = [];
 ang_bsc_355_532_raman = [];

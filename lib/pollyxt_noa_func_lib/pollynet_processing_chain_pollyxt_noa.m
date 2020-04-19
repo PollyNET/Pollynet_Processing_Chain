@@ -422,7 +422,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save water vapor mixing ratio and relative humidity
     pollyxt_save_WVMR_RH(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     pollyxt_save_voldepol(data, taskInfo, config);
 
@@ -504,7 +504,7 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_display_quasiretrieving(data, taskInfo, config);
-    
+
     %% display quasi backscatter, particle depol and angstroem exponent V2 
     disp('Display quasi parameters V2')
     pollyxt_display_quasiretrieving_V2(data, taskInfo, config);
@@ -520,7 +520,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     pollyxt_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     pollyxt_display_longterm_cali(dbFile, taskInfo, config);

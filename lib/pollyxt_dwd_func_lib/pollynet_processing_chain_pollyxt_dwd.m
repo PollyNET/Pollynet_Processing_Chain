@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_pollyxt_dwd(taskInfo, config)
 %Example:
 %    [report] = pollynet_processing_chain_pollyxt_dwd(taskInfo, config)
 %Inputs:
-%   fileinfo_new: struct
+%   taskInfo: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -251,7 +251,7 @@ if processInfo.flagEnableCaliResultsOutput
     save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
                  campaignInfo.name, '1064', 'AOD_Constrained_Method');
-    
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -273,7 +273,7 @@ if processInfo.flagEnableResultsOutput
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.nc', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -291,13 +291,13 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     pollyxt_dwd_save_att_bsc(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     pollyxt_dwd_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_dwd_save_quasi_results(data, taskInfo, config);
-    
+
     %% save quasi results V2
     pollyxt_dwd_save_quasi_results_V2(data, taskInfo, config);
 
@@ -312,7 +312,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-        
+
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -327,7 +327,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -367,7 +367,7 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_dwd_display_quasiretrieving(data, taskInfo, config);
-    
+
     %% display quasi backscatter, particle depol and angstroem exponent V2 
     disp('Display quasi parameters V2')
     pollyxt_dwd_display_quasiretrieving_V2(data, taskInfo, config);
@@ -383,7 +383,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     pollyxt_dwd_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     pollyxt_dwd_display_longterm_cali(dbFile, taskInfo, config);

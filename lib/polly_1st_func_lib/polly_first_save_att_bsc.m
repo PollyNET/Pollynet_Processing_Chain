@@ -1,17 +1,15 @@
-function [] = polly_first_save_att_bsc(data, taskInfo, config)
-%polly_first_save_att_bsc save the attenuated backscatter.
-%   Example:
-%       [] = polly_first_save_att_bsc(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-01-10. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_save_att_bsc(data, taskInfo, config)
+%POLLY_FIRST_SAVE_ATT_BSC save the attenuated backscatter.
+%Example:
+%   polly_first_save_att_bsc(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-01-10. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 missing_value = -999;
 
@@ -114,7 +112,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

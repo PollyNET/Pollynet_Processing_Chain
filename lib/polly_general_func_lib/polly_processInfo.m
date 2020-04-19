@@ -1,32 +1,32 @@
 function [processInfo] = polly_processInfo(task, processInfo_history)
 %POLLY_PROCESSINFO find the polly process info for the current task.
-%   Example:
-%       [processInfo] = polly_processInfo(task, processInfo_history)
-%   Inputs:
-%       task: struct
-%           todoPath: char
-%           dataPath: char
-%           dataFilename: char
-%           dataFullpath: char
-%           dataSize: integer
-%           pollyVersion: char
-%           dataTime: datenum
-%       processInfo_history: struct
-%           More detailed info can be found in doc/pollynet.md and 
-%           doc/polly_overviews.xlsx
-%   Outputs:
-%       processInfo: struct
-%           pollyVersion: char
-%           startTime: datenum
-%           endTime: datenum
-%           pollyConfigFile: char
-%           pollyProcessFunc: char
-%           pollyUpdateInfo: char
-%           pollyDefaultsFile: char
-%   History:
-%       2018-12-17. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [processInfo] = polly_processInfo(task, processInfo_history)
+%Inputs:
+%   task: struct
+%       todoPath: char
+%       dataPath: char
+%       dataFilename: char
+%       dataFullpath: char
+%       dataSize: integer
+%       pollyVersion: char
+%       dataTime: datenum
+%   processInfo_history: struct
+%       More detailed info can be found in doc/pollynet.md and 
+%       doc/polly_overviews.xlsx
+%Outputs:
+%   processInfo: struct
+%       pollyVersion: char
+%       startTime: datenum
+%       endTime: datenum
+%       pollyConfigFile: char
+%       pollyProcessFunc: char
+%       pollyUpdateInfo: char
+%       pollyDefaultsFile: char
+%History:
+%   2018-12-17. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 
 processInfo = struct();

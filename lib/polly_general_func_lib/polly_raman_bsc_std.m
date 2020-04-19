@@ -4,63 +4,62 @@ function [ aerBscStd ] = polly_raman_bsc_std(height, sigElastic, bgElastic, ...
                     betaRef, smoothWindow, nSamples, method, flagSmoothBefore)
 %POLLY_RAMAN_BSC_STD calculate the uncertainty of aerosol backscatter 
 %coefficient with Raman method.
-%   Example:
-%       [ aerBscStd ] = polly_raman_bsc_std(height, sigElastic, bgElastic, ...
-%                    sigVRN2, bgVRN2, ext_aer, sigma_ext_aer, angstroem, ...
-%                    sigma_angstroem, ext_mol, beta_mol, HRef, wavelength, ...
-%                    betaRef, smoothWindow, nSamples, method)
-%   Inputs:
-%       height: array
-%           height. [m]
-%       sigElastic: array
-%           elastic photon count signal.
-%		bgElastic: array
-%			background of elastic signal.
-%       sigVRN2: array
-%           N2 vibration rotational raman photon count signal.
-%       bgVRN2: array
-%           background of N2 vibration rotational signal.
-%       ext_aer: array
-%           aerosol extinction coefficient. [m^{-1}]
-%		sigma_ext_aer: array
-%			uncertainty of aerosol extinction coefficient. [m^{-1}]
-%       angstroem: array
-%           aerosol angstroem exponent.
-%       ext_mol: array
-%           molecular extinction coefficient. [m^{-1}]
-%       beta_mol: array
-%           molecular backscatter coefficient. [m^{-1}Sr^{-1}]
-%       HRef: 2 element array
-%           reference region. [m]
-%       wavelength: integer
-%           wavelength of the corresponding elastic signal. [nm]
-%       betaRef: float
-%           aerosol backscatter coefficient at the reference region. 
-%           [m^{-1}Sr^{-1}]
-%       smoothWindow: integer or n*3 matrix
-%           number of the bins of the sliding window for the signal smooth. 
-%           [default: 40]
-%       nSamples: scalar or matrix
-%           samples for each error source.
-%           [samples_angstroem, samples_aerExt, samples_signal,
-%            samples_aerBscRef]
-%       method: char
-%           computational method. ['monte-carlo' or 'analytical']
-%       flagSmoothBefore: logical
-%           flag to control the smooth order.
-%   Outputs:
-%       aerBscStd: array
-%           uncertainty of aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
-%   References:
-%       netcdf-florian retrieving package
-%       Ansmann, A., et al. (1992). "Independent measurement of extinction and 
-%       backscatter profiles in cirrus clouds by using a combined Raman 
-%       elastic-backscatter lidar." Applied optics 31(33): 7113-7131.
-%   History:
-%       2018-01-02. First edition by Zhenping.
-%   Contact:
-%       zhenping@tropos.de
-
+%Example:
+%   [ aerBscStd ] = polly_raman_bsc_std(height, sigElastic, bgElastic, ...
+%                sigVRN2, bgVRN2, ext_aer, sigma_ext_aer, angstroem, ...
+%                sigma_angstroem, ext_mol, beta_mol, HRef, wavelength, ...
+%                betaRef, smoothWindow, nSamples, method)
+%Inputs:
+%   height: array
+%       height. [m]
+%   sigElastic: array
+%       elastic photon count signal.
+%       bgElastic: array
+%           background of elastic signal.
+%   sigVRN2: array
+%       N2 vibration rotational raman photon count signal.
+%   bgVRN2: array
+%       background of N2 vibration rotational signal.
+%   ext_aer: array
+%       aerosol extinction coefficient. [m^{-1}]
+%       sigma_ext_aer: array
+%           uncertainty of aerosol extinction coefficient. [m^{-1}]
+%   angstroem: array
+%       aerosol angstroem exponent.
+%   ext_mol: array
+%       molecular extinction coefficient. [m^{-1}]
+%   beta_mol: array
+%       molecular backscatter coefficient. [m^{-1}Sr^{-1}]
+%   HRef: 2 element array
+%       reference region. [m]
+%   wavelength: integer
+%       wavelength of the corresponding elastic signal. [nm]
+%   betaRef: float
+%       aerosol backscatter coefficient at the reference region. 
+%       [m^{-1}Sr^{-1}]
+%   smoothWindow: integer or n*3 matrix
+%       number of the bins of the sliding window for the signal smooth. 
+%       [default: 40]
+%   nSamples: scalar or matrix
+%       samples for each error source.
+%       [samples_angstroem, samples_aerExt, samples_signal,
+%        samples_aerBscRef]
+%   method: char
+%       computational method. ['monte-carlo' or 'analytical']
+%   flagSmoothBefore: logical
+%       flag to control the smooth order.
+%Outputs:
+%   aerBscStd: array
+%       uncertainty of aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
+%References:
+%   netcdf-florian retrieving package
+%   Ansmann, A., et al. (1992). "Independent measurement of extinction and 
+%   backscatter profiles in cirrus clouds by using a combined Raman 
+%   elastic-backscatter lidar." Applied optics 31(33): 7113-7131.
+%History:
+%   2018-01-02. First edition by Zhenping.
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('method', 'var')
     method = 'monte-carlo';

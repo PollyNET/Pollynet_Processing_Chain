@@ -1,24 +1,22 @@
-function [] = polly_first_save_retrieving_results(data, taskInfo, config)
-%polly_first_save_retrieving_results saving the retrieved results, including backscatter, extinction coefficients, lidar ratio, volume/particles depolarization ratio and so on.
-%   Example:
-%       [] = polly_first_save_retrieving_results(data, taskInfo, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2018-12-31. First Edition by Zhenping
-%       2019-05-10. Add one field of start&end time to be compatible with larda ncReader.
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS
-%       2019-05-24. Add voldepol with different smoothing window  convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_save_retrieving_results(data, taskInfo, config)
+%POLLY_FIRST_SAVE_RETRIEVING_RESULTS saving the retrieved results, including backscatter, extinction coefficients, lidar ratio, volume/particles depolarization ratio and so on.
+%Example:
+%   polly_first_save_retrieving_results(data, taskInfo, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2018-12-31. First Edition by Zhenping
+%   2019-05-10. Add one field of start&end time to be compatible with larda ncReader.
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS
+%   2019-05-24. Add voldepol with different smoothing window  convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -180,7 +178,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'retrieved_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta532 * 1e6, config.smoothWin_raman_532 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
-    
+
     % aerExt_raman_532
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit', 'm^-1');
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit_html', 'm<sup>-1</sup>');
@@ -191,7 +189,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_532 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
-    
+
     % aerLR_raman_532
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'unit', 'sr');
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'long_name', 'aerosol lidar ratio at 532 nm retrieved with Raman method');
@@ -201,7 +199,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
-    
+
     % temperature
     netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree_Celsius');
     netcdf.putAtt(ncID, varID_temperature, 'unit_html', '&#176C');
@@ -210,7 +208,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_temperature, 'plot_range', [-60, 40]);
     netcdf.putAtt(ncID, varID_temperature, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_temperature, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
-    
+
     % pressure
     netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
     netcdf.putAtt(ncID, varID_pressure, 'long_name', 'Pressure');
@@ -218,7 +216,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_pressure, 'plot_range', [0, 1000]);
     netcdf.putAtt(ncID, varID_pressure, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_pressure, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
-    
+
     % reference_height_532
     netcdf.putAtt(ncID, varID_reference_height_532, 'unit', 'm');
     netcdf.putAtt(ncID, varID_reference_height_532, 'long_name', 'Reference height for 532 nm');
@@ -226,7 +224,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_reference_height_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_reference_height_532, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
-    
+
     varID_global = netcdf.getConstant('GLOBAL');
     netcdf.putAtt(ncID, varID_global, 'latitude', data.lat);
     netcdf.putAtt(ncID, varID_global, 'longtitude', data.lon);
@@ -240,8 +238,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     gitInfo = getGitInfo();
     cd(cwd);
     netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
     % close file
     netcdf.close(ncID);
-    
+
 end

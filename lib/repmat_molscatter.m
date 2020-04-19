@@ -1,71 +1,71 @@
 function [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(mTime, alt, meteorInfo)
 %REPMAT_MOLSCATTER Read GDAS1 meteorological data and calculate molecule optical 
 %properties, then repmat it to the lidar measurment grids.
-%   Example:
-%       [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, 
-%       globalAttri, molBsc387, molExt387, molBsc607, molExt607] = 
-%       repmat_molscatter(mTime, alt, meteorInfo)
-%   Inputs:
-%       mTime: array
-%           datetime for each polly profile. [datenum] 
-%       alt: array
-%           altitude (above the mean sea level). [m] 
-%       meteorInfo: struct
-%           meteorDataSource: str
-%               meteorological data type.
-%               e.g., 'gdas1', 'standard_atmosphere', 'websonde', 'radiosonde'
-%           gdas1Site: str
-%               the GDAS1 site for the current campaign.
-%           gdas1_folder: str
-%               the main folder of the GDAS1 profiles.
-%           radiosondeSitenum: integer
-%               site number, which can be found in 
-%               doc/radiosonde-station-list.txt. You can update the list with 
-%               using download_radiosonde_list.m
-%           radiosondeFolder: str
-%               the folder of the sonding files. 
-%   Outputs:
-%       molBsc355: matrix
-%           molecule backscatter coefficient at 355 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
-%       molExt355: matrix
-%           molecule extinction coefficient at 355 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
-%       molBsc532: matrix
-%           molecule backscatter coefficient at 532 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
-%       molExt532: matrix
-%           molecule extinction coefficient at 532 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
-%       molBsc1064: matrix
-%           molecule backscatter coefficient at 1064 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
-%       molExt1064: matrix
-%           molecule extinction coefficient at 1064 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
-%       globalAttri: struct
-%           source: char
-%               the source of meteorological data.
-%           datetime: float
-%               the time stamp for the meteorological data.
-%       molBsc387: matrix
-%           molecule backscatter coefficient at 387 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
-%       molExt387: matrix
-%           molecule extinction coefficient at 387 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
-%       molBsc607: matrix
-%           molecule backscatter coefficient at 607 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
-%       molExt607: matrix
-%           molecule extinction coefficient at 607 nm with a size of 
-%           numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
-%   History:
-%       2018-12-25. First Edition by Zhenping
-%       2019-08-03. Add the output of molecular backscatter and extinction at 
-%                   387 and 407 nm.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, 
+%   globalAttri, molBsc387, molExt387, molBsc607, molExt607] = 
+%   repmat_molscatter(mTime, alt, meteorInfo)
+%Inputs:
+%   mTime: array
+%       datetime for each polly profile. [datenum] 
+%   alt: array
+%       altitude (above the mean sea level). [m] 
+%   meteorInfo: struct
+%       meteorDataSource: str
+%           meteorological data type.
+%           e.g., 'gdas1', 'standard_atmosphere', 'websonde', 'radiosonde'
+%       gdas1Site: str
+%           the GDAS1 site for the current campaign.
+%       gdas1_folder: str
+%           the main folder of the GDAS1 profiles.
+%       radiosondeSitenum: integer
+%           site number, which can be found in 
+%           doc/radiosonde-station-list.txt. You can update the list with 
+%           using download_radiosonde_list.m
+%       radiosondeFolder: str
+%           the folder of the sonding files. 
+%Outputs:
+%   molBsc355: matrix
+%       molecule backscatter coefficient at 355 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%   molExt355: matrix
+%       molecule extinction coefficient at 355 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%   molBsc532: matrix
+%       molecule backscatter coefficient at 532 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%   molExt532: matrix
+%       molecule extinction coefficient at 532 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%   molBsc1064: matrix
+%       molecule backscatter coefficient at 1064 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%   molExt1064: matrix
+%       molecule extinction coefficient at 1064 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%   globalAttri: struct
+%       source: char
+%           the source of meteorological data.
+%       datetime: float
+%           the time stamp for the meteorological data.
+%   molBsc387: matrix
+%       molecule backscatter coefficient at 387 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%   molExt387: matrix
+%       molecule extinction coefficient at 387 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%   molBsc607: matrix
+%       molecule backscatter coefficient at 607 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}] 
+%   molExt607: matrix
+%       molecule extinction coefficient at 607 nm with a size of 
+%       numel(alt)*numel(mTime). [m^{-1}Sr^{-1}]  
+%History:
+%   2018-12-25. First Edition by Zhenping
+%   2019-08-03. Add the output of molecular backscatter and extinction at 
+%               387 and 407 nm.
+%Contact:
+%   zhenping@tropos.de
 
 globalAttri = struct();
 globalAttri.source = 'none';

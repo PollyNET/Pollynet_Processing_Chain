@@ -1,15 +1,13 @@
-function [] = pollyxt_display_retrieving(data, taskInfo, config)
-%pollyxt_display_retrieving display aerosol optical products
-%   Example:
-%       [] = pollyxt_display_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_display_retrieving(data, taskInfo, config)
+%POLLYXT_DISPLAY_RETRIEVING display aerosol optical products
+%Example:
+%   pollyxt_display_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -155,7 +153,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     ang_bsc_355_532_klett_NR = data.ang_bsc_355_532_klett_NR(iGroup, :);
     ang_bsc_355_532_raman_NR = data.ang_bsc_355_532_raman_NR(iGroup, :);
     ang_ext_355_532_raman_NR = data.ang_ext_355_532_raman_NR(iGroup, :);
-    
+
     % depol ratio
     voldepol355_klett = data.voldepol355_klett(iGroup, :);
     voldepol532_klett = data.voldepol532_klett(iGroup, :);
@@ -662,7 +660,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close();
-    
+
     elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Display the results with Python.\n');
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization

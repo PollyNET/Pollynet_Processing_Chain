@@ -1,21 +1,19 @@
-function [] = pollyxt_display_overlap(data, taskInfo, attri, config)
-%pollyxt_display_overlap display the overlap function.
-%   Example:
-%       [] = pollyxt_display_overlap(data, taskInfo, attri, config)
-%   Inputs:
-%       data: struct
-%       taskInfo: struct
-%           the present processed task information. Go to fileinfo_new.txt for more details.
-%       attri: struct
-%           attributes about overlap function.
-%       config: struct
-%           polly processing configuration. More detailed information can be found in doc/polly_config.md
-%   Outputs:
-%       
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_display_overlap(data, taskInfo, attri, config)
+%POLLYXT_DISPLAY_OVERLAP display the overlap function.
+%Example:
+%   pollyxt_display_overlap(data, taskInfo, attri, config)
+%Inputs:
+%   data: struct
+%   taskInfo: struct
+%       the present processed task information. Go to fileinfo_new.txt for more details.
+%   attri: struct
+%       attributes about overlap function.
+%   config: struct
+%       polly processing configuration. More detailed information can be found in doc/polly_config.md
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -134,7 +132,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     %% save figure
     export_fig(gcf, overlapPicFile, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
-    
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
         
     fprintf('Display the results with Python.\n');

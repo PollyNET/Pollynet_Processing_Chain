@@ -1,15 +1,15 @@
 function [flag] = download_aeronet_list()
 %DOWNLOAD_AERONET_LIST Download global aeronet site list.
-%   Example:
-%       [flag] = download_aeronet_list()
-%   Inputs:
-%   Outputs:
-%       flag: logical
-%           return status of the function.
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flag] = download_aeronet_list()
+%Inputs:
+%Outputs:
+%   flag: logical
+%       return status of the function.
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 url = 'https://aeronet.gsfc.nasa.gov/aeronet_locations_v3.txt';
 saveFile = 'AERONET-station-list.txt';

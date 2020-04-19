@@ -1,26 +1,26 @@
 function [sondeFile] = radiosonde_search(sondeFolder, measurementTime, fileType)
 %RADIOSONDE_SEARCH Search the most close radiosonde data with given time.
-%   Example:
-%       [sondeFile] = radiosonde_search(sondeFolder, measurementTime)
-%   Inputs:
-%       sondeFolder: str
-%           the folder of the sonding files. 
-%       measurementTime: datenum
-%           the measurement time, which used for searching the closest sonding 
-%           file.
-%       fileType: integer
-%           file type of the radiosonde file.
-%           - 1: radiosonde file for MOSAiC (default)
-%           - 2: radiosonde file for MUA
-%   Outputs:
-%       sondeFile: str
-%           the filename of the searched sonding file. If no file was found, an 
-%           empty string will be returned.
-%   History:
-%       2019-07-19. First Edition by Zhenping
-%       2019-12-18. Add `fileType` to specify the type of the radiosonde file.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [sondeFile] = radiosonde_search(sondeFolder, measurementTime)
+%Inputs:
+%   sondeFolder: str
+%       the folder of the sonding files. 
+%   measurementTime: datenum
+%       the measurement time, which used for searching the closest sonding 
+%       file.
+%   fileType: integer
+%       file type of the radiosonde file.
+%       - 1: radiosonde file for MOSAiC (default)
+%       - 2: radiosonde file for MUA
+%Outputs:
+%   sondeFile: str
+%       the filename of the searched sonding file. If no file was found, an 
+%       empty string will be returned.
+%History:
+%   2019-07-19. First Edition by Zhenping
+%   2019-12-18. Add `fileType` to specify the type of the radiosonde file.
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('fileType', 'var')
     fileType = 1;
@@ -36,7 +36,7 @@ end
 
 switch fileType
 case 1   % standard file for MOSAiC
-    
+
     %% list all the files
     sondeFileList = listfile(sondeFolder, 'radiosonde_\w{8}_\w{6}.nc');
     if isempty(sondeFileList)
@@ -74,7 +74,7 @@ case 2   % MUA radiosonde standard file
                 'Please go to the folder below to have a look.\n%s'], sondeFolder);
         return;
     end
-    
+
     %% parse the radiosonde time
     sondeTime = NaN(size(sondeFileList));
     for iFile = 1:length(sondeFileList)

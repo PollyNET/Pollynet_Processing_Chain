@@ -1,15 +1,13 @@
-function [] = polly_first_display_retrieving(data, taskInfo, config)
-%polly_first_display_retrieving display aerosol optical products
-%   Example:
-%       [] = polly_first_display_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_display_retrieving(data, taskInfo, config)
+%POLLY_FIRST_DISPLAY_RETRIEVING display aerosol optical products
+%Example:
+%   polly_first_display_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -55,13 +53,13 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         grid()
         l = legend([p2, p5, p7], 'Location', 'NorthEast');
         set(l, 'FontSize', 8);
-        
+
         text(-0.1, -0.07, sprintf(['Version %s'], processInfo.programVersion), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
     %% backscatter klett
@@ -89,13 +87,13 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         grid();
         l = legend([p2], 'Location', 'NorthEast');
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
     %% backscatter raman
@@ -123,16 +121,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         grid();
         l = legend([p2], 'Location', 'NorthEast');
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
-    
     %% extinction klett
     for iGroup = 1:size(data.cloudFreeGroups, 1)
         startIndx = data.cloudFreeGroups(iGroup, 1);
@@ -158,13 +155,13 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         grid();
         l = legend([p2], 'Location', 'NorthEast');
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'klett'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
     %% extinction raman
@@ -192,16 +189,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         grid();
         l = legend([p2], 'Location', 'NorthEast');
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
-   
+
     %% Lidar ratio raman
     for iGroup = 1:size(data.cloudFreeGroups, 1)
         startIndx = data.cloudFreeGroups(iGroup, 1);
@@ -227,16 +224,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
         grid();
         l = legend([p2], 'Location', 'NorthEast');
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'Method: %s'], processInfo.programVersion, 'raman'), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
-     
     %% meteorological paramters Temperature
     for iGroup = 1:size(data.cloudFreeGroups, 1)
         startIndx = data.cloudFreeGroups(iGroup, 1);
@@ -261,13 +257,13 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'From: %s'], processInfo.programVersion, data.meteorAttri.dataSource{iGroup}), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
 
     %% meteorological paramters Pressure
@@ -294,15 +290,15 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         set(gca, 'XMinorTick', 'on', 'YMinorTick', 'on');
 
         grid();
-        
+
         text(-0.1, -0.07, sprintf(['Version %s' char(10) 'From: %s'], processInfo.programVersion, data.meteorAttri.dataSource{iGroup}), 'interpreter', 'none', 'units', 'normal', 'fontsize', 7, 'fontweight', 'bold');
 
         set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
         export_fig(gcf, picFile, '-transparent', sprintf('-r%d', processInfo.figDPI));
         close()
-        
+
     end
-   
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -310,7 +306,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     saveFolder = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     for iGroup = 1:size(data.cloudFreeGroups, 1)
-        
+
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
@@ -341,22 +337,21 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
             % if no reference height was found, using the lidar constants
             rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flagChannel532, startIndx:endIndx), 2) / 150 * data.hRes;
         end
-        
+
         % reference height
         refHIndx532 = [data.refHIndx532(iGroup, 1), data.refHIndx532(iGroup, 2)];
 
         % backscatter
         aerBsc_532_klett = data.aerBsc532_klett(iGroup, :);
         aerBsc_532_raman = data.aerBsc532_raman(iGroup, :);
-       
+
         % extinction
         aerExt_532_klett = data.aerExt532_klett(iGroup, :);
         aerExt_532_raman = data.aerExt532_raman(iGroup, :);
-       
+
         % lidar ratio
         LR532_raman = data.LR532_raman(iGroup, :);
-                
-        
+
         % meteor data
         meteorSource = data.meteorAttri.dataSource{iGroup};
         temperature = data.temperature(iGroup, :);
@@ -381,7 +376,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
             fprintf('Create the tmp folder to save the temporary results.\n');
             mkdir(tmpFolder);
         end
-        
+
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
         save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerExt_532_klett', 'aerExt_532_raman', 'LR532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Ext', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');

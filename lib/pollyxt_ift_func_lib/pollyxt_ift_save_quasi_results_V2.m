@@ -1,21 +1,19 @@
-function [] = pollyxt_ift_save_quasi_results_V2(data, taskInfo, config)
-%pollyxt_ift_save_quasi_results_V2 Saving the quasi retrieving results (V2) to netcdf file.
-%   Example:
-%       [] = pollyxt_ift_save_quasi_results_V2(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2019-08-03. First Edition by Zhenping
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_save_quasi_results_V2(data, taskInfo, config)
+%POLLYXT_IFT_SAVE_QUASI_RESULTS_V2 Saving the quasi retrieving results (V2) to netcdf file.
+%Example:
+%   pollyxt_ift_save_quasi_results_V2(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2019-08-03. First Edition by Zhenping
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -178,7 +176,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

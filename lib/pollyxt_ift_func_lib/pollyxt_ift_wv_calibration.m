@@ -1,36 +1,36 @@
 function [wvconst, wvconstStd, globalAttri] = pollyxt_ift_wv_calibration(data, config)
 %POLLYXT_IFT_WV_CALIBRATION water vapor calibration. 
-%   Example:
-%       [wvconst, wvconstStd, globalAttri] = pollyxt_ift_wv_calibration(data, config)
-%   Inputs:
-%       data: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       wvconst: array
-%           water vapor calibration constant. [g/kg] 
-%       wvconstStd: array
-%           uncertainty of water vapor calibration constant. [g/kg]
-%       globalAttri: struct
-%           datetime: array
-%               water vapor calibration time. [datenum]
-%           WVCaliInfo: cell
-%               calibration information for each calibration period.
-%           IntRange: matrix
-%               index of integration range for calculate the raw IWV from lidar.
-%   References:
-%       Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P.,
-%       Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
-%       lidar water vapor profiles by means of AERONET photometer observations
-%       and GDAS meteorological data, Atmospheric Measurement Techniques,
-%       11, 2735-2748, 2018.
-%   History:
-%       2018-12-26. First Edition by Zhenping
-%       2019-08-08. Add the sunrise and sunset to exclude the low SNR 
-%                   calibration periods.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [wvconst, wvconstStd, globalAttri] = pollyxt_ift_wv_calibration(data, config)
+%Inputs:
+%   data: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   wvconst: array
+%       water vapor calibration constant. [g/kg] 
+%   wvconstStd: array
+%       uncertainty of water vapor calibration constant. [g/kg]
+%   globalAttri: struct
+%       datetime: array
+%           water vapor calibration time. [datenum]
+%       WVCaliInfo: cell
+%           calibration information for each calibration period.
+%       IntRange: matrix
+%           index of integration range for calculate the raw IWV from lidar.
+%References:
+%   Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P.,
+%   Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
+%   lidar water vapor profiles by means of AERONET photometer observations
+%   and GDAS meteorological data, Atmospheric Measurement Techniques,
+%   11, 2735-2748, 2018.
+%History:
+%   2018-12-26. First Edition by Zhenping
+%   2019-08-08. Add the sunrise and sunset to exclude the low SNR 
+%               calibration periods.
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo
 
@@ -91,17 +91,17 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali), 3));
     sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali), 3));
     bg407 = squeeze(sum(data.bg(flagChannel407, :, flag407On & flagWVCali), 3));
-    
+
     % smooth the signal
     smoothWidth = 10;
     sig387 = transpose(smooth(sig387, smoothWidth));   % according to Guangyao's calibration program.
     bg387 = transpose(smooth(bg387, smoothWidth));
     sig407 = transpose(smooth(sig407, smoothWidth));
     bg407 = transpose(smooth(bg407, smoothWidth));
-    
+
     snr407 = polly_SNR(sig407, bg407) * sqrt(smoothWidth);
     snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
-    
+
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
     hIntTopIndx = find(data.height >= config.hWVCaliTop, 1);
     if isempty(hIntBaseIndx)
@@ -203,7 +203,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     globalAttri.datetime = cat(1, globalAttri.datetime, thisDatetime);
     globalAttri.WVCaliInfo{end + 1} = thisWVCaliInfo;
     globalAttri.IntRange = cat(1, globalAttri.IntRange, thisIntRange);
-    
+
 end
 
 end

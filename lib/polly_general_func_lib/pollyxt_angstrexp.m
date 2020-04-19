@@ -1,7 +1,7 @@
 function [ang_ext_355_532_raman, ang_bsc_355_532_raman, ...
           ang_bsc_532_1064_raman, ang_bsc_355_532_klett, ...
           ang_bsc_532_1064_klett] = pollyxt_angstrexp(data, config)
-%pollyxt_angstrexp Retrieve the angstroem exponent with klett-retrieve and
+%POLLYXT_ANGSTREXP Retrieve the angstroem exponent with klett-retrieve and
 %raman-retrieved aerosol optical properties.
 %Example:
 %   [ang_ext_355_532_raman, ang_bsc_355_532_raman,
