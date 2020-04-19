@@ -1,27 +1,27 @@
 function [pollyConfigHistory] = read_pollynet_processing_configs(file)
 %READ_POLLYNET_PROCESSING_CONFIGS read pollynet history configuration file.
-%   Example:
-%       [pollyConfigHistory] = read_pollynet_processing_configs(file)
-%   Inputs:
-%       file: char
-%           pollynet processing configurature files. This file is used to guide 
-%           the processing chain to search for the suitable config file and 
-%           processing function to processing the polly data. More detailed 
-%           information can be found in doc/pollynet.md
-%   Outputs:
-%       pollyConfigHistory: struct
-%           pollyVersion: cell
-%           startTime: array (datenum)
-%           endTime: array (datenum)
-%           pollyConfigFile: cell
-%           pollyProcessFunc: cell
-%           pollyUpdateInfo: cell
-%           pollyDefaultsFile: cell
-%   History:
-%       2018-12-17. First edition by Zhenping
-%       2018-12-18. Add pollyDefaultsFile category.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [pollyConfigHistory] = read_pollynet_processing_configs(file)
+%Inputs:
+%   file: char
+%       pollynet processing configurature files. This file is used to guide 
+%       the processing chain to search for the suitable config file and 
+%       processing function to processing the polly data. More detailed 
+%       information can be found in doc/pollynet.md
+%Outputs:
+%   pollyConfigHistory: struct
+%       pollyVersion: cell
+%       startTime: array (datenum)
+%       endTime: array (datenum)
+%       pollyConfigFile: cell
+%       pollyProcessFunc: cell
+%       pollyUpdateInfo: cell
+%       pollyDefaultsFile: cell
+%History:
+%   2018-12-17. First edition by Zhenping
+%   2018-12-18. Add pollyDefaultsFile category.
+%Contact:
+%   zhenping@tropos.de
 
 pollyConfigHistory = struct();
 pollyConfigHistory.pollyVersion = {};

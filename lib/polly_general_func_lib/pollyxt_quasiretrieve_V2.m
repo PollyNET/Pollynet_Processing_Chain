@@ -1,5 +1,5 @@
 function [quasi_par_bsc_355_V2, quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064_V2, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_quasiretrieve_V2(data, config)
-%pollyxt_quasiretrieve_V2 Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+%POLLYXT_QUASIRETRIEVE_V2 Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
 %Example:
 %   [quasi_par_bsc_355_V2, quasi_par_bsc_532_V2, quasi_par_bsc_1064_V2, quasi_par_depol_532_V2, volDepol_355, volDepol_532, quasi_ang_532_1064, quality_mask_355_V2, quality_mask_532_V2, quality_mask_1064_V2, quality_mask_volDepol_355_V2, quality_mask_volDepol_532_V2] = pollyxt_quasiretrieve_V2(data, config)
 %Input:

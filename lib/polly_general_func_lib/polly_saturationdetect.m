@@ -2,29 +2,29 @@ function [flag] = polly_saturationdetect(signal, height, hBase, hTop, ...
                     sigThresh, cloudMaxGThickness)
 %POLLY_SATURATIONDETECT saturation bin detection. More detailed information can 
 %be found in doc/pollynet_processing_program.md
-%   Example:
-%       [flag] = polly_saturationdetect(signal, height, hRange, sigThresh, 
-%                                       cloudMaxGThickness)
-%   Inputs:
-%       signal: array
-%           photon count rate. [MHz] 
-%       height: array
-%           height of each range bin. [m] 
-%       hRange: 2-element array
-%           range constrain for the detection.
-%       sigThresh: float
-%           the maximum signal to be trusted without strong signal satureation. 
-%           [MHz] 
-%       cloudMaxGThickness: float
-%           the maximun penetration depth for strong attenuation clouds. [m]
-%   Outputs:
-%       flag: logical
-%           saturation flag for each range bin.
-%   History:
-%       2018-12-21. First Edition by Zhenping
-%       2019-07-08. Add the criteria for the absolute values
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flag] = polly_saturationdetect(signal, height, hRange, sigThresh, 
+%                                   cloudMaxGThickness)
+%Inputs:
+%   signal: array
+%       photon count rate. [MHz] 
+%   height: array
+%       height of each range bin. [m] 
+%   hRange: 2-element array
+%       range constrain for the detection.
+%   sigThresh: float
+%       the maximum signal to be trusted without strong signal satureation. 
+%       [MHz] 
+%   cloudMaxGThickness: float
+%       the maximun penetration depth for strong attenuation clouds. [m]
+%Outputs:
+%   flag: logical
+%       saturation flag for each range bin.
+%History:
+%   2018-12-21. First Edition by Zhenping
+%   2019-07-08. Add the criteria for the absolute values
+%Contact:
+%   zhenping@tropos.de
 
 flag = false(size(signal));
 if isempty(signal) || (numel(signal) < 2)

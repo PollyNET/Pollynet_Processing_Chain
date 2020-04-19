@@ -1,19 +1,19 @@
 function [time] = polly_parsetime(file, textFormat)
 %POLLY_PARSETIME parse time from polly data file.
-%   Example:
-%       [time] = polly_parsetime(file, textFormat)
-%   Inputs:
-%       file: char
-%           filename of polly data.
-%   textFormat: char
-%           parsing format to analysis polly data filename.
-%   Outputs:
-%       time: datenum
-%           time when the polly data file was created.
-%   History:
-%       2018-12-17. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [time] = polly_parsetime(file, textFormat)
+%Inputs:
+%   file: char
+%       filename of polly data.
+%textFormat: char
+%       parsing format to analysis polly data filename.
+%Outputs:
+%   time: datenum
+%       time when the polly data file was created.
+%History:
+%   2018-12-17. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 time = [];
 try

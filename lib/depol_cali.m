@@ -79,7 +79,7 @@ function [depol_cal_fac, depol_cal_fac_std, depol_cal_start_time, ...
 %               because it will lead to bias when doing smoothing.
 %Contact:
 %   zhenping@tropos.de
-    
+
 %% parameters initialization
 depol_cal_fac = [];
 depol_cal_fac_std = [];
@@ -187,7 +187,7 @@ for iDay = 1:nDays
                sum(~ isnan(dminus(iReg:(iReg + segmentLen)))) <= segmentLen/4
                 continue;
             end
-            
+    
             this_mean_dplus = nanmean(dplus(iReg:(iReg + segmentLen)));
             this_std_dplus = nanstd(dplus(iReg:(iReg + segmentLen)));
             this_mean_dminus = nanmean(dminus(iReg:(iReg + segmentLen)));
@@ -208,7 +208,7 @@ for iDay = 1:nDays
         if isempty(mean_dplus_tmp)
             continue;
         end
-        
+
         % find the most stable calbiration region
         [~, segIndx] = min(sqrt((std_dplus_tmp./mean_dplus_tmp).^2 + ...
                                 (std_dminus_tmp./mean_dminus_tmp).^2));

@@ -1,15 +1,13 @@
-function [] = polly_first_display_monitor(data, taskInfo, config)
-%polly_first_display_monitor display the values of sensors.
-%   Example:
-%       [] = polly_first_display_monitor(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-01-05. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_display_monitor(data, taskInfo, config)
+%POLLY_FIRST_DISPLAY_MONITOR display the values of sensors.
+%Example:
+%   polly_first_display_monitor(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-01-05. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo defaults processInfo
 
@@ -22,7 +20,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     % TODO
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -46,7 +44,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'polly_first_display_monitor.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

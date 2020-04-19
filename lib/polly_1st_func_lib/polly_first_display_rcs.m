@@ -1,18 +1,16 @@
-function [] = polly_first_display_rcs(data, taskInfo, config)
-%polly_first_display_rcs display the range corrected signal, vol-depol at 355 and 532 nm
-%   Example:
-%       [] = polly_first_display_rcs(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_display_rcs(data, taskInfo, config)
+%POLLY_FIRST_DISPLAY_RCS display the range corrected signal, vol-depol at 355 and 532 nm
+%Example:
+%   polly_first_display_rcs(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global defaults processInfo campaignInfo
 
@@ -138,7 +136,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -149,7 +147,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'zLim_FR_RCS_532', 'zLim_NR_RCS_532', '-v6');
@@ -158,7 +156,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'polly_first_display_rcs.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

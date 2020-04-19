@@ -2,41 +2,41 @@ function [depCal_P_Ang_time_start, depCal_P_Ang_time_end, depCal_N_Ang_time_star
 %POLLY_DEPOLCAL_TIME Retrieve the time for the polly depolarization calibration 
 %period. depolarization calibration: 5 min (+45°) + 5 min (-45°) + 0.5 min 
 %(which I don't know why)
-%   Example:
-%       [depCal_P_Ang_time_start, depCal_N_Ang_time_start, maskDepCal] = 
-%       polly_depolCal_time(depCalAng, mTime, init_depAng, maskDepCalAng)
-%   Inputs:
-%       depCalAng: array
-%           depolarization calibration angle. [degree]
-%       mTime: array
-%           time for each profile. [datenum] 
-%       init_depAng: float
-%           initial depolarization calibration angle. [degree] 
-%       maskDepCalAng: cell
-%           mask for positive and negative calibration profile.
-%           e.g., {'none', 'none', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 
-%                   'p', 'none', 'none', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 
-%                   'n', 'none'};   % 'p' for positive angle, 
-%                %'n' for negative angle and 'none' for invalid profile.
-%   Outputs:
-%       depCal_P_Ang_time_start: scalar
-%           time for the first profile with valid positive angle depolarization 
-%           calibration. [datenum]
-%       depCal_P_Ang_time_end: scalar
-%           time for the last profile with valid positive angle depolarization 
-%           calibration. [datenum]
-%       depCal_N_Ang_time_start: scalar
-%           time for the first profile with valid negative angle depolarization 
-%           calibration. [datenum]
-%       depCal_N_Ang_time_end: scalar
-%           time for the last profile with valid negative angle depolarization 
-%           calibration. [datenum]
-%       maskDepCal: logical array
-%           profile mask for depolarization calibration.
-%   History:
-%       2019-07-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [depCal_P_Ang_time_start, depCal_N_Ang_time_start, maskDepCal] = 
+%   polly_depolCal_time(depCalAng, mTime, init_depAng, maskDepCalAng)
+%Inputs:
+%   depCalAng: array
+%       depolarization calibration angle. [degree]
+%   mTime: array
+%       time for each profile. [datenum] 
+%   init_depAng: float
+%       initial depolarization calibration angle. [degree] 
+%   maskDepCalAng: cell
+%       mask for positive and negative calibration profile.
+%       e.g., {'none', 'none', 'p', 'p', 'p', 'p', 'p', 'p', 'p', 
+%               'p', 'none', 'none', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 
+%               'n', 'none'};   % 'p' for positive angle, 
+%            %'n' for negative angle and 'none' for invalid profile.
+%Outputs:
+%   depCal_P_Ang_time_start: scalar
+%       time for the first profile with valid positive angle depolarization 
+%       calibration. [datenum]
+%   depCal_P_Ang_time_end: scalar
+%       time for the last profile with valid positive angle depolarization 
+%       calibration. [datenum]
+%   depCal_N_Ang_time_start: scalar
+%       time for the first profile with valid negative angle depolarization 
+%       calibration. [datenum]
+%   depCal_N_Ang_time_end: scalar
+%       time for the last profile with valid negative angle depolarization 
+%       calibration. [datenum]
+%   maskDepCal: logical array
+%       profile mask for depolarization calibration.
+%History:
+%   2019-07-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 depCal_N_Ang_time_start = [];
 depCal_N_Ang_time_end = [];

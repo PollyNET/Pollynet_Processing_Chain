@@ -3,52 +3,52 @@ function [ ext_aer ] = polly_raman_ext(height, sig, lambda_emit, ...
     method, measure_error)
 %POLLY_RAMAN_EXT retrieve the aerosol extinction coefficient
 %with Raman method
-%   Example:
-%       [ ext_aer ] = polly_raman_ext(height, sig, lambda_emit, lambda_rec, 
-%       angstrom, pressure, temperature, window_size, C, rh, method, 
-%       measure_error)
-%   Inputs:
-%       height: array
-%           height[m]
-%       sig: array
-%           measured raman signal. Unit: Photon Count
-%       lambda_emit: float
-%           the wavelength of the emitted laser beam.[nm]
-%       lambda_rec: float
-%           the wavelength of raman sigal.[nm]
-%       angstrom: float
-%           the angstrom exponent for aerosol extinction coefficient
-%       pressure: array
-%           pressure of the atmosphere. [hPa]
-%       temperature: array
-%           temperature of the atmosphere. [K]
-%       window_size: integer
-%           window_size for smoothing the signal with sgolay filter.
-%       order: integer
-%           order of the implemented sgolay filter.
-%       C: array
-%           CO2 concentration.[ppmv]
-%       rh: array
-%           relative humidity.
-%       method: char
-%           specify the method to calculate the slope of the signal. You can 
-%           choose from 'moving', 'smoothing' and 'chi2'.
-%       measure_error: array
-%           measurement error for each bin.
-%   Returns:
-%       ext_aer: array
-%           aerosol extinction coefficient [m^{-1}]
-%   References:
-%       https://bitbucket.org/iannis_b/lidar_processing
+%Example:
+%   [ ext_aer ] = polly_raman_ext(height, sig, lambda_emit, lambda_rec, 
+%   angstrom, pressure, temperature, window_size, C, rh, method, 
+%   measure_error)
+%Inputs:
+%   height: array
+%       height[m]
+%   sig: array
+%       measured raman signal. Unit: Photon Count
+%   lambda_emit: float
+%       the wavelength of the emitted laser beam.[nm]
+%   lambda_rec: float
+%       the wavelength of raman sigal.[nm]
+%   angstrom: float
+%       the angstrom exponent for aerosol extinction coefficient
+%   pressure: array
+%       pressure of the atmosphere. [hPa]
+%   temperature: array
+%       temperature of the atmosphere. [K]
+%   window_size: integer
+%       window_size for smoothing the signal with sgolay filter.
+%   order: integer
+%       order of the implemented sgolay filter.
+%   C: array
+%       CO2 concentration.[ppmv]
+%   rh: array
+%       relative humidity.
+%   method: char
+%       specify the method to calculate the slope of the signal. You can 
+%       choose from 'moving', 'smoothing' and 'chi2'.
+%   measure_error: array
+%       measurement error for each bin.
+%Returns:
+%   ext_aer: array
+%       aerosol extinction coefficient [m^{-1}]
+%References:
+%   https://bitbucket.org/iannis_b/lidar_processing
 %
-%       Ansmann, A. et al. Independent measurement of extinction and backscatter 
-%       profiles
-%       in cirrus clouds by using a combined Raman elastic-backscatter lidar.
-%       Applied Optics Vol. 31, Issue 33, pp. 7113-7131 (1992)  
-%   History:
-%       2017-12-18. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%   Ansmann, A. et al. Independent measurement of extinction and backscatter 
+%   profiles
+%   in cirrus clouds by using a combined Raman elastic-backscatter lidar.
+%   Applied Optics Vol. 31, Issue 33, pp. 7113-7131 (1992)  
+%History:
+%   2017-12-18. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 % default method is movingslope
 if ~ exist('method', 'var')

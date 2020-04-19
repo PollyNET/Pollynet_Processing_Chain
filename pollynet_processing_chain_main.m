@@ -1,5 +1,5 @@
 function report = pollynet_processing_chain_main(pollynetConfigFile)
-%pollynet_processing_chain_main read polly tasks from todo_filelist and assign
+%POLLYNET_PROCESSING_CHAIN_MAIN read polly tasks from todo_filelist and assign
 %the processing module for each task.
 %Example:
 %   [report] = pollynet_processing_chain_main(pollynetConfigFile)

@@ -1,15 +1,15 @@
-function [] = pollyxt_dwd_display_retrieving(data, taskInfo, config)
-%pollyxt_dwd_display_retrieving display aerosol optical products
-%   Example:
-%       [] = pollyxt_dwd_display_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_dwd_display_retrieving(data, taskInfo, config)
+%POLLYXT_DWD_DISPLAY_RETRIEVING display aerosol optical products
+%Example:
+%   pollyxt_dwd_display_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%Outputs:
+%   
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -567,7 +567,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         close()
         
     end
-    
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization

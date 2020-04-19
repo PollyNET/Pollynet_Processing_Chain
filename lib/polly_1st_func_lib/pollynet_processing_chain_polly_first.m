@@ -179,7 +179,7 @@ if processInfo.flagEnableCaliResultsOutput
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
                  campaignInfo.name, '532', 'AOD_Constrained_Method');
-    
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -201,7 +201,7 @@ if processInfo.flagEnableResultsOutput
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.nc', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -243,7 +243,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -283,7 +283,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_first_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     polly_first_display_longterm_cali(dbFile, taskInfo, config);

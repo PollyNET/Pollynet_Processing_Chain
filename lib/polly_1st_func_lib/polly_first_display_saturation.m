@@ -1,15 +1,15 @@
-function [] = polly_first_display_saturation(data, taskInfo, config)
-%polly_first_display_saturation display the saturation mask.
-%   Example:
-%       [] = polly_first_display_saturation(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_display_saturation(data, taskInfo, config)
+%POLLY_FIRST_DISPLAY_SATURATION display the saturation mask.
+%Example:
+%   polly_first_display_saturation(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%Outputs:
+%   
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -23,7 +23,7 @@ figDPI = processInfo.figDPI;
 height = data.height;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
-SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;    
+SAT_FR_355(data.lowSNRMask(flagChannel355, :, :)) = 2;
 SAT_FR_532 = double(squeeze(data.flagSaturation(flagChannel532, :, :)));
 SAT_FR_532(data.lowSNRMask(flagChannel532, :, :)) = 2;
 SAT_FR_1064 = double(squeeze(data.flagSaturation(flagChannel1064, :, :)));
@@ -188,7 +188,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-        
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');

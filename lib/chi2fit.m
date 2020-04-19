@@ -1,30 +1,30 @@
 function [a, b, sigmaA, sigmaB, chi2, Q] = chi2fit(x, y, measure_error)
 %CHI2FIT Chi-2 fitting. All the code are translated from the exemplified code in Numerical 
 %Recipies in C (2nd Edition). Great help comes from Birgit Heese.
-%   Example:
-%       [a, b, sigmaA, sigmaB, r_ab, Q] = linfit(x, y, meansure_error)
-%   Inputs:
-%       x: array 
-%           The length of x should be larger than 1.
-%       y: array
-%           The measured signal.
-%   Outputs:
-%       a: float
-%           intersect of the linear regression.
-%       b: float
-%           slope of the linear regression
-%       sigmaA:
-%           Uncertainty of intersect 
-%       sigmaB:
-%           Uncertainty of slope
-%       chi2:
-%           chi2 value
-%       Q: 
-%           goodness of fit.
-%   History:
-%       2018-08-03. First edition by Zhenping.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [a, b, sigmaA, sigmaB, r_ab, Q] = linfit(x, y, meansure_error)
+%Inputs:
+%   x: array 
+%       The length of x should be larger than 1.
+%   y: array
+%       The measured signal.
+%Outputs:
+%   a: float
+%       intersect of the linear regression.
+%   b: float
+%       slope of the linear regression
+%   sigmaA:
+%       Uncertainty of intersect 
+%   sigmaB:
+%       Uncertainty of slope
+%   chi2:
+%       chi2 value
+%   Q: 
+%       goodness of fit.
+%History:
+%   2018-08-03. First edition by Zhenping.
+%Contact:
+%   zhenping@tropos.de
 
 if length(x) ~= length(y)
     error('Array length must agree');
