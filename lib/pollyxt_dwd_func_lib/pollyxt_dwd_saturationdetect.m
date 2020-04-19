@@ -1,20 +1,21 @@
 function [flag] = pollyxt_dwd_saturationdetect(data, config)
-%pollyxt_dwd_saturationdetect detect the bins which is fully saturated by the clouds. The description about the detection algorithm can be found in doc/polly_defaults.md
-%   Example:
-%       [flag] = pollyxt_dwd_saturationdetect(data, height, config)
-%   Inputs:
-%       data: struct
-%           More detailed information can be found in doc\pollynet_processing_program.md
-%       config: struct
-%           processing configurations. Deatiled information can be found in doc\polly_config.md
-%   Outputs:
-%       flag: logical matrix
-%           if it is true, it means the current range bin should be saturated by clouds. Vice versa.
-%   History:
-%       2018-12-21. First Edition by Zhenping
-%       2019-07-08. Fix the bug of converting signal to PCR.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_DWD_SATURATIONDETECT detect the bins which is fully saturated by the
+%clouds.
+%Example:
+%   [flag] = pollyxt_dwd_saturationdetect(data, height, config)
+%Inputs:
+%   data: struct
+%       More detailed information can be found in doc\pollynet_processing_program.md
+%   config: struct
+%       processing configurations. Deatiled information can be found in doc\polly_config.md
+%Outputs:
+%   flag: logical matrix
+%       if it is true, it means the current range bin should be saturated by clouds. Vice versa.
+%History:
+%   2018-12-21. First Edition by Zhenping
+%   2019-07-08. Fix the bug of converting signal to PCR.
+%Contact:
+%   zhenping@tropos.de
 
 nChannels = size(data.signal, 1);
 nProfiles = size(data.signal, 3);

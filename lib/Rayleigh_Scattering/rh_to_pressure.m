@@ -10,7 +10,7 @@ function [ p_wv ] = rh_to_pressure(rh, temperature)
 %           Water vapour pressure [hPa].
     svp = saturation_vapor_pressure(temperature);
     h = rh ./ 100.;
-    
+
     p_wv = h .* svp;
 end  % Previously / 100. This seems to be a bug (SVP already in hPA)/
 

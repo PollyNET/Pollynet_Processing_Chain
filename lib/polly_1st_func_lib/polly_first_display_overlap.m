@@ -1,21 +1,19 @@
-function [] = polly_first_display_overlap(data, taskInfo, attri, config)
-%polly_first_display_overlap display the overlap function.
-%   Example:
-%       [] = polly_first_display_overlap(data, taskInfo, attri, config)
-%   Inputs:
-%       data: struct
-%       taskInfo: struct
-%           the present processed task information. Go to fileinfo_new.txt for more details.
-%       attri: struct
-%           attributes about overlap function.
-%       config: struct
-%           polly processing configuration. More detailed information can be found in doc/polly_config.md
-%   Outputs:
-%       
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_first_display_overlap(data, taskInfo, attri, config)
+%POLLY_FIRST_DISPLAY_OVERLAP display the overlap function.
+%Example:
+%   polly_first_display_overlap(data, taskInfo, attri, config)
+%Inputs:
+%   data: struct
+%   taskInfo: struct
+%       the present processed task information. Go to fileinfo_new.txt for more details.
+%   attri: struct
+%       attributes about overlap function.
+%   config: struct
+%       polly processing configuration. More detailed information can be found in doc/polly_config.md
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -102,7 +100,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-        
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');

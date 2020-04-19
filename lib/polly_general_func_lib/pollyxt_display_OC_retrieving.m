@@ -1,15 +1,13 @@
-function [] = pollyxt_display_OC_retrieving(data, taskInfo, config)
-%pollyxt_display_OC_retrieving display aerosol optical products
-%   Example:
-%       [] = pollyxt_display_OC_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_display_OC_retrieving(data, taskInfo, config)
+%POLLYXT_DISPLAY_OC_RETRIEVING display aerosol optical products
+%Example:
+%   pollyxt_display_OC_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -107,7 +105,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     ang_bsc_355_532_raman = data.ang_bsc_355_532_raman_OC(iGroup, :);
     ang_bsc_532_1064_raman = data.ang_bsc_532_1064_raman_OC(iGroup, :);
     ang_ext_355_532_raman = data.ang_ext_355_532_raman_OC(iGroup, :);
-    
+
     % depol ratio
     voldepol355_klett = data.voldepol355_OC_klett(iGroup, :);
     voldepol532_klett = data.voldepol532_OC_klett(iGroup, :);
@@ -145,7 +143,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     if strcmpi(processInfo.visualizationMode, 'matlab')
 
         warning('TODO...');
-    
+
     elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Display the overlap corrected results with Python.\n');
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization

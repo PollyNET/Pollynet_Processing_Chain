@@ -1,15 +1,13 @@
-function [] = pollyxt_display_targetclassi(data, taskInfo, config)
-%pollyxt_display_targetclassi display the target classification reuslts
-%   Example:
-%       [] = pollyxt_display_targetclassi(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_display_targetclassi(data, taskInfo, config)
+%POLLYXT_DISPLAY_TARGETCLASSI display the target classification reuslts
+%Example:
+%   pollyxt_display_targetclassi(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -74,7 +72,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -85,7 +83,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
@@ -94,7 +92,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'pollyxt_display_targetclassi.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

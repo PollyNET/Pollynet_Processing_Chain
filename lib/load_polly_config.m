@@ -1,25 +1,22 @@
 function [pollyConfig] = load_polly_config(configFile, configDir)
 %LOAD_POLLY_CONFIG load the polly configurations for processing the polly data.
-%   Example:
-%       [pollyConfig] = load_polly_config(configFile, configDir)
-%   Inputs:
-%       configFile: char
-%       configDir: char
-%           the directory for saving the polly configuration files.
-%   Outputs:
-%       pollyConfig: struct
-%           polly configurations. Details can be found in doc/polly_config.md
-%   History:
-%       2018-12-16. First edition by Zhenping
-%       2019-08-01. Remove the conversion of depol cali time. 
-%                   (Don't need to set the depol cali time any more)
-%       2019-08-03. Add global polly config for unify the defaults polly 
-%                   settings.
-%   Contact:
-%       zhenping@tropos.de
-
-%TODO: add the switch part to read the configurature individually for 
-%      different polly system.
+%Example:
+%   [pollyConfig] = load_polly_config(configFile, configDir)
+%Inputs:
+%   configFile: char
+%   configDir: char
+%       the directory for saving the polly configuration files.
+%Outputs:
+%   pollyConfig: struct
+%       polly configurations. Details can be found in doc/polly_config.md
+%History:
+%   2018-12-16. First edition by Zhenping
+%   2019-08-01. Remove the conversion of depol cali time. 
+%               (Don't need to set the depol cali time any more)
+%   2019-08-03. Add global polly config for unify the defaults polly 
+%               settings.
+%Contact:
+%   zhenping@tropos.de
 
 pollyConfig = '';
 pollyConfigDir = fullfile(configDir, 'pollyConfigs');

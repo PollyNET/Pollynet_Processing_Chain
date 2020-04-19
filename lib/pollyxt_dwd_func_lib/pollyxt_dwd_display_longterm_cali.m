@@ -1,18 +1,16 @@
-function [] = pollyxt_dwd_display_longterm_cali(dbFile, taskInfo, config)
-%pollyxt_dwd_display_longterm_cali Display the lidar constants.
-%   Example:
-%       [] = pollyxt_dwd_display_longterm_cali(taskInfo, config)
-%   Inputs:
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2019-02-08. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_dwd_display_longterm_cali(dbFile, taskInfo, config)
+%POLLYXT_DWD_DISPLAY_LONGTERM_CALI Display the lidar constants.
+%Example:
+%   pollyxt_dwd_display_longterm_cali(taskInfo, config)
+%Inputs:
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2019-02-08. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo
 
@@ -122,12 +120,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 5, 1);
-    
+
     %% 355 nm
     subplot('Position', figPos(1, :), 'Units', 'Normalized');
     flagRamanLC = (LC355Status == 2);
     s1 = scatter(LCTime(flagRamanLC), LC355History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b', 'DisplayName', 'Lidar constants'); hold on;
-    
+
     p1 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.overlap, 'LineWidth', 2, 'DisplayName', 'overlap');
     p2 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.pulsepower, 'LineWidth', 2, 'DisplayName', 'pulsepower');
     p3 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.windowwipe, 'LineWidth', 2, 'DisplayName', 'windowwipe');
@@ -259,7 +257,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca, 'YMinorTick', 'on');
     xlim([campaignInfo.startTime - 2, taskInfo.dataTime + 2]);
     ylim(yLim1064);
-    
+
     %% 355/387 nm
     subplot('Position', figPos(4, :), 'Units', 'Normalized');
     flagRamanLC = (LC387Status == 2) & (LC355Status == 2);
@@ -301,7 +299,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca, 'YMinorTick', 'on');
     xlim([campaignInfo.startTime - 2, taskInfo.dataTime + 2]);
     ylim([0, 1]);
-    
+
     %% 532/607 nm
     subplot('Position', figPos(5, :), 'Units', 'Normalized');
     flagRamanLC = (LC607Status == 2) & (LC532Status == 2);
@@ -353,7 +351,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -365,7 +363,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH532FR_X', 'else_time', 'else_label', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
@@ -374,7 +372,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'pollyxt_dwd_display_longterm_cali.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

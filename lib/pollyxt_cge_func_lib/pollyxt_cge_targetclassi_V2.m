@@ -1,31 +1,31 @@
 function [tc_mask] = pollyxt_cge_targetclassi_V2(data, config)
-%pollyxt_cge_targetclassi_V2 Aerosol target classification based on algorithms presented in H.Baar et al, 2017, ATM. The inputs of quasi retrieving results are based on the improved quasi retrieving method. Detailed information about this improvement can be found '../../doc/quasi_retrieving_V2.pdf'
-%   Example:
-%       [tc_mask] = pollyxt_cge_targetclassi_V2(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       tc_mask: matrix
-%			'0: No signal' 
-%			'1: Clean atmosphere' 
-%			'2: Non-typed particles/low conc.'  
-%			'3: Aerosol: small'  
-%			'4: Aerosol: large, spherical'  
-%			'5: Aerosol: mixture, partly non-spherical'  
-%			'6: Aerosol: large, non-spherical'  
-%			'7: Cloud: non-typed'  
-%			'8: Cloud: water droplets'  
-%			'9: Cloud: likely water droplets'  
-%			'10: Cloud: ice crystals' 
-%			'11: Cloud: likely ice crystal
-%   History:
-%       2019-08-03. First Edition by Zhenping
-%       2019-08-30. Add SNR criteria to treat the bits with low SNR as 'No Signal'.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_TARGETCLASSI_V2 Aerosol target classification based on algorithms presented in H.Baar et al, 2017, AMT. The inputs of quasi retrieving results are based on the improved quasi retrieving method. Detailed information about this improvement can be found '../../doc/quasi_retrieving_V2.pdf'
+%Example:
+%   [tc_mask] = pollyxt_cge_targetclassi_V2(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   tc_mask: matrix
+%       '0: No signal' 
+%       '1: Clean atmosphere' 
+%       '2: Non-typed particles/low conc.'  
+%       '3: Aerosol: small'  
+%       '4: Aerosol: large, spherical'  
+%       '5: Aerosol: mixture, partly non-spherical'  
+%       '6: Aerosol: large, non-spherical'  
+%       '7: Cloud: non-typed'  
+%       '8: Cloud: water droplets'  
+%       '9: Cloud: likely water droplets'  
+%       '10: Cloud: ice crystals' 
+%       '11: Cloud: likely ice crystal
+%History:
+%   2019-08-03. First Edition by Zhenping
+%   2019-08-30. Add SNR criteria to treat the bits with low SNR as 'No Signal'.
+%Contact:
+%   zhenping@tropos.de
 
 tc_mask = zeros(size(data.att_beta_355));
 
@@ -126,7 +126,7 @@ for iTime = 1:size(beta_1064, 2)
                 max_diff = max(-diff_beta_1064);
                 top_cloud = find(-diff_beta_1064 > max_diff*diff_factor) + hIndxHighBeta - 1;
             end
-            
+
             flag_cloud(base_cloud:top_cloud, iTime) = true;
             start_bin = top_cloud + 1;
         else

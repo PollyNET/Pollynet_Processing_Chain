@@ -1,15 +1,13 @@
-function [] = pollyxt_ift_display_WV(data, taskInfo, config)
-%pollyxt_ift_display_WV display the water vapor mixing ratio and relative humidity.
-%   Example:
-%       [] = pollyxt_ift_display_WV(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-31. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_WV(data, taskInfo, config)
+%POLLYXT_IFT_DISPLAY_WV display the water vapor mixing ratio and relative humidity.
+%Example:
+%   pollyxt_ift_display_WV(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-31. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global defaults processInfo campaignInfo
 
@@ -107,7 +105,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -118,7 +116,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_WV.py'), tmpFile, saveFolder));
@@ -126,7 +124,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'pollyxt_ift_display_WV.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

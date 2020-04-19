@@ -1,39 +1,39 @@
 function health = pollyxt_cge_read_laserlogbook(file, config, flagDeleteData)
-%pollyxt_cge_READ_LASERLOGBOOK read the health parameters of the lidar from 
+%POLLYXT_CGE_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
-%   Usage:
-%       health = pollyxt_cge_read_laserlogbook(file)
-%   Inputs:
-%       file: char
-%           the full filename.
-%       config: struct
-%           polly configuration file. Detailed information can be found in doc/polly_config.md
-%       flagDeleteData: logical
-%           flag to control whether to delete the laserlogbook file.
-%   Outputs:
-%       health: struct
-%           time: datenum array
-%           AD: array
-%               laser energy (measured inside laser head.) [a.u.]
-%           EN: array
-%               laser energy (measured inside laser head.) [mJ]
-%           counts: array
-%               flashlamp used counts.
-%           Temp1: array
-%               temperature for the transmitting chamber. [degree celsius]
-%           Temp2: array
-%               temperature for the receiving chamber. [degree celsius]
-%           WT: array
-%               water temperature. [degree celsius]
-%           LS: array
-%               laser shutter.
-%           HV1064: array
-%               high voltage for 1064. [V]
-%   History
-%       2018-08-05. First edition by Zhenping.
-%       2019-08-04. Parse nearly all available information in the laserlogbook. (That's cool.)
-%   Contact:
-%       zhenping@tropos.de
+%Usage:
+%   health = pollyxt_cge_read_laserlogbook(file)
+%Inputs:
+%   file: char
+%       the full filename.
+%   config: struct
+%       polly configuration file. Detailed information can be found in doc/polly_config.md
+%   flagDeleteData: logical
+%       flag to control whether to delete the laserlogbook file.
+%Outputs:
+%   health: struct
+%       time: datenum array
+%       AD: array
+%           laser energy (measured inside laser head.) [a.u.]
+%       EN: array
+%           laser energy (measured inside laser head.) [mJ]
+%       counts: array
+%           flashlamp used counts.
+%       Temp1: array
+%           temperature for the transmitting chamber. [degree celsius]
+%       Temp2: array
+%           temperature for the receiving chamber. [degree celsius]
+%       WT: array
+%           water temperature. [degree celsius]
+%       LS: array
+%           laser shutter.
+%       HV1064: array
+%           high voltage for 1064. [V]
+%History
+%   2018-08-05. First edition by Zhenping.
+%   2019-08-04. Parse nearly all available information in the laserlogbook. (That's cool.)
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')
     flagDeleteData = false;

@@ -1,30 +1,30 @@
 function [temp, pres, relh, meteorAttri] = pollyxt_dwd_readmeteor(data, config)
-%pollyxt_dwd_readmeteor Read meteorological data.
-%   Example:
-%       [temp, pres, relh, meteorAttri] = pollyxt_dwd_readmeteor(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       temp: matrix (cloudfreegroups * height)
-%           temperature for each range bin. [C]
-%       pres: matrix (cloudfreegroups * height)
-%           pressure for each range bin. [hPa]
-%       rh: matrix (cloudfreegroups * height)
-%           relative humidity for each range bin. [%]
-%       meteorAttri: struct
-%           dataSource: cell
-%               The data source used in the data processing for each cloud-free group.
-%           URL: cell
-%               The data file info for each cloud-free group.
-%           datetime: array
-%               datetime label for the meteorlogical data.
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_DWD_READMETEOR Read meteorological data.
+%Example:
+%   [temp, pres, relh, meteorAttri] = pollyxt_dwd_readmeteor(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   temp: matrix (cloudfreegroups * height)
+%       temperature for each range bin. [C]
+%   pres: matrix (cloudfreegroups * height)
+%       pressure for each range bin. [hPa]
+%   rh: matrix (cloudfreegroups * height)
+%       relative humidity for each range bin. [%]
+%   meteorAttri: struct
+%       dataSource: cell
+%           The data source used in the data processing for each cloud-free group.
+%       URL: cell
+%           The data file info for each cloud-free group.
+%       datetime: array
+%           datetime label for the meteorlogical data.
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo 
 

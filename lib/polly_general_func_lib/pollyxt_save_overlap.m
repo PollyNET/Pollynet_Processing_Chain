@@ -1,31 +1,29 @@
-function [] = pollyxt_save_overlap(data, taskInfo, config, globalAttri, file)
-%pollyxt_save_overlap Save the overlap file.
-%   Example:
-%       [] = pollyxt_save_overlap(data, taskInfo, config, globalAttri, file);
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           polly processing configuration. More detailed information can be found in doc/polly_config.md
-%       globalAttri: struct
-%           overlap532: array
-%               calculated overlap for 532 nm far range total channel.
-%           overlap355: array
-%               calculated overlap for 355 nm far range total channel.
-%           overlap532Defaults: array
-%               default overlap for 532 nm far range total channel.
-%           overlap355Defaults: array
-%               default overlap for 355 nm far range total channel.
-%       file: char
-%           netcdf file to save the overlap parameters.
-%   Outputs:
-%       
-%   History:
-%       2018-12-21. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_save_overlap(data, taskInfo, config, globalAttri, file)
+%POLLYXT_SAVE_OVERLAP Save the overlap file.
+%Example:
+%   pollyxt_save_overlap(data, taskInfo, config, globalAttri, file);
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       polly processing configuration. More detailed information can be found in doc/polly_config.md
+%   globalAttri: struct
+%       overlap532: array
+%           calculated overlap for 532 nm far range total channel.
+%       overlap355: array
+%           calculated overlap for 355 nm far range total channel.
+%       overlap532Defaults: array
+%           default overlap for 532 nm far range total channel.
+%       overlap355Defaults: array
+%           default overlap for 355 nm far range total channel.
+%   file: char
+%       netcdf file to save the overlap parameters.
+%History:
+%   2018-12-21. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

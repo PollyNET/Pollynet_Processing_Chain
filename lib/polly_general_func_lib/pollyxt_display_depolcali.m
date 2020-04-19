@@ -1,15 +1,13 @@
-function [] = pollyxt_display_depolcali(data, taskInfo, attri)
-%pollyxt_display_depolcali display the depolarization calibration results
-%   Example:
-%       [] = pollyxt_display_depolcali(attri)
-%   Inputs:
-%       attri
-%   Outputs:
-%       
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_display_depolcali(data, taskInfo, attri)
+%POLLYXT_DISPLAY_DEPOLCALI display the depolarization calibration results
+%Example:
+%   pollyxt_display_depolcali(attri)
+%Inputs:
+%   data, taskInfo, attri
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

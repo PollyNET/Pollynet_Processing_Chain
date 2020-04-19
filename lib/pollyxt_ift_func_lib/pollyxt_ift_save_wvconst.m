@@ -1,50 +1,48 @@
 function pollyxt_ift_save_wvconst(wvconst, wvconstStd, WVCaliInfo, ...
        IWVAttri, dataFilename, wvconstUsed, wvconstStdUsed, file)
-%pollyxt_ift_save_wvconst  save the water vapor calibration results. 
-%   Example:
-%       pollyxt_ift_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
-%                                   dataFilename, defaults, file)
-%   Inputs:
-%       wvconst: array
-%           water vapor calibration constants. [g*kg^{-1}] 
-%       wvconstStd: array
-%           uncertainty of water vapor calibration constants. [g*kg^{-1}] 
-%       WVCaliInfo: struct
-%           source: char
-%               data source. ('AERONET', 'MWR' or else)
-%           site: char
-%               measurement site.
-%           datetime: array
-%               datetime of applied IWV.
-%           PI: char
-%           contact: char
-%       IWVAttri: struct
-%           datetime: array
-%               water vapor calibration time. [datenum]
-%           WVCaliInfo: cell
-%               calibration information for each calibration period.
-%           IntRange: matrix
-%               index of integration range for calculate the raw IWV from lidar. 
-%       dataFilename: char
-%           the polly netcdf data file.
-%       wvconstUsed: float
-%           the water vapor calibration constant applied for water vapor 
-%           retrieving. [g*kg^{-1}]
-%       wvconstUsedStd: float
-%           the std of water vapor calibration constant applied for water vapor 
-%           retrieving. [g*kg^{-1}]
-%       file: char
-%           file for saving water vapor calibration results.
-%   Outputs:
-%
-%   History:
-%       2018-12-19. First Edition by Zhenping
-%       2019-02-12. Remove the bug for saving flagCalibration at some time with 
-%                   no calibration constants.
-%       2019-08-09. Saving the real applied water vapor constant instead of the 
-%                   defaults. And remove the outputs of the function.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_IFT_SAVE_WVCONST save the water vapor calibration results. 
+%Example:
+%   pollyxt_ift_save_wvconst(wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
+%                               dataFilename, defaults, file)
+%Inputs:
+%   wvconst: array
+%       water vapor calibration constants. [g*kg^{-1}] 
+%   wvconstStd: array
+%       uncertainty of water vapor calibration constants. [g*kg^{-1}] 
+%   WVCaliInfo: struct
+%       source: char
+%           data source. ('AERONET', 'MWR' or else)
+%       site: char
+%           measurement site.
+%       datetime: array
+%           datetime of applied IWV.
+%       PI: char
+%       contact: char
+%   IWVAttri: struct
+%       datetime: array
+%           water vapor calibration time. [datenum]
+%       WVCaliInfo: cell
+%           calibration information for each calibration period.
+%       IntRange: matrix
+%           index of integration range for calculate the raw IWV from lidar. 
+%   dataFilename: char
+%       the polly netcdf data file.
+%   wvconstUsed: float
+%       the water vapor calibration constant applied for water vapor 
+%       retrieving. [g*kg^{-1}]
+%   wvconstUsedStd: float
+%       the std of water vapor calibration constant applied for water vapor 
+%       retrieving. [g*kg^{-1}]
+%   file: char
+%       file for saving water vapor calibration results.
+%History:
+%   2018-12-19. First Edition by Zhenping
+%   2019-02-12. Remove the bug for saving flagCalibration at some time with 
+%               no calibration constants.
+%   2019-08-09. Saving the real applied water vapor constant instead of the 
+%               defaults. And remove the outputs of the function.
+%Contact:
+%   zhenping@tropos.de
 
 %% Clean the water vapor calibration results
 % in case there is empty array

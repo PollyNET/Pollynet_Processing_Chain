@@ -1,15 +1,13 @@
-function [] = pollyxt_save_OC_att_bsc(data, taskInfo, config)
-%pollyxt_save_OC_att_bsc save the attenuated backscatter.
-%   Example:
-%       [] = pollyxt_save_OC_att_bsc(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-11-27. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_save_OC_att_bsc(data, taskInfo, config)
+%POLLYXT_SAVE_OC_ATT_BSC save the attenuated backscatter.
+%Example:
+%   pollyxt_save_OC_att_bsc(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-11-27. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 missing_value = -999;
 
@@ -144,7 +142,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

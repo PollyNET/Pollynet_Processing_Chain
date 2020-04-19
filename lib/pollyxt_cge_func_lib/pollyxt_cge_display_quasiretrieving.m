@@ -1,16 +1,14 @@
-function [] = pollyxt_cge_display_quasiretrieving(data, taskInfo, config)
-%pollyxt_cge_display_quasiretrieving display the quasi retrievings results
-%   Example:
-%       [] = pollyxt_cge_display_quasiretrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
-    
+function pollyxt_cge_display_quasiretrieving(data, taskInfo, config)
+%POLLYXT_CGE_DISPLAY_QUASIRETRIEVING display the quasi retrievings results
+%Example:
+%   pollyxt_cge_display_quasiretrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
+
 global defaults processInfo campaignInfo
 
 %% read data
@@ -209,7 +207,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -220,7 +218,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'quasi_bsc_355', 'quality_mask_355', 'quasi_bsc_532', 'quality_mask_532', 'quasi_bsc_1064', 'quality_mask_1064', 'quasi_pardepol_532', 'quasi_ang_532_1064', 'quasi_Par_DR_cRange_532', 'quasi_beta_cRange_355', 'quasi_beta_cRange_532', 'quasi_beta_cRange_1064', 'yLim_Quasi_Params', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
@@ -229,7 +227,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'pollyxt_cge_display_quasiretrieving.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

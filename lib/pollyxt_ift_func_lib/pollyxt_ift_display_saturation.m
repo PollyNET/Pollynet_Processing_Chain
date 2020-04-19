@@ -1,15 +1,13 @@
-function [] = pollyxt_ift_display_saturation(data, taskInfo, config)
-%pollyxt_ift_display_saturation display the saturation mask.
-%   Example:
-%       [] = pollyxt_ift_display_saturation(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_saturation(data, taskInfo, config)
+%POLLYXT_IFT_DISPLAY_SATURATION display the saturation mask.
+%Example:
+%   pollyxt_ift_display_saturation(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

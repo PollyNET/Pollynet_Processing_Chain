@@ -1,31 +1,31 @@
 function [tIWV, IWV, IWVErr, IWVAttri] = read_MWR_IWV(files)
 %READ_MWR_IWV read the integrated water vapor from the microwave radiometer 
 %outputs.
-%   Example:
-%       [tIWV, IWV, IWVErr] = read_MWR_IWV(tIWV, IWV, IWVErr Inputs)
-%   Inputs:
-%       files: char | cell
-%           absolute paths of the netcdf files for saving the IWV results from 
-%           HATPRO. Generally, you can find the data in our rsd server. 
-%           Detailed information you can contact with Patric Seifert.
-%   Outputs:
-%       IWV: array
-%           intergrated water vapor. [kg*m^{-2}] 
-%       tIWV: array
-%           time for each bin. [datenum]
-%       IWVErr: float
-%           standar deviation of IWV. [kg*m^{-2}]
-%       IWVAttri: struct
-%           institution: char
-%           contact: char
-%           source: char
-%               data source or instrument.
-%           site: char
-%   History:
-%       2019-01-03. First Edition by Zhenping
-%       2019-12-02. Add support for reading multiple files.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [tIWV, IWV, IWVErr] = read_MWR_IWV(tIWV, IWV, IWVErr Inputs)
+%Inputs:
+%   files: char | cell
+%       absolute paths of the netcdf files for saving the IWV results from 
+%       HATPRO. Generally, you can find the data in our rsd server. 
+%       Detailed information you can contact with Patric Seifert.
+%Outputs:
+%   IWV: array
+%       intergrated water vapor. [kg*m^{-2}] 
+%   tIWV: array
+%       time for each bin. [datenum]
+%   IWVErr: float
+%       standar deviation of IWV. [kg*m^{-2}]
+%   IWVAttri: struct
+%       institution: char
+%       contact: char
+%       source: char
+%           data source or instrument.
+%       site: char
+%History:
+%   2019-01-03. First Edition by Zhenping
+%   2019-12-02. Add support for reading multiple files.
+%Contact:
+%   zhenping@tropos.de
 
 tIWV = [];
 IWV = [];

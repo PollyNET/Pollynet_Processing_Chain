@@ -1,30 +1,30 @@
 function [logbook] = read_logbook(logbookFile, nChannel)
 %READ_LOGBOOK read the logbook information from logbookFile. The format of 
 %logbookFile can be found in /doc/logbook.md
-%   Example:
-%       [logbook] = read_logbook(logbookFile)
-%   Inputs:
-%       logbookFile: char
-%           filename of the logbook file.
-%       nChannel: int32
-%           number of all the channels.
-%   Outputs:
-%       logbook: struct
-%           datetime: array
-%               datetime for applying the changes.
-%           changes: struct
-%               flagOverlap: logical
-%               flagWindowwipe: logical
-%               flagFlashlamps: logical
-%               flagPulsepower: logical
-%               flagRestart: logical
-%           flag_CH_NDChange: logical matrix (IDs * nChannel)
-%               logical to show whether there is ND filter changes in certain 
-%               channels.
-%   History:
-%       2019-02-08. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [logbook] = read_logbook(logbookFile)
+%Inputs:
+%   logbookFile: char
+%       filename of the logbook file.
+%   nChannel: int32
+%       number of all the channels.
+%Outputs:
+%   logbook: struct
+%       datetime: array
+%           datetime for applying the changes.
+%       changes: struct
+%           flagOverlap: logical
+%           flagWindowwipe: logical
+%           flagFlashlamps: logical
+%           flagPulsepower: logical
+%           flagRestart: logical
+%       flag_CH_NDChange: logical matrix (IDs * nChannel)
+%           logical to show whether there is ND filter changes in certain 
+%           channels.
+%History:
+%   2019-02-08. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 logbook = struct();
 logbook.datetime = [];
@@ -61,7 +61,7 @@ while ~ feof(fid)
     [CH_NDChange] = regexpND(thisLogInfo.ND);
     thisFlag_CH_NDChange = zeros(1, nChannel);
     thisFlag_CH_NDChange(CH_NDChange) = true;
-    
+
     % fill 0 at the end for those old Polly systems with less channels.
     if size(logbook.flag_CH_NDChange, 2) ~= size(thisFlag_CH_NDChange, 2)
         maxCh = max([size(logbook.flag_CH_NDChange, 2), ...
@@ -86,32 +86,32 @@ end
 function [flagOverlap, flagWindowwipe, flagFlashlamps, flagPulsepower, flagRestart] = regexpChanges(changesStr)
 %regexpChanges extract the operation information from the changes string with 
 %regular expression.
-%   Example:
-%       [flagOverlap, flagWindowwipe, flagFlaslamps, flagPulsepower, 
-%        flagRestart] = regexpChanges(changesStr)
-%   Inputs:
-%       changesStr: char
-%           the extracted string from `changes` category in logbook.
-%   Outputs:
-%       flagOverlap: logical
-%           if it is true, the correponding operation is applied in the 
-%           adjustment.
-%       flagWindowwipe: logical
-%           if it is true, the correponding operation is applied in the 
-%           adjustment.
-%       flagFlaslamps: logical
-%           if it is true, the correponding operation is applied in the 
-%           adjustment.
-%       flagPulsepower: logical
-%           if it is true, the correponding operation is applied in the 
-%           adjustment.
-%       flagRestart: logical
-%           if it is true, the correponding operation is applied in the 
-%           adjustment.
-%   History:
-%       2019-02-08. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flagOverlap, flagWindowwipe, flagFlaslamps, flagPulsepower, 
+%    flagRestart] = regexpChanges(changesStr)
+%Inputs:
+%   changesStr: char
+%       the extracted string from `changes` category in logbook.
+%Outputs:
+%   flagOverlap: logical
+%       if it is true, the correponding operation is applied in the 
+%       adjustment.
+%   flagWindowwipe: logical
+%       if it is true, the correponding operation is applied in the 
+%       adjustment.
+%   flagFlaslamps: logical
+%       if it is true, the correponding operation is applied in the 
+%       adjustment.
+%   flagPulsepower: logical
+%       if it is true, the correponding operation is applied in the 
+%       adjustment.
+%   flagRestart: logical
+%       if it is true, the correponding operation is applied in the 
+%       adjustment.
+%History:
+%   2019-02-08. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 flagOverlap = ~ isempty(strfind(changesStr, 'overlap'));
 flagWindowwipe = ~ isempty(strfind(changesStr, 'windowwipe'));
@@ -123,18 +123,18 @@ end
 
 function [channel] = regexpND(ndFilterStr)
 %regexpND extract the channel nubmers with ND filter changes.
-%   Example:
-%       [channel] = regexpND(ndFilterStr)
-%   Inputs:
-%       ndFilterStr: char
-%           ND filter change string.
-%   Outputs:
-%       channel: array
-%           channel number with ND filter chagnes.
-%   History:
-%       2019-02-08. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [channel] = regexpND(ndFilterStr)
+%Inputs:
+%   ndFilterStr: char
+%       ND filter change string.
+%Outputs:
+%   channel: array
+%       channel number with ND filter chagnes.
+%History:
+%   2019-02-08. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 channel = [];
 

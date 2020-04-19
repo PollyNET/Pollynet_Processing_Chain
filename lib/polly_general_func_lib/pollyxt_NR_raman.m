@@ -1,5 +1,5 @@
 function [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman, aerExt532_NR_raman, LR355_NR_raman, LR532_NR_raman, refBeta355_NR_raman, refBeta532_NR_raman] = pollyxt_NR_raman(data, config)
-%pollyxt_NR_raman Retrieve aerosol optical properties for near-range channels
+%POLLYXT_NR_RAMAN Retrieve aerosol optical properties for near-range channels
 %with raman method
 %Example:
 %   [aerBsc355_NR_raman, aerBsc532_NR_raman, aerExt355_NR_raman,

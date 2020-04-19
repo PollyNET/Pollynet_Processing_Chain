@@ -1,44 +1,44 @@
 function [campaign_info] = search_campaigninfo(task, pollynetHistory)
 %SEARCH_CAMPAIGNINFO search for the history information from pollynet_history_places_new.txt
-%    Example:
-%        [campaign_info] = search_campaigninfo(task, pollynetHistory)
-%    Inputs:
-%        task: struct
-%            todoPath: char
-%            dataPath: char
-%            dataFilename: char
-%            dataFullpath: char
-%            dataSize: integer
-%            pollyVersion: char
-%            dataTime: datenum
-%        pollynetHistory: struct
-%           name: cell
-%           location: cell
-%           startTime: array (datenum)
-%           endTime: array (datenum)
-%           lon: array (double)
-%           lat: array (double)
-%           asl: array (double)
-%           depolConst: array (double)
-%           molDepol: array (double)
-%           caption: cell
-%    Outputs:
-%        campaign_info: struct
-%            name: char
-%            location: char
-%            startTime: datenum
-%            endTime: datenum
-%            lon: double
-%            lat: double
-%            asl: double
-%            depolConst: double
-%            molDepol: double 
-%            caption: char
-%    History:
-%        2018-12-17. First edition by Zhenping
-%        2019-08-15. Change the function name
-%    Contact:
-%        zhenping@tropos.de
+%Example:
+%   [campaign_info] = search_campaigninfo(task, pollynetHistory)
+%Inputs:
+%   task: struct
+%       todoPath: char
+%       dataPath: char
+%       dataFilename: char
+%       dataFullpath: char
+%       dataSize: integer
+%       pollyVersion: char
+%       dataTime: datenum
+%   pollynetHistory: struct
+%      name: cell
+%      location: cell
+%      startTime: array (datenum)
+%      endTime: array (datenum)
+%      lon: array (double)
+%      lat: array (double)
+%      asl: array (double)
+%      depolConst: array (double)
+%      molDepol: array (double)
+%      caption: cell
+%Outputs:
+%   campaign_info: struct
+%       name: char
+%       location: char
+%       startTime: datenum
+%       endTime: datenum
+%       lon: double
+%       lat: double
+%       asl: double
+%       depolConst: double
+%       molDepol: double 
+%       caption: char
+%History:
+%   2018-12-17. First edition by Zhenping
+%   2019-08-15. Change the function name
+%Contact:
+%   zhenping@tropos.de
 
 campaign_info = struct();
 campaign_info.name = '';
