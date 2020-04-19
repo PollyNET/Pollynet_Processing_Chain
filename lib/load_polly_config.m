@@ -22,27 +22,28 @@ function [pollyConfig] = load_polly_config(configFile, configDir)
 %      different polly system.
 
 pollyConfig = '';
+pollyConfigDir = fullfile(configDir, 'pollyConfigs');
 
-if ~ exist(configDir, 'dir')
+if ~ exist(pollyConfigDir, 'dir')
     error(['Error in load_polly_config: ' ...
-           'folder does not exist.\n%s\n'], configDir);
+           'folder does not exist.\n%s\n'], pollyConfigDir);
 end
 
-configFile = fullfile(configDir, configFile);
+configFile = fullfile(pollyConfigDir, configFile);
 
 if exist(configFile, 'file') ~= 2
     error(['Error in load_polly_config: ' ...
            'config file does not exist.\n%s\n'], configFile);
 end
 
-if exist(fullfile(configDir, 'polly_global_config.json'), 'file') ~= 2
+if exist(fullfile(pollyConfigDir, 'polly_global_config.json'), 'file') ~= 2
     error(['Error in load_polly_config: ' ...
            'polly global config file does not exist.\n%s\n'], ...
-           fullfile(configDir, 'polly_global_config.json'));
+           fullfile(pollyConfigDir, 'polly_global_config.json'));
 end
 
 %% load polly global config
-pollyGlobalConfig = loadjson(fullfile(configDir, 'polly_global_config.json'));
+pollyGlobalConfig = loadjson(fullfile(pollyConfigDir, 'polly_global_config.json'));
 
 %% load specified polly config
 pollyConfig = loadjson(configFile);
