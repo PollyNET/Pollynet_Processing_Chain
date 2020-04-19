@@ -43,7 +43,7 @@ overlap532_std = [];
 % no suitable overlap correction method for pollyxt_cge
 
 %% read default overlap function to compare with the estimated ones.
-[height532, overlap532Default] = read_default_overlap(fullfile(processInfo.defaultsFile_folder, defaults.overlapFile532));
+[height532, overlap532Default] = read_default_overlap(fullfile(processInfo.polly_config_folder, 'pollyDefaults', defaults.overlapFile532));
 
 %% interpolate the default overlap
 if ~ isempty(overlap532Default)

@@ -22,7 +22,7 @@ function [processInfo] = polly_processInfo(task, processInfo_history)
 %           pollyConfigFile: char
 %           pollyProcessFunc: char
 %           pollyUpdateInfo: char
-%           pollyLoadDefaultsFunc: char
+%           pollyDefaultsFile: char
 %   History:
 %       2018-12-17. First edition by Zhenping
 %   Contact:
@@ -36,7 +36,7 @@ processInfo.endTime = [];
 processInfo.pollyConfigFile = '';
 processInfo.pollyProcessFunc = '';
 processInfo.pollyUpdateInfo = '';
-processInfo.pollyLoadDefaultsFunc = '';
+processInfo.pollyDefaultsFile = '';
 
 dataTime = polly_parsetime(task.dataFilename, ...
 '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc');
@@ -65,7 +65,7 @@ elseif sum(isCurrentPolly & isWithinTimePeriod) == 1
     processInfo.pollyConfigFile = processInfo_history.pollyConfigFile{flag};
     processInfo.pollyProcessFunc = processInfo_history.pollyProcessFunc{flag}(1:(end-2));
     processInfo.pollyUpdateInfo = processInfo_history.pollyUpdateInfo{flag};
-    processInfo.pollyLoadDefaultsFunc = processInfo_history.pollyLoadDefaultsFunc{flag}(1:(end-2));
+    processInfo.pollyDefaultsFile = processInfo_history.pollyDefaultsFile{flag}(1:end);
 else
     warning(['Unknown error in searching the polly processing config ' ...
              'info for %s.\n'], task.dataFilename);
