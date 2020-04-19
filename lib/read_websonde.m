@@ -2,37 +2,37 @@ function [alt, temp, pres, rh, globalAttri] = read_websonde(measTime, ...
                                                             tRange, sitenum)
 %READ_WEBSONDE search the closest radionsde based on the ui in 
 %http://weather.uwyo.edu/upperair/sounding.html. And read the data.
-%   Example:
-%       [alt, temp, pres, rh, globalAttri] = read_websonde(measTime, tRange, 
-%       sitenum)
-%   Inputs:
-%       measTime: float
-%           polly measurement time. [datenum] 
-%       tRange: 2-element array
-%           search range for the online radiosonde. [current whole day]
-%       sitenum: integer
-%           site number, which can be found in doc/radiosonde-station-list.txt. 
-%           You can update the list with using download_radiosonde_list.m
-%   Outputs:
-%       alt: array
-%           altitute for each range bin. [m]
-%       temp: array
-%           temperature for each range bin. If no valid data, NaN will be 
-%           filled. [C]
-%       pres: array
-%           pressure for each range bin. If no valid data, NaN will be filled. 
-%           [hPa]
-%       rh: array
-%           relative humidity for each range bin. If no valid data, NaN will be 
-%           filled. [%]
-%       globalAttri: struct
-%           URL: URL which can be used to retrieve the current returned values.
-%           datetime: measurement time for current used sonde. [datenum]
-%           sitenum: site number for current used sonde.
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [alt, temp, pres, rh, globalAttri] = read_websonde(measTime, tRange, 
+%   sitenum)
+%Inputs:
+%   measTime: float
+%       polly measurement time. [datenum] 
+%   tRange: 2-element array
+%       search range for the online radiosonde. [current whole day]
+%   sitenum: integer
+%       site number, which can be found in doc/radiosonde-station-list.txt. 
+%       You can update the list with using download_radiosonde_list.m
+%Outputs:
+%   alt: array
+%       altitute for each range bin. [m]
+%   temp: array
+%       temperature for each range bin. If no valid data, NaN will be 
+%       filled. [C]
+%   pres: array
+%       pressure for each range bin. If no valid data, NaN will be filled. 
+%       [hPa]
+%   rh: array
+%       relative humidity for each range bin. If no valid data, NaN will be 
+%       filled. [%]
+%   globalAttri: struct
+%       URL: URL which can be used to retrieve the current returned values.
+%       datetime: measurement time for current used sonde. [datenum]
+%       sitenum: site number for current used sonde.
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 alt = [];
 temp = [];

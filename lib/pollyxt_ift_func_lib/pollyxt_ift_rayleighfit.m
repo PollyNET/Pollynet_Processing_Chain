@@ -1,29 +1,32 @@
 function [refH355, refH532, refH1064, dpIndx355, dpIndx532, dpIndx1064] = pollyxt_ift_rayleighfit(data, config)
-%pollyxt_ift_rayleighfit Find the reference height with rayleigh fitting algorithm.
-%   Example:
-%       [refH355, refH532, refH1064] = pollyxt_ift_rayleighfit(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       refH355: matrix
-%           [[refHBaseIndx355_1, refHTopIndx355_1], [refHBaseIndx355_2, refHTopIndx355_2], ...]. The number of layers reference height is compatible with the number of cloudfreegroups. If no reference height was found, the corresponding layer will be filled with NaN. 
-%       refH532: matrix
-%           as above. 
-%       refH1064: matrix
-%           as above.
-%       dpIndx355: cell
-%           Douglas-Peucker decomposition points for each cloud-free group.
-%       dpIndx532: cell
-%           as above;
-%       dpIndx1064: cell
-%           as above.
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_IFT_RAYLEIGHFIT Find the reference height with rayleigh fitting algorithm.
+%Example:
+%   [refH355, refH532, refH1064] = pollyxt_ift_rayleighfit(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   refH355: matrix
+%       [[refHBaseIndx355_1, refHTopIndx355_1], [refHBaseIndx355_2, refHTopIndx355_2], ...].
+%       The number of layers reference height is compatible with the number of
+%       cloudfreegroups. If no reference height was found, the corresponding
+%       layer will be filled with NaN. 
+%   refH532: matrix
+%       as above. 
+%   refH1064: matrix
+%       as above.
+%   dpIndx355: cell
+%       Douglas-Peucker decomposition points for each cloud-free group.
+%   dpIndx532: cell
+%       as above;
+%   dpIndx1064: cell
+%       as above.
+%History:
+%   2018-12-23. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 refH355 = [];
 refH532 = [];
@@ -141,7 +144,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
             if ~ isnan(thisRefH1064(1))
                 % use refH at 1064 nm
-    
+
                 % determine 355 SNR at the refH
                 SNR355 = polly_SNR(sum(sig355PC(thisRefH1064(1):thisRefH1064(2))), sum(bg355PC(thisRefH1064(1):thisRefH1064(2))));
                 if SNR355 < config.minRefSNR355

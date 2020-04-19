@@ -102,10 +102,14 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
-        if mat['LCTime'].size:
-            thisLCTime = mat['LCTime'][0][:]
+        if mat['LCTime532'].size:
+            thisLCTime532 = mat['LCTime532'][0][:]
         else:
-            thisLCTime = np.array([])
+            thisLCTime532 = np.array([])
+        if mat['LCTime607'].size:
+            thisLCTime607 = mat['LCTime607'][0][:]
+        else:
+            thisLCTime607 = np.array([])
         LC532Status = mat['LC532Status'][:]
         LC532History = mat['LC532History'][:]
         LC607Status = mat['LC607Status'][:]
@@ -170,7 +174,8 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     # convert matlab datenum tp datetime
     startTime = datenum_to_datetime(float(startTime[0]))
     dataTime = datenum_to_datetime(float(dataTime[0]))
-    LCTime = [datenum_to_datetime(thisTime) for thisTime in thisLCTime]
+    LCTime532 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime532]
+    LCTime607 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime607]
     logbookTime = [datenum_to_datetime(thisTime)
                    for thisTime in thisLogbookTime]
     elseTime = [datenum_to_datetime(thisElseTime)
@@ -194,8 +199,8 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
 
     # lidar constant at 532 nm
     LCTime532 = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime))
+        LCTime532[indx]
+        for indx in np.arange(0, len(LCTime532))
         if LC532Status[indx] == 2]
     p1 = ax1.scatter(
         LCTime532, LC532History[LC532Status == 2],
@@ -234,8 +239,8 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
     LCTimRaman = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime))
+        LCTime607[indx]
+        for indx in np.arange(0, len(LCTime607))
         if flagRamanLC[indx]]
     p1 = ax2.scatter(
         LCTimRaman, LC532History[flagRamanLC] / LC607History[flagRamanLC],

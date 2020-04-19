@@ -1,49 +1,69 @@
-function [] = pollyxt_ift_display_longterm_cali(taskInfo, config)
-%pollyxt_ift_display_longterm_cali Display the lidar constants.
-%   Example:
-%       [] = pollyxt_ift_display_longterm_cali(taskInfo, config)
-%   Inputs:
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2019-02-08. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_longterm_cali(dbFile, taskInfo, config)
+%POLLYXT_IFT_DISPLAY_LONGTERM_CALI Display the lidar constants.
+%Example:
+%   pollyxt_ift_display_longterm_cali(dbFile, taskInfo, config)
+%Inputs:
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2019-02-08. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo defaults
 
 %% read lidar constant
-lcCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.lcCaliFile);
-LC = pollyxt_ift_read_LC(lcCaliFile, config.dataFileFormat);
-% extract the logbook info till the current measurement
-flagTillNow = LC.LCTime <= taskInfo.dataTime;
-LCTime = LC.LCTime(flagTillNow);
-LC355Status = LC.LC355Status(flagTillNow);
-LC532Status = LC.LC532Status(flagTillNow);
-LC1064Status = LC.LC1064Status(flagTillNow);
-LC387Status = LC.LC387Status(flagTillNow);
-LC607Status = LC.LC607Status(flagTillNow);
-LC355History = LC.LC355History(flagTillNow);
-LCStd355History = LC.LCStd355History(flagTillNow);
-LC532History = LC.LC532History(flagTillNow);
-LCStd532History = LC.LCStd532History(flagTillNow);
-LC1064History = LC.LC1064History(flagTillNow);
-LCStd1064History = LC.LCStd1064History(flagTillNow);
-LC387History = LC.LC387History(flagTillNow);
-LCStd387History = LC.LCStd387History(flagTillNow);
-LC607History = LC.LC607History(flagTillNow);
-LCStd607History = LC.LCStd607History(flagTillNow);
+[LC355History, LCStd355History, startTime355, stopTime355] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '355', 'Raman_Method', 'flagBeforeQuery', true);
+[LC532History, LCStd532History, startTime532, stopTime532] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'Raman_Method', 'flagBeforeQuery', true);
+[LC1064History, LCStd1064History, startTime1064, stopTime1064] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '1064', 'Raman_Method', 'flagBeforeQuery', true);
+[LC387History, LCStd387History, startTime387, stopTime387] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '387', 'Raman_Method', 'flagBeforeQuery', true);
+[LC607History, LCStd607History, startTime607, stopTime607] = ...
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
+if ~ isempty(startTime355)
+    LCTime355 = mean([startTime355, stopTime355]);
+else
+    LCTime355 = [];
+end
+LC355Status = 2 * ones(size(startTime355));
+if ~ isempty(startTime532)
+    LCTime532 = mean([startTime532, stopTime532]);
+else
+    LCTime532 = [];
+end
+LC532Status = 2 * ones(size(startTime532));
+if ~ isempty(startTime1064)
+    LCTime1064 = mean([startTime1064, stopTime1064]);
+else
+    LCTime1064 = [];
+end
+LC1064Status = 2 * ones(size(startTime1064));
+if ~ isempty(startTime387)
+    LCTime387 = mean([startTime387, stopTime387]);
+else
+    LCTime387 = [];
+end
+LC387Status = 2 * ones(size(startTime387));
+if ~ isempty(startTime607)
+    LCTime607 = mean([startTime607, stopTime607]);
+else
+    LCTime607 = [];
+end
+LC607Status = 2 * ones(size(startTime607));
 
 %% read wv calibration constant
-wvCaliFile = fullfile(processInfo.results_folder, campaignInfo.name, config.wvCaliFile);
-[WVCaliTime, WVCaliFlag, WVConst] = pollyxt_lacros_read_wvconst(wvCaliFile);
-flagTillNow = (WVCaliTime <= taskInfo.dataTime);
-WVConst = WVConst(flagTillNow & WVCaliFlag);
-WVCaliTime = WVCaliTime(flagTillNow & WVCaliFlag);
+[WVConst, ~, WVCaliStartTime, WVCaliStopTime] = ...
+    load_wvconst(taskInfo.dataTime, dbFile, campaignInfo.name, 'flagBeforeQuery', true);
+if ~ isempty(WVCaliStartTime)
+    WVCaliTime = mean([WVCaliStartTime, WVCaliStopTime]);
+else
+    WVCaliTime = [];
+end
 
 %% read logbook file
 if ~ isfield(config, 'logbookFile')
@@ -100,12 +120,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 5, 1);
-    
+
     %% 355 nm
     subplot('Position', figPos(1, :), 'Units', 'Normalized');
     flagRamanLC = (LC355Status == 2);
     s1 = scatter(LCTime(flagRamanLC), LC355History(flagRamanLC), 'sizedata', 7, 'Marker', 'o', 'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'b', 'DisplayName', 'Lidar constants'); hold on;
-    
+
     p1 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.overlap, 'LineWidth', 2, 'DisplayName', 'overlap');
     p2 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.pulsepower, 'LineWidth', 2, 'DisplayName', 'pulsepower');
     p3 = plot([datenum(0, 1, 0, 0, 0, 0), datenum(0, 1, 0, 0, 0, 0)], [-1, -2], 'LineStyle', '--', 'Color', lineColor.windowwipe, 'LineWidth', 2, 'DisplayName', 'windowwipe');
@@ -237,7 +257,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca, 'YMinorTick', 'on');
     xlim([campaignInfo.startTime - 2, taskInfo.dataTime + 2]);
     ylim(yLim1064);
-    
+
     %% 355/387 nm
     subplot('Position', figPos(4, :), 'Units', 'Normalized');
     flagRamanLC = (LC387Status == 2) & (LC355Status == 2);
@@ -279,7 +299,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca, 'YMinorTick', 'on');
     xlim([campaignInfo.startTime - 2, taskInfo.dataTime + 2]);
     ylim([0, 1]);
-    
+
     %% 532/607 nm
     subplot('Position', figPos(5, :), 'Units', 'Normalized');
     flagRamanLC = (LC607Status == 2) & (LC532Status == 2);
@@ -331,7 +351,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -343,16 +363,16 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_longterm_cali.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

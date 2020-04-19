@@ -1,29 +1,33 @@
 function [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_OC_att_beta(data, config)
-%pollyxt_OC_att_beta Calculate the overlap corrected attenuated backscatter.
-%   Example:
-%       [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_OC_att_beta(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       att_beta_355: matrix
-%           attenuated backscatter at 355 nm. [m^{-1}Sr^{-1}] 
-%       att_beta_532: matrix
-%           attenuated backscatter at 532 nm. [m^{-1}Sr^{-1}] 
-%       att_beta_1064: matrix
-%           attenuated backscatter at 1064 nm. [m^{-1}Sr^{-1}] 
-%       att_beta_387: matrix
-%           attenuated backscatter at 387 nm. [m^{-1}Sr^{-1}] 
-%           Note: the differential molecular Raman backscatter cross section was replaced with differential molecular Rayleigh cross section at the same wavelength.
-%       att_beta_607: matrix
-%           attenuated backscatter at 607 nm. [m^{-1}Sr^{-1}] 
-%           Note: the differential molecular Raman backscatter cross section was replaced with differential molecular Rayleigh cross section at the same wavelength.
-%   History:
-%       2019-11-27. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_OC_ATT_BETA Calculate the overlap corrected attenuated backscatter.
+%Example:
+%   [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607] = pollyxt_OC_att_beta(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   att_beta_355: matrix
+%       attenuated backscatter at 355 nm. [m^{-1}Sr^{-1}] 
+%   att_beta_532: matrix
+%       attenuated backscatter at 532 nm. [m^{-1}Sr^{-1}] 
+%   att_beta_1064: matrix
+%       attenuated backscatter at 1064 nm. [m^{-1}Sr^{-1}] 
+%   att_beta_387: matrix
+%       attenuated backscatter at 387 nm. [m^{-1}Sr^{-1}] 
+%       Note: the differential molecular Raman backscatter cross section was
+%             replaced with differential molecular Rayleigh cross section at
+%             the same wavelength.
+%   att_beta_607: matrix
+%       attenuated backscatter at 607 nm. [m^{-1}Sr^{-1}] 
+%       Note: the differential molecular Raman backscatter cross section was
+%             replaced with differential molecular Rayleigh cross section at
+%             the same wavelength.
+%History:
+%   2019-11-27. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 att_beta_355 = [];
 att_beta_532 = [];

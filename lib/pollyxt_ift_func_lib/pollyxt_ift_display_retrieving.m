@@ -1,15 +1,13 @@
-function [] = pollyxt_ift_display_retrieving(data, taskInfo, config)
-%pollyxt_ift_display_retrieving display aerosol optical products
-%   Example:
-%       [] = pollyxt_ift_display_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_retrieving(data, taskInfo, config)
+%POLLYXT_IFT_DISPLAY_RETRIEVING display aerosol optical products
+%Example:
+%   pollyxt_ift_display_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -567,7 +565,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         close()
         
     end
-    
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -725,7 +723,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
             fprintf('Create the tmp folder to save the temporary results.\n');
             mkdir(tmpFolder);
         end
-        
+
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
         save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerBsc_355_aeronet', 'aerBsc_532_aeronet', 'aerBsc_1064_aeronet', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'aerExt_355_aeronet', 'aerExt_532_aeronet', 'aerExt_1064_aeronet', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'flagWVCalibration', 'wvmr', 'rh', 'rh_meteor', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_Ext', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Bsc', 'yLim_Profi_WV_RH', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_WV_RH', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');

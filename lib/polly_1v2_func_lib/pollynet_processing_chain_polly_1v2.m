@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %Example:
 %    [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %Inputs:
-%   fileinfo_new: struct
+%   taskInfo: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -41,6 +41,9 @@ if ~ exist(pic_folder, 'dir')
     mkdir(pic_folder);
 end
 
+dbFile = fullfile(processInfo.results_folder, campaignInfo.name , ...
+                  sprintf('%s_calibration.db', campaignInfo.name));
+
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, ...
@@ -76,7 +79,7 @@ fprintf('\n[%s] Finish.\n', tNow());
 
 %% depol calibration
 fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
-[data, depCaliAttri] = polly_1v2_depolcali(data, config, taskInfo);
+[data, depCaliAttri] = polly_1v2_depolcali(data, config, dbFile);
 data.depCaliAttri = depCaliAttri;
 fprintf('[%s] Finish depol calibration.\n', tNow());
 
@@ -147,16 +150,14 @@ fprintf('[%s] Finish.\n', tNow());
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = polly_1v2_lidar_calibration(data, config);
 data.LC = LC;
-LCUsed = struct();
-[LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = polly_1v2_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
-data.LCUsed = LCUsed;
+
+% select lidar calibration constant
+data.LCUsed = polly_1v2_select_liconst(data, config, dbFile);
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config);
-data.att_beta_532 = att_beta_532;
-data.att_beta_607 = att_beta_607;
+[data.att_beta_532, data.att_beta_607] = polly_1v2_att_beta(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -177,12 +178,29 @@ if processInfo.flagEnableCaliResultsOutput
     fprintf('\n[%s] Start to save calibration results.\n', tNow());
 
     %% save depol cali results
-    polly_1v2_save_depolcaliconst(depCaliAttri.depol_cal_fac_532, depCaliAttri.depol_cal_fac_std_532, depCaliAttri.depol_cal_time_532, taskInfo.dataFilename, data.depol_cal_fac_532, data.depol_cal_fac_std_532, fullfile(processInfo.results_folder, campaignInfo.name, config.depolCaliFile532));
+    save_depolconst(dbFile, ...
+                    depCaliAttri.depol_cal_fac_532, ...
+                    depCaliAttri.depol_cal_fac_std_532, ...
+                    depCaliAttri.depol_cal_start_time_532, ...
+                    depCaliAttri.depol_cal_stop_time_532, ...
+                    taskInfo.dataFilename, ...
+                    campaignInfo.name, ...
+                    '532');
 
     %% save lidar calibration results
-    polly_1v2_save_LC_nc(data, taskInfo, config);
-    polly_1v2_save_LC_txt(data, taskInfo, config);
-    
+    save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Klett_Method');
+    save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -197,7 +215,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     polly_1v2_save_att_bsc(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     polly_1v2_save_voldepol(data, taskInfo, config);
 
@@ -212,7 +230,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-        
+
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -227,7 +245,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -271,10 +289,10 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_1v2_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
-    polly_1v2_display_longterm_cali(taskInfo, config);
+    polly_1v2_display_longterm_cali(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end

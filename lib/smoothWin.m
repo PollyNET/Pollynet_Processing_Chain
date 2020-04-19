@@ -1,24 +1,24 @@
 function [signalSM] = smoothWin(signal, win, method)
 %SMOOTHWIN smooth the signal with a height dependent window
-%   Example:
-%       [signal] = smoothWin(signal, win, method)
-%   Inputs:
-%       signal: array
-%           signal array.
-%       win: scalar or matrix
-%           if win is a scalar, the signal will be smoothed by a fixed sliding 
-%           window;
-%           if win is a matrix, the window can be specified by the win matrix in 
-%           different range
-%       method: char
-%           smoothing method. (default, 'moving')
-%   Outputs:
-%       signalSM: array
-%           smoothed signal
-%   History:
-%       2018-08-20. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [signal] = smoothWin(signal, win, method)
+%Inputs:
+%   signal: array
+%       signal array.
+%   win: scalar or matrix
+%       if win is a scalar, the signal will be smoothed by a fixed sliding 
+%       window;
+%       if win is a matrix, the window can be specified by the win matrix in 
+%       different range
+%   method: char
+%       smoothing method. (default, 'moving')
+%Outputs:
+%   signalSM: array
+%       smoothed signal
+%History:
+%   2018-08-20. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('method', 'var')
     method = 'moving';

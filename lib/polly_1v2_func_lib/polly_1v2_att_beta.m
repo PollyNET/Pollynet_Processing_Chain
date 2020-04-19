@@ -1,23 +1,25 @@
 function [att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config)
-%polly_1v2_att_beta Calculate the attenuated backscatter.
-%   Example:
-%       [att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       att_beta_532: matrix
-%           attenuated backscatter at 532 nm. [m^{-1}Sr^{-1}] 
-%       att_beta_607: matrix
-%           attenuated backscatter at 607 nm. [m^{-1}Sr^{-1}] 
-%           Note: the differential molecular Raman backscatter cross section was replaced with differential molecular Rayleigh cross section at the same wavelength.
-%   History:
-%       2018-12-24. First Edition by Zhenping
-%       2019-08-04. Add 'att_beta_387' and 'att_beta_607'
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_ATT_BETA Calculate the attenuated backscatter.
+%Example:
+%   [att_beta_532, att_beta_607] = polly_1v2_att_beta(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   att_beta_532: matrix
+%       attenuated backscatter at 532 nm. [m^{-1}Sr^{-1}] 
+%   att_beta_607: matrix
+%       attenuated backscatter at 607 nm. [m^{-1}Sr^{-1}] 
+%       Note: the differential molecular Raman backscatter cross section was
+%             replaced with differential molecular Rayleigh cross section at
+%             the same wavelength.
+%History:
+%   2018-12-24. First Edition by Zhenping
+%   2019-08-04. Add 'att_beta_387' and 'att_beta_607'
+%Contact:
+%   zhenping@tropos.de
 
 att_beta_532 = [];
 att_beta_607 = [];

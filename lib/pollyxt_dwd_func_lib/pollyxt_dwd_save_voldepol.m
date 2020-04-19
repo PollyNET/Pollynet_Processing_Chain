@@ -1,17 +1,15 @@
-function [] = pollyxt_dwd_save_voldepol(data, taskInfo, config)
-%pollyxt_dwd_save_voldepol save the attenuated backscatter.
-%   Example:
-%       [] = pollyxt_dwd_save_voldepol(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-01-10. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_dwd_save_voldepol(data, taskInfo, config)
+%POLLYXT_DWD_SAVE_VOLDEPOL save the attenuated backscatter.
+%Example:
+%   pollyxt_dwd_save_voldepol(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-01-10. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -111,7 +109,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

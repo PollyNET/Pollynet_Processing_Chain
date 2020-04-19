@@ -34,7 +34,7 @@ function [measTime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %       Integrated Water Vapor. [kg * m^{-2}] 
 %   angstrexp440_870: array
 %       angstroem exponent 440-870 nm
-%   AERONETAttri: struct     
+%   AERONETAttri: struct 
 %       URL: char
 %           URL to retrieve the data.
 %       level: char

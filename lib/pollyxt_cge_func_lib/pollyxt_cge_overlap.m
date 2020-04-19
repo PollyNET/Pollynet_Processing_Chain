@@ -1,21 +1,21 @@
 function [data, overlapAttri] = pollyxt_cge_overlap(data, config)
-%pollyxt_cge_overlap description
-%   Example:
-%       [data] = pollyxt_cge_overlap(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       data: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       overlapAttri: struct
-%           All information about overlap.
-%   History:
-%       2018-12-19. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_OVERLAP description
+%Example:
+%   [data] = pollyxt_cge_overlap(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   data: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   overlapAttri: struct
+%       All information about overlap.
+%History:
+%   2018-12-19. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo defaults
 
@@ -52,8 +52,8 @@ overlap355_std = [];
 % no suitable overlap correction method for pollyxt_cge
 
 %% read default overlap function to compare with the estimated ones.
-[height532, overlap532Default] = read_default_overlap(fullfile(processInfo.defaultsFile_folder, defaults.overlapFile532));
-[height355, overlap355Default] = read_default_overlap(fullfile(processInfo.defaultsFile_folder, defaults.overlapFile355));
+[height532, overlap532Default] = read_default_overlap(fullfile(processInfo.polly_config_folder, 'pollyDefaults', defaults.overlapFile532));
+[height355, overlap355Default] = read_default_overlap(fullfile(processInfo.polly_config_folder, 'pollyDefaults', defaults.overlapFile355));
 
 %% interpolate the default overlap
 if ~ isempty(overlap355Default)

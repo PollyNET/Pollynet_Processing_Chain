@@ -1,15 +1,15 @@
-function [] = polly_1v2_display_saturation(data, taskInfo, config)
-%polly_1v2_display_saturation display the saturation mask.
-%   Example:
-%       [] = polly_1v2_display_saturation(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_1v2_display_saturation(data, taskInfo, config)
+%POLLY_1V2_DISPLAY_SATURATION display the saturation mask.
+%Example:
+%   polly_1v2_display_saturation(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%Outputs:
+%   
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

@@ -5,44 +5,44 @@ function [quasi_par_bsc, quasi_par_ext] = quasi_retrieving_V2(height, ...
 %retrieving method (V2). This method was improved from the quasi-retrieving 
 %method, which also takes use of the Raman signal. Detailed information please 
 %refer to '../doc/quasi_retrieving_V2.pdf'
-%   Example:
-%       [quasi_par_bsc, quasi_par_ext] = quasi_retrieving_V2(height, 
-%       att_beta_el, att_beta_ra, wavelength, molExtEl, molBscEl, molExtRa, AE, 
-%       LR, nIters)
-%   Inputs:
-%       height: array
-%           height. [m] 
-%       att_beta_el: matrix
-%           attenuated backscatter at elastic wavelength. [m^{-1}sr^{-1}] 
-%       att_beta_ra: matrix
-%           attenuated backscatter at corresponding Raman backscatter 
-%           wavelength. [m^{-1}sr^{-1}]
-%       wavelength: integer
-%           the wavelength of the elastic backscatter to guide to choose the 
-%           suitable Raman wavelength. [nm]
-%       molExtEl: matrix
-%           molecule extinction coefficient at the Elastic wavelength. [m^{-1}] 
-%       molBscEl: matrix
-%           molecule backscatter coefficient at the Elastic wavelength. 
-%           [m^{-1}sr^{-1}]
-%       molExtRa: matrix
-%           molecule extinction coefficient at the Raman backscatter wavelength.
-%           [m^{-1}] 
-%       AE: float
-%           Extinction related Angstroem exponent.
-%       LR: float
-%           aerosol lidar ratio. [sr]
-%       nIters: integer
-%           number of iterations to converge the retrieving results.
-%   Outputs:
-%       quasi_par_bsc: matrix
-%           quasi particle backscatter coefficient. [m^{-1}sr^{-1}] 
-%       quasi_par_ext: matrix
-%           quasi particle extinction coefficient. [m^{-1}]
-%   History:
-%       2019-08-03. First Edition by Zhenping. Inspired by Holger Baars.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [quasi_par_bsc, quasi_par_ext] = quasi_retrieving_V2(height, 
+%   att_beta_el, att_beta_ra, wavelength, molExtEl, molBscEl, molExtRa, AE, 
+%   LR, nIters)
+%Inputs:
+%   height: array
+%       height. [m] 
+%   att_beta_el: matrix
+%       attenuated backscatter at elastic wavelength. [m^{-1}sr^{-1}] 
+%   att_beta_ra: matrix
+%       attenuated backscatter at corresponding Raman backscatter 
+%       wavelength. [m^{-1}sr^{-1}]
+%   wavelength: integer
+%       the wavelength of the elastic backscatter to guide to choose the 
+%       suitable Raman wavelength. [nm]
+%   molExtEl: matrix
+%       molecule extinction coefficient at the Elastic wavelength. [m^{-1}] 
+%   molBscEl: matrix
+%       molecule backscatter coefficient at the Elastic wavelength. 
+%       [m^{-1}sr^{-1}]
+%   molExtRa: matrix
+%       molecule extinction coefficient at the Raman backscatter wavelength.
+%       [m^{-1}] 
+%   AE: float
+%       Extinction related Angstroem exponent.
+%   LR: float
+%       aerosol lidar ratio. [sr]
+%   nIters: integer
+%       number of iterations to converge the retrieving results.
+%Outputs:
+%   quasi_par_bsc: matrix
+%       quasi particle backscatter coefficient. [m^{-1}sr^{-1}] 
+%   quasi_par_ext: matrix
+%       quasi particle extinction coefficient. [m^{-1}]
+%History:
+%   2019-08-03. First Edition by Zhenping. Inspired by Holger Baars.
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('nIters', 'var')
     nIters = 1;
