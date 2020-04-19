@@ -77,7 +77,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % retrieve extinction
     thisAerExt355_raman = polly_raman_ext(data.distance0, sig387, 355, 387, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_355, 380, 70, 'moving');
-    
+
     if ~ isnan(data.refHIndx355(iGroup, 1))
         refH = [data.distance0(data.refHIndx355(iGroup, 1)), data.distance0(data.refHIndx355(iGroup, 2))];
         hBaseIndx355 = find(data.height >= config.heightFullOverlap(flagChannel355) + config.smoothWin_raman_355/2 * data.hRes, 1);
@@ -140,7 +140,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % retrieve extinction
     thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_532, 380, 70, 'moving');
-    
+
     if ~ isnan(data.refHIndx532(iGroup, 1))
         refH = [data.distance0(data.refHIndx532(iGroup, 1)), data.distance0(data.refHIndx532(iGroup, 2))];
         hBaseIndx532 = find(data.height >= config.heightFullOverlap(flagChannel532) + config.smoothWin_raman_532/2 * data.hRes, 1);
@@ -195,7 +195,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         
         continue;
     end
-    
+
     sig1064 = transpose(squeeze(sum(data.signal1064OverlapCor(:, proIndx_607On), 2)));
     bg1064 = transpose(squeeze(sum(data.bg1064OverlapCor(:, proIndx_607On), 2)));
     sig607 = transpose(squeeze(sum(data.signal607OverlapCor(:, proIndx_607On), 2)));
@@ -203,7 +203,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % retrieve extinction
     thisAerExt532_raman = polly_raman_ext(data.distance0, sig607, 532, 607, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
-    
+
     if ~ isnan(data.refHIndx1064(iGroup, 1))
         refH = [data.distance0(data.refHIndx1064(iGroup, 1)), data.distance0(data.refHIndx1064(iGroup, 2))];
         hBaseIndx1064 = find(data.height >= config.heightFullOverlap(flagChannel1064) + config.smoothWin_raman_1064/2 * data.hRes, 1);

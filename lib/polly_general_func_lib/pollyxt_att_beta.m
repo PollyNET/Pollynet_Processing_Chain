@@ -1,6 +1,6 @@
 function [att_beta_355, att_beta_532, att_beta_1064, ...
           att_beta_387, att_beta_607] = pollyxt_att_beta(data, config)
-%pollyxt_att_beta Calculate the attenuated backscatter.
+%POLLYXT_ATT_BETA Calculate the attenuated backscatter.
 %Example:
 %   [att_beta_355, att_beta_532, att_beta_1064, att_beta_387,
 %    att_beta_607] = pollyxt_att_beta(data, config)

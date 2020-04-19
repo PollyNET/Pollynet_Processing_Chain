@@ -3,60 +3,60 @@ function data = multiscatter(option, varargin)
 %program is just a simple wrapper for the c programs from Hogan R. The original 
 %programs of the model can be downloaded at http://www.met.rdg.ac.uk/clouds/multiscatter/. 
 %Version 1.2.10 is required for the base of the wrapper function.
-%   Usage 1:
-%       data = multiscatter('Userdefined', filename);   % User defined cloud 
-%          % parameter file is used. The format of the input file can be 
-%          % referred to the examples in /multiscatter-1.2.10/examples
-%   Inputs:
-%       option: char
-%           To control the ability of the function. 
-%           ('monodispersed' or 'Userdefined')
-%       filename: char
-%           the full path of the input file.
-%   Usage 2:
-%       data = multiscatter('monodispersed', range, cloudBase, ...
-%           cloudExt, cloudRadius, cloudLR, lambda, fov, ...
-%           divergence, altitude);   % monodispersed cloud parameters 
-%                                    % were assumed.
-%   Inputs:
-%       option: char
-%           To control the ability of the function. 
-%           ('monodispersed' or 'Userdefined')
+%Usage 1:
+%   data = multiscatter('Userdefined', filename);   % User defined cloud 
+%      % parameter file is used. The format of the input file can be 
+%      % referred to the examples in /multiscatter-1.2.10/examples
+%Inputs:
+%   option: char
+%       To control the ability of the function. 
+%       ('monodispersed' or 'Userdefined')
+%   filename: char
+%       the full path of the input file.
+%Usage 2:
+%   data = multiscatter('monodispersed', range, cloudBase, ...
+%       cloudExt, cloudRadius, cloudLR, lambda, fov, ...
+%       divergence, altitude);   % monodispersed cloud parameters 
+%                                % were assumed.
+%Inputs:
+%   option: char
+%       To control the ability of the function. 
+%       ('monodispersed' or 'Userdefined')
+%   range: array
+%       range of gate above the ground starting with the nearest gate to 
+%       instrument. [m]
+%   cloudBase: float
+%       height of the cloud base. Default is 1000. [m]
+%   cloudExt: float
+%       mean extinction coefficient of the cloud layer. 
+%       Default is 0.01. [m^{-1}]
+%   cloudRadius: float
+%       effective mean radius of the cloud droplets. Default is 5. [microns]
+%   cloudLR: float
+%       cloud mean lidar ratio. Default is 18.8. [Sr]
+%   lambda: float
+%       the wavelength of the transmitting laser. Default is 532. [nm]
+%   fov: float
+%       receiver field-of-view, 1/e half-width. Default is 0.5. [mrad]
+%   divergence: float
+%       transmitter divergence, 1/e half-width. Default is 0.1. [mrad]
+%   altitude: float
+%       altitude of the instrument. Default is 0. [m]
+%Outputs:
+%   data: struct
 %       range: array
-%           range of gate above the ground starting with the nearest gate to 
-%           instrument. [m]
-%       cloudBase: float
-%           height of the cloud base. Default is 1000. [m]
-%       cloudExt: float
-%           mean extinction coefficient of the cloud layer. 
-%           Default is 0.01. [m^{-1}]
-%       cloudRadius: float
-%           effective mean radius of the cloud droplets. Default is 5. [microns]
-%       cloudLR: float
-%           cloud mean lidar ratio. Default is 18.8. [Sr]
-%       lambda: float
-%           the wavelength of the transmitting laser. Default is 532. [nm]
-%       fov: float
-%           receiver field-of-view, 1/e half-width. Default is 0.5. [mrad]
-%       divergence: float
-%           transmitter divergence, 1/e half-width. Default is 0.1. [mrad]
-%       altitude: float
-%           altitude of the instrument. Default is 0. [m]
-%   Outputs:
-%       data: struct
-%           range: array
-%               apparent range above the ground. [m]
-%           cloudExt: array
-%               cloud extintion coefficient. [m^{-1}]
-%           cloudRadius: array
-%               cloud effective mean radius. [microns]
-%           att_total: array
-%               total attenuated backscatter. [m^{-1}*Sr^{-1}]
-%           att_single: array
-%               attenuated backscatter with single backscattering. 
-%               [m^{-1}*Sr^{-1}]
-%   History:
-%       2018-04-12. First edition by Zhenping.
+%           apparent range above the ground. [m]
+%       cloudExt: array
+%           cloud extintion coefficient. [m^{-1}]
+%       cloudRadius: array
+%           cloud effective mean radius. [microns]
+%       att_total: array
+%           total attenuated backscatter. [m^{-1}*Sr^{-1}]
+%       att_single: array
+%           attenuated backscatter with single backscattering. 
+%           [m^{-1}*Sr^{-1}]
+%History:
+%   2018-04-12. First edition by Zhenping.
 
 if strcmpi(option, 'Userdefined')
     data = multiscatter_model(varargin{1});
@@ -96,7 +96,7 @@ if strcmpi(option, 'monodispersed')
     % set molecular extinction coefficient to 0 
     % (you can set it to other values by yourself)
     molecular = zeros(length(range), 1);
-    
+
     extinction = zeros(length(range), 1);
     radius = ones(length(range), 1) .* cloudRadius;
     S = ones(length(range), 1) .* cloudLR;

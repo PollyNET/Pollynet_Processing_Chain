@@ -1,34 +1,34 @@
 function [signalGen] = sigGenWithNoise(signal, noise, nProfile, method)
 %SIGGENWITHNOISE generate the noise containing signal with certain noise adding 
 %algorithm.
-%   Example:
-%       [signalGen] = sigGenWithNoise(signal, noise, nProfile, method)
-%   Inputs:
-%       signal: array
-%           signal strength.
-%        noise: array
-%           noise. Unit should be keep the same with signal. 
-%        nProfile: array
-%           number of signal profiles should be generated.
-%       method: char
-%           'norm': normal distributed noise -> 
-%           signalGen = signal + norm * noise
-%           'poisson': poisson distributed noise -> 
-%           signal = poisson(signal, nProfile)
-%   Outputs:
-%       signalGen: matrix length(signal) * nProfile
-%           noise containing signal.
-%   History:
-%       2018-08-17. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [signalGen] = sigGenWithNoise(signal, noise, nProfile, method)
+%Inputs:
+%   signal: array
+%       signal strength.
+%    noise: array
+%       noise. Unit should be keep the same with signal. 
+%    nProfile: array
+%       number of signal profiles should be generated.
+%   method: char
+%       'norm': normal distributed noise -> 
+%       signalGen = signal + norm * noise
+%       'poisson': poisson distributed noise -> 
+%       signal = poisson(signal, nProfile)
+%Outputs:
+%   signalGen: matrix length(signal) * nProfile
+%       noise containing signal.
+%History:
+%   2018-08-17. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
-if ~ exist('nProfile')
+if ~ exist('nProfile', 'var')
     nProfile = 1; 
-    method = 'norm'
+    method = 'norm';
 end
 
-if ~ exist('noise')
+if ~ exist('noise', 'var')
     noise = sqrt(signal);
 end
 

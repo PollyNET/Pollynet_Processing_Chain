@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_pollyxt_cge(taskInfo, config)
 %Example:
 %    [report] = pollynet_processing_chain_pollyxt_cge(taskInfo, config)
 %Inputs:
-%   fileinfo_new: struct
+%   taskInfo: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -249,7 +249,7 @@ if processInfo.flagEnableResultsOutput
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.nc', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -267,13 +267,13 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     pollyxt_cge_save_att_bsc(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     pollyxt_cge_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_cge_save_quasi_results(data, taskInfo, config);
-    
+
     %% save quasi results V2
     pollyxt_cge_save_quasi_results_V2(data, taskInfo, config);
 
@@ -288,7 +288,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-        
+
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -303,7 +303,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -335,7 +335,7 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_cge_display_quasiretrieving(data, taskInfo, config);
-    
+
     %% display quasi backscatter, particle depol and angstroem exponent V2 
     disp('Display quasi parameters V2')
     pollyxt_cge_display_quasiretrieving_V2(data, taskInfo, config);
@@ -351,7 +351,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     pollyxt_cge_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     pollyxt_cge_display_longterm_cali(dbFile, taskInfo, config);

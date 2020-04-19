@@ -1,5 +1,5 @@
 function LCUsed = polly_first_select_liconst(data, config, dbFile)
-%POLLY_first_SELECT_LICONST select the most suitable lidar calibration constants.
+%POLLY_FIRST_SELECT_LICONST select the most suitable lidar calibration constants.
 %Example:
 %   LCUsed = polly_first_select_liconst(data, config, dbFile)
 %Inputs:

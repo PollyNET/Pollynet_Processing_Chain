@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_pollyxt_ift(taskInfo, config)
 %Example:
 %   [report] = pollynet_processing_chain_pollyxt_ift(taskInfo, config)
 %Inputs:
-%   fileinfo_new: struct
+%   taskInfo: struct
 %      todoPath: cell
 %          path of the todo_filelist
 %      dataPath: cell
@@ -252,7 +252,7 @@ if processInfo.flagEnableCaliResultsOutput
     %% save water vapor calibration results
     save_wvconst(dbFile, wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, ...
     taskInfo.dataFilename, campaignInfo.name);
-    
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -295,13 +295,13 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     pollyxt_ift_save_att_bsc(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     pollyxt_ift_save_voldepol(data, taskInfo, config);
 
     %% save quasi results
     pollyxt_ift_save_quasi_results(data, taskInfo, config);
-    
+
     %% save quasi results V2
     pollyxt_ift_save_quasi_results_V2(data, taskInfo, config);
 
@@ -371,7 +371,7 @@ if processInfo.flagEnableDataVisualization
     %% display quasi backscatter, particle depol and angstroem exponent 
     disp('Display quasi parameters')
     pollyxt_ift_display_quasiretrieving(data, taskInfo, config);
-    
+
     %% display quasi backscatter, particle depol and angstroem exponent V2 
     disp('Display quasi parameters V2')
     pollyxt_ift_display_quasiretrieving_V2(data, taskInfo, config);
@@ -387,7 +387,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     pollyxt_ift_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     pollyxt_ift_display_longterm_cali(dbFile, taskInfo, config);

@@ -64,7 +64,7 @@ function [LC] = pollyxt_lidar_calibration(data, config)
 %   2019-01-28. Add calibration for Raman channels.
 %Contact:
 %   zhenping@tropos.de
-    
+
 LC = struct();
 LC.LC_klett_355 = [];
 LC.LC_klett_532 = [];
@@ -227,7 +227,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     LC.LC_klett_1064 = cat(1, LC.LC_klett_1064, LC_klett_1064);
     LC.LCStd_klett_1064 = cat(1, LC.LCStd_klett_1064, LCStd_klett_1064);
 end
-    
+
 %% calibrate with raman-retrieved profiles
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     LC_raman_355 = NaN;

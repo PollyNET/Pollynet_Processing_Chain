@@ -1,37 +1,37 @@
 function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mask_RH] = pollyxt_wv_retrieve(data, config, IWVIntRangeIndx)
 %pollyxt_wv_retrieve retrieve the water vapor mixing ratio and relative humidity.
-%   Example:
-%       [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_wv_retrieve(data, config, IWVIntRangeIndx)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       IWVIntRangeIndx: matrix
-%           integration range for IWV.
-%   Outputs:
-%       wvmr: matrix
-%           water vapor mixing ratio profile. [g*kg^{-1}] numel(data.cloudFreeGroups)*numel(data.height)
-%       rh: matrix
-%           relative humidity. [%] numel(data.cloudFreeGroups)*numel(data.height)
-%       wvProfileInfo: struct
-%           n407Pros: array
-%               number of accumulated 407nm profiles for each wvmr profile in cloud free period. 
-%       WVMR: matrix
-%           spatial-temporal resolved water vapor mixing ratio. [g*kg^{-1}] 
-%       RH: matrix
-%           spatial-temporal resolved relative humidity. [%] 
-%       IWV: array
-%           time series of IWV. [kg*m^{-2}] 
-%       quality_mask_WVMR: matrix
-%           0 means valid point; 1 means low SNR; 2 means depol calibration; 3 turned off
-%       quality_mask_RH : matrix
-%           see above.
-%   History:
-%       2018-12-26. First Edition by Zhenping
-%       2019-05-22. Add quality control for wvmr and RH.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_wv_retrieve(data, config, IWVIntRangeIndx)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   IWVIntRangeIndx: matrix
+%       integration range for IWV.
+%Outputs:
+%   wvmr: matrix
+%       water vapor mixing ratio profile. [g*kg^{-1}] numel(data.cloudFreeGroups)*numel(data.height)
+%   rh: matrix
+%       relative humidity. [%] numel(data.cloudFreeGroups)*numel(data.height)
+%   wvProfileInfo: struct
+%       n407Pros: array
+%           number of accumulated 407nm profiles for each wvmr profile in cloud free period. 
+%   WVMR: matrix
+%       spatial-temporal resolved water vapor mixing ratio. [g*kg^{-1}] 
+%   RH: matrix
+%       spatial-temporal resolved relative humidity. [%] 
+%   IWV: array
+%       time series of IWV. [kg*m^{-2}] 
+%   quality_mask_WVMR: matrix
+%       0 means valid point; 1 means low SNR; 2 means depol calibration; 3 turned off
+%   quality_mask_RH : matrix
+%       see above.
+%History:
+%   2018-12-26. First Edition by Zhenping
+%   2019-05-22. Add quality control for wvmr and RH.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo
 
@@ -62,7 +62,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     flagCloudFree(proIndx) = true;
     flag407On = (~ data.mask407Off);
     thisn407Pros = sum(flagCloudFree & flag407On);
-    
+
     if thisn407Pros >= 10
         sig387 = sum(data.signal(flagChannel387, :, flag407On & flagCloudFree), 3);
         bg387 = sum(data.bg(flagChannel387, :, flag407On & flagCloudFree), 3);
@@ -97,7 +97,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     wvProfileInfo.IWV = cat(1, wvProfileInfo.IWV, thisIWV);
     wvmr = cat(1, wvmr, thiswvmr);
     rh = cat(1, rh, thisrh);
-    
+
 end
 
 %% retrieve the WVMR and RH

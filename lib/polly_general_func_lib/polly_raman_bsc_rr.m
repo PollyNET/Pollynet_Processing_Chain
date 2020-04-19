@@ -1,60 +1,60 @@
 function [ beta_aer, LR ] = polly_raman_bsc_rr(height, sigElastic, sigVRN2, ext_aer, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, flagSmoothBefore)
 %POLLY_RAMAN_BSC calculate the aerosol backscatter coefficient with rotational 
 %Raman signal. 
-%   Usage:
-%       [ beta_aer, LR ] = polly_raman_bsc_rr(height, sigElastic, sigVRN2, ...
-%       ext_aer, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, ...
-%       flagSmoothBefore)
-%   Inputs:
-%       height: array
-%           height. [m]
-%       sigElastic: array
-%           elastic photon count signal.
-%       sigVRN2: array
-%           N2 vibration rotational raman photon count signal.
-%       ext_aer: array
-%           aerosol extinction coefficient. [m^{-1}]
-%       ext_mol: array
-%           molecular extinction coefficient. [m^{-1}]
-%       beta_mol: array
-%           molecular backscatter coefficient. [m^{-1}Sr^{-1}]
-%       HRef: 2 element array
-%           reference region. [m]
-%       wavelength: integer
-%           wavelength of the corresponding elastic signal. [nm]
-%       betaRef: float
-%           aerosol backscatter coefficient at the reference region. 
-%           [m^{-1}Sr^{-1}]
-%       window_size: integer
-%           number of the bins of the sliding window for the signal smooth. 
-%           [default: 40]
-%       flagSmoothBefore: logcial
-%           flag bit to control the smoothing order, whether smoothing the 
-%           signal before calculating the signal ratio or not.
-%   Outputs:
-%       beta_aer: array
-%           aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
-%       LR: array
-%           aerosol lidar ratio.
-%   References:
-%       Ansmann, A., et al. (1992). "Independent measurement of extinction and 
-%       backscatter profiles in cirrus clouds by using a combined Raman elastic-
-%       backscatter lidar." Applied optics 31(33): 7113-7131.
-%       Veselovskii, I., P. Goloub, T. Podvin, V. Bovchaliuk, Y. Derimian, P. 
-%       Augustin, M. Fourmentin, D. Tanre, M. Korenskiy, and D. Whiteman (2016),
-%       Retrieval of optical and physical properties of African dust from 
-%       multiwavelength Raman lidar measurements during the SHADOW campaign in 
-%       Senegal, Atmospheric Chemistry and Physics, 16(11), 7013.
-%   History:
-%       2018-01-02. First edition by Zhenping.
-%       2018-07-24. Add the ext_mol_factor and ext_aer_factor for wavelength 
-%       of 1064nm
-%       2018-09-04. Change the smoothing order. Previous way is smoothing the 
-%       signal. This will create large drift at the signal ridges.
-%       2018-09-05. Keep the original smoothing order for 355, which makes the 
-%       retrieving results at the far range bins quite stable.
-%   Contact:
-%       zhenping@tropos.de
+%Usage:
+%   [ beta_aer, LR ] = polly_raman_bsc_rr(height, sigElastic, sigVRN2, ...
+%   ext_aer, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, ...
+%   flagSmoothBefore)
+%Inputs:
+%   height: array
+%       height. [m]
+%   sigElastic: array
+%       elastic photon count signal.
+%   sigVRN2: array
+%       N2 vibration rotational raman photon count signal.
+%   ext_aer: array
+%       aerosol extinction coefficient. [m^{-1}]
+%   ext_mol: array
+%       molecular extinction coefficient. [m^{-1}]
+%   beta_mol: array
+%       molecular backscatter coefficient. [m^{-1}Sr^{-1}]
+%   HRef: 2 element array
+%       reference region. [m]
+%   wavelength: integer
+%       wavelength of the corresponding elastic signal. [nm]
+%   betaRef: float
+%       aerosol backscatter coefficient at the reference region. 
+%       [m^{-1}Sr^{-1}]
+%   window_size: integer
+%       number of the bins of the sliding window for the signal smooth. 
+%       [default: 40]
+%   flagSmoothBefore: logcial
+%       flag bit to control the smoothing order, whether smoothing the 
+%       signal before calculating the signal ratio or not.
+%Outputs:
+%   beta_aer: array
+%       aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
+%   LR: array
+%       aerosol lidar ratio.
+%References:
+%   Ansmann, A., et al. (1992). "Independent measurement of extinction and 
+%   backscatter profiles in cirrus clouds by using a combined Raman elastic-
+%   backscatter lidar." Applied optics 31(33): 7113-7131.
+%   Veselovskii, I., P. Goloub, T. Podvin, V. Bovchaliuk, Y. Derimian, P. 
+%   Augustin, M. Fourmentin, D. Tanre, M. Korenskiy, and D. Whiteman (2016),
+%   Retrieval of optical and physical properties of African dust from 
+%   multiwavelength Raman lidar measurements during the SHADOW campaign in 
+%   Senegal, Atmospheric Chemistry and Physics, 16(11), 7013.
+%History:
+%   2018-01-02. First edition by Zhenping.
+%   2018-07-24. Add the ext_mol_factor and ext_aer_factor for wavelength 
+%   of 1064nm
+%   2018-09-04. Change the smoothing order. Previous way is smoothing the 
+%   signal. This will create large drift at the signal ridges.
+%   2018-09-05. Keep the original smoothing order for 355, which makes the 
+%   retrieving results at the far range bins quite stable.
+%Contact:
+%   zhenping@tropos.de
 
 % check the inputs                        
 if ~ (nargin >= 9)

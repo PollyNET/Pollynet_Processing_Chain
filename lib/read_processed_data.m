@@ -2,44 +2,44 @@ function [time, height, res] = read_processed_data(instrument, parameter, ...
                                                    hRange, tRange, resFolder)
 %READ_PROCESSED_DATA read the processed data from pollynet processing program 
 %in the given range.
-%   Example:
-%       [time, height, res] = read_processed_data(instrument, parameter, 
-%                                                 tRange, resFolder)
-%   Inputs:
-%       instrument: str
-%           polly instrument. {'pollyxt_lacros', 'pollyxt_noa', 
-%                              'pollyxt_tropos', 'pollyxt_fmi', 'arielle'} 
-%       parameter: str
-%           the label of the parameter which you want to extract.
-%           data
-%           LC_aeronet_1064nm
-%           LC_aeronet_355nm
-%           LC_aeronet_532nm
-%           LC_klett_1064nm
-%           LC_klett_355nm
-%           LC_klett_532nm
-%           LC_raman_1064nm
-%           LC_raman_355nm
-%           LC_raman_532nm
-%           attenuated_backscatter_1064nm
-%           attenuated_backscatter_355nm
-%           attenuated_backscatter_532nm
-%           target_classification
-%           target_classification_V2
-%           volume_depolarization_ratio_355nm
-%           volume_depolarization_ratio_532nm
-%       hRange: 2-element array
-%           vertical range. [km]
-%       tRange: 2-element array (datenum)
-%           start time and end time of the extraction. 
-%       resFolder: str
-%           the folder of saving the processign results.
-%   Outputs:
-%       time, height, res
-%   History:
-%       2019-04-10. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [time, height, res] = read_processed_data(instrument, parameter, 
+%                                             tRange, resFolder)
+%Inputs:
+%   instrument: str
+%       polly instrument. {'pollyxt_lacros', 'pollyxt_noa', 
+%                          'pollyxt_tropos', 'pollyxt_fmi', 'arielle'} 
+%   parameter: str
+%       the label of the parameter which you want to extract.
+%       data
+%       LC_aeronet_1064nm
+%       LC_aeronet_355nm
+%       LC_aeronet_532nm
+%       LC_klett_1064nm
+%       LC_klett_355nm
+%       LC_klett_532nm
+%       LC_raman_1064nm
+%       LC_raman_355nm
+%       LC_raman_532nm
+%       attenuated_backscatter_1064nm
+%       attenuated_backscatter_355nm
+%       attenuated_backscatter_532nm
+%       target_classification
+%       target_classification_V2
+%       volume_depolarization_ratio_355nm
+%       volume_depolarization_ratio_532nm
+%   hRange: 2-element array
+%       vertical range. [km]
+%   tRange: 2-element array (datenum)
+%       start time and end time of the extraction. 
+%   resFolder: str
+%       the folder of saving the processign results.
+%Outputs:
+%   time, height, res
+%History:
+%   2019-04-10. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('resFolder', 'var')
     resFolder = 'C:\Users\zhenping\Desktop\Picasso\results';
@@ -51,7 +51,7 @@ res = [];
 
 switch parameter
 case 'data'
-    
+
     signal = [];
     bg = [];
     for iDay = fix(tRange(1)):fix(tRange(2))
@@ -76,7 +76,7 @@ case 'data'
     time = time(indx);
 
 case 'LC_aeronet_1064nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -95,7 +95,7 @@ case 'LC_aeronet_1064nm'
     time = time(indx);
 
 case 'LC_aeronet_355nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -114,7 +114,7 @@ case 'LC_aeronet_355nm'
     time = time(indx);
 
 case 'LC_aeronet_532nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -133,7 +133,7 @@ case 'LC_aeronet_532nm'
     time = time(indx);
 
 case 'LC_klett_1064nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -152,7 +152,7 @@ case 'LC_klett_1064nm'
     time = time(indx);
 
 case 'LC_klett_355nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -171,7 +171,7 @@ case 'LC_klett_355nm'
     time = time(indx);
 
 case 'LC_klett_532nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -190,7 +190,7 @@ case 'LC_klett_532nm'
     time = time(indx);
 
 case 'LC_raman_1064nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -209,7 +209,7 @@ case 'LC_raman_1064nm'
     time = time(indx);
 
 case 'LC_raman_355nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -228,7 +228,7 @@ case 'LC_raman_355nm'
     time = time(indx);
 
 case 'LC_raman_532nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -247,7 +247,7 @@ case 'LC_raman_532nm'
     time = time(indx);
 
 case 'attenuated_backscatter_1064nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -269,7 +269,7 @@ case 'attenuated_backscatter_1064nm'
     end
 
 case 'attenuated_backscatter_355nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -289,7 +289,7 @@ case 'attenuated_backscatter_355nm'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -297,7 +297,7 @@ case 'attenuated_backscatter_355nm'
     time = time(indx);
 
 case 'attenuated_backscatter_532nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -317,7 +317,7 @@ case 'attenuated_backscatter_532nm'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -325,7 +325,7 @@ case 'attenuated_backscatter_532nm'
     time = time(indx);
 
 case 'quality_mask_1064'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -345,7 +345,7 @@ case 'quality_mask_1064'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -353,7 +353,7 @@ case 'quality_mask_1064'
     time = time(indx);
 
 case 'quality_mask_532'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -373,7 +373,7 @@ case 'quality_mask_532'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -381,7 +381,7 @@ case 'quality_mask_532'
     time = time(indx);
 
 case 'quality_mask_voldepol_532'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -401,7 +401,7 @@ case 'quality_mask_voldepol_532'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -409,7 +409,7 @@ case 'quality_mask_voldepol_532'
     time = time(indx);
 
 case 'quasi_ang_532_1064'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -429,7 +429,7 @@ case 'quasi_ang_532_1064'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -437,7 +437,7 @@ case 'quasi_ang_532_1064'
     time = time(indx);
 
 case 'quasi_bsc_1064'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -457,7 +457,7 @@ case 'quasi_bsc_1064'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -465,7 +465,7 @@ case 'quasi_bsc_1064'
     time = time(indx);
 
 case 'quasi_bsc_532'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -485,7 +485,7 @@ case 'quasi_bsc_532'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -493,7 +493,7 @@ case 'quasi_bsc_532'
     time = time(indx);
 
 case 'quasi_pardepol_532'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -513,7 +513,7 @@ case 'quasi_pardepol_532'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -521,7 +521,7 @@ case 'quasi_pardepol_532'
     time = time(indx);
 
 case 'quality_mask_1064_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -541,7 +541,7 @@ case 'quality_mask_1064_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -549,7 +549,7 @@ case 'quality_mask_1064_V2'
     time = time(indx);
 
 case 'quality_mask_532_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -569,7 +569,7 @@ case 'quality_mask_532_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -577,7 +577,7 @@ case 'quality_mask_532_V2'
     time = time(indx);
 
 case 'quality_mask_voldepol_532_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -597,7 +597,7 @@ case 'quality_mask_voldepol_532_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -605,7 +605,7 @@ case 'quality_mask_voldepol_532_V2'
     time = time(indx);
 
 case 'quasi_ang_532_1064_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -625,7 +625,7 @@ case 'quasi_ang_532_1064_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -633,7 +633,7 @@ case 'quasi_ang_532_1064_V2'
     time = time(indx);
 
 case 'quasi_bsc_1064_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -653,7 +653,7 @@ case 'quasi_bsc_1064_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -661,7 +661,7 @@ case 'quasi_bsc_1064_V2'
     time = time(indx);
 
 case 'quasi_bsc_532_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -681,7 +681,7 @@ case 'quasi_bsc_532_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -689,7 +689,7 @@ case 'quasi_bsc_532_V2'
     time = time(indx);
 
 case 'quasi_pardepol_532_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -709,7 +709,7 @@ case 'quasi_pardepol_532_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -717,7 +717,7 @@ case 'quasi_pardepol_532_V2'
     time = time(indx);
 
 case 'target_classification'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -737,7 +737,7 @@ case 'target_classification'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -745,7 +745,7 @@ case 'target_classification'
     time = time(indx);
 
 case 'target_classification_V2'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -765,7 +765,7 @@ case 'target_classification_V2'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     indx = (time >= tRange(1)) & (time <= tRange(2));
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     res = res(hIndx, indx);
@@ -773,7 +773,7 @@ case 'target_classification_V2'
     time = time(indx);
 
 case 'volume_depolarization_ratio_355nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -793,7 +793,7 @@ case 'volume_depolarization_ratio_355nm'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     indx = (time >= tRange(1)) & (time <= tRange(2));
     res = res(hIndx, indx);
@@ -801,7 +801,7 @@ case 'volume_depolarization_ratio_355nm'
     time = time(indx);
 
 case 'volume_depolarization_ratio_532nm'
-    
+
     for iDay = fix(tRange(1)):fix(tRange(2))
         files = listfile(fullfile(resFolder, instrument, ...
         datestr(double(iDay), 'yyyy'), ...
@@ -821,7 +821,7 @@ case 'volume_depolarization_ratio_532nm'
             res = [res, res_raw(hIndx, tIndx)];
         end
     end
-    
+
     hIndx = (height/1e3 >= hRange(1)) & (height/1e3 <= hRange(2));
     indx = (time >= tRange(1)) & (time <= tRange(2));
     res = res(hIndx, indx);

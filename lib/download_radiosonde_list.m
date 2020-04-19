@@ -1,15 +1,15 @@
 function [flag] = download_radiosonde_list()
 %DOWNLOAD_RADIOSONDE_LIST Download global radiosonde site list.
-%   Example:
-%       [flag] = download_radiosonde_list()
-%   Inputs:
-%   Outputs:
-%       flag: logical
-%           return status of the function.
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flag] = download_radiosonde_list()
+%Inputs:
+%Outputs:
+%   flag: logical
+%       return status of the function.
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 url = 'https://www1.ncdc.noaa.gov/pub/data/igra/igra2-station-list.txt';
 saveFile = 'radiosonde-station-list.txt';

@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %Example:
 %    [report] = pollynet_processing_chain_polly_1v2(taskInfo, config)
 %Inputs:
-%   fileinfo_new: struct
+%   taskInfo: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -200,7 +200,7 @@ if processInfo.flagEnableCaliResultsOutput
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
                  campaignInfo.name, '532', 'AOD_Constrained_Method');
-    
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -215,7 +215,7 @@ if processInfo.flagEnableResultsOutput
 
     %% save attenuated backscatter
     polly_1v2_save_att_bsc(data, taskInfo, config);
-    
+
     %% save volume depolarization ratio
     polly_1v2_save_voldepol(data, taskInfo, config);
 
@@ -230,7 +230,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-        
+
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -245,7 +245,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -289,7 +289,7 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_1v2_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
     polly_1v2_display_longterm_cali(dbFile, taskInfo, config);

@@ -1,21 +1,23 @@
 function [data, depCalAttri] = polly_1v2_depolcali(data, config, dbFile)
-%polly_1v2_depolcali calibrate the polly depol channels both for 355 and 532 nm with +- 45\deg method.
-%	Example:
-%		[data] = polly_1v2_depolcali(data, config, taskInfo, defaults)
-%	Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%	Outputs:
-%       data.struct
-%           The depolarization calibration results will be inserted. And more information can be found in doc/pollynet_processing_program.md
-%	History:
-%		2018-12-17. First edition by Zhenping
-%	Contact:
-%		zhenping@tropos.de
+%POLLY_1V2_DEPOLCALI calibrate the polly depol channels both for 355 and 532 nm
+%with +- 45\deg method.
+%Example:
+%   [data] = polly_1v2_depolcali(data, config, taskInfo, defaults)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   data.struct
+%       The depolarization calibration results will be inserted. And more
+%       information can be found in doc/pollynet_processing_program.md
+%History:
+%   2018-12-17. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global defaults campaignInfo
 

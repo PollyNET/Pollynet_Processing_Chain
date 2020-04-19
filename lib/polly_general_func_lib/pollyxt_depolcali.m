@@ -1,5 +1,5 @@
 function [data, depCalAttri] = pollyxt_depolcali(data, config, dbFile)
-%pollyxt_depolcali calibrate the PollyXT depol channels both at 355 and 532 nm
+%POLLYXT_DEPOLCALI calibrate the PollyXT depol channels both at 355 and 532 nm
 %with +- 45\deg method.
 %Example:
 %   [data, depCalAttri] = pollyxt_depolcali(data, config)

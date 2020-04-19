@@ -1,21 +1,21 @@
 function [data, overlapAttri] = pollyxt_cge_overlap(data, config)
-%pollyxt_cge_overlap description
-%   Example:
-%       [data] = pollyxt_cge_overlap(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       data: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       overlapAttri: struct
-%           All information about overlap.
-%   History:
-%       2018-12-19. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_OVERLAP description
+%Example:
+%   [data] = pollyxt_cge_overlap(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   data: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   overlapAttri: struct
+%       All information about overlap.
+%History:
+%   2018-12-19. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo defaults
 

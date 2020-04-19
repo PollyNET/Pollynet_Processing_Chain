@@ -1,68 +1,68 @@
-function [ data ] = polly_first_preprocess(data, config)
-%polly_first_preprocess deadtime correction, background correction, 
+function [data] = polly_first_preprocess(data, config)
+%POLLY_FIRST_PREPROCESS deadtime correction, background correction, 
 %first-bin shift, mask for low-SNR and mask for depolarization-calibration process.
-%   Usage:
-%       [ data ] = polly_first_preprocess(data, config)
-%   Inputs:
-%       data: struct
-%           rawSignal: array
-%               signal. [Photon Count]
-%           mShots: array
-%               number of the laser shots for each profile.
-%           mTime: array
-%               datetime array for the measurement time of each profile.
-%           depCalAng: array
-%               angle of the polarizer in the receiving channel. (>0 means 
-%               calibration process starts)
-%           zenithAng: array
-%               zenith angle of the laer beam.
-%           repRate: float
-%               laser pulse repetition rate. [s^-1]
-%           hRes: float
-%               spatial resolution [m]
-%           mSite: string
-%               measurement site.
-%       config: struct
-%           configuration. Detailed information can be found in doc/polly_config.md.
-%   Outputs:
-%       data: struct
-%           rawSignal: array
-%               signal. [Photon Count]
-%           mShots: array
-%               number of the laser shots for each profile.
-%           mTime: array
-%               datetime array for the measurement time of each profile.
-%           depCalAng: array
-%               angle of the polarizer in the receiving channel. (>0 means 
-%               calibration process starts)
-%           zenithAng: array
-%               zenith angle of the laer beam.
-%           repRate: float
-%               laser pulse repetition rate. [s^-1]
-%           hRes: float
-%               spatial resolution [m]
-%           mSite: string
-%               measurement site.
-%           signal: array
-%               Background removed signal
-%           bg: array
-%               background
-%           height: array
-%               height. [m]
-%           lowSNRMask: array
-%               If SNR less SNRmin, mask is set true. Otherwise, false
-%           depCalMask: array
-%               If polly was doing depolarization calibration, depCalMask is set
-%               true. Otherwise, false.
-%           fogMask: array
-%               If it is foggy which means the signal will be very weak, 
-%               fogMask will be set true. Otherwise, false
-%   History:
-%       2018-12-16. First edition by Zhenping.
-%       2019-07-10. Add mask for laser shutter due to approaching airplanes.
-%       2019-08-27. Add mask for turnoff of PMT at 607 and 387nm.
-%   Copyright:
-%       Ground-based remote sensing (tropos)
+%Usage:
+%   [data] = polly_first_preprocess(data, config)
+%Inputs:
+%   data: struct
+%       rawSignal: array
+%           signal. [Photon Count]
+%       mShots: array
+%           number of the laser shots for each profile.
+%       mTime: array
+%           datetime array for the measurement time of each profile.
+%       depCalAng: array
+%           angle of the polarizer in the receiving channel. (>0 means 
+%           calibration process starts)
+%       zenithAng: array
+%           zenith angle of the laer beam.
+%       repRate: float
+%           laser pulse repetition rate. [s^-1]
+%       hRes: float
+%           spatial resolution [m]
+%       mSite: string
+%           measurement site.
+%   config: struct
+%       configuration. Detailed information can be found in doc/polly_config.md.
+%Outputs:
+%   data: struct
+%       rawSignal: array
+%           signal. [Photon Count]
+%       mShots: array
+%           number of the laser shots for each profile.
+%       mTime: array
+%           datetime array for the measurement time of each profile.
+%       depCalAng: array
+%           angle of the polarizer in the receiving channel. (>0 means 
+%           calibration process starts)
+%       zenithAng: array
+%           zenith angle of the laer beam.
+%       repRate: float
+%           laser pulse repetition rate. [s^-1]
+%       hRes: float
+%           spatial resolution [m]
+%       mSite: string
+%           measurement site.
+%       signal: array
+%           Background removed signal
+%       bg: array
+%           background
+%       height: array
+%           height. [m]
+%       lowSNRMask: array
+%           If SNR less SNRmin, mask is set true. Otherwise, false
+%       depCalMask: array
+%           If polly was doing depolarization calibration, depCalMask is set
+%           true. Otherwise, false.
+%       fogMask: array
+%           If it is foggy which means the signal will be very weak, 
+%           fogMask will be set true. Otherwise, false
+%History:
+%   2018-12-16. First edition by Zhenping.
+%   2019-07-10. Add mask for laser shutter due to approaching airplanes.
+%   2019-08-27. Add mask for turnoff of PMT at 607 and 387nm.
+%Copyright:
+%   Ground-based remote sensing (tropos)
 
 global campaignInfo
 
@@ -139,15 +139,6 @@ for iChannel = 1: size(data.signal, 1)
     data.lowSNRMask(iChannel, SNR(iChannel, :, :) < config.mask_SNRmin(iChannel)) = true;
 end
 
-%% depol cal time and mask
-% maskDepCalAng = config.maskDepCalAng;   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
-% [depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_time(data.depCalAng, data.mTime, config.init_depAng, maskDepCalAng);
-% data.depol_cal_ang_p_time_start = depol_cal_ang_p_time_start;
-% data.depol_cal_ang_p_time_end = depol_cal_ang_p_time_end;
-% data.depol_cal_ang_n_time_start = depol_cal_ang_n_time_start;
-% data.depol_cal_ang_n_time_end = depol_cal_ang_n_time_end;
-% data.depCalMask = transpose(depCalMask);
-
 %% mask for laser shutter
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 flagChannel355FR = config.isFR & config.is355nm & config.isTot;
@@ -171,13 +162,5 @@ data.fogMask(transpose(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :)
 %% mask for PMT607 off
 flagChannel607 = config.isFR & config.is607nm;
 data.mask607Off = polly_is607Off(squeeze(data.signal(flagChannel607, :, :)));
-
-%% mask for PMT387 off
-% flagChannel387 = config.isFR & config.is387nm;
-% data.mask387Off = polly_is387Off(squeeze(data.signal(flagChannel387, :, :)));
-% 
-% %% mask for PMT407 off
-% flagChannel407 = config.isFR & config.is407nm;
-% data.mask407Off = polly_is407Off(squeeze(data.signal(flagChannel407, :, :)));
 
 end

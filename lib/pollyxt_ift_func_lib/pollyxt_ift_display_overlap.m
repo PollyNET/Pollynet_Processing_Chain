@@ -1,21 +1,19 @@
-function [] = pollyxt_ift_display_overlap(data, taskInfo, attri, config)
-%pollyxt_ift_display_overlap display the overlap function.
-%   Example:
-%       [] = pollyxt_ift_display_overlap(data, taskInfo, attri, config)
-%   Inputs:
-%       data: struct
-%       taskInfo: struct
-%           the present processed task information. Go to fileinfo_new.txt for more details.
-%       attri: struct
-%           attributes about overlap function.
-%       config: struct
-%           polly processing configuration. More detailed information can be found in doc/polly_config.md
-%   Outputs:
-%       
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_overlap(data, taskInfo, attri, config)
+%POLLYXT_IFT_DISPLAY_OVERLAP display the overlap function.
+%Example:
+%   pollyxt_ift_display_overlap(data, taskInfo, attri, config)
+%Inputs:
+%   data: struct
+%   taskInfo: struct
+%       the present processed task information. Go to fileinfo_new.txt for more details.
+%   attri: struct
+%       attributes about overlap function.
+%   config: struct
+%       polly processing configuration. More detailed information can be found in doc/polly_config.md
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

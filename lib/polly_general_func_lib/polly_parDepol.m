@@ -1,38 +1,38 @@
 function [parDepol, parDepolStd] = polly_parDepol(volDepol, volDepolStd, aerBsc, aerBscStd, molBsc, molDepol, molDepolStd)
 %POLLY_PARDEPOL calculate the particle depolarization ratio and estimate the 
 %standard deviation of particle depolarization ratio.
-%   Example:
-%       [parDepol, parDepolStd] = polly_parDepol(volDepol, volDepolStd, 
-%       aerBsc, aerBscStd, molBsc, molDepol, molDepolStd)
-%   Inputs:
-%       volDepol: array
-%           volume depolarization ratio.
-%       volDepolStd: array
-%           standard deviation of volume depolarization ratio.
-%       aerBsc: array
-%           aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
-%       aerBscStd: array
-%           standard deviation of aerosol backscatter coefficient. 
-%           [m^{-1}Sr^{-1}] 
-%       molBsc: array
-%           molecule backscatter coefficient. [m^{-1}Sr^{-1}]
-%       molDepol: scalar
-%           molecule depolarization ratio. This value is highly dependent on 
-%           the central wavelength and FWHM of the narrow IF in the depol 
-%           channel.
-%       molDepolStd: scalar
-%           standard deviation of molecule depolarization ratio.
-%   Outputs:
-%       parDepol: array
-%           particle depolarization ratio. 
-%       parDepolStd: array
-%           standard deviation of particle depolarization ratio.
-%   Reference:
-%       H.Baars et. al, Aerosol Typing by lidar, Eq.10, AMT, 2017
-%   History:
-%       2018-09-05. First edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [parDepol, parDepolStd] = polly_parDepol(volDepol, volDepolStd, 
+%   aerBsc, aerBscStd, molBsc, molDepol, molDepolStd)
+%Inputs:
+%   volDepol: array
+%       volume depolarization ratio.
+%   volDepolStd: array
+%       standard deviation of volume depolarization ratio.
+%   aerBsc: array
+%       aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
+%   aerBscStd: array
+%       standard deviation of aerosol backscatter coefficient. 
+%       [m^{-1}Sr^{-1}] 
+%   molBsc: array
+%       molecule backscatter coefficient. [m^{-1}Sr^{-1}]
+%   molDepol: scalar
+%       molecule depolarization ratio. This value is highly dependent on 
+%       the central wavelength and FWHM of the narrow IF in the depol 
+%       channel.
+%   molDepolStd: scalar
+%       standard deviation of molecule depolarization ratio.
+%Outputs:
+%   parDepol: array
+%       particle depolarization ratio. 
+%   parDepolStd: array
+%       standard deviation of particle depolarization ratio.
+%Reference:
+%   H.Baars et. al, Aerosol Typing by lidar, Eq.10, AMT, 2017
+%History:
+%   2018-09-05. First edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 
 parDepol = (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ ...

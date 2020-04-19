@@ -1,15 +1,13 @@
-function [] = polly_1v2_display_retrieving(data, taskInfo, config)
-%polly_1v2_display_retrieving display aerosol optical products
-%   Example:
-%       [] = polly_1v2_display_retrieving(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_1v2_display_retrieving(data, taskInfo, config)
+%POLLY_1V2_DISPLAY_RETRIEVING display aerosol optical products
+%Example:
+%   polly_1v2_display_retrieving(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 

@@ -5,34 +5,34 @@ function [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, ..
 %GDAS1 status together if 'flagCheckGDAS1' was set true. The modified zipped 
 %files will be extracted to the todopath and the fileinfo_new file will be 
 %created to trigger the Picasso.
-%   Example:
-%       [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, ...
-%    pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
-%   Inputs:
-%       pollyAppConfigFile: char
-%           filename of the pollyAPP private configuration file. 
-%           e.g., '~/pollyAPP/config/config.private'
-%       picassoConfigFile: char
-%           filename of the picasso global configuration file.
-%           e.g., '~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json'
-%       pollyDataBaseDir: char
-%           root directory for holding polly data
-%           e.g., '/pollyhome'
-%       minDataSize: integer
-%           minumum size of the polly data to trigger the processing. [bytes]
-%       tSearchStart: datenum
-%           start time for searching the polly data file.
-%       tSearchRange: datenum
-%           search range for searching the polly data file before the tSearchStart.
-%       flagCheckGDAS1: logical
-%           flag to control whether to reprocess the data when GDAS1 files were ready.
-%   Outputs:
-%       flag: logical
-%           status for the whole process.
-%   History:
-%       2019-09-02. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, ...
+% pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
+%Inputs:
+%   pollyAppConfigFile: char
+%       filename of the pollyAPP private configuration file. 
+%       e.g., '~/pollyAPP/config/config.private'
+%   picassoConfigFile: char
+%       filename of the picasso global configuration file.
+%       e.g., '~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json'
+%   pollyDataBaseDir: char
+%       root directory for holding polly data
+%       e.g., '/pollyhome'
+%   minDataSize: integer
+%       minumum size of the polly data to trigger the processing. [bytes]
+%   tSearchStart: datenum
+%       start time for searching the polly data file.
+%   tSearchRange: datenum
+%       search range for searching the polly data file before the tSearchStart.
+%   flagCheckGDAS1: logical
+%       flag to control whether to reprocess the data when GDAS1 files were ready.
+%Outputs:
+%   flag: logical
+%       status for the whole process.
+%History:
+%   2019-09-02. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 flag = false;
 
@@ -103,23 +103,23 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
     % SQL command:
     % '''
     % SELECT 
-    %     l.name,
-    %     ld.nc_zip_file,
-    %     ld.nc_zip_file_size,
-    %     loc.name,
-    %     ld.gdas,
-    %     ld.starttime
+    %  l.name,
+    %  ld.nc_zip_file,
+    %  ld.nc_zip_file_size,
+    %  loc.name,
+    %  ld.gdas,
+    %  ld.starttime
     % FROM 
-    %     lidar_data ld
+    %  lidar_data ld
     % INNER JOIN
-    %     lidar l
+    %  lidar l
     % INNER JOIN
-    %     location loc
+    %  location loc
     % WHERE
-    %     ld.lidar_fk=l.id AND
-    %     ld.location_fk=loc.id AND
-    %     l.name='Polly_1V2' AND
-    %     (ld.starttime >= '20191007') AND (ld.stoptime <= '20191014')
+    %  ld.lidar_fk=l.id AND
+    %  ld.location_fk=loc.id AND
+    %  l.name='Polly_1V2' AND
+    %  (ld.starttime >= '20191007') AND (ld.stoptime <= '20191014')
     % '''
     % You are at your own responsibility to test this.
     sqlCmd = sprintf('SELECT l.name, ld.nc_zip_file, ld.nc_zip_file_size, loc.name, ld.gdas FROM lidar_data ld INNER JOIN lidar l, location loc WHERE ld.lidar_fk=l.id AND ld.location_fk=loc.id AND l.name=''%s'';', pollyUniqNameTable.polly{iPolly});
@@ -228,7 +228,7 @@ for iTask = 1:length(taskTable.filename)
         unzipFilename{iTask} = '';
         warning('Failure in unzipping %s', fullfile(taskTable.filePath{iTask}, taskTable.filename{iTask}));
     end
-    
+
     try
         laserlogbookFile = fullfile(taskTable.filePath{iTask}, [taskTable.filename{iTask}(1:end-4), '.laserlogbook.txt.zip']);
         if exist(laserlogbookFile, 'file') == 2
