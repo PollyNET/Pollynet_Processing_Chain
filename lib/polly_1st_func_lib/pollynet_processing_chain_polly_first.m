@@ -42,6 +42,9 @@ if ~ exist(pic_folder, 'dir')
     mkdir(pic_folder);
 end
 
+dbFile = fullfile(processInfo.results_folder, campaignInfo.name , ...
+                  sprintf('%s_calibration.db', campaignInfo.name));
+
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);
 data = polly_read_rawdata(fullfile(taskInfo.todoPath, ...
@@ -127,7 +130,7 @@ fprintf('[%s] Finish.\n', tNow());
 fprintf('\n[%s] Start to retrieve aerosol optical properties.\n', tNow());
 meteorStr = '';
 for iMeteor = 1:length(meteorAttri.dataSource)
-    meteorStr = [meteorStr, ' ', meteorAttri.dataSource{iMeteor}];
+    meteorStr = cat(2, meteorStr, ' ', meteorAttri.dataSource{iMeteor});
 end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
@@ -142,16 +145,14 @@ fprintf('[%s] Finish.\n', tNow());
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = polly_first_lidar_calibration(data, config);
 data.LC = LC;
-LCUsed = struct();
-[LCUsed.LCUsed532, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532, LCUsed.LCUsed607, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = polly_first_mean_LC(data, config, taskInfo, fullfile(processInfo.results_folder, config.pollyVersion));
-data.LCUsed = LCUsed;
+
+% select lidar calibration constant
+data.LCUsed = polly_first_select_liconst(data, config, dbFile);
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
 fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
-[att_beta_532, att_beta_607] = polly_first_att_beta(data, config);
-data.att_beta_532 = att_beta_532;
-data.att_beta_607 = att_beta_607;
+[data.att_beta_532, data.att_beta_607] = polly_first_att_beta(data, config);
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -166,9 +167,19 @@ if processInfo.flagEnableCaliResultsOutput
     fprintf('\n[%s] Start to save calibration results.\n', tNow());
 
     %% save lidar calibration results
-    polly_first_save_LC_nc(data, taskInfo, config);
-    polly_first_save_LC_txt(data, taskInfo, config);
-    
+    save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Klett_Method');
+    save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method');
+    save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+
     fprintf('[%s] Finish.\n', tNow());
 
 end
@@ -190,7 +201,7 @@ if processInfo.flagEnableResultsOutput
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.nc', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -232,7 +243,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-        
+
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
@@ -272,10 +283,10 @@ if processInfo.flagEnableDataVisualization
     %% display lidar calibration constants
     disp('Display Lidar constants.')
     polly_first_display_lidarconst(data, taskInfo, config);
-    
+
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
-    polly_first_display_longterm_cali(taskInfo, config);
+    polly_first_display_longterm_cali(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end

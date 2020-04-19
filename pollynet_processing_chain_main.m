@@ -1,5 +1,5 @@
 function report = pollynet_processing_chain_main(pollynetConfigFile)
-%pollynet_processing_chain_main read polly tasks from todo_filelist and assign
+%POLLYNET_PROCESSING_CHAIN_MAIN read polly tasks from todo_filelist and assign
 %the processing module for each task.
 %Example:
 %   [report] = pollynet_processing_chain_main(pollynetConfigFile)
@@ -156,12 +156,12 @@ for iTask = 1:length(fileinfo_new.dataFilename)
              'config file: %s\n', ...
              'process func: %s\n', ...
              'Instrument info: %s\n', ...
-             'polly load defaults function: %s\n'], ...
+             'polly defaults file: %s\n'], ...
              pollyProcessInfo.pollyVersion, ...
              pollyProcessInfo.pollyConfigFile, ...
              pollyProcessInfo.pollyProcessFunc, ...
              pollyProcessInfo.pollyUpdateInfo, ...
-             pollyProcessInfo.pollyLoadDefaultsFunc);
+             pollyProcessInfo.pollyDefaultsFile);
     fprintf('[%s] Finish.\n', tNow());
 
     %% load polly configuration
@@ -177,18 +177,14 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     taskInfo.dataTime = polly_parsetime(taskInfo.dataFilename, ...
                                         pollyConfig.dataFileFormat);
 
-    % % add 'gdas1_folder' to polly config
-    % if isfield(config, 'gdas1_folder')
-    %     pollyConfig.gdas1_folder = config.gdas1_folder;
-    % end
-    % fprintf('[%s] Finish.\n', tNow());
-
     %% load polly defaults
     fprintf('\n[%s] Start to load the polly defaults.\n', tNow());
-    defaults = eval(sprintf('%s();', pollyProcessInfo.pollyLoadDefaultsFunc));
+    defaultsFilepath = fullfile(projectDir, 'config', 'pollyDefaults', ...
+                                pollyProcessInfo.pollyDefaultsFile);
+    defaults = polly_read_defaults(defaultsFilepath);
     if ~ isstruct(defaults)
-        fprintf('Failure in running %s for %s.\n', ...
-                pollyProcessInfo.pollyLoadDefaultsFunc, campaignInfo.name);
+        fprintf('Failure in loading %s for %s.\n', ...
+                pollyProcessInfo.pollyDefaultsFile, campaignInfo.name);
         continue;
     end
     fprintf('[%s] Finish.\n', tNow());

@@ -1,34 +1,34 @@
 function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, ...
                                       heightTop, maxHThick, window_size)
 %DOUGLASPEUCKER simplify the signal according to Douglas-Peucker algorithm.
-%   Inputs: 
-%       signal: array
-%           Molecule corrected signal. [MHz]
-%       height: array
-%           height. [m]
-%       epsilon: float
-%           maximum distance.
-%       heightBase: float
-%           minimun height for the algorithm. [m]
-%       heightTop: float
-%           maximum height for the algorithm. [m]
-%       maxHThick:
-%           maximum spatial thickness of each segment. [m]
-%       window_size: integer
-%           size of the average smooth window.
-%   Returns:
-%       sigIndx: array
-%           index of the signal that stands for different segments of the
-%           signal.
-%   References:
-%       https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
-%   History:
-%       2017-12-29. First edition by Zhenping.
-%       2018-07-29. Add the height range for the searching instead of SNR restriction.
-%       2018-07-31. Add the maxHThick argument to control the maximum thickness
-%       of each output segment.x
-%   Contact
-%       zhenping@tropos.de
+%Inputs: 
+%   signal: array
+%       Molecule corrected signal. [MHz]
+%   height: array
+%       height. [m]
+%   epsilon: float
+%       maximum distance.
+%   heightBase: float
+%       minimun height for the algorithm. [m]
+%   heightTop: float
+%       maximum height for the algorithm. [m]
+%   maxHThick:
+%       maximum spatial thickness of each segment. [m]
+%   window_size: integer
+%       size of the average smooth window.
+%Returns:
+%   sigIndx: array
+%       index of the signal that stands for different segments of the
+%       signal.
+%References:
+%   https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
+%History:
+%   2017-12-29. First edition by Zhenping.
+%   2018-07-29. Add the height range for the searching instead of SNR restriction.
+%   2018-07-31. Add the maxHThick argument to control the maximum thickness
+%   of each output segment.x
+%Contact
+%   zhenping@tropos.de
 
 % input check
 if ~ nargin == 6

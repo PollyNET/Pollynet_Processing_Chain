@@ -124,7 +124,7 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
         TRt = np.concatenate(mat['TR_t'])
         TRx = np.concatenate(mat['TR_x'])
         segIndx = np.concatenate(mat['segIndx'])
-        thisCaliTime = np.concatenate(mat['thisCaliTime'])
+        caliTime = np.concatenate(mat['caliTime'])
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -269,7 +269,7 @@ def polly_1v2_display_depolcali(tmpFile, saveFolder):
         fontsize=10
         )
 
-    caliTime = datenum_to_datetime(thisCaliTime[0])
+    caliTime = datenum_to_datetime(caliTime[0])
     plt.tight_layout()
     plt.savefig(
         os.path.join(

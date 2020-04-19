@@ -1,47 +1,47 @@
 function health = polly_1v2_read_laserlogbook(file, config, flagDeleteData)
-%polly_1v2_READ_LASERLOGBOOK read the health parameters of the lidar from 
+%POLLY_1V2_READ_LASERLOGBOOK read the health parameters of the lidar from 
 %the zipped laserlogbook file
-%   Usage:
-%       health = polly_1v2_read_laserlogbook(file)
-%   Inputs:
-%       file: char
-%           the full filename.
-%       config: struct
-%           polly configuration file. Detailed information can be found in doc/polly_config.md
-%       flagDeleteData: logical
-%           flag to control whether to delete the laserlogbook file.
-%   Outputs:
-%       health: struct
-%           time: datenum array
-%           AD: array
-%               laser energy (measured inside laser head.) [a.u.]
-%           EN: array
-%               laser energy (measured inside laser head.) [mJ]
-%           counts: array
-%               flashlamp used counts.
-%           ExtPyro: array
-%               raw output energy (ExtPyro). [mJ]
-%           Temp1064: array
-%               temperature for the PMT at 1064nm channel. [degree celsius]
-%           Temp1: array
-%               temperature for the transmitting chamber. [degree celsius]
-%           Temp2: array
-%               temperature for the receiving chamber. [degree celsius]
-%           OutsideRH: array
-%               RH outside the polly system. [%]
-%           OutsideT: array
-%               temperature outside the Polly system. [degree celsius]
-%           roof: array
-%               status to show whether the roof is closed.
-%           rain: array
-%               status to show whether it is raining.
-%           shutter: array
-%               status to show whether the shutter is closed.
-%   History
-%       2018-08-05. First edition by Zhenping.
-%       2019-08-04. Parse nearly all available information in the laserlogbook. (That's cool.)
-%   Contact:
-%       zhenping@tropos.de
+%Usage:
+%   health = polly_1v2_read_laserlogbook(file)
+%Inputs:
+%   file: char
+%       the full filename.
+%   config: struct
+%       polly configuration file. Detailed information can be found in doc/polly_config.md
+%   flagDeleteData: logical
+%       flag to control whether to delete the laserlogbook file.
+%Outputs:
+%   health: struct
+%       time: datenum array
+%       AD: array
+%           laser energy (measured inside laser head.) [a.u.]
+%       EN: array
+%           laser energy (measured inside laser head.) [mJ]
+%       counts: array
+%           flashlamp used counts.
+%       ExtPyro: array
+%           raw output energy (ExtPyro). [mJ]
+%       Temp1064: array
+%           temperature for the PMT at 1064nm channel. [degree celsius]
+%       Temp1: array
+%           temperature for the transmitting chamber. [degree celsius]
+%       Temp2: array
+%           temperature for the receiving chamber. [degree celsius]
+%       OutsideRH: array
+%           RH outside the polly system. [%]
+%       OutsideT: array
+%           temperature outside the Polly system. [degree celsius]
+%       roof: array
+%           status to show whether the roof is closed.
+%       rain: array
+%           status to show whether it is raining.
+%       shutter: array
+%           status to show whether the shutter is closed.
+%History
+%   2018-08-05. First edition by Zhenping.
+%   2019-08-04. Parse nearly all available information in the laserlogbook. (That's cool.)
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')
     flagDeleteData = false;
@@ -128,7 +128,7 @@ try
         fclose(fid);
         delete(file);
     end
-    
+
 catch
     fclose(fid);
     warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyVersion, iLine, file);

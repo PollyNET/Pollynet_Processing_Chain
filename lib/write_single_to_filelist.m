@@ -2,30 +2,30 @@ function [flag] = write_single_to_filelist(pollyType, pollyZipFilepath, ...
                     pollynetConfigFile, writeMode)
 %WRITE_SINGLE_TO_FILELIST Unzip the polly data to the todofile folder and setup 
 %the fileinfo_new.txt.
-%   Example:
-%       [flag] = write_single_to_filelist(pollyType, pollyZipFilepath, 
-%                   pollynetConfigFile, writeMode)
-%   Inputs:
-%       pollyType: char
-%           polly instrument.
-%       pollyZipFilepath: char
-%           the absolute path the zipped polly data.
-%       pollynetConfigFile: char
-%           the absolute path of the pollynet configuration file.
-%       writeMode: char
-%           If writeMode was 'a', the polly data info will be appended. If 'w', 
-%           a new todofile will be created.
-%   Outputs:
-%       flag: logical
-%           if true, the file was extracted and inserted into the task list 
-%           successfully. Vice versa.
-%   History:
-%       2019-01-01. First Edition by Zhenping
-%       2019-08-13. Add new input of 'pollynetConfigFile' to enable read the 
-%                   todofile list from the configuration file. 
-%                   Add the output of 'flag' to represent the status.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [flag] = write_single_to_filelist(pollyType, pollyZipFilepath, 
+%               pollynetConfigFile, writeMode)
+%Inputs:
+%   pollyType: char
+%       polly instrument.
+%   pollyZipFilepath: char
+%       the absolute path the zipped polly data.
+%   pollynetConfigFile: char
+%       the absolute path of the pollynet configuration file.
+%   writeMode: char
+%       If writeMode was 'a', the polly data info will be appended. If 'w', 
+%       a new todofile will be created.
+%Outputs:
+%   flag: logical
+%       if true, the file was extracted and inserted into the task list 
+%       successfully. Vice versa.
+%History:
+%   2019-01-01. First Edition by Zhenping
+%   2019-08-13. Add new input of 'pollynetConfigFile' to enable read the 
+%               todofile list from the configuration file. 
+%               Add the output of 'flag' to represent the status.
+%Contact:
+%   zhenping@tropos.de
 
 projectDir = fileparts(fileparts(mfilename('fullpath')));
 
@@ -79,7 +79,7 @@ else
         warning('Failure in unzipping the file %s', logbookZipFilepath);
     end
 end
-    
+
 %% unzip polly data to todofolder
 try
     % extract the file 

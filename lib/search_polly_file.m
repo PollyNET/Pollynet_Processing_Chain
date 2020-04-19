@@ -1,33 +1,33 @@
 function [filePath] = search_polly_file(pollyFolder, thisTime, ...
                                         timeLapse, flagLatest, flagModifiedTime)
 %SEARCH_POLLY_FILE Search the most recent polly measurement data.
-%   Example:
-%       [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
-%   Inputs:
-%       pollyFolder: char
-%           the polly folder. 
-%           e.g., 'C:\Users\zhenping\Documents\Data\PollyXT\arielle'. 
-%           Don't include the 'data_zip'
-%       thisTime: datenum
-%           the base time you want to search.
-%       timeLapse: float
-%           the search range of the base time. [datenum]
-%       flagLatest: logical
-%           whether to take the latest file only. (Defaults: false)
-%       flagModifiedTime: logical
-%           whether to search file based on its modified time. (Defaults: true)
-%   Outputs:
-%       filePath: cell
-%           the absolute path of the found polly data files.
-%   History:
-%       2019-07-22. First Edition by Zhenping
-%       2019-08-07. Enable the output of multiple filepaths.
-%       2019-08-09. Add the variable to control the output of the latest polly 
-%                   data file.
-%       2019-09-02. Add the flag to search the recent files based on the 
-%                   modiefied time.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
+%Inputs:
+%   pollyFolder: char
+%       the polly folder. 
+%       e.g., 'C:\Users\zhenping\Documents\Data\PollyXT\arielle'. 
+%       Don't include the 'data_zip'
+%   thisTime: datenum
+%       the base time you want to search.
+%   timeLapse: float
+%       the search range of the base time. [datenum]
+%   flagLatest: logical
+%       whether to take the latest file only. (Defaults: false)
+%   flagModifiedTime: logical
+%       whether to search file based on its modified time. (Defaults: true)
+%Outputs:
+%   filePath: cell
+%       the absolute path of the found polly data files.
+%History:
+%   2019-07-22. First Edition by Zhenping
+%   2019-08-07. Enable the output of multiple filepaths.
+%   2019-08-09. Add the variable to control the output of the latest polly 
+%               data file.
+%   2019-09-02. Add the flag to search the recent files based on the 
+%               modiefied time.
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('timeLapse', 'var')
     timeLapse = datenum(0, 1, 0, 6, 0, 0);

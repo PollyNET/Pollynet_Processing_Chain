@@ -1,19 +1,19 @@
 function [cloudFreeSubContGroup] = pollyxt_cge_splitcloudfree(data, config)
-%pollyxt_cge_splitcloudfree split the continous cloud free profiles into several small groups.
-%   Example:
-%       [cloudFreeSubContGroup] = pollyxt_cge_splitcloudfree(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       cloudFreeSubContGroup: matrix
-%           [[iGroupStartIndx, iGroupEndIndx], ...].
-%   History:
-%       2018-12-22. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_SPLITCLOUDFREE split the continous cloud free profiles into several small groups.
+%Example:
+%   [cloudFreeSubContGroup] = pollyxt_cge_splitcloudfree(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   cloudFreeSubContGroup: matrix
+%       [[iGroupStartIndx, iGroupEndIndx], ...].
+%History:
+%   2018-12-22. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 cloudFreeSubContGroup = [];
 

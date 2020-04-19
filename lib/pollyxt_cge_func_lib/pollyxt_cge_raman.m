@@ -1,37 +1,37 @@
 function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_cge_raman(data, config)
-%pollyxt_cge_raman Retrieve aerosol optical properties with raman method
-%   Example:
-%       [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_cge_raman(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc355_raman: matrix
-%           aerosol backscatter coefficient at 355 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerBsc532_raman: matrix
-%           aerosol backscatter coefficient at 532 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerBsc1064_raman: matrix
-%           aerosol backscatter coefficient at 1064 nm with raman method. [m^{-1}Sr^{-1}] 
-%       aerExt355_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
-%       aerExt532_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
-%       aerExt1064_raman: matrix
-%           aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
-%       LR355_raman: matrix
-%           lidar ratio at 355 nm. [Sr]
-%       LR532_raman: matrix
-%           lidar ratio at 532 nm. [Sr]
-%       LR1064_raman: matrix
-%           lidar ratio at 1064 nm. [Sr]
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%       2019-08-31. Add SNR control for elastic signal at reference height as well.
-%   Contact:
-%       zhenping@tropos.de
-    
+%POLLYXT_CGE_RAMAN Retrieve aerosol optical properties with raman method
+%Example:
+%   [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_cge_raman(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc355_raman: matrix
+%       aerosol backscatter coefficient at 355 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerBsc532_raman: matrix
+%       aerosol backscatter coefficient at 532 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerBsc1064_raman: matrix
+%       aerosol backscatter coefficient at 1064 nm with raman method. [m^{-1}Sr^{-1}] 
+%   aerExt355_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
+%   aerExt532_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}] 
+%   aerExt1064_raman: matrix
+%       aerosol extinction coefficient at 355 nm with raman method. [m^{-1}]
+%   LR355_raman: matrix
+%       lidar ratio at 355 nm. [Sr]
+%   LR532_raman: matrix
+%       lidar ratio at 532 nm. [Sr]
+%   LR1064_raman: matrix
+%       lidar ratio at 1064 nm. [Sr]
+%History:
+%   2018-12-23. First Edition by Zhenping
+%   2019-08-31. Add SNR control for elastic signal at reference height as well.
+%Contact:
+%   zhenping@tropos.de
+
     aerBsc355_raman = [];
     aerBsc532_raman = [];
     aerBsc1064_raman = [];
@@ -41,11 +41,11 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
     LR355_raman = [];
     LR532_raman = [];
     LR1064_raman = [];
-    
+
     if isempty(data.rawSignal);
         return;
     end
-    
+
     %% 355 nm
     for iGroup = 1:size(data.cloudFreeGroups, 1)
         thisAerBsc355_raman = NaN(size(data.height));
@@ -62,7 +62,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_387On = flagCloudFree & (~ data.mask387Off);
         if sum(proIndx_387On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
-    
+
             % concatenate the results
             aerBsc355_raman = cat(1, aerBsc355_raman, thisAerBsc355_raman);
             aerExt355_raman = cat(1, aerExt355_raman, thisAerExt355_raman);
@@ -103,7 +103,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 % TODO: uncertainty analysis
             end
         end
-    
+
         % concatenate the results
         aerBsc355_raman = cat(1, aerBsc355_raman, thisAerBsc355_raman);
         aerExt355_raman = cat(1, aerExt355_raman, thisAerExt355_raman);
@@ -125,7 +125,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_607On = flagCloudFree & (~ data.mask607Off);
         if sum(proIndx_607On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
-    
+
             % concatenate the results
             aerBsc532_raman = cat(1, aerBsc532_raman, thisAerBsc532_raman);
             aerExt532_raman = cat(1, aerExt532_raman, thisAerExt532_raman);
@@ -166,7 +166,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 % TODO: uncertainty analysis
             end
         end
-    
+
         % concatenate the results
         aerBsc532_raman = cat(1, aerBsc532_raman, thisAerBsc532_raman);
         aerExt532_raman = cat(1, aerExt532_raman, thisAerExt532_raman);
@@ -188,7 +188,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
         proIndx_607On = flagCloudFree & (~ data.mask607Off);
         if sum(proIndx_607On) == 0
             warning('No Raman measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
-    
+
             % concatenate the results
             aerBsc1064_raman = cat(1, aerBsc1064_raman, thisAerBsc1064_raman);
             aerExt1064_raman = cat(1, aerExt1064_raman, thisAerExt1064_raman);
@@ -230,7 +230,7 @@ function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, a
                 % TODO: uncertainty analysis
             end
         end
-    
+
         % concatenate the results
         aerBsc1064_raman = cat(1, aerBsc1064_raman, thisAerBsc1064_raman);
         aerExt1064_raman = cat(1, aerExt1064_raman, thisAerExt1064_raman);

@@ -1,16 +1,16 @@
-function [reportStr] = pollyxt_dwd_results_report(data, taskInfo, config)
-%pollyxt_dwd_results_report Write the info to done list file and generate the report for the current task. These report can be used for further examination.
-%   Example:
-%       [reportStr] = pollyxt_dwd_results_report(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       reportStr
-%   History:
-%       2019-01-04. First Edition by Zhenping
-%       2019-03-13. Add entries of 'TC', 'VDR_355' and 'VDR_532'. 
-%   Contact:
-%       zhenping@tropos.de
+function [reportStr] = pollyxt_cge_results_report(data, taskInfo, config)
+%POLLYXT_CGE_RESULTS_REPORT Write the info to done list file and generate the report for the current task. These report can be used for further examination.
+%Example:
+%   [reportStr] = pollyxt_cge_results_report(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%Outputs:
+%   reportStr
+%History:
+%   2019-01-04. First Edition by Zhenping
+%   2019-03-13. Add entries of 'TC', 'VDR_355' and 'VDR_532'. 
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo defaults processInfo
 
@@ -154,10 +154,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %bsc klett
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Lidar ratio is %5.1fsr at 355nm, %5.1f at 532nm and %5.1f at 1064nm. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). Smoothing window is %5.1fm, %5.1fm and %5.1fm. No overlap correction.', meteorStr, config.LR355, config.LR532, config.LR1064, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), config.smoothWin_klett_355*data.hRes, config.smoothWin_klett_532*data.hRes, config.smoothWin_klett_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Bsc_Klett', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     %bsc raman
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). Smoothing window is %5.1fm, %5.1fm, %5.1fm. Angstroem exponent is %3.1f. If SNR for Raman signal at reference height is low, the Raman method will not be applied.', meteorStr, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), config.smoothWin_raman_355*data.hRes, config.smoothWin_raman_532*data.hRes, config.smoothWin_raman_1064*data.hRes, config.angstrexp), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Bsc_Raman', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     %bsc aeronet
     % write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Aeronet.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). The lidar ratio is tuned to make the AOD from AERONET and lidar converged. Lidar ratio is %5.1fsr at 355nm, %5.1fsr at 532nm and %5.1fsr at 1064nm. Smoothing window is %5.1fm, %5.1fm, %5.1fm. Only for internal use.', meteorStr, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), data.LR355_aeronet(iGroup), data.LR532_aeronet(iGroup), data.LR1064_aeronet(iGroup), config.smoothWin_klett_355*data.hRes, config.smoothWin_klett_532*data.hRes, config.smoothWin_klett_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Bsc_AERONET', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 
@@ -166,7 +166,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %Ext raman
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). Smoothing window is %5.1fm, %5.1fm, %5.1fm. If SNR for Raman signal at reference height is low, the Raman method will not be applied.', meteorStr, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), config.smoothWin_raman_355*data.hRes, config.smoothWin_raman_532*data.hRes, config.smoothWin_raman_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Ext_Raman', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     %Ext aeronet
     % write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Aeronet.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). The lidar ratio is tuned to make the AOD from AERONET and lidar converged. Lidar ratio is %5.1fsr at 355nm, %5.1fsr at 532nm and %5.1fsr at 1064nm. Smoothing window is %5.1fm, %5.1fm, %5.1fm. Only for internal use.', meteorStr, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), data.LR355_aeronet(iGroup), data.LR532_aeronet(iGroup), data.LR1064_aeronet(iGroup), config.smoothWin_klett_355*data.hRes, config.smoothWin_klett_532*data.hRes, config.smoothWin_klett_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Ext_AERONET', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 
@@ -175,7 +175,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % angstroem exponent with klett method
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_ANGEXP_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Lidar ratio is %5.1fsr at 355nm, %5.1f at 532nm and %5.1f at 1064nm. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). Smoothing window is %5.1fm, %5.1fm, %5.1fm. No overlap correction.', meteorStr, config.LR355, config.LR532, config.LR1064, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), config.smoothWin_klett_355*data.hRes, config.smoothWin_klett_532*data.hRes, config.smoothWin_klett_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'ANGEXP_Klett', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     % angstroem exponent with Raman method
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_ANGEXP_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (355nm), [%7.1f - %7.1fm] (532nm) and [%7.1f - %7.1fm] (1064nm). Smoothing window is %5.1fm, %5.1fm, %5.1fm. If SNR for Raman signal at reference height is low, the Raman method will not be applied.', meteorStr, refH355(1), refH355(2), refH532(1), refH532(2), refH1064(1), refH1064(2), config.smoothWin_raman_355*data.hRes, config.smoothWin_raman_532*data.hRes, config.smoothWin_raman_1064*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'ANGEXP_Raman', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 
@@ -187,7 +187,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % meteor T
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_T.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Meteor_T', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     % meteor P
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_P.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Meteor_P', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 end
@@ -215,7 +215,7 @@ write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.
 
 % quasi particle depolarization at 532 nm
 write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_PDR_532.png', rmext(taskInfo.dataFilename))), '0', sprintf('Depolarization factor is %6.4f at 532nm. Molecule volume depolarization ratio is %6.4f at 532nm. %s.', data.depol_cal_fac_532, data.moldepol532(iGroup), meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.quasiAttri.timestamp, 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Quasi_PDR_532', datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'));
-    
+
 % quasi backscatter-related angstroem exponent 532-1064
 write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_ANGEXP_532_1064.png', rmext(taskInfo.dataFilename))), '0', sprintf('%s.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.quasiAttri.timestamp, 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Quasi_ANGEXP_532_1064', datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'));
 

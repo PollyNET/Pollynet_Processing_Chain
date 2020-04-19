@@ -1,24 +1,24 @@
 function [yOut] = interp_meteor(x, y, xOut, method)
 %INTERP_METEOR interp the meteorological parameters which could contain a lot 
 %of NaNs.
-%   Example:
-%       [yOut] = interp_meteor(x, y, xOut)
-%   Inputs:
-%       x: array
-%           sample points
-%       y: array 
-%           sample values
-%       xOut: array
-%           query points.
-%       method: char
-%           interpolation method. ('linear', 'cubic', 'nearest')
-%   Outputs:
-%       yOut: array
-%           query values.
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [yOut] = interp_meteor(x, y, xOut)
+%Inputs:
+%   x: array
+%       sample points
+%   y: array 
+%       sample values
+%   xOut: array
+%       query points.
+%   method: char
+%       interpolation method. ('linear', 'cubic', 'nearest')
+%Outputs:
+%   yOut: array
+%       query values.
+%History:
+%   2018-12-23. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if ~ exist('method', 'var')
     method = 'linear';

@@ -1,0 +1,16 @@
+{
+    "depolCaliConst532": 0.0723,
+    "depolCaliConstStd532": 0.0,
+    "depolCaliConst355": 0.1201,
+    "depolCaliConstStd355": 0.0,
+    "LC": [16893959541573.252000, 1, 1, 1, 28466210203696.203000, 1, 1, 67876166905915.734000, 1, 1, 1, 1],
+    "LCStd": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "overlapFile532": "template_polly_overlap_532.txt",
+    "overlapFile355": "template_polly_overlap_355.txt",
+    "molDepol532": 0.0053,
+    "molDepolStd532": 0.001,
+    "molDepol355": 0.0075,
+    "molDepolStd355": 0.0015,
+    "wvconst": 11.1,
+    "wvconstStd": 0
+}

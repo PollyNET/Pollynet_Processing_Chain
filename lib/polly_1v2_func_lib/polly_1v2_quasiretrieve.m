@@ -1,25 +1,25 @@
 function [quasi_par_bsc_532, quasi_par_depol_532, volDepol_532, quality_mask_532, quality_mask_volDepol_532, quasiAttri] = polly_1v2_quasiretrieve(data, config)
-%polly_1v2_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
-%   Example:
-%       [quasi_par_bsc_532, quasi_par_depol_532, volDepol_532, quality_mask_532, quality_mask_volDepol_532, quasiAttri] = polly_1v2_quasiretrieve(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       quasi_par_depol_532: matrix
-%           quasi particle depolarization ratio at 532 nm.
-%       volDepol_532: matrix
-%           volume depolarization ratio at 532 nm.
-%       quality_mask_532: matrix
-%           quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%       quality_mask_volDepol_532: matrix
-%           quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%   History:
-%       2018-12-24. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_QUASIRETRIEVE Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+%Example:
+%   [quasi_par_bsc_532, quasi_par_depol_532, volDepol_532, quality_mask_532, quality_mask_volDepol_532, quasiAttri] = polly_1v2_quasiretrieve(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   quasi_par_depol_532: matrix
+%       quasi particle depolarization ratio at 532 nm.
+%   volDepol_532: matrix
+%       volume depolarization ratio at 532 nm.
+%   quality_mask_532: matrix
+%       quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%   quality_mask_volDepol_532: matrix
+%       quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%History:
+%   2018-12-24. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults
 

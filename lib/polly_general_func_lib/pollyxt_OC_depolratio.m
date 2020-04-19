@@ -1,53 +1,53 @@
 function [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol355_raman, pardepol355_raman, pardepolStd355_raman, moldepol355, moldepolStd355, flagDefaultMoldepol355, voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_OC_depolratio(data, config)
-%pollyxt_OC_depolratio retrieve volume depolarization ratio and particle depolarization ratio with overlap corrected signal.
-%   Example:
-%       [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol355_raman, pardepol355_raman, pardepolStd355_raman, moldepol355, moldepolStd355, flagDefaultMoldepol355, voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_OC_depolratio(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       voldepol355_klett: matrix
-%           volume depolarization ratio at 355 nm for each cloud free group with the same smoothing of Klett method. 
-%       pardepol355_klett: matrix
-%           particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
-%       pardepol355Std_klett: matrix
-%           uncertainty of particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
-%       voldepol355_raman: matrix
-%           volume depolarization ratio at 355 nm for each cloud free group with the same smoothing of Raman method. 
-%       pardepol355_raman: matrix
-%           particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
-%       pardepol355Std_raman: matrix
-%           uncertainty of particle depolarization ratio at 355 nm based on raman-retrieved backscatter coefficient.
-%       moldepol355: array
-%           molecular volume depolarization ratio at 355nm. 
-%       moldepolStd355: array
-%           std of molecular volume depolarization ratio at 355nm. 
-%       flagDefaultMoldepol355: logical
-%           flag to show whether using the default molecular volume depolarization ratio.
-%       voldepol532_klett: matrix
-%           volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Klett method. 
-%       pardepol532_klett: matrix
-%           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       pardepol532Std_klett: matrix
-%           uncertainty of particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       voldepol532_raman: matrix
-%           volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Raman method. 
-%       pardepol532_raman: matrix
-%           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       pardepol532Std_raman: matrix
-%           uncertainty of particle depolarization ratio at 532 nm based on raman-retrieved backscatter coefficient.
-%       moldepol532: array
-%           molecular volume depolarization ratio at 532nm. 
-%       moldepolStd532: array
-%           std of molecular volume depolarization ratio at 532nm. 
-%       flagDefaultMoldepol532: logical
-%           flag to show whether using the default molecular volume depolarization ratio.
-%   History:
-%       2019-11-27. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_OC_DEPOLRATIO retrieve volume depolarization ratio and particle depolarization ratio with overlap corrected signal.
+%Example:
+%   [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol355_raman, pardepol355_raman, pardepolStd355_raman, moldepol355, moldepolStd355, flagDefaultMoldepol355, voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_OC_depolratio(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   voldepol355_klett: matrix
+%       volume depolarization ratio at 355 nm for each cloud free group with the same smoothing of Klett method. 
+%   pardepol355_klett: matrix
+%       particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
+%   pardepol355Std_klett: matrix
+%       uncertainty of particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
+%   voldepol355_raman: matrix
+%       volume depolarization ratio at 355 nm for each cloud free group with the same smoothing of Raman method. 
+%   pardepol355_raman: matrix
+%       particle depolarization ratio at 355 nm based on klett-retrieved backscatter coefficient.
+%   pardepol355Std_raman: matrix
+%       uncertainty of particle depolarization ratio at 355 nm based on raman-retrieved backscatter coefficient.
+%   moldepol355: array
+%       molecular volume depolarization ratio at 355nm. 
+%   moldepolStd355: array
+%       std of molecular volume depolarization ratio at 355nm. 
+%   flagDefaultMoldepol355: logical
+%       flag to show whether using the default molecular volume depolarization ratio.
+%   voldepol532_klett: matrix
+%       volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Klett method. 
+%   pardepol532_klett: matrix
+%       particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   pardepol532Std_klett: matrix
+%       uncertainty of particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   voldepol532_raman: matrix
+%       volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Raman method. 
+%   pardepol532_raman: matrix
+%       particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   pardepol532Std_raman: matrix
+%       uncertainty of particle depolarization ratio at 532 nm based on raman-retrieved backscatter coefficient.
+%   moldepol532: array
+%       molecular volume depolarization ratio at 532nm. 
+%   moldepolStd532: array
+%       std of molecular volume depolarization ratio at 532nm. 
+%   flagDefaultMoldepol532: logical
+%       flag to show whether using the default molecular volume depolarization ratio.
+%History:
+%   2019-11-27. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global defaults
 

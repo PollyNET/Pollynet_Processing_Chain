@@ -1,30 +1,30 @@
 function [aerBsc355_klett, aerBsc532_klett, aerBsc1064_klett, aerExt355_klett, aerExt532_klett, aerExt1064_klett] = pollyxt_cge_klett(data, config)
-%pollyxt_cge_klett Retrieve aerosol optical properties with klett method
-%   Example:
-%       [aerBsc355_klett, aerBsc532_klett, aerBsc1064_klett, aerExt355_klett, aerExt532_klett, aerExt1064_klett] = pollyxt_cge_klett(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc355_klett: matrix
-%           aerosol backscatter coefficient at 355 nm with klett method. [m^{-1}Sr^{-1}] 
-%       aerBsc532_klett: matrix
-%           aerosol backscatter coefficient at 532 nm with klett method. [m^{-1}Sr^{-1}] 
-%       aerBsc1064_klett: matrix
-%           aerosol backscatter coefficient at 1064 nm with klett method. [m^{-1}Sr^{-1}] 
-%       aerExt355_klett: matrix
-%           aerosol extinction coefficient at 355 nm with klett method. [m^{-1}]
-%       aerExt532_klett: matrix
-%           aerosol extinction coefficient at 355 nm with klett method. [m^{-1}] 
-%       aerExt1064_klett: matrix
-%           aerosol extinction coefficient at 355 nm with klett method. [m^{-1}]
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%       2019-08-31. Add SNR control for the reference height.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_KLETT Retrieve aerosol optical properties with klett method
+%Example:
+%   [aerBsc355_klett, aerBsc532_klett, aerBsc1064_klett, aerExt355_klett, aerExt532_klett, aerExt1064_klett] = pollyxt_cge_klett(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc355_klett: matrix
+%       aerosol backscatter coefficient at 355 nm with klett method. [m^{-1}Sr^{-1}] 
+%   aerBsc532_klett: matrix
+%       aerosol backscatter coefficient at 532 nm with klett method. [m^{-1}Sr^{-1}] 
+%   aerBsc1064_klett: matrix
+%       aerosol backscatter coefficient at 1064 nm with klett method. [m^{-1}Sr^{-1}] 
+%   aerExt355_klett: matrix
+%       aerosol extinction coefficient at 355 nm with klett method. [m^{-1}]
+%   aerExt532_klett: matrix
+%       aerosol extinction coefficient at 355 nm with klett method. [m^{-1}] 
+%   aerExt1064_klett: matrix
+%       aerosol extinction coefficient at 355 nm with klett method. [m^{-1}]
+%History:
+%   2018-12-23. First Edition by Zhenping
+%   2019-08-31. Add SNR control for the reference height.
+%Contact:
+%   zhenping@tropos.de
 
 aerBsc355_klett = [];
 aerBsc532_klett = [];

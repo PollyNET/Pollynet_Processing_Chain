@@ -1,17 +1,16 @@
-function [] = pollyxt_dwd_display_rcs(data, taskInfo, config)
-%pollyxt_dwd_display_rcs display the range corrected signal, vol-depol at 355 and 532 nm
-%   Example:
-%       [] = pollyxt_dwd_display_rcs(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputlacros%
-%   History:
-%       2018-12-29. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_dwd_display_rcs(data, taskInfo, config)
+%POLLYXT_DWD_DISPLAY_RCS display the range corrected signal, vol-depol at 355 and 532 nm
+%Example:
+%   pollyxt_dwd_display_rcs(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2018-12-29. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global defaults processInfo campaignInfo
 
@@ -172,7 +171,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
 
     export_fig(gcf, fileRCS355NR, '-transparent', sprintf('-r%d', processInfo.figDPI), '-painters');
     close();
-    
+
     % 532 nm NR
     figure('Units', 'Pixels', 'Position', [0, 0, 800, 400], 'Visible', 'off');
 
@@ -240,7 +239,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -264,7 +263,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     figDPI = processInfo.figDPI;
     depCalMask = data.depCalMask;
     fogMask = data.fogMask;
-    
+
     if sum(flagChannel355) ~= 0
         % if both near- and far-range channels exist
         RCS_FR_355 = squeeze(data.signal(flagChannel355, :, :)) ./ repmat(data.mShots(flagChannel355, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
@@ -304,7 +303,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         % if either near- and far-range channel is missing
         RCS_NR_532 = NaN(size(data.signal, 2), size(data.signal, 3));
     end
-    
+
     yLim_FR = config.yLim_FR_RCS;
     yLim_NR = config.yLim_NR_RCS;
     volDepol_532 = data.volDepol_532;
@@ -313,7 +312,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     RCS1064FRColorRange = config.zLim_FR_RCS_1064;
     RCS355NRColorRange = config.zLim_NR_RCS_355;
     RCS532NRColorRange = config.zLim_NR_RCS_355;
-    
+
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v6');
@@ -322,7 +321,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         warning('Error in executing %s', 'pollyxt_dwd_display_rcs.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end
