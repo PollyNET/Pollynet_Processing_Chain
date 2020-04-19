@@ -15,7 +15,7 @@ function [defaults] = pollyxt_uw_read_defaults()
 defaultFile = 'pollyxt_uw_defaults.json';
 
 if exist(defaultFile, 'file') ~= 2
-    error('Default file for pollyxt_uw does not exist!\n%s\n', defaultFile);
+    error('Default file for arielle does not exist!\n%s\n', defaultFile);
 end
 
 defaults = loadjson(defaultFile);

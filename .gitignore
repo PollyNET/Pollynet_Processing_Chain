@@ -13,7 +13,7 @@ todo_filelist/fileinfo_new.txt
 !todo_filelist/pollynet_history_of_places_new.txt
 todo_filelist/
 test/
-lib/__pycache__/
+__pycache__/
 debug.mat
 netcdf4/
 log/
