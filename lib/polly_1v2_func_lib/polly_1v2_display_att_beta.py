@@ -123,6 +123,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -193,8 +194,9 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_ATT_BETA_532.png'.format(
-                dataFilename=rmext(dataFilename)
+            saveFolder, '{dataFilename}_ATT_BETA_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

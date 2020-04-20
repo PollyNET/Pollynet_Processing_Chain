@@ -116,6 +116,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -178,8 +179,9 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_SAT_FR_532.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_SAT_FR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display status of 532 NR
@@ -224,8 +226,9 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_NR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_SAT_NR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

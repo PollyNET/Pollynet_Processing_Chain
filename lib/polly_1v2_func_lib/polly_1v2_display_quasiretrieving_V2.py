@@ -118,6 +118,7 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -184,8 +185,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_Bsc_532_V2.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_Quasi_Bsc_532_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display quasi particle depolarization ratio at 532 nm
@@ -225,8 +227,9 @@ def polly_1v2_display_quasiretrieving_V2(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_PDR_532_V2.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_Quasi_PDR_532_V2.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

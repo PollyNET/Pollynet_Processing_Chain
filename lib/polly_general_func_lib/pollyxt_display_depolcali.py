@@ -129,6 +129,7 @@ def pollyxt_display_depolcali(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
+        imgFormat = mat['imgFormat']
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -274,9 +275,10 @@ def pollyxt_display_depolcali(tmpFile, saveFolder):
     plt.savefig(
         os.path.join(
             saveFolder,
-            '{start}_DepolCali_{wave}.png'.format(
+            '{start}_DepolCali_{wave}.{imgFmt}'.format(
                 start=caliTime.strftime('%Y%m%d-%H%M'),
-                wave=wavelength
+                wave=wavelength,
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

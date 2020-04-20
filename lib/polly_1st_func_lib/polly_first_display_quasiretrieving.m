@@ -19,10 +19,11 @@ figDPI = processInfo.figDPI;
 yLim_Quasi_Params = config.yLim_Quasi_Params;
 quasi_beta_cRange_532 = config.zLim_quasi_beta_532;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    file_quasi_bsc_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_Bsc_532.png', rmext(taskInfo.dataFilename)));
+    file_quasi_bsc_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_Quasi_Bsc_532.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('myjet_colormap.mat')
@@ -76,7 +77,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'height', 'time', 'quasi_beta_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'height', 'time', 'quasi_beta_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_quasiretrieving.py');

@@ -212,5 +212,6 @@
 
     "logbookFile": "",
     "radiosondeFolder": "",
-    "calibrationDB": "polly_calibration.db"
+    "calibrationDB": "polly_calibration.db",
+    "imgFormat": "png"
 }

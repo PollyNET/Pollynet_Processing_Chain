@@ -15,10 +15,15 @@ if isempty(data.rawSignal)
     return;
 end
 
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+monitorStatus = data.monitorStatus;
+figDPI = processInfo.figDPI;
+mTime = data.mTime;
+
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
-    picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.png', rmext(taskInfo.dataFilename)));
+    picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% read data
     time = data.monitorStatus.time;
@@ -152,12 +157,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     %% display monitor status
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    monitorStatus = data.monitorStatus;
-    figDPI = processInfo.figDPI;
-    mTime = data.mTime;
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v6');
+    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_monitor.py');

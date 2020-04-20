@@ -125,6 +125,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -203,8 +204,9 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_355.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_355.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
             )), dpi=figDPI)
     plt.close()
 
@@ -257,8 +259,9 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_532.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -311,8 +314,9 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_1064.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_1064.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -359,8 +363,9 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_PDR_532.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_PDR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -403,8 +408,9 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
             )), dpi=figDPI)
     plt.close()
 

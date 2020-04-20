@@ -21,11 +21,12 @@ flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 att_beta_cRange_532 = config.zLim_att_beta_532;
 yLim_att_beta = config.yLim_att_beta;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
     %% parameter initialize
-    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_532.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('chiljet_colormap.mat')
@@ -81,7 +82,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_att_beta.py');

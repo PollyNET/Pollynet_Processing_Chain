@@ -28,10 +28,11 @@ yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
 zLim_FR_RCS_532 = config.zLim_FR_RCS_532;
 zLim_NR_RCS_532 = config.zLim_NR_RCS_532;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileRCS532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_532.png', rmext(taskInfo.dataFilename)));
+    fileRCS532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_532.%s', rmext(taskInfo.dataFilename), imgFormat));
     flagChannel532 = config.isFR & config.is532nm & config.isTot;
    
     %% visualization
@@ -150,7 +151,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'zLim_FR_RCS_532', 'zLim_NR_RCS_532', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'zLim_FR_RCS_532', 'zLim_NR_RCS_532', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_rcs.py');
