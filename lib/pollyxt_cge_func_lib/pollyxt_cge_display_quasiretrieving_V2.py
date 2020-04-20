@@ -125,6 +125,7 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -208,8 +209,9 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_Bsc_355_V2.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_Quasi_Bsc_355_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -267,8 +269,9 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_Bsc_532_V2.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_Quasi_Bsc_532_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -326,8 +329,9 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_Bsc_1064_V2.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_Quasi_Bsc_1064_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -379,8 +383,9 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_PDR_532_V2.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_Quasi_PDR_532_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -428,8 +433,9 @@ def pollyxt_cge_display_quasiretrieving_V2(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_Quasi_ANGEXP_532_1064_V2.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_Quasi_ANGEXP_532_1064_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

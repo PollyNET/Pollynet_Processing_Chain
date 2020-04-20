@@ -26,11 +26,12 @@ SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
 SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
 yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 
-    fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.png', rmext(taskInfo.dataFilename)));
-    fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.png', rmext(taskInfo.dataFilename)));
+    fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('status_colormap.mat')
@@ -123,7 +124,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'yLim_FR_RCS', 'yLim_NR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'SAT_NR_532', 'yLim_FR_RCS', 'yLim_NR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_saturation.py');

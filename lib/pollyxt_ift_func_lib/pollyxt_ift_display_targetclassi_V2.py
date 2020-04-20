@@ -114,6 +114,7 @@ def pollyxt_ift_display_targetclassi_V2(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -183,8 +184,13 @@ def pollyxt_ift_display_targetclassi_V2(tmpFile, saveFolder):
     fig.text(0.64, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_TC_V2.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)),
+        dpi=figDPI)
     plt.close()
 
 

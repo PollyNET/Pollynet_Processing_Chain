@@ -27,11 +27,12 @@ figDPI = processInfo.figDPI;
 xLim_Profi_WV_RH = config.xLim_Profi_WV_RH;
 meteorSource = data.quasiAttri.meteorSource;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
-    fileWVMR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.png', rmext(taskInfo.dataFilename)));
-    fileRH = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.png', rmext(taskInfo.dataFilename)));
+    fileWVMR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileRH = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RH.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('myjet_colormap.mat');
@@ -118,7 +119,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', '-v6');
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_WV.py');

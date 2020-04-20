@@ -25,6 +25,7 @@ sig532NR = attri.sig532NR;
 sigRatio532 = attri.sigRatio532;
 normRange532 = attri.normRange532;
 height = data.height;
+imgFormat = config.imgFormat;
 
 %% convert the empty array to default filled values
 if isempty(overlap532)
@@ -47,7 +48,7 @@ end
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
-    overlapPicFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.png', rmext(taskInfo.dataFilename)));
+    overlapPicFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     figure('Position', [0, 0, 600, 400], 'Units', 'Pixels', 'Visible', 'off');
 
@@ -114,7 +115,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_overlap.py');

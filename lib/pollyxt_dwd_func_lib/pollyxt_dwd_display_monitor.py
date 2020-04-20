@@ -126,6 +126,7 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -276,8 +277,9 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_monitor.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_monitor.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

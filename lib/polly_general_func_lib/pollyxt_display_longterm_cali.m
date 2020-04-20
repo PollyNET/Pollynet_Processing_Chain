@@ -26,31 +26,31 @@ global processInfo campaignInfo
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
     load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
 if ~ isempty(startTime355)
-    LCTime355 = mean([startTime355, stopTime355]);
+    LCTime355 = mean([startTime355; stopTime355], 1);
 else
     LCTime355 = [];
 end
 LC355Status = 2 * ones(size(startTime355));
 if ~ isempty(startTime532)
-    LCTime532 = mean([startTime532, stopTime532]);
+    LCTime532 = mean([startTime532; stopTime532], 1);
 else
     LCTime532 = [];
 end
 LC532Status = 2 * ones(size(startTime532));
 if ~ isempty(startTime1064)
-    LCTime1064 = mean([startTime1064, stopTime1064]);
+    LCTime1064 = mean([startTime1064; stopTime1064], 1);
 else
     LCTime1064 = [];
 end
 LC1064Status = 2 * ones(size(startTime1064));
 if ~ isempty(startTime387)
-    LCTime387 = mean([startTime387, stopTime387]);
+    LCTime387 = mean([startTime387; stopTime387], 1);
 else
     LCTime387 = [];
 end
 LC387Status = 2 * ones(size(startTime387));
 if ~ isempty(startTime607)
-    LCTime607 = mean([startTime607, stopTime607]);
+    LCTime607 = mean([startTime607; stopTime607], 1);
 else
     LCTime607 = [];
 end
@@ -60,7 +60,7 @@ LC607Status = 2 * ones(size(startTime607));
 [WVConst, ~, WVCaliStartTime, WVCaliStopTime] = ...
     load_wvconst(taskInfo.dataTime, dbFile, campaignInfo.name, 'flagBeforeQuery', true);
 if ~ isempty(WVCaliStartTime)
-    WVCaliTime = mean([WVCaliStartTime, WVCaliStopTime]);
+    WVCaliTime = mean([WVCaliStartTime; WVCaliStopTime], 1);
 else
     WVCaliTime = [];
 end
@@ -70,7 +70,7 @@ end
 [depolCaliConst355, ~, caliStartTime355, caliStopTime355] = ...
     load_depolconst(taskInfo.dataTime, dbFile, campaignInfo.name, '355', 'flagBeforeQuery', true);
 if ~ isempty(caliStartTime355)
-    depolCaliTime355 = mean([caliStartTime355, caliStopTime355]);
+    depolCaliTime355 = mean([caliStartTime355; caliStopTime355], 1);
 else
     depolCaliTime355 = [];
 end
@@ -79,7 +79,7 @@ end
 [depolCaliConst532, ~, caliStartTime532, caliStopTime532] = ...
     load_depolconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'flagBeforeQuery', true);
 if ~ isempty(caliStartTime532)
-    depolCaliTime532 = mean([caliStartTime532, caliStopTime532]);
+    depolCaliTime532 = mean([caliStartTime532; caliStopTime532], 1);
 else
     depolCaliTime532 = [];
 end
@@ -122,6 +122,7 @@ yLim_LC_ratio_532_607 = config.yLim_LC_ratio_532_607;
 wvLim = config.yLim_WVConst;
 depolConstLim355 = config.yLim_depolConst_355;
 depolConstLim532 = config.yLim_depolConst_532;
+imgFormat = config.imgFormat;
 
 %% data visualization 
 % visualization with matlab (low efficiency and less compatible)
@@ -137,7 +138,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     lineColor.else = [0, 255, 0]/255;
 
     %% initialization
-    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_%s_long_term_cali_results.png', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd')));
+    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_%s_long_term_cali_results.%s', campaignInfo.name, datestr(taskInfo.dataTime, 'yyyymmdd'), imgFormat));
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 5, 1);
@@ -387,7 +388,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_longterm_cali.py');

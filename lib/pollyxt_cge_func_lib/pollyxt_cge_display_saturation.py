@@ -116,6 +116,7 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -180,10 +181,13 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     fig.text(0.8, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
 
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_SAT_FR_355.png'.format(
-            dataFilename=rmext(dataFilename)
-        )), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_355.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+            )), dpi=figDPI)
     plt.close()
 
     # display status of 532 FR
@@ -232,12 +236,10 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_532.png'.format(
-                dataFilename=rmext(dataFilename)
-                )
-            ),
-        dpi=figDPI
-        )
+            '{dataFilename}_SAT_FR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )), dpi=figDPI)
     plt.close()
 
     # display status of 1064 FR
@@ -287,12 +289,10 @@ def pollyxt_cge_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename)
-                )
-            ),
-        dpi=figDPI
-        )
+            '{dataFilename}_SAT_FR_1064.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )), dpi=figDPI)
     plt.close()
 
 

@@ -218,6 +218,7 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
             wvLim = mat['wvLim'][0][:]
         else:
             wvLim = np.array([])
+        imgFormat = mat['imgFormat'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         dataTime = mat['taskInfo']['dataTime'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
@@ -510,9 +511,11 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{pollyType}_{date}_long_term_cali_results.png'.format(
+            saveFolder,
+            '{pollyType}_{date}_long_term_cali_results.{imgFormat}'.format(
                 pollyType=pollyVersion,
-                date=dataTime.strftime('%Y%m%d')
+                date=dataTime.strftime('%Y%m%d'),
+                imgFormat=imgFormat
                 )), dpi=figDPI)
     plt.close()
 

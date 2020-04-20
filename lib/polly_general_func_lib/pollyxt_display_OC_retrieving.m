@@ -139,6 +139,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     xLim_Profi_Ext = config.xLim_Profi_Ext;
     xLim_Profi_RCS = config.xLim_Profi_RCS;
     xLim_Profi_LR = config.xLim_Profi_LR;
+    imgFormat = config.imgFormat;
 
     if strcmpi(processInfo.visualizationMode, 'matlab')
 
@@ -158,7 +159,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_Ext', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs355', 'rcs532', 'rcs1064', 'height', 'time', 'molRCS355', 'molRCS532', 'molRCS1064', 'refHIndx355', 'refHIndx532', 'refHIndx1064', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'aerExt_355_klett', 'aerExt_532_klett', 'aerExt_1064_klett', 'aerExt_355_raman', 'aerExt_532_raman', 'aerExt_1064_raman', 'LR355_raman', 'LR532_raman', 'ang_bsc_355_532_klett', 'ang_bsc_532_1064_klett', 'ang_bsc_355_532_raman', 'ang_bsc_532_1064_raman', 'ang_ext_355_532_raman', 'voldepol355_klett', 'voldepol355_raman', 'voldepol532_klett', 'voldepol532_raman', 'pardepol355_klett', 'pardepol532_klett', 'pardepolStd355_klett', 'pardepolStd532_klett', 'pardepol355_raman', 'pardepol532_raman', 'pardepolStd355_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_Ext', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', 'imgFormat', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_OC_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_display_OC_retrieving.py');

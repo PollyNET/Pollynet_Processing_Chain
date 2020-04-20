@@ -18,10 +18,11 @@ time = data.mTime;
 yLim_Quasi_Params = config.yLim_Quasi_Params;
 figDPI = processInfo.figDPI;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 
-    fileTC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_TC_V2.png', rmext(taskInfo.dataFilename)));
+    fileTC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_TC_V2.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('TC_colormap.mat')
@@ -85,7 +86,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_targetclassi_V2.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_targetclassi_V2.py');

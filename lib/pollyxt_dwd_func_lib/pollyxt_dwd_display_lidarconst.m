@@ -36,14 +36,15 @@ yLim1064 = config.yLim_LC_1064;
 yLim387 = config.yLim_LC_387;
 yLim607 = config.yLim_LC_607;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization
-    fileLC355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.png', rmext(taskInfo.dataFilename)));
-    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
-    fileLC1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename)));
-    fileLC387 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_387.png', rmext(taskInfo.dataFilename)));
-    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.png', rmext(taskInfo.dataFilename)));
+    fileLC355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC387 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_387.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% 355 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
@@ -186,7 +187,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_dwd_display_lidarconst.py');

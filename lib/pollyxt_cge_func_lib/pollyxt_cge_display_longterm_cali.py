@@ -212,6 +212,7 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
         startTime = mat['campaignInfo']['startTime'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -465,9 +466,10 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{pollyType}_{date}_long_term_cali_results.png'.format(
+            '{pollyType}_{date}_long_term_cali_results.{imgFmt}'.format(
                 pollyType=pollyVersion,
-                date=dataTime.strftime('%Y%m%d')
+                date=dataTime.strftime('%Y%m%d'),
+                imgFmt=imgFormat
             )), dpi=figDPI)
     plt.close()
 
