@@ -116,6 +116,7 @@ def polly_first_display_rcs(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         zLim_FR_RCS_532 = mat['zLim_FR_RCS_532'][:][0]
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -177,8 +178,9 @@ def polly_first_display_rcs(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_RCS_FR_532.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_RCS_FR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

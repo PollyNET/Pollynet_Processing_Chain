@@ -15,6 +15,12 @@ if isempty(data.rawSignal)
     return;
 end
 
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+monitorStatus = data.monitorStatus;
+figDPI = processInfo.figDPI;
+mTime = data.mTime;
+imgFormat = config.imgFormat;
+
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')
     % TODO
@@ -33,12 +39,8 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     %% display monitor status
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    monitorStatus = data.monitorStatus;
-    figDPI = processInfo.figDPI;
-    mTime = data.mTime;
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v6');
+    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_monitor.py');

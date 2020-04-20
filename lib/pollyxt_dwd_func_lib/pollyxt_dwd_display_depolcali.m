@@ -38,8 +38,9 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         TR_x = attri.depCalAttri532.TR_x{iCali};
         segIndx = attri.depCalAttri532.segIndx{iCali};
         caliTime = attri.depCalAttri532.caliTime{iCali};
+        imgFormat = config.imgFormat;
 
-        fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.png', datestr(caliTime, 'yyyymmdd-HHMM'), wavelength));
+        fileDepolCali532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%d_DepolCali_532.%s', datestr(caliTime, 'yyyymmdd-HHMM'), wavelength, imgFormat));
 
         % visualize calibration process
         figure('position', [0, 0, 600, 600], 'Units', 'Pixels', 'visible', 'off');
@@ -125,7 +126,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_dwd_display_depolcali.py');

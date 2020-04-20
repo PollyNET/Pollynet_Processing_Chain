@@ -58,6 +58,7 @@ flagCH607FR = config.is607nm & config.isFR & config.isTot;
 % yLim setting
 yLim532 = config.yLim_LC_532;
 depolConstLim532 = config.yLim_depolConst_532;
+imgFormat = config.imgFormat;
 
 %% data visualization 
 % visualization with matlab (low efficiency and less compatible)
@@ -73,7 +74,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     lineColor.else = [0, 255, 0]/255;
 
     %% initialization
-    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_long_term_LC.png', datestr(taskInfo.dataTime, 'yyyymmdd')));
+    fileLC = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(taskInfo.dataTime, 'yyyy'), datestr(taskInfo.dataTime, 'mm'), datestr(taskInfo.dataTime, 'dd'), sprintf('%s_long_term_LC.%s', datestr(taskInfo.dataTime, 'yyyymmdd'), imgFormat));
 
     figure('Position', [0, 0, 800, 1200], 'Units', 'Pixels', 'Visible', 'off');
     figPos = subfigPos([0.1, 0.1, 0.85, 0.8], 3, 1);
@@ -186,7 +187,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime532', 'LCTime607', 'LC532Status', 'LC532History', 'LCStd532History', 'LC607Status', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH532FR', 'flagCH607FR', 'else_time', 'else_label', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime532', 'LCTime607', 'LC532Status', 'LC532History', 'LCStd532History', 'LC607Status', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH532FR', 'flagCH607FR', 'else_time', 'else_label', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_longterm_cali.py');

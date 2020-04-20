@@ -20,12 +20,13 @@ LC532_klett = data.LC.LC_klett_532;
 LC532_raman = data.LC.LC_raman_532;
 LC532_aeronet = data.LC.LC_aeronet_532;
 LC607_raman = data.LC.LC_raman_607;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
     %% initialization
-    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
-    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.png', rmext(taskInfo.dataFilename)));
+    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% 532 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
@@ -100,7 +101,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC607_raman', 'LC532_aeronet', 'yLim532', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC607_raman', 'LC532_aeronet', 'yLim532', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_lidarconst.py');

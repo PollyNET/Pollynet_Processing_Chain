@@ -193,6 +193,7 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
         xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xLim_Profi_RCS = mat['xLim_Profi_RCS'][:][0]
         xLim_Profi_LR = mat['xLim_Profi_LR'][:][0]
+        imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
         print(e)
@@ -269,10 +270,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
         version=version), fontsize=15)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(
-            dataFilename=rmext(dataFilename),
+        saveFolder, '{dataFile}_{starttime}_{endtime}_SIG.{imgFmt}'.format(
+            dataFile=rmext(dataFilename),
             starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-            endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+            endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+            imgFmt=imgFormat)),
             dpi=figDPI)
     plt.close()
 
@@ -317,10 +319,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M')
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat
                 )),
         dpi=figDPI)
     plt.close()
@@ -370,10 +373,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Klett_NR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Klett_NR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI
         )
     plt.close()
@@ -419,10 +423,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -473,10 +478,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Raman_NR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Raman_NR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -524,10 +530,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Aeronet.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -575,10 +582,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -630,10 +638,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Klett_NR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Klett_NR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M')
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -681,10 +690,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(
         saveFolder,
-        '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(
-            dataFilename=rmext(dataFilename),
+        '{dataFile}_{starttime}_{endtime}_Ext_Raman.{imgFmt}'.format(
+            dataFile=rmext(dataFilename),
             starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-            endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+            endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+            imgFmt=imgFormat)
             ),
         dpi=figDPI
         )
@@ -736,10 +746,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Raman_NR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Raman_NR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
             ),
         dpi=figDPI
         )
@@ -787,10 +798,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Aeronet.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
             ),
         dpi=figDPI
         )
@@ -836,10 +848,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_LR_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
             ),
         dpi=figDPI
         )
@@ -889,10 +902,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_LR_Raman_NR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_LR_Raman_NR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -938,10 +952,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_ANGEXP_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -989,10 +1004,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_ANGEXP_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1038,11 +1054,12 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman_NR.png'.
+            '{dataFile}_{starttime}_{endtime}_ANGEXP_Raman_NR.{imgFmt}'.
             format(
-                dataFilename=rmext(dataFilename),
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
             ),
         dpi=figDPI
         )
@@ -1092,10 +1109,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_DepRatio_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1145,10 +1163,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_DepRatio_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1190,10 +1209,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_WVMR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_WVMR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1239,10 +1259,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_RH.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_RH.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1285,10 +1306,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Meteor_T.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
@@ -1329,10 +1351,11 @@ def pollyxt_display_retrieving(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Meteor_P.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)
                 ),
         dpi=figDPI
         )
