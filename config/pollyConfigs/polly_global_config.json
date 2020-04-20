@@ -184,6 +184,7 @@
     "yLim_WVConst": [0, 20],
     "yLim_FR_RCS": [0, 20000],
     "yLim_NR_RCS": [0, 3000],
+    "yLim_FR_DR": [0, 15000],
     "yLim_att_beta": [0, 15000],
     "yLim_Quasi_Params": [0, 12000],
     "yLim_WV_RH": [0, 7000],

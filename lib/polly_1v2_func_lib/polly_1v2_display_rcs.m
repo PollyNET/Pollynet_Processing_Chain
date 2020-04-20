@@ -27,10 +27,9 @@ RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(fl
 RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
 volDepol_532 = data.volDepol_532;
-volDepol_532(:, (data.depCalMask ~= 0) | (data.fogMask)) = NaN;
-
-yLim_FR = config.yLim_FR_RCS;
-yLim_NR = config.yLim_NR_RCS;
+yLim_FR_RCS = config.yLim_FR_RCS;
+yLim_NR_RCS = config.yLim_NR_RCS;
+yLim_FR_DR = config.yLim_FR_DR;
 RCS532FRColorRange = config.zLim_FR_RCS_532;
 RCS532NRColorRange = config.zLim_NR_RCS_532;
 
@@ -54,12 +53,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(zLim_FR_RCS_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Far-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_FR(1), yLim_FR(2), 6), 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -87,12 +86,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(zLim_NR_RCS_532);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_NR);
+    ylim(yLim_NR_RCS);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Range-Corrected Signal at %snm %s for %s at %s', '532', 'Near-Range', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_NR(1), yLim_NR(2), 6), 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_NR_RCS(1), yLim_NR_RCS(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -119,12 +118,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 0.4]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_FR);
+    ylim(yLim_FR_DR);
     xlabel('UTC');
     ylabel('Height (m)');
     title(sprintf('Volume Depolarization Ratio at %snm for %s at %s', '532', campaignInfo.name, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none');
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_FR(1), yLim_FR(2), 6), 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_FR_DR(1), yLim_FR_DR(2), 6), 'yminortick', 'on');
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal');
@@ -157,7 +156,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_532', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS532FRColorRange', 'RCS532NRColorRange', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_RCS', 'yLim_NR_RCS', 'yLim_FR_DR', 'RCS_FR_532', 'RCS_NR_532', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS532FRColorRange', 'RCS532NRColorRange', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_rcs.py');

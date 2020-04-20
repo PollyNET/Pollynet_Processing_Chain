@@ -14,6 +14,23 @@ function pollyxt_display_rcs(data, taskInfo, config)
 
 global defaults processInfo campaignInfo
 
+flagChannel355 = config.isFR & config.is355nm & config.isTot;
+flagChannel532 = config.isFR & config.is532nm & config.isTot;
+flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
+flagChannel532NR = config.isNR & config.is532nm & config.isTot;
+flagChannel355NR = config.isNR & config.is355nm & config.isTot;
+
+yLim_FR_RCS = config.yLim_FR_RCS;
+yLim_NR_RCS = config.yLim_NR_RCS;
+yLim_FR_DR = config.yLim_FR_DR;
+volDepol_355 = data.volDepol_355;
+volDepol_532 = data.volDepol_532;
+RCS355FRColorRange = config.zLim_FR_RCS_355;
+RCS532FRColorRange = config.zLim_FR_RCS_532;
+RCS1064FRColorRange = config.zLim_FR_RCS_1064;
+RCS355NRColorRange = config.zLim_NR_RCS_355;
+RCS532NRColorRange = config.zLim_NR_RCS_355;
+
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
     fileRCS355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_FR_355.png', rmext(taskInfo.dataFilename)));
@@ -23,19 +40,6 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     fileRCS532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_RCS_NR_532.png', rmext(taskInfo.dataFilename)));
     fileVolDepol355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_VDR_355.png', rmext(taskInfo.dataFilename)));
     fileVolDepol532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_VDR_532.png', rmext(taskInfo.dataFilename)));
-    flagChannel355 = config.isFR & config.is355nm & config.isTot;
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-    flagChannel532NR = config.isNR & config.is532nm & config.isTot;
-    flagChannel355NR = config.isNR & config.is355nm & config.isTot;
-
-    yLim_FR = config.yLim_FR_RCS;
-    yLim_NR = config.yLim_NR_RCS;
-    RCS355FRColorRange = config.zLim_FR_RCS_355;
-    RCS532FRColorRange = config.zLim_FR_RCS_532;
-    RCS1064FRColorRange = config.zLim_FR_RCS_1064;
-    RCS355NRColorRange = config.zLim_NR_RCS_355;
-    RCS532NRColorRange = config.zLim_NR_RCS_532;
 
     %% visualization
     load('myjet_colormap.mat')   % load colormap
@@ -52,12 +56,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(RCS355FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_RCS_FR(1), yLim_RCS_FR(2), 7), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -85,12 +89,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(RCS532FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_RCS_FR(1), yLim_RCS_FR(2), 7), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -118,12 +122,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(RCS1064FRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Range-Corrected Signal at %snm Far-Range from %s at %s', '1064', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_RCS_FR(1), yLim_RCS_FR(2), 7), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -151,12 +155,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(RCS355NRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_NR);
+    ylim(yLim_NR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Range-Corrected Signal at %snm Near-Range from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', yLim_RCS_NR(1):1000:yLim_RCS_NR(2), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'ytick', yLim_NR_RCS(1):1000:yLim_NR_RCS(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -184,12 +188,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis(RCS532NRColorRange);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_NR);
+    ylim(yLim_NR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Range-Corrected Signal at %snm Near-Range from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', yLim_RCS_NR(1):1000:yLim_RCS_NR(2), 'yminortick', 'on', 'FontSize', 7);
+    set(gca, 'ytick', yLim_NR_RCS(1):1000:yLim_NR_RCS(2), 'yminortick', 'on', 'FontSize', 7);
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -217,12 +221,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 0.4]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Volume Depolarization Ratio at %snm from %s at %s', '532', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_RCS_FR(1), yLim_RCS_FR(2), 7), 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -250,12 +254,12 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(p1, 'EdgeColor', 'none');
     caxis([0, 0.4]);
     xlim([data.mTime(1), data.mTime(end)]);
-    ylim(yLim_RCS_FR);
+    ylim(yLim_FR_RCS);
     xlabel('UTC', 'FontSize', 7);
     ylabel('Height (m)', 'FontSize', 7);
     title(sprintf('Volume Depolarization Ratio at %snm from %s at %s', '355', taskInfo.pollyVersion, campaignInfo.location), 'fontweight', 'bold', 'interpreter', 'none', 'FontSize', 7);
     set(gca, 'Box', 'on', 'TickDir', 'out');
-    set(gca, 'ytick', linspace(yLim_RCS_FR(1), yLim_RCS_FR(2), 7), 'yminortick', 'on');
+    set(gca, 'ytick', linspace(yLim_FR_RCS(1), yLim_FR_RCS(2), 7), 'yminortick', 'on');
     set(gca, 'xtick', xtick, 'xticklabel', xtickstr);
     text(-0.04, -0.13, sprintf('%s', datestr(data.mTime(1), 'yyyy-mm-dd')), 'Units', 'Normal', 'FontSize', 7);
     text(0.90, -0.13, sprintf('Version %s', processInfo.programVersion), 'Units', 'Normal', 'FontSize', 7);
@@ -287,11 +291,6 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% preparing the data
     [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    flagChannel355 = config.isFR & config.is355nm & config.isTot;
-    flagChannel532 = config.isFR & config.is532nm & config.isTot;
-    flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-    flagChannel532NR = config.isNR & config.is532nm & config.isTot;
-    flagChannel355NR = config.isNR & config.is355nm & config.isTot;
     mTime = data.mTime;
     height = data.height;
     figDPI = processInfo.figDPI;
@@ -339,19 +338,9 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         RCS_NR_532 = NaN(size(data.signal, 2), size(data.signal, 3));
     end
 
-    yLim_FR = config.yLim_FR_RCS;
-    yLim_NR = config.yLim_NR_RCS;
-    volDepol_355 = data.volDepol_355;
-    volDepol_532 = data.volDepol_532;
-    RCS355FRColorRange = config.zLim_FR_RCS_355;
-    RCS532FRColorRange = config.zLim_FR_RCS_532;
-    RCS1064FRColorRange = config.zLim_FR_RCS_1064;
-    RCS355NRColorRange = config.zLim_NR_RCS_355;
-    RCS532NRColorRange = config.zLim_NR_RCS_355;
-
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR', 'yLim_NR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_RCS', 'yLim_NR_RCS', 'yLim_FR_DR', 'RCS_FR_355', 'RCS_FR_532', 'RCS_FR_1064', 'RCS_NR_355', 'RCS_NR_532', 'volDepol_355', 'volDepol_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'RCS355FRColorRange', 'RCS532FRColorRange', 'RCS1064FRColorRange', 'RCS355NRColorRange', 'RCS532NRColorRange', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_rcs.py');
