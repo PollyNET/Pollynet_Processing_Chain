@@ -621,7 +621,7 @@ def pollyxt_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{pollyType}_{date}_long_term_cali_results.{imgFormat}'.format(
+            '{pollyType}_{date}_long_term_cali_results.{imgFmt}'.format(
                 pollyType=pollyVersion,
                 date=dataTime.strftime('%Y%m%d'),
                 imgFmt=imgFormat

@@ -19,6 +19,7 @@ end
 monitorStatus = data.monitorStatus;
 figDPI = processInfo.figDPI;
 mTime = data.mTime;
+imgFormat = config.imgFormat;
 
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')

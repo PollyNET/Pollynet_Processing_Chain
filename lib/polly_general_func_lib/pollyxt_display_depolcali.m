@@ -1,7 +1,7 @@
-function pollyxt_display_depolcali(data, taskInfo, attri)
+function pollyxt_display_depolcali(data, config, taskInfo, attri)
 %POLLYXT_DISPLAY_DEPOLCALI display the depolarization calibration results
 %Example:
-%   pollyxt_display_depolcali(attri)
+%   pollyxt_display_depolcali(data, config, taskInfo, attri)
 %Inputs:
 %   data, taskInfo, attri
 %History:

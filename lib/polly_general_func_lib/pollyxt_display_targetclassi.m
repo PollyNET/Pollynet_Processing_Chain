@@ -17,8 +17,7 @@ height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
 yLim_Quasi_Params = config.yLim_Quasi_Params;
-[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-imgFmt = imgFormat;
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 

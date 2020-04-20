@@ -210,18 +210,27 @@ if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save retrieving results.\n', tNow());
 
-    %% save overlap results
-    saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-    polly_first_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
+    for iProd = 1:length(config.prodSaveList)
 
-    %% save aerosol optical results
-    polly_first_save_retrieving_results(data, taskInfo, config);
+        switch lower(config.prodSaveList{iProd})
+        case 'overlap'
+            %% save overlap results
+            saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+            polly_first_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
-    %% save attenuated backscatter
-    polly_first_save_att_bsc(data, taskInfo, config);
-
-    %% save quasi results
-    polly_first_save_quasi_results(data, taskInfo, config);
+        case 'aerproffr'
+            %% save aerosol optical results
+            polly_first_save_retrieving_results(data, taskInfo, config);
+        case 'aerattbetafr'
+            %% save attenuated backscatter
+            polly_first_save_att_bsc(data, taskInfo, config);
+        case 'quasiv1'
+            %% save quasi results
+            polly_first_save_quasi_results(data, taskInfo, config);
+        otherwise
+            warning('Unknow product %s', config.prodSaveList{iProd});
+        end
+    end
 
     fprintf('[%s] Finish.\n', tNow());
 end

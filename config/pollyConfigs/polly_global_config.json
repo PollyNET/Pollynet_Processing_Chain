@@ -213,5 +213,6 @@
     "logbookFile": "",
     "radiosondeFolder": "",
     "calibrationDB": "polly_calibration.db",
-    "imgFormat": "png"
+    "imgFormat": "png",
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2"]
 }

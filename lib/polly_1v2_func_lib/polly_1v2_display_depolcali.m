@@ -1,11 +1,9 @@
-function polly_1v2_display_depolcali(data, taskInfo, attri)
+function polly_1v2_display_depolcali(data, config, taskInfo, attri)
 %POLLY_1V2_DISPLAY_DEPOLCALI display the depolarization calibration results
 %Example:
-%   polly_1v2_display_depolcali(attri)
+%   polly_1v2_display_depolcali(data, config, taskInfo, attri)
 %Inputs:
-%   attri
-%Outputs:
-%   
+%   data, config, taskInfo, attri
 %History:
 %   2018-12-29. First Edition by Zhenping
 %Contact:
