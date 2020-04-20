@@ -150,8 +150,8 @@ if status == 0
                                              % the density of liquid water.
         angstrexp440_870 = T{12}(1:end-1);
         for iRow = 1:(numel(T{1}) - 1)
-            measTime = [measTime; ...
-                    datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS')];
+            measTime = cat(1, measTime, ...
+                    datenum([T{1}{iRow} T{2}{iRow}], 'dd:mm:yyyyHH:MM:SS'));
         end
 
         if flagFilterNegAOD
