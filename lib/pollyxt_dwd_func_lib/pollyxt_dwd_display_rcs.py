@@ -118,8 +118,9 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
-        yLim_FR = mat['yLim_FR'][:][0]
-        yLim_NR = mat['yLim_NR'][:][0]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
+        yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
@@ -159,7 +160,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -206,7 +207,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -253,7 +254,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -302,7 +303,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
-    ax.set_ylim([yLim_NR[0], yLim_NR[1]])
+    ax.set_ylim([yLim_NR_RCS[0], yLim_NR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -349,7 +350,7 @@ def pollyxt_dwd_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_DR[0], yLim_FR_DR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
