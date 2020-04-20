@@ -1,4 +1,4 @@
-function [pollyxt_cge_save_quasi_results_V2(data, taskInfo, config)
+function pollyxt_cge_save_quasi_results_V2(data, taskInfo, config)
 %POLLYXT_CGE_SAVE_QUASI_RESULTS_V2 Saving the quasi retrieving results (V2) to netcdf file.
 %Example:
 %   [pollyxt_cge_save_quasi_results_V2(data, config)

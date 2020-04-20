@@ -89,7 +89,7 @@ end
 if p.Results.flagClosest
 
     % return the closest calibration result
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT wv.cali_start_time wv.cali_stop_time ', ...
             'wv.standard_instrument wv.standard_instrument_meas_time ', ...
             'wv.wvconst wv.uncertainty_wvconst wv.nc_zip_file ', ...
@@ -103,7 +103,7 @@ if p.Results.flagClosest
         datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
 else
     % return all qualified results
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT wv.cali_start_time wv.cali_stop_time ', ...
                 'wv.standard_instrument wv.standard_instrument_meas_time ', ...
                 'wv.wvconst wv.uncertainty_wvconst wv.nc_zip_file ', ...
@@ -114,21 +114,18 @@ else
                 sprintf('ORDER BY (strftime(''%%s'', wv.cali_start_time) + strftime(''%%s'', wv.cali_stop_time))/2 ASC;')]);
 end
 
-%% execute the SQL command
-res = fetch(curs);
-
 %% close connection
 close(conn);
 
-if ~ isnumeric(res.Data)
+if ~ isempty(data)
     % when records were found
-    for iRow = 1:size(res.Data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(res.Data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(res.Data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        caliInstrument = cat(2, caliInstrument, res.Data(iRow, 3));
-        instrumentMeasTime = cat(2, instrumentMeasTime, datenum(res.Data{iRow, 4}, 'yyyy-mm-dd HH:MM:SS'));
-        wvconst = cat(2, wvconst, res.Data{iRow, 5});
-        wvconstStd = cat(2, wvconstStd, res.Data{iRow, 6});
+    for iRow = 1:size(data, 1)
+        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
+        caliInstrument = cat(2, caliInstrument, data(iRow, 3));
+        instrumentMeasTime = cat(2, instrumentMeasTime, datenum(data{iRow, 4}, 'yyyy-mm-dd HH:MM:SS'));
+        wvconst = cat(2, wvconst, data{iRow, 5});
+        wvconstStd = cat(2, wvconstStd, data{iRow, 6});
     end
 end
 

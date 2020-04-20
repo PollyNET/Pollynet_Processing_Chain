@@ -90,7 +90,7 @@ end
 % main command
 if p.Results.flagClosest
     % without constrain from deltaTime and return the closest calibration result
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT lc.cali_start_time lc.cali_stop_time ', ...
             'lc.liconst lc.uncertainty_liconst lc.nc_zip_file ', ...
             'lc.polly_type lc.wavelength FROM lidar_calibration_const lc WHERE ', ...
@@ -103,7 +103,7 @@ if p.Results.flagClosest
             datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
 else
     % without constrain from deltaTime and return all qualified results
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT lc.cali_start_time lc.cali_stop_time ', ...
                 'lc.liconst lc.uncertainty_liconst lc.nc_zip_file ', ...
                 'lc.polly_type lc.wavelength FROM lidar_calibration_const lc WHERE ', ...
@@ -113,18 +113,16 @@ else
         sprintf('ORDER BY (strftime(''%%s'', lc.cali_start_time) + strftime(''%%s'', lc.cali_stop_time))/2 ASC;')]);
 end
 
-res = fetch(curs);
-
 %% close connection
 close(conn);
 
-if ~ isnumeric(res.Data)
+if ~ isempty(data)
     % when records were found
-    for iRow = 1:size(res.Data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(res.Data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(res.Data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        liconst = cat(2, liconst, res.Data{iRow, 3});
-        liconstStd = cat(2, liconstStd, res.Data{iRow, 4});
+    for iRow = 1:size(data, 1)
+        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
+        liconst = cat(2, liconst, data{iRow, 3});
+        liconstStd = cat(2, liconstStd, data{iRow, 4});
     end
 end
 
