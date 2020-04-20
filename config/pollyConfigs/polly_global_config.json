@@ -209,10 +209,7 @@
     "zLim_NR_RCS_355": [1e-2, 5],
     "zLim_NR_RCS_532": [1e-2, 10],
 
-    "depolCaliFile532": "",
-    "depolCaliFile355": "",
-    "wvCaliFile": "",
-    "lcCaliFile": "",
     "logbookFile": "",
-    "radiosondeFolder": ""
+    "radiosondeFolder": "",
+    "calibrationDB": "polly_calibration.db"
 }
