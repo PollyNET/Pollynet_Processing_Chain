@@ -85,7 +85,7 @@ end
 
 if p.Results.flagClosest
     % without constrain from deltaTime and return the closest calibration result
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT dc.cali_start_time dc.cali_stop_time ', ...
                 'dc.depol_const dc.uncertainty_depol_const dc.nc_zip_file ', ...
                 'dc.polly_type dc.wavelength FROM depol_calibration_constant dc WHERE ', ...
@@ -95,7 +95,7 @@ if p.Results.flagClosest
         sprintf('ORDER BY ABS((strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 - strftime(''%%s'', ''%s'')) ASC LIMIT 1;', datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
 else
     % without constrain from deltaTime and return all qualified results
-    curs = exec(conn, ...
+    data = fetch(conn, ...
         [sprintf(['SELECT dc.cali_start_time dc.cali_stop_time ', ...
                 'dc.depol_const dc.uncertainty_depol_const dc.nc_zip_file ', ...
                 'dc.polly_type dc.wavelength FROM depol_calibration_constant dc WHERE ', ...
@@ -105,18 +105,16 @@ else
         sprintf('ORDER BY (strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 ASC;' )]);
 end
 
-res = fetch(curs);
-
 %% close connection
 close(conn);
 
-if ~ isnumeric(res.Data)
+if ~ isempty(data)
     % when records were found
-    for iRow = 1:size(res.Data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(res.Data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(res.Data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        depolconst = cat(2, depolconst, res.Data{iRow, 3});
-        depolconstStd = cat(2, depolconstStd, res.Data{iRow, 4});
+    for iRow = 1:size(data, 1)
+        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
+        depolconst = cat(2, depolconst, data{iRow, 3});
+        depolconstStd = cat(2, depolconstStd, data{iRow, 4});
     end
 end
 

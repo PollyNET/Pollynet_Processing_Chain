@@ -36,6 +36,7 @@ if strcmpi(conn.Message, 'Unable to find JDBC driver.')
     flagSQLDriverValid = false;
 end
 
+%% prepare SQLite driver
 if (~ flagSQLDriverValid) && (exist(p.Results.SQLiteDriverPath, 'file') == 2)
     pathJDBC = p.Results.SQLiteDriverPath;
 elseif (~ flagSQLDriverValid) && p.Results.flagDownloadSQLiteDriver
