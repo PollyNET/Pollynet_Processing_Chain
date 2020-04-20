@@ -42,7 +42,7 @@ if ~ exist(pic_folder, 'dir')
 end
 
 dbFile = fullfile(processInfo.results_folder, campaignInfo.name , ...
-                  sprintf('%s_calibration.db', campaignInfo.name));
+                  config.calibrationDB);
 
 %% read data
 fprintf('\n[%s] Start to read %s data.\n%s\n', tNow(), campaignInfo.name, taskInfo.dataFilename);

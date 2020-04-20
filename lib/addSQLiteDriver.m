@@ -37,20 +37,19 @@ if strcmpi(conn.Message, 'Unable to find JDBC driver.')
 end
 
 %% prepare SQLite driver
+pathJDBC = '';
 if (~ flagSQLDriverValid) && (exist(p.Results.SQLiteDriverPath, 'file') == 2)
     pathJDBC = p.Results.SQLiteDriverPath;
 elseif (~ flagSQLDriverValid) && p.Results.flagDownloadSQLiteDriver
     SQLDriverURL = 'https://bitbucket.org/xerial/sqlite-jdbc/downloads/sqlite-jdbc-3.30.1.jar';
     system(sprintf('wget -O %s %s', p.Results.SQLiteDriverPath, SQLDriverURL));
     pathJDBC = p.Results.SQLiteDriverPath;
-else
-    warning('SQLite Driver was not found!');
 end
 
 %% add the SQLite JDBC driver to the search path
 % details can be found under
 % https://ww2.mathworks.cn/help/database/ug/sqlite-jdbc-linux.html
-if exist(pathJDBC, 'file') == 2
+if (exist(pathJDBC, 'file') == 2) && (~ flagSQLDriverValid)
     disp('Add SQLite JDBC to your search path.');
     javaclasspathFilepath = fullfile(prefdir, 'javaclasspath.txt');
 
@@ -62,6 +61,8 @@ if exist(pathJDBC, 'file') == 2
     disp('MATLAB needs to be **RESTARTED** to activate the settings');
     pause(5);
 
+    flag = true;
+elseif flagSQLDriverValid
     flag = true;
 else
     flag = false;
