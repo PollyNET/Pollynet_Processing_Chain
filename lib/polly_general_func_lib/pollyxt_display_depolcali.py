@@ -129,7 +129,7 @@ def pollyxt_display_depolcali(tmpFile, saveFolder):
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
-        imgFormat = mat['imgFormat']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))

@@ -26,31 +26,31 @@ global processInfo campaignInfo
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
     load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
 if ~ isempty(startTime355)
-    LCTime355 = mean([startTime355, stopTime355]);
+    LCTime355 = mean([startTime355; stopTime355], 1);
 else
     LCTime355 = [];
 end
 LC355Status = 2 * ones(size(startTime355));
 if ~ isempty(startTime532)
-    LCTime532 = mean([startTime532, stopTime532]);
+    LCTime532 = mean([startTime532; stopTime532], 1);
 else
     LCTime532 = [];
 end
 LC532Status = 2 * ones(size(startTime532));
 if ~ isempty(startTime1064)
-    LCTime1064 = mean([startTime1064, stopTime1064]);
+    LCTime1064 = mean([startTime1064; stopTime1064], 1);
 else
     LCTime1064 = [];
 end
 LC1064Status = 2 * ones(size(startTime1064));
 if ~ isempty(startTime387)
-    LCTime387 = mean([startTime387, stopTime387]);
+    LCTime387 = mean([startTime387; stopTime387], 1);
 else
     LCTime387 = [];
 end
 LC387Status = 2 * ones(size(startTime387));
 if ~ isempty(startTime607)
-    LCTime607 = mean([startTime607, stopTime607]);
+    LCTime607 = mean([startTime607; stopTime607], 1);
 else
     LCTime607 = [];
 end
@@ -61,7 +61,7 @@ LC607Status = 2 * ones(size(startTime607));
 [depolCaliConst532, ~, caliStartTime532, caliStopTime532] = ...
     load_depolconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'flagBeforeQuery', true);
 if ~ isempty(caliStartTime532)
-    depolCaliTime532 = mean([caliStartTime532, caliStopTime532]);
+    depolCaliTime532 = mean([caliStartTime532; caliStopTime532], 1);
 else
     depolCaliTime532 = [];
 end

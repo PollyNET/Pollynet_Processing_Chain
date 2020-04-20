@@ -1,7 +1,7 @@
-function pollyxt_dwd_display_depolcali(data, taskInfo, attri)
+function pollyxt_dwd_display_depolcali(data, config, taskInfo, attri)
 %POLLYXT_DWD_DISPLAY_DEPOLCALI display the depolarization calibration results
 %Example:
-%   pollyxt_dwd_display_depolcali(data, taskInfo, attri)
+%   pollyxt_dwd_display_depolcali(data, config, taskInfo, attri)
 %Inputs:
 %   data, taskInfo, attri
 %History:
@@ -10,6 +10,8 @@ function pollyxt_dwd_display_depolcali(data, taskInfo, attri)
 %   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
+
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 

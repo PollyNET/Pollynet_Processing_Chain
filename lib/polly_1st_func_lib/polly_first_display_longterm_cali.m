@@ -20,13 +20,13 @@ global processInfo campaignInfo defaults
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
     load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
 if ~ isempty(startTime532)
-    LCTime532 = mean([startTime532, stopTime532]);
+    LCTime532 = mean([startTime532; stopTime532], 1);
 else
     LCTime532 = [];
 end
 LC532Status = 2 * ones(size(startTime532));
 if ~ isempty(startTime607)
-    LCTime607 = mean([startTime607, stopTime607]);
+    LCTime607 = mean([startTime607; stopTime607], 1);
 else
     LCTime607 = [];
 end
