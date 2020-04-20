@@ -117,6 +117,7 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -182,8 +183,9 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_SAT_FR_355.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_SAT_FR_355.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -233,8 +235,9 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_532.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_SAT_FR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat
                 )
             ),
         dpi=figDPI
@@ -288,8 +291,9 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_SAT_FR_1064.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat
                 )
             ),
         dpi=figDPI
@@ -343,8 +347,9 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_407.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_SAT_FR_407.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat
                 )
             ),
         dpi=figDPI

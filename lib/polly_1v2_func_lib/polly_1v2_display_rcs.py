@@ -117,11 +117,13 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
         yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -185,8 +187,9 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_RCS_FR_532.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_RCS_FR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -232,8 +235,9 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_RCS_NR_532.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_RCS_NR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display voldepol 532
@@ -274,8 +278,9 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_VDR_532.png'.format(
-            dataFilename=rmext(dataFilename))), dpi=figDPI)
+        saveFolder, '{dataFilename}_VDR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

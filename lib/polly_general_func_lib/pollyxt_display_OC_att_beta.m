@@ -29,13 +29,14 @@ att_beta_cRange_355 = config.zLim_att_beta_355;
 att_beta_cRange_532 = config.zLim_att_beta_532;
 att_beta_cRange_1064 = config.zLim_att_beta_1064;
 yLim_att_beta = config.yLim_att_beta;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
     %% parameter initialize
-    fileATT_BETA_355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_355.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_532.png', rmext(taskInfo.dataFilename)));
-    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_1064.png', rmext(taskInfo.dataFilename)));
+    fileATT_BETA_355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_355.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileATT_BETA_532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileATT_BETA_1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_ATT_BETA_OC_1064.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('myjet_colormap.mat')
@@ -158,7 +159,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_OC_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_OC_att_beta.py');

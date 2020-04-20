@@ -30,13 +30,14 @@ SAT_NR_532 = double(squeeze(data.flagSaturation(flagChannel532NR, :, :)));
 SAT_NR_532(data.lowSNRMask(flagChannel532NR, :, :)) = 2;
 yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 %% initialization 
-    fileStatus355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_355.png', rmext(taskInfo.dataFilename)));
-    fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.png', rmext(taskInfo.dataFilename)));
-    fileStatus1064FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_1064.png', rmext(taskInfo.dataFilename)));
-    fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.png', rmext(taskInfo.dataFilename)));
+    fileStatus355FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_355.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileStatus532FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileStatus1064FR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_FR_1064.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileStatus532NR = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_SAT_NR_532.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% visualization
     load('status_colormap.mat')
@@ -199,7 +200,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'yLim_NR_RCS', 'yLim_FR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'SAT_NR_532', 'yLim_NR_RCS', 'yLim_FR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_dwd_display_saturation.py');

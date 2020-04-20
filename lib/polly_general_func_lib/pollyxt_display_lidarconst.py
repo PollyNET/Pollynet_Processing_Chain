@@ -128,6 +128,7 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -183,8 +184,12 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_355.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_LC_355.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 532mn
@@ -234,8 +239,12 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_532.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_LC_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 1064mn
@@ -285,8 +294,12 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_1064.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_LC_1064.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 387mn
@@ -325,8 +338,12 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_387.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_LC_387.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 607mn
@@ -365,8 +382,12 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_LC_607.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_LC_607.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

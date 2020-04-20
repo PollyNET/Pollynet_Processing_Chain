@@ -283,33 +283,41 @@ if processInfo.flagEnableResultsOutput
 
     fprintf('\n[%s] Start to save retrieving results.\n', tNow());
 
-    %% save overlap results
-    saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-    pollyxt_ift_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
+    for iProd = 1:length(config.prodSaveList)
+        switch lower(config.prodSaveList{iProd})
+        case 'overlap'
+            %% save overlap results
+            saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+            pollyxt_ift_save_overlap(data, taskInfo, config, overlapAttri, saveFile);
 
-    %% save aerosol optical results
-    pollyxt_ift_save_retrieving_results(data, taskInfo, config);
-
-    %% save water vapor mixing ratio and relative humidity
-    pollyxt_ift_save_WVMR_RH(data, taskInfo, config);
-
-    %% save attenuated backscatter
-    pollyxt_ift_save_att_bsc(data, taskInfo, config);
-
-    %% save volume depolarization ratio
-    pollyxt_ift_save_voldepol(data, taskInfo, config);
-
-    %% save quasi results
-    pollyxt_ift_save_quasi_results(data, taskInfo, config);
-
-    %% save quasi results V2
-    pollyxt_ift_save_quasi_results_V2(data, taskInfo, config);
-
-    %% save target classification results
-    pollyxt_ift_save_tc(data, taskInfo, config);
-
-    %% save target classification results V2
-    pollyxt_ift_save_tc_V2(data, taskInfo, config);
+        case 'aerproffr'
+            %% save aerosol optical results
+            pollyxt_ift_save_retrieving_results(data, taskInfo, config);
+        case 'wvmr_rh'
+            %% save water vapor mixing ratio and relative humidity
+            pollyxt_ift_save_WVMR_RH(data, taskInfo, config);
+        case 'aerattbetafr'
+            %% save attenuated backscatter
+            pollyxt_ift_save_att_bsc(data, taskInfo, config);
+        case 'voldepol'
+            %% save volume depolarization ratio
+            pollyxt_ift_save_voldepol(data, taskInfo, config);
+        case 'quasiv1'
+            %% save quasi results
+            pollyxt_ift_save_quasi_results(data, taskInfo, config);
+        case 'quasiv2'
+            %% save quasi results V2
+            pollyxt_ift_save_quasi_results_V2(data, taskInfo, config);
+        case 'tc'
+            %% save target classification results
+            pollyxt_ift_save_tc(data, taskInfo, config);
+        case 'tcv2'
+            %% save target classification results V2
+            pollyxt_ift_save_tc_V2(data, taskInfo, config);
+        otherwise
+            warning('Unknow product %s', config.prodSaveList{iProd});
+        end
+    end
 
     fprintf('[%s] Finish.\n', tNow());
 end

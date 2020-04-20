@@ -12,13 +12,14 @@ function polly_1v2_display_retrieving(data, taskInfo, config)
 global processInfo defaults campaignInfo
 
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% signal
     for iGroup = 1:size(data.cloudFreeGroups, 1)
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_SIG.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_SIG.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         sig532 = squeeze(mean(data.signal(flagChannel532, :, startIndx:endIndx), 3)) / mean(data.mShots(flagChannel532, startIndx:endIndx), 2) * 150 / data.hRes;
         rcs532 = sig532 .* data.height.^2;
@@ -67,7 +68,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Klett.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerBsc532_klett = data.aerBsc532_klett(iGroup, :);
 
@@ -101,7 +102,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Raman.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerBsc532_raman = data.aerBsc532_raman(iGroup, :);
 
@@ -135,7 +136,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_RR.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_RR.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerBsc532_RR = data.aerBsc532_RR(iGroup, :);
 
@@ -169,7 +170,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Klett.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerExt532_klett = data.aerExt532_klett(iGroup, :);
 
@@ -203,7 +204,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Raman.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerExt532_raman = data.aerExt532_raman(iGroup, :);
 
@@ -237,7 +238,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_RR.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_RR.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         aerExt532_RR = data.aerExt532_RR(iGroup, :);
 
@@ -271,7 +272,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_LR_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_LR_Raman.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         LR532_raman = data.LR532_raman(iGroup, :);
 
@@ -305,7 +306,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_LR_RR.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_LR_RR.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         LR532_RR = data.LR532_RR(iGroup, :);
 
@@ -339,7 +340,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Klett.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         voldepol532_klett = data.voldepol532_klett(iGroup, :);
         voldepol532_raman = data.voldepol532_raman(iGroup, :);
@@ -378,7 +379,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Raman.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_DepRatio_Raman.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         voldepol532_klett = data.voldepol532_klett(iGroup, :);
         voldepol532_raman = data.voldepol532_raman(iGroup, :);
@@ -417,7 +418,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_T.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_T.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         temperature = data.temperature(iGroup, :);
 
@@ -450,7 +451,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
         startIndx = data.cloudFreeGroups(iGroup, 1);
         endIndx = data.cloudFreeGroups(iGroup, 2);
 
-        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_P.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM')));
+        picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_P.%s', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'), imgFormat));
 
         pressure = data.pressure(iGroup, :);
 
@@ -571,7 +572,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Ext', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', '-v6');
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerBsc_532_RR', 'aerExt_532_klett', 'aerExt_532_raman', 'aerExt_532_RR', 'LR532_raman', 'LR532_RR', 'voldepol532_klett', 'voldepol532_raman', 'pardepol532_klett', 'pardepolStd532_klett', 'pardepol532_raman', 'pardepolStd532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Ext', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', 'imgFormat', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'polly_1v2_display_retrieving.py');

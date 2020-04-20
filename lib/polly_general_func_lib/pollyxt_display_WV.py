@@ -119,6 +119,7 @@ def pollyxt_display_WV(tmpFile, saveFolder):
         xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -185,8 +186,9 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.{imgFmt}'.format(
+        dataFilename=rmext(dataFilename),
+        imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display RH
@@ -226,8 +228,9 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.{imgFmt}'.format(
+        dataFilename=rmext(dataFilename),
+        imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

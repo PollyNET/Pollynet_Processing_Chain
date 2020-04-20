@@ -119,6 +119,7 @@ def polly_first_display_monitor(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -132,7 +133,7 @@ def polly_first_display_monitor(tmpFile, saveFolder):
     AD = np.ma.masked_outside(AD, 0, 990)
     EN = np.ma.masked_outside(EN, 0, 990)
 
-        # set the default font
+    # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
 
@@ -158,7 +159,6 @@ def polly_first_display_monitor(tmpFile, saveFolder):
     ax1.set_title('Housekeeping data for {polly} at {site}'.format(
         polly=pollyVersion, site=location), fontsize=20)
 
-    
     ax3.plot(time, HT, color='#8080ff', label='Laser Head')
     ax3.plot(time, Temp1, color='#ff8000', label='Temp1')
     ax3.plot(time, Temp2, color='#008000', label='Temp2')
@@ -177,7 +177,6 @@ def polly_first_display_monitor(tmpFile, saveFolder):
     ax4.set_ylabel(r'Temp 1064 [$^\circ C$]', fontsize=15)
     ax4.set_xlim([mTime[0], mTime[-1]])
 
-    
     for ax in (ax1, ax2, ax3, ax4, ax5):
         ax.tick_params(axis='both', which='major', labelsize=14,
                        right=True, top=True, width=2, length=5)
@@ -196,8 +195,11 @@ def polly_first_display_monitor(tmpFile, saveFolder):
             counts[0][-1]/1e6), fontsize=17)
 
     plt.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder, '{dataFilename}_monitor.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
 
     plt.close()
 

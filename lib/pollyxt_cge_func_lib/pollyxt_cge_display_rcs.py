@@ -126,6 +126,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -189,8 +190,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_RCS_FR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_RCS_FR_355.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -236,8 +238,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_RCS_FR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_RCS_FR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -285,8 +288,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_RCS_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_RCS_FR_1064.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -332,8 +336,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_RCS_NR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_RCS_NR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display voldepol 532
@@ -377,8 +382,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_VDR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_VDR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

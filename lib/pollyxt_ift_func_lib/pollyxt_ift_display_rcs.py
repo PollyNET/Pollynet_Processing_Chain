@@ -128,6 +128,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -190,8 +191,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_355.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -236,8 +238,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -284,8 +287,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_1064.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 355 NR
@@ -330,8 +334,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_NR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_NR_355.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -376,8 +381,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_NR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_NR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display voldepol 532
@@ -421,8 +427,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_VDR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_VDR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
 
