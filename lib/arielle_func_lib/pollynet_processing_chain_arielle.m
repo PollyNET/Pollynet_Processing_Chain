@@ -311,6 +311,15 @@ tc_mask_V2 = pollyxt_targetclassi_V2(data, config);
 data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
+%% cloud layering
+fprintf('\n[%s] Start to extract cloud information', tNow());
+[clBaseH, clTopH] = cloud_layering(data.mTime, data.height, tc_mask, ...
+                                   'minCloudDepth', 100, ...
+                                   'liquidCloudBit', 8, ...
+                                   'iceCloudBit', 9, ...
+                                   'cloudBits', [7, 8, 9, 10, 11]);
+fprintf('[%s] Finish.\n', tNow());
+
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
