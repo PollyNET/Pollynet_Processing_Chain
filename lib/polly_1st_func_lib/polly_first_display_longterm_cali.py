@@ -110,10 +110,10 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
             thisLCTime607 = mat['LCTime607'][0][:]
         else:
             thisLCTime607 = np.array([])
-        LC532Status = mat['LC532Status'][:]
-        LC532History = mat['LC532History'][:]
-        LC607Status = mat['LC607Status'][:]
-        LC607History = mat['LC607History'][:]
+        LC532Status = mat['LC532Status'][0][:]
+        LC532History = mat['LC532History'][0][:]
+        LC607Status = mat['LC607Status'][0][:]
+        LC607History = mat['LC607History'][0][:]
         if mat['logbookTime'].size:
             thisLogbookTime = mat['logbookTime'][0][:]
         else:
