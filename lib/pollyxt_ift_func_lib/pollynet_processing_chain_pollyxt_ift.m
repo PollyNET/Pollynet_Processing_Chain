@@ -209,6 +209,16 @@ tc_mask_V2 = pollyxt_ift_targetclassi_V2(data, config);
 data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
+%% cloud layering
+fprintf('\n[%s] Start to extract cloud information', tNow());
+[data.clBaseH, data.clTopH, data.clPh, data.clPhProb] = ...
+        cloud_layering(data.mTime, data.height, tc_mask, ...
+                        'minCloudDepth', 100, ...
+                        'liquidCloudBit', 8, ...
+                        'iceCloudBit', 9, ...
+                        'cloudBits', [7, 8, 9, 10, 11]);
+fprintf('[%s] Finish.\n', tNow());
+
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
@@ -314,6 +324,8 @@ if processInfo.flagEnableResultsOutput
         case 'tcv2'
             %% save target classification results V2
             pollyxt_ift_save_tc_V2(data, taskInfo, config);
+        case 'cloudinfo'
+            pollyxt_save_cloudinfo(data, taskInfo, config);
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end
