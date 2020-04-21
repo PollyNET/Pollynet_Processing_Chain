@@ -66,40 +66,40 @@ for iSonde = 1:int32(numel(startPos)/2)
     if lines < 10
         continue;
     end
-        
+
     pres = NaN(lines,1);
     alt = NaN(lines,1);
     temp = NaN(lines,1);
     rh = NaN(lines, 1);
     obTime = datenum(radiosonde((obTimePos + 18):(obTimePos + 28)), 'yymmdd/HHMM');
-    
+
     for k = 1:lines
         index = (k-1)*78 + 1;
-        
+
         if numel(sscanf(currentRadiosonde(index:index+6), '%g')) == 0
             pres(k) = NaN;
         else
             pres(k) = sscanf(currentRadiosonde(index:index+6), '%g');
         end
-        
+
         if numel(sscanf(currentRadiosonde(index+7:index+13), '%g')) == 0
             alt(k) = NaN;
         else
             alt(k) = sscanf(currentRadiosonde(index+7:index+13), '%g');
         end
-        
+
         if numel(sscanf(currentRadiosonde(index+14:index+20), '%g')) == 0
             temp(k) = NaN;
         else
             temp(k) = sscanf(currentRadiosonde(index+14:index+20), '%g');
         end
-        
+
         if numel(sscanf(currentRadiosonde(index+28:index+34), '%g')) == 0
             rh(k) = NaN;
         else
             rh(k) = sscanf(currentRadiosonde(index+28:index+34), '%g');
         end
-        
+
     end
 
     temperature{end + 1} = temp;

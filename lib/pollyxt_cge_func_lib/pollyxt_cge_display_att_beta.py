@@ -119,18 +119,10 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
             time = mat['time'][0][:]
         else:
             time = np.array([])
-        if mat['att_beta_cRange_355'].size:
-            att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
-        else:
-            att_beta_cRange_355 = np.array([])
-        if mat['att_beta_cRange_532'].size:
-            att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
-        else:
-            att_beta_cRange_532 = np.array([])
-        if mat['att_beta_cRange_1064'].size:
-            att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
-        else:
-            att_beta_cRange_1064 = np.array([])
+        att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
+        att_beta_cRange_532 = mat['att_beta_cRange_532'][0][:]
+        att_beta_cRange_1064 = mat['att_beta_cRange_1064'][0][:]
+        yLim_att_beta = mat['yLim_att_beta'][:][0]
         flagLC355 = mat['flagLC355'][:][0]
         flagLC532 = mat['flagLC532'][:][0]
         flagLC1064 = mat['flagLC1064'][:][0]
@@ -141,6 +133,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -174,9 +167,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -197,7 +190,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
@@ -205,7 +198,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
 
     fig.text(
         0.05, 0.04,
@@ -224,8 +217,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_355.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_ATT_BETA_355.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -244,9 +238,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -276,7 +270,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
@@ -288,7 +282,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
 
     fig.text(
         0.05, 0.04,
@@ -307,8 +301,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_532.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_ATT_BETA_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -327,9 +322,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
+    ax.set_ylim(yLim_att_beta.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 15000])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
@@ -350,7 +345,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.91, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(
@@ -361,7 +356,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=10)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
 
     fig.text(
         0.05, 0.04,
@@ -380,8 +375,9 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_1064.png'.format(
-                dataFilename=rmext(dataFilename)
+            '{dataFilename}_ATT_BETA_1064.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

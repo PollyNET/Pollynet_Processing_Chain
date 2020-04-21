@@ -44,9 +44,11 @@ I will summarize all the configurations in the table below. But you should keep 
 |is407nm|flag of 407nm channel|[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]||
 |is607nm|flag of 607nm channel|[0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0]||
 |channelTag|label of each channel|["FR-total-355 nm", "FR-cross-355 nm", "FR-387 nm", "FR-407 nm", "FR-total-532 nm", "FR-cross-532 nm", "FR-607 nm", "FR-total-1064 nm", "NR-total-532 nm", "NR-607 nm", "NR-total-355 nm", "NR-387 nm", "unknown"]||
-|minPC_fog|The minimum photon count for non-fog profile. The detected photon count between 40th and 120th bin (above the first bin) for each 30s profile will be accumulated for the fog profile screening.|60|Holger, AMT, A1, 2016|
+|minPC_fog|The minimum photon count for non-fog profile. The detected photon count between 40th and 120th bin (above the first bin) for each 30s profile will be accumulated for the fog profile screening.|60|Baars H. et al, AMT, A1, 2016|
 |TR|Transmission ratio for different channel.|[0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]|Ronny, AMT, 2016|
 |overlapCalMode|1:estimate the overlap function based on the near-range signal. 2: calculate the overlap function with Raman method (U. Wandinger, et al, Applied Optics, 2002)|1||
+|overlapCorMode|1:overlap correction with using the default overlap function. 2: overlap correction with using the calculated overlap function|1||
+|overlapSmoothBins|vertical window (bins) for smoothing the noisy overlap function|8||
 |maxSigSlope4FilterCloud|The slope threshold for cloud screening. The screening is based on the slope of the Range Corrected Signal(photon count * m^2). In theory, this should be done with the attenuated backscatter. Since the lidar constant is unknown and cloud-screen is highly important for retrieving aerosol profiles, this is the only applicable way to my knowledge. Attention should be paid for the threshold setting, because it’s dependent on the the order of ND filter. But it’s not very sensitive because cloud scattering signal is much more stronger than that from aerosols. You can keep this value if there is no dramatic changes of ND filter(more than 1)|3e6||
 |maxSigSlope4FilterCloud_NR|The slope threshold for cloud screening with using NR signal|0.5e6||
 |saturate_thresh|the threshold for signal saturation|100 [MHz]||
@@ -84,36 +86,49 @@ I will summarize all the configurations in the table below. But you should keep 
 |quasi_smooth_t|spatial smoothing window for quasi retrieving method. For consistency, this parameter should be set for each channel|[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]||
 |hWVCaliBase|The minimum height used for calculating the IWV from lidar measurement.|120||
 |minHWVCaliTop|The minimum top height required for calculating the IWV from lidar measurement.|2000||
-|clear_thres_par_beta_1064|The threshold for discriminating clear atmosphere based on particle backscatter at 1064nm|1e-8 m^{-1}|Holger, AMT, 2016|
-|turbid_thres_par_beta_1064|The threshold for discriminating turbid atmosphere based on particle backscatter at 1064nm|2e-7 m^{-1}|Holger, AMT, 2016|
-|turbid_thres_par_beta_532|The threshold for discriminating turbid atmosphere based on particle backscatter at 532nm|2e-7 m^{-1}|Holger, AMT, 2016|
-|droplet_thres_par_depol|The threshold for discriminating cloud droplets based on particle depolarization ratio at 532nm|0.05|Holger, AMT, 2016|
-|spheroid_thres_par_depol|The threshold for discriminating spheriod paricles based on particle depolarization ratio at 532nm|0.07|Holger, AMT, 2016|
-|unspheroid_thres_par_depol|The threshold for discriminating unspheriod paricles based on particle depolarization ratio at 532nm|0.2|Holger, AMT, 2016|
-|ice_thres_par_depol|The threshold for discriminating ice crystals based on particle depolarization ratio at 532nm|0.35|Holger, AMT, 2016|
-|ice_thres_vol_depol|The threshold for discriminating ice crystals based on volume depolarization ratio at 532nm|0.3|Holger, AMT, 2016|
-|large_thres_ang|The threshold for discriminating large particles based on angstroem exponent|0.75|Holger, AMT, 2016|
-|small_thres_ang|The threshold for discriminating small particles based on angstroem exponent|0.5|Holger, AMT, 2016|
-|cloud_thres_par_beta_1064|The threshold for discriminating cloud layers based on quasi particle backscatter at 1064nm|2e-5 m^{-1}|Holger, AMT, 2016|
-|min_atten_par_beta_1064|The minimum attenuation factor could be expected at the first 250m penatration depth|10|Holger, AMT, 2016|
-|search_cloud_above|The parameter is used in cloud top detection. The cloud top will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and +search_height_above|300 m|Holger, AMT, 2016|
-|search_cloud_below|The parameter is used in cloud base detection. The cloud base will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and -search_height_below|100 m|Holger, AMT, 2016|
+|clear_thres_par_beta_1064|The threshold for discriminating clear atmosphere based on particle backscatter at 1064nm|1e-8 m^{-1}|Baars H. et al, AMT, 2016|
+|turbid_thres_par_beta_1064|The threshold for discriminating turbid atmosphere based on particle backscatter at 1064nm|2e-7 m^{-1}|Baars H. et al, AMT, 2016|
+|turbid_thres_par_beta_532|The threshold for discriminating turbid atmosphere based on particle backscatter at 532nm|2e-7 m^{-1}|Baars H. et al, AMT, 2016|
+|droplet_thres_par_depol|The threshold for discriminating cloud droplets based on particle depolarization ratio at 532nm|0.05|Baars H. et al, AMT, 2016|
+|spheroid_thres_par_depol|The threshold for discriminating spheriod paricles based on particle depolarization ratio at 532nm|0.07|Baars H. et al, AMT, 2016|
+|unspheroid_thres_par_depol|The threshold for discriminating unspheriod paricles based on particle depolarization ratio at 532nm|0.2|Baars H. et al, AMT, 2016|
+|ice_thres_par_depol|The threshold for discriminating ice crystals based on particle depolarization ratio at 532nm|0.35|Baars H. et al, AMT, 2016|
+|ice_thres_vol_depol|The threshold for discriminating ice crystals based on volume depolarization ratio at 532nm|0.3|Baars H. et al, AMT, 2016|
+|large_thres_ang|The threshold for discriminating large particles based on angstroem exponent|0.75|Baars H. et al, AMT, 2016|
+|small_thres_ang|The threshold for discriminating small particles based on angstroem exponent|0.5|Baars H. et al, AMT, 2016|
+|cloud_thres_par_beta_1064|The threshold for discriminating cloud layers based on quasi particle backscatter at 1064nm|2e-5 m^{-1}|Baars H. et al, AMT, 2016|
+|min_atten_par_beta_1064|The minimum attenuation factor could be expected at the first 250m penatration depth|10|Baars H. et al, AMT, 2016|
+|search_cloud_above|The parameter is used in cloud top detection. The cloud top will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and +search_height_above|300 m|Baars H. et al, AMT, 2016|
+|search_cloud_below|The parameter is used in cloud base detection. The cloud base will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and -search_height_below|100 m|Baars H. et al, AMT, 2016|
 |overlap{wavelength}Color|the color settings for the line of overlap|[0, 255, 64]||
-|RCSProfileRange|Range of RCS in line plot. (original values have been divided by 1e6)|[1e-3, 1e2]||
-|RCS{wavelength}ColorRange|Color range of RCS in color plot.(original values have been divided by 1e6|[1e-3, 1e2]||
-|aerBscProfileRange|Range of aerosol backscatter coefficient profile|[-0.1, 10] Mm^{-1}*Sr^{-1}||
-|aerExtProfileRange|Range of aerosol extinction coefficient profile|[-1, 300] Mm^{-1}||
-|aerLRProfileRange|Range of aerosol lidar ratio profile.|[0, 120] Sr||
-|WVMRProfileRange|Range of WVMR profile|[0, 10] g*kg^{-1}||
-|WVMRColorRange|Color range of WVMR color plot|[0, 10] g*kg^{-1}||
-|LC{wavelength}Range|Range of lidar constant profile|[0, 1e14]||
-|WVConstRange|The y axis range for displaying the water vapor calibration constant | [0, 20] g*kg^{-1}||
-|depolConstRange{wavelength}|The x axis range for displaying the depolarization calibration constant| [0, 0.2]||
-|att_beta_cRange_{wavelength}|The color range for the attenuated backscatter| [0, 15] Mm^{-1}*sr^{-1}||
-|quasi_beta_cRange_{wavelength}|The color range for the quasi backscatter| [0, 2] Mm^{-1}*sr^{-1}||
-|quasi_Par_DR_cRange_532|The color range for the quasi particle depolarization ratio at 532 nm| [0, 0.4]||
-|depolCaliFile{wavelength}|files to read and save depolarization calibration results|"pollyxt_tropos_depolcali_532_results.txt"||
-|wvCaliFile|files to read and save water vapor calibration results|"pollyxt_tropos_wvcali_results.txt"||
-|lcCaliFile|files to read and save lidar calibration constants|"pollyxt_tropos_lccali_results.txt"||
+|xLim_Profi_Bsc|x-range of the profile of aerosol backscatter|[-0.1, 10] Mm^{-1}sr^{-1}||
+|xLim_Profi_NR_Bsc|x-range of the profile of aerosol backscatter retrieved with near-range signal|[-0.1, 10] Mm^{-1}sr^{-1}||
+|xLim_Profi_Ext|x-range of the profile of aerosol extinction coefficient|[-1, 300] Mm^{-1}||
+|xLim_Profi_NR_Ext|x-range of the profile of aerosol extinction coefficient retrieved with near-range signal|[-1, 300] Mm^{-1}||
+|xLim_Profi_WV_RH|x-range (**z-range**) of the profile (**time-height plot**) of water vapor mixing ratio|[0, 10] g*kg^{-1}||
+|xLim_Profi_RCS|x-range of the profile of range corrected signal|[0.3, 10] (*1e6 a.u.)||
+|xLim_Profi_LR|x-range of the profile of lidar ratio|[0, 120] sr||
+|yLim_LC_{wavelength}|y-range of the profile of lidar constant at certain wavelength|[0, 1e14]||
+|yLim_LC_ratio_{wavelength1}_{wavelength2}|y-range of the scatter plot of the lidar constant ratio at two given wavelength|[0, 1]||
+|yLim_WVConst|y-range of the profile of water vapor calibration constant|[0, 20]|[Guangyao D. et al, AMT, 2018](https://ui.adsabs.harvard.edu/link_gateway/2018AMT....11.2735D/doi:10.5194/amt-11-2735-2018)|
+|yLim_FR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from far-range channels|[0, 20000] m||
+|yLim_NR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from near-range channels|[0, 3000] m||
+|yLim_att_beta|y-range of the time-height plot of attenuated backscatter|[0, 15000] Mm^{-1}sr^{-1}||
+|yLim_Quasi_Params|y-range of aerosol optical products retrieved by quasi-retrieving method|[0, 12000] m|Baars H. et al, AMT, 2017|
+|yLim_WV_RH|y-range of the profile of water vapor mixing ratio (relative humidity)|[0, 7000] m||
+|yLim_Profi_Ext|y-range of the profile of extinction coefficient|[0, 5000] m||
+|yLim_Profi_LR|y-range of the profile of lidar ratio|[0, 5000] m||
+|yLim_Profi_DR|y-range of the profile of volume/particle depolarization ratio|[0, 20000] m||
+|yLim_Profi_Bsc|y-range of the profile of aerosol backscatter|[0, 20000] m||
+|yLim_Profi_WV_RH|y-range of the profile of water vapor mixing ratio (relative humidity)|[0, 7000] m||
+|yLim_depolConst_{wavelength}|y-range of the profile of depolarization calibration constant at certain wavelength|[0, 0.2]||
+|zLim_att_beta_{wavelength}|z-range of the time-height plot of attenuated backscatter|[0, 15] Mm^{-1}sr^{-1}||
+|zLim_quasi_beta_{wavelength}|z-range of the time-height plot of quasi aerosol backscatter coefficient|[0, 8] Mm^{-1}sr^{-1}|Baars H. et al, AMT, 2017|
+|zLim_quasi_Par_DR_532|z-range of the time-height plot of quasi particle depolarization ratio|[0, 0.4]||
+|zLim_FR_RCS_{wavelength}|z-range of the time-height plot of range corrected signal from far-range channels|[1e-2, 30] (1e6 a.u.)||
+|zLim_NR_RCS_{wavelength}|z-range of the time-height plot of range corrected signal from near-range channels|[1e-2, 5] (1e6 a.u.)||
+|calibrationDB|database for saving calibration results|"polly_calibration.db"||
 |logbookFile|path to the logbook file. Only the logfile generated by the pollylog program was accepted.|"C:\\Users\\StarWalker\\Documents\\Data\\PollyXT\\pollyxt_lacros\\logbook.csv"||
 |radiosondeFolder|directory of the radiosonde file. The radiosonde file should be in standardized format, which has been defined in '../doc/meteorological_file_settings.pptx'|"/home/picasso/data/radiosonde"||
+|imgFormat|image format|'png'||
+|prodSaveList|control the output of nc files|["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2"]||

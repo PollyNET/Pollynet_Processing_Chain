@@ -1,17 +1,15 @@
-function [] = polly_1v2_save_att_bsc(data, taskInfo, config)
-%polly_1v2_save_att_bsc save the attenuated backscatter.
-%   Example:
-%       [] = polly_1v2_save_att_bsc(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-01-10. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function polly_1v2_save_att_bsc(data, taskInfo, config)
+%POLLY_1V2_SAVE_ATT_BSC save the attenuated backscatter.
+%Example:
+%   polly_1v2_save_att_bsc(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-01-10. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 missing_value = -999;
 
@@ -94,7 +92,7 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.att_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.zLim_att_beta_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
@@ -114,7 +112,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

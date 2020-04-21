@@ -1,38 +1,38 @@
 function [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532, quasiAttri] = pollyxt_dwd_quasiretrieve(data, config)
-%pollyxt_dwd_quasiretrieve Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
-%   Example:
-%       [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_dwd_quasiretrieve(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       quasi_par_bsc_355: matrix
-%           quasi particle backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}]
-%       quasi_par_bsc_532: matrix
-%           quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
-%       quasi_par_bsc_1064: matrix
-%           quasi particle backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
-%       quasi_par_depol_532: matrix
-%           quasi particle depolarization ratio at 532 nm.
-%       volDepol_532: matrix
-%           volume depolarization ratio at 532 nm.
-%       quasi_angstrexp_532_1064: matrix
-%           quasi backscatter related Ångström exponent at 532-1064.
-%       quality_mask_355: matrix
-%           quality mask for attenuated backscatter at 355 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%       quality_mask_532: matrix
-%           quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%       quality_mask_1064: matrix
-%           quality mask for attenuated backscatter at 1064 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%       quality_mask_volDepol_532: matrix
-%           quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%   History:
-%       2018-12-24. First Edition by Zhenping
-%       2019-08-03. Add the data mask for fog and laser shutter
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_DWD_QUASIRETRIEVE Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+%Example:
+%   [quasi_par_bsc_355, quasi_par_bsc_532, quasi_par_bsc_1064, quasi_par_depol_532, volDepol_532, quasi_ang_532_1064, quality_mask_355, quality_mask_532, quality_mask_1064, quality_mask_volDepol_532] = pollyxt_dwd_quasiretrieve(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   quasi_par_bsc_355: matrix
+%       quasi particle backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}]
+%   quasi_par_bsc_532: matrix
+%       quasi particle backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]
+%   quasi_par_bsc_1064: matrix
+%       quasi particle backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}]
+%   quasi_par_depol_532: matrix
+%       quasi particle depolarization ratio at 532 nm.
+%   volDepol_532: matrix
+%       volume depolarization ratio at 532 nm.
+%   quasi_angstrexp_532_1064: matrix
+%       quasi backscatter related Ångström exponent at 532-1064.
+%   quality_mask_355: matrix
+%       quality mask for attenuated backscatter at 355 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%   quality_mask_532: matrix
+%       quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%   quality_mask_1064: matrix
+%       quality mask for attenuated backscatter at 1064 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%   quality_mask_volDepol_532: matrix
+%       quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%History:
+%   2018-12-24. First Edition by Zhenping
+%   2019-08-03. Add the data mask for fog and laser shutter
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults
 
@@ -130,7 +130,13 @@ volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, config);
+meteorInfo.meteorDataSource = config.meteorDataSource;
+meteorInfo.gdas1Site = config.gdas1Site;
+meteorInfo.gdas1_folder = processInfo.gdas1_folder;
+meteorInfo.radiosondeSitenum = config.radiosondeSitenum;
+meteorInfo.radiosondeFolder = config.radiosondeFolder;
+meteorInfo.radiosondeType = config.radiosondeType;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri] = repmat_molscatter(data.mTime, data.alt, meteorInfo);
 quasiAttri.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri.meteorSource = globalAttri.source;
 quasiAttri.timestamp = globalAttri.datetime;

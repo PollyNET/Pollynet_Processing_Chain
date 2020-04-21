@@ -1,22 +1,20 @@
-function [] = polly_1v2_save_quasi_results(data, taskInfo, config)
-%polly_1v2_save_quasi_results Saving the target classification results to netcdf file.
-%   Example:
-%       [] = polly_1v2_save_quasi_results(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function polly_1v2_save_quasi_results(data, taskInfo, config)
+%POLLY_1V2_SAVE_QUASI_RESULTS Saving the target classification results to netcdf file.
+%Example:
+%   polly_1v2_save_quasi_results(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2018-12-30. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -105,7 +103,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
-netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.zLim_quasi_beta_355/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
@@ -117,7 +115,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'comment', 'This parameter is retrieved
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'unit', '');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'long_name', 'quasi particle depolarization ratio at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'standard_name', 'quasi_pardepol_532');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.quasi_Par_DR_cRange_532);
+netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.zLim_quasi_Par_DR_532);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'error_variable', 'quasi_pardepol_532_error');
@@ -138,7 +136,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

@@ -120,6 +120,7 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -217,8 +218,13 @@ def pollyxt_cge_display_monitor(tmpFile, saveFolder):
             counts[0][-1]/1e6), fontsize=17)
 
     plt.tight_layout()
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_monitor.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_monitor.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)),
+        dpi=figDPI)
 
     plt.close()
 

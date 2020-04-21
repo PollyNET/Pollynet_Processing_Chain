@@ -1,15 +1,13 @@
-function [] = polly_1v2_display_monitor(data, taskInfo, config)
-%polly_1v2_display_monitor display the values of sensors.
-%   Example:
-%       [] = polly_1v2_display_monitor(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-01-05. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+function polly_1v2_display_monitor(data, taskInfo, config)
+%POLLY_1V2_DISPLAY_MONITOR display the values of sensors.
+%Example:
+%   polly_1v2_display_monitor(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-01-05. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo defaults processInfo
 
@@ -17,10 +15,16 @@ if isempty(data.rawSignal)
     return;
 end
 
+[xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+monitorStatus = data.monitorStatus;
+figDPI = processInfo.figDPI;
+mTime = data.mTime;
+imgFormat = config.imgFormat;
+
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
-    picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.png', rmext(taskInfo.dataFilename)));
+    picFile = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% read data
     time = data.monitorStatus.time;
@@ -30,7 +34,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     WT = data.monitorStatus.WT;
     shutter2 = data.monitorStatus.LS;
     counts = data.monitorStatus.counts;
-    ExtPyro = data.monitorStatus.ExtPyro;
+    %ExtPyro = data.monitorStatus.ExtPyro;
     Temp1064 = data.monitorStatus.Temp1064;
     Temp1 = data.monitorStatus.Temp1;
     Temp2 = data.monitorStatus.Temp2;
@@ -132,16 +136,16 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(gca,'tickdir','out');
     % load corlormap
     colormap(jet(5));
-    
+
     cbar = colorbar('Units', 'Normal', 'Position', [0.96, 0.15, 0.01, 0.1]);
     set(cbar, 'ytick', (4.5 - (-0.5))/5/2 * (1:2:10) + (-0.5), 'yticklabel', {'0', '1', '2', '3', '4'});
 
     set(findall(gcf, '-Property', 'FontName'), 'FontName', processInfo.fontname);
     export_fig(gcf, picFile, sprintf('-r%d', processInfo.figDPI), '-transparent');
     close();
-    
+
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -154,18 +158,14 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     %% display monitor status
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    monitorStatus = data.monitorStatus;
-    figDPI = processInfo.figDPI;
-    mTime = data.mTime;
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', '-v6');
+    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_monitor.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

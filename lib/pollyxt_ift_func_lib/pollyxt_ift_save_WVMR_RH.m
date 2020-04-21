@@ -1,17 +1,15 @@
-function [] = pollyxt_ift_save_WVMR_RH(data, taskInfo, config)
-%pollyxt_ift_save_WVMR_RH save the water vapor mixing ratio and relative humidity.
-%   Example:
-%       [] = pollyxt_ift_save_WVMR_RH(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2019-03-15. First Edition by Zhenping
-%       2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_save_WVMR_RH(data, taskInfo, config)
+%POLLYXT_IFT_SAVE_WVMR_RH save the water vapor mixing ratio and relative humidity.
+%Example:
+%   pollyxt_ift_save_WVMR_RH(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2019-03-15. First Edition by Zhenping
+%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 missing_value = -999;
 
@@ -98,7 +96,7 @@ netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.WVMRProfileRange);
+netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
@@ -129,7 +127,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

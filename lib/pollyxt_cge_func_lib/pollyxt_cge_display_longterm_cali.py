@@ -102,7 +102,26 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
-        thisLCTime = mat['LCTime'][0][:]
+        if mat['LCTime355'].size:
+            thisLCTime355 = mat['LCTime355'][0][:]
+        else:
+            thisLCTime355 = np.array([])
+        if mat['LCTime532'].size:
+            thisLCTime532 = mat['LCTime532'][0][:]
+        else:
+            thisLCTime532 = np.array([])
+        if mat['LCTime1064'].size:
+            thisLCTime1064 = mat['LCTime1064'][0][:]
+        else:
+            thisLCTime1064 = np.array([])
+        if mat['LCTime387'].size:
+            thisLCTime387 = mat['LCTime387'][0][:]
+        else:
+            thisLCTime387 = np.array([])
+        if mat['LCTime607'].size:
+            thisLCTime607 = mat['LCTime607'][0][:]
+        else:
+            thisLCTime607 = np.array([])
         LC355Status = mat['LC355Status'][:]
         LC532Status = mat['LC532Status'][:]
         LC1064Status = mat['LC1064Status'][:]
@@ -179,12 +198,21 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
             yLim1064 = mat['yLim1064'][0][:]
         else:
             yLim1064 = np.array([])
+        if mat['yLim_LC_ratio_355_387'].size:
+            yLim_LC_ratio_355_387 = mat['yLim_LC_ratio_355_387'][0][:]
+        else:
+            yLim_LC_ratio_355_387 = np.array([])
+        if mat['yLim_LC_ratio_532_607'].size:
+            yLim_LC_ratio_532_607 = mat['yLim_LC_ratio_532_607'][0][:]
+        else:
+            yLim_LC_ratio_532_607 = np.array([])
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         dataTime = mat['taskInfo']['dataTime'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         startTime = mat['campaignInfo']['startTime'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -197,7 +225,11 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     # convert matlab datenum tp datetime
     startTime = datenum_to_datetime(float(startTime[0]))
     dataTime = datenum_to_datetime(float(dataTime[0]))
-    LCTime = [datenum_to_datetime(thisTime) for thisTime in thisLCTime]
+    LCTime355 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime355]
+    LCTime532 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime532]
+    LCTime1064 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime1064]
+    LCTime387 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime387]
+    LCTime607 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime607]
     logbookTime = [datenum_to_datetime(thisTime)
                    for thisTime in thisLogbookTime]
     elseTime = [datenum_to_datetime(thisElseTime)
@@ -221,8 +253,8 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
 
     # lidar constants at 355 nm
     LCTime355 = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime)) if LC355Status[indx] == 2]
+        LCTime355[indx]
+        for indx in np.arange(0, len(LCTime355)) if LC355Status[indx] == 2]
     p1 = ax1.scatter(
         LCTime355, LC355History[LC355Status == 2],
         s=7, c='#0000ff', marker='o', label='lidar constant')
@@ -278,8 +310,8 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
 
     # lidar constant at 532 nm
     LCTime532 = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime))
+        LCTime532[indx]
+        for indx in np.arange(0, len(LCTime532))
         if LC532Status[indx] == 2]
     p1 = ax2.scatter(
         LCTime532, LC532History[LC532Status == 2],
@@ -315,8 +347,8 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
 
     # lidar constant at 1064 nm
     LCTime1064 = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime)) if LC1064Status[indx] == 2]
+        LCTime1064[indx]
+        for indx in np.arange(0, len(LCTime1064)) if LC1064Status[indx] == 2]
     p1 = ax3.scatter(
         LCTime1064, LC1064History[LC1064Status == 2],
         s=7, c='#0000ff', marker='o')
@@ -352,8 +384,8 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     # transmission ratio at 355/387 nm
     flagRamanLC = np.logical_and(LC355Status == 2, LC387Status == 2)
     LCTimeRaman = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime)) if flagRamanLC[indx]]
+        LCTime387[indx]
+        for indx in np.arange(0, len(LCTime387)) if flagRamanLC[indx]]
     p1 = ax4.scatter(
         LCTimeRaman, LC355History[flagRamanLC] / LC387History[flagRamanLC],
         s=7, c='#0000ff', marker='o')
@@ -384,14 +416,14 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
 
     ax4.set_ylabel('Ratio 355/387')
     ax4.grid(False)
-    ax4.set_ylim([0, 1])
+    ax4.set_ylim(yLim_LC_ratio_355_387.tolist())
     ax4.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # transmission ratio at 532/607 nm
     flagRamanLC = np.logical_and(LC532Status == 2, LC607Status == 2)
     LCTimeRaman = [
-        LCTime[indx]
-        for indx in np.arange(0, len(LCTime))
+        LCTime607[indx]
+        for indx in np.arange(0, len(LCTime607))
         if flagRamanLC[indx]]
     p1 = ax5.scatter(
         LCTimeRaman, LC532History[flagRamanLC] / LC607History[flagRamanLC],
@@ -422,7 +454,7 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
         ax5.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
     ax5.set_ylabel('Ratio 532/607')
-    ax5.set_ylim([0, 1])
+    ax5.set_ylim(yLim_LC_ratio_532_607.tolist())
     ax5.set_xlabel('Date (mm-dd)')
     ax5.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax5.grid(False)
@@ -434,8 +466,11 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_long_term_cali_results.png'.format(
-                dataFilename=dataTime.strftime('%Y%m%d'))), dpi=figDPI)
+            '{pollyType}_{date}_long_term_cali_results.{imgFmt}'.format(
+                pollyType=pollyVersion,
+                date=dataTime.strftime('%Y%m%d'),
+                imgFmt=imgFormat
+            )), dpi=figDPI)
     plt.close()
 
 

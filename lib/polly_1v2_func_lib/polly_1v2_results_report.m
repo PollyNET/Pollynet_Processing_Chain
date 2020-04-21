@@ -1,16 +1,16 @@
 function [reportStr] = polly_1v2_results_report(data, taskInfo, config)
-%polly_1v2_results_report Write the info to done list file and generate the report for the current task. These report can be used for further examination.
-%   Example:
-%       [reportStr] = polly_1v2_results_report(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       reportStr
-%   History:
-%       2019-01-04. First Edition by Zhenping
-%       2019-03-13. Add entries of VDR_532'. 
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_RESULTS_REPORT Write the info to done list file and generate the report for the current task. These report can be used for further examination.
+%Example:
+%   [reportStr] = polly_1v2_results_report(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%Outputs:
+%   reportStr
+%History:
+%   2019-01-04. First Edition by Zhenping
+%   2019-03-13. Add entries of VDR_532'. 
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo defaults processInfo
 
@@ -58,11 +58,7 @@ reportStr{end + 1} = sprintf('Lidar constant at 532 nm: %3.1e', data.LCUsed.LCUs
 reportStr{end + 1} = sprintf('Lidar calibration status at 532 nm: %s', config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 
 %% write the pic info to done list file
-if (data.mTime(end) - data.mTime(1)) >= datenum(0, 1, 0, 0, 10, 0)
-    active = 1;
-else
-    active = 0;
-end
+active = 1;
 
 flag532FR = config.isFR & config.is532nm & config.isTot;
 flag532NR = config.isFR & config.is532nm & config.isTot;
@@ -109,7 +105,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %bsc klett
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Lidar ratio is %5.1f at 532nm. Reference height is [%7.1f - %7.1fm] (532nm). Smoothing window is %5.1fm. No overlap correction.', meteorStr, config.LR532, refH532(1), refH532(2), config.smoothWin_klett_532*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Bsc_Klett', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     %ext klett
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_Klett.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Lidar ratio is %5.1f at 532nm. Reference height is [%7.1f - %7.1fm] (532nm). Smoothing window is %5.1fm. No overlap correction.', meteorStr, config.LR532, refH532(1), refH532(2), config.smoothWin_klett_532*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Ext_Klett', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 
@@ -124,7 +120,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     %bsc RR
     % write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Bsc_RR.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (532nm). Smoothing window is %5.1fm. Angstroem exponent is %3.1f. If SNR for RRR signal at reference height is low, the Raman method will not be applied.', meteorStr,  refH532(1), refH532(2), config.smoothWin_raman_532*data.hRes, config.angstrexp), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Bsc_RR', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     %Ext RR
     % write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Ext_RR.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s. Reference height is [%7.1f - %7.1fm] (532nm). Smoothing window is %5.1fm. If SNR for Raman signal at reference height is low, the Raman method will not be applied.', meteorStr, refH532(1), refH532(2), config.smoothWin_raman_532*data.hRes), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Ext_RR', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 
@@ -139,7 +135,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % meteor T
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_T.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Meteor_T', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
-    
+
     % meteor P
     write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_P.png', rmext(taskInfo.dataFilename), datestr(data.mTime(startIndx), 'HHMM'), datestr(data.mTime(endIndx), 'HHMM'))), '0', sprintf('%s.', meteorStr), taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGroup), 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'Meteor_P', datestr(data.mTime(startIndx), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endIndx), 'yyyymmdd HH:MM:SS'));
 end

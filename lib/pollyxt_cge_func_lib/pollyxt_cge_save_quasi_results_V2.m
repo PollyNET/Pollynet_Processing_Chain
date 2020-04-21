@@ -1,21 +1,19 @@
-function [] = pollyxt_cge_save_quasi_results_V2(data, taskInfo, config)
-%pollyxt_cge_save_quasi_results_V2 Saving the quasi retrieving results (V2) to netcdf file.
-%   Example:
-%       [] = pollyxt_cge_save_quasi_results_V2(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       taskInfo: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       
-%   History:
-%       2019-08-03. First Edition by Zhenping
-%       2019-09-27. Turn on the netCDF4 compression.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_cge_save_quasi_results_V2(data, taskInfo, config)
+%POLLYXT_CGE_SAVE_QUASI_RESULTS_V2 Saving the quasi retrieving results (V2) to netcdf file.
+%Example:
+%   [pollyxt_cge_save_quasi_results_V2(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   taskInfo: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%History:
+%   2019-08-03. First Edition by Zhenping
+%   2019-09-27. Turn on the netCDF4 compression.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo defaults campaignInfo
 
@@ -120,7 +118,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'long_name', 'quasi aerosol backscatter coefficients at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'standard_name', 'quasi_bsc_532');
-netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.quasi_beta_cRange_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_range', config.zLim_quasi_beta_532/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
@@ -133,7 +131,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'long_name', 'quasi aerosol backscatter coefficients at 1064 nm');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'standard_name', 'quasi_bsc_1064');
-netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_range', config.quasi_beta_cRange_1064/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_range', config.zLim_quasi_beta_1064/1e6);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'error_variable', 'quasi_beta_1064_error');
@@ -145,7 +143,7 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'comment', 'This parameter is retrieve
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'unit', '');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'long_name', 'quasi particle depolarization ratio at 532 nm');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'standard_name', 'quasi_pardepol_532');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.quasi_Par_DR_cRange_532);
+netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_range', config.zLim_quasi_Par_DR_532);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'error_variable', 'quasi_pardepol_532_error');
@@ -178,7 +176,7 @@ cd(processInfo.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-    
+
 % close file
 netcdf.close(ncID);
 

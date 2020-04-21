@@ -1,31 +1,31 @@
-function [] = write_daily_to_filelist(pollyType, saveFolder, ...
+function write_daily_to_filelist(pollyType, saveFolder, ...
             pollynetConfigFile, year, month, day, writeMode)
 %WRITE_DAILY_TO_FILELIST Unzip the polly data and write the data info to the 
 %todolist file for pollynet processing chain.
-%   Example:
-%       [] = write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, 
-%           year, month, day, writeMode)
-%   Inputs:
-%       pollyType: char
-%           polly instrument. 
-%           e.g., arielle
-%       saveFolder: char
-%           polly data folder. 
-%           e.g., /oceanethome/pollyxt
-%       pollynetConfigFile: char
-%           the absolute path of the pollynet configuration file.
-%           e.g., /home/picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json
-%       year: integer | char
-%       month: integer | char
-%       day: integer | char
-%       writeMode: char
-%           If writeMode was 'a', the polly data info will be appended. If 'w', 
-%           a new todofile will be created.
-%   Outputs:
-%   History:
-%       2019-07-21. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   write_daily_to_filelist(pollyType, saveFolder, pollynetConfigFile, 
+%       year, month, day, writeMode)
+%Inputs:
+%   pollyType: char
+%       polly instrument. 
+%       e.g., arielle
+%   saveFolder: char
+%       polly data folder. 
+%       e.g., /oceanethome/pollyxt
+%   pollynetConfigFile: char
+%       the absolute path of the pollynet configuration file.
+%       e.g., /home/picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json
+%   year: integer | char
+%   month: integer | char
+%   day: integer | char
+%   writeMode: char
+%       If writeMode was 'a', the polly data info will be appended. If 'w', 
+%       a new todofile will be created.
+%History:
+%   2019-07-21. First Edition by Zhenping
+%   2019-10-16. Add warnings when no polly data files were found.
+%Contact:
+%   zhenping@tropos.de
 
 projectDir = fileparts(fileparts(mfilename('fullpath')));
 
@@ -59,6 +59,12 @@ end
 files = dir(fullfile(saveFolder, 'data_zip', ...
                      sprintf('%04d%02d', year, month), ...
                      sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
+
+if isempty(files)
+    pollyDataFullpath = fullfile(saveFolder, 'data_zip', ...
+                                 sprintf('%04d%02d', year, month));
+    warning('No polly data under %s', pollyDataFullpath);
+end
 
 for iFile = 1:length(files)
 

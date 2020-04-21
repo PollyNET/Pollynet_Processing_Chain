@@ -124,11 +124,12 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
         TRt = np.concatenate(mat['TR_t'])
         TRx = np.concatenate(mat['TR_x'])
         segIndx = np.concatenate(mat['segIndx'])
-        thisCaliTime = np.concatenate(mat['thisCaliTime'])
+        caliTime = np.concatenate(mat['caliTime'])
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -269,14 +270,15 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
         fontsize=10
         )
 
-    caliTime = datenum_to_datetime(thisCaliTime[0])
+    caliTime = datenum_to_datetime(caliTime[0])
     plt.tight_layout()
     plt.savefig(
         os.path.join(
             saveFolder,
-            '{start}_DepolCali_{wave}.png'.format(
+            '{start}_DepolCali_{wave}.{imgFmt}'.format(
                 start=caliTime.strftime('%Y%m%d-%H%M'),
-                wave=wavelength
+                wave=wavelength,
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

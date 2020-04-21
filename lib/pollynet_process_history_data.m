@@ -2,37 +2,37 @@ function [] = pollynet_process_history_data(pollyType, startTime, endTime, ...
                     saveFolder, pollynetConfigFile)
 %POLLYNET_PROCESS_HISTORY_DATA process hitorical pollyType data by Pollynet 
 %Processing program
-%   Example:
-%       [] = pollynet_process_history_data(pollyType, startTime, endTime, 
-%               saveFolder, pollynetConfigFile)
-%   Inputs:
-%       pollyType: char  
-%           set the instrument type"
-%           - pollyxt_lacros"
-%           - pollyxt_tropos"
-%           - pollyxt_noa"
-%           - pollyxt_fmi"
-%           - pollyxt_uw"
-%           - pollyxt_dwd"
-%           - pollyxt_tjk"
-%           - arielle"
-%           - polly_1v2"
-%       startTime: char
-%           start date with format of 'yyyymmdd' 
-%       endTime: char
-%           end date with format of 'yyyymmdd' 
-%       saveFolder: char
-%           polly data folder. 
-%           e.g., /oceanethome/pollyxt
-%       pollynetConfigFile: char
-%           the absolute path of the pollynet configuration file.
-%           e.g., '/config/pollynet_processing_chain_config.json'
-%   Outputs:
-%   History:
-%       2019-01-24. First Edition by Zhenping
-%       2019-08-12. Enable use different pollynet configuration file.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [] = pollynet_process_history_data(pollyType, startTime, endTime, 
+%           saveFolder, pollynetConfigFile)
+%Inputs:
+%   pollyType: char  
+%       set the instrument type"
+%       - pollyxt_lacros"
+%       - pollyxt_tropos"
+%       - pollyxt_noa"
+%       - pollyxt_fmi"
+%       - pollyxt_uw"
+%       - pollyxt_dwd"
+%       - pollyxt_tjk"
+%       - arielle"
+%       - polly_1v2"
+%   startTime: char
+%       start date with format of 'yyyymmdd' 
+%   endTime: char
+%       end date with format of 'yyyymmdd' 
+%   saveFolder: char
+%       polly data folder. 
+%       e.g., /oceanethome/pollyxt
+%   pollynetConfigFile: char
+%       the absolute path of the pollynet configuration file.
+%       e.g., '/config/pollynet_processing_chain_config.json'
+%Outputs:
+%History:
+%   2019-01-24. First Edition by Zhenping
+%   2019-08-12. Enable use different pollynet configuration file.
+%Contact:
+%   zhenping@tropos.de
 
 projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(projectDir, 'lib'));
@@ -66,7 +66,7 @@ for thisDate = startTime:endTime
 
     % activate the processing program
     pollynet_processing_chain_main(pollynetConfigFile);
-    
+
 end
 
 end

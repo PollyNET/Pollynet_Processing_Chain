@@ -1,27 +1,27 @@
 function [pollyConfigHistory] = read_pollynet_processing_configs(file)
 %READ_POLLYNET_PROCESSING_CONFIGS read pollynet history configuration file.
-%   Example:
-%       [pollyConfigHistory] = read_pollynet_processing_configs(file)
-%   Inputs:
-%       file: char
-%           pollynet processing configurature files. This file is used to guide 
-%           the processing chain to search for the suitable config file and 
-%           processing function to processing the polly data. More detailed 
-%           information can be found in doc/pollynet.md
-%   Outputs:
-%       pollyConfigHistory: struct
-%           pollyVersion: cell
-%           startTime: array (datenum)
-%           endTime: array (datenum)
-%           pollyConfigFile: cell
-%           pollyProcessFunc: cell
-%           pollyUpdateInfo: cell
-%           pollyLoadDefaultsFunc: cell
-%   History:
-%       2018-12-17. First edition by Zhenping
-%       2018-12-18. Add pollyLoadDefaultsFunc category.
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [pollyConfigHistory] = read_pollynet_processing_configs(file)
+%Inputs:
+%   file: char
+%       pollynet processing configurature files. This file is used to guide 
+%       the processing chain to search for the suitable config file and 
+%       processing function to processing the polly data. More detailed 
+%       information can be found in doc/pollynet.md
+%Outputs:
+%   pollyConfigHistory: struct
+%       pollyVersion: cell
+%       startTime: array (datenum)
+%       endTime: array (datenum)
+%       pollyConfigFile: cell
+%       pollyProcessFunc: cell
+%       pollyUpdateInfo: cell
+%       pollyDefaultsFile: cell
+%History:
+%   2018-12-17. First edition by Zhenping
+%   2018-12-18. Add pollyDefaultsFile category.
+%Contact:
+%   zhenping@tropos.de
 
 pollyConfigHistory = struct();
 pollyConfigHistory.pollyVersion = {};
@@ -30,7 +30,7 @@ pollyConfigHistory.endTime = [];
 pollyConfigHistory.pollyConfigFile = {};
 pollyConfigHistory.pollyProcessFunc = {};
 pollyConfigHistory.pollyUpdateInfo = {};
-pollyConfigHistory.pollyLoadDefaultsFunc = {};
+pollyConfigHistory.pollyDefaultsFile = {};
 
 if exist(file, 'file') ~= 2
     error(['Error in read_pollynet_processing_configs: ' ...
@@ -52,7 +52,7 @@ try
         pollyConfigHistory.pollyConfigFile{iRow} = data{4}{iRow};
         pollyConfigHistory.pollyProcessFunc{iRow} = data{5}{iRow};
         pollyConfigHistory.pollyUpdateInfo{iRow} = data{6}{iRow};
-        pollyConfigHistory.pollyLoadDefaultsFunc{iRow} = data{7}{iRow};
+        pollyConfigHistory.pollyDefaultsFile{iRow} = data{7}{iRow};
     end
 catch
     error('Failure in reading pollynet history configuration file.\n%s\n', file);

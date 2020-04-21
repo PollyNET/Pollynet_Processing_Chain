@@ -1,16 +1,14 @@
-function [] = pollyxt_ift_display_lidarconst(data, taskInfo, config)
-%pollyxt_ift_display_lidarconst Display the lidar constants.
-%   Example:
-%       [] = pollyxt_ift_display_lidarconst(data, taskInfo, config)
-%   Inputs:
-%       data, taskInfo, config
-%   Outputs:
-%       
-%   History:
-%       2018-12-30. First Edition by Zhenping
-%       2019-01-28. Add support for 387 and 607 channels.
-%   Contact:
-%       zhenping@tropos.de
+function pollyxt_ift_display_lidarconst(data, taskInfo, config)
+%POLLYXT_IFT_DISPLAY_LIDARCONST Display the lidar constants.
+%Example:
+%   pollyxt_ift_display_lidarconst(data, taskInfo, config)
+%Inputs:
+%   data, taskInfo, config
+%History:
+%   2018-12-30. First Edition by Zhenping
+%   2019-01-28. Add support for 387 and 607 channels.
+%Contact:
+%   zhenping@tropos.de
 
 global processInfo campaignInfo defaults
 
@@ -32,20 +30,21 @@ LC387_raman = data.LC.LC_raman_387;
 LC607_raman = data.LC.LC_raman_607;
 time = data.mTime;
 figDPI = processInfo.figDPI;
-yLim355 = config.LC355Range;
-yLim532 = config.LC532Range;
-yLim1064 = config.LC1064Range;
-yLim387 = config.LC387Range;
-yLim607 = config.LC607Range;
+yLim355 = config.yLim_LC_355;
+yLim532 = config.yLim_LC_532;
+yLim1064 = config.yLim_LC_1064;
+yLim387 = config.yLim_LC_387;
+yLim607 = config.yLim_LC_607;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization
-    fileLC355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.png', rmext(taskInfo.dataFilename)));
-    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.png', rmext(taskInfo.dataFilename)));
-    fileLC1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.png', rmext(taskInfo.dataFilename)));
-    fileLC387 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_387.png', rmext(taskInfo.dataFilename)));
-    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.png', rmext(taskInfo.dataFilename)));
+    fileLC355 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_355.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC532 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_532.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC1064 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_1064.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC387 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_387.%s', rmext(taskInfo.dataFilename), imgFormat));
+    fileLC607 = fullfile(processInfo.pic_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_LC_607.%s', rmext(taskInfo.dataFilename), imgFormat));
 
     %% 355 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
@@ -124,7 +123,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
     export_fig(gcf, fileLC1064, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
-    
+
     %% 387 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
@@ -148,7 +147,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     set(findall(gcf, '-property', 'fontname'), 'fontname', processInfo.fontname);
     export_fig(gcf, fileLC387, '-transparent', sprintf('-r%d', processInfo.figDPI));
     close();
- 
+
     %% 607 nm
     figure('Position', [0, 0, 500, 300], 'Units', 'Pixels', 'Visible', 'off');
 
@@ -174,7 +173,7 @@ if strcmpi(processInfo.visualizationMode, 'matlab')
     close();
 
 elseif strcmpi(processInfo.visualizationMode, 'python')
-    
+
     fprintf('Display the results with Python.\n');
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -185,16 +184,16 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_lidarconst.py');
     end
     delete(tmpFile);
-    
+
 else
     error('Unknow visualization mode. Please check the settings in pollynet_processing_chain_config.json');
 end

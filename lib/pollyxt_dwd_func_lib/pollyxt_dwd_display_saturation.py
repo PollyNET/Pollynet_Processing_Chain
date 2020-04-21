@@ -109,6 +109,8 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
         SAT_FR_532 = mat['SAT_FR_532'][:]
         SAT_FR_1064 = mat['SAT_FR_1064'][:]
         SAT_NR_532 = mat['SAT_NR_532'][:]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -116,6 +118,7 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -144,8 +147,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -177,8 +181,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_SAT_FR_355.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display status of 532 FR
@@ -189,8 +194,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -222,8 +228,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_SAT_FR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display status of 1064 FR
@@ -234,8 +241,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -269,8 +277,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_SAT_FR_1064.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display status of 532 NR
@@ -281,8 +290,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_yticks([0, 2500, 5000, 7500, 10000, 12500, 15000])
-    ax.set_ylim([0, 15000])
+    ax.set_ylim(yLim_NR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -314,8 +324,9 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_SAT_NR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_SAT_NR_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 
