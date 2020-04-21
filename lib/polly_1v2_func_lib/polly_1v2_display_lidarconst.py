@@ -118,6 +118,7 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -180,8 +181,9 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_LC_532.png'.format(
-                dataFilename=rmext(dataFilename))),
+            '{dataFilename}_LC_532.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)),
             dpi=figDPI
             )
     plt.close()
@@ -224,8 +226,9 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_LC_607.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            '{dataFilename}_LC_607.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

@@ -47,7 +47,7 @@ function [ rho, rho_air, rho_wv] = moist_air_density(pressure, temperature, C, X
 %       Xw: float
 %           Molar fraction of water vapor
     const = physical_constants();
-    
+
     Ma = molar_mass_dry_air(C);  % in kg/mol--  Molar mass  dry air.
     Mw = 0.018015;   % in kg/mol -- Molar mass of water vapour. 
 

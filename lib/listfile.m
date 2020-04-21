@@ -1,25 +1,25 @@
 function [files, filesize] = listfile(path, exppat, depth)
 %LISTFILE list all the qualified files in path.
-%   Usage:
-%       a = listfile('~/Desktop', '*.m');
-%   Inputs:
-%       path: char
-%           the path for searching.
-%       exppat: [optional] 
-%           expression pattern for the searching.
-%       depth: [optional]
-%           recursive searching depth
-%   Outputs:
-%       files: cell array
-%           the searched items.
-%       filesize: cell array
-%           the size the searched items. [bytes]
-%   History:
-%       2018-07-25. First edition by Zhenping.
-%       2018-09-14. Add recursive searching depth.
-%       2019-09-03. Add the output of filesize
-%   Contact:
-%       zhenping@tropos.de
+%Usage:
+%   a = listfile('~/Desktop', '*.m');
+%Inputs:
+%   path: char
+%       the path for searching.
+%   exppat: [optional] 
+%       expression pattern for the searching.
+%   depth: [optional]
+%       recursive searching depth
+%Outputs:
+%   files: cell array
+%       the searched items.
+%   filesize: cell array
+%       the size the searched items. [bytes]
+%History:
+%   2018-07-25. First edition by Zhenping.
+%   2018-09-14. Add recursive searching depth.
+%   2019-09-03. Add the output of filesize
+%Contact:
+%   zhenping@tropos.de
 
 files = cell(0);
 filesize = cell(0);
@@ -39,7 +39,7 @@ tmp = dir(path);
 if isempty(tmp)
     return;
 end
-    
+
 % recursively searching
 indx = 0;
 for iItem = 1:length(tmp)

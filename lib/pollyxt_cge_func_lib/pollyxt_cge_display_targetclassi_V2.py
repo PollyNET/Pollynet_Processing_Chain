@@ -106,6 +106,7 @@ def pollyxt_cge_display_targetclassi_V2(tmpFile, saveFolder):
         TC_mask = mat['TC_mask'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -113,6 +114,7 @@ def pollyxt_cge_display_targetclassi_V2(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -145,7 +147,7 @@ def pollyxt_cge_display_targetclassi_V2(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=12,
@@ -182,8 +184,12 @@ def pollyxt_cge_display_targetclassi_V2(tmpFile, saveFolder):
     fig.text(0.64, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
-    fig.savefig(os.path.join(saveFolder, '{dataFilename}_TC_V2.png'.format(
-        dataFilename=rmext(dataFilename))), dpi=figDPI)
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_TC_V2.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 

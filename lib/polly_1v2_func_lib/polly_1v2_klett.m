@@ -1,27 +1,27 @@
 function [aerBsc532_klett, aerExt532_klett] = polly_1v2_klett(data, config)
-%polly_1v2_klett Retrieve aerosol optical properties with klett method
-%   Example:
-%       [aerBsc532_klett, aerExt532_klett] = polly_1v2_klett(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc532_klett: matrix
-%           aerosol backscatter coefficient at 532 nm with klett method. [m^{-1}Sr^{-1}] 
-%       aerExt532_klett: matrix
-%           aerosol extinction coefficient at 355 nm with klett method. [m^{-1}] 
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%       2019-08-31. Add SNR control for the reference height.
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_KLETT Retrieve aerosol optical properties with klett method
+%Example:
+%   [aerBsc532_klett, aerExt532_klett] = polly_1v2_klett(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc532_klett: matrix
+%       aerosol backscatter coefficient at 532 nm with klett method. [m^{-1}Sr^{-1}] 
+%   aerExt532_klett: matrix
+%       aerosol extinction coefficient at 355 nm with klett method. [m^{-1}] 
+%History:
+%   2018-12-23. First Edition by Zhenping
+%   2019-08-31. Add SNR control for the reference height.
+%Contact:
+%   zhenping@tropos.de
 
 aerBsc532_klett = [];
 aerExt532_klett = [];
 
-if isempty(data.rawSignal);
+if isempty(data.rawSignal)
     return;
 end
 

@@ -118,8 +118,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
-        yLim_FR = mat['yLim_FR'][:][0]
-        yLim_NR = mat['yLim_NR'][:][0]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
+        yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
@@ -127,6 +128,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -161,7 +163,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -189,8 +191,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_355.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 FR
@@ -207,7 +210,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -235,8 +238,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 1064 FR
@@ -253,7 +257,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_RCS[0], yLim_FR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -283,8 +287,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_FR_1064.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_FR_1064.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 355 NR
@@ -301,7 +306,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
-    ax.set_ylim([yLim_NR[0], yLim_NR[1]])
+    ax.set_ylim([yLim_NR_RCS[0], yLim_NR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -329,8 +334,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_NR_355.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_NR_355.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display 532 NR
@@ -347,7 +353,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
-    ax.set_ylim([yLim_NR[0], yLim_NR[1]])
+    ax.set_ylim([yLim_NR_RCS[0], yLim_NR_RCS[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -375,8 +381,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_RCS_NR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_RCS_NR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display voldepol 532
@@ -393,7 +400,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim([yLim_FR_DR[0], yLim_FR_DR[1]])
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -409,8 +416,7 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.arange(
-            0, 0
-            41, 0.05), orientation='vertical')
+            0, 0.41, 0.05), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
@@ -421,8 +427,9 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_VDR_532.png'.format(
-                dataFilename=rmext(dataFilename))), dpi=figDPI)
+            saveFolder, '{dataFilename}_VDR_532.{imgFormat}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFormat=imgFormat)), dpi=figDPI)
     plt.close()
 
 

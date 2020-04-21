@@ -3,14 +3,7 @@
 %   2019-08-14 Add the comments by Zhenping Yin
 
 includePath = fullfile(fileparts(fileparts(mfilename('fullpath'))), 'include');
-addpath(includePath);
-
-%% find subdirectories in lib 
-subdirs = listdir(includePath);
-
-for iSubdir = 1:length(subdirs)
-    addpath(subdirs{iSubdir});
-end
+addpath(genpath(includePath));
 
 %% add the path of netcdf toolbox
 if exist('netcdf.m', 'file') ~= 2
@@ -26,5 +19,9 @@ if exist('nc_byte.m', 'file') ~= 2
     addpath(fullfile(includePath, 'mexcdf', 'mexnc'));
     addpath(fullfile(includePath, 'mexcdf', 'snctools'));
 end
+
+%% add SQLite driver
+pathJDBC = fullfile(includePath, 'sqlite-jdbc-3.30.1.jar');
+addSQLiteDriver(pathJDBC);
 
 disp('Finish adding include path');

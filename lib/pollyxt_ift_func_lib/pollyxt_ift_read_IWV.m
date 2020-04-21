@@ -1,29 +1,29 @@
 function [IWV, globalAttri] = pollyxt_ift_read_IWV(data, config)
-%pollyxt_ift_read_IWV read integrated water vapor from external instruments, like Cimel sunphotometer and MWR.
-%   Example:
-%       [IWV, globalAttri] = pollyxt_ift_read_IWV(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       IWV: array
-%           integrated water vapor. (kg * m^{-2})
-%       globalAttri:
-%           source: char
-%               data source. ('AERONET', 'MWR' or else)
-%           site: char
-%               measurement site.
-%           datetime: array
-%               datetime of applied IWV.
-%           PI: char
-%           contact: char
-%   History:
-%       2018-12-26. First Edition by Zhenping
-%       2019-05-19. Fix the bug of returning empty IWV when more than 2 MWR files were found.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_IFT_READ_IWV read integrated water vapor from external instruments, like Cimel sunphotometer and MWR.
+%Example:
+%   [IWV, globalAttri] = pollyxt_ift_read_IWV(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   IWV: array
+%       integrated water vapor. (kg * m^{-2})
+%   globalAttri:
+%       source: char
+%           data source. ('AERONET', 'MWR' or else)
+%       site: char
+%           measurement site.
+%       datetime: array
+%           datetime of applied IWV.
+%       PI: char
+%       contact: char
+%History:
+%   2018-12-26. First Edition by Zhenping
+%   2019-05-19. Fix the bug of returning empty IWV when more than 2 MWR files were found.
+%Contact:
+%   zhenping@tropos.de
 
 global campaignInfo
 
@@ -51,12 +51,14 @@ case 'mwr'
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
-        warning('More than two mwr products were found.\n%s\n%s\nOnly choose the first one for the calibration.\n', mwrResFileSearch(1).name, mwrResFileSearch(2).name);
-        mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
+        mwrResFile = {};
+        for iFile = 1:length(mwrResFileSearch)
+            mwrResFile{iFile} = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(iFile).name);
+        end
     else
         mwrResFile = fullfile(config.MWRFolder, datestr(data.mTime(1), 'yymm'), mwrResFileSearch(1).name);
     end
-    
+
     [tIWV_mwr, IWV_mwr, ~, attri_mwr] = read_MWR_IWV(mwrResFile);
 
     globalAttri.source = attri_mwr.source;

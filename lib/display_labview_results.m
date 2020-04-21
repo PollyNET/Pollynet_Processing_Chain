@@ -1,21 +1,21 @@
 function [fig] = display_labview_results(file, yLim, errorbarInterval)
 %DISPLAY_LABVIEW_RESULTS display thelabview retrieving results.
-%   Example:
-%       [fig] = display_labview_results(file, yLim, errorbarInterval)
-%   Inputs:
-%       file: char
-%           the absolute path of the file which contains the data from LabView program. 
-%       yLim: array [2 elements] 
-%           height range for the figure. [km]
-%       errorbarInterval: integer
-%           interval for each error bar.
-%   Outputs:
-%       fig: handle
-%           handle of the figure.
-%   History:
-%       2019-02-18. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%Example:
+%   [fig] = display_labview_results(file, yLim, errorbarInterval)
+%Inputs:
+%   file: char
+%       the absolute path of the file which contains the data from LabView program. 
+%   yLim: array [2 elements] 
+%       height range for the figure. [km]
+%   errorbarInterval: integer
+%       interval for each error bar.
+%Outputs:
+%   fig: handle
+%       handle of the figure.
+%History:
+%   2019-02-18. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
 if exist(file, 'file') ~= 2
     error('file does not exist.\n%s', file);
@@ -96,7 +96,7 @@ xlim([0, 1.5]);
 ylim(yLim);
 ax = gca;
 ax.FontSize = 10;
-xlabel('Bsc. coef. (Mm^{-1}Sr^{-1})');
+xlabel('Bsc. coef. (Mm^{-1}*sr^{-1})');
 ylabel('Height (km)')
 set(gca, 'XTick', 0:0.5:1, 'XMinorTick', 'on', 'YMinorTick', 'on');
 l = legend([p1, p2, p3, p4, p5], 'Location', 'NorthEast');
@@ -199,7 +199,7 @@ xlim([0, 100]);
 ylim(yLim);
 ax = gca;
 ax.FontSize = 10;
-xlabel('Lidar ratio (Sr)');
+xlabel('Lidar ratio (sr)');
 set(gca, 'XTick', 20:20:80, 'XMinorTick', 'on', 'YMinorTick', 'on', 'YTickLabel', '');
 l = legend([p1, p2, p3, p4], 'Location', 'NorthEast');
 l.Box = 'on';

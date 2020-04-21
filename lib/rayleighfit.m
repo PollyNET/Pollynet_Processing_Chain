@@ -1,59 +1,59 @@
 function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, ...
     dpIndx, layerThickConstrain, slopeConstrain, SNRConstrain, flagShowDetail)
 %RAYLEIGHFIT search the clean region with rayleigh fit algorithm.
-%   Usage:
-%       [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, sig_mol, dpIndx, 
-%               layerThickConstrain, pureRayleighConstrain, SNRConstrain, 
-%               flagShowDetail)
-%   Inputs:
-%       height: array
-%           height. [m]
-%       sig_aer: array
-%           range corrected signal. 
-%       pc: array
-%           photon count signal.
-%       bg: array
-%           background.
-%       sig_mol: array
-%           range corrected molecular signal.
-%       dpIndx: array
-%           index of the region which is calculated by Douglas-Peucker algorithm.
-%       layerThickConstrain: float
-%           constrain for the reference layer thickness. [m]
-%       pureRayleighConstrain: float
-%           constrain for the uncertainty of the regressed extinction 
-%           coefficient in the reference height. 
-%           (see test 3 in Baars et al, ACP, 2016)
-%       SNRConstrain: float
-%           minimum SNR for the signal at the reference height.
-%       flagShowDetail: boolean
-%           if flagShowDetail is true, the calculation information will be
-%           printed. Default is false.
-%   Outputs:
-%       hBIndx: int
-%           index of the bottom of the searched region. If the region is not
-%           found, NaN will be returned.
-%       hTIndx: int
-%           index of the top of the searched region. If the region is not found,
-%           NaN will be returned.
-%   References:
-%       Baars, H., et al. (2016). "An overview of the first decade of Polly NET: 
-%       an emerging network of automated Raman-polarization lidars for 
-%       continuous aerosol profiling." Atmospheric Chemistry and Physics 16(8): 
-%       5111-5137.
-%   History:
-%       2018-01-01. First edition by Zhenping.
-%       2018-07-05. Add the SNR constrain for the reference height.
-%       2019-01-01. change the single array to double to avoid overflow in 
-%                   chi2fit.
-%       2019-05-26. Strengthen the criteria for Near-Far Range test.
-%                   Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol
-%                   New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
-%       2019-08-03. Using the SNR for the final determination. The higher SNR of
-%                   the reference, the better.
-%       2019-09-15. Fix the bug in slope criteria.
+%Usage:
+%   [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, sig_mol, dpIndx, 
+%           layerThickConstrain, pureRayleighConstrain, SNRConstrain, 
+%           flagShowDetail)
+%Inputs:
+%   height: array
+%       height. [m]
+%   sig_aer: array
+%       range corrected signal. 
+%   pc: array
+%       photon count signal.
+%   bg: array
+%       background.
+%   sig_mol: array
+%       range corrected molecular signal.
+%   dpIndx: array
+%       index of the region which is calculated by Douglas-Peucker algorithm.
+%   layerThickConstrain: float
+%       constrain for the reference layer thickness. [m]
+%   pureRayleighConstrain: float
+%       constrain for the uncertainty of the regressed extinction 
+%       coefficient in the reference height. 
+%       (see test 3 in Baars et al, ACP, 2016)
+%   SNRConstrain: float
+%       minimum SNR for the signal at the reference height.
+%   flagShowDetail: boolean
+%       if flagShowDetail is true, the calculation information will be
+%       printed. Default is false.
+%Outputs:
+%   hBIndx: int
+%       index of the bottom of the searched region. If the region is not
+%       found, NaN will be returned.
+%   hTIndx: int
+%       index of the top of the searched region. If the region is not found,
+%       NaN will be returned.
+%References:
+%   Baars, H., et al. (2016). "An overview of the first decade of Polly NET: 
+%   an emerging network of automated Raman-polarization lidars for 
+%   continuous aerosol profiling." Atmospheric Chemistry and Physics 16(8): 
+%   5111-5137.
+%History:
+%   2018-01-01. First edition by Zhenping.
+%   2018-07-05. Add the SNR constrain for the reference height.
+%   2019-01-01. change the single array to double to avoid overflow in 
+%               chi2fit.
+%   2019-05-26. Strengthen the criteria for Near-Far Range test.
+%               Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol
+%               New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
+%   2019-08-03. Using the SNR for the final determination. The higher SNR of
+%               the reference, the better.
+%   2019-09-15. Fix the bug in slope criteria.
 %  Contact:
-%       zhenping@tropos.de
+%   zhenping@tropos.de
 
 if (nargin <= 6)
     error('Not enouth inputs.');
@@ -144,7 +144,7 @@ for iIndx = 1:length(dpIndx) - 1
             break;
         end
     end
-    
+
     % Quality test 3: white-noise criterion.
     residual = sig_aer_norm(iDpBIndx:iDpTIndx) - sig_mol(iDpBIndx:iDpTIndx);
     x = height(iDpBIndx:iDpTIndx) / 1e3;
@@ -206,7 +206,7 @@ for iIndx = 1:length(dpIndx) - 1
         test5 = false;
         continue;
     end
-    
+
     [~, aerSlope, ~, deltaAerSlope] = chi2fit(x, y_aer, std_y_aer);
     [~, molSlope, ~, deltaMolSlope] = chi2fit(x, y_mol, zeros(size(x)));
     if ~ (molSlope <= (aerSlope + (deltaAerSlope + deltaMolSlope) * ...
@@ -227,7 +227,7 @@ for iIndx = 1:length(dpIndx) - 1
         test5 = false;
         continue;
     end
-    
+
     if ~ (test1 && test2 && test3 && test4 && test5)
         continue;
     end

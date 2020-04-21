@@ -113,6 +113,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         quasi_ang_532_1064 = mat['quasi_ang_532_1064'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
+        yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         quasi_beta_cRange_355 = mat['quasi_beta_cRange_355'][0][:]
         quasi_beta_cRange_532 = mat['quasi_beta_cRange_532'][0][:]
         quasi_beta_cRange_1064 = mat['quasi_beta_cRange_1064'][0][:]
@@ -124,6 +125,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
+        imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -167,7 +169,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -184,7 +186,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_355[0],
@@ -194,7 +196,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -202,8 +204,9 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_355.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_355.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
             )), dpi=figDPI)
     plt.close()
 
@@ -221,7 +224,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -238,7 +241,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_532[0],
@@ -248,7 +251,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -256,8 +259,9 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_532.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_532.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -275,7 +279,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -292,7 +296,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.94, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax, ticks=np.linspace(
             quasi_beta_cRange_1064[0],
@@ -302,7 +306,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=12)
+    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=12)
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -310,8 +314,9 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_Bsc_1064.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_Bsc_1064.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -329,7 +334,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -358,8 +363,9 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_PDR_532.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_PDR_532.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
         )), dpi=figDPI)
     plt.close()
 
@@ -373,7 +379,7 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
 
     ax.yaxis.set_major_locator(MultipleLocator(2000))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([0, 12000])
+    ax.set_ylim(yLim_Quasi_Params.tolist())
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -402,8 +408,9 @@ def pollyxt_ift_display_quasiretrieving(tmpFile, saveFolder):
         version=version), fontsize=12)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.png'.format(
-            dataFilename=rmext(dataFilename)
+        saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.{imgFormat}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFormat=imgFormat
             )), dpi=figDPI)
     plt.close()
 

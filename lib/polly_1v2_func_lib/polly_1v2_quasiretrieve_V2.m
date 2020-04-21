@@ -1,27 +1,27 @@
 function [quasi_par_bsc_532_V2, quasi_par_depol_532_V2, volDepol_532, quality_mask_532_V2, quality_mask_volDepol_532_V2, quasiAttri_V2] = polly_1v2_quasiretrieve_V2(data, config)
-%polly_1v2_quasiretrieve_V2 Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
-%   Example:
-%       [quasi_par_bsc_532_V2, quasi_par_depol_532_V2, volDepol_532, quality_mask_532_V2, quality_mask_volDepol_532_V2] = polly_1v2_quasiretrieve_V2(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       quasi_par_depol_532_V2: matrix
-%           quasi particle depolarization ratio at 532 nm.
-%       volDepol_532: matrix
-%           volume depolarization ratio at 532 nm.
-%       quality_mask_532_V2: matrix
-%           quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%       quality_mask_volDepol_532_V2: matrix
-%           quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
-%   History:
-%       2019-08-04. First Edition by Zhenping
-%   Contact:
-%       zhenping@tropos.de
+%POLLY_1V2_QUASIRETRIEVE_V2 Retrieving the intensive aerosol optical properties with Quasi-retrieving method. Detailed information can be found in doc/pollynet_processing_program.md
+%Example:
+%   [quasi_par_bsc_532_V2, quasi_par_depol_532_V2, volDepol_532, quality_mask_532_V2, quality_mask_volDepol_532_V2] = polly_1v2_quasiretrieve_V2(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   quasi_par_depol_532_V2: matrix
+%       quasi particle depolarization ratio at 532 nm.
+%   volDepol_532: matrix
+%       volume depolarization ratio at 532 nm.
+%   quality_mask_532_V2: matrix
+%       quality mask for attenuated backscatter at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%   quality_mask_volDepol_532_V2: matrix
+%       quality mask for volume depolarization ratio at 532 nm. In which, 0 means good data, 1 means low-SNR data and 2 means depolarization calibration periods.
+%History:
+%   2019-08-04. First Edition by Zhenping
+%Contact:
+%   zhenping@tropos.de
 
-global defaults
+global defaults processInfo
 
 quasi_par_depol_532_V2 = [];
 volDepol_532 = [];
@@ -103,7 +103,13 @@ volDepol_532_smooth = polly_volDepol2(smooth2(sig532Tot, config.quasi_smooth_h(f
 
 %% quasi retrieving
 % redistribute the meteorological data to 30-s intervals.
-[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(data.mTime, data.alt, config);
+meteorInfo.meteorDataSource = config.meteorDataSource;
+meteorInfo.gdas1Site = config.gdas1Site;
+meteorInfo.gdas1_folder = processInfo.gdas1_folder;
+meteorInfo.radiosondeSitenum = config.radiosondeSitenum;
+meteorInfo.radiosondeFolder = config.radiosondeFolder;
+meteorInfo.radiosondeType = config.radiosondeType;
+[molBsc355, molExt355, molBsc532, molExt532, molBsc1064, molExt1064, globalAttri, molBsc387, molExt387, molBsc607, molExt607] = repmat_molscatter(data.mTime, data.alt, meteorInfo);
 quasiAttri_V2.flagGDAS1 = strcmpi(globalAttri.source, 'gdas1');
 quasiAttri_V2.meteorSource = globalAttri.source;
 quasiAttri_V2.timestamp = globalAttri.datetime;

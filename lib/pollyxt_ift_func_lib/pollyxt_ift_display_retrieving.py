@@ -160,13 +160,21 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
         version = mat['processInfo']['programVersion'][0][0][0]
         fontname = mat['processInfo']['fontname'][0][0][0]
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
-        yLim_FR = mat['yLim_FR'][:][0]
-        yLim_NR = mat['yLim_NR'][0]
-        rcsLim = mat['rcsLim'][:][0]
-        aerBscLim = mat['aerBscLim'][:][0]
-        aerExtLim = mat['aerExtLim'][:][0]
-        aerLRLim = mat['aerLRLim'][:][0]
-        wvmrLim = mat['wvmrLim'][:][0]
+        yLim_Profi_Ext = mat['yLim_Profi_Ext'][:][0]
+        yLim_Profi_LR = mat['yLim_Profi_LR'][:][0]
+        yLim_Profi_DR = mat['yLim_Profi_DR'][:][0]
+        yLim_Profi_Bsc = mat['yLim_Profi_Bsc'][:][0]
+        yLim_Profi_WV_RH = mat['yLim_Profi_WV_RH'][:][0]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
+        xLim_Profi_Bsc = mat['xLim_Profi_Bsc'][:][0]
+        xLim_Profi_NR_Bsc = mat['xLim_Profi_NR_Bsc'][:][0]
+        xLim_Profi_Ext = mat['xLim_Profi_Ext'][:][0]
+        xLim_Profi_NR_Ext = mat['xLim_Profi_NR_Ext'][:][0]
+        xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
+        xLim_Profi_RCS = mat['xLim_Profi_RCS'][:][0]
+        xLim_Profi_LR = mat['xLim_Profi_LR'][:][0]
+        imgFormat = mat['imgFormat'][:][]
 
     except Exception as e:
         print(e)
@@ -214,10 +222,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
         handles=[p1, p2, p3, p4, p5, p6, p7],
         loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_FR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim(rcsLim.tolist())
+    ax.set_xlim(xLim_Profi_RCS.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -236,10 +244,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_SIG.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_SIG.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -258,10 +267,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim(aerBscLim.tolist())
+    ax.set_xlim(xLim_Profi_Bsc.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -280,10 +289,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -302,10 +312,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim(aerBscLim.tolist())
+    ax.set_xlim(xLim_Profi_Bsc.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -324,10 +334,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -346,10 +357,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim(aerBscLim.tolist())
+    ax.set_xlim(xLim_Profi_Bsc.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -368,10 +379,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Bsc_Aeronet.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Bsc_Aeronet.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -390,10 +402,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
+    ax.set_ylim(yLim_Profi_Ext.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
-    ax.set_xlim(aerExtLim.tolist())
+    ax.set_xlim(xLim_Profi_Ext.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -412,10 +424,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -434,9 +447,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
+    ax.set_ylim(yLim_Profi_Ext.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
-    ax.set_xlim(aerExtLim.tolist())
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(xLim_Profi_Ext.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -455,10 +469,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -477,8 +492,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
-    ax.set_xlim(aerExtLim.tolist())
+    ax.set_ylim(yLim_Profi_Ext.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xlim(xLim_Profi_Ext.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -497,10 +514,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Ext_Aeronet.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Ext_Aeronet.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -517,10 +535,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
+    ax.set_ylim(yLim_Profi_LR.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
-    ax.set_xlim(aerLRLim.tolist())
+    ax.set_xlim(xLim_Profi_LR.tolist())
     ax.grid(True)
 
     starttime = time[startIndx - 1]
@@ -539,10 +557,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_LR_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_LR_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -559,7 +578,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
+    ax.set_ylim(yLim_Profi_Ext.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim([-1, 2])
@@ -581,10 +600,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_ANGEXP_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_ANGEXP_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -603,7 +623,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2, p3], loc='upper right', fontsize=10)
 
-    ax.set_ylim([0, 5000])
+    ax.set_ylim(yLim_Profi_Ext.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xlim([-1, 2])
@@ -625,10 +645,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_ANGEXP_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_ANGEXP_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -645,7 +666,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2], loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_Profi_DR.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
@@ -667,10 +688,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_DepRatio_Klett.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_DepRatio_Klett.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -687,7 +709,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2], loc='upper right', fontsize=10)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_Profi_DR.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-0.01, 0.4])
@@ -709,10 +731,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_DepRatio_Raman.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_DepRatio_Raman.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -724,10 +747,10 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlabel('Water Vapor Mixing Ratio ($g*kg^{-1}$)', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim([0, 7000])
+    ax.set_ylim(yLim_Profi_WV_RH.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim(wvmrLim.tolist())
+    ax.set_xlim(xLim_Profi_WV_RH.tolist())
     ax.grid(True)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
@@ -750,10 +773,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_WVMR.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_WVMR.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -770,7 +794,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.legend(
         handles=[p1, p2], loc='upper right', fontsize=15)
 
-    ax.set_ylim([0, 7000])
+    ax.set_ylim(yLim_Profi_WV_RH.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 100])
@@ -796,10 +820,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_RH.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_RH.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -812,7 +837,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlabel('Temperature ($^\circ C$)', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_FR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([-100, 50])
@@ -834,10 +859,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Meteor_T.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Meteor_T.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -849,7 +875,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     ax.set_xlabel('Pressure ($hPa$)', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim([yLim_FR[0], yLim_FR[1]])
+    ax.set_ylim(yLim_FR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xlim([0, 1000])
@@ -871,10 +897,11 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_{starttime}_{endtime}_Meteor_P.png'.format(
-                dataFilename=rmext(dataFilename),
+            '{dataFile}_{starttime}_{endtime}_Meteor_P.{imgFmt}'.format(
+                dataFile=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'))),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 

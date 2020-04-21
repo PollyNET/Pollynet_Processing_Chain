@@ -1,68 +1,68 @@
 function [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet, deltaAOD355, deltaAOD532, deltaAOD1064] = pollyxt_dwd_constrainedklett(data, AERONET, config)
-%pollyxt_dwd_constrainedklett Retrieve the aerosol optical properties with the constrains from AERONET.
-%   Example:
-%       [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet] = pollyxt_dwd_constrainedklett(data, AERONET, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       AERONET: struct
-%          datetime: array
-%              time of each measurment point.
-%          AOD_{wavelength}: array
-%              AOD at wavelength.
-%          wavelength: array
-%              wavelength of each channel. [nm]
-%          IWV: array
-%              Integrated Water Vapor. [cm] 
-%          angstrexp440_870: array
-%              angstroem exponent 440-870 nm
-%          AERONETAttri: struct     
-%              URL: char
-%                  URL to retrieve the data.
-%              level: char
-%                  product level. ('10', '15', '20')
-%              status: logical
-%                  status to show whether retrieve the data successfully.
-%              IWVUnit: char
-%                  unit of integrated water vapor. [cm]
-%              location: char
-%                  AERONET site
-%              PI: char
-%                  PI of the current AERONET site.
-%              contact: char
-%                  email of the PI.
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       aerBsc355_aeronet: matrix
-%           aerosol backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}] 
-%       aerBsc532_aeronet: matrix
-%           aerosol backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]  
-%       aerBsc1064_aeronet: matrix
-%           aerosol backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}] 
-%       aerExt355_aeronet: matrix
-%           aerosol extinction coefficient at 355 nm. [m^{-1}] 
-%       aerExt532_aeronet: matrix
-%           aerosol extinction coefficient at 532 nm. [m^{-1}] 
-%       aerExt1064_aeronet: matrix
-%           aerosol extinction coefficient at 1064 nm. [m^{-1}]  
-%       LR355_aeronet: array
-%           lidar ration at 355 nm. [Sr] 
-%       LR532_aeronet: array
-%           lidar ration at 532 nm. [Sr]  
-%       LR1064_aeronet: array
-%           lidar ration at 1064 nm. [Sr]
-%       deltaAOD355: array
-%           the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
-%       deltaAOD532: array
-%           the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
-%       deltaAOD1064: array
-%           the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%       2019-08-31. Add SNR control for the signal at reference height
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_DWD_CONSTRAINEDKLETT Retrieve the aerosol optical properties with the constrains from AERONET.
+%Example:
+%   [aerBsc355_aeronet, aerBsc532_aeronet, aerBsc1064_aeronet, aerExt355_aeronet, aerExt532_aeronet, aerExt1064_aeronet, LR355_aeronet, LR532_aeronet, LR1064_aeronet] = pollyxt_dwd_constrainedklett(data, AERONET, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   AERONET: struct
+%      datetime: array
+%          time of each measurment point.
+%      AOD_{wavelength}: array
+%          AOD at wavelength.
+%      wavelength: array
+%          wavelength of each channel. [nm]
+%      IWV: array
+%          Integrated Water Vapor. [cm] 
+%      angstrexp440_870: array
+%          angstroem exponent 440-870 nm
+%      AERONETAttri: struct     
+%          URL: char
+%              URL to retrieve the data.
+%          level: char
+%              product level. ('10', '15', '20')
+%          status: logical
+%              status to show whether retrieve the data successfully.
+%          IWVUnit: char
+%              unit of integrated water vapor. [cm]
+%          location: char
+%              AERONET site
+%          PI: char
+%              PI of the current AERONET site.
+%          contact: char
+%              email of the PI.
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   aerBsc355_aeronet: matrix
+%       aerosol backscatter coefficient at 355 nm. [m^{-1}Sr^{-1}] 
+%   aerBsc532_aeronet: matrix
+%       aerosol backscatter coefficient at 532 nm. [m^{-1}Sr^{-1}]  
+%   aerBsc1064_aeronet: matrix
+%       aerosol backscatter coefficient at 1064 nm. [m^{-1}Sr^{-1}] 
+%   aerExt355_aeronet: matrix
+%       aerosol extinction coefficient at 355 nm. [m^{-1}] 
+%   aerExt532_aeronet: matrix
+%       aerosol extinction coefficient at 532 nm. [m^{-1}] 
+%   aerExt1064_aeronet: matrix
+%       aerosol extinction coefficient at 1064 nm. [m^{-1}]  
+%   LR355_aeronet: array
+%       lidar ration at 355 nm. [Sr] 
+%   LR532_aeronet: array
+%       lidar ration at 532 nm. [Sr]  
+%   LR1064_aeronet: array
+%       lidar ration at 1064 nm. [Sr]
+%   deltaAOD355: array
+%       the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
+%   deltaAOD532: array
+%       the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
+%   deltaAOD1064: array
+%       the minimum deviation between lidar retrieved AOD and AEROENT AOD. 
+%History:
+%   2018-12-23. First Edition by Zhenping
+%   2019-08-31. Add SNR control for the signal at reference height
+%Contact:
+%   zhenping@tropos.de
 
 aerBsc355_aeronet = [];
 aerBsc532_aeronet = [];
@@ -113,7 +113,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             thisAerExt355_aeronet = thisAerBsc355_aeronet * thisLR_355;
         end
     end
-    
+
     % concatenate the results
     aerBsc355_aeronet = cat(1, aerBsc355_aeronet, thisAerBsc355_aeronet);
     aerExt355_aeronet = cat(1, aerExt355_aeronet, thisAerExt355_aeronet);
@@ -153,14 +153,14 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             thisAerExt532_aeronet = thisAerBsc532_aeronet * thisLR_532;
         end
     end
-    
+
     % concatenate the results
     aerBsc532_aeronet = cat(1, aerBsc532_aeronet, thisAerBsc532_aeronet);
     aerExt532_aeronet = cat(1, aerExt532_aeronet, thisAerExt532_aeronet);
     LR532_aeronet = cat(1, LR532_aeronet, thisLR_532);
     deltaAOD532 = cat(1, deltaAOD532, thisDeltaAOD532);
 end
-    
+
 %% 1064 nm
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisAerBsc1064_aeronet = NaN(size(data.height));
@@ -193,7 +193,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
             thisAerExt1064_aeronet = thisAerBsc1064_aeronet * thisLR_1064;
         end
     end
-    
+
     % concatenate the results
     aerBsc1064_aeronet = cat(1, aerBsc1064_aeronet, thisAerBsc1064_aeronet);
     aerExt1064_aeronet = cat(1, aerExt1064_aeronet, thisAerExt1064_aeronet);

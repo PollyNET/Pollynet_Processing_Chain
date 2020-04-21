@@ -1,36 +1,36 @@
 function [voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_cge_depolratio(data, config)
-%pollyxt_cge_depolratio retrieve volume depolarization ratio and particle depolarization ratio.
-%   Example:
-%       [voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_cge_depolratio(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       voldepol532_klett: matrix
-%           volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Klett method. 
-%       pardepol532_klett: matrix
-%           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       pardepol532Std_klett: matrix
-%           uncertainty of particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       voldepol532_raman: matrix
-%           volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Raman method. 
-%       pardepol532_raman: matrix
-%           particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
-%       pardepol532Std_raman: matrix
-%           uncertainty of particle depolarization ratio at 532 nm based on raman-retrieved backscatter coefficient.
-%       moldepol532: array
-%           molecular volume depolarization ratio at 532nm. 
-%       moldepolStd532: array
-%           std of molecular volume depolarization ratio at 532nm. 
-%       flagDefaultMoldepol532: logical
-%           flag to show whether using the default molecular volume depolarization ratio.
-%   History:
-%       2018-12-23. First Edition by Zhenping
-%       2019-05-24. Harmonize the smoothing for parDepol_klett and parDepol_raman
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_CGE_DEPOLRATIO retrieve volume depolarization ratio and particle depolarization ratio.
+%Example:
+%   [voldepol532_klett, pardepol532_klett, pardepolStd532_klett, voldepol532_raman, pardepol532_raman, pardepolStd532_raman, moldepol532, moldepolStd532, flagDefaultMoldepol532] = pollyxt_cge_depolratio(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   voldepol532_klett: matrix
+%       volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Klett method. 
+%   pardepol532_klett: matrix
+%       particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   pardepol532Std_klett: matrix
+%       uncertainty of particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   voldepol532_raman: matrix
+%       volume depolarization ratio at 532 nm for each cloud free group with the same smoothing of Raman method. 
+%   pardepol532_raman: matrix
+%       particle depolarization ratio at 532 nm based on klett-retrieved backscatter coefficient.
+%   pardepol532Std_raman: matrix
+%       uncertainty of particle depolarization ratio at 532 nm based on raman-retrieved backscatter coefficient.
+%   moldepol532: array
+%       molecular volume depolarization ratio at 532nm. 
+%   moldepolStd532: array
+%       std of molecular volume depolarization ratio at 532nm. 
+%   flagDefaultMoldepol532: logical
+%       flag to show whether using the default molecular volume depolarization ratio.
+%History:
+%   2018-12-23. First Edition by Zhenping
+%   2019-05-24. Harmonize the smoothing for parDepol_klett and parDepol_raman
+%Contact:
+%   zhenping@tropos.de
 
 global defaults
 

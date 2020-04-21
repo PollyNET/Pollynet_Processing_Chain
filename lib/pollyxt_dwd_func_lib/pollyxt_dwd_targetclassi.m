@@ -1,31 +1,31 @@
 function [tc_mask] = pollyxt_dwd_targetclassi(data, config)
-%pollyxt_dwd_targetclassi Aerosol target classification based on algorithms presented in H.Baar et al, 2017, ATM.
-%   Example:
-%       [tc_mask] = pollyxt_dwd_targetclassi(data, config)
-%   Inputs:
-%       data.struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%       config: struct
-%           More detailed information can be found in doc/pollynet_processing_program.md
-%   Outputs:
-%       tc_mask: matrix
-%			'0: No signal' 
-%			'1: Clean atmosphere' 
-%			'2: Non-typed particles/low conc.'  
-%			'3: Aerosol: small'  
-%			'4: Aerosol: large, spherical'  
-%			'5: Aerosol: mixture, partly non-spherical'  
-%			'6: Aerosol: large, non-spherical'  
-%			'7: Cloud: non-typed'  
-%			'8: Cloud: water droplets'  
-%			'9: Cloud: likely water droplets'  
-%			'10: Cloud: ice crystals' 
-%			'11: Cloud: likely ice crystal
-%   History:
-%       2018-12-25. First Edition by Zhenping
-%       2019-08-30. Add SNR criteria to treat the bits with low SNR as 'No Signal'.
-%   Contact:
-%       zhenping@tropos.de
+%POLLYXT_DWD_TARGETCLASSI Aerosol target classification based on algorithms presented in H.Baar et al, 2017, AMT.
+%Example:
+%   [tc_mask] = pollyxt_dwd_targetclassi(data, config)
+%Inputs:
+%   data.struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%   config: struct
+%       More detailed information can be found in doc/pollynet_processing_program.md
+%Outputs:
+%   tc_mask: matrix
+%       '0: No signal' 
+%       '1: Clean atmosphere' 
+%       '2: Non-typed particles/low conc.'  
+%       '3: Aerosol: small'  
+%       '4: Aerosol: large, spherical'  
+%       '5: Aerosol: mixture, partly non-spherical'  
+%       '6: Aerosol: large, non-spherical'  
+%       '7: Cloud: non-typed'  
+%       '8: Cloud: water droplets'  
+%       '9: Cloud: likely water droplets'  
+%       '10: Cloud: ice crystals' 
+%       '11: Cloud: likely ice crystal
+%History:
+%   2018-12-25. First Edition by Zhenping
+%   2019-08-30. Add SNR criteria to treat the bits with low SNR as 'No Signal'.
+%Contact:
+%   zhenping@tropos.de
 
 tc_mask = zeros(size(data.att_beta_355));
 
@@ -80,7 +80,7 @@ end
 % set mask to 0 below full overlap height
 hIndxFullOverlap = find(data.height >= config.heightFullOverlap(config.isFR & config.is532nm & config.isTot), 1);
 if isempty(hIndxFullOverlap)
-	hIndxFullOverlap = 70;
+    hIndxFullOverlap = 70;
 end
 tc_mask(1:hIndxFullOverlap, :) = 0;
 data.quasi_par_beta_355(1:hIndxFullOverlap, :) = NaN;
@@ -104,9 +104,9 @@ jump_distance = 250;   % [m]
 jump_hBins = ceil(jump_distance / hRes);
 
 if config.search_cloud_above < jump_distance
-	warning('config.search_cloud_above should be larger than jump_distance (%5d).', jump_distance);
-	warning('Set config.search_cloud_above equals to jump_distance.');
-	config.search_cloud_above = jump_distance;
+    warning('config.search_cloud_above should be larger than jump_distance (%5d).', jump_distance);
+    warning('Set config.search_cloud_above equals to jump_distance.');
+    config.search_cloud_above = jump_distance;
 end
 search_bins_above = ceil(config.search_cloud_above / hRes);
 search_bins_below = ceil(config.search_cloud_below / hRes);
@@ -114,34 +114,34 @@ search_bins_below = ceil(config.search_cloud_below / hRes);
 diff_factor = 0.25;
 
 for iTime = 1:size(beta_1064, 2)
-	start_bin = 2;
+    start_bin = 2;
 
-	while start_bin <= (size(beta_1064, 1) - jump_hBins)
-		hIndxHighBeta = find(beta_1064(start_bin:(size(beta_1064, 1) - search_bins_above), iTime) > config.cloud_thres_par_beta_1064, 1) + start_bin - 1;
+    while start_bin <= (size(beta_1064, 1) - jump_hBins)
+        hIndxHighBeta = find(beta_1064(start_bin:(size(beta_1064, 1) - search_bins_above), iTime) > config.cloud_thres_par_beta_1064, 1) + start_bin - 1;
 
-		if isempty(hIndxHighBeta)
-			break;
-		end
+        if isempty(hIndxHighBeta)
+            break;
+        end
 
-		if min(beta_1064(hIndxHighBeta:(hIndxHighBeta + jump_hBins), iTime) ./ beta_1064(hIndxHighBeta, iTime)) < 1/config.min_atten_par_beta_1064
+        if min(beta_1064(hIndxHighBeta:(hIndxHighBeta + jump_hBins), iTime) ./ beta_1064(hIndxHighBeta, iTime)) < 1/config.min_atten_par_beta_1064
 
-			search_start = max(1, hIndxHighBeta - search_bins_below);
-			diff_beta_1064 = diff(beta_1064(search_start:hIndxHighBeta, iTime));
-			max_diff = max(diff_beta_1064);
+            search_start = max(1, hIndxHighBeta - search_bins_below);
+            diff_beta_1064 = diff(beta_1064(search_start:hIndxHighBeta, iTime));
+            max_diff = max(diff_beta_1064);
 
-			base_cloud = find(diff_beta_1064 > max_diff*diff_factor, 1) + search_start;
-			top_cloud = find(beta_1064((hIndxHighBeta + 1):(hIndxHighBeta + search_bins_above), iTime) ~= 0, 1, 'last') + hIndxHighBeta - 1;
-			if isempty(top_cloud)
-				diff_beta_1064 = diff(beta_1064(hIndxHighBeta:(hIndxHighBeta + search_bins_above), iTime));
-				max_diff = max(-diff_beta_1064);
-				top_cloud = find(-diff_beta_1064 > max_diff*diff_factor) + hIndxHighBeta - 1;
+            base_cloud = find(diff_beta_1064 > max_diff*diff_factor, 1) + search_start;
+            top_cloud = find(beta_1064((hIndxHighBeta + 1):(hIndxHighBeta + search_bins_above), iTime) ~= 0, 1, 'last') + hIndxHighBeta - 1;
+            if isempty(top_cloud)
+                diff_beta_1064 = diff(beta_1064(hIndxHighBeta:(hIndxHighBeta + search_bins_above), iTime));
+                max_diff = max(-diff_beta_1064);
+                top_cloud = find(-diff_beta_1064 > max_diff*diff_factor) + hIndxHighBeta - 1;
             end
             
             flag_cloud(base_cloud:top_cloud, iTime) = true;
-			start_bin = top_cloud + 1;
-		else
-			start_bin = hIndxHighBeta + 1;
-		end
-	end
+            start_bin = top_cloud + 1;
+        else
+            start_bin = hIndxHighBeta + 1;
+        end
+    end
 
 end
