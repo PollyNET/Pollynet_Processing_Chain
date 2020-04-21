@@ -122,7 +122,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
-        yLim_NR_DR = mat['yLim_NR_DR'][:][0]
+        yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
         RCS355NRColorRange = mat['RCS355NRColorRange'][:][0]
