@@ -122,16 +122,16 @@ def pollyxt_display_longterm_cali(tmpFile, saveFolder):
             thisLCTime607 = mat['LCTime607'][0][:]
         else:
             thisLCTime607 = np.array([])
-        LC355Status = mat['LC355Status'][:]
-        LC532Status = mat['LC532Status'][:]
-        LC1064Status = mat['LC1064Status'][:]
-        LC387Status = mat['LC387Status'][:]
-        LC607Status = mat['LC607Status'][:]
-        LC355History = mat['LC355History'][:]
-        LC532History = mat['LC532History'][:]
-        LC1064History = mat['LC1064History'][:]
-        LC387History = mat['LC387History'][:]
-        LC607History = mat['LC607History'][:]
+        LC355Status = mat['LC355Status'][0][:]
+        LC532Status = mat['LC532Status'][0][:]
+        LC1064Status = mat['LC1064Status'][0][:]
+        LC387Status = mat['LC387Status'][0][:]
+        LC607Status = mat['LC607Status'][0][:]
+        LC355History = mat['LC355History'][0][:]
+        LC532History = mat['LC532History'][0][:]
+        LC1064History = mat['LC1064History'][0][:]
+        LC387History = mat['LC387History'][0][:]
+        LC607History = mat['LC607History'][0][:]
         if mat['logbookTime'].size:
             thisLogbookTime = mat['logbookTime'][0][:]
         else:
