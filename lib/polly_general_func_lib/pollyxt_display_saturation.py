@@ -111,6 +111,12 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
         SAT_NR_355 = mat['SAT_NR_355'][:]
         SAT_NR_532 = mat['SAT_NR_532'][:]
         SAT_FR_407 = mat['SAT_FR_407'][:]
+        SAT_FR_387 = mat['SAT_FR_387'][:]
+        SAT_FR_607 = mat['SAT_FR_607'][:]
+        SAT_NR_387 = mat['SAT_NR_387'][:]
+        SAT_NR_607 = mat['SAT_NR_607'][:]
+        SAT_FR_355s = mat['SAT_FR_355s'][:]
+        SAT_FR_532s = mat['SAT_FR_532s'][:]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
         yLim_WV_RH = mat['yLim_WV_RH'][:][0]
@@ -464,6 +470,337 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
         os.path.join(
             saveFolder,
             '{dataFilename}_SAT_FR_407.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )
+            ),
+        dpi=figDPI
+        )
+    plt.close()
+
+    # display status of 387
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_387,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range from {instrument} at {location}'.format(
+            wave=387,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_387.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )
+            ),
+        dpi=figDPI
+        )
+    plt.close()
+
+    # display status of 607
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_607,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range from {instrument} at {location}'.format(
+            wave=607,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_607.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )
+            ),
+        dpi=figDPI
+        )
+    plt.close()
+
+    # display status of 387NR
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_387,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Near-Range from {instrument} at {location}'.format(
+            wave=387,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_NR_387.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )
+            ),
+        dpi=figDPI
+        )
+    plt.close()
+
+    # display status of 607NR
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_607,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Near-Range from {instrument} at {location}'.format(
+            wave=607,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_NR_607.{imgFmt}'.format(
+                dataFilename=rmext(dataFilename),
+                imgFmt=imgFormat
+                )
+            ),
+        dpi=figDPI
+        )
+    plt.close()
+
+    # display status of 355s FR
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355s,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range-Cross from {instrument} at {location}'.format(
+            wave=355,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(os.path.join(
+        saveFolder, '{dataFilename}_SAT_FR_355s.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat
+        )), dpi=figDPI)
+    plt.close()
+
+    # display status of 532s FR
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532s,
+                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.set_ylim(yLim_FR_RCS.tolist())
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Signal Status at ' +
+        '{wave}nm Far-Range-Cross from {instrument} at {location}'.format(
+            wave=532,
+            instrument=pollyVersion,
+            location=location
+        ),
+        fontsize=15
+        )
+
+    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                        0, 1, 2], orientation='vertical')
+    cbar.ax.tick_params(direction='in', pad=5)
+    cbar.ax.set_title('', fontsize=9)
+    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
+    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
+                        right=True, top=True, width=2, length=5)
+    cbar.ax.tick_params(axis='both', which='minor',
+                        width=1.5, length=3.5, right=True, top=True)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(
+        os.path.join(
+            saveFolder,
+            '{dataFilename}_SAT_FR_532s.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
                 imgFmt=imgFormat
                 )
