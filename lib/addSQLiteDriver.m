@@ -32,7 +32,8 @@ if exist(dbFile, 'file') == 2
     delete(dbFile);
 end
 
-if strcmpi(conn.Message, 'Unable to find JDBC driver.')
+if strcmpi(conn.Message, 'Unable to find JDBC driver.') || ...
+   ~ isempty(regexp(char(conn.Message), 'No suitable \w*', 'once'))
     flagSQLDriverValid = false;
 end
 

@@ -22,6 +22,9 @@ end
 
 %% add SQLite driver
 pathJDBC = fullfile(includePath, 'sqlite-jdbc-3.30.1.jar');
-addSQLiteDriver(pathJDBC);
+if ~ addSQLiteDriver(pathJDBC)
+    warning('SQLite JDBC is not ready');
+    return;
+end
 
 disp('Finish adding include path');
