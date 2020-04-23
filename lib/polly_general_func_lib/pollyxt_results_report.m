@@ -101,6 +101,12 @@ flag1064FR = config.isFR & config.is1064nm & config.isTot;
 flag355NR = config.isNR & config.is355nm & config.isTot;
 flag532NR = config.isNR & config.is532nm & config.isTot;
 flag407FR = config.isFR & config.is407nm;
+flag387FR = config.isFR & config.is387nm;
+flag607FR = config.isFR & config.is607nm;
+flag387NR = config.isNR & config.is387nm;
+flag607NR = config.isNR & config.is607nm;
+flag355FRs = config.isFR & config.is355nm & config.isCross;
+flag532FRs = config.isFR & config.is532nm & config.isCross;
 
 % monitor data
 write_2_donelist(processInfo.doneListFile, 'a', campaignInfo.name, campaignInfo.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(taskInfo.startTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(processInfo.pic_folder), campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_monitor.png', rmext(taskInfo.dataFilename))), '0', 'data based on laserlogbook.', taskInfo.zipFile, num2str(taskInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.quasiAttri.timestamp, 'yyyymmdd HH:MM:SS'), '50', processInfo.programVersion, 'monitor', datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'));
