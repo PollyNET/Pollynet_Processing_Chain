@@ -96,7 +96,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     diaryon(logFile);
 
     %% print the PC info for debugging
-    fprintf('## PC Info')
+    fprintf('## PC Info\n')
     fprintf('USER: %s\n', USER);
     fprintf('HOME: %s\n', HOME);
     fprintf('OS: %s\n', OS);
