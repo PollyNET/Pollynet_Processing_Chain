@@ -64,7 +64,13 @@ if (exist(pathJDBC, 'file') == 2) && (~ flagSQLDriverValid)
     fclose(fid);
 
     disp('MATLAB needs to be **RESTARTED** to activate the settings');
-    pause(5);
+    res = input('Close MATLAB now? (y/n): ');
+
+    if strcmpi(res, 'y')
+        exit;
+    else
+        pause(3);
+    end
 
     flag = true;
 elseif flagSQLDriverValid
