@@ -95,6 +95,13 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
     diaryon(logFile);
 
+    %% print the PC info for debugging
+    fprintf('## PC Info\n')
+    fprintf('USER: %s\n', USER);
+    fprintf('HOME: %s\n', HOME);
+    fprintf('OS: %s\n', OS);
+    fprintf('MATLAB: %s\n', version);
+
     %% determine the data size
     if taskInfo.dataSize <= config.minDataSize
         fprintf(['The current data size is not large enough\n%s\n. ', ...
