@@ -29,7 +29,11 @@ flagSQLDriverValid = true;
 dbFile = sprintf('%s.db', tempname);
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
 if exist(dbFile, 'file') == 2
-    delete(dbFile);
+    try
+        delete(dbFile);
+    catch
+        % mute the warning of failure in deleting dbFile.
+    end
 end
 
 if strcmpi(conn.Message, 'Unable to find JDBC driver.') || ...
