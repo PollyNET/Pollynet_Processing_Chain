@@ -122,16 +122,46 @@ def pollyxt_cge_display_longterm_cali(tmpFile, saveFolder):
             thisLCTime607 = mat['LCTime607'][0][:]
         else:
             thisLCTime607 = np.array([])
-        LC355Status = mat['LC355Status'][0][:]
-        LC532Status = mat['LC532Status'][0][:]
-        LC1064Status = mat['LC1064Status'][0][:]
-        LC387Status = mat['LC387Status'][0][:]
-        LC607Status = mat['LC607Status'][0][:]
-        LC355History = mat['LC355History'][0][:]
-        LC532History = mat['LC532History'][0][:]
-        LC1064History = mat['LC1064History'][0][:]
-        LC387History = mat['LC387History'][0][:]
-        LC607History = mat['LC607History'][0][:]
+        if mat['LC355Status'].size:
+            LC355Status = mat['LC355Status'][0][:]
+        else:
+            LC355Status = np.array([])
+        if mat['LC532Status'].size:
+            LC532Status = mat['LC532Status'][0][:]
+        else:
+            LC532Status = np.array([])
+        if mat['LC1064Status'].size:
+            LC1064Status = mat['LC1064Status'][0][:]
+        else:
+            LC1064Status = np.array([])
+        if mat['LC387Status'].size:
+            LC387Status = mat['LC387Status'][0][:]
+        else:
+            LC387Status = np.array([])
+        if mat['LC607Status'].size:
+            LC607Status = mat['LC607Status'][0][:]
+        else:
+            LC607Status = np.array([])
+        if mat['LC355History'].size:
+            LC355History = mat['LC355History'][0][:]
+        else:
+            LC355History = np.array([])
+        if mat['LC532History'].size:
+            LC532History = mat['LC532History'][0][:]
+        else:
+            LC532History = np.array([])
+        if mat['LC1064History'].size:
+            LC1064History = mat['LC1064History'][0][:]
+        else:
+            LC1064History = np.array([])
+        if mat['LC387History'].size:
+            LC387History = mat['LC387History'][0][:]
+        else:
+            LC387History = np.array([])
+        if mat['LC607History'].size:
+            LC607History = mat['LC607History'][0][:]
+        else:
+            LC607History = np.array([])
         if mat['logbookTime'].size:
             thisLogbookTime = mat['logbookTime'][0][:]
         else:
