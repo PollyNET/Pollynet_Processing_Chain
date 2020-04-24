@@ -1,7 +1,7 @@
 #!/bin/bash
 # Update the radiosonde and AERONET site list everyday
 
-PATH=${PATH}:/usr/programming/matlab/matlab-2014a/bin
+
 
 echo "Updating the radiosonde and AERONET site list"
 
