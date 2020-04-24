@@ -151,7 +151,7 @@ def pollyxt_display_longterm_cali(tmpFile, saveFolder):
         else:
             LC532History = np.array([])
         if mat['LC1064History'].size:
-            LC1064History = mat['LC355History'][0][:]
+            LC1064History = mat['LC1064History'][0][:]
         else:
             LC1064History = np.array([])
         if mat['LC387History'].size:
