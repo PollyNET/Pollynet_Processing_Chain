@@ -1,17 +1,32 @@
-function extract_cali_results(dbFile, csvFilepath, varargin)
-%extract_cali_results extract calibration results from SQLite database.
+function [csvFilenames, csvFileID] = extract_cali_results(dbFile, csvFilepath, varargin)
+%extract_cali_results extract calibration results from SQLite database to ASCII files.
 %Example:
-%   extract_cali_results('/path/to/dbFile', '/path/for/csvFile', ...
+%   % Usecase 1: convert single table
+%   extract_cali_results('/path/to/dbFile', '/path/to/csvFile', ...
 %       'tablename', 'lidar_calibration_constant');
+%
+%   % Usecase 2: convert all tables
+%   extract_cali_results('/path/to/dbFile', '/path/to/csvFile');
+%
+%   % Usecase 3: add prefix for csv files
+%   extract_cali_results('/path/to/dbFile', '/path/to/csvFile', ...
+%       'prefix', 'arielle_');
 %Inputs:
 %   dbFile: char
 %       absolute path of database file.
 %   csvFilepath: char
-%       csv file for the output results.
+%       output folder for the csv file.
 %Keywords:
 %   tablename: char
-%       table name that needs to be extracted.
-%       (defaults: lidar_calibration_constant)
+%       table name that needs to be extracted (regular expression is supported).
+%       (defaults: '.*')
+%   prefix: char
+%       prefix for the ASCII filename.
+%Outputs:
+%   csvFilenames: cell
+%       absolute path for extracted ASCII files.
+%   csvFileID: cell
+%       identifier (table name) for respective csv file.
 %History:
 %   2020-04-20. First Edition by Zhenping
 %Contact:
@@ -22,7 +37,8 @@ p.KeepUnmatched = false;
 
 addRequired(p, 'dbFile', @ischar);
 addRequired(p, 'csvFilepath', @ischar);
-addParameter(p, 'tablename', 'lidar_calibration_constant', @ischar);
+addParameter(p, 'tablename', '.*', @ischar);
+addParameter(p, 'prefix', '', @ischar);
 
 parse(p, dbFile, csvFilepath, varargin{:});
 
@@ -35,17 +51,35 @@ conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbF
 set(conn, 'AutoCommit', 'off');
 commit(conn);
 
-%% get column names
-tableColNames = fetch(conn, sprintf('PRAGMA table_info(%s);', p.Results.tablename));
+%% get table names
+tableNames = fetch(conn, 'SELECT name FROM sqlite_master where (type=''table'') and (name != ''sqlite_sequence'') order by name');
 
-%% load data
-data = fetch(conn, sprintf('SELECT * from %s;', p.Results.tablename));
+csvFilenames = cell(0);
+csvFileID = cell(0);
+
+for iTable = 1:length(tableNames)
+    if ~ isempty(regexp(tableNames{iTable}, p.Results.tablename, 'once'))
+        %% get column names
+        tableColNames = fetch(conn, sprintf('PRAGMA table_info(%s);', tableNames{iTable}));
+        
+        %% load data
+        data = fetch(conn, sprintf('SELECT * from %s;', tableNames{iTable}));
+        if isempty(data)
+            data = cell(0, length(tableColNames(:, 2)));
+        end
+
+        tableData = cell2table(data, 'variablenames', tableColNames(:, 2));
+
+        %% save data to csv file
+        csvFilename = sprintf('%s%s.csv', p.Results.prefix, tableNames{iTable});
+        writetable(tableData, fullfile(csvFilepath, csvFilename));
+
+        csvFilenames = cat(2, csvFilenames, fullfile(csvFilepath, csvFilename));
+        csvFileID = cat(2, csvFileID, tableNames{iTable});
+    end
+end
 
 %% close connection
 close(conn);
-
-%% save data to csv file
-tableData = cell2table(data, 'variablenames', tableColNames(:, 2));
-writetable(tableData, csvFilepath);
 
 end
