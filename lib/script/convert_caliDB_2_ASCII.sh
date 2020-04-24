@@ -1,10 +1,13 @@
 #!/bin/bash
-# This script is used to convert the SQLite DB of lidar calibration data to
-# ASCII files.
+# This script is used to convert all the SQLite DB files of lidar calibration
+# data to ASCII files in batch mode.
+# Usage:
+#   ./convert_caliDB_2_ASCII.sh /pollyhome/Picasso/results_new
 
 cwd="$( cd "$(dirname "$0")"; pwd -P )"
 PATH=${PATH}:$cwd
 
+# results folder of Picasso
 RESULTS_FOLDER="$1"
 
 matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
@@ -29,5 +32,7 @@ for iFolder = 1:length(subFolders)
     end
 
 end
+
+exit;
 
 ENDMATLAB
