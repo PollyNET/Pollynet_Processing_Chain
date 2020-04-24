@@ -16,7 +16,8 @@ display_help() {
     echo "                         - lidar_calibration_constant"
     echo "                         - depol_calibration_constant"
     echo "                         - wvconst_calibration_constant"
-    echo "  -o, --output           output file"
+    echo "  -o, --output           output directory"
+    echo "  -p, --prefix           ASCII filename prefix"
     echo "  -h, --help             show help message"
     echo ""
 
@@ -32,7 +33,7 @@ addpath(fullfile(PROJECTDIR, 'lib));
 
 clc;
 
-extract_cali_results('$DBFILE', '$OFILE', 'tablename', '$TABLENAME');
+extract_cali_results('$DBFILE', '$OUTPUT_DIR', 'tablename', '$TABLENAME', 'prefix', '$PREFIX);
 
 exit;
 ENDMATLAB
@@ -40,9 +41,9 @@ ENDMATLAB
 
 # initialization
 DBFILE=""
-OFILE=""
+OUTPUT_DIR=""
 TABLENAME=""
-
+PREFIX=""
 
 ################################
 # Check if parameters options  #
@@ -59,7 +60,7 @@ while :; do
 
   -o | --output)
     if [ $# -ne 0 ]; then
-      OFILE="$2"
+      OUTPUT_DIR="$2"
     fi
     shift 2
     ;;
@@ -91,4 +92,4 @@ while :; do
   esac
 done
 
-run_matlab "$DBFILE" "$OFILE" "$TABLENAME"
+run_matlab "$DBFILE" "$OUTPUT_DIR" "$TABLENAME"
