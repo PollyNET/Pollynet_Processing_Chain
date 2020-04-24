@@ -7,7 +7,7 @@ PATH=${PATH}:$cwd
 
 RESULTS_FOLDER="$1"
 
-matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+matlab -nodisplay -nodesktop -nosplash | tail -n +11 <<ENDMATLAB
 
 resultsFolder = '$RESULTS_FOLDER';
 projectFolder = fileparts(fileparts('$cwd'));
