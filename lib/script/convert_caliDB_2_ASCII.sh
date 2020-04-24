@@ -7,7 +7,9 @@ PATH=${PATH}:$cwd
 
 RESULTS_FOLDER="$1"
 
-matlab -nodisplay -nodesktop -nosplash | tail -n +11 <<ENDMATLAB
+matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+
+fprintf('\n');
 
 resultsFolder = '$RESULTS_FOLDER';
 projectFolder = fileparts(fileparts('$cwd'));
@@ -21,8 +23,9 @@ for iFolder = 1:length(subFolders)
     dbFiles = listfile(subFolders{iFolder}, '\w*.db');
 
     for iDBFile = 1:length(dbFiles)
+        fprintf('Converting %s\n', dbFiles{iDBFile});
         dbBasename = basename(dbFiles{iDBFile});
-        extract_cali_results(dbFiles{iDBFile}, subFolders{iFolder}, 'prefix', dbBasename(1:(end-3)));
+        extract_cali_results(dbFiles{iDBFile}, subFolders{iFolder}, 'prefix', [dbBasename(1:(end-3)), '_']);
     end
 
 end
