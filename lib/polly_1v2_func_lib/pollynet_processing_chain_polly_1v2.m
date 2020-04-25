@@ -86,11 +86,33 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 %% cloud screening
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
-PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
 
-flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
+flagCloudFree8km_FR = true(1, length(data.mTime));
+layer_status = zeros(length(data.height), length(data.mTime));   % 0: unknow
+                                                                 % 1: cloud
+                                                                 % 2: aerosol
+
+for iTime = 1:length(data.mTime)
+    layerInfo = VDE_cld(squeeze(data.signal(flagChannel532FR, :, iTime)), ...
+                        data.height / 1e3, ...
+                        squeeze(data.bg(flagChannel532FR, 1, iTime)), ...
+                        0.1, config.heightFullOverlap(flagChannel532FR) / 1e3, ...
+                        4, 5);
+
+    for iLayer = 1:length(layerInfo)
+        layerIndx = (data.height >= layerInfo(iLayer).baseHeight * 1e3) & ...
+                    (data.height <= layerInfo(iLayer).topHeight * 1e3);
+        if layerInfo(iLayer).flagCloud
+            flagCloudFree8km_FR(iTime) = false;
+            layer_status(layerIndx, iTime) = 1;
+        else
+            layer_status(layerIndx, iTime) = 2;
+        end
+    end
+end
 
 data.flagCloudFree8km = flagCloudFree8km_FR & (~ data.shutterOnMask);
+
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -172,6 +194,18 @@ fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coe
 data.quasiAttri_V2 = quasiAttri_V2;
 fprintf('[%s] Finish.\n', tNow());
 
+%% cloud layering
+fprintf('\n[%s] Start to extract cloud information.\n', tNow());
+[data.clBaseH, data.clTopH, ~, ~] = ...
+        cloud_layering(data.mTime, data.height, layer_status, ...
+                        'minCloudDepth', 100, ...
+                        'liquidCloudBit', 1, ...
+                        'iceCloudBit', 1, ...
+                        'cloudBits', 1);
+data.clPh = zeros(size(data.clBaseH));
+data.clPhProb = zeros(size(data.clBaseH));
+fprintf('[%s] Finish.\n', tNow());
+
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
@@ -228,6 +262,10 @@ if processInfo.flagEnableResultsOutput
         case 'quasiv2'
             %% save quasi results (V2)
             polly_1v2_save_quasi_results_V2(data, taskInfo, config);
+
+        case 'cloudinfo'
+            pollyxt_save_cloudinfo(data, taskInfo, config);
+
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end
