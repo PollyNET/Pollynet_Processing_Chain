@@ -1,27 +1,31 @@
 function [wvconst, wvconstStd, globalAttri] = pollyxt_ift_wv_calibration(data, config)
-%POLLYXT_IFT_WV_CALIBRATION water vapor calibration. 
+%POLLYXT_ift_WV_CALIBRATION water vapor calibration. 
 %Example:
 %   [wvconst, wvconstStd, globalAttri] = pollyxt_ift_wv_calibration(data, config)
 %Inputs:
 %   data: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
 %   config: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
+%       More detailed information can be found in
+%       doc/pollynet_processing_program.md
 %Outputs:
 %   wvconst: array
 %       water vapor calibration constant. [g/kg] 
 %   wvconstStd: array
 %       uncertainty of water vapor calibration constant. [g/kg]
 %   globalAttri: struct
-%       datetime: array
-%           water vapor calibration time. [datenum]
+%       cali_start_time: array
+%           water vapor calibration start time. [datenum]
+%       cali_stop_time: array
+%           water vapor calibration stop time. [datenum]
 %       WVCaliInfo: cell
 %           calibration information for each calibration period.
 %       IntRange: matrix
 %           index of integration range for calculate the raw IWV from lidar.
 %References:
 %   Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P.,
-%   Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
+%   B??hl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
 %   lidar water vapor profiles by means of AERONET photometer observations
 %   and GDAS meteorological data, Atmospheric Measurement Techniques,
 %   11, 2735-2748, 2018.
@@ -37,7 +41,8 @@ global campaignInfo
 wvconst = [];
 wvconstStd = [];
 globalAttri = struct();
-globalAttri.datetime = [];
+globalAttri.cali_start_time = [];
+globalAttri.cali_stop_time = [];
 globalAttri.WVCaliInfo = {};
 globalAttri.IntRange = [];
 
@@ -50,10 +55,17 @@ flagChannel407 = config.isFR & config.is407nm;
 flagChannel1064 = config.isFR & config.is1064nm;
 flag407On = (~ polly_is407Off(squeeze(data.signal(flagChannel407, :, :))));
 
+% retrieve the time of local sunrise and sunset
+sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, ...
+                        floor(data.mTime(1)), 2880);
+sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
+sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
+
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisWVconst = NaN;
     thisWVconstStd = NaN;
-    thisDatetime = mean(data.mTime(data.cloudFreeGroups(iGroup, :)));
+    thisCaliStartTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
+    thisCaliStopTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
     thisWVCaliInfo = '407 off';
     thisIntRange = [NaN, NaN];
 
@@ -87,19 +99,18 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine SNR
-    sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali), 3));
-    bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali), 3));
-    sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali), 3));
-    bg407 = squeeze(sum(data.bg(flagChannel407, :, flag407On & flagWVCali), 3));
+    flagLowSolarBG = (data.mTime <= (sunriseTime - datenum(0, 1, 0, 0, 50, 0))) | ...
+                     (data.mTime >= (sunsetTime + datenum(0, 1, 0, 0, 50, 0)));
+    sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
 
     % smooth the signal
     smoothWidth = 10;
-    sig387 = transpose(smooth(sig387, smoothWidth));   % according to Guangyao's calibration program.
+    sig387 = transpose(smooth(sig387, smoothWidth));
     bg387 = transpose(smooth(bg387, smoothWidth));
     sig407 = transpose(smooth(sig407, smoothWidth));
-    bg407 = transpose(smooth(bg407, smoothWidth));
 
-    snr407 = polly_SNR(sig407, bg407) * sqrt(smoothWidth);
     snr387 = polly_SNR(sig387, bg387) * sqrt(smoothWidth);
 
     hIntBaseIndx = find(data.height >= config.hWVCaliBase, 1);
@@ -113,28 +124,34 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
     % index with complete overlap
     hIndxFullOverlap387 = find(data.height >= config.heightFullOverlap(flagChannel387), 1);
-    hIndxFullOverlap407 = find(data.height >= config.heightFullOverlap(flagChannel407), 1);
     if isempty(hIndxFullOverlap387) 
         hIndxFullOverlap387 = 70;
-    end
-    if isempty(hIndxFullOverlap407)
-        hIndxFullOverlap407 = 70;
     end
 
     % search the index with low SNR
     hIndxLowSNR387 = find(snr387(hIndxFullOverlap387:end) <= config.minSNRWVCali, 1);
     if isempty(hIndxLowSNR387)
-        fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf(['Signal is too noisy to perform water calibration at %s ', ...
+            'during %s to %s.\n'], campaignInfo.location, ...
+            datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+            datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm is too noisy.';
     elseif (data.height(hIndxLowSNR387 + hIndxFullOverlap387 - 1) <= config.hWVCaliBase)
-        fprintf('Signal is too noisy to perform water calibration at %s during %s to %s.\n', campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf(['Signal is too noisy to perform water calibration at ', ...
+            '%s during %s to %s.\n'], campaignInfo.location, ...
+            datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+            datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Signal at 387nm channel is too noisy.';
     else
         hIndxLowSNR387 = hIndxLowSNR387 + hIndxFullOverlap387 - 1;
         if data.height(hIndxLowSNR387) <= config.hWVCaliTop
-            fprintf('Integration top is less than %dm to perform water calibration at %s during %s to %s.\n', config.hWVCaliTop, campaignInfo.location, datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+            fprintf(['Integration top is less than %dm to perform water ', ...
+                'calibration at %s during %s to %s.\n'], config.hWVCaliTop, ...
+                campaignInfo.location, ...
+                datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+                datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
             flagLowSNR = true;
             thisWVCaliInfo = 'Signal at 387 nm channel is too noisy.';
         end
@@ -142,17 +159,15 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine whether the water vapor measurements were performed at daytime
-    % retrieve the time of local sunrise and sunset
-    sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, floor(data.mTime(1)), 2880);
-    sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
-    sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
-
     flagDaytimeMeas = false;
     meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), ...
                          data.mTime(data.cloudFreeGroups(iGroup, 2))]);
     if (meanT_WVmeas < sunsetTime) && (meanT_WVmeas > sunriseTime)
         flagDaytimeMeas = true;
-        fprintf('Water vapor measurements were performed during daytime during %s to %s.\n', datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
+        fprintf(['Water vapor measurements were performed during ', ...
+            'daytime during %s to %s.\n'], ...
+            datestr(data.mTime(wvCaliIndx(1)), 'yyyymmdd HH:MM'), ...
+            datestr(data.mTime(wvCaliIndx(end)), 'HH:MM'));
         flagLowSNR = true;
         thisWVCaliInfo = 'Measurements at daytime.';
     end
@@ -166,7 +181,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
 
         if (abs(E_tot_1064_IWV - E_tot_1064_cali) / E_tot_1064_IWV > 0.2) || ...
             ((E_tot_1064_cali_std / E_tot_1064_cali) > 0.2)
-            fprintf('Meteorological condition is not stable enough for the calibration at %s during %s to %s.\n', campaignInfo.location, datestr(min([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'yyyymmdd HH:MM'), datestr(max([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'HH:MM'));
+            fprintf(['Meteorological condition is not stable enough for ', ...
+                'the calibration at %s during %s to %s.\n'], ...
+                campaignInfo.location, datestr(min([data.mTime(closestIndx), ...
+                data.mTime(flag407On & flagWVCali)]), 'yyyymmdd HH:MM'), ...
+                datestr(max([data.mTime(closestIndx), data.mTime(flag407On & flagWVCali)]), 'HH:MM'));
             flagNotMeteorStable = true;
             thisWVCaliInfo = 'Meteorological condition is not stable.';
         end
@@ -200,10 +219,10 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     % concatenate data
     wvconst = cat(1, wvconst, thisWVconst);
     wvconstStd = cat(1, wvconstStd, thisWVconstStd);
-    globalAttri.datetime = cat(1, globalAttri.datetime, thisDatetime);
+    globalAttri.cali_start_time = cat(1, globalAttri.cali_start_time, thisCaliStartTime);
+    globalAttri.cali_stop_time = cat(1, globalAttri.cali_stop_time, thisCaliStopTime);
     globalAttri.WVCaliInfo{end + 1} = thisWVCaliInfo;
     globalAttri.IntRange = cat(1, globalAttri.IntRange, thisIntRange);
-
 end
 
 end
