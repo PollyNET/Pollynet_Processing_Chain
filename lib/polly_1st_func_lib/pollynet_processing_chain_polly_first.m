@@ -217,6 +217,7 @@ if processInfo.flagEnableResultsOutput
     for iProd = 1:length(config.prodSaveList)
 
         switch lower(config.prodSaveList{iProd})
+
         case 'overlap'
             %% save overlap results
             saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -225,9 +226,11 @@ if processInfo.flagEnableResultsOutput
         case 'aerproffr'
             %% save aerosol optical results
             polly_first_save_retrieving_results(data, taskInfo, config);
+
         case 'aerattbetafr'
             %% save attenuated backscatter
             polly_first_save_att_bsc(data, taskInfo, config);
+
         case 'quasiv1'
             %% save quasi results
             polly_first_save_quasi_results(data, taskInfo, config);

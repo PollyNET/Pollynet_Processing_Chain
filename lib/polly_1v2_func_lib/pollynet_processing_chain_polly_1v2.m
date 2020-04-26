@@ -228,6 +228,7 @@ if processInfo.flagEnableResultsOutput
 
     for iProd = 1:length(config.prodSaveList)
         switch lower(config.prodSaveList{iProd})
+
         case 'aerproffr'
             %% save aerosol optical results
             polly_1v2_save_retrieving_results(data, taskInfo, config);
@@ -235,12 +236,15 @@ if processInfo.flagEnableResultsOutput
         case 'aerattbetafr'
             %% save attenuated backscatter
             polly_1v2_save_att_bsc(data, taskInfo, config);
+
         case 'voldepol'
             %% save volume depolarization ratio
             polly_1v2_save_voldepol(data, taskInfo, config);
+
         case 'quasiv1'
             %% save quasi results
             polly_1v2_save_quasi_results(data, taskInfo, config);
+
         case 'quasiv2'
             %% save quasi results (V2)
             polly_1v2_save_quasi_results_V2(data, taskInfo, config);
