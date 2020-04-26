@@ -293,6 +293,7 @@ if processInfo.flagEnableResultsOutput
 
     for iProd = 1:length(config.prodSaveList)
         switch lower(config.prodSaveList{iProd})
+
         case 'overlap'
             %% save overlap results
             saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -301,26 +302,34 @@ if processInfo.flagEnableResultsOutput
         case 'aerproffr'
             %% save aerosol optical results
             pollyxt_dwd_save_retrieving_results(data, taskInfo, config);
+
         case 'aerattbetafr'
             %% save attenuated backscatter
             pollyxt_dwd_save_att_bsc(data, taskInfo, config);
+
         case 'voldepol'
             %% save volume depolarization ratio
             pollyxt_dwd_save_voldepol(data, taskInfo, config);
+
         case 'quasiv1'
             %% save quasi results
             pollyxt_dwd_save_quasi_results(data, taskInfo, config);
+
         case 'quasiv2'
             %% save quasi results V2
             pollyxt_dwd_save_quasi_results_V2(data, taskInfo, config);
+
         case 'tc'
             %% save target classification results
             pollyxt_dwd_save_tc(data, taskInfo, config);
+
         case 'tcv2'
             %% save target classification results V2
             pollyxt_dwd_save_tc_V2(data, taskInfo, config);
+
         case 'cloudinfo'
             pollyxt_save_cloudinfo(data, taskInfo, config);
+
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end

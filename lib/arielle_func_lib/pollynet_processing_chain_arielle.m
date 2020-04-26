@@ -407,6 +407,7 @@ if processInfo.flagEnableResultsOutput
     for iProd = 1:length(config.prodSaveList)
 
         switch lower(config.prodSaveList{iProd})
+
         case 'overlap'
             %% save overlap results
             saveFile = fullfile(processInfo.results_folder, ...
@@ -419,9 +420,11 @@ if processInfo.flagEnableResultsOutput
         case 'aerproffr'
             %% save aerosol optical results
             pollyxt_save_retrieving_results(data, taskInfo, config);
+
         case 'aerprofnr'
             %% save aerosol optical results
             pollyxt_save_NR_retrieving_results(data, taskInfo, config);
+
         case 'aerprofoc'
             %% save aerosol optical results
             pollyxt_save_OC_retrieving_results(data, taskInfo, config);
@@ -429,6 +432,7 @@ if processInfo.flagEnableResultsOutput
         case 'aerattbetafr'
             %% save attenuated backscatter
             pollyxt_save_att_bsc(data, taskInfo, config);
+
         case 'aerattbetaoc'
             %% save attenuated backscatter
             pollyxt_save_OC_att_bsc(data, taskInfo, config);
