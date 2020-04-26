@@ -87,32 +87,14 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 
-flagCloudFree8km_FR = true(1, length(data.mTime));
-layer_status = zeros(length(data.height), length(data.mTime));   % 0: unknow
-                                                                 % 1: cloud
-                                                                 % 2: aerosol
+[flagCloudFree_FR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+    squeeze(data.signal(flagChannel532FR, :, :)), ...
+    squeeze(data.bg(flagChannel532FR, 1, :)), ...
+    'detectRange', [0, 10000], ...
+    'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
+    'minSNR', 1);
 
-for iTime = 1:length(data.mTime)
-    layerInfo = VDE_cld(squeeze(data.signal(flagChannel532FR, :, iTime)), ...
-                        data.height / 1e3, ...
-                        squeeze(data.bg(flagChannel532FR, 1, iTime)), ...
-                        0.1, config.heightFullOverlap(flagChannel532FR) / 1e3, ...
-                        4, 5);
-
-    for iLayer = 1:length(layerInfo)
-        layerIndx = (data.height >= layerInfo(iLayer).baseHeight * 1e3) & ...
-                    (data.height <= layerInfo(iLayer).topHeight * 1e3);
-        if layerInfo(iLayer).flagCloud
-            flagCloudFree8km_FR(iTime) = false;
-            layer_status(layerIndx, iTime) = 1;
-        else
-            layer_status(layerIndx, iTime) = 2;
-        end
-    end
-end
-
-data.flagCloudFree8km = flagCloudFree8km_FR & (~ data.shutterOnMask);
-
+data.flagCloudFree_FR = flagCloudFree_FR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation

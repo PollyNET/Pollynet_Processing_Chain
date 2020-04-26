@@ -93,7 +93,7 @@ RCS = Ps .* height.^2;   % range-corrected signal
 % bottom to top semi-discretization
 PD1 = Ps;
 for indx = 2:length(PD1)
-    if abs(PD1(indx) - PD1(indx - 1)) <= max([noise_level(indx) * 3, sqrt(3) * 3])
+    if abs(PD1(indx) - PD1(indx - 1)) <= max([noise_level(indx) * 3, 3])
         PD1(indx) = PD1(indx - 1);
     end
 end
@@ -101,7 +101,7 @@ end
 % top to bottom semi-discretization
 PD2 = Ps;
 for indx = (length(PD2) - 1):-1:1
-    if abs(PD2(indx) - PD2(indx + 1)) <= max([noise_level(indx) * 3, sqrt(3) * 3])
+    if abs(PD2(indx) - PD2(indx + 1)) <= max([noise_level(indx) * 3, 3])
         PD2(indx) = PD2(indx + 1);
     end
 end
@@ -168,28 +168,27 @@ for iLayer = 1:length(layerInfo)
            (height <= layerInfo(iLayer).topHeight);
     sig = Ps_1(indx) .* height(indx).^2;
     sig(sig<=0) = NaN;
-    Fz = diff(log(sig .* height(indx).^2)) ./ ...
-         diff(height(indx));
+    H = height(indx);
 
     [maxSig, maxIndx] = max(sig);
     maxIndx = find(indx, 1) + maxIndx - 1;   % layerIndx + max_Signal_Index
     T = maxSig / sig(1);
-    D = min(Fz);
+    D = (log(sig(end) ./ maxSig)) / (layerInfo(iLayer).topHeight - height(maxIndx));
     layerHeight = mean([layerInfo(iLayer).baseHeight, ...
                         layerInfo(iLayer).topHeight]);
     layerInfo(iLayer).peakHeight = height(maxIndx);
 
     % segmented threshold for the determination of layer status
     if layerHeight <= 1.5
-        if T > 6 || D < -15
+        if T > 6 || D < -7
             layerInfo(iLayer).flagCloud = true;
         end
     elseif layerHeight > 1.5 && layerHeight <= 5 
-        if T > 4 || D < -9
+        if T > 4 || D < -7
             layerInfo(iLayer).flagCloud = true;
         end
     elseif layerHeight > 5
-        if T > 1.5 || D < -9
+        if T > 1.5 || D < -7
             layerInfo(iLayer).flagCloud = true;
         end
     else

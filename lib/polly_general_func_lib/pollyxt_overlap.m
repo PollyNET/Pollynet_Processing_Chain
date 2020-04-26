@@ -50,21 +50,21 @@ overlap532_std = [];
 overlap355 = [];
 overlap355_std = [];
 
-if ~ sum(data.flagCloudFree2km) == 0
+if ~ sum(data.flagCloudFree_NR) == 0
 
     switch config.overlapCalMode
     case 1   % ratio of near and far range signal
 
         % 355 nm
-        sig355NR = squeeze(sum(data.signal(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg355NR = squeeze(sum(data.bg(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        sig355FR = squeeze(sum(data.signal(config.isFR & config.is355nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg355FR = squeeze(sum(data.bg(config.isFR & config.is355nm &config.isTot, :, data.flagCloudFree2km), 3));
+        sig355NR = squeeze(sum(data.signal(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        bg355NR = squeeze(sum(data.bg(config.isNR & config.is355nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        sig355FR = squeeze(sum(data.signal(config.isFR & config.is355nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        bg355FR = squeeze(sum(data.bg(config.isFR & config.is355nm &config.isTot, :, data.flagCloudFree_NR), 3));
 
         if (~ isempty(sig355NR)) && (~ isempty(sig355FR))
             % if both near- and far-range channel exist
-            overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-            overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+            overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+            overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
             % calculate the SNR
             snr355NR = polly_SNR(sig355NR, bg355NR);
@@ -101,15 +101,15 @@ if ~ sum(data.flagCloudFree2km) == 0
         end
 
         % 532 nm
-        sig532NR = squeeze(sum(data.signal(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree2km), 3));
-        bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree2km), 3));
+        sig532NR = squeeze(sum(data.signal(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree_NR), 3));
+        bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree_NR), 3));
 
         if (~ isempty(sig532NR)) && (~ isempty(sig532FR))
             % if both near- and far-range channel exist
-            overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-            overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+            overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+            overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
             % calculate the SNR
             snr532NR = polly_SNR(sig532NR, bg532NR);

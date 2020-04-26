@@ -41,18 +41,18 @@ end
 overlap532 = []; 
 overlap532_std = [];  
 
-if ~ sum(data.flagCloudFree8km) == 0
+if ~ sum(data.flagCloudFree_FR) == 0
 
     switch config.overlapCalMode
     case 1   % ratio of near and far range signal
 
         % 532 nm
-        sig532NR = squeeze(sum(data.signal(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree8km), 3));
-        bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree8km), 3));
-        sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree8km), 3));
-        bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree8km), 3));
-        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
-        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree8km)) * 150 / data.hRes;
+        sig532NR = squeeze(sum(data.signal(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree_FR), 3));
+        bg532NR = squeeze(sum(data.bg(config.isNR & config.is532nm & config.isTot, :, data.flagCloudFree_FR), 3));
+        sig532FR = squeeze(sum(data.signal(config.isFR & config.is532nm & config.isTot, :, data.flagCloudFree_FR), 3));
+        bg532FR = squeeze(sum(data.bg(config.isFR & config.is532nm &config.isTot, :, data.flagCloudFree_FR), 3));
+        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree_FR)) * 150 / data.hRes;
+        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree_FR)) * 150 / data.hRes;
 
         % calculate the SNR
         snr532NR = polly_SNR(sig532NR, bg532NR);
