@@ -73,7 +73,7 @@ addParameter(p, 'default_liconstStd', true, @isnumeric);
 parse(p, liconst, liconstStd, caliStartTime, caliStopTime, queryTime, ...
       dbFile, pollyType, wavelength, varargin{:});
 
-if (~ isempty(liconst)) && (p.Results.flagLCCalibration)
+if (any(~ isnan(liconst))) && (p.Results.flagLCCalibration)
 
     % take the realtime calibration results
     [~, indx] = min(liconstStd ./ liconst);
