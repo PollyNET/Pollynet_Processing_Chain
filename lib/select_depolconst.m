@@ -73,7 +73,7 @@ addParameter(p, 'default_depolconstStd', NaN, @isnumeric);
 parse(p, depolconst, depolconstStd, depolCaliStartTime, depolCaliStopTime, ...
       queryTime, dbFile, wavelength, pollyType, varargin{:});
 
-if (~ isempty(depolconst)) && (p.Results.flagUsePrevDepolConst)
+if (any(~ isnan(depolconst))) && (p.Results.flagUsePrevDepolConst)
 
     % take the realtime calibration results.
     [~, indx] = min(depolconstStd ./ depolconst);
