@@ -75,8 +75,12 @@ pollyConfig.is607nm = logical(pollyConfig.is607nm);
 for fn = fieldnames(pollyConfig)'
     if isfield(pollyGlobalConfig, fn{1})
         pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
+    elseif strcmp(fn{1}, 'maxSigSlope4FilterCloud')
+        warning('''maxSigSlope4FilterCloud'' was deprecated!');
+    elseif strcmp(fn{1}, 'maxSigSlope4FilterCloud_NR')
+        warning('''maxSigSlope4FilterCloud_NR'' was deprecated!');
     else
-        error('Unknow polly settings: %s', fn{1});
+        error('Unknown polly settings: %s', fn{1});
     end
 end
 

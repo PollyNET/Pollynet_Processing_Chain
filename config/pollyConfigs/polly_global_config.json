@@ -72,8 +72,6 @@
     "overlapCalMode": 1,
     "overlapCorMode": 1,
     "overlapSmoothBins": 8,
-    "maxSigSlope4FilterCloud": 3e6,
-    "maxSigSlope4FilterCloud_NR": 4e5,
     "saturate_thresh": 100,
     "heightFullOverlap": [500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150],
     "minSNR_4_sigNorm": [10],

@@ -49,8 +49,6 @@ I will summarize all the configurations in the table below. But you should keep 
 |overlapCalMode|1:estimate the overlap function based on the near-range signal. 2: calculate the overlap function with Raman method (U. Wandinger, et al, Applied Optics, 2002)|1||
 |overlapCorMode|1:overlap correction with using the default overlap function. 2: overlap correction with using the calculated overlap function|1||
 |overlapSmoothBins|vertical window (bins) for smoothing the noisy overlap function|8||
-|maxSigSlope4FilterCloud|The slope threshold for cloud screening. The screening is based on the slope of the Range Corrected Signal(photon count * m^2). In theory, this should be done with the attenuated backscatter. Since the lidar constant is unknown and cloud-screen is highly important for retrieving aerosol profiles, this is the only applicable way to my knowledge. Attention should be paid for the threshold setting, because it’s dependent on the the order of ND filter. But it’s not very sensitive because cloud scattering signal is much more stronger than that from aerosols. You can keep this value if there is no dramatic changes of ND filter(more than 1)|3e6||
-|maxSigSlope4FilterCloud_NR|The slope threshold for cloud screening with using NR signal|0.5e6||
 |saturate_thresh|the threshold for signal saturation|100 [MHz]||
 |heightFullOverlap|height for the base of full overlap|[500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150]|polly_overview.xlsx|
 |minSNR_4_sigNorm|The minimum SNR requirement for the signal used for signal normalization both for near- and far- range signal.|[10]||
