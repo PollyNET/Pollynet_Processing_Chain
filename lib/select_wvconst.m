@@ -83,7 +83,7 @@ parse(p, wvconst, wvconstStd, IWVAttri, queryTime, dbFile, pollyType, ...
 %% initialization
 wvconstUsedInfo = struct();
 
-if (sum(~ isnan(wvconst)) ~= 0) && p.Results.flagUsePrevWVConst
+if (any(~ isnan(wvconst))) && p.Results.flagUsePrevWVConst
 
     % take realtime calibration results
     flagCalibrated = ~ isnan(wvconst);
