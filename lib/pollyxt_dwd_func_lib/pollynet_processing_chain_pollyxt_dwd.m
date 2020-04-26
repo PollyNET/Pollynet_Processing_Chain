@@ -87,23 +87,22 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
-if any(flagChannel532FR)
-    PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
-    flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
-else
-    flagCloudFree8km_FR = true(size(data.mTime));
-end
 
-if any(flagChannel532NR)
-    PCR532NR = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / data.hRes;
-    flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud_NR, [config.heightFullOverlap(flagChannel532NR), 3000]);
-else
-    flagCloudFree2km = true(size(data.mTime));
-end
-flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
+[flagCloudFree_FR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+    squeeze(data.signal(flagChannel532FR, :, :)), ...
+    squeeze(data.bg(flagChannel532FR, 1, :)), ...
+    'detectRange', [0, 10000], ...
+    'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
+    'minSNR', 1);
+[flagCloudFree_NR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+    squeeze(data.signal(flagChannel532NR, :, :)), ...
+    squeeze(data.bg(flagChannel532NR, 1, :)), ...
+    'detectRange', [0, 1500], ...
+    'heightFullOverlap', config.heightFullOverlap(flagChannel532NR), ...
+    'minSNR', 1);
 
-data.flagCloudFree2km = flagCloudFree2km & (~ data.shutterOnMask);
-data.flagCloudFree8km = flagCloudFree8km & (~ data.shutterOnMask);
+data.flagCloudFree_NR = flagCloudFree_NR & (~ data.shutterOnMask);
+data.flagCloudFree_FR = flagCloudFree_FR & flagCloudFree_NR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation

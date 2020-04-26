@@ -86,11 +86,15 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 %% cloud screening
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
-PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
 
-flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
+[flagCloudFree_FR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+    squeeze(data.signal(flagChannel532FR, :, :)), ...
+    squeeze(data.bg(flagChannel532FR, 1, :)), ...
+    'detectRange', [0, 10000], ...
+    'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
+    'minSNR', 1);
 
-data.flagCloudFree8km = flagCloudFree8km_FR & (~ data.shutterOnMask);
+data.flagCloudFree_FR = flagCloudFree_FR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
