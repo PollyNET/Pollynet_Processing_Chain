@@ -25,7 +25,7 @@ function [wvconst, wvconstStd, globalAttri] = pollyxt_wv_calibration(data, confi
 %           index of integration range for calculate the raw IWV from lidar.
 %References:
 %   Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P.,
-%   Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
+%   B??hl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman
 %   lidar water vapor profiles by means of AERONET photometer observations
 %   and GDAS meteorological data, Atmospheric Measurement Techniques,
 %   11, 2735-2748, 2018.
@@ -54,6 +54,12 @@ flagChannel387 = config.isFR & config.is387nm;
 flagChannel407 = config.isFR & config.is407nm;
 flagChannel1064 = config.isFR & config.is1064nm;
 flag407On = (~ polly_is407Off(squeeze(data.signal(flagChannel407, :, :))));
+
+% retrieve the time of local sunrise and sunset
+sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, ...
+                        floor(data.mTime(1)), 2880);
+sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
+sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
 
 for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisWVconst = NaN;
@@ -93,9 +99,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine SNR
-    sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali), 3));
-    bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali), 3));
-    sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali), 3));
+    flagLowSolarBG = (data.mTime <= (sunriseTime - datenum(0, 1, 0, 0, 50, 0))) | ...
+                     (data.mTime >= (sunsetTime + datenum(0, 1, 0, 0, 50, 0)));
+    sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
 
     % smooth the signal
     smoothWidth = 10;
@@ -151,12 +159,6 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine whether the water vapor measurements were performed at daytime
-    % retrieve the time of local sunrise and sunset
-    sun_rise_set = suncycle(campaignInfo.lat, campaignInfo.lon, ...
-                            floor(data.mTime(1)), 2880);
-    sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
-    sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
-
     flagDaytimeMeas = false;
     meanT_WVmeas = mean([data.mTime(data.cloudFreeGroups(iGroup, 1)), ...
                          data.mTime(data.cloudFreeGroups(iGroup, 2))]);

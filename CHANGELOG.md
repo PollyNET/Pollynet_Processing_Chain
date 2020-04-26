@@ -1,12 +1,34 @@
-## Pollynet Processing Chain Changelog
+# Pollynet Processing Chain Changelog
 
-### Version 1.3
+## Version 2.0
 
-#### Release date
+### Release date
+
+2020-04-22
+
+### New features
+
+1. Management calibration results with using database. [#20](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/20)
+2. Cloud geometrical properties from target classification products [#21](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/21)
+3. Enable the configuration of output image format [#28](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/28)
+4. Enable the control of output netCDF files [#26](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/26)
+5. New folder structure for polly configuration files [#31](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/31)
+
+### TODO 
+
+* Documentation for algorithms and programs (ongoing)
+* Products design (Product level and structure)
+* Error analysis
+* Interpolation of temperature datasets to remove the artifacts of RH at contigous data segments [#39](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/39)
+* Implement PollyXT_CYP [#33](https://github.com/PollyNET/Pollynet_Processing_Chain/issues/33)
+
+## Version 1.3
+
+### Release date
 
 2019-08-04
 
-#### New features
+### New features
 
 1. Quasi-retrieving algorithm 2 with using channel ratio between Elastic and Raman signal
 2. Rayleigh fit plot with normalization of the range-corrected signal at the reference height
@@ -18,32 +40,23 @@
 8. `Professional` git branches and management
 9. Optimizing the figure layout and annotations
 10. Seamless working with Polly database
-   
-#### TODO 
 
-* Documentation for algorithms and programs (ongoing)
-* Products design (Product level and structure and variables)
-* Error analysis
-* Management calibration results with using database
-* Interpolation of GDAS1 temperature to get a continuous RH
-* Update the defaults for all pollys
+## Version 1.2
 
-### Version 1.2
-
-#### Release date
+### Release date
 
 2019-05-22
 
-#### Features
+### New features
 
 1. Utilizing the ACTRIS data format to publish the processing results.
 2. Extending the config files for more systems.
 3. Revising typos in the scripts.
 4. Adding support for easy-debugging.
 
-### Version 1.1
+## Version 1.1
 
-#### Notable Changes
+### New features
 
 |Time|Changes|Reasoning|
 |:--:|:------|:--------|
@@ -55,12 +68,12 @@
 |2019-03-28|Change the water vapor calibration function. Remove the SNR determination and replace with fixed integration height|SNR determination can not catch the lofted moist layer and will lead to large calibration error.|
 |2019-03-31|Add more iteration times for the quasi-retrieving method|Make the quasi backscatter at 355 and 532 nm converged to the true values|
 
-### Version 1.0
+## Version 1.0
 
-Basic funtionality, including:
+### New features
 
-    - aerosol retrieving
-    - water vapor calibration
-    - depolarization calibration
-    - lidar calibration
-    - data visualization
+1. aerosol retrieving
+2. water vapor calibration
+3. depolarization calibration
+4. lidar calibration
+5. data visualization
