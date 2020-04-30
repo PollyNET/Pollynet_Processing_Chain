@@ -3,7 +3,7 @@ function [report] = pollynet_processing_chain_arielle(taskInfo, config)
 %Example:
 %   [report] = pollynet_processing_chain_arielle(taskInfo, config)
 %Inputs:
-%   taskInfo: struct
+%   fileinfo_new: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -15,7 +15,7 @@ function [report] = pollynet_processing_chain_arielle(taskInfo, config)
 %       dataSize: array
 %           file size of the zipped polly data
 %       pollyVersion: cell
-%           polly lidar label. e.g., 'POLLYXT_TROPOS'
+%           polly lidar label. e.g., 'arielle'
 %   config: struct
 %       polly processing configurations.
 %Outputs:
@@ -111,13 +111,13 @@ fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
 
-[flagCloudFree_FR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+[flagCloudFree_FR, layer_status_FR] = polly_cloudDetect(data.mTime, data.height, ...
     squeeze(data.signal(flagChannel532FR, :, :)), ...
     squeeze(data.bg(flagChannel532FR, 1, :)), ...
     'detectRange', [0, config.maxDecomHeight532], ...
     'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
     'minSNR', 2);
-[flagCloudFree_NR, ~] = polly_cloudDetect(data.mTime, data.height, ...
+[flagCloudFree_NR, layer_status_NR] = polly_cloudDetect(data.mTime, data.height, ...
     squeeze(data.signal(flagChannel532NR, :, :)), ...
     squeeze(data.bg(flagChannel532NR, 1, :)), ...
     'detectRange', [0, 1500], ...
@@ -255,6 +255,36 @@ fprintf('[%s] Finish.\n', tNow());
 %% lidar calibration
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_lidar_calibration(data, config);
+
+% lidar constants for near-range channels
+if ~ isempty(overlapAttri.sigRatio355)
+    LC.LC_raman_355_NR = LC.LC_raman_355 .* overlapAttri.sigRatio355;
+    LC.LCStd_raman_355_NR = LC.LCStd_raman_355 .* overlapAttri.sigRatio355;
+else
+    LC.LC_raman_355_NR = NaN(size(LC.LC_raman_355));
+    LC.LCStd_raman_355_NR = NaN(size(LC.LCStd_raman_355));
+end
+if ~ isempty(overlapAttri.sigRatio387)
+    LC.LC_raman_387_NR = LC.LC_raman_387 .* overlapAttri.sigRatio387;
+    LC.LCStd_raman_387_NR = LC.LCStd_raman_387 .* overlapAttri.sigRatio387;
+else
+    LC.LC_raman_387_NR = NaN(size(LC.LC_raman_387));
+    LC.LCStd_raman_387_NR = NaN(size(LC.LCStd_raman_387));
+end
+if ~ isempty(overlapAttri.sigRatio532)
+    LC.LC_raman_532_NR = LC.LC_raman_532 .* overlapAttri.sigRatio532;
+    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* overlapAttri.sigRatio532;
+else
+    LC.LC_raman_532_NR = NaN(size(LC.LC_raman_532));
+    LC.LCStd_raman_532_NR = NaN(size(LC.LCStd_raman_532));
+end
+if ~ isempty(overlapAttri.sigRatio607)
+    LC.LC_raman_607_NR = LC.LC_raman_607 .* overlapAttri.sigRatio607;
+    LC.LCStd_raman_607_NR = LC.LCStd_raman_607 .* overlapAttri.sigRatio607;
+else
+    LC.LC_raman_607_NR = NaN(size(LC.LC_raman_607));
+    LC.LCStd_raman_607_NR = NaN(size(LC.LCStd_raman_607));
+end
 data.LC = LC;
 
 % select lidar calibration constant
@@ -342,37 +372,49 @@ if processInfo.flagEnableCaliResultsOutput
     %% save lidar calibration results
     save_liconst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Klett_Method');
+                 campaignInfo.name, '355', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Klett_Method');
+                 campaignInfo.name, '532', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Klett_Method');
+                 campaignInfo.name, '1064', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Raman_Method');
+                 campaignInfo.name, '355', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Raman_Method');
+                 campaignInfo.name, '532', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Raman_Method');
+                 campaignInfo.name, '1064', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '387', 'Raman_Method');
+                 campaignInfo.name, '387', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '607', 'Raman_Method');
+                 campaignInfo.name, '607', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'AOD_Constrained_Method');
+                 campaignInfo.name, '355', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+                 campaignInfo.name, '532', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'AOD_Constrained_Method');
+                 campaignInfo.name, '1064', 'AOD_Constrained_Method', 'far_range');
+    save_liconst(dbFile, LC.LC_raman_355_NR, LC.LCStd_raman_355_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '355', 'Raman_Method', 'near_range');
+    save_liconst(dbFile, LC.LC_raman_387_NR, LC.LCStd_raman_387_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '387', 'Raman_Method', 'near_range');
+    save_liconst(dbFile, LC.LC_raman_532_NR, LC.LCStd_raman_532_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method', 'near_range');
+    save_liconst(dbFile, LC.LCStd_raman_607_NR, LC.LCStd_raman_607_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method', 'near_range');
 
     fprintf('[%s] Finish.\n', tNow());
 
@@ -474,7 +516,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-
+        
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -489,7 +531,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-
+        
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
