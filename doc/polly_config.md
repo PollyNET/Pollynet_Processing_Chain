@@ -47,7 +47,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |minPC_fog|The minimum photon count for non-fog profile. The detected photon count between 40th and 120th bin (above the first bin) for each 30s profile will be accumulated for the fog profile screening.|60|Baars H. et al, AMT, A1, 2016|
 |TR|Transmission ratio for different channel.|[0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]|Ronny, AMT, 2016|
 |overlapCalMode|1:estimate the overlap function based on the near-range signal. 2: calculate the overlap function with Raman method (U. Wandinger, et al, Applied Optics, 2002)|1||
-|overlapCorMode|1:overlap correction with using the default overlap function. 2: overlap correction with using the calculated overlap function|1||
+|overlapCorMode|1:overlap correction with using the default overlap function. 2: overlap correction with using the calculated overlap function. 3: overlap correction with gluing near-range and far-range signal|1||
 |overlapSmoothBins|vertical window (bins) for smoothing the noisy overlap function|8||
 |saturate_thresh|the threshold for signal saturation|100 [MHz]||
 |heightFullOverlap|height for the base of full overlap|[500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150]|polly_overview.xlsx|
