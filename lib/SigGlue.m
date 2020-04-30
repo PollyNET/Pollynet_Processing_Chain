@@ -23,10 +23,10 @@ function [sigGl] = SigGlue(sigFR, sigNR, sigRatio, height, normRange)
 
 sigGl = NaN(size(sigFR));
 
-bottomIndx = find(height >= normRange(1), 1);
-topIndx = find(height >= normRange(2), 1);
-
 if (~ isempty(normRange)) && (~ isempty(sigRatio))
+
+    bottomIndx = find(height >= normRange(1), 1);
+    topIndx = find(height >= normRange(2), 1);
 
     % step-like gluing
     sigGl(1:bottomIndx, :) = sigNR(1:bottomIndx, :) ./ sigRatio;
