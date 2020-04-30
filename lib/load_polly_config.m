@@ -79,6 +79,8 @@ for fn = fieldnames(pollyConfig)'
         warning('''maxSigSlope4FilterCloud'' was deprecated!');
     elseif strcmp(fn{1}, 'maxSigSlope4FilterCloud_NR')
         warning('''maxSigSlope4FilterCloud_NR'' was deprecated!');
+    elseif strcmp(fn{1}, 'minSNR_4_sigNorm')
+        warning('''minSNR_4_sigNorm'' was deprecated');
     else
         error('Unknown polly settings: %s', fn{1});
     end

@@ -40,10 +40,12 @@ overlapAttri.overlap607DefaultInterp = [];
 overlapAttri.sig355FR = [];   % Photon count rate [MHz]
 overlapAttri.sig355NR = [];   % Photon count rate [MHz]
 overlapAttri.sigRatio355 = [];
+overlapAttri.sigRatio387 = [];
 overlapAttri.normRange355 = [];
 overlapAttri.sig532FR = [];   % Photon count rate [MHz]
 overlapAttri.sig532NR = [];   % Photon count rate [MHz]
 overlapAttri.sigRatio532 = [];
+overlapAttri.sigRatio607 = [];
 overlapAttri.normRange532 = [];
 
 if isempty(data.rawSignal)
