@@ -28,7 +28,7 @@ flagLC1064 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1});
 att_beta_cRange_355 = config.zLim_att_beta_355;
 att_beta_cRange_532 = config.zLim_att_beta_532;
 att_beta_cRange_1064 = config.zLim_att_beta_1064;
-yLim_att_beta = config.yLim_att_beta;
+yLim_att_beta = config.yLim_OC_att_beta;
 imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
