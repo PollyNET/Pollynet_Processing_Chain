@@ -23,10 +23,10 @@ sigCor = NaN(size(sigFR));
 
 sigNR = sigFR ./ repmat(transpose(overlap), 1, size(sigFR, 2));
 
-bottomIndx = find(height >= normRange(1), 1);
-topIndx = find(height >= normRange(2), 1);
-
 if (~ isempty(normRange))
+    bottomIndx = find(height >= normRange(1), 1);
+    topIndx = find(height >= normRange(2), 1);
+
     % step-like gluing
     sigCor(1:bottomIndx, :) = sigNR(1:bottomIndx, :);
 
