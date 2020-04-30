@@ -155,7 +155,6 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 
 [data.el532, data.bgEl532] = pollyxt_dwd_transratioCor(data, config);
 
-% TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_dwd_klett(data, config);
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_dwd_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_dwd_raman(data, config);
@@ -166,10 +165,26 @@ fprintf('[%s] Finish.\n', tNow());
 %% lidar calibration
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_lidar_calibration(data, config);
+
+% lidar constants for near-range channels
+if ~ isempty(overlapAttri.sigRatio532)
+    LC.LC_raman_532_NR = LC.LC_raman_532 .* overlapAttri.sigRatio532;
+    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* overlapAttri.sigRatio532;
+else
+    LC.LC_raman_532_NR = NaN(size(LC.LC_raman_532));
+    LC.LCStd_raman_532_NR = NaN(size(LC.LCStd_raman_532));
+end
+if ~ isempty(overlapAttri.sigRatio607)
+    LC.LC_raman_607_NR = LC.LC_raman_607 .* overlapAttri.sigRatio607;
+    LC.LCStd_raman_607_NR = LC.LCStd_raman_607 .* overlapAttri.sigRatio607;
+else
+    LC.LC_raman_607_NR = NaN(size(LC.LC_raman_607));
+    LC.LCStd_raman_607_NR = NaN(size(LC.LCStd_raman_607));
+end
 data.LC = LC;
 
 % select lidar calibration constant
-data.LCUsed = pollyxt_select_liconst(data, config, dbFile);
+data.LCUsed = pollyxt_dwd_select_liconst(data, config, dbFile);
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
@@ -229,37 +244,43 @@ if processInfo.flagEnableCaliResultsOutput
     %% save lidar calibration results
     save_liconst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Klett_Method');
+                 campaignInfo.name, '355', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Klett_Method');
+                 campaignInfo.name, '532', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Klett_Method');
+                 campaignInfo.name, '1064', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Raman_Method');
+                 campaignInfo.name, '355', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Raman_Method');
+                 campaignInfo.name, '532', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Raman_Method');
+                 campaignInfo.name, '1064', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '387', 'Raman_Method');
+                 campaignInfo.name, '387', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '607', 'Raman_Method');
+                 campaignInfo.name, '607', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'AOD_Constrained_Method');
+                 campaignInfo.name, '355', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+                 campaignInfo.name, '532', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'AOD_Constrained_Method');
+                 campaignInfo.name, '1064', 'AOD_Constrained_Method', 'far_range');
+    save_liconst(dbFile, LC.LC_raman_532_NR, LC.LCStd_raman_532_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method', 'near_range');
+    save_liconst(dbFile, LC.LCStd_raman_607_NR, LC.LCStd_raman_607_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method', 'near_range');
 
     fprintf('[%s] Finish.\n', tNow());
 

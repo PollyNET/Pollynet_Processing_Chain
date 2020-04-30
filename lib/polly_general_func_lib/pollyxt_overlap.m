@@ -78,10 +78,10 @@ flag1064FR = config.isFR & config.is1064nm & config.isTot;
 if ~ sum(data.flagCloudFree_NR) == 0
 
     % 355 nm
-    sig355NR = squeeze(sum(data.signal(flag355NR, :, data.flagCloudFree2km), 3));
-    bg355NR = squeeze(sum(data.bg(flag355NR, :, data.flagCloudFree2km), 3));
-    sig355FR = squeeze(sum(data.signal(flag355FR, :, data.flagCloudFree2km), 3));
-    bg355FR = squeeze(sum(data.bg(flag355FR, :, data.flagCloudFree2km), 3));
+    sig355NR = squeeze(sum(data.signal(flag355NR, :, data.flagCloudFree_NR), 3));
+    bg355NR = squeeze(sum(data.bg(flag355NR, :, data.flagCloudFree_NR), 3));
+    sig355FR = squeeze(sum(data.signal(flag355FR, :, data.flagCloudFree_NR), 3));
+    bg355FR = squeeze(sum(data.bg(flag355FR, :, data.flagCloudFree_NR), 3));
 
     [overlap355, overlap355_std, sigRatio355, normRange355] = ...
         pollyxt_overlap_cal(sig355FR, bg355FR, sig355NR, bg355NR, data.height, ...
@@ -90,18 +90,18 @@ if ~ sum(data.flagCloudFree_NR) == 0
 
     if (~ isempty(sig355NR)) && (~ isempty(sig355FR))
         % if both near- and far-range channel exist
-        overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-        overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig355FR = sig355FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+        overlapAttri.sig355NR = sig355NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
         overlapAttri.sigRatio355 = sigRatio355;
         overlapAttri.normRange355 = normRange355;
     end
 
     % 387 nm
-    sig387NR = squeeze(sum(data.signal(flag387NR, :, data.flagCloudFree2km), 3));
-    bg387NR = squeeze(sum(data.bg(flag387NR, :, data.flagCloudFree2km), 3));
-    sig387FR = squeeze(sum(data.signal(flag387FR, :, data.flagCloudFree2km), 3));
-    bg387FR = squeeze(sum(data.bg(flag387FR, :, data.flagCloudFree2km), 3));
+    sig387NR = squeeze(sum(data.signal(flag387NR, :, data.flagCloudFree_NR), 3));
+    bg387NR = squeeze(sum(data.bg(flag387NR, :, data.flagCloudFree_NR), 3));
+    sig387FR = squeeze(sum(data.signal(flag387FR, :, data.flagCloudFree_NR), 3));
+    bg387FR = squeeze(sum(data.bg(flag387FR, :, data.flagCloudFree_NR), 3));
 
     [overlap387, overlap387_std, sigRatio387, normRange387] = ...
         pollyxt_overlap_cal(sig387FR, bg387FR, sig387NR, bg387NR, data.height, ...
@@ -110,18 +110,18 @@ if ~ sum(data.flagCloudFree_NR) == 0
 
     if (~ isempty(sig387NR)) && (~ isempty(sig387FR))
         % if both near- and far-range channel exist
-        overlapAttri.sig387FR = sig387FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-        overlapAttri.sig387NR = sig387NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig387FR = sig387FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+        overlapAttri.sig387NR = sig387NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
         overlapAttri.sigRatio387 = sigRatio387;
         overlapAttri.normRange387 = normRange387;
     end
 
     % 532 nm
-    sig532NR = squeeze(sum(data.signal(flag532NR, :, data.flagCloudFree2km), 3));
-    bg532NR = squeeze(sum(data.bg(flag532NR, :, data.flagCloudFree2km), 3));
-    sig532FR = squeeze(sum(data.signal(flag532FR, :, data.flagCloudFree2km), 3));
-    bg532FR = squeeze(sum(data.bg(flag532FR, :, data.flagCloudFree2km), 3));
+    sig532NR = squeeze(sum(data.signal(flag532NR, :, data.flagCloudFree_NR), 3));
+    bg532NR = squeeze(sum(data.bg(flag532NR, :, data.flagCloudFree_NR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532FR, :, data.flagCloudFree_NR), 3));
+    bg532FR = squeeze(sum(data.bg(flag532FR, :, data.flagCloudFree_NR), 3));
 
     [overlap532, overlap532_std, sigRatio532, normRange532] = ...
         pollyxt_overlap_cal(sig532FR, bg532FR, sig532NR, bg532NR, data.height, ...
@@ -130,18 +130,18 @@ if ~ sum(data.flagCloudFree_NR) == 0
 
     if (~ isempty(sig532NR)) && (~ isempty(sig532FR))
         % if both near- and far-range channel exist
-        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig532FR = sig532FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+        overlapAttri.sig532NR = sig532NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
         overlapAttri.sigRatio532 = sigRatio532;
         overlapAttri.normRange532 = normRange532;
     end
 
     % 607 nm
-    sig607NR = squeeze(sum(data.signal(flag607NR, :, data.flagCloudFree2km), 3));
-    bg607NR = squeeze(sum(data.bg(flag607NR, :, data.flagCloudFree2km), 3));
-    sig607FR = squeeze(sum(data.signal(flag607FR, :, data.flagCloudFree2km), 3));
-    bg607FR = squeeze(sum(data.bg(flag607FR, :, data.flagCloudFree2km), 3));
+    sig607NR = squeeze(sum(data.signal(flag607NR, :, data.flagCloudFree_NR), 3));
+    bg607NR = squeeze(sum(data.bg(flag607NR, :, data.flagCloudFree_NR), 3));
+    sig607FR = squeeze(sum(data.signal(flag607FR, :, data.flagCloudFree_NR), 3));
+    bg607FR = squeeze(sum(data.bg(flag607FR, :, data.flagCloudFree_NR), 3));
 
     [overlap607, overlap607_std, sigRatio607, normRange607] = ...
         pollyxt_overlap_cal(sig607FR, bg607FR, sig607NR, bg607NR, data.height, ...
@@ -150,8 +150,8 @@ if ~ sum(data.flagCloudFree_NR) == 0
 
     if (~ isempty(sig607NR)) && (~ isempty(sig607FR))
         % if both near- and far-range channel exist
-        overlapAttri.sig607FR = sig607FR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
-        overlapAttri.sig607NR = sig607NR / sum(data.mShots(data.flagCloudFree2km)) * 150 / data.hRes;
+        overlapAttri.sig607FR = sig607FR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
+        overlapAttri.sig607NR = sig607NR / sum(data.mShots(data.flagCloudFree_NR)) * 150 / data.hRes;
 
         overlapAttri.sigRatio607 = sigRatio607;
         overlapAttri.normRange607 = normRange607;
