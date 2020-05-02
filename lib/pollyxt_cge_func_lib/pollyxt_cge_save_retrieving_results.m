@@ -18,14 +18,24 @@ function pollyxt_cge_save_retrieving_results(data, taskInfo, config)
 %Contact:
 %   zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+global processInfo campaignInfo
+
+%% channel mask
+flagCh355FR = config.isFR & config.is355nm & config.isTot;
+flagCh532FR = config.isFR & config.is532nm & config.isTot;
+flagCh1064FR = config.isFR & config.is1064nm & config.isTot;
 
 missing_value = -999;
 
 for iGroup = 1:size(data.cloudFreeGroups, 1)
-    ncFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_profiles.nc', rmext(taskInfo.dataFilename), datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HHMM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HHMM')));
+
     startTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
     endTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
+
+    ncFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_profiles.nc', rmext(taskInfo.dataFilename), datestr(startTime, 'HHMM'), datestr(endTime, 'HHMM')));
+
+    profiIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
+    shots = nansum(data.mShots(flagCh532FR, profiIndx), 2);
 
     % filling missing values for reference height
     if isnan(data.refHIndx355(iGroup, 1))
@@ -62,6 +72,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_method);
     varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_method);
     varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
+    varID_shots = netcdf.defVar(ncID, 'shots', 'NC_DOUBLE', dimID_method);
+    varID_zenith_angle = netcdf.defVar(ncID, 'zenith_angle', 'NC_DOUBLE', dimID_method);
     varID_aerBsc_klett_355 = netcdf.defVar(ncID, 'aerBsc_klett_355', 'NC_DOUBLE', dimID_height);
     varID_aerBsc_klett_532 = netcdf.defVar(ncID, 'aerBsc_klett_532', 'NC_DOUBLE', dimID_height);
     varID_aerBsc_klett_1064 = netcdf.defVar(ncID, 'aerBsc_klett_1064', 'NC_DOUBLE', dimID_height);
@@ -147,14 +159,18 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarDeflate(ncID, varID_reference_height_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_reference_height_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_reference_height_1064, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_shots, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_zenith_angle, true, true, 5);
 
-    % leve define mode
+    % leave define mode
     netcdf.endDef(ncID);
 
     %% write data to .nc file
     netcdf.putVar(ncID, varID_altitude, data.alt0);
     netcdf.putVar(ncID, varID_longitude, data.lon);
     netcdf.putVar(ncID, varID_latitude, data.lat);
+    netcdf.putVar(ncID, varID_shots, shots);
+    netcdf.putVar(ncID, varID_zenith_angle, data.zenithAng);
     netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
     netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
     netcdf.putVar(ncID, varID_height, data.height);
@@ -220,6 +236,16 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_endTime, 'standard_name', 'time');
     netcdf.putAtt(ncID, varID_endTime, 'calendar', 'julian');
 
+    % accumulated shots
+    netcdf.putAtt(ncID, varID_shots, 'unit', '')
+    netcdf.putAtt(ncID, varID_shots, 'long_name', 'accumulated laser shots');
+    netcdf.putAtt(ncID, varID_shots, 'standard_name', 'shots');
+
+    % zenith angle
+    netcdf.putAtt(ncID, varID_zenith_angle, 'unit', 'degree');
+    netcdf.putAtt(ncID, varID_zenith_angle, 'long_name', 'laser pointing angle with respect to the zenith');
+    netcdf.putAtt(ncID, varID_zenith_angle, 'standard_name', 'zenith_angle');
+
     % height
     netcdf.putAtt(ncID, varID_height, 'unit', 'm');
     netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
@@ -234,7 +260,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'retrieved_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', config.LR355, config.refBeta355 * 1e6, config.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR355, config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_klett_355 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_klett_532
@@ -245,7 +271,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'retrieved_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', config.LR532, config.refBeta532 * 1e6, config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR532, config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_klett_532 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_klett_1064
@@ -256,7 +282,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'retrieved_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', config.LR1064, config.refBeta1064 * 1e6, config.smoothWin_klett_1064 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR1064, config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_klett_1064 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_aeronet_355
@@ -267,7 +293,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD355(iGroup), config.refBeta355 * 1e6, config.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD355(iGroup), config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_klett_355 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_aeronet_532
@@ -278,7 +304,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD532(iGroup), config.refBeta532 * 1e6, config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD532(iGroup), config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_klett_532 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_aeronet_1064
@@ -289,7 +315,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD1064(iGroup), config.refBeta1064 * 1e6, config.smoothWin_klett_1064 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD1064(iGroup), config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_klett_1064 * data.hRes));
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_raman_355
@@ -300,7 +326,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'retrieved_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta355 * 1e6, config.smoothWin_raman_355 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_raman_355 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerBsc_raman_532
@@ -311,7 +337,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'retrieved_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta532 * 1e6, config.smoothWin_raman_532 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_raman_532 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerBsc_raman_1064
@@ -322,7 +348,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'retrieved_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta1064 * 1e6, config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerExt_raman_355
