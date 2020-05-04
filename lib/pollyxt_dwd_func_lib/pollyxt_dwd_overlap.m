@@ -204,6 +204,13 @@ case 3
     data.signal1064OverlapCor = squeeze(data.signal(flag1064FR, :, :));
     data.bg1064OverlapCor = squeeze(data.bg(flag1064FR, :, :));
 
+case 0
+    % no overlap correction
+    data.signal532OverlapCor = squeeze(data.signal(flag532FR, :, :));
+    data.bg532OverlapCor = squeeze(data.bg(flag532FR, :, :));
+    data.signal607OverlapCor = squeeze(data.signal(flag607FR, :, :));
+    data.bg607OverlapCor = squeeze(data.bg(flag607FR, :, :));
+
 otherwise
     error('Unknown overlap correction mode %d', config.overlapCorMode);
 end
