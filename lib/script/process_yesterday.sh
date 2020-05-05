@@ -20,7 +20,7 @@ echo "Month=$Month"
 echo "Day=$Day"
 
 # parameter definition
-POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk','pollyxt_tau','pollyxt_cyp'"
 POLLYNET_CONFIG_FILE='pollynet_processing_chain_config.json'
 
 matlab -nodesktop -nosplash << ENDMATLAB
