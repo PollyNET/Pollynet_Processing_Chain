@@ -275,8 +275,6 @@ fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
 [data.att_beta_355, data.att_beta_532, data.att_beta_1064, ...
  data.att_beta_387, data.att_beta_607] = pollyxt_att_beta(data, config);
 [data.att_beta_OC_355, data.att_beta_OC_532, data.att_beta_OC_1064, ~, ~] = pollyxt_OC_att_beta(data, config);
-%[att_beta_NR_355, att_beta_NR_532, ...
-%          att_beta_NR_387, att_beta_NR_607] = pollyxt_att_beta_NF(data, config)
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
