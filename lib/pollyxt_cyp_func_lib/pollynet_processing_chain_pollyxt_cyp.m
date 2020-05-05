@@ -1,5 +1,5 @@
 function [report] = pollynet_processing_chain_pollyxt_cyp(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_pollyxt_cyp processing the data from pollyxt
+%POLLYNET_PROCESSING_CHAIN_POLLYXT_CYP processing the data from pollyxt
 %Example:
 %   [report] = pollynet_processing_chain_pollyxt_cyp(taskInfo, config)
 %Inputs:
