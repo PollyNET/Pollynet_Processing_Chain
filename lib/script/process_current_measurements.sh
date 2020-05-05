@@ -10,7 +10,7 @@ echo "Process the current available polly data"
 YYYYMMDD=$(date --utc "+%Y%m%d" -d "today")
 
 # parameter definition
-POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk'"
+POLLYLIST="'arielle','pollyxt_lacros','polly_1v2','pollyxt_fmi','pollyxt_dwd','pollyxt_noa','pollyxt_tropos','pollyxt_uw','pollyxt_tjk','pollyxt_cyp"
 POLLY_ROOT_DIR="/pollyhome"
 POLLYNET_CONFIG_FILE='pollynet_processing_chain_config.json'
 

@@ -21,6 +21,7 @@ Troposphärenforschung e.V.). The high temporal and spatial resolved measurement
 - PollyXT_UW
 - PollyXT_TJK
 - PollyXT_TAU
+- PollyXT_CYP
 
 ### polly-related campaigns
 
