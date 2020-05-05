@@ -24,6 +24,7 @@ display_help() {
   echo "                           - PollyXT_DWD"
   echo "                           - PollyXT_TJK"
   echo "                           - PollyXT_TAU"
+  echo "                           - PollyXT_CYP"
   echo "                           - PollyXT_IfT"
   echo "                           - PollyXT_CGE"
   echo "                           - Polly_1st"
