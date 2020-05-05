@@ -1,9 +1,9 @@
-function [report] = pollynet_processing_chain_arielle(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_ARIELLE processing the data from pollyxt
+function [report] = pollynet_processing_chain_pollyxt_cyp(taskInfo, config)
+%POLLYNET_PROCESSING_CHAIN_pollyxt_cyp processing the data from pollyxt
 %Example:
-%   [report] = pollynet_processing_chain_arielle(taskInfo, config)
+%   [report] = pollynet_processing_chain_pollyxt_cyp(taskInfo, config)
 %Inputs:
-%   taskInfo: struct
+%   fileinfo_new: struct
 %       todoPath: cell
 %           path of the todo_filelist
 %       dataPath: cell
@@ -275,8 +275,6 @@ fprintf('\n[%s] Start to calculate attenuated backscatter.\n', tNow());
 [data.att_beta_355, data.att_beta_532, data.att_beta_1064, ...
  data.att_beta_387, data.att_beta_607] = pollyxt_att_beta(data, config);
 [data.att_beta_OC_355, data.att_beta_OC_532, data.att_beta_OC_1064, ~, ~] = pollyxt_OC_att_beta(data, config);
-%[att_beta_NR_355, att_beta_NR_532, ...
-%          att_beta_NR_387, att_beta_NR_607] = pollyxt_att_beta_NF(data, config)
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
@@ -470,7 +468,6 @@ if processInfo.flagEnableResultsOutput
 
         case 'cloudinfo'
             pollyxt_save_cloudinfo(data, taskInfo, config);
-
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end
@@ -481,7 +478,7 @@ end
 
 %% visualization
 if processInfo.flagEnableDataVisualization
-
+        
     if processInfo.flagDeletePreOutputs
         % delete the previous outputs
         % This is only necessary when you run the code on the server, 
@@ -496,7 +493,7 @@ if processInfo.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(taskInfo.dataFilename)));
-
+        
         % delete the files
         for iFile = 1:length(fileList)
             delete(fileList{iFile});
