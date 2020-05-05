@@ -25,9 +25,9 @@ function [ data ] = polly_read_rawdata(file, varargin)
 %           datetime array for the measurement time of each profile.
 %       depCalAng: array
 %           angle of the polarizer in the receiving channel. (>0 means 
-%           calibration process starts)
-%       zenithAng: array
-%           zenith angle of the laer beam.
+%           calibration process starts). [degree]
+%       zenithAng: numeric
+%           zenith angle of the laser beam. [degree]
 %       repRate: float
 %           laser pulse repetition rate. [s^-1]
 %       hRes: float
