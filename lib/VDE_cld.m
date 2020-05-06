@@ -1,6 +1,6 @@
 function [layerInfo, PD, PN] = VDE_cld(signal, height, BG, minLayerDepth, ...
                                        minHeight, smoothWin, minSNR)
-%VDE_CLD cloud layer detection with VDE method. THis method only required elstic
+%VDE_CLD cloud layer detection with VDE method. THis method only requires elstic
 %signal.
 %
 %Inputs:

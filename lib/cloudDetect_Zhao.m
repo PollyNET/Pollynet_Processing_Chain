@@ -1,14 +1,14 @@
-function [flagCloudFree, layerStatus] = polly_cloudDetect(time, height, signal, bg, varargin)
-%POLLY_CLOUDDETECT cloud layer detection
+function [flagCloudFree, layerStatus] = cloudDetect_Zhao(time, height, signal, bg, varargin)
+%CLOUDDETECT_ZHAO cloud layer detection based on Zhao's algorithm.
 %Example:
 %   % Usecase 1: get the cloud mask
-%   flagCloudFree = polly_cloudDetect(time, height, signal, bg);
+%   flagCloudFree = cloudDetect_Zhao(time, height, signal, bg);
 %
 %   % Usecase 2: specify the detection range
-%   [flagCloudFree, layerStatus] = polly_cloudDetect(time, height, signal, bg, 'detectRange', [0, 8000])
+%   [flagCloudFree, layerStatus] = cloudDetect_Zhao(time, height, signal, bg, 'detectRange', [0, 8000])
 %
 %   % Usecase 3: specify the minimum layer depth
-%   [flagCloudFree, layerStatus] = polly_cloudDetect(time, height, signal, bg, 'minDepth', 500);
+%   [flagCloudFree, layerStatus] = cloudDetect_Zhao(time, height, signal, bg, 'minDepth', 500);
 %
 %Inputs:
 %   time: array
@@ -35,6 +35,11 @@ function [flagCloudFree, layerStatus] = polly_cloudDetect(time, height, signal, 
 %       cloud free mask for each profile.
 %   layerStatus: matrix (height x time)
 %       layer status for each bin. (0: unknown; 1: cloud; 2: aerosol)
+%References:
+%   1. Zhao, C., Y. Wang, Q. Wang, Z. Li, Z. Wang, and D. Liu (2014), A new
+%      cloud and aerosol layer detection method based on micropulse lidar 
+%      measurements, Journal of Geophysical Research: Atmospheres, 119(11),
+%      6788-6802.
 %History:
 %   2020-04-26. First Edition by Zhenping
 %Contact:
