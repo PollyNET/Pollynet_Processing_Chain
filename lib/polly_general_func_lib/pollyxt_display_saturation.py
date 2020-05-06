@@ -486,7 +486,7 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.set_ylim(yLim_FR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xticks(xtick.tolist())
@@ -542,7 +542,7 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.set_ylim(yLim_FR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xticks(xtick.tolist())
@@ -598,7 +598,7 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.set_ylim(yLim_NR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xticks(xtick.tolist())
@@ -654,7 +654,7 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
-    ax.set_ylim(yLim_WV_RH.tolist())
+    ax.set_ylim(yLim_NR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
     ax.yaxis.set_minor_locator(MultipleLocator(200))
     ax.set_xticks(xtick.tolist())
