@@ -75,10 +75,6 @@ pollyConfig.is607nm = logical(pollyConfig.is607nm);
 for fn = fieldnames(pollyConfig)'
     if isfield(pollyGlobalConfig, fn{1})
         pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
-    elseif strcmp(fn{1}, 'maxSigSlope4FilterCloud')
-        warning('''maxSigSlope4FilterCloud'' was deprecated!');
-    elseif strcmp(fn{1}, 'maxSigSlope4FilterCloud_NR')
-        warning('''maxSigSlope4FilterCloud_NR'' was deprecated!');
     elseif strcmp(fn{1}, 'minSNR_4_sigNorm')
         warning('''minSNR_4_sigNorm'' was deprecated');
     else
