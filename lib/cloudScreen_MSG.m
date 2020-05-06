@@ -1,14 +1,16 @@
-function flagCloudFree = cloudScreen_MSG(height, signal, slope_thres, ...
+function flagCloudFree = cloudScreen_MSG(time, height, signal, slope_thres, ...
                                          search_region)
 %CLOUDSCREEN_MSG cloud screen with maximum signal gradient.
 %Usage:
 %   flagCloudFree = cloudScreen_MSG(height, signal, slope_thres, ...
 %                                     search_region)
 %Inputs:
+%   time: array
+%       measurement time for each profile.
 %   height: array
 %       height. [m]
-%   signal: array
-%       photon count rate. [MHz] height * time
+%   signal: matrix (height * time)
+%       photon count rate. [MHz]
 %   slope_thres: float
 %       threshold of the slope to determine whether there is 
 %       strong backscatter signal. [MHz*m]

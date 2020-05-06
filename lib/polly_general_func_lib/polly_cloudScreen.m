@@ -1,4 +1,4 @@
-function flagCloudFree = polly_cloudScreen(time, height, signal, varargin)
+function [flagCloudFree, layerStatus] = polly_cloudScreen(time, height, signal, varargin)
 %POLLY_CLOUDSCREEN cloud screen.
 %Example:
 %   % Usecase 1: get the cloud mask
@@ -9,7 +9,7 @@ function flagCloudFree = polly_cloudScreen(time, height, signal, varargin)
 %          'mode', 1, 'detectRange', [0, 8000], 'slope_thres', 1e7)
 %
 %   % Usecase 3: cloudscreen with using Zhao's algorithm
-%   flagCloudFree = polly_cloudScreen(time, height, signal, ...
+%   [flagCloudFree, layerStatus] = polly_cloudScreen(time, height, signal, ...
 %           'mode', 2, 'minDepth', 500);
 %
 %Inputs:
@@ -41,6 +41,8 @@ function flagCloudFree = polly_cloudScreen(time, height, signal, varargin)
 %Outputs:
 %   flagCloudFree: array
 %       cloud free mask for each profile.
+%   layerStatus: matrix (height x time)
+%       layer status for each bin. (0: unknown; 1: cloud; 2: aerosol)
 %References:
 %   1. Zhao, C., Y. Wang, Q. Wang, Z. Li, Z. Wang, and D. Liu (2014), A new
 %      cloud and aerosol layer detection method based on micropulse lidar 
@@ -78,14 +80,14 @@ switch p.Results.mode
 case 1
 
     % signal gradient method
-    flagCloudFree = cloudScreen_MSG(height, signal, p.Results.slope_thres, ...
+    flagCloudFree = cloudScreen_MSG(time, height, signal, p.Results.slope_thres, ...
                                     p.Results.detectRange);
 
 case 2
 
     % Zhao's algorithm
-    flagCloudFree = cloudDetect_Zhao(height, time, signal, ...
-                                     p.Results.background, varargin);
+    [flagCloudFree, layerStatus] = cloudDetect_Zhao(time, height, signal, ...
+                                        p.Results.background, varargin{:});
 
 otherwise
     error('Unknown cloud screening mode.');
