@@ -58,17 +58,15 @@ if exist(file, 'file') ~= 2
 end
 
 %% read laserlog (credits to Martin's python script "pollyhk_standalone.py")
-SC_regexp = '(?<=SC,)\d*\.?\d*';
-VS_regexp = '(?<=VS,)\d*\.?\d*';
-WT_regexp = '(?<=WT,)\d*\.?\d*';
-HT_regexp = '(?<=HT,)\d*\.?\d*';
-EO_regexp = '(?<=EO,)\d*\.?\d*';
-EN_regexp = '(?<=EN,)\d*\.?\d*';
-AD_regexp = '(?<=AD,)\d*\.?\d*';
-LS_regexp = '(?<=LS,\d*,)\d*(?=,)';
-HV1064_regexp = '(?<=HV1064: )-?\d*\.?\d*(?= V)';
-Temp1_regexp = '(?<=Temp1: )-?\d*\.?\d*(?= C)';
-Temp2_regexp = '(?<=Temp2: )-?\d*\.?\d*(?= C)';
+SC_regexp = '(?<=SC,) *\d*\.?\d*';
+WT_regexp = '(?<=WT,) *\d*\.?\d*';
+HT_regexp = '(?<=HT,) *\d*\.?\d*';
+EN_regexp = '(?<=EN,) *\d*\.?\d*';
+AD_regexp = '(?<=AD,) *\d*\.?\d*';
+LS_regexp = '(?<=LS,\d*,) *\d*(?=,)';
+HV1064_regexp = '(?<=HV1064: ) *-?\d*\.?\d*(?= V)';
+Temp1_regexp = '(?<=Temp1: ) *-?\d*\.?\d*(?= C)';
+Temp2_regexp = '(?<=Temp2: ) *-?\d*\.?\d*(?= C)';
 dateSpec = '(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})';
 
 fid = fopen(file, 'r');
