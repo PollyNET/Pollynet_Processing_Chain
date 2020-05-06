@@ -72,23 +72,21 @@ if exist(file, 'file') ~= 2
 end
 
 %% read laserlog (credits to Martin's python script "pollyhk_standalone.py")
-SC_regexp = '(?<=SC,)\d*\.?\d*';
-VS_regexp = '(?<=VS,)\d*\.?\d*';
-WT_regexp = '(?<=WT,)\d*\.?\d*';
-HT_regexp = '(?<=HT,)\d*\.?\d*';
-EO_regexp = '(?<=EO,)\d*\.?\d*';
-EN_regexp = '(?<=EN,)\d*\.?\d*';
-AD_regexp = '(?<=AD,)\d*\.?\d*';
-LS_regexp = '(?<=LS,\d*,)\d*(?=,)';
-Temp1064_regexp = '(?<=Temp1064: )-?\d*\.?\d*(?= C)';
-Temp1_regexp = '(?<=Temp1: )-?\d*\.?\d*(?= C)';
-Temp2_regexp = '(?<=Temp2: )-?\d*\.?\d*(?= C)';
-OutsideRH_regexp = '(?<=OutsideRH: )\d*\.?\d*(?= %)';
-OutsideT_regexp = '(?<=OutsideT: )-?\d*\.?\d*(?= C)';
-roof_regexp = '(?<=roof: )\d{1}';
-rain_regexp = '(?<=rain: )\d{1}';
-shutter_regexp = '(?<=shutter: )\d{1}';
-ExtPyro_regexp = '(?<=ExtPyro: )\d*\.?\d*(?= mJ)';
+SC_regexp = '(?<=SC,) *\d*\.?\d*';
+WT_regexp = '(?<=WT,) *\d*\.?\d*';
+HT_regexp = '(?<=HT,) *\d*\.?\d*';
+EN_regexp = '(?<=EN,) *\d*\.?\d*';
+AD_regexp = '(?<=AD,) *\d*\.?\d*';
+LS_regexp = '(?<=LS,\d*,) *\d*(?=,)';
+Temp1064_regexp = '(?<=Temp1064: ) *-?\d*\.?\d*(?= C)';
+Temp1_regexp = '(?<=Temp1: ) *-?\d*\.?\d*(?= C)';
+Temp2_regexp = '(?<=Temp2: ) *-?\d*\.?\d*(?= C)';
+OutsideRH_regexp = '(?<=OutsideRH: ) *\d*\.?\d*(?= %)';
+OutsideT_regexp = '(?<=OutsideT: ) *-?\d*\.?\d*(?= C)';
+roof_regexp = '(?<=roof: ) *\d{1}';
+rain_regexp = '(?<=rain: ) *\d{1}';
+shutter_regexp = '(?<=shutter: ) *\d{1}';
+ExtPyro_regexp = '(?<=ExtPyro: ) *\d*\.?\d*(?= mJ)';
 dateSpec = '(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2}) (?<hour>\d{2}):(?<minute>\d{2}):(?<second>\d{2})';
 
 fid = fopen(file, 'r');
