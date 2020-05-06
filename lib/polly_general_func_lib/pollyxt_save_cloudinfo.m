@@ -14,7 +14,12 @@ function pollyxt_save_cloudinfo(data, taskInfo, config)
 %Contact:
 %   zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+global processInfo campaignInfo
+
+if ~ isfield(data, 'clBaseH')
+    warning('No available cloud information.');
+    return;
+end
 
 ncfile = fullfile(processInfo.results_folder, ...
                   campaignInfo.name, ...
