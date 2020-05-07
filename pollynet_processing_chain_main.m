@@ -15,6 +15,9 @@ function report = pollynet_processing_chain_main(pollynetConfigFile)
 %Contact:
 %   zhenping@tropos.de
 
+% declare global variables
+global processInfo campaignInfo defaults
+
 clc;
 
 %% get the project directory
@@ -40,32 +43,33 @@ run(fullfile(projectDir, 'lib', 'addincludepath.m'));
 if exist(pollynetConfigFile, 'file') ~= 2
     error('Unrecognizable configuration file\n%s\n', pollynetConfigFile);
 else
-    config = loadjson(pollynetConfigFile);
-    config.projectDir = projectDir;
+    processInfo = loadjson(pollynetConfigFile);
+    processInfo.projectDir = projectDir;
+
+    if isfield(processInfo, 'programVersion')
+        warning('''programVersion'' was deprecated.');
+    end
+    processInfo.programVersion = '2.0';
 end
 
 % reduce the dependence on additionable toolboxes to get rid of license problems
 % after the turndown of usage of matlab toolbox, we need to replace the applied
 % function with user defined functions
-if config.flagReduceMATLABToolboxDependence
+if processInfo.flagReduceMATLABToolboxDependence
     license('checkout', 'statistics_toolbox', 'disable');
     fprintf('Disable the usage of matlab statistics_toolbox\n');
 end
-
-% declare global variables
-global processInfo campaignInfo defaults
-processInfo = config;
 %------------------------------------------------------------------------------%
 
 %% Parameter definition
 report = cell(0);
 
 %% read todo task
-fileinfo_new = read_fileinfo_new(config.fileinfo_new);
+fileinfo_new = read_fileinfo_new(processInfo.fileinfo_new);
 
 %% read campaign history and polly configuration history info
-pollynet_history = read_pollynet_history(config.pollynet_history_of_places_new);
-pollynet_config_history = read_pollynet_processing_configs(config.pollynet_config_history_file);   
+pollynet_history = read_pollynet_history(processInfo.pollynet_history_of_places_new);
+pollynet_config_history = read_pollynet_processing_configs(processInfo.pollynet_config_history_file);   
 
 %% start the processing chain
 for iTask = 1:length(fileinfo_new.dataFilename)
@@ -83,11 +87,11 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     taskInfo.startTime = now();
 
     %% turn on the diary to log all the command output for debugging
-    if ~ exist(config.log_folder, 'dir')
-        fprintf('Create the log folder: %s.\n', config.log_folder);
-        mkdir(config.log_folder);
+    if ~ exist(processInfo.log_folder, 'dir')
+        fprintf('Create the log folder: %s.\n', processInfo.log_folder);
+        mkdir(processInfo.log_folder);
     end
-    logFile = fullfile(config.log_folder, ...
+    logFile = fullfile(processInfo.log_folder, ...
                        sprintf('%s-%s.log', ...
                                rmext(taskInfo.dataFilename), ...
                                taskInfo.pollyVersion));
@@ -103,7 +107,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     fprintf('MATLAB: %s\n', version);
 
     %% determine the data size
-    if taskInfo.dataSize <= config.minDataSize
+    if taskInfo.dataSize <= processInfo.minDataSize
         fprintf(['The current data size is not large enough\n%s\n. ', ...
                  'Jump over the task.\n'], taskInfo.dataFilename);
         diaryoff;
@@ -174,7 +178,7 @@ for iTask = 1:length(fileinfo_new.dataFilename)
     %% load polly configuration
     fprintf('\n[%s] Start to load the polly config.\n', tNow());
     pollyConfig = load_polly_config(pollyProcessInfo.pollyConfigFile, ...
-                                    config.polly_config_folder);
+                                    processInfo.polly_config_folder);
     if ~ isstruct(pollyConfig)
         fprintf('Failure in loading %s for %s.\n', ...
                 pollyProcessInfo.pollyConfigFile, campaignInfo.name);
