@@ -19,7 +19,6 @@ This file was used to configure the `Pollynet_Processing_Chain` to find data, li
 |institute|institute where you want to write into the results with netCDF files|string|"Ground-based Remote Sensing Group (TROPOS)"|
 |homepage|homepage of the pollynet website, which will be written to the results with netCDF files|string|"http://polly.rsd.tropos.de"|
 |contact|contact for dealing all the feedback of bugs and questions|string|"Zhenping Yin <zhenping@tropos.de>"|
-|programVersion|version label, which will be written into the results and annotated on the figures as well|string|"1.3"|
 |visualizationMode|interpreter for data visualization (MATLAB support has not been finished yet)|string|"python"|
 |pyBinDir|python binary directory, which holds the python interpreter. If you set the **visualizationMode** to python, this variable needs to be set accordingly.|string|"C:\\Users\\zhenping\\Software"|
 |flagDeleteData|flag to control whether to delete the extracted polly data files after the processing||false|
