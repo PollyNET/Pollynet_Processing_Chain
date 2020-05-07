@@ -611,6 +611,7 @@ if processInfo.flagEnableDataVisualization
     disp('Display attnuated backscatter')
     pollyxt_display_att_beta(data, taskInfo, config);
     pollyxt_display_OC_att_beta(data, taskInfo, config);
+    pollyxt_display_NR_att_beta(data, taskInfo, config);
 
     %% display WVMR and RH
     disp('Display WVMR and RH')

@@ -114,7 +114,8 @@ I will summarize all the configurations in the table below. But you should keep 
 |yLim_WVConst|y-range of the profile of water vapor calibration constant|[0, 20]|[Guangyao D. et al, AMT, 2018](https://ui.adsabs.harvard.edu/link_gateway/2018AMT....11.2735D/doi:10.5194/amt-11-2735-2018)|
 |yLim_FR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from far-range channels|[0, 20000] m||
 |yLim_NR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from near-range channels|[0, 3000] m||
-|yLim_att_beta|y-range of the time-height plot of attenuated backscatter|[0, 15000] Mm^{-1}sr^{-1}||
+|yLim_att_beta|y-range of the time-height plot of far-field attenuated backscatter|[0, 15000] [m]||
+|yLim_att_beta_NR|y-range of the time-height plot of near-field attenuated backscatter|[0, 3000] [m]||
 |yLim_Quasi_Params|y-range of aerosol optical products retrieved by quasi-retrieving method|[0, 12000] m|Baars H. et al, AMT, 2017|
 |yLim_WV_RH|y-range of the profile of water vapor mixing ratio (relative humidity)|[0, 7000] m||
 |yLim_Profi_Ext|y-range of the profile of extinction coefficient|[0, 5000] m||
