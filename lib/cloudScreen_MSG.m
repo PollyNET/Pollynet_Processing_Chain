@@ -1,14 +1,16 @@
-function flagCloudFree = polly_cloudscreen(height, signal, slope_thres, ...
-                                           search_region)
-%POLLY_CLOUDSCREEN mask cloud-free profiles
+function flagCloudFree = cloudScreen_MSG(time, height, signal, slope_thres, ...
+                                         search_region)
+%CLOUDSCREEN_MSG cloud screen with maximum signal gradient.
 %Usage:
-%   flagCloudFree = polly_cloudscreen(height, signal, slope_thres, ...
+%   flagCloudFree = cloudScreen_MSG(height, signal, slope_thres, ...
 %                                     search_region)
 %Inputs:
+%   time: array
+%       measurement time for each profile.
 %   height: array
 %       height. [m]
-%   signal: array
-%       photon count rate. [MHz] height * time
+%   signal: matrix (height * time)
+%       photon count rate. [MHz]
 %   slope_thres: float
 %       threshold of the slope to determine whether there is 
 %       strong backscatter signal. [MHz*m]
@@ -27,7 +29,7 @@ if nargin < 4
 end
 
 if search_region(2) <= height(1)
-    error('not a valid search_region.');
+    error('Not a valid search_region.');
 end
 
 if search_region(1) < height(1)
@@ -36,7 +38,7 @@ if search_region(1) < height(1)
     search_region(1) = height(1);
 end
 
-flagCloudFree = false(1, size(signal, 2));
+flagCloudFree = false(size(time));
 
 % Range Corrected Signal
 RCS = signal .* repmat(transpose(height), 1, size(signal, 2)).^2;

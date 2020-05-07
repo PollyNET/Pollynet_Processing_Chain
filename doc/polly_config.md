@@ -49,11 +49,12 @@ I will summarize all the configurations in the table below. But you should keep 
 |overlapCalMode|1:estimate the overlap function based on the near-range signal. 2: calculate the overlap function with Raman method (U. Wandinger, et al, Applied Optics, 2002)|1||
 |overlapCorMode|0: no overlap correction; 1:overlap correction with using the default overlap function; 2: overlap correction with using the calculated overlap function; 3: overlap correction with gluing near-range and far-range signal|1||
 |overlapSmoothBins|vertical window (bins) for smoothing the noisy overlap function|8||
-|maxSigSlope4FilterCloud|The slope threshold for cloud screening. The screening is based on the slope of the Range Corrected Signal(photon count * m^2). In theory, this should be done with the attenuated backscatter. Since the lidar constant is unknown and cloud-screen is highly important for retrieving aerosol profiles, this is the only applicable way to my knowledge. Attention should be paid for the threshold setting, because it’s dependent on the the order of ND filter. But it’s not very sensitive because cloud scattering signal is much more stronger than that from aerosols. You can keep this value if there is no dramatic changes of ND filter(more than 1)|3e6||
-|maxSigSlope4FilterCloud_NR|The slope threshold for cloud screening with using NR signal|0.5e6||
 |saturate_thresh|the threshold for signal saturation|100 [MHz]||
 |heightFullOverlap|height for the base of full overlap|[500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150]|polly_overview.xlsx|
 |minSNR_4_sigNorm|The minimum SNR requirement for the signal used for signal normalization both for near- and far- range signal.|[10]||
+|cloudScreenMode|1: using signal gradient; 2: using Zhao's algorithm|1||
+|maxSigSlope4FilterCloud|The slope threshold for cloud screening. The screening is based on the slope of the Range Corrected Signal(photon count * m^2). In theory, this should be done with the attenuated backscatter. Since the lidar constant is unknown and cloud-screen is highly important for retrieving aerosol profiles, this is the only applicable way to my knowledge. Attention should be paid for the threshold setting, because it’s dependent on the the order of ND filter. But it’s not very sensitive because cloud scattering signal is much more stronger than that from aerosols. You can keep this value if there is no dramatic changes of ND filter(more than 1)|3e6||
+|maxSigSlope4FilterCloud_NR|The slope threshold for cloud screening with using NR signal|0.5e6||
 |intNProfiles|Accumulated profiles for retrieving.|120||
 |minIntNProfiles|minimum integral profiles for aerosol retrieving|90||
 |meteorDataSource|the data source for meteorological data. If the current data does not exist. It will turn to standard atmosphere model.|"gdas1"||
@@ -113,7 +114,8 @@ I will summarize all the configurations in the table below. But you should keep 
 |yLim_WVConst|y-range of the profile of water vapor calibration constant|[0, 20]|[Guangyao D. et al, AMT, 2018](https://ui.adsabs.harvard.edu/link_gateway/2018AMT....11.2735D/doi:10.5194/amt-11-2735-2018)|
 |yLim_FR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from far-range channels|[0, 20000] m||
 |yLim_NR_RCS|y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**) from near-range channels|[0, 3000] m||
-|yLim_att_beta|y-range of the time-height plot of attenuated backscatter|[0, 15000] Mm^{-1}sr^{-1}||
+|yLim_att_beta|y-range of the time-height plot of far-field attenuated backscatter|[0, 15000] [m]||
+|yLim_att_beta_NR|y-range of the time-height plot of near-field attenuated backscatter|[0, 3000] [m]||
 |yLim_Quasi_Params|y-range of aerosol optical products retrieved by quasi-retrieving method|[0, 12000] m|Baars H. et al, AMT, 2017|
 |yLim_WV_RH|y-range of the profile of water vapor mixing ratio (relative humidity)|[0, 7000] m||
 |yLim_Profi_Ext|y-range of the profile of extinction coefficient|[0, 5000] m||

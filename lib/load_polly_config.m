@@ -75,8 +75,10 @@ pollyConfig.is607nm = logical(pollyConfig.is607nm);
 for fn = fieldnames(pollyConfig)'
     if isfield(pollyGlobalConfig, fn{1})
         pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
+    elseif strcmp(fn{1}, 'minSNR_4_sigNorm')
+        warning('''minSNR_4_sigNorm'' was deprecated');
     else
-        error('Unknow polly settings: %s', fn{1});
+        error('Unknown polly settings: %s', fn{1});
     end
 end
 

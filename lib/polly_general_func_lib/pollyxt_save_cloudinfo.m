@@ -14,7 +14,12 @@ function pollyxt_save_cloudinfo(data, taskInfo, config)
 %Contact:
 %   zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+global processInfo campaignInfo
+
+if ~ isfield(data, 'clBaseH')
+    warning('No available cloud information.');
+    return;
+end
 
 ncfile = fullfile(processInfo.results_folder, ...
                   campaignInfo.name, ...
@@ -124,7 +129,7 @@ netcdf.putAtt(ncID, varID_cloud_phase, 'unit', '');
 netcdf.putAtt(ncID, varID_cloud_phase, 'long_name', 'cloud phase');
 netcdf.putAtt(ncID, varID_cloud_phase, 'standard_name', 'cloud_phase');
 netcdf.putAtt(ncID, varID_cloud_phase, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_cloud_phase, 'comment', 'cloud phase for each classified cloud layer (1: liquid; 2: ice; 3: mixed phase)');
+netcdf.putAtt(ncID, varID_cloud_phase, 'comment', 'cloud phase for each classified cloud layer (0: unknow; 1: liquid; 2: ice; 3: mixed phase)');
 
 % cloud_phase_probability
 netcdf.putAtt(ncID, varID_cloud_phase_probability, 'unit', '');

@@ -22,7 +22,7 @@ if isempty(data.rawSignal)
 end
 
 % mark the continues cloud-free, nonfog, no depol calibration profile
-validProfile = double(data.flagCloudFree8km & (~ data.fogMask) & (~ data.depCalMask));
+validProfile = double(data.flagCloudFree_FR & (~ data.fogMask) & (~ data.depCalMask));
 validProfile(validProfile == 0) = NaN;
 [cloudFreeContGroup, nCloudFreeContGroup] = label(validProfile);   % label continuous cloud-free profiles
 
