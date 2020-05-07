@@ -16,9 +16,11 @@ global processInfo campaignInfo defaults
 
 %% read lidar constant
 [LC532History, LCStd532History, startTime532, stopTime532] = ...
-    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', 'Raman_Method', 'flagBeforeQuery', true);
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '532', ...
+        'Raman_Method', 'far_range', 'flagBeforeQuery', true);
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
-    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', 'Raman_Method', 'flagBeforeQuery', true);
+    load_liconst(taskInfo.dataTime, dbFile, campaignInfo.name, '607', ...
+        'Raman_Method', 'far_range', 'flagBeforeQuery', true);
 if ~ isempty(startTime532)
     LCTime532 = mean([startTime532; stopTime532], 1);
 else

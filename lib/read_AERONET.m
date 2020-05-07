@@ -126,6 +126,10 @@ if ispc
         return;
     end
 elseif isunix
+    % add search path of 'wget' to matlab environment
+    path1 = getenv('PATH');
+    path1 = [path1 ':/usr/local/bin'];
+    setenv('PATH', path1);
     [status, html_text] = system(['wget -qO- "' aod_url '"']);
 end
 

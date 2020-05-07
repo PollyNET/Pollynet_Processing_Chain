@@ -1,6 +1,7 @@
 function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = ...
         select_liconst(liconst, liconstStd, caliStartTime, ...
-            caliStopTime, queryTime, dbFile, pollyType, wavelength, varargin)
+            caliStopTime, queryTime, dbFile, pollyType, wavelength, ...
+            telescope, varargin)
 %select_liconst select the most suitable lidar constant.
 %Example:
 %   [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = select_liconst(liconst,
@@ -24,6 +25,8 @@ function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = ...
 %       polly type name. (case-sensitive)
 %   wavelength: char
 %       wavelength ('355', '532', '1064', '387' or '607')
+%   telescope: char
+%       detection range. ('near_range', or 'far_range')
 %Keywords:
 %   flagUsePrevLC: logical
 %       flag to control whether to search for lidar calibration
@@ -64,6 +67,7 @@ addRequired(p, 'queryTime', @isnumeric);
 addRequired(p, 'dbFile', @ischar);
 addRequired(p, 'pollyType', @ischar);
 addRequired(p, 'wavelength', @ischar);
+addRequired(p, 'telescope', @ischar);
 addParameter(p, 'flagLCCalibration', true, @islogical);
 addParameter(p, 'flagUsePrevLC', true, @islogical);
 addParameter(p, 'deltaTime', datenum(0, 1, 7), @isnumeric);
@@ -71,7 +75,7 @@ addParameter(p, 'default_liconst', NaN, @isnumeric);
 addParameter(p, 'default_liconstStd', true, @isnumeric);
 
 parse(p, liconst, liconstStd, caliStartTime, caliStopTime, queryTime, ...
-      dbFile, pollyType, wavelength, varargin{:});
+      dbFile, pollyType, wavelength, telescope, varargin{:});
 
 if (any(~ isnan(liconst))) && (p.Results.flagLCCalibration)
 
@@ -85,7 +89,7 @@ else
 
     % loading lidar calibration constants from the database.
     [preLc, preLcStd, ~, ~] = load_liconst(queryTime, dbFile, pollyType, ...
-        wavelength, 'Raman_Method', 'deltaTime', ...
+        wavelength, 'Raman_Method', telescope, 'deltaTime', ...
         p.Results.deltaTime, 'flagClosest', true);
 
     if p.Results.flagUsePrevLC && p.Results.flagLCCalibration && ...

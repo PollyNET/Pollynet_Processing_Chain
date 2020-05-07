@@ -29,21 +29,9 @@ function [att_beta_355, att_beta_532, att_beta_1064, att_beta_387, att_beta_607]
 %Contact:
 %   zhenping@tropos.de
 
-att_beta_355 = [];
-att_beta_532 = [];
-att_beta_1064 = [];
-att_beta_387 = [];
-att_beta_607 = [];
-
 if isempty(data.rawSignal)
     return;
 end
-
-flagChannel355 = config.isFR & config.is355nm & config.isTot;
-flagChannel532 = config.isFR & config.is532nm & config.isTot;
-flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-flagChannel387 = config.isFR & config.is387nm;
-flagChannel607 = config.isFR & config.is607nm;
 
 RCS355 = data.signal355OverlapCor .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS355(:, data.depCalMask) = NaN;

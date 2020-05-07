@@ -1,7 +1,7 @@
-function LCUsed = pollyxt_select_liconst(data, config, dbFile)
-%POLLYXT_SELECT_LICONST select the most suitable lidar calibration constants.
+function LCUsed = pollyxt_dwd_select_liconst(data, config, dbFile)
+%POLLYXT_DWD_SELECT_LICONST select the most suitable lidar calibration constants.
 %Example:
-%   LCUsed = pollyxt_select_liconst(data, config, dbFile)
+%   LCUsed = pollyxt_dwd_select_liconst(data, config, dbFile)
 %Inputs:
 %   data.struct
 %       More detailed information can be found in
@@ -62,20 +62,6 @@ function LCUsed = pollyxt_select_liconst(data, config, dbFile)
 %           (1: klett; 2: raman; 3: defaults; 4: history) 
 %       flagLCWarning607NR: integer
 %           flag to show whether the calibration constant is unstable.
-%       LCUsed355NR: float
-%           applied lidar constant at near-range 355 nm.
-%       LCUsedTag355NR: integer
-%           source of the applied lidar constant at near-range 355 nm.
-%           (1: klett; 2: raman; 3: defaults; 4: history) 
-%       flagLCWarning355NR: integer
-%           flag to show whether the calibration constant is unstable.
-%       LCUsed387NR: float
-%           applied lidar constant at near-range 387 nm.
-%       LCUsedTag387NR: integer
-%           source of the applied lidar constant at near-range 387 nm.
-%           (1: klett; 2: raman; 3: defaults; 4: history) 
-%       flagLCWarning387NR: integer
-%           flag to show whether the calibration constant is unstable.
 %History:
 %   2020-04-18. First Edition by Zhenping
 %Contact:
@@ -87,12 +73,10 @@ LC = data.LC;
 
 LCUsed = struct();
 flagChannel355 = config.isFR & config.is355nm & config.isTot;
-flagChannel355NR = config.isNR & config.is355nm & config.isTot;
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 flagChannel387 = config.isFR & config.is387nm;
-flagChannel387NR = config.isNR & config.is387nm;
 flagChannel607 = config.isFR & config.is607nm;
 flagChannel607NR = config.isNR & config.is607nm;
 
@@ -169,25 +153,5 @@ flagChannel607NR = config.isNR & config.is607nm;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', defaults.LC(flagChannel607NR), ...
         'default_liconstStd', defaults.LCStd(flagChannel607NR));
-[LCUsed.LCUsed355NR, ~, LCUsed.LCUsedTag355NR, LCUsed.flagLCWarning355NR] = ...
-    select_liconst(LC.LC_raman_355_NR, zeros(size(LC.LC_raman_355_NR)), ...
-        LC.LC_start_time, ...
-        LC.LC_stop_time, ...
-        mean(data.mTime), dbFile, campaignInfo.name, '355', 'near_range', ...
-        'flagUsePrevLC', config.flagUsePreviousLC, ...
-        'flagLCCalibration', config.flagLCCalibration, ...
-        'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', defaults.LC(flagChannel355NR), ...
-        'default_liconstStd', defaults.LCStd(flagChannel355NR));
-[LCUsed.LCUsed387NR, ~, LCUsed.LCUsedTag387NR, LCUsed.flagLCWarning387NR] = ...
-    select_liconst(LC.LC_raman_387_NR, zeros(size(LC.LC_raman_387_NR)), ...
-        LC.LC_start_time, ...
-        LC.LC_stop_time, ...
-        mean(data.mTime), dbFile, campaignInfo.name, '387', 'near_range', ...
-        'flagUsePrevLC', config.flagUsePreviousLC, ...
-        'flagLCCalibration', config.flagLCCalibration, ...
-        'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', defaults.LC(flagChannel387NR), ...
-        'default_liconstStd', defaults.LCStd(flagChannel387NR));
 
 end

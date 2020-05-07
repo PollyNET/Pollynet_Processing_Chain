@@ -87,23 +87,63 @@ fprintf('[%s] Finish depol calibration.\n', tNow());
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532NR = config.isNR & config.is532nm & config.isTot;
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
-if any(flagChannel532FR)
-    PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
-    flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
+
+PCR = data.signal ./ ...
+repmat(reshape(data.mShots, size(data.mShots, 1), 1, []), ...
+    1, size(data.signal, 2), 1) * 150 / data.hRes;
+
+% far-field
+if config.cloudScreenMode == 1
+
+    % based on signal gradient
+    flagCloudFree_FR = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(PCR(flagChannel532FR, :, :)), ...
+        'mode', 1, ...
+        'detectRange', [config.heightFullOverlap(flagChannel532FR), 7000], ...
+        'slope_thres', config.maxSigSlope4FilterCloud);
+
+elseif config.cloudScreenMode == 2
+
+    % based on Zhao's algorithm
+    [flagCloudFree_FR, ~] = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(data.signal(flagChannel532FR, :, :)), ...
+        'mode', 2, ...
+        'background', squeeze(data.bg(flagChannel532FR, 1, :)), ...
+        'detectRange', [0, config.maxDecomHeight532], ...
+        'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
+        'minSNR', 2);
+
 else
-    flagCloudFree8km_FR = true(size(data.mTime));
+    warning('Unknown cloudscreen mode.');
 end
 
-if any(flagChannel532NR)
-    PCR532NR = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / data.hRes;
-    flagCloudFree2km = polly_cloudscreen(data.height, PCR532NR, config.maxSigSlope4FilterCloud_NR, [config.heightFullOverlap(flagChannel532NR), 3000]);
-else
-    flagCloudFree2km = true(size(data.mTime));
-end
-flagCloudFree8km = flagCloudFree8km_FR & flagCloudFree2km;
+% near-field
+if config.cloudScreenMode == 1
 
-data.flagCloudFree2km = flagCloudFree2km & (~ data.shutterOnMask);
-data.flagCloudFree8km = flagCloudFree8km & (~ data.shutterOnMask);
+    % based on signal gradient
+    flagCloudFree_NR = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(PCR(flagChannel532NR, :, :)), ...
+        'mode', 1, ...
+        'detectRange', [config.heightFullOverlap(flagChannel532NR), 3000], ...
+        'slope_thres', config.maxSigSlope4FilterCloud_NR);
+
+elseif config.cloudScreenMode == 2
+
+    % based on Zhao's algorithm
+    [flagCloudFree_NR, ~] = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(data.signal(flagChannel532NR, :, :)), ...
+        'mode', 2, ...
+        'background', squeeze(data.bg(flagChannel532NR, 1, :)), ...
+        'detectRange', [0, 1500], ...
+        'heightFullOverlap', config.heightFullOverlap(flagChannel532NR), ...
+        'minSNR', 2);
+
+else
+    warning('Unknown cloudscreen mode.');
+end
+
+data.flagCloudFree_NR = flagCloudFree_NR & (~ data.shutterOnMask);
+data.flagCloudFree_FR = flagCloudFree_FR & flagCloudFree_NR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -156,7 +196,6 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 
 [data.el532, data.bgEl532] = pollyxt_dwd_transratioCor(data, config);
 
-% TODO: replace the total 532nm signal with elastic 532 nm signal
 [data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_dwd_klett(data, config);
 [data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_dwd_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_dwd_raman(data, config);
@@ -167,10 +206,26 @@ fprintf('[%s] Finish.\n', tNow());
 %% lidar calibration
 fprintf('\n[%s] Start to lidar calibration.\n', tNow());
 LC = pollyxt_lidar_calibration(data, config);
+
+% lidar constants for near-range channels
+if ~ isempty(overlapAttri.sigRatio532)
+    LC.LC_raman_532_NR = LC.LC_raman_532 .* overlapAttri.sigRatio532;
+    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* overlapAttri.sigRatio532;
+else
+    LC.LC_raman_532_NR = NaN(size(LC.LC_raman_532));
+    LC.LCStd_raman_532_NR = NaN(size(LC.LCStd_raman_532));
+end
+if ~ isempty(overlapAttri.sigRatio607)
+    LC.LC_raman_607_NR = LC.LC_raman_607 .* overlapAttri.sigRatio607;
+    LC.LCStd_raman_607_NR = LC.LCStd_raman_607 .* overlapAttri.sigRatio607;
+else
+    LC.LC_raman_607_NR = NaN(size(LC.LC_raman_607));
+    LC.LCStd_raman_607_NR = NaN(size(LC.LCStd_raman_607));
+end
 data.LC = LC;
 
 % select lidar calibration constant
-data.LCUsed = pollyxt_select_liconst(data, config, dbFile);
+data.LCUsed = pollyxt_dwd_select_liconst(data, config, dbFile);
 fprintf('[%s] Finish.\n', tNow());
 
 %% attenuated backscatter
@@ -230,37 +285,43 @@ if processInfo.flagEnableCaliResultsOutput
     %% save lidar calibration results
     save_liconst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Klett_Method');
+                 campaignInfo.name, '355', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Klett_Method');
+                 campaignInfo.name, '532', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Klett_Method');
+                 campaignInfo.name, '1064', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'Raman_Method');
+                 campaignInfo.name, '355', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Raman_Method');
+                 campaignInfo.name, '532', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'Raman_Method');
+                 campaignInfo.name, '1064', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '387', 'Raman_Method');
+                 campaignInfo.name, '387', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '607', 'Raman_Method');
+                 campaignInfo.name, '607', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '355', 'AOD_Constrained_Method');
+                 campaignInfo.name, '355', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+                 campaignInfo.name, '532', 'AOD_Constrained_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '1064', 'AOD_Constrained_Method');
+                 campaignInfo.name, '1064', 'AOD_Constrained_Method', 'far_range');
+    save_liconst(dbFile, LC.LC_raman_532_NR, LC.LCStd_raman_532_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '532', 'Raman_Method', 'near_range');
+    save_liconst(dbFile, LC.LCStd_raman_607_NR, LC.LCStd_raman_607_NR, ...
+                 LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
+                 campaignInfo.name, '607', 'Raman_Method', 'near_range');
 
     fprintf('[%s] Finish.\n', tNow());
 
@@ -294,6 +355,7 @@ if processInfo.flagEnableResultsOutput
 
     for iProd = 1:length(config.prodSaveList)
         switch lower(config.prodSaveList{iProd})
+
         case 'overlap'
             %% save overlap results
             saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -302,26 +364,34 @@ if processInfo.flagEnableResultsOutput
         case 'aerproffr'
             %% save aerosol optical results
             pollyxt_dwd_save_retrieving_results(data, taskInfo, config);
+
         case 'aerattbetafr'
             %% save attenuated backscatter
             pollyxt_dwd_save_att_bsc(data, taskInfo, config);
+
         case 'voldepol'
             %% save volume depolarization ratio
             pollyxt_dwd_save_voldepol(data, taskInfo, config);
+
         case 'quasiv1'
             %% save quasi results
             pollyxt_dwd_save_quasi_results(data, taskInfo, config);
+
         case 'quasiv2'
             %% save quasi results V2
             pollyxt_dwd_save_quasi_results_V2(data, taskInfo, config);
+
         case 'tc'
             %% save target classification results
             pollyxt_dwd_save_tc(data, taskInfo, config);
+
         case 'tcv2'
             %% save target classification results V2
             pollyxt_dwd_save_tc_V2(data, taskInfo, config);
+
         case 'cloudinfo'
             pollyxt_save_cloudinfo(data, taskInfo, config);
+
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end

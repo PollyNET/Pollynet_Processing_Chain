@@ -81,11 +81,37 @@ fprintf('\n[%s] Finish.\n', tNow());
 %% cloud screening
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
-PCR532FR = squeeze(data.signal(flagChannel532FR, :, :)) ./ repmat(data.mShots(flagChannel532FR, :), numel(data.height), 1) * 150 / data.hRes;
 
-flagCloudFree8km_FR = polly_cloudscreen(data.height, PCR532FR, config.maxSigSlope4FilterCloud, [config.heightFullOverlap(flagChannel532FR), 7000]);
+PCR = data.signal ./ ...
+repmat(reshape(data.mShots, size(data.mShots, 1), 1, []), ...
+    1, size(data.signal, 2), 1) * 150 / data.hRes;
 
-data.flagCloudFree8km = flagCloudFree8km_FR & (~ data.shutterOnMask);
+% far-field
+if config.cloudScreenMode == 1
+
+    % based on signal gradient
+    flagCloudFree_FR = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(PCR(flagChannel532FR, :, :)), ...
+        'mode', 1, ...
+        'detectRange', [config.heightFullOverlap(flagChannel532FR), 7000], ...
+        'slope_thres', config.maxSigSlope4FilterCloud);
+
+elseif config.cloudScreenMode == 2
+
+    % based on Zhao's algorithm
+    [flagCloudFree_FR, layer_status] = polly_cloudScreen(data.mTime, data.height, ...
+        squeeze(data.signal(flagChannel532FR, :, :)), ...
+        'mode', 2, ...
+        'background', squeeze(data.bg(flagChannel532FR, 1, :)), ...
+        'detectRange', [0, config.maxDecomHeight532], ...
+        'heightFullOverlap', config.heightFullOverlap(flagChannel532FR), ...
+        'minSNR', 2);
+
+else
+    warning('Unknown cloudscreen mode.');
+end
+
+data.flagCloudFree_FR = flagCloudFree_FR & (~ data.shutterOnMask);
 fprintf('[%s] Finish cloud-screen.\n', tNow());
 
 %% overlap estimation
@@ -161,6 +187,20 @@ fprintf('[%s] Finish.\n', tNow());
  data.quasiAttri = quasiAttri;
  fprintf('[%s] Finish.\n', tNow());
 
+%% cloud layering
+fprintf('\n[%s] Start to extract cloud information.\n', tNow());
+if config.cloudScreenMode == 2
+    [data.clBaseH, data.clTopH, ~, ~] = ...
+            cloud_layering(data.mTime, data.height, layer_status, ...
+                            'minCloudDepth', 100, ...
+                            'liquidCloudBit', 1, ...
+                            'iceCloudBit', 1, ...
+                            'cloudBits', 1);
+    data.clPh = zeros(size(data.clBaseH));
+    data.clPhProb = zeros(size(data.clBaseH));
+end
+fprintf('[%s] Finish.\n', tNow());
+
 %% saving calibration results
 if processInfo.flagEnableCaliResultsOutput
 
@@ -169,16 +209,16 @@ if processInfo.flagEnableCaliResultsOutput
     %% save lidar calibration results
     save_liconst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Klett_Method');
+                 campaignInfo.name, '532', 'Klett_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'Raman_Method');
+                 campaignInfo.name, '532', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '607', 'Raman_Method');
+                 campaignInfo.name, '607', 'Raman_Method', 'far_range');
     save_liconst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
-                 campaignInfo.name, '532', 'AOD_Constrained_Method');
+                 campaignInfo.name, '532', 'AOD_Constrained_Method', 'far_range');
 
     fprintf('[%s] Finish.\n', tNow());
 
@@ -213,6 +253,7 @@ if processInfo.flagEnableResultsOutput
     for iProd = 1:length(config.prodSaveList)
 
         switch lower(config.prodSaveList{iProd})
+
         case 'overlap'
             %% save overlap results
             saveFile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
@@ -221,12 +262,18 @@ if processInfo.flagEnableResultsOutput
         case 'aerproffr'
             %% save aerosol optical results
             polly_first_save_retrieving_results(data, taskInfo, config);
+
         case 'aerattbetafr'
             %% save attenuated backscatter
             polly_first_save_att_bsc(data, taskInfo, config);
+
         case 'quasiv1'
             %% save quasi results
             polly_first_save_quasi_results(data, taskInfo, config);
+
+        case 'cloudinfo'
+            pollyxt_save_cloudinfo(data, taskInfo, config);
+
         otherwise
             warning('Unknow product %s', config.prodSaveList{iProd});
         end

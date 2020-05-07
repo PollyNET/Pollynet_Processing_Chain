@@ -29,7 +29,7 @@ function [clBaseH, clTopH, clPh, clPhProb] = cloud_layering(time, height, tc, va
 %   clTopH: matrix (MAXCLOUDLAYERS x time)
 %       cloud top height. (m)
 %   clPh: maxtrix (MAXCLOUDLAYERS x time)
-%       cloud phase. (1: ice; 2: liquid; 3: mixed-phase)
+%       cloud phase. (0: unknown; 1: ice; 2: liquid; 3: mixed-phase)
 %   clPhProb: maxtrix (MAXCLOUDLAYERS x time)
 %       probability of cloud phase. (Range: 0-1)
 %History:

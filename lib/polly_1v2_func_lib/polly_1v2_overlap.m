@@ -41,7 +41,7 @@ end
 overlap532 = []; 
 overlap532_std = [];  
 
-if ~ sum(data.flagCloudFree8km) == 0
+if ~ sum(data.flagCloudFree_FR) == 0
 
     switch config.overlapCalMode
 
