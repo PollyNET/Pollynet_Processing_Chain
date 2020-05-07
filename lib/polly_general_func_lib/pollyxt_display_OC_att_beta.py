@@ -182,8 +182,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         )
 
     ax.set_title(
-        'Attenuated Backscatter at {wave}nm'.format(wave=355) +
-        ' Far-Range from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter at {wave}nm'.format(wave=355) +
+        ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
@@ -262,8 +262,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         )
 
     ax.set_title(
-        'Attenuated Backscatter at {wave}nm'.format(wave=532) +
-        ' Far-Range from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter at {wave}nm'.format(wave=532) +
+        ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
@@ -337,8 +337,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         )
 
     ax.set_title(
-        'Attenuated Backscatter at {wave}nm'.format(wave=1064) +
-        ' Far-Range from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter at {wave}nm'.format(wave=1064) +
+        ' from {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
