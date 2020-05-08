@@ -29,11 +29,11 @@ run_matlab() {
     matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 PROJECTDIR = fileparts(fileparts('$cwd'));
 cd(PROJECTDIR);
-addpath(fullfile(PROJECTDIR, 'lib));
+addpath(fullfile(PROJECTDIR, 'lib'));
 
 clc;
 
-extract_cali_results('$DBFILE', '$OUTPUT_DIR', 'tablename', '$TABLENAME', 'prefix', '$PREFIX);
+extract_cali_results('$DBFILE', '$OUTPUT_DIR', 'tablename', '$TABLENAME', 'prefix', '$PREFIX');
 
 exit;
 ENDMATLAB
