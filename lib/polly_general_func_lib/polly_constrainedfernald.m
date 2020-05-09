@@ -80,7 +80,7 @@ hTopIndx = find(SNR(hBaseIndx:end) <= minSNR, 1);
 if isempty(hTopIndx)
     warning(['Failure in searching the index of maxHeight. ' ...
              'Set the default value to be the length of height.']);
-    hTopIndx = numel(height);
+    hTopIndx = numel(SNR(hBaseIndx:end));
 end
 hTopIndx = hBaseIndx + hTopIndx - 1;
 
