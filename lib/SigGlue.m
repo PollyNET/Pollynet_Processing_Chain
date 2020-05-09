@@ -11,7 +11,7 @@ function [sigGl] = SigGlue(sigFR, sigNR, sigRatio, height, normRange)
 %       ratio of lidar constants between near-range and far-range signal.
 %   height: array
 %       height above ground. (m)
-%   normRange: 2-element array
+%   normRange: array
 %       signal normalization range. (m)
 %Outputs:
 %   sigGl: matrix (height * time)
@@ -26,15 +26,15 @@ sigGl = NaN(size(sigFR));
 if (~ isempty(normRange)) && (~ isempty(sigRatio))
 
     bottomIndx = find(height >= normRange(1), 1);
-    topIndx = find(height >= normRange(2), 1);
+    topIndx = find(height >= normRange(end), 1);
 
     % step-like gluing
     sigGl(1:bottomIndx, :) = sigNR(1:bottomIndx, :) ./ sigRatio;
 
     m = repmat((transpose(bottomIndx:topIndx) - bottomIndx) ./ (topIndx - bottomIndx), ...
             1, size(sigFR, 2));
-    sigGl(bottomIndx:topIndx, :) = sigNR(bottomIndx:topIndx, :) ./ sigRatio .* m + ...
-                                sigFR(bottomIndx:topIndx, :) .* (1 - m);
+    sigGl(bottomIndx:topIndx, :) = sigNR(bottomIndx:topIndx, :) ./ sigRatio .* (1 - m) + ...
+                                sigFR(bottomIndx:topIndx, :) .* m;
 
     sigGl(topIndx:end, :) = sigFR(topIndx:end, :);
 end

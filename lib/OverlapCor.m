@@ -9,7 +9,7 @@ function [sigCor] = OverlapCor(sigFR, overlap, height, normRange)
 %       overlap function.
 %   height: array
 %       height above ground. (m)
-%   normRange: 2-element array
+%   normRange: array
 %       signal normalization range. (m)
 %Outputs:
 %   sigCor: matrix (height * time)
@@ -25,15 +25,15 @@ sigNR = sigFR ./ repmat(transpose(overlap), 1, size(sigFR, 2));
 
 if (~ isempty(normRange))
     bottomIndx = find(height >= normRange(1), 1);
-    topIndx = find(height >= normRange(2), 1);
+    topIndx = find(height >= normRange(end), 1);
 
     % step-like gluing
     sigCor(1:bottomIndx, :) = sigNR(1:bottomIndx, :);
 
     m = repmat((transpose(bottomIndx:topIndx) - bottomIndx) ./ (topIndx - bottomIndx), ...
             1, size(sigFR, 2));
-    sigCor(bottomIndx:topIndx, :) = sigNR(bottomIndx:topIndx, :) .* m + ...
-                                    sigFR(bottomIndx:topIndx, :) .* (1 - m);
+    sigCor(bottomIndx:topIndx, :) = sigNR(bottomIndx:topIndx, :) .* (1 - m) + ...
+                                    sigFR(bottomIndx:topIndx, :) .* m;
 
     sigCor(topIndx:end, :) = sigFR(topIndx:end, :);
 end
