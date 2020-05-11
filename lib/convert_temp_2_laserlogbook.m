@@ -1,4 +1,4 @@
-function convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
+function laserlogbookFullpath = convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
 %convert_temp_2_laserlogbook convert the polly temps file to laserlogbook file.
 %Example:
 %   convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
@@ -10,7 +10,8 @@ function convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
 %   pollyTempDirs: cell
 %       the respective temps folder.
 %Outputs:
-%
+%   laserlogbookFullpath: char
+%       absolute path of the laserlogbook file that was converted from the temps file.
 %References:
 %   example of polly temps file:
 % Status sum: 1 -> roof closed, 2 -> no rain
@@ -38,18 +39,28 @@ if length(pollyList) ~= length(pollyTempDirs)
     error('pollyList and pollyTempDirs are not compatible.');
 end
 
+laserlogbookFullpath = '';
+
 %% parsing the fileinfo_new
 taskInfo = read_fileinfo_new(fileinfo_new);
 
 for iTask = 1:length(taskInfo.zipFile)
+
     pollyVersion = taskInfo.pollyVersion{iTask};
     pollyDataFile = taskInfo.zipFile{iTask};
     pollyLaserlogbookFile = sprintf('%s.laserlogbook.txt', taskInfo.dataFilename{iTask});
 
+    if ~ any(ismember(lower(pollyList), lower(pollyVersion)))
+        % if the current polly is not in the pollyList
+        continue;
+    end
+
     switch lower(pollyVersion)
-    case 'pollyxt_tjk'
+
+    case {'pollyxt_tjk', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tau', 'arielle', 'pollyxt_fmi', 'pollyxt_uw'}
+
         pollyDataFileFormat = '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc';
-        pollyTempDir = pollyTempDirs{ismember(lower(pollyList), 'pollyxt_tjk')};
+        pollyTempDir = pollyTempDirs{ismember(lower(pollyList), lower(pollyVersion))};
 
         %% find the polly temps file
         measTime = polly_parsetime(pollyDataFile, pollyDataFileFormat);
@@ -62,6 +73,7 @@ for iTask = 1:length(taskInfo.zipFile)
         fprintf('Start to convert the %s to %s\n', basename(pollyTempsFile), basename(pollyLaserlogbookFile));
         laserlogbookFullpath = fullfile(taskInfo.todoPath{iTask}, taskInfo.dataPath{iTask}, pollyLaserlogbookFile);
         write_laserlogbook(laserlogbookFullpath, laserlogData, 'w');
+
     end
 end
 

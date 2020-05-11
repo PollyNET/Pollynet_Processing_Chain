@@ -157,7 +157,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_355/1e6,
-        vmin=RCS355FRColorRange[0], vmax=RCS355FRColorRange[1], cmap=cmap)
+        vmin=RCS355FRColorRange[0], vmax=RCS355FRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -204,7 +205,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_532/1e6,
-        vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
+        vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -251,7 +253,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_1064/1e6,
-        vmin=RCS1064FRColorRange[0], vmax=RCS1064FRColorRange[1], cmap=cmap)
+        vmin=RCS1064FRColorRange[0], vmax=RCS1064FRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -300,7 +303,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_NR_355/1e6,
-        vmin=RCS355NRColorRange[0], vmax=RCS355NRColorRange[1], cmap=cmap)
+        vmin=RCS355NRColorRange[0], vmax=RCS355NRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -347,7 +351,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_NR_532/1e6,
-        vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
+        vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -394,7 +399,8 @@ def pollyxt_ift_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, volDepol_532,
-        vmin=0.0, vmax=0.3, cmap=cmap)
+        vmin=0.0, vmax=0.3, cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
