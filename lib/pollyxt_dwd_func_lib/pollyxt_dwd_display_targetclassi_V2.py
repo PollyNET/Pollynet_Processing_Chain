@@ -140,7 +140,8 @@ def pollyxt_dwd_display_targetclassi_V2(tmpFile, saveFolder):
     ax = fig.add_axes([0.09, 0.15, 0.67, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, TC_mask,
-        vmin=-0.5, vmax=11.5, cmap=target_classification_colormap()
+        vmin=-0.5, vmax=11.5, cmap=target_classification_colormap(),
+        rasterized=True
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)

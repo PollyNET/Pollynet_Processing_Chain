@@ -146,7 +146,8 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(
         Time, Height, quasi_bsc_532 * 1e6,
         vmin=quasi_beta_cRange_532[0],
-        vmax=quasi_beta_cRange_532[1], cmap=cmap)
+        vmax=quasi_beta_cRange_532[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -192,7 +193,8 @@ def polly_1v2_display_quasiretrieving(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(
         Time, Height, quasi_pardepol_532,
         vmin=quasi_Par_DR_cRange_532[0],
-        vmax=quasi_Par_DR_cRange_532[1], cmap=cmap)
+        vmax=quasi_Par_DR_cRange_532[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
