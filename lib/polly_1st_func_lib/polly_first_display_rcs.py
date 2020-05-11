@@ -143,7 +143,8 @@ def polly_first_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_532/1e6,
-        vmin=zLim_FR_RCS_532[0], vmax=zLim_FR_RCS_532[1], cmap=cmap)
+        vmin=zLim_FR_RCS_532[0], vmax=zLim_FR_RCS_532[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

@@ -152,7 +152,8 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_532/1e6,
-        vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap)
+        vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -200,7 +201,8 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_NR_532/1e6,
-        vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap)
+        vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -247,7 +249,8 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(Time, Height, volDepol_532,
-                           vmin=0.0, vmax=0.3, cmap=cmap)
+                           vmin=0.0, vmax=0.3, cmap=cmap,
+                           rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

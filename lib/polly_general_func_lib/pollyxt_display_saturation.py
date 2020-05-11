@@ -151,8 +151,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_355,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -202,8 +204,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_532,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -257,8 +261,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 1064 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_1064,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_1064,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -313,8 +319,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 355 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_355,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_NR_355,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -369,8 +377,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 532 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_532,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_NR_532,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -425,8 +435,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 407
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_407,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_407,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -481,8 +493,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 387
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_387,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_387,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -537,8 +551,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 607
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_607,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_607,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -593,8 +609,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 387NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_387,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_NR_387,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -649,8 +667,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 607NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_NR_607,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_NR_607,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -705,8 +725,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 355s FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_355s,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_355s,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -756,8 +778,10 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     # display status of 532s FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, SAT_FR_532s,
-                           vmin=-0.5, vmax=2.5, cmap=signal_status_colormap())
+    pcmesh = ax.pcolormesh(
+        Time, Height, SAT_FR_532s,
+        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
