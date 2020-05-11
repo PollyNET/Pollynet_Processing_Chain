@@ -70,7 +70,7 @@
     "minPC_fog": 60,
     "TR": [0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1],
     "overlapCalMode": 1,
-    "overlapCorMode": 1,
+    "overlapCorMode": 3,
     "overlapSmoothBins": 8,
     "saturate_thresh": 100,
     "heightFullOverlap": [500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150],

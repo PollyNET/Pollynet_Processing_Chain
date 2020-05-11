@@ -148,7 +148,8 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_532 * 1e6,
-        vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap)
+        vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

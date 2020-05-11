@@ -80,8 +80,9 @@ end
 
 %% convert polly housekeeping temp file to laserlogbook file
 % This part is only necessary to be configured when you run this code on the rsd server
-pollyList = {'pollyxt_tjk'};   % polly list of which needs to be converted
-pollyTempFolder = {'/pollyhome/pollyxt_tjk/log'};   % root directory of the temps file
+pollyList = {'pollyxt_tjk', 'pollyxt_cyp'};   % polly list of which needs to be converted
+pollyTempFolder = {'/pollyhome/pollyxt_tjk/log', ...
+                   '/pollyhome/pollyxt_cyp/log'};   % root directory of the temps file
 convert_temp_2_laserlogbook(config.fileinfo_new, pollyList, pollyTempFolder);
 
 end

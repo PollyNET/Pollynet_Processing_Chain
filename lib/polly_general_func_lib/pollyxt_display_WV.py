@@ -147,7 +147,8 @@ def pollyxt_display_WV(tmpFile, saveFolder):
         Time, Height, WVMR,
         vmin=xLim_Profi_WV_RH[0],
         vmax=xLim_Profi_WV_RH[1],
-        cmap=cmap
+        cmap=cmap,
+        rasterized=True
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -194,7 +195,8 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     # display RH
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, RH, vmin=0, vmax=100, cmap=cmap)
+    pcmesh = ax.pcolormesh(
+        Time, Height, RH, vmin=0, vmax=100, cmap=cmap, rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
