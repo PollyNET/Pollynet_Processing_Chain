@@ -99,8 +99,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     end
 
     %% determine SNR
-    flagLowSolarBG = (data.mTime <= (sunriseTime - datenum(0, 1, 0, 0, 50, 0))) | ...
-                     (data.mTime >= (sunsetTime + datenum(0, 1, 0, 0, 50, 0)));
+    flagLowSolarBG = (data.mTime <= (sunriseTime - config.tTwilight)) | ...
+                     (data.mTime >= (sunsetTime + config.tTwilight));
     sig387 = squeeze(sum(data.signal(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
     bg387 = squeeze(sum(data.bg(flagChannel387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
     sig407 = squeeze(sum(data.signal(flagChannel407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
