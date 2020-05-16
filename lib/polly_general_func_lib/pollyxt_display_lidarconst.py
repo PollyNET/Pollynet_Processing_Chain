@@ -137,9 +137,10 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
+
     # display lidar constants at 355mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC355_klett,
         color='#008040', linestyle='--', marker='^',
@@ -161,10 +162,15 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim355.tolist())
+    minYLim355 = np.min([LC355_raman, LC355_klett, LC355_aeronet, yLim355[0]])
+    maxYLim355 = np.min([LC355_raman, LC355_klett, LC355_aeronet, yLim355[1]])
+    ax.set_yticks([0.8 * minYLim355, 1.2 * maxYLim355])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
@@ -176,7 +182,8 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
             instrument=pollyVersion,
             location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
@@ -194,7 +201,7 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 532mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC532_klett,
         color='#008040', linestyle='--', marker='^',
@@ -216,22 +223,28 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim532.tolist())
+    minYLim532 = np.min([LC532_raman, LC532_klett, LC532_aeronet, yLim532[0]])
+    maxYLim532 = np.min([LC532_raman, LC532_klett, LC532_aeronet, yLim532[1]])
+    ax.set_yticks([0.8 * minYLim532, 1.2 * maxYLim532])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants {wave}nm'.format(wave=532) +
-        ' Far-Range for {instrument} at {location}'.format(
+        'Lidar constants {wave}nm '.format(wave=532) +
+        'Far-Range for {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
@@ -249,7 +262,7 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 1064mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC1064_klett,
         color='#008040', linestyle='--', marker='^',
@@ -271,22 +284,30 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim1064.tolist())
+    minYLim1064 = np.min(
+        [LC1064_raman, LC1064_klett, LC1064_aeronet, yLim1064[0]])
+    maxYLim1064 = np.min(
+        [LC1064_raman, LC1064_klett, LC1064_aeronet, yLim1064[1]])
+    ax.set_yticks([0.8 * minYLim1064, 1.2 * maxYLim1064])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants {wave}nm'.format(wave=1064) +
-        ' Far-Range for {instrument} at {location}'.format(
+        'Lidar constants {wave}nm '.format(wave=1064) +
+        'Far-Range for {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
@@ -304,7 +325,7 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 387mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC387_raman,
         color='#400080', linestyle='--', marker='o',
@@ -315,22 +336,28 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     ax.legend(handles=[p1], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim387.tolist())
+    minYLim387 = np.min([LC387_raman, yLim387[0]])
+    maxYLim387 = np.min([LC387_raman, yLim387[1]])
+    ax.set_yticks([0.8 * minYLim387, 1.2 * maxYLim387])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants {wave}nm'.format(wave=387) +
-        ' Far-Range for {instrument} at {location}'.format(
+        'Lidar constants {wave}nm '.format(wave=387) +
+        'Far-Range for {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
@@ -348,7 +375,7 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 607mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC607_raman,
         color='#400080', linestyle='--', marker='o',
@@ -359,22 +386,28 @@ def pollyxt_display_lidarconst(tmpFile, saveFolder):
     ax.legend(handles=[p1], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim607.tolist())
+    minYLim607 = np.min([LC607_raman, yLim607[0]])
+    maxYLim607 = np.min([LC607_raman, yLim607[1]])
+    ax.set_yticks([0.8 * minYLim607, 1.2 * maxYLim607])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants {wave}nm'.format(wave=607) +
-        ' Far-Range for {instrument} at {location}'.format(
+        'Lidar constants {wave}nm '.format(wave=607) +
+        'Far-Range for {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     fig.text(0.05, 0.02, datenum_to_datetime(

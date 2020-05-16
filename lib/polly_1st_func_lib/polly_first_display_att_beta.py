@@ -177,7 +177,7 @@ def polly_first_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,

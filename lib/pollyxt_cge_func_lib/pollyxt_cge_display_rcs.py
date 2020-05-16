@@ -177,9 +177,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
-        pcmesh, cax=cb_ax, ticks=np.linspace(
-            RCS355FRColorRange[0],
-            RCS355FRColorRange[1], 5), orientation='vertical')
+        pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -226,9 +224,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
-        pcmesh, cax=cb_ax, ticks=np.linspace(
-            RCS532FRColorRange[0],
-            RCS532FRColorRange[1], 5), orientation='vertical')
+        pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -277,9 +273,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
-        pcmesh, cax=cb_ax, ticks=np.linspace(
-            RCS1064FRColorRange[0],
-            RCS1064FRColorRange[1], 5), orientation='vertical')
+        pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -326,9 +320,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
     cbar = fig.colorbar(
-        pcmesh, cax=cb_ax, ticks=np.linspace(
-            RCS532NRColorRange[0],
-            RCS532NRColorRange[1], 5), orientation='vertical')
+        pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
