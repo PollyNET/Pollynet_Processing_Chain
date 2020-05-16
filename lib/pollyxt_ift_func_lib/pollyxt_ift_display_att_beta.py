@@ -191,7 +191,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
@@ -199,7 +199,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
@@ -218,9 +218,9 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_355.{imgFormat}'.format(
+            '{dataFilename}_ATT_BETA_355.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFormat=imgFormat
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -271,8 +271,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
             ),
         fontsize=15
         )
-
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
@@ -284,7 +283,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
@@ -303,9 +302,9 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_532.{imgFormat}'.format(
+            '{dataFilename}_ATT_BETA_532.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFormat=imgFormat
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI
@@ -348,7 +347,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
         fontsize=15
         )
 
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(
@@ -359,7 +358,7 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
@@ -378,9 +377,9 @@ def pollyxt_ift_display_att_beta(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFilename}_ATT_BETA_1064.{imgFormat}'.format(
+            '{dataFilename}_ATT_BETA_1064.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFormat=imgFormat
+                imgFmt=imgFormat
                 )
             ),
         dpi=figDPI

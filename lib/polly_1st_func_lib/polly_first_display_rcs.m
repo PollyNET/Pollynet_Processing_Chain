@@ -26,8 +26,10 @@ RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(fl
 RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2; 
 yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
-zLim_FR_RCS_532 = config.zLim_FR_RCS_532;
-zLim_NR_RCS_532 = config.zLim_NR_RCS_532;
+% % zLim_FR_RCS_532 = config.zLim_FR_RCS_532;
+RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
+% zLim_NR_RCS_532 = config.zLim_NR_RCS_532;
+RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 3000]) ./ 1e6;
 imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')

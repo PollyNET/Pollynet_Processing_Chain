@@ -30,8 +30,10 @@ volDepol_532 = data.volDepol_532;
 yLim_FR_RCS = config.yLim_FR_RCS;
 yLim_NR_RCS = config.yLim_NR_RCS;
 yLim_FR_DR = config.yLim_FR_DR;
-RCS532FRColorRange = config.zLim_FR_RCS_532;
-RCS532NRColorRange = config.zLim_NR_RCS_532;
+% RCS532FRColorRange = config.zLim_FR_RCS_532;
+RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
+% RCS532NRColorRange = config.zLim_NR_RCS_532;
+RCS355FRColorRange = auto_RCS_cRange(data.height, RCS_FR_355, 'hRange', [0, 4000]) ./ 1e6;
 imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
