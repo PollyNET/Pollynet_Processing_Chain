@@ -58,10 +58,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |intNProfiles|Accumulated profiles for retrieving.|120||
 |minIntNProfiles|minimum integral profiles for aerosol retrieving|90||
 |meteorDataSource|the data source for meteorological data. If the current data does not exist. It will turn to standard atmosphere model.|"gdas1"||
-|radiosondeSitenum|The site number for the nearest radiosonde launching site. (You can search the number in [radiosonde-station-list.txt](/doc/radiosonde-station-list.txt))|14430||
-|IWV_instrument|the data source of IWV. ('mwr' or 'aeronet')|"AERONET"||
-|maxIWVTLag|The minumum lag required for water vapor calibration between IWV data and lidar water vapor measurement.|0.1666 (day)||
-|minDecomLogDist{wavelength}||0.2||
+|radiosondeSitenum|The site number for the nearest radiosonde launching site. (You can search the number in [radiosonde-station-list.txt](/doc/radiosonde-station-list.txt))|14430|||minDecomLogDist{wavelength}||0.2||
 |maxDecomHeight{wavelength}||8000||
 |maxDecomThickness{wavelength}||700||
 |decomSmoothWin{wavelength}|The smoothing window for molecular corrected signal used in Douglas-Peucker decomposition algorithm.|20|[Pollynet_Processing_Chain.pptx](/doc/Pollynet_Processing_Chain.pptx)|
@@ -85,6 +82,9 @@ I will summarize all the configurations in the table below. But you should keep 
 |LCCalibrationStatus|The tag for lidar calibration status, which will displayed in the output figures|["none", "Klett", "Raman", "Defaults"||"History"],
 |quasi_smooth_h|temporal smoothing window for quasi retrieving method. For consistency, this parameter should be set for each channel|[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]||
 |quasi_smooth_t|spatial smoothing window for quasi retrieving method. For consistency, this parameter should be set for each channel|[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]||
+|IWV_instrument|the data source of IWV. ('mwr' or 'aeronet')|"AERONET"||
+|maxIWVTLag|The minumum lag required for water vapor calibration between IWV data and lidar water vapor measurement.|0.1666 (day)||
+|tTwilight|span of the twilight|0.0347 (day)||
 |hWVCaliBase|The minimum height used for calculating the IWV from lidar measurement.|120||
 |minHWVCaliTop|The minimum top height required for calculating the IWV from lidar measurement.|2000||
 |clear_thres_par_beta_1064|The threshold for discriminating clear atmosphere based on particle backscatter at 1064nm|1e-8 m^{-1}|Baars H. et al, AMT, 2016|
