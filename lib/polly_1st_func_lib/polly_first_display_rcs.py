@@ -105,9 +105,11 @@ def polly_first_display_rcs(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         mTime = mat['mTime'][0][:]
         height = mat['height'][0][:]
+        depCalMask = mat['depCalMask'][0][:]
         fogMask = mat['fogMask'][0][:]
         RCS_FR_532 = mat['RCS_FR_532'][:]
-        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        RCS_NR_532 = mat['RCS_NR_532'][:]
+        volDepol_532 = mat['volDepol_532'][:]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -115,7 +117,12 @@ def polly_first_display_rcs(tmpFile, saveFolder):
         dataFilename = mat['taskInfo']['dataFilename'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
-        zLim_FR_RCS_532 = mat['zLim_FR_RCS_532'][:][0]
+        imgFormat = mat['imgFormat'][:][0]
+        yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
+        yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
+        yLim_FR_DR = mat['yLim_FR_DR'][:][0]
+        RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
+        RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
@@ -128,6 +135,7 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     # meshgrid
     Time, Height = np.meshgrid(mTime, height)
+    depCalMask = np.tile(depCalMask, (RCS_FR_532.shape[0], 1))
     fogMask = np.tile(fogMask, (RCS_FR_532.shape[0], 1))
 
     # define the colormap
@@ -138,12 +146,13 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     # display 532 FR
     # filter out the invalid values
+    RCS_FR_532 = np.ma.masked_where(depCalMask != 0, RCS_FR_532)
     RCS_FR_532 = np.ma.masked_where(fogMask == 1, RCS_FR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, RCS_FR_532/1e6,
-        vmin=zLim_FR_RCS_532[0], vmax=zLim_FR_RCS_532[1], cmap=cmap,
+        vmin=RCS532FRColorRange[0], vmax=RCS532FRColorRange[1], cmap=cmap,
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -175,6 +184,94 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_FR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
+    plt.close()
+
+    # display 532 NR
+    # filter out the invalid values
+    RCS_NR_532 = np.ma.masked_where(depCalMask != 0, RCS_NR_532)
+    RCS_NR_532 = np.ma.masked_where(fogMask == 1, RCS_NR_532)
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
+    pcmesh = ax.pcolormesh(
+        Time, Height, RCS_NR_532/1e6,
+        vmin=RCS532NRColorRange[0], vmax=RCS532NRColorRange[1], cmap=cmap,
+        rasterized=True)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.yaxis.set_major_locator(MultipleLocator(1000))
+    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.set_ylim([yLim_NR_RCS[0], yLim_NR_RCS[1]])
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Range-Corrected Signal at ' +
+        '{wave}nm Near-Range from {instrument} at {location}'.format(
+            wave=532, instrument=pollyVersion, location=location), fontsize=15)
+
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, orientation='vertical')
+    cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
+    cbar.ax.set_title('[a.u.]', fontsize=12)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(os.path.join(
+        saveFolder, '{dataFilename}_RCS_NR_532.{imgFmt}'.format(
+            dataFilename=rmext(dataFilename),
+            imgFmt=imgFormat)), dpi=figDPI)
+    plt.close()
+
+    # display voldepol 532
+    # filter out the invalid values
+    volDepol_532 = np.ma.masked_where(depCalMask != 0, volDepol_532)
+    volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
+    fig = plt.figure(figsize=[10, 5])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
+    pcmesh = ax.pcolormesh(Time, Height, volDepol_532,
+                           vmin=0.0, vmax=0.3, cmap=cmap,
+                           rasterized=True)
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('Height (m)', fontsize=15)
+
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
+    ax.set_ylim([yLim_FR_DR[0], yLim_FR_DR[1]])
+    ax.set_xticks(xtick.tolist())
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        'Volume Depolarization Ratio at ' +
+        '{wave}nm from {instrument} at {location}'.format(
+            wave=532, instrument=pollyVersion, location=location), fontsize=15)
+
+    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(
+        0, 0.41, 0.05), orientation='vertical')
+    cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
+    cbar.ax.set_title('', fontsize=12)
+
+    fig.text(0.05, 0.04, datenum_to_datetime(
+        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
+    fig.text(0.8, 0.04, 'Version: {version}'.format(
+        version=version), fontsize=14)
+
+    fig.savefig(os.path.join(
+        saveFolder, '{dataFilename}_VDR_532.{imgFmt}'.format(
             dataFilename=rmext(dataFilename),
             imgFmt=imgFormat)), dpi=figDPI)
     plt.close()

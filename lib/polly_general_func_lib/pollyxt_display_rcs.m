@@ -74,16 +74,20 @@ yLim_NR_RCS = config.yLim_NR_RCS;
 yLim_FR_DR = config.yLim_FR_DR;
 volDepol_355 = data.volDepol_355;
 volDepol_532 = data.volDepol_532;
-% RCS355FRColorRange = config.zLim_FR_RCS_355;
-RCS355FRColorRange = auto_RCS_cRange(data.height, RCS_FR_355, 'hRange', [0, 4000]) ./ 1e6;
-% RCS532FRColorRange = config.zLim_FR_RCS_532;
-RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
-% RCS1064FRColorRange = config.zLim_FR_RCS_1064;
-RCS1064FRColorRange = auto_RCS_cRange(data.height, RCS_FR_1064, 'hRange', [0, 4000]) ./ 1e6;
-% RCS355NRColorRange = config.zLim_NR_RCS_355;
-RCS355NRColorRange = auto_RCS_cRange(data.height, RCS_NR_355, 'hRange', [0, 3000]) ./ 1e6;
-% RCS532NRColorRange = config.zLim_NR_RCS_532;
-RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 3000]) ./ 1e6;
+
+if config.flagAutoscaleRCS
+    RCS355FRColorRange = auto_RCS_cRange(data.height, RCS_FR_355, 'hRange', [0, 4000]) ./ 1e6;
+    RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
+    RCS1064FRColorRange = auto_RCS_cRange(data.height, RCS_FR_1064, 'hRange', [0, 4000]) ./ 1e6;
+    RCS355NRColorRange = auto_RCS_cRange(data.height, RCS_NR_355, 'hRange', [0, 3000]) ./ 1e6;
+    RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 3000]) ./ 1e6;
+else
+    RCS355FRColorRange = config.zLim_FR_RCS_355;
+    RCS532FRColorRange = config.zLim_FR_RCS_532;
+    RCS1064FRColorRange = config.zLim_FR_RCS_1064;
+    RCS355NRColorRange = config.zLim_NR_RCS_355;
+    RCS532NRColorRange = config.zLim_NR_RCS_532;
+end
 imgFormat = config.imgFormat;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')

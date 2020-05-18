@@ -9,6 +9,7 @@
     "flagUsePreviousWVconst": true,
     "flagUsePreviousLC": true,
     "flagUseSameRefH": false,
+    "flagAutoscaleRCS": false,
     
     "MWRFolder": "",
 
