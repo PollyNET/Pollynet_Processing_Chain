@@ -151,8 +151,12 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
 
     # visualization (credits to Martin's python program)
     fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(
-        5, figsize=(15, 13),
-        sharex=True, gridspec_kw={'height_ratios': [1, 1, 1.6, 1, 0.2]})
+        5, figsize=(15, 14), sharex=True,
+        gridspec_kw={
+            'height_ratios': [1, 1, 1.6, 1, 0.6],
+            'hspace': 0.10,
+            'left': 0.07, 'right': 0.97, 'top': 0.97, 'bottom': 0.06}
+        )
 
     if AD.size != 0:
         if AD[0][0] <= 990:
