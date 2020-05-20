@@ -146,7 +146,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
     cmap.set_over('w', alpha=1)
     cmap.set_under('k', alpha=1)
 
-    # display attenuate backscatter at 355 FR
+    # display attenuate backscatter at 355 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
@@ -218,7 +218,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
         )
     plt.close()
 
-    # display attenuate backscatter at 532 FR
+    # display attenuate backscatter at 532 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(

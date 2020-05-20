@@ -17,16 +17,16 @@ function [filename] = rmext(file)
 %Contact:
 %   zhenping@tropos.de
 
-    thisBasename = basename(file);
+thisBasename = basename(file);
 
-    res = strsplit(thisBasename, '.');
+res = strsplit(thisBasename, '.');
 
-    if length(res) >= 3
-        filename = strjoin(res(1:(end - 1)), '.');
-    elseif length(res) == 2
-        filename = res{1};
-    else
-        filename = thisBasename;
-    end
+if length(res) >= 3
+    filename = strjoin(res(1:(end - 1)), '.');
+elseif length(res) == 2
+    filename = res{1};
+else
+    filename = thisBasename;
+end
 
-    end
+end
