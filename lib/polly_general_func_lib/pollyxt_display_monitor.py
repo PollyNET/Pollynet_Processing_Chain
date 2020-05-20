@@ -276,7 +276,7 @@ def pollyxt_display_monitor(tmpFile, saveFolder):
             fontsize=17
             )
 
-    plt.tight_layout()
+    # plt.tight_layout()
     fig.savefig(
         os.path.join(
             saveFolder,

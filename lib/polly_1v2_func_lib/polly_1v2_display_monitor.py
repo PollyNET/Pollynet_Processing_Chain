@@ -240,7 +240,7 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
         fig.text(0.85, 0.90, 'end {:.1f}Mio'.format(
             counts[0][-1]/1e6), fontsize=17)
 
-    plt.tight_layout()
+    # plt.tight_layout()
     fig.savefig(
         os.path.join(
             saveFolder, '{dataFilename}_monitor.{imgFmt}'.format(
