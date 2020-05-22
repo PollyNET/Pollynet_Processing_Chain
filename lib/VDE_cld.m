@@ -1,6 +1,6 @@
 function [layerInfo, PD, PN] = VDE_cld(signal, height, BG, minLayerDepth, ...
                                        minHeight, smoothWin, minSNR)
-%VDE_CLD cloud layer detection with VDE method. THis method only requires elstic
+%VDE_CLD cloud layer detection with VDE method. THis method only required elstic
 %signal.
 %
 %Inputs:
@@ -93,7 +93,7 @@ RCS = Ps .* height.^2;   % range-corrected signal
 % bottom to top semi-discretization
 PD1 = Ps;
 for indx = 2:length(PD1)
-    if abs(PD1(indx) - PD1(indx - 1)) <= max([noise_level(indx) * 3, 3])
+    if abs(PD1(indx) - PD1(indx - 1)) <= max([noise_level(indx) * 3, sqrt(3) * 3])
         PD1(indx) = PD1(indx - 1);
     end
 end
@@ -101,7 +101,7 @@ end
 % top to bottom semi-discretization
 PD2 = Ps;
 for indx = (length(PD2) - 1):-1:1
-    if abs(PD2(indx) - PD2(indx + 1)) <= max([noise_level(indx) * 3, 3])
+    if abs(PD2(indx) - PD2(indx + 1)) <= max([noise_level(indx) * 3, sqrt(3) * 3])
         PD2(indx) = PD2(indx + 1);
     end
 end
@@ -131,27 +131,16 @@ BZ = (length(PN):-1:1)/length(PN) * (MA - MI) + MI;
 layerN = 0;
 [L, nLayer] = bwlabel(PN > BZ);
 for iLayer = 1:nLayer
-    baseIndexEst = find(L == iLayer, 1);
-    topIndexEst = find(L == iLayer, 1, 'last');
 
-    % extend the layer index to the true base and top
-    baseIndexOpt = find(diff(PN(1:baseIndexEst)) <= 0, 1, 'last') + 1;
-    if isempty(baseIndexOpt)
-        baseIndex = baseIndexEst;
-    else
-        baseIndex = baseIndexOpt;
-    end
-    topIndexOpt = find(RCS(topIndexEst:end) <= RCS(baseIndex), 1) + topIndexEst - 1;
-    if isempty(topIndexOpt)
-        topIndex = topIndexEst;
-    else
-        topIndex = topIndexOpt;
-    end
+    baseIndex = find(L == iLayer, 1);
+    topIndex = find(L == iLayer, 1, 'last');
 
     layerDepth = height(topIndex) - height(baseIndex);
     layerIndx = (L == iLayer);
     layerSNR = mean(P(layerIndx)) / sqrt(mean(P(layerIndx) + BG));
+
     if (layerDepth >= minLayerDepth) && (layerSNR >= minSNR)
+       
         layerN = layerN + 1;
         layerInfo(layerN).id = layerN;
         layerInfo(layerN).baseHeight = height(baseIndex);
@@ -168,7 +157,6 @@ for iLayer = 1:length(layerInfo)
            (height <= layerInfo(iLayer).topHeight);
     sig = Ps_1(indx) .* height(indx).^2;
     sig(sig<=0) = NaN;
-    H = height(indx);
 
     [maxSig, maxIndx] = max(sig);
     maxIndx = find(indx, 1) + maxIndx - 1;   % layerIndx + max_Signal_Index
@@ -180,15 +168,15 @@ for iLayer = 1:length(layerInfo)
 
     % segmented threshold for the determination of layer status
     if layerHeight <= 1.5
-        if T > 6 || D < -7
+        if T > 6 || D < -15
             layerInfo(iLayer).flagCloud = true;
         end
     elseif layerHeight > 1.5 && layerHeight <= 5 
-        if T > 4 || D < -7
+        if T > 4 || D < -9
             layerInfo(iLayer).flagCloud = true;
         end
     elseif layerHeight > 5
-        if T > 1.5 || D < -7
+        if T > 1.5 || D < -9
             layerInfo(iLayer).flagCloud = true;
         end
     else
