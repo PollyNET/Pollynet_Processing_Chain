@@ -33,7 +33,7 @@ yLim_FR_DR = config.yLim_FR_DR;
 
 if config.flagAutoscaleRCS
     RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
-    RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_355, 'hRange', [0, 4000]) ./ 1e6;
+    RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 4000]) ./ 1e6;
 else
     RCS532FRColorRange = config.zLim_FR_RCS_532;
     RCS532NRColorRange = config.zLim_NR_RCS_532;
