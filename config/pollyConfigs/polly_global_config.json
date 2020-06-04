@@ -9,6 +9,7 @@
     "flagUsePreviousWVconst": true,
     "flagUsePreviousLC": true,
     "flagUseSameRefH": false,
+    "flagAutoscaleRCS": true,
     
     "MWRFolder": "",
 
@@ -82,8 +83,6 @@
     "meteorDataSource": "gdas1",
     "radiosondeType": 1,
     "radiosondeSitenum": 14430,
-    "IWV_instrument": "AERONET",
-    "maxIWVTLag": 0.0833,
     "minDecomLogDist355": 0.2,
     "minDecomLogDist532": 0.2,
     "minDecomLogDist1064": 0.2,
@@ -148,6 +147,9 @@
     "LCCalibrationStatus": ["none", "Klett", "Raman", "Defaults", "History"],
     "quasi_smooth_h": [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
     "quasi_smooth_t": [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10],
+    "IWV_instrument": "AERONET",
+    "maxIWVTLag": 0.0833,
+    "tTwilight": 0.0347,
     "hWVCaliBase": 120,
     "hWVCaliTop": 8000,
     "minSNRWVCali": 10,
@@ -206,11 +208,6 @@
     "zLim_quasi_beta_532": [0, 5],
     "zLim_quasi_beta_1064": [0, 2],
     "zLim_quasi_Par_DR_532": [0, 0.4],
-    "zLim_FR_RCS_355": [1e-2, 30],
-    "zLim_FR_RCS_532": [1e-2, 50],
-    "zLim_FR_RCS_1064": [1e-2, 60],
-    "zLim_NR_RCS_355": [1e-2, 5],
-    "zLim_NR_RCS_532": [1e-2, 10],
 
     "logbookFile": "",
     "radiosondeFolder": "",

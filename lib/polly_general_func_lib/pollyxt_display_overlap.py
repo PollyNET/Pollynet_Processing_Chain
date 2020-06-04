@@ -158,9 +158,10 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
     fig, (ax1, ax2) = plt.subplots(
         1, 2, figsize=(8, 8),
         sharey=True,
-        gridspec_kw={'width_ratios': [1.2, 1]}
+        gridspec_kw={
+            'width_ratios': [1.2, 1],
+            'wspace': 0.05, 'top': 0.94, 'right': 0.97}
         )
-    fig.subplots_adjust(wspace=0)
 
     # display signal
     p1, = ax1.plot(overlap355, height, color='#1544E9',
@@ -184,7 +185,7 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
     ax1.yaxis.set_minor_locator(MultipleLocator(100))
     start = parse_polly_filename(dataFilename)
     fig.text(
-        0.5, 0.98,
+        0.55, 0.96,
         'Overlap for {instrument} at {location}, {time}'.format(
             instrument=pollyVersion,
             location=location,
@@ -247,14 +248,14 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
                     right=True, top=True, width=2, length=5)
     ax2.tick_params(axis='both', which='minor', width=1.5,
                     length=3.5, right=True, top=True)
-    ax2.grid(True)
+    ax2.grid(False)
     ax2.legend(
         handles=[p1, p2, p3, p4, p5, p6],
         loc='upper right', fontsize=15
         )
 
-    fig.text(0.87, 0.02, 'Version {version}'.format(
-        version=version), fontsize=10)
+    fig.text(
+        0.1, 0.02, 'Version {version}'.format(version=version), fontsize=10)
     # plt.tight_layout()
     fig.savefig(
         os.path.join(

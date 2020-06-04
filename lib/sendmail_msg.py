@@ -39,7 +39,8 @@ def sendmail_msg(sender, recipient, subject, body, file=None):
     if file:
         with open(file, "r") as fid:
             part = MIMEApplication(fid.read(), Name=basename(file))
-        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file)
+        part['Content-Disposition'] = 'attachment; filename="{0}"'.format(
+            basename(file))
         msg.attach(part)
 
     text = msg.as_string()

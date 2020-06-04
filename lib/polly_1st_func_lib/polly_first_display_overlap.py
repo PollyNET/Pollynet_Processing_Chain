@@ -94,7 +94,7 @@ def rmext(filename):
     return file
 
 
-def polly_first_display_overlap(tmpFile, saveFolder):
+def pollyxt_dwd_display_overlap(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -109,7 +109,7 @@ def polly_first_display_overlap(tmpFile, saveFolder):
 
     Usage
     -----
-    polly_first_display_overlap(tmpFile, saveFolder)
+    pollyxt_dwd_display_overlap(tmpFile, saveFolder)
 
     History
     -------
@@ -127,6 +127,8 @@ def polly_first_display_overlap(tmpFile, saveFolder):
         overlap532 = mat['overlap532'].reshape(-1)
         overlap532Defaults = mat['overlap532Defaults'].reshape(-1)
         sig532FR = mat['sig532FR'].reshape(-1)
+        sig532NR = mat['sig532NR'].reshape(-1)
+        sig532Gl = mat['sig532Gl'].reshape(-1)
         sigRatio532 = mat['sigRatio532'].reshape(-1)
         normRange532 = mat['normRange532'].reshape(-1)
         height = mat['height'].reshape(-1)
@@ -148,8 +150,11 @@ def polly_first_display_overlap(tmpFile, saveFolder):
     # display
     fig, (ax1, ax2) = plt.subplots(
         1, 2, figsize=(8, 8),
-        sharey=True, gridspec_kw={'width_ratios': [1.2, 1]})
-    fig.subplots_adjust(wspace=0)
+        sharey=True,
+        gridspec_kw={
+            'width_ratios': [1.2, 1],
+            'wspace': 0.05, 'top': 0.94, 'right': 0.97}
+        )
 
     # display signal
     p1, = ax1.plot(overlap532, height, color='#58B13F',
@@ -169,19 +174,24 @@ def polly_first_display_overlap(tmpFile, saveFolder):
     ax1.yaxis.set_minor_locator(MultipleLocator(100))
     start = parse_polly_filename(dataFilename)
     fig.text(
-        0.5, 0.98,
+        0.55, 0.96,
         'Overlap for {instrument} at {location}, {time}'.format(
             instrument=pollyVersion,
             location=location,
-            time=start.strftime('%Y%m%d %H:%M')
-            ),
+            time=start.strftime('%Y%m%d %H:%M')),
         horizontalalignment='center', fontsize=15)
     ax1.legend(handles=[p1, p2], loc='upper left', fontsize=15)
 
     sig532FR = np.ma.masked_where(sig532FR <= 0, sig532FR)
+    sig532NR = np.ma.masked_where(sig532NR <= 0, sig532NR)
+    sig532Gl = np.ma.masked_where(sig532Gl <= 0, sig532Gl)
     p1, = ax2.semilogx(sig532FR, height, color='#58B13F',
                        linestyle='-.', label=r'FR 532')
-    
+    p2, = ax2.semilogx(sig532NR, height, color='#58B13F',
+                       linestyle=':', label=r'NR 532')
+    p3, = ax2.semilogx(sig532Gl, height, color='#58B13F',
+                       linestyle='-', label=r'FR Glued 532')
+
     if normRange532.size != 0:
         ax2.plot(
             [1e-10, 1e10],
@@ -198,15 +208,16 @@ def polly_first_display_overlap(tmpFile, saveFolder):
                     right=True, top=True, width=2, length=5)
     ax2.tick_params(axis='both', which='minor', width=1.5,
                     length=3.5, right=True, top=True)
-    ax2.grid(True)
-    ax2.legend(handles=[p1, p2], loc='upper right', fontsize=15)
+    ax2.grid(False)
+    ax2.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
 
-    fig.text(0.87, 0.02, 'Version {version}'.format(
-        version=version), fontsize=10)
+    fig.text(
+        0.1, 0.02, 'Version {version}'.format(version=version), fontsize=10)
     # plt.tight_layout()
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_overlap.{imgFmt}'.format(
+            saveFolder,
+            '{dataFilename}_overlap.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
                 imgFmt=imgFormat)), dpi=figDPI)
 
@@ -214,10 +225,9 @@ def polly_first_display_overlap(tmpFile, saveFolder):
 
 
 def main():
-    polly_first_display_overlap(
+    pollyxt_dwd_display_overlap(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop'
-        )
+        'C:\\Users\\zhenping\\Desktop')
 
 
 if __name__ == '__main__':

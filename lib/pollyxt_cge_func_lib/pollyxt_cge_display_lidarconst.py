@@ -114,9 +114,13 @@ def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
         LC1064_klett = mat['LC1064_klett'][:]
         LC1064_raman = mat['LC1064_raman'][:]
         LC1064_aeronet = mat['LC1064_aeronet'][:]
+        LC387_raman = mat['LC387_raman'][:]
+        LC607_raman = mat['LC607_raman'][:]
         yLim355 = mat['yLim355'][0][:]
         yLim532 = mat['yLim532'][0][:]
         yLim1064 = mat['yLim1064'][0][:]
+        yLim387 = mat['yLim387'][0][:]
+        yLim607 = mat['yLim607'][0][:]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -133,41 +137,62 @@ def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
     # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
+
     # display lidar constants at 355mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC355_klett,
         color='#008040', linestyle='--', marker='^',
-        markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
+        markersize=10, mfc='#008040', mec='#000000', label='Klett Method'
+        )
     p2, = ax.plot(
         thisTime, LC355_raman,
         color='#400080', linestyle='--', marker='o',
-        markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
+        markersize=10, mfc='#400080', mec='#000000', label='Raman Method'
+        )
     p3, = ax.plot(
         thisTime, LC355_aeronet,
         color='#804000', linestyle='--', marker='*',
         markersize=10, mfc='#800040', mec='#000000',
-        label='Constrained-AOD Method')
+        label='Constrained-AOD Method'
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim355.tolist())
+    minYLim355 = np.nanmin(np.concatenate((
+                LC355_raman.reshape(-1),
+                LC355_klett.reshape(-1),
+                LC355_aeronet.reshape(-1),
+                np.array(yLim355[0]).reshape(-1)), axis=0))
+    maxYLim355 = np.nanmax(np.concatenate((
+                LC355_raman.reshape(-1),
+                LC355_klett.reshape(-1),
+                LC355_aeronet.reshape(-1),
+                np.array(yLim355[1]).reshape(-1)), axis=0))
+    ax.set_yticks([0.8 * minYLim355, 1.2 * maxYLim355])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
-
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants ' +
-        '{wave}nm Far-Range for {instrument} at {location}'.format(
-            wave=355, instrument=pollyVersion, location=location), fontsize=15)
+        'Lidar constants {wave}nm '.format(wave=355) +
+        'Far-Range for {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15,
+        position=[0.5, 1.05]
+        )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -176,47 +201,67 @@ def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
 
     fig.savefig(
         os.path.join(
-            saveFolder, '{dataFilename}_LC_355.{imgFmt}'.format(
+            saveFolder,
+            '{dataFilename}_LC_355.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFmt=imgFormat)),
-        dpi=figDPI)
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
     # display lidar constants at 532mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC532_klett,
         color='#008040', linestyle='--', marker='^',
-        markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
+        markersize=10, mfc='#008040', mec='#000000', label='Klett Method'
+        )
     p2, = ax.plot(
         thisTime, LC532_raman,
         color='#400080', linestyle='--', marker='o',
-        markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
+        markersize=10, mfc='#400080', mec='#000000', label='Raman Method'
+        )
     p3, = ax.plot(
         thisTime, LC532_aeronet,
         color='#804000', linestyle='--', marker='*',
         markersize=10, mfc='#800040', mec='#000000',
-        label='Constrained-AOD Method')
+        label='Constrained-AOD Method'
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim532.tolist())
+    minYLim532 = np.nanmin(np.concatenate((
+                LC532_raman.reshape(-1),
+                LC532_klett.reshape(-1),
+                LC532_aeronet.reshape(-1),
+                np.array(yLim532[0]).reshape(-1)), axis=0))
+    maxYLim532 = np.nanmax(np.concatenate((
+                LC532_raman.reshape(-1),
+                LC532_klett.reshape(-1),
+                LC532_aeronet.reshape(-1),
+                np.array(yLim532[1]).reshape(-1)), axis=0))
+    ax.set_yticks([0.8 * minYLim532, 1.2 * maxYLim532])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
-
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants ' +
-        '{wave}nm Far-Range for {instrument} at {location}'.format(
-            wave=532, instrument=pollyVersion, location=location), fontsize=15)
+        'Lidar constants {wave}nm '.format(wave=532) +
+        'Far-Range for {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15,
+        position=[0.5, 1.05]
+        )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -233,40 +278,59 @@ def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
 
     # display lidar constants at 1064mn
     fig = plt.figure(figsize=[9, 5])
-    ax = fig.add_axes([0.1, 0.15, 0.8, 0.75])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
     p1, = ax.plot(
         thisTime, LC1064_klett,
         color='#008040', linestyle='--', marker='^',
-        markersize=10, mfc='#008040', mec='#000000', label='Klett Method')
+        markersize=10, mfc='#008040', mec='#000000', label='Klett Method'
+        )
     p2, = ax.plot(
         thisTime, LC1064_raman,
         color='#400080', linestyle='--', marker='o',
-        markersize=10, mfc='#400080', mec='#000000', label='Raman Method')
+        markersize=10, mfc='#400080', mec='#000000', label='Raman Method'
+        )
     p3, = ax.plot(
         thisTime, LC1064_aeronet,
         color='#804000', linestyle='--', marker='*',
         markersize=10, mfc='#800040', mec='#000000',
-        label='Constrained-AOD Method')
+        label='Constrained-AOD Method'
+        )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('C', fontsize=15)
     ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim1064.tolist())
+    minYLim1064 = np.nanmin(np.concatenate((
+                LC1064_raman.reshape(-1),
+                LC1064_klett.reshape(-1),
+                LC1064_aeronet.reshape(-1),
+                np.array(yLim1064[0]).reshape(-1)), axis=0))
+    maxYLim1064 = np.nanmax(np.concatenate((
+                LC1064_raman.reshape(-1),
+                LC1064_klett.reshape(-1),
+                LC1064_aeronet.reshape(-1),
+                np.array(yLim1064[1]).reshape(-1)), axis=0))
+    ax.set_yticks([0.8 * minYLim1064, 1.2 * maxYLim1064])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
+
     ax.set_xticks(xtick.tolist())
     ax.set_xlim([time[0], time[-1]])
     ax.set_xticklabels(celltolist(xticklabel))
-    ax.grid(True)
-
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Lidar constants ' +
-        '{wave}nm Far-Range for {instrument} at {location}'.format(
-            wave=1064,
-            instrument=pollyVersion, location=location), fontsize=15)
+        'Lidar constants {wave}nm '.format(wave=1064) +
+        'Far-Range for {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=15,
+        position=[0.5, 1.05]
+        )
 
     fig.text(0.05, 0.02, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
@@ -278,15 +342,15 @@ def pollyxt_cge_display_lidarconst(tmpFile, saveFolder):
             saveFolder,
             '{dataFilename}_LC_1064.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFmt=imgFormat)),
-        dpi=figDPI)
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 
 def main():
     pollyxt_cge_display_lidarconst(
         'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop')
+        'C:\\Users\\zhenping\\Desktop'
+        )
 
 
 if __name__ == '__main__':
