@@ -50,7 +50,7 @@ for indx = 1:size(signal, 2)
         continue;
     end
 
-    slope = [0; diff(RCS(:, indx))]/(height(2) - height(1));
+    slope = [0; diff(smooth(RCS(:, indx), 10))]/(height(2) - height(1));
 
     if isempty(find(slope(search_indx(1):search_indx(2)) >= slope_thres, 1))
         flagCloudFree(indx) = true;

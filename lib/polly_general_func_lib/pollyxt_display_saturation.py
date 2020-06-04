@@ -501,8 +501,8 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_ylim(yLim_FR_RCS.tolist())
-    ax.yaxis.set_major_locator(MultipleLocator(1000))
-    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -559,8 +559,8 @@ def pollyxt_display_saturation(tmpFile, saveFolder):
     ax.set_ylabel('Height (m)', fontsize=15)
 
     ax.set_ylim(yLim_FR_RCS.tolist())
-    ax.yaxis.set_major_locator(MultipleLocator(1000))
-    ax.yaxis.set_minor_locator(MultipleLocator(200))
+    ax.yaxis.set_major_locator(MultipleLocator(2500))
+    ax.yaxis.set_minor_locator(MultipleLocator(500))
     ax.set_xticks(xtick.tolist())
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(axis='both', which='major', labelsize=15,
