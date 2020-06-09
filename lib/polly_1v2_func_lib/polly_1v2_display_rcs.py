@@ -173,12 +173,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
             wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(
-        pcmesh,
-        cax=cb_ax,
-        ticks=np.linspace(
-            RCS532FRColorRange[0],
-            RCS532FRColorRange[1], 5), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
@@ -222,12 +217,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
             wave=532, instrument=pollyVersion, location=location), fontsize=15)
 
     cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(
-        pcmesh,
-        cax=cb_ax,
-        ticks=np.linspace(
-            RCS532NRColorRange[0],
-            RCS532NRColorRange[1], 5), orientation='vertical')
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 

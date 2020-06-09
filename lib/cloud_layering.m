@@ -67,6 +67,7 @@ tcBi = NaN(size(tc));
 tcBi(flagCloud) = 1;
 
 for iT = 1:size(tc, 2)
+    validLayer = 1;
     [L, nLayer] = label(tcBi(:, iT));
 
     for iLayer = 1:nLayer
@@ -76,15 +77,16 @@ for iT = 1:size(tc, 2)
         layerDepth = height(topIndx) - height(baseIndx);
         layerIndx = (L == iLayer);
 
-        if (layerDepth >= p.Results.minCloudDepth) && (iLayer <= MAXCLOUDLAYERS)
+        if (layerDepth >= p.Results.minCloudDepth) && (validLayer <= MAXCLOUDLAYERS)
 
             flagIce = any(tc(layerIndx, iT) == p.Results.iceCloudBit);
             flagLiquid = any(tc(layerIndx, iT) == p.Results.liquidCloudBit);
 
-            clBaseH(iLayer, iT) = height(baseIndx);
-            clTopH(iLayer, iT) = height(topIndx);
-            clPh(iLayer, iT) = 1 * flagIce + 2 * flagLiquid;
-            clPhProb(iLayer, iT) = 1;
+            clBaseH(validLayer, iT) = height(baseIndx);
+            clTopH(validLayer, iT) = height(topIndx);
+            clPh(validLayer, iT) = 1 * flagIce + 2 * flagLiquid;
+            clPhProb(validLayer, iT) = 1;
+            validLayer = validLayer + 1;
 
         end
     end

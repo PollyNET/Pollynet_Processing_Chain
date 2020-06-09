@@ -1,5 +1,5 @@
 # PollyNET Automatic Processing Program
-[![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/) [![DOI](https://zenodo.org/badge/162991655.svg)](https://zenodo.org/badge/latestdoi/162991655)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ZPYin/Pollynet_Processing_Chain/graphs/commit-activity)
+[![DOI](https://zenodo.org/badge/162991655.svg)](https://zenodo.org/badge/latestdoi/162991655)  [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ZPYin/Pollynet_Processing_Chain/graphs/commit-activity)
 
 This repository provides an automatic processing chain for [PollyNET](http://polly.rsd.tropos.de/?p=home) data.
 
