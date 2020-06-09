@@ -211,6 +211,8 @@
     "zLim_FR_RCS_1064": [1e-2, 60],
     "zLim_NR_RCS_355": [1e-2, 5],
     "zLim_NR_RCS_532": [1e-2, 10],
+    "zLim_NR_VDP_355": [0, 0.3],
+    "zLim_NR_VDP_532": [0, 0.3],
 
     "logbookFile": "",
     "radiosondeFolder": "",
