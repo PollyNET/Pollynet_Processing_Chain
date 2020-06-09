@@ -146,7 +146,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
     cmap.set_over('w', alpha=1)
     cmap.set_under('k', alpha=1)
 
-    # display attenuate backscatter at 355 FR
+    # display attenuate backscatter at 355 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
@@ -154,8 +154,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_355[0],
         vmax=att_beta_cRange_355[1],
         cmap=cmap,
-        rasterized=True
-        )
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -166,59 +165,49 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
         axis='both', which='major', labelsize=15, right=True,
-        top=True, width=2, length=5
-        )
+        top=True, width=2, length=5)
     ax.tick_params(
         axis='both', which='minor', width=1.5, length=3.5,
-        right=True, top=True
-        )
+        right=True, top=True)
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=355) +
         ' Near-Range from {instrument} at {location}'.format(
             instrument=pollyVersion,
-            location=location
-            ),
-        fontsize=15
-        )
+            location=location),
+        fontsize=15)
 
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
         ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5),
-        orientation='vertical'
-        )
+        orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
         datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-        fontsize=15
-        )
+        fontsize=15)
     fig.text(
         0.8, 0.02,
         'Version: {version}\nCalibration: {method}'.format(
             version=version,
             method=flagLC355
             ),
-        fontsize=12
-        )
+        fontsize=12)
 
     fig.savefig(
         os.path.join(
             saveFolder,
             '{dataFilename}_ATT_BETA_NR_355.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFmt=imgFormat
-                )
-            ),
-        dpi=figDPI
-        )
+                imgFmt=imgFormat)),
+        dpi=figDPI)
     plt.close()
 
-    # display attenuate backscatter at 532 FR
+    # display attenuate backscatter at 532 NR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
@@ -226,8 +215,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
-        rasterized=True
-        )
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -247,49 +235,36 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
         'Attenuated Backscatter at {wave}nm'.format(wave=532) +
         ' Near-Range from {instrument} at {location}'.format(
             instrument=pollyVersion,
-            location=location
-            ),
-        fontsize=15
-        )
+            location=location),
+        fontsize=15)
 
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh,
         cax=cb_ax,
-        ticks=np.linspace(
-            att_beta_cRange_532[0],
-            att_beta_cRange_532[1],
-            5
-            ),
-        orientation='vertical'
-        )
+        ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
+        orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
         datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-        fontsize=15
-        )
+        fontsize=15)
     fig.text(
         0.8, 0.02,
         'Version: {version}\nCalibration: {method}'.format(
             version=version,
-            method=flagLC532
-            ),
-        fontsize=12
-        )
+            method=flagLC532),
+        fontsize=12)
 
     fig.savefig(
         os.path.join(
             saveFolder,
             '{dataFilename}_ATT_BETA_NR_532.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFmt=imgFormat
-                )
-            ),
-        dpi=figDPI
-        )
+                imgFmt=imgFormat)),
+        dpi=figDPI)
     plt.close()
 
 
