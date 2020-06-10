@@ -208,6 +208,13 @@
     "zLim_quasi_beta_532": [0, 5],
     "zLim_quasi_beta_1064": [0, 2],
     "zLim_quasi_Par_DR_532": [0, 0.4],
+    "zLim_FR_RCS_355": [1e-2, 30],
+    "zLim_FR_RCS_532": [1e-2, 50],
+    "zLim_FR_RCS_1064": [1e-2, 60],
+    "zLim_NR_RCS_355": [1e-2, 5],
+    "zLim_NR_RCS_532": [1e-2, 10],
+    "zLim_VolDepol_355": [0, 0.3],
+    "zLim_VolDepol_532": [0, 0.3],
 
     "logbookFile": "",
     "radiosondeFolder": "",

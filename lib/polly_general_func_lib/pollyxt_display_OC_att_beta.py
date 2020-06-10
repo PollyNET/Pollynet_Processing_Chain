@@ -180,8 +180,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         right=True, top=True)
 
     ax.set_title(
-        'Merged Attenuated Backscatter at {wave}nm'.format(wave=355) +
-        ' from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter Coefficient at {wave}nm'.format(wave=355) +
+        ' of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
@@ -240,8 +240,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         top=True)
 
     ax.set_title(
-        'Merged Attenuated Backscatter at {wave}nm'.format(wave=532) +
-        ' from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter Coefficient at {wave}nm'.format(wave=532) +
+        ' of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
@@ -300,8 +300,8 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         length=3.5, right=True, top=True)
 
     ax.set_title(
-        'Merged Attenuated Backscatter at {wave}nm'.format(wave=1064) +
-        ' from {instrument} at {location}'.format(
+        'Merged Attenuated Backscatter Coefficient at {wave}nm'.format(wave=1064) +
+        ' of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
