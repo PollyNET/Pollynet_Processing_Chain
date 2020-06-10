@@ -172,7 +172,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=355) +
-        ' Near-Range from {instrument} at {location}'.format(
+        ' Near-Range of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
@@ -233,7 +233,7 @@ def pollyxt_display_NR_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=532) +
-        ' Near-Range from {instrument} at {location}'.format(
+        ' Near-Range of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)

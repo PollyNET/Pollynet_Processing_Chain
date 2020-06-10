@@ -181,7 +181,7 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=355) +
-        ' Far-Range from {instrument} at {location}'.format(
+        ' Far-Range of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
@@ -241,7 +241,7 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=532) +
-        ' Far-Range from {instrument} at {location}'.format(
+        ' Far-Range of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)
@@ -301,7 +301,7 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at {wave}nm'.format(wave=1064) +
-        ' Far-Range from {instrument} at {location}'.format(
+        ' Far-Range of {instrument} at {location}'.format(
             instrument=pollyVersion,
             location=location),
         fontsize=15)

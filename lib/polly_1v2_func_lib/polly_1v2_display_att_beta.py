@@ -167,7 +167,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
 
     ax.set_title(
         'Attenuated Backscatter at ' +
-        '{wave}nm Far-Range from {instrument} at {location}'.format(
+        '{wave}nm Far-Range of {instrument} at {location}'.format(
             wave=532, instrument=pollyVersion, location=location),
         fontsize=15)
 

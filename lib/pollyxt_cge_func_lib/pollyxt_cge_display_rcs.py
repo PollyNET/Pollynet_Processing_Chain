@@ -124,6 +124,7 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
+        Voldepol532ColorRange = mat['Voldepol532ColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -345,7 +346,9 @@ def pollyxt_cge_display_rcs(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, volDepol_532,
-        vmin=0.0, vmax=0.3, cmap=cmap,
+        vmin=Voldepol532ColorRange[0],
+        vmax=Voldepol532ColorRange[1],
+        cmap=cmap,
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
