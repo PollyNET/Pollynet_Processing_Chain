@@ -127,6 +127,8 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         RCS1064FRColorRange = mat['RCS1064FRColorRange'][:][0]
         RCS355NRColorRange = mat['RCS355NRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
+        Voldepol355ColorRange = mat['Voldepol355ColorRange'][:][0]
+        Voldepol532ColorRange = mat['Voldepol532ColorRange'][:][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -397,7 +399,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         Time, Height, volDepol_532,
         vmin=Voldepol532ColorRange[0],
         vmax=Voldepol532ColorRange[1],
-		cmap=cmap, rasterized=True)
+        cmap=cmap, rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -443,7 +445,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         Time, Height, volDepol_355,
         vmin=Voldepol355ColorRange[0],
         vmax=Voldepol355ColorRange[1],
-		cmap=cmap, rasterized=True)
+        cmap=cmap, rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

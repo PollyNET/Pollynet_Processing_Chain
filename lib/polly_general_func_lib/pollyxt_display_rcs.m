@@ -74,11 +74,6 @@ yLim_NR_RCS = config.yLim_NR_RCS;
 yLim_FR_DR = config.yLim_FR_DR;
 volDepol_355 = data.volDepol_355;
 volDepol_532 = data.volDepol_532;
-RCS355FRColorRange = config.zLim_FR_RCS_355;
-RCS532FRColorRange = config.zLim_FR_RCS_532;
-RCS1064FRColorRange = config.zLim_FR_RCS_1064;
-RCS355NRColorRange = config.zLim_NR_RCS_355;
-RCS532NRColorRange = config.zLim_NR_RCS_355
 Voldepol355ColorRange = config.zLim_VolDepol_355;
 Voldepol532ColorRange = config.zLim_VolDepol_532;
 

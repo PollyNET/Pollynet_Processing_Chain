@@ -123,6 +123,7 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
         yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
+        Voldepol532ColorRange = mat['Voldepol532ColorRange'][:][0]
         imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
@@ -238,9 +239,12 @@ def polly_1v2_display_rcs(tmpFile, saveFolder):
     volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, volDepol_532,
-                           vmin=0.0, vmax=0.3, cmap=cmap,
-                           rasterized=True)
+    pcmesh = ax.pcolormesh(
+        Time, Height, volDepol_532,
+        vmin=Voldepol532ColorRange[0],
+        vmax=Voldepol532ColorRange[1],
+        cmap=cmap,
+        rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
