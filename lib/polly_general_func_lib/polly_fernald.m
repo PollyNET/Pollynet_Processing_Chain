@@ -61,7 +61,7 @@ if length(refAlt) == 1
 elseif length(refAlt) == 2
     if (refAlt(1) - alt(end)) * (refAlt(1) - alt(1)) <=0 && ...
         (refAlt(2) - alt(end)) * (refAlt(2) - alt(1)) <=0
-        indRefAlt = [floor(refAlt(1) / dAlt), floor(refAlt(2) / dAlt)];
+        indRefAlt = [floor((refAlt(1) - alt(1)) / dAlt), floor((refAlt(2) - alt(1)) / dAlt)];
     else
         error('refAlt is out of range.');
     end
