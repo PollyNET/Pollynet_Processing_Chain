@@ -35,6 +35,8 @@ varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_QM_WVMR = netcdf.defVar(ncID, 'QM_WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_QM_RH = netcdf.defVar(ncID, 'QM_RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
@@ -55,7 +57,10 @@ netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 netcdf.putVar(ncID, varID_WVMR, fillmissing(data.WVMR, missing_value));
 netcdf.putVar(ncID, varID_RH, fillmissing(data.RH, missing_value));
-
+try
+    netcdf.putVar(ncID, varID_QM_WVMR, fillmissing(data.quality_mask_WVMR, missing_value));
+    netcdf.putVar(ncID, varID_QM_RH, fillmissing(data.quality_mask_RH, missing_value));
+end
 % re enter define mode
 netcdf.reDef(ncID);
 
@@ -114,6 +119,25 @@ netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
 % netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
 netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+
+% Quality_mask_WVMR
+netcdf.putAtt(ncID, varID_QM_WVMR, 'unit', 'flag');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'unit_html', 'flag');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'long_name', 'Quality mask for WVMR ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'standard_name', 'QM_WVMR');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
+netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'source', campaignInfo.name);
+
+% Quality_mask_RH
+netcdf.putAtt(ncID, varID_QM_RH, 'unit', 'flag');
+netcdf.putAtt(ncID, varID_QM_RH, 'unit_html', 'flag');
+netcdf.putAtt(ncID, varID_QM_RH, 'long_name', 'Quality mask for RH ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
+netcdf.putAtt(ncID, varID_QM_RH, 'standard_name', 'QM_RH');
+netcdf.putAtt(ncID, varID_QM_RH, 'plot_range', config.xLim_Profi_WV_RH);
+netcdf.putAtt(ncID, varID_QM_RH, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_QM_RH, 'source', campaignInfo.name);
+
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
