@@ -582,65 +582,65 @@ if processInfo.flagEnableDataVisualization
 
     fprintf('\n[%s] Start to visualize results.\n', tNow());
 
-    %% display monitor status
-    disp('Display housekeeping')
-    pollyxt_display_monitor(data, taskInfo, config);
-
-    %% display signal
-    disp('Display RCS and volume depolarization ratio')
-    pollyxt_display_rcs(data, taskInfo, config);
-
-    %% display depol calibration results
-    disp('Display depolarization calibration results')
-    pollyxt_display_depolcali(data, config, taskInfo, depCaliAttri);
-
-    %% display saturation and cloud free tags
-    disp('Display signal flags')
-    pollyxt_display_saturation(data, taskInfo, config);
-
-    %% display overlap
-    disp('Display overlap')
-    pollyxt_display_overlap(data, taskInfo, overlapAttri, config);
-
-    %% display optical profiles
-    disp('Display profiles')
-    pollyxt_display_retrieving(data, taskInfo, config);
-    pollyxt_display_OC_retrieving(data, taskInfo, config);
-
-    %% display attenuated backscatter
-    disp('Display attnuated backscatter')
-    pollyxt_display_att_beta(data, taskInfo, config);
+%     %% display monitor status
+%     disp('Display housekeeping')
+%     pollyxt_display_monitor(data, taskInfo, config);
+% 
+%     %% display signal
+%     disp('Display RCS and volume depolarization ratio')
+%     pollyxt_display_rcs(data, taskInfo, config);
+% 
+%     %% display depol calibration results
+%     disp('Display depolarization calibration results')
+%     pollyxt_display_depolcali(data, config, taskInfo, depCaliAttri);
+% 
+%     %% display saturation and cloud free tags
+%     disp('Display signal flags')
+%     pollyxt_display_saturation(data, taskInfo, config);
+% 
+%     %% display overlap
+%     disp('Display overlap')
+%     pollyxt_display_overlap(data, taskInfo, overlapAttri, config);
+% 
+%     %% display optical profiles
+%     disp('Display profiles')
+%     pollyxt_display_retrieving(data, taskInfo, config);
+%     pollyxt_display_OC_retrieving(data, taskInfo, config);
+% 
+%     %% display attenuated backscatter
+%     disp('Display attnuated backscatter')
+%     pollyxt_display_att_beta(data, taskInfo, config);
     pollyxt_display_OC_att_beta(data, taskInfo, config);
-    pollyxt_display_NR_att_beta(data, taskInfo, config);
-
-    %% display WVMR and RH
-    disp('Display WVMR and RH')
-    pollyxt_display_WV(data, taskInfo, config);
-
-    %% display quasi backscatter, particle depol and angstroem exponent 
-    disp('Display quasi parameters')
-    pollyxt_display_quasiretrieving(data, taskInfo, config);
-
-    %% display quasi backscatter, particle depol and angstroem exponent V2 
-    disp('Display quasi parameters V2')
-    pollyxt_display_quasiretrieving_V2(data, taskInfo, config);
-
-    %% target classification
-    disp('Display target classifications')
-    pollyxt_display_targetclassi(data, taskInfo, config);
-
-    %% target classification V2
-    disp('Display target classifications V2')
-    pollyxt_display_targetclassi_V2(data, taskInfo, config);
-
-    %% display lidar calibration constants
-    disp('Display Lidar constants.')
-    pollyxt_display_lidarconst(data, taskInfo, config);
-
-    %% display Long-term lidar constant with logbook
-    disp('Display Long-Term lidar cosntants.')
-    pollyxt_display_longterm_cali(dbFile, taskInfo, config);
-
+%     pollyxt_display_NR_att_beta(data, taskInfo, config);
+% 
+%     %% display WVMR and RH
+%     disp('Display WVMR and RH')
+%     pollyxt_display_WV(data, taskInfo, config);
+% 
+%     %% display quasi backscatter, particle depol and angstroem exponent 
+%     disp('Display quasi parameters')
+%     pollyxt_display_quasiretrieving(data, taskInfo, config);
+% 
+%     %% display quasi backscatter, particle depol and angstroem exponent V2 
+%     disp('Display quasi parameters V2')
+%     pollyxt_display_quasiretrieving_V2(data, taskInfo, config);
+% 
+%     %% target classification
+%     disp('Display target classifications')
+%     pollyxt_display_targetclassi(data, taskInfo, config);
+% 
+%     %% target classification V2
+%     disp('Display target classifications V2')
+%     pollyxt_display_targetclassi_V2(data, taskInfo, config);
+% 
+%     %% display lidar calibration constants
+%     disp('Display Lidar constants.')
+%     pollyxt_display_lidarconst(data, taskInfo, config);
+% 
+%     %% display Long-term lidar constant with logbook
+%     disp('Display Long-Term lidar cosntants.')
+%     pollyxt_display_longterm_cali(dbFile, taskInfo, config);
+% 
     fprintf('[%s] Finish.\n', tNow());
 end
 
