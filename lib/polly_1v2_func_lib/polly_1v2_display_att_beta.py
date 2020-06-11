@@ -160,48 +160,40 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
     ax.set_xticklabels(celltolist(xticklabel))
     ax.tick_params(
         axis='both', which='major', labelsize=15,
-        right=True, top=True, width=2, length=5
-        )
+        right=True, top=True, width=2, length=5)
     ax.tick_params(
         axis='both', which='minor',
-        width=1.5, length=3.5, right=True, top=True
-        )
+        width=1.5, length=3.5, right=True, top=True)
 
     ax.set_title(
         'Attenuated Backscatter at ' +
-        '{wave}nm Far-Range from {instrument} at {location}'.format(
-            wave=532, instrument=pollyVersion, location=location), fontsize=15)
+        '{wave}nm Far-Range of {instrument} at {location}'.format(
+            wave=532, instrument=pollyVersion, location=location),
+        fontsize=15)
 
-    cb_ax = fig.add_axes([0.93, 0.20, 0.02, 0.65])
+    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
-        orientation='vertical'
-        )
+        orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('$Mm^{-1}*sr^{-1}$', fontsize=10)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
 
     fig.text(
         0.05, 0.04,
-        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15
-        )
+        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"), fontsize=15)
     fig.text(
         0.8, 0.02,
         'Version: {version}\nCalibration: {method}'.format(
-            version=version, method=flagLC532
-            ),
-        fontsize=12
-        )
+            version=version, method=flagLC532),
+        fontsize=12)
 
     fig.savefig(
         os.path.join(
             saveFolder, '{dataFilename}_ATT_BETA_532.{imgFmt}'.format(
                 dataFilename=rmext(dataFilename),
-                imgFmt=imgFormat
-                )
-            ),
-        dpi=figDPI
-        )
+                imgFmt=imgFormat)),
+        dpi=figDPI)
     plt.close()
 
 

@@ -34,7 +34,7 @@ if any(flagChannel355)
         repmat(transpose(data.height), 1, numel(data.mTime)).^2;
         RCS355(:, data.depCalMask) = NaN;
     att_beta_NR_355 = RCS355 ./ ...
-        repmat(data.LCUsed.LCUsed355, numel(data.height), numel(data.mTime));
+        repmat(data.LCUsed.LCUsed355NR, numel(data.height), numel(data.mTime));
 else
     att_beta_NR_355 = NaN(numel(data.height), numel(data.mTime));
 end
@@ -44,7 +44,7 @@ if any(flagChannel532)
         repmat(transpose(data.height), 1, numel(data.mTime)).^2;
         RCS532(:, data.depCalMask) = NaN;
     att_beta_NR_532 = RCS532 ./ ...
-        repmat(data.LCUsed.LCUsed532, numel(data.height), numel(data.mTime));
+        repmat(data.LCUsed.LCUsed532NR, numel(data.height), numel(data.mTime));
 else
     att_beta_NR_532 = NaN(numel(data.height), numel(data.mTime));
 end
