@@ -199,7 +199,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left',pad=17)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left')
 
     fig.text(
         0.05, 0.04,
@@ -284,7 +284,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left',pad=17)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left')
 
     fig.text(
         0.05, 0.04,
@@ -359,7 +359,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         orientation='vertical'
         )
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left',pad=17)
+    cbar.ax.set_title('[$Mm^{-1}*sr^{-1}$]', fontsize=9,loc='left')
 
     fig.text(
         0.05, 0.04,
