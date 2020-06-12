@@ -2,3 +2,5 @@ name,start time,end time,config file,processing function, update Info(as short a
 pollyxt_dwd,2017-06-09 00:00:00,2019-06-06 00:00:00,pollyxt_dwd_config.json,pollynet_processing_chain_pollyxt_dwd.m,This is really state_of_the_art,pollyxt_dwd_defaults.json
 pollyxt_tau,2019-01-01 00:00:00,2020-01-01 00:00:00,pollyxt_tau_config_20190910.json,pollynet_processing_chain_pollyxt_tau.m,Tel Aviv,pollyxt_tau_defauts.json
 pollyxt_tropos,2019-07-02 00:00:00,2020-12-31 00:00:00,pollyxt_tropos_config_20190702.json,pollynet_processing_chain_pollyxt_tropos.m,Move to Leipzig for mantainence,pollyxt_tropos_defaults.json
+arielle,2018-10-25 00:00:00,2018-12-09 00:00:00,arielle_config_20181101.json,pollynet_processing_chain_arielle.m,PS116,arielle_defaults.json
+pollyxt_cyp,2020-04-17 00:00:00,2025-12-31 00:00:00,pollyxt_cyp_config_20200417.json,pollynet_processing_chain_pollyxt_cyp.m,first measurements in Leipzig,pollyxt_cyp_defaults.json
