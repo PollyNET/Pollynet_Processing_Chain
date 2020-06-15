@@ -35,10 +35,10 @@ varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
-if isfield('data', 'quality_mask_WVMR')
+if isfield(data, 'quality_mask_WVMR')
     varID_QM_WVMR = netcdf.defVar(ncID, 'QM_WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
 end
-if isfield('data', 'quality_mask_RH')
+if isfield(data, 'quality_mask_RH')
     varID_QM_RH = netcdf.defVar(ncID, 'QM_RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
 end
 % define the filling value
@@ -62,11 +62,11 @@ netcdf.putVar(ncID, varID_WVMR, fillmissing(data.WVMR, missing_value));
 netcdf.putVar(ncID, varID_RH, fillmissing(data.RH, missing_value));
 
 % Quality_mask_WVMR
-if isfield('data', 'quality_mask_WVMR')
+if isfield(data, 'quality_mask_WVMR')
     netcdf.putVar(ncID, varID_QM_WVMR, fillmissing(data.quality_mask_WVMR, missing_value));
 end
 % Quality_mask_RH
-if isfield('data', 'quality_mask_RH')
+if isfield(data, 'quality_mask_RH')
     netcdf.putVar(ncID, varID_QM_RH, fillmissing(data.quality_mask_RH, missing_value));
 end
 
@@ -131,7 +131,7 @@ netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; 
 
 
 % Quality_mask_WVMR
-if isfield('data', 'quality_mask_WVMR')
+if isfield(data, 'quality_mask_WVMR')
     netcdf.putAtt(ncID, varID_QM_WVMR, 'unit', 'flag');
     netcdf.putAtt(ncID, varID_QM_WVMR, 'unit_html', 'flag');
     netcdf.putAtt(ncID, varID_QM_WVMR, 'long_name', 'Quality mask for WVMR ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
@@ -141,7 +141,7 @@ if isfield('data', 'quality_mask_WVMR')
     netcdf.putAtt(ncID, varID_QM_WVMR, 'source', campaignInfo.name);
 end
 % Quality_mask_RH
-if isfield('data', 'quality_mask_RH')
+if isfield(data, 'quality_mask_RH')
     netcdf.putAtt(ncID, varID_QM_RH, 'unit', 'flag');
     netcdf.putAtt(ncID, varID_QM_RH, 'unit_html', 'flag');
     netcdf.putAtt(ncID, varID_QM_RH, 'long_name', 'Quality mask for RH ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
@@ -150,9 +150,6 @@ if isfield('data', 'quality_mask_RH')
     netcdf.putAtt(ncID, varID_QM_RH, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_QM_RH, 'source', campaignInfo.name);
 end
-
-
-
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
