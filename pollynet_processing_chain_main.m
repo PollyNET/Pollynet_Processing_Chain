@@ -116,7 +116,16 @@ for iTask = 1:length(fileinfo_new.dataFilename)
 
     %% search for polly history info
     fprintf('\n[%s] Start to search for polly history info.\n', tNow());
-    campaignInfo = search_campaigninfo(taskInfo, pollynet_history);
+    try
+        campaignInfo = search_campaigninfo(taskInfo, pollynet_history);
+    catch ErrMsg
+        if strcmp(ErrMsg.identifier, 'MATLAB:polly_parsetime:InvaliFile')
+            continue;
+        else
+            rethrow(ErrMsg);
+        end
+    end
+
     taskInfo.pollyVersion = campaignInfo.name;   % keep the same naming of polly
     if isempty(campaignInfo.location) || isempty(campaignInfo.name)
         continue;
@@ -185,8 +194,16 @@ for iTask = 1:length(fileinfo_new.dataFilename)
         continue;
     end
     pollyConfig.pollyVersion = campaignInfo.name;
-    taskInfo.dataTime = polly_parsetime(taskInfo.dataFilename, ...
-                                        pollyConfig.dataFileFormat);
+    try
+        taskInfo.dataTime = polly_parsetime(taskInfo.dataFilename, ...
+                                            pollyConfig.dataFileFormat);
+    catch ErrMsg
+        if strcmp(ErrMsg.identifier, 'MATLAB:polly_parsetime:InvaliFile')
+            continue;
+        else
+            rethrow(ErrMsg);
+        end
+    end
 
     %% load polly defaults
     fprintf('\n[%s] Start to load the polly defaults.\n', tNow());
