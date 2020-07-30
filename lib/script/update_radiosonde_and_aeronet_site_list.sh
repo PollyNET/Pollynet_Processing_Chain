@@ -7,7 +7,7 @@ echo "Updating the radiosonde and AERONET site list"
 
 matlab -nodesktop -nosplash << ENDMATLAB
 
-cd /pollyhome/Picasso/Pollynet_Processing_Chain/lib
+cd /pollyhome/Bildermacher2/Pollynet_Processing_Chain/lib
 
 download_aeronet_list
 download_radiosonde_list

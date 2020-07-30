@@ -2,6 +2,8 @@
 # Process the current available polly data
 # main script for running Picasso on rsd server
 
+#new for rsd2 source activate, try and error
+source /pollyhome/Bildermacher2/picasso-env/bin/activate
 cwd="$( cd "$(dirname "$0")" ; pwd -P )"
 PATH=${PATH}:$cwd
 
@@ -24,8 +26,8 @@ display_help() {
 }
 
 # configurations
-POLLYNET_CONFIG_FILE="pollynet_processing_chain_config.json"
-POLLYAPP_CONFIG_FILE="/pollyhome/Picasso/pollyAPP/config/config.private";
+POLLYNET_CONFIG_FILE="pollynet_processing_chain_config_rsd2.json"
+POLLYAPP_CONFIG_FILE="/pollyhome/Bildermacher2/pollyAPP/config/config.private";
 flagCheckGDAS="false"
 
 ################################
@@ -90,13 +92,13 @@ addincludepath;
 pollynetConfig = loadjson(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
 % unzip the file
-locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/pollyhome', pollynetConfig.minDataSize, now, datenum(0, 1, 4), $flagCheckGDAS);
+locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), '/data/level0/polly', pollynetConfig.minDataSize, now, datenum(0, 1, 4), $flagCheckGDAS);
 
 % running Picasso
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'));
 
 % add done_filelist to the database
-unix(['export PERL5LIB=/pollyhome/Picasso/.perlbrew/libs/perl-5.22.2@devel/lib/perl5;/pollyhome/Picasso/perl5/perlbrew/perls/perl-5.22.2/bin/perl /pollyhome/Picasso/pollyAPP/src/util/add_new_data2pollydb.pl ' pollynetConfig.doneListFile ';']);
+unix(['export PERL5LIB=/pollyhome/Bildermacher2/.perlbrew/libs/perl-5.22.2@devel/lib/perl5;/pollyhome/Bildermacher2/perl5/perlbrew/perls/perl-5.22.2/bin/perl /pollyhome/Bildermacher2/pollyAPP/src/util/add_new_data2pollydb.pl ' pollynetConfig.doneListFile ';']);
 
 ENDMATLAB
 

@@ -33,7 +33,7 @@ function [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, ..
 %   2019-09-02. First Edition by Zhenping
 %Contact:
 %   zhenping@tropos.de
-
+%addpath(fullfile('/pollyhome/Bildermacher2/include/mysql-connector-java-5.1.48/mysql-connector-java-5.1.48.jar'));
 flag = false;
 
 if exist(pollyAppConfigFile, 'file') ~= 2
@@ -47,7 +47,7 @@ if exist(picassoConfigFile, 'file') ~= 2
 end
 
 if ~ exist('pollyDataBaseDir', 'var')
-    pollyDataBaseDir = '/pollyhome';
+    pollyDataBaseDir = '/data/level0/polly';
 end
 
 if ~ exist('minDataSize', 'var')
@@ -82,6 +82,7 @@ picassoLinkFile = picassoConfig.pollynet_config_history_file;
 % connect to database (server)
 conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, pollyAPPConfig.DATABASE_PASSWORD, 'Vendor', pollyAPPConfig.DATABASE_DRIVER, 'Server', pollyAPPConfig.DATABASE_HOST, 'PortNumber', pollyAPPConfig.DATABASE_PORT);
 % conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7802/');
+ %conn = database(pollyAPPConfig.DATABASE_NAME, 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://127.0.0.1:3306/');
 
 %% Retrieve the list of supported system by Picasso
 picassoLinkInfo = read_pollynet_processing_configs(picassoLinkFile);

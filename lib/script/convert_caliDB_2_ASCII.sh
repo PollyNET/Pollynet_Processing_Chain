@@ -2,7 +2,7 @@
 # This script is used to convert all the SQLite DB files of lidar calibration
 # data to ASCII files in batch mode.
 # Usage:
-#   ./convert_caliDB_2_ASCII.sh /pollyhome/Picasso/results_new
+#   ./convert_caliDB_2_ASCII.sh /pollyhome/Bildermacher2/results_new
 
 cwd="$( cd "$(dirname "$0")"; pwd -P )"
 PATH=${PATH}:$cwd
