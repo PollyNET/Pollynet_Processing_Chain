@@ -75,6 +75,23 @@ def rmext(filename):
     return file
 
 
+def make_colormap(seq):
+    """Return a LinearSegmentedColormap
+    seq: a sequence of floats and RGB-tuples. The floats should be increasing
+    and in the interval (0,1).
+    """
+    seq = [(None,) * 3, 0.0] + list(seq) + [1.0, (None,) * 3]
+    cdict = {'red': [], 'green': [], 'blue': []}
+    for i, item in enumerate(seq):
+        if isinstance(item, float):
+            r1, g1, b1 = seq[i - 1]
+            r2, g2, b2 = seq[i + 1]
+            cdict['red'].append([item, r1, r2])
+            cdict['green'].append([item, g1, g2])
+            cdict['blue'].append([item, b1, b2])
+    return matplotlib.colors.LinearSegmentedColormap('CustomMap', cdict)
+
+
 def pollyxt_display_att_beta(tmpFile, saveFolder):
     """
     Description
@@ -150,19 +167,32 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ATT_BETA_1064 = np.ma.masked_where(quality_mask_1064 > 0, ATT_BETA_1064)
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    #cmap = plt.cm.jet
+    #cmap.set_bad('k', alpha=1)
+    #cmap.set_over('w', alpha=1)
+    #cmap.set_under('k', alpha=1)
+    c = matplotlib.colors.ColorConverter().to_rgb 
+    cmap=make_colormap([c('lightskyblue'),c('dodgerblue'), 0.1,
+                          c('dodgerblue'),c('teal'), 0.2,
+                          c('teal'),c('limegreen'), 0.3,
+                          c('limegreen'),c('yellow'), 0.4,
+                          c('yellow'), c('orange'), 0.5,
+                          c('orange'),c('orangered'), 0.6,
+                          c('orangered'), c('red'), 0.7,
+                          c('red'), c('firebrick'), 0.8,
+                          c('firebrick'),c('darkred'), 0.9,
+                          c('darkred'),c('k')])
+    cmap.set_bad(color='white', alpha=1)
 
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_355 * 1e6,
-        vmin=att_beta_cRange_355[0],
+        vmin=1.5,#att_beta_cRange_355[0],
         vmax=att_beta_cRange_355[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(vmin=1.5, vmax=att_beta_cRange_355[1], clip=True),
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -220,9 +250,10 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_532 * 1e6,
-        vmin=att_beta_cRange_532[0],
+        vmin=0.8,#att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(),
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -279,9 +310,10 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_1064 * 1e6,
-        vmin=att_beta_cRange_1064[0],
+        vmin=0.1,#att_beta_cRange_1064[0],
         vmax=att_beta_cRange_1064[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(),
         rasterized=True
         )
     ax.set_xlabel('UTC', fontsize=15)
