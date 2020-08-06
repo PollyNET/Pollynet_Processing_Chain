@@ -9,6 +9,7 @@ import scipy.io as spio
 import numpy as np
 from datetime import datetime, timedelta
 import matplotlib
+import python_colormap
 
 # generating figure without X server
 plt.switch_backend('Agg')
@@ -73,6 +74,7 @@ def rmext(filename):
 
     file, _ = os.path.splitext(filename)
     return file
+
 
 
 def pollyxt_display_att_beta(tmpFile, saveFolder):
@@ -150,19 +152,33 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ATT_BETA_1064 = np.ma.masked_where(quality_mask_1064 > 0, ATT_BETA_1064)
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    #cmap = plt.cm.jet
+    #cmap.set_bad('k', alpha=1)
+    #cmap.set_over('w', alpha=1)
+    #cmap.set_under('k', alpha=1)
+    # c = matplotlib.colors.ColorConverter().to_rgb 
+    # cmap=eleni_colormap([c('lightskyblue'),c('dodgerblue'), 0.1,
+                          # c('dodgerblue'),c('teal'), 0.2,
+                          # c('teal'),c('limegreen'), 0.3,
+                          # c('limegreen'),c('yellow'), 0.4,
+                          # c('yellow'), c('orange'), 0.5,
+                          # c('orange'),c('orangered'), 0.6,
+                          # c('orangered'), c('red'), 0.7,
+                          # c('red'), c('firebrick'), 0.8,
+                          # c('firebrick'),c('darkred'), 0.9,
+                          # c('darkred'),c('k')])
+    # cmap.set_bad(color='white', alpha=1)
+    cmap=python_colormap.eleni_colormap
 
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_355 * 1e6,
-        vmin=att_beta_cRange_355[0],
+        vmin=1.5,#att_beta_cRange_355[0],
         vmax=att_beta_cRange_355[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(vmin=1.5, vmax=att_beta_cRange_355[1], clip=True),
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -220,9 +236,10 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_532 * 1e6,
-        vmin=att_beta_cRange_532[0],
+        vmin=0.8,#att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(),
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -279,9 +296,10 @@ def pollyxt_display_att_beta(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_1064 * 1e6,
-        vmin=att_beta_cRange_1064[0],
+        vmin=0.1,#att_beta_cRange_1064[0],
         vmax=att_beta_cRange_1064[1],
         cmap=cmap,
+        norm=matplotlib.colors.LogNorm(),
         rasterized=True
         )
     ax.set_xlabel('UTC', fontsize=15)
