@@ -134,6 +134,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
+        colormap_basic = mat['colormap_basic'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -193,7 +194,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         ticks=np.linspace(att_beta_cRange_355[0], att_beta_cRange_355[1], 5),
         orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=10)
 
     fig.text(
         0.05, 0.04,
@@ -253,7 +254,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
         orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=10)
 
     fig.text(
         0.05, 0.04,
@@ -312,7 +313,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         ticks=np.linspace(att_beta_cRange_1064[0], att_beta_cRange_1064[1], 5),
         orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=10)
 
     fig.text(
         0.05, 0.04,

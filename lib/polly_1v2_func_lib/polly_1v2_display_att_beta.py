@@ -9,6 +9,16 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
                              MinuteLocator, date2num
+
+# load colormap
+dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(dirname)
+try:
+    from python_colormap import *
+except Exception as e:
+    raise ImportError('python_colormap module is necessary.')
+
+# generating figure without X server
 plt.switch_backend('Agg')
 
 
@@ -124,6 +134,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
+        colormap_basic = mat['colormap_basic'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -138,17 +149,16 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
     ATT_BETA_532 = np.ma.masked_where(quality_mask_532 > 0, ATT_BETA_532)
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    cmap = load_colormap(name=colormap_basic)
 
     # display attenuate backscatter at 532 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, ATT_BETA_532 * 1e6,
-        vmin=att_beta_cRange_532[0], vmax=att_beta_cRange_532[1], cmap=cmap,
+        vmin=att_beta_cRange_532[0],
+        vmax=att_beta_cRange_532[1],
+        cmap=cmap,
         rasterized=True)
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -177,7 +187,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
         orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
-    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=12)
+    cbar.ax.set_title('      $Mm^{-1}*sr^{-1}$\n', fontsize=10)
 
     fig.text(
         0.05, 0.04,

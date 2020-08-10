@@ -20,6 +20,7 @@ yLim_Quasi_Params = config.yLim_Quasi_Params;
 quasi_beta_cRange_532 = config.zLim_quasi_beta_532;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 imgFormat = config.imgFormat;
+colormap_basic = config.colormap_basic;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
@@ -77,7 +78,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'height', 'time', 'quasi_beta_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'height', 'time', 'quasi_beta_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_quasiretrieving.py');

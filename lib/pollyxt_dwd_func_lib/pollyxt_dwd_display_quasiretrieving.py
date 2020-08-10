@@ -9,6 +9,16 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
     MinuteLocator, date2num
+
+# load colormap
+dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(dirname)
+try:
+    from python_colormap import *
+except Exception as e:
+    raise ImportError('python_colormap module is necessary.')
+
+# generating figure without X server
 plt.switch_backend('Agg')
 
 
@@ -126,6 +136,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
+        colormap_basic = mat['colormap_basic'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -150,10 +161,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
     )
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    cmap = load_colormap(name=colormap_basic)
 
     # display quasi backscatter at 355 nm
     fig = plt.figure(figsize=[10, 5])

@@ -35,6 +35,7 @@ else
     RCS532NRColorRange = config.zLim_NR_RCS_532;
 end
 imgFormat = config.imgFormat;
+colormap_basic = config.colormap_basic;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
@@ -157,7 +158,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'RCS532FRColorRange', 'RCS532NRColorRange', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'RCS532FRColorRange', 'RCS532NRColorRange', 'imgFormat', 'colormap_basic', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_rcs.py');

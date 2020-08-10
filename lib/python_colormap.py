@@ -1,4 +1,5 @@
-from matplotlib.colors import LinearSegmentedColormap, ListedColormap
+from matplotlib.colors import LinearSegmentedColormap, ListedColormap, \
+                              ColorConverter
 import numpy as np
 
 
@@ -144,46 +145,6 @@ def signal_status_colormap():
     return SS_CMAP
 
 
-def Test():
-    print("-------------------Test---------------------")
-
-    import numpy as np
-    import matplotlib.pyplot as plt
-
-    # x = np.random.random((10, 10))
-    # y = np.random.random((10, 10))
-    # X, Y = np.meshgrid(x, y)
-    # Z = np.exp(-2*(X**2 + Y**2))
-
-    # plt.contourf(Z, level=20, cmap=calipso_colormap())
-    # plt.colorbar()
-    # plt.show()
-
-    fig = plt.figure(figsize=[15, 5])
-    ax = fig.add_subplot(111)
-
-    pc = ax.pcolormesh(
-        np.random.rand(10, 10)*12,
-        vmin=0, vmax=11, cmap=target_classification_colormap())
-
-    cbar = plt.colorbar(pc, ticks=[(np.arange(0, 12) + 0.5)*11/12])
-    cbar.ax.set_yticklabels(['No signal',
-                             'Clean atmosphere',
-                             'Non-typed particles/low conc.',
-                             'Aerosol: small',
-                             'Aerosol: large, spherical',
-                             'Aerosol: mixture, partly non-spherical',
-                             'Aerosol: large, non-spherical',
-                             'Cloud: non-typed',
-                             'Cloud: water droplets',
-                             'Cloud: likely water droplets',
-                             'Cloud: ice crystals',
-                             'Cloud: likely ice crystals'])
-
-    plt.savefig('temp.png')
-    plt.close()
-
-
 def make_colormap(seq):
     """Return a LinearSegmentedColormap
     seq: a sequence of floats and RGB-tuples. The floats should be increasing
@@ -198,22 +159,91 @@ def make_colormap(seq):
             cdict['red'].append([item, r1, r2])
             cdict['green'].append([item, g1, g2])
             cdict['blue'].append([item, b1, b2])
-    return matplotlib.colors.LinearSegmentedColormap('CustomMap', cdict)
+    return LinearSegmentedColormap('CustomMap', cdict)
+
 
 def eleni_colormap():
-    c = matplotlib.colors.ColorConverter().to_rgb 
-    cmap=eleni_colormap([c('lightskyblue'),c('dodgerblue'), 0.1,
-                          c('dodgerblue'),c('teal'), 0.2,
-                          c('teal'),c('limegreen'), 0.3,
-                          c('limegreen'),c('yellow'), 0.4,
-                          c('yellow'), c('orange'), 0.5,
-                          c('orange'),c('orangered'), 0.6,
-                          c('orangered'), c('red'), 0.7,
-                          c('red'), c('firebrick'), 0.8,
-                          c('firebrick'),c('darkred'), 0.9,
-                          c('darkred'),c('k')])
+    c = ColorConverter().to_rgb
+    cmap = make_colormap([
+        c('lightskyblue'), c('dodgerblue'), 0.1,
+        c('dodgerblue'), c('teal'), 0.2,
+        c('teal'), c('limegreen'), 0.3,
+        c('limegreen'), c('yellow'), 0.4,
+        c('yellow'), c('orange'), 0.5,
+        c('orange'), c('orangered'), 0.6,
+        c('orangered'), c('red'), 0.7,
+        c('red'), c('firebrick'), 0.8,
+        c('firebrick'), c('darkred'), 0.9,
+        c('darkred'), c('k')])
     cmap.set_bad(color='white', alpha=1)
     return cmap
+
+
+def load_colormap(name='chiljet'):
+    """
+    load colormap according to input colormap name.
+
+    Params
+    ------
+    name: str
+        colormap name.
+        - 'chiljet'
+        - 'eleni'
+        - 'CALIPSO'
+    Return
+    ------
+    cmap: matplotlib colormap
+    """
+
+    if name == 'chiljet':
+        cmap = chiljet_colormap()
+    elif name == 'eleni':
+        cmap = eleni_colormap()
+    elif name == 'CALIPSO':
+        cmap = CALIPSO_colormap()
+    else:
+        raise RuntimeWarning('Unknown colormap: {0}'.format(name))
+
+    return cmap
+
+
+def Test():
+    print("-------------------Test---------------------")
+
+    import numpy as np
+    import matplotlib.pyplot as plt
+
+    x = np.random.random((40, 40))
+    y = np.random.random((40, 40))
+    X, Y = np.meshgrid(x, y)
+    Z = np.exp(-2*(X**2 + Y**2))
+
+    plt.contourf(Z, level=40, cmap=eleni_colormap())
+    plt.colorbar()
+    plt.show()
+
+    # fig = plt.figure(figsize=[15, 5])
+    # ax = fig.add_subplot(111)
+
+    # pc = ax.pcolormesh(
+    #     np.random.rand(10, 10)*12,
+    #     vmin=0, vmax=11, cmap=target_classification_colormap())
+
+    # cbar = plt.colorbar(pc, ticks=[(np.arange(0, 12) + 0.5)*11/12])
+    # cbar.ax.set_yticklabels(['No signal',
+    #                          'Clean atmosphere',
+    #                          'Non-typed particles/low conc.',
+    #                          'Aerosol: small',
+    #                          'Aerosol: large, spherical',
+    #                          'Aerosol: mixture, partly non-spherical',
+    #                          'Aerosol: large, non-spherical',
+    #                          'Cloud: non-typed',
+    #                          'Cloud: water droplets',
+    #                          'Cloud: likely water droplets',
+    #                          'Cloud: ice crystals',
+    #                          'Cloud: likely ice crystals'])
+    # plt.show()
+
 
 def main():
     Test()
