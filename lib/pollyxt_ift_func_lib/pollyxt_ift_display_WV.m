@@ -28,6 +28,7 @@ xLim_Profi_WV_RH = config.xLim_Profi_WV_RH;
 meteorSource = data.quasiAttri.meteorSource;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 imgFormat = config.imgFormat;
+colormap_basic = config.colormap_basic;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
@@ -119,7 +120,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', 'colormap_basic', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_WV.py');

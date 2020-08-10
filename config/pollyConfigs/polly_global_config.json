@@ -215,6 +215,7 @@
     "zLim_NR_RCS_532": [1e-2, 10],
     "zLim_VolDepol_355": [0, 0.3],
     "zLim_VolDepol_532": [0, 0.3],
+    "colormap_basic": "chiljet",
 
     "logbookFile": "",
     "radiosondeFolder": "",
