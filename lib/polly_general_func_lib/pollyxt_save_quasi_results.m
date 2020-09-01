@@ -124,6 +124,8 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'bias_variable', 'quasi_beta_532_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'Lidar_ratiot_used', config.LR532);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', config.LR532));
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
 
@@ -137,6 +139,8 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'error_variable', 'quasi_beta_1064_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'bias_variable', 'quasi_beta_1064_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'Lidar_ratiot_used', config.LR1064);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', config.LR1064));
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
 
