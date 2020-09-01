@@ -9,6 +9,16 @@ from matplotlib.ticker import MultipleLocator, FormatStrFormatter
 from matplotlib.colors import ListedColormap
 from matplotlib.dates import DateFormatter, DayLocator, HourLocator, \
     MinuteLocator, date2num
+
+# load colormap
+dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(dirname)
+try:
+    from python_colormap import *
+except Exception as e:
+    raise ImportError('python_colormap module is necessary.')
+
+# generating figure without X server
 plt.switch_backend('Agg')
 
 
@@ -120,6 +130,7 @@ def pollyxt_display_WV(tmpFile, saveFolder):
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
+        colormap_basic = mat['colormap_basic'][:][0]
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -135,10 +146,7 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     RH = np.ma.masked_where(lowSNRMask != 0, RH)
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    cmap = load_colormap(name=colormap_basic)
 
     # display WVMR
     fig = plt.figure(figsize=[10, 5])
@@ -174,7 +182,7 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.linspace(
         xLim_Profi_WV_RH[0], xLim_Profi_WV_RH[1], 5), orientation='vertical')
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
-    cbar.ax.set_title('[$g*kg^{-1}$]', fontsize=10)
+    cbar.ax.set_title('      [$g*kg^{-1}$]', fontsize=10)
 
     fig.text(
         0.05, 0.02,
