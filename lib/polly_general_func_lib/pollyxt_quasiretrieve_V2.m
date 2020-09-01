@@ -182,11 +182,11 @@ quasiAttri_V2.meteorSource = globalAttri.source;
 quasiAttri_V2.timestamp = globalAttri.datetime;
 
 % quasi particle backscatter and extinction coefficents
-[quasi_par_bsc_355_V2, quasi_par_ext_355_V2] = quasi_retrieving_V2(data.height, att_beta_355, att_beta_387, 355, molExt355, molBsc355, molExt387, 0.5, 50, 3);
+[quasi_par_bsc_355_V2, quasi_par_ext_355_V2] = quasi_retrieving_V2(data.height, att_beta_355, att_beta_387, 355, molExt355, molBsc355, molExt387, 0.5, config.LR355, 3);% angstrom to be used for quasi retrieving need to be implemented, currently fixed to 0.5
 quasi_par_bsc_355_V2 = smooth2(quasi_par_bsc_355_V2, config.quasi_smooth_h(flagChannel355Tot), config.quasi_smooth_t(flagChannel355Tot));
-[quasi_par_bsc_532_V2, quasi_par_ext_532_V2] = quasi_retrieving_V2(data.height, att_beta_532, att_beta_607, 532, molExt532, molBsc532, molExt607, 0.5, 50, 3);
+[quasi_par_bsc_532_V2, quasi_par_ext_532_V2] = quasi_retrieving_V2(data.height, att_beta_532, att_beta_607, 532, molExt532, molBsc532, molExt607, 0.5, config.LR532, 3); % angstrom to be used for quasi retrieving need to be implemented, currently fixed to 0.5
 quasi_par_bsc_532_V2 = smooth2(quasi_par_bsc_532_V2, config.quasi_smooth_h(flagChannel532Tot), config.quasi_smooth_t(flagChannel532Tot));
-[quasi_par_bsc_1064_V2, quasi_par_ext_1064_V2] = quasi_retrieving_V2(data.height, att_beta_1064, att_beta_607, 1064, molExt1064, molBsc1064, molExt607, 0.5, 50, 3);
+[quasi_par_bsc_1064_V2, quasi_par_ext_1064_V2] = quasi_retrieving_V2(data.height, att_beta_1064, att_beta_607, 1064, molExt1064, molBsc1064, molExt607, 0.5, config.LR1064, 3); % angstrom to be used for quasi retrieving need to be implemented, currently fixed to 0.5
 quasi_par_bsc_1064_V2 = smooth2(quasi_par_bsc_1064_V2, config.quasi_smooth_h(flagChannel1064), config.quasi_smooth_t(flagChannel1064));
 
 %% quasi particle depolarization ratio and Ångström exponents
