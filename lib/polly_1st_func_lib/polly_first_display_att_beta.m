@@ -21,6 +21,7 @@ flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 yLim_att_beta = config.yLim_att_beta;
 att_beta_cRange_532 = config.zLim_att_beta_532;
 imgFormat = config.imgFormat;
+colormap_basic = config.colormap_basic;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% parameter initialize
@@ -80,7 +81,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_att_beta.py');
