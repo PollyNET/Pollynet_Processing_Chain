@@ -174,7 +174,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
         xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xLim_Profi_RCS = mat['xLim_Profi_RCS'][:][0]
         xLim_Profi_LR = mat['xLim_Profi_LR'][:][0]
-        imgFormat = mat['imgFormat'][:][]
+        imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
         print(e)
