@@ -41,31 +41,46 @@ depCal_P_Ang_time_start = [];
 depCal_P_Ang_time_end = [];
 maskDepCal = false(size(transpose(mTime)));
 
-if isempty(depCal_p_start) || isempty(depCal_p_end) || isempty(depCal_m_start) || isempty(depCal_m_end)
+if isempty(depCal_p_start) || isempty(depCal_p_end) || ...
+   isempty(depCal_m_start) || isempty(depCal_m_end)
     return;
 end
 
-% convert timestamp to matlab datenum
-% p_start_dn = datenum(depCal_p_start, 'HHMMSS');   % ATTENTION: no date
-% information, maybe add artificial date
-% p_end_dn = datenum(depCal_p_end, 'HH:MM:SS');
-% m_start_dn = datenum(depCal_m_start, 'HH:MM:SS');
-% m_end_dn = datenum(depCal_m_end, 'HH:MM:SS');
-p_start_dn = (datenum(['01012020' num2str(depCal_p_start)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));   % ATTENTION: no date information
-p_end_dn = (datenum(['01012020' num2str(depCal_p_end)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
-m_start_dn = (datenum(['01012020' num2str(depCal_m_start)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
-m_end_dn = (datenum(['01012020' num2str(depCal_m_end)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
-
-timestamp_wo_date = mod(mTime, 1);
-
-% determine the timestamp and mask for each available depolarization calibration period
-p_depcal_mask = false(size(mTime));
-for iDepCal = 1:length(p_start_dn)
-    p_depcal_mask = p_depcal_mask | ((timestamp_wo_date >= p_start_dn(iDepCal)) & (timestamp_wo_date < p_end_dn(iDepCal)));
+if (length(depCal_p_start) ~= length(depCal_p_end)) || ...
+   (length(depCal_p_end) ~= length(depCal_m_start)) || ...
+   (length(depCal_m_start) ~= length(depCal_m_end))
+   warning('Incompatible settings for depolarization calibration time.');
+   return;
 end
+
+timestamp_wo_date = mod(mTime, 1);   % timestamp without date information.
+p_depcal_mask = false(size(mTime));
 m_depcal_mask = false(size(mTime));
-for iDepCal = 1:length(m_start_dn)
-    m_depcal_mask = m_depcal_mask | ((timestamp_wo_date >= m_start_dn(iDepCal)) & (timestamp_wo_date < m_end_dn(iDepCal)));
+for iDepCal = 1:length(depCal_p_start)
+
+    % determine the timestamp and mask for each available depolarization calibration period
+    if length(depCal_p_start{iDepCal}) == 8
+        % regular time for each day
+        p_start_dn = mod(datenum(depCal_p_start{iDepCal}, 'HH:MM:SS'), 1);
+        p_end_dn = mod(datenum(depCal_p_end{iDepCal}, 'HH:MM:SS'), 1);
+        m_start_dn = mod(datenum(depCal_m_start{iDepCal}, 'HH:MM:SS'), 1);
+        m_end_dn = mod(datenum(depCal_m_end{iDepCal}, 'HH:MM:SS'), 1);
+
+        p_depcal_mask = p_depcal_mask | ((timestamp_wo_date >= p_start_dn) & (timestamp_wo_date < p_end_dn));
+        m_depcal_mask = m_depcal_mask | ((timestamp_wo_date >= m_start_dn) & (timestamp_wo_date < m_end_dn));
+
+    elseif length(depCal_p_start{iDepCal}) == 17
+        % specific time for the given date and time
+        p_start_dn = datenum(depCal_p_start{iDepCal}, 'yyyymmdd HH:MM:SS');
+        p_end_dn = datenum(depCal_p_end{iDepCal}, 'yyyymmdd HH:MM:SS');
+        m_start_dn = datenum(depCal_m_start{iDepCal}, 'yyyymmdd HH:MM:SS');
+        m_end_dn = datenum(depCal_m_end{iDepCal}, 'yyyymmdd HH:MM:SS');
+
+        p_depcal_mask = p_depcal_mask | ((mTime >= p_start_dn) & (mTime < p_end_dn));
+        m_depcal_mask = m_depcal_mask | ((mTime >= m_start_dn) & (mTime < m_end_dn));
+    else
+    end
+
 end
 
 % mask connected depolarization calibration time
