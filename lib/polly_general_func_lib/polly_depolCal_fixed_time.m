@@ -46,10 +46,15 @@ if isempty(depCal_p_start) || isempty(depCal_p_end) || isempty(depCal_m_start) |
 end
 
 % convert timestamp to matlab datenum
-p_start_dn = datenum(depCal_p_start, 'HH:MM:SS');   % ATTENTION: no date information
-p_end_dn = datenum(depCal_p_end, 'HH:MM:SS');
-m_start_dn = datenum(depCal_m_start, 'HH:MM:SS');
-m_end_dn = datenum(depCal_m_end, 'HH:MM:SS');
+% p_start_dn = datenum(depCal_p_start, 'HHMMSS');   % ATTENTION: no date
+% information, maybe add artificial date
+% p_end_dn = datenum(depCal_p_end, 'HH:MM:SS');
+% m_start_dn = datenum(depCal_m_start, 'HH:MM:SS');
+% m_end_dn = datenum(depCal_m_end, 'HH:MM:SS');
+p_start_dn = (datenum(['01012020' num2str(depCal_p_start)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));   % ATTENTION: no date information
+p_end_dn = (datenum(['01012020' num2str(depCal_p_end)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
+m_start_dn = (datenum(['01012020' num2str(depCal_m_start)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
+m_end_dn = (datenum(['01012020' num2str(depCal_m_end)], 'ddmmyyyyHHMMSS')-datenum(['01012020' '000000'], 'ddmmyyyyHHMMSS'));
 
 timestamp_wo_date = mod(mTime, 1);
 
