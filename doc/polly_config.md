@@ -24,7 +24,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |bgCorRangeIndx|the bottom and top index of signal to calculate the background|[10, 240]||
 |mask_SNRmin|the SNR threshold to mask noisy bins|[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]||
 |depol_cali_mode|depolarization calibration mode: 1: automatic searching based on depolarization calibration angle; 2: fixed calibration time according to input|1||
-|depol_cal_time_fixed_p_start|fixed timestamp for the start of depolarization calibration period at positive angle.|["05:30:00"]||
+|depol_cal_time_fixed_p_start|fixed timestamp for the start of depolarization calibration period at positive angle.|["05:30:00"] for the start time of depolarization calibration at 05:30:00 each day, or ["20130101 05:30:00"] for depolarization calibration at  2013-01-01 05:30:00||
 |depol_cal_time_fixed_p_end|fixed timestamp for the stop of depolarization calibration period at positive angle.|["05:35:30"]||
 |depol_cal_time_fixed_m_start|fixed timestamp for the start depolarization calibration period at negative angle.|["05:35:30"]||
 |depol_cal_time_fixed_m_end|fixed timestamp for the stop of depolarization calibration period at negative angle.|["05:40:00"]||
