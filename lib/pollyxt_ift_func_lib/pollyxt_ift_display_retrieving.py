@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
+def pollyxt_ift_display_retrieving(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_ift_display_lidarconst(tmpFile)
+    pollyxt_ift_display_retrieving(tmpFile)
 
     History
     -------

@@ -23,6 +23,11 @@ I will summarize all the configurations in the table below. But you should keep 
 |dt|parameters for deadtime correction. If "dtCorMode" is set to be '2', only the deadtime for each channel need to be set here with unit of ns. If "dtCorMode" is set to be '3', the correction parameters need to be set accordingly. You can take [pollyxt_tropos_config.json](/config/pollyxt_tropos_config.json) as an example|[[0.0, 0.972992, 0.00353332, -7.90981e-006, 1.06451e-007, 1.42895e-009], [0, 1.0117, -0.0014, 0.0002, -0.0000, 0.0000], [0, 0.9674, 0.0023, 0.0000, 0.0000, 0.0000], [0, 0.9929, 0.0000, 0.0001, -0.0000, 0.0000], [0, 0.9843, 0.0022, 0.0001, -0.0000, 0.0000], [0, 0.9391, 0.0063, -0.0001, 0.0000, -0.0000], [0, 1.0035, 0.0003, 0.0001, -0.0000, 0.0000], [0, 1.0000, 0, 0, 0, 0], [0, 1.0000, 0.0029, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0025, 0.0000, 0.0000, 0.0000], [0, 1, 0, 0, 0, 0]]||
 |bgCorRangeIndx|the bottom and top index of signal to calculate the background|[10, 240]||
 |mask_SNRmin|the SNR threshold to mask noisy bins|[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]||
+|depol_cali_mode|depolarization calibration mode: 1: automatic searching based on depolarization calibration angle; 2: fixed calibration time according to input|1||
+|depol_cal_time_fixed_p_start|fixed timestamp for the start of depolarization calibration period at positive angle.|["05:30:00"]||
+|depol_cal_time_fixed_p_end|fixed timestamp for the stop of depolarization calibration period at positive angle.|["05:35:30"]||
+|depol_cal_time_fixed_m_start|fixed timestamp for the start depolarization calibration period at negative angle.|["05:35:30"]||
+|depol_cal_time_fixed_m_end|fixed timestamp for the stop of depolarization calibration period at negative angle.|["05:40:00"]||
 |init_depAng|the initial angle of the polariser withou depo calibration [degree]|0||
 |maskDepCalAng|the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle|["none", "none", "p", "p", "p", "p", "p", "p", "p", "p", "none", "none", "n", "n", "n", "n", "n", "n", "n", "n"]||
 |depol_cal_minbin_{wavelength}|the minimum bin used for depolarization calibration|40||

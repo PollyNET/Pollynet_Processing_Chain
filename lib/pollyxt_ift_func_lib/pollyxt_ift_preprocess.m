@@ -143,24 +143,17 @@ end
 if config.depol_cali_mode==1 %using the depol cal angles stored in the netcdf
     maskDepCalAng = config.maskDepCalAng;   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
     [depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_time(data.depCalAng, data.mTime, config.init_depAng, maskDepCalAng);
-    data.depol_cal_ang_p_time_start = depol_cal_ang_p_time_start;
-    data.depol_cal_ang_p_time_end = depol_cal_ang_p_time_end;
-    data.depol_cal_ang_n_time_start = depol_cal_ang_n_time_start;
-    data.depol_cal_ang_n_time_end = depol_cal_ang_n_time_end;
-    data.depCalMask = transpose(depCalMask);
 elseif config.depol_cali_mode==2  %using fixed times according to config file 
     % maskDepCalAng = config.maskDepCalAng;   % the mask for postive and negative calibration angle. 'none' means invalid profiles with different depol_cal_angle
-    %[depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = pollyxt_ift_depolCal_fixed_time(data.depCalAng, data.mTime, config.init_depAng, maskDepCalAng);
-    data.depCalMask =Zeros(length(mtime)); %how to produce the depol cal mask efficiently?
-       
-     data.depol_cal_ang_p_time_start = config.depol_cal_time_fixed_p_start;
-     data.depol_cal_ang_p_time_end = config.depol_cal_time_fixed_p_end;
-     data.depol_cal_ang_n_time_start = config.depol_cal_time_fixed_m_start;
-     data.depol_cal_ang_n_time_end = config.depol_cal_time_fixed_m_end;
-    %data.depCalMask = transpose(depCalMask); 
+    [depol_cal_ang_p_time_start, depol_cal_ang_p_time_end, depol_cal_ang_n_time_start, depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_fixed_time(data.mTime, config.depol_cal_time_fixed_p_start, config.depol_cal_time_fixed_p_end, config.depol_cal_time_fixed_m_start, config.depol_cal_time_fixed_m_end);
 else
-    print('No depol calibration possible')
+   fprintf('No depol calibration possible.\n');
 end
+data.depol_cal_ang_p_time_start = depol_cal_ang_p_time_start;
+data.depol_cal_ang_p_time_end = depol_cal_ang_p_time_end;
+data.depol_cal_ang_n_time_start = depol_cal_ang_n_time_start;
+data.depol_cal_ang_n_time_end = depol_cal_ang_n_time_end;
+data.depCalMask = transpose(depCalMask);
 
 %% mask for laser shutter
 flagChannel532FR = config.isFR & config.is532nm & config.isTot;
