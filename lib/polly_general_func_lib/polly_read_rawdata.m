@@ -127,7 +127,7 @@ if p.Results.flagFilterFalseMShots
         rawSignal = rawSignal(:, :, ~ flagFalseShots);
         mShots = mShots(~ flagFalseShots);
         mTime = mTime(~ flagFalseShots);
-        depCalAng = depCalAng(~ flagFalseShots);
+        %depCalAng = depCalAng(~ flagFalseShots);
     end
 
 elseif p.Results.flagCorrectFalseMShots
@@ -136,10 +136,10 @@ elseif p.Results.flagCorrectFalseMShots
                        datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
     [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
                        datevec(mTimeStart);
-    mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
-    mTime(2, :) = thisHour * 3600 + ...
-                  thisMinute * 60 + ...
-                  thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+    %mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
+    %mTime(2, :) = thisHour * 3600 + ...
+    %              thisMinute * 60 + ...
+    %              thisSecond + 30 .* (0:(size(mTime, 2) - 1));
 end
 
 data.zenithAng = zenithAng;
