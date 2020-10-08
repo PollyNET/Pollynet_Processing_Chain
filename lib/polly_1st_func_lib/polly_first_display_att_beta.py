@@ -157,7 +157,7 @@ def polly_first_display_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
