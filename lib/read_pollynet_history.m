@@ -62,9 +62,9 @@ try
 
     for iRow = 1:length(data{1})
         campaignHistory.startTime = [campaignHistory.startTime, ...
-            datenum([data{3}{iRow}, data{4}{iRow}], 'yyyymmddHHMM')];
+            datenum([data{3}{iRow}, sprintf('%04d', str2num(data{4}{iRow}))], 'yyyymmddHHMM')];
         campaignHistory.endTime = [campaignHistory.endTime, ...
-            datenum([data{5}{iRow}, data{6}{iRow}], 'yyyymmddHHMM')];
+            datenum([data{5}{iRow}, sprintf('%04d', str2num(data{6}{iRow}))], 'yyyymmddHHMM')];
         campaignHistory.lat = [campaignHistory.lat, ...
             str2num(data{7}{iRow})];   % the lat and lon were 
                                        % reversed in the file.
