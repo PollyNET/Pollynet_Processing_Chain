@@ -84,8 +84,12 @@ for iDepCal = 1:length(depCal_p_start)
 end
 
 % mask connected depolarization calibration time
-[L_p, num_p] = label(p_depcal_mask);
-[L_m, num_m] = label(m_depcal_mask);
+p_depcal_mask_num = double(p_depcal_mask);
+m_depcal_mask_num = double(m_depcal_mask);
+p_depcal_mask_num(p_depcal_mask_num == 0) = NaN;
+m_depcal_mask_num(m_depcal_mask_num == 0) = NaN;
+[L_p, num_p] = label(p_depcal_mask_num);
+[L_m, num_m] = label(m_depcal_mask_num);
 
 if num_p ~= num_m
     warning('Incompatible depolarization calibration periods at postive and negative calibration angles');
