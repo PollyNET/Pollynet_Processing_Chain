@@ -143,7 +143,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(
         Time, Height, SAT_FR_532,
         vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -192,7 +192,7 @@ def polly_1v2_display_saturation(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(
         Time, Height, SAT_NR_532,
         vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
