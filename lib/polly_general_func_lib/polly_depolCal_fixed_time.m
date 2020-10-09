@@ -59,7 +59,7 @@ m_depcal_mask = false(size(mTime));
 for iDepCal = 1:length(depCal_p_start)
 
     % determine the timestamp and mask for each available depolarization calibration period
-    if strlength(depCal_p_start{iDepCal}) == 8
+    if length(depCal_p_start{iDepCal}) == 8
         % regular time for each day
         p_start_dn = mod(datenum(depCal_p_start{iDepCal}, 'HH:MM:SS'), 1);
         p_end_dn = mod(datenum(depCal_p_end{iDepCal}, 'HH:MM:SS'), 1);
@@ -69,7 +69,7 @@ for iDepCal = 1:length(depCal_p_start)
         p_depcal_mask = p_depcal_mask | ((timestamp_wo_date >= p_start_dn) & (timestamp_wo_date < p_end_dn));
         m_depcal_mask = m_depcal_mask | ((timestamp_wo_date >= m_start_dn) & (timestamp_wo_date < m_end_dn));
 
-    elseif strlength(depCal_p_start{iDepCal}) == 17
+    elseif length(depCal_p_start{iDepCal}) == 17
         % specific time for the given date and time
         p_start_dn = datenum(depCal_p_start{iDepCal}, 'yyyymmdd HH:MM:SS');
         p_end_dn = datenum(depCal_p_end{iDepCal}, 'yyyymmdd HH:MM:SS');
