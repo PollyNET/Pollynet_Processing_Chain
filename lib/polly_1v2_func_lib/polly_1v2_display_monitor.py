@@ -207,8 +207,9 @@ def polly_1v2_display_monitor(tmpFile, saveFolder):
     if len(time):
         cmap = ListedColormap(
             ['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine'])
-        pcmesh = ax5.pcolormesh(np.transpose(time), np.arange(
-            flags.shape[0] + 1), flags, cmap=cmap, vmin=-0.5, vmax=4.5)
+        pcmesh = ax5.pcolormesh(
+            np.transpose(time), np.arange(flags.shape[0] + 1), flags,
+            cmap=cmap, vmin=-0.5, vmax=4.5, shading='nearest')
         cb_ax = fig.add_axes([0.84, 0.155, 0.12, 0.016])
         cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
                             0, 1, 2, 3, 4], orientation='horizontal')

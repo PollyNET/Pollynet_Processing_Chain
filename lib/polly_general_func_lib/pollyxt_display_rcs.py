@@ -170,8 +170,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         Time, Height, RCS_FR_355/1e6,
         vmin=RCS355FRColorRange[0],
         vmax=RCS355FRColorRange[1],
-        cmap=cmap, rasterized=True
-        )
+        cmap=cmap, rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -218,7 +217,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         vmin=RCS532FRColorRange[0],
         vmax=RCS532FRColorRange[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -265,7 +264,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         vmin=RCS1064FRColorRange[0],
         vmax=RCS1064FRColorRange[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -312,7 +311,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         vmin=RCS355NRColorRange[0],
         vmax=RCS355NRColorRange[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -361,7 +360,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         vmin=RCS532NRColorRange[0],
         vmax=RCS532NRColorRange[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -407,7 +406,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         Time, Height, volDepol_532,
         vmin=Voldepol532ColorRange[0],
         vmax=Voldepol532ColorRange[1],
-        cmap=cmap, rasterized=True)
+        cmap=cmap, rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -453,7 +452,7 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
         Time, Height, volDepol_355,
         vmin=Voldepol355ColorRange[0],
         vmax=Voldepol355ColorRange[1],
-        cmap=cmap, rasterized=True)
+        cmap=cmap, rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

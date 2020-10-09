@@ -10,6 +10,14 @@ import numpy as np
 from datetime import datetime, timedelta
 import matplotlib
 
+# load colormap
+dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(dirname)
+try:
+    from python_colormap import *
+except Exception as e:
+    raise ImportError('python_colormap module is necessary.')
+
 # generating figure without X server
 plt.switch_backend('Agg')
 
@@ -151,10 +159,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
     ATT_BETA_1064 = np.ma.masked_where(quality_mask_1064 > 0, ATT_BETA_1064)
 
     # define the colormap
-    cmap = plt.cm.jet
-    cmap.set_bad('k', alpha=1)
-    cmap.set_over('w', alpha=1)
-    cmap.set_under('k', alpha=1)
+    cmap = load_colormap(name=colormap_basic)
 
     # display attenuate backscatter at 355 FR
     fig = plt.figure(figsize=[10, 5])
@@ -164,7 +169,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_355[0],
         vmax=att_beta_cRange_355[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -224,7 +229,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -284,7 +289,7 @@ def pollyxt_display_OC_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_1064[0],
         vmax=att_beta_cRange_1064[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 

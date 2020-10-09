@@ -171,7 +171,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         vmin=quasi_beta_cRange_355[0],
         vmax=quasi_beta_cRange_355[1],
         cmap=cmap,
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -227,7 +227,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         vmin=quasi_beta_cRange_532[0],
         vmax=quasi_beta_cRange_532[1],
         cmap=cmap,
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -283,7 +283,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         vmin=quasi_beta_cRange_1064[0],
         vmax=quasi_beta_cRange_1064[1],
         cmap=cmap,
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -339,7 +339,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
         vmin=quasi_Par_DR_cRange_532[0],
         vmax=quasi_Par_DR_cRange_532[1],
         cmap=cmap,
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -386,7 +386,7 @@ def pollyxt_dwd_display_quasiretrieving(tmpFile, saveFolder):
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
         Time, Height, quasi_ang_532_1064, vmin=0, vmax=2, cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
