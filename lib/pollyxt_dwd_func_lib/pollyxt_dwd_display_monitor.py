@@ -216,7 +216,7 @@ def pollyxt_dwd_display_monitor(tmpFile, saveFolder):
             )
         pcmesh = ax5.pcolormesh(
             np.transpose(time), np.arange(flags.shape[0] + 1), flags,
-            cmap=cmap, vmin=-0.5, vmax=4.5
+            cmap=cmap, vmin=-0.5, vmax=4.5, shading='nearest'
             )
         cb_ax = fig.add_axes([0.84, 0.155, 0.12, 0.016])
         cbar = fig.colorbar(

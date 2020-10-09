@@ -169,7 +169,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_355[0],
         vmax=att_beta_cRange_355[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -229,7 +229,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_532[0],
         vmax=att_beta_cRange_532[1],
         cmap=cmap,
-        rasterized=True)
+        rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
 
@@ -288,7 +288,7 @@ def pollyxt_cge_display_att_beta(tmpFile, saveFolder):
         vmin=att_beta_cRange_1064[0],
         vmax=att_beta_cRange_1064[1],
         cmap=cmap,
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)

@@ -141,7 +141,7 @@ def pollyxt_cge_display_targetclassi_V2(tmpFile, saveFolder):
     pcmesh = ax.pcolormesh(
         Time, Height, TC_mask,
         vmin=-0.5, vmax=11.5, cmap=target_classification_colormap(),
-        rasterized=True
+        rasterized=True, shading='nearest'
         )
     ax.set_xlabel('UTC', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
