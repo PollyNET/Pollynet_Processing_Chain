@@ -178,7 +178,7 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
     ax2.plot(time, OutsideRH, marker='.', color='#8000ff')
     ax2.set_ylim([0, 100])
     ax2.set_xlim([mTime[0], mTime[-1]])
-    ax2.set_ylabel("OutsideRH [%]", fontsize=15)
+    ax2.set_ylabel("Outside RH [%]", fontsize=15)
     ax2.grid(True)
 
     ax3.plot(time, HT, color='#8080ff', label='Laser Head')
@@ -203,7 +203,7 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
     if len(time):
         cmap = ListedColormap(['navajowhite', 'coral'])
         pcmesh = ax5.pcolormesh(
-            np.transpose(time), np.arange(2), flags,
+            np.transpose(time), np.arange(1) + 0.5, flags,
             cmap=cmap, vmin=-0.5, vmax=1.5, shading='nearest')
         cb_ax = fig.add_axes([0.84, 0.11, 0.12, 0.016])
         cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
