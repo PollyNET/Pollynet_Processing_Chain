@@ -138,8 +138,8 @@ elseif p.Results.flagCorrectFalseMShots
                        datevec(mTimeStart);
     mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
     mTime(2, :) = thisHour * 3600 + ...
-                  thisMinute * 60 + ...
-                  thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+                 thisMinute * 60 + ...
+                 thisSecond + 30 .* (0:(size(mTime, 2) - 1));
 end
 
 data.zenithAng = zenithAng;
