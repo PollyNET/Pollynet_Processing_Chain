@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
+def pollyxt_ift_display_retrieving(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_ift_display_lidarconst(tmpFile)
+    pollyxt_ift_display_retrieving(tmpFile)
 
     History
     -------
@@ -174,7 +174,7 @@ def pollyxt_ift_display_lidarconst(tmpFile, saveFolder):
         xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xLim_Profi_RCS = mat['xLim_Profi_RCS'][:][0]
         xLim_Profi_LR = mat['xLim_Profi_LR'][:][0]
-        imgFormat = mat['imgFormat'][:][]
+        imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
         print(e)
