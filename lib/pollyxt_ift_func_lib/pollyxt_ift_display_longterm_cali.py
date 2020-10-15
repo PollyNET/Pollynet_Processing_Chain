@@ -210,6 +210,10 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
             flagCH607FR = mat['flagCH607FR'][0][:]
         else:
             flagCH607FR = np.array([])
+        if mat['flagCH407FR'].size:
+            flagCH407FR = mat['flagCH407FR'][0][:]
+        else:
+            flagCH407FR = np.array([])
         if mat['flagCH532FR_X'].size:
             flagCH532FR_X = mat['flagCH532FR_X'][0][:]
         else:
@@ -224,6 +228,14 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
             WVConst = mat['WVConst'][0][:]
         else:
             WVConst = np.array([])
+        if mat['depolCaliTime532'].size:
+            thisDepolCaliTime532 = mat['depolCaliTime532'][0][:]
+        else:
+            thisDepolCaliTime532 = np.array([])
+        if mat['depolCaliConst532'].size:
+            depolCaliConst532 = mat['depolCaliConst532'][0][:]
+        else:
+            depolCaliConst532 = np.array([])
         if mat['yLim355'].size:
             yLim355 = mat['yLim355'][0][:]
         else:
@@ -248,6 +260,10 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
             wvLim = mat['wvLim'][0][:]
         else:
             wvLim = np.array([])
+        if mat['depolConstLim532'].size:
+            depolConstLim532 = mat['depolConstLim532'][0][:]
+        else:
+            depolConstLim532 = np.array([])
         imgFormat = mat['imgFormat'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         dataTime = mat['taskInfo']['dataTime'][0][0][0]
@@ -277,6 +293,8 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
     elseTime = [datenum_to_datetime(thisElseTime)
                 for thisElseTime in else_time]
     WVCaliTime = [datenum_to_datetime(thisTime) for thisTime in thisWVCaliTime]
+    depolCaliTime532 = [datenum_to_datetime(
+        thisTime) for thisTime in thisDepolCaliTime532]
 
     lineColor = {
         'overlap': '#f48f42',
@@ -289,10 +307,10 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
         }
 
     # display lidar constants at 355mn
-    fig, (ax1, ax2, ax3, ax4, ax5, ax6) = plt.subplots(
-        6, figsize=(10, 12),
+    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7) = plt.subplots(
+        7, figsize=(10, 15),
         sharex=True,
-        gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1], 'hspace': 0.1})
+        gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1], 'hspace': 0.1})
     plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
 
     # lidar constants at 355 nm
@@ -532,11 +550,44 @@ def pollyxt_ift_display_longterm_cali(tmpFile, saveFolder):
     ax6.set_ylabel('WV const [g*kg^{-1}]')
     ax6.grid(False)
     ax6.set_ylim(wvLim.tolist())
-    ax6.xaxis.set_major_formatter(DateFormatter('%m-%d'))
-    ax6.grid(False)
     ax6.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
-    fig.text(0.03, 0.015, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.90, 0.015, 'Version: {version}'.format(
+
+    # depolarization calibration constant at 532 nm
+    p1 = ax7.scatter(depolCaliTime532, depolCaliConst532,
+                     s=7, c='#0000ff', marker='o')
+
+    for iLogbookInfo in np.arange(0, len(logbookTime)):
+        if flagOverlap[iLogbookInfo]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
+        if flagPulsepower[iLogbookInfo]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
+        if flagWindowwipe[iLogbookInfo]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
+        if flagRestart[iLogbookInfo]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
+        if flagFlashlamps[iLogbookInfo]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH532FR == 1] or \
+           flag_CH_NDChange[iLogbookInfo, flagCH532FR_X == 1]:
+            ax7.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
+    for elseTime in else_time:
+        ax7.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
+
+    ax7.set_ylabel('V* 532')
+    ax7.set_xlabel('Date (mm-dd)')
+    ax7.set_ylim(depolConstLim532.tolist())
+    ax7.xaxis.set_major_formatter(DateFormatter('%m-%d'))
+    ax7.grid(False)
+    ax7.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
+    fig.text(0.03, 0.02, startTime.strftime("%Y"), fontsize=12)
+    fig.text(0.90, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(
