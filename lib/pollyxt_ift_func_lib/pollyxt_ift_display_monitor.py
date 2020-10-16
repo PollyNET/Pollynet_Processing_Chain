@@ -153,9 +153,9 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
     fig, (ax1, ax2, ax3, ax4, ax5) = plt.subplots(
         5, figsize=(15, 14), sharex=True,
         gridspec_kw={
-            'height_ratios': [1, 1, 1.6, 1, 0.6],
+            'height_ratios': [1, 1, 1.6, 1, 0.3],
             'hspace': 0.10,
-            'left': 0.07, 'right': 0.97, 'top': 0.97, 'bottom': 0.06}
+            'left': 0.09, 'right': 0.97, 'top': 0.97, 'bottom': 0.06}
         )
 
     if AD.size != 0:
@@ -203,8 +203,8 @@ def pollyxt_ift_display_monitor(tmpFile, saveFolder):
     if len(time):
         cmap = ListedColormap(['navajowhite', 'coral'])
         pcmesh = ax5.pcolormesh(
-            np.transpose(time), np.arange(1) + 0.5, flags,
-            cmap=cmap, vmin=-0.5, vmax=1.5, shading='nearest')
+            np.transpose(time), np.arange(2), flags,
+            cmap=cmap, vmin=-0.5, vmax=1.5, shading='auto')
         cb_ax = fig.add_axes([0.84, 0.11, 0.12, 0.016])
         cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
                             0, 1], orientation='horizontal')
