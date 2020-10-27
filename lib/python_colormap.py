@@ -579,7 +579,7 @@ def labivew_colormap():
     )
     labview_cmap.set_over(color='white', alpha=1)
     labview_cmap.set_under(color='k', alpha=1)
-    labview_cmap.set_bad(color='white', alpha=1)
+    labview_cmap.set_bad(color='k', alpha=1)
 
     return labview_cmap
 
