@@ -583,62 +583,76 @@ if processInfo.flagEnableDataVisualization
     fprintf('\n[%s] Start to visualize results.\n', tNow());
 
     %% display monitor status
-    disp('Display housekeeping')
+    % disp('Display housekeeping')
+    fprintf('[%s] display housekeeping.\n', tNow());
     pollyxt_display_monitor(data, taskInfo, config);
 
     %% display signal
-    disp('Display RCS and volume depolarization ratio')
+    % disp('Display RCS and volume depolarization ratio')
+    fprintf('[%s] display RCS and volume depolarization ratio\n', tNow());
     pollyxt_display_rcs(data, taskInfo, config);
 
     %% display depol calibration results
-    disp('Display depolarization calibration results')
+    % disp('Display depolarization calibration results')
+    fprintf('[%s] display depolarization calibration results\n', tNow());
     pollyxt_display_depolcali(data, config, taskInfo, depCaliAttri);
 
     %% display saturation and cloud free tags
-    disp('Display signal flags')
+    % disp('Display signal flags')
+    fprintf('[%s] display signal flags\n', tNow());
     pollyxt_display_saturation(data, taskInfo, config);
 
     %% display overlap
-    disp('Display overlap')
+    %disp('Display overlap')
+    fprintf('[%s] display overlap\n', tNow());
     pollyxt_display_overlap(data, taskInfo, overlapAttri, config);
 
     %% display optical profiles
-    disp('Display profiles')
+    %disp('Display profiles')
+    fprintf('[%s] display profiles\n', tNow());
     pollyxt_display_retrieving(data, taskInfo, config);
     pollyxt_display_OC_retrieving(data, taskInfo, config);
 
     %% display attenuated backscatter
-    disp('Display attnuated backscatter')
+    %disp('Display attnuated backscatter')
+    fprintf('[%s] display attenuated backscatter (default, OC, NR)\n', tNow());
     pollyxt_display_att_beta(data, taskInfo, config);
     pollyxt_display_OC_att_beta(data, taskInfo, config);
     pollyxt_display_NR_att_beta(data, taskInfo, config);
 
     %% display WVMR and RH
-    disp('Display WVMR and RH')
+    %disp('Display WVMR and RH')
+    fprintf('[%s] display WVMR RH\n', tNow());
     pollyxt_display_WV(data, taskInfo, config);
 
     %% display quasi backscatter, particle depol and angstroem exponent 
-    disp('Display quasi parameters')
+    %disp('Display quasi parameters')
+    fprintf('[%s] display quasi parameters\n', tNow());
     pollyxt_display_quasiretrieving(data, taskInfo, config);
 
     %% display quasi backscatter, particle depol and angstroem exponent V2 
-    disp('Display quasi parameters V2')
+    %disp('Display quasi parameters V2')
+    fprintf('[%s] display quasi parameters V2\n', tNow());
     pollyxt_display_quasiretrieving_V2(data, taskInfo, config);
 
     %% target classification
-    disp('Display target classifications')
+    %disp('Display target classifications')
+    fprintf('[%s] display target classifications\n', tNow());
     pollyxt_display_targetclassi(data, taskInfo, config);
 
     %% target classification V2
-    disp('Display target classifications V2')
+    %disp('Display target classifications V2')
+    fprintf('[%s] display target classifications V2\n', tNow());
     pollyxt_display_targetclassi_V2(data, taskInfo, config);
 
     %% display lidar calibration constants
-    disp('Display Lidar constants.')
+    %disp('Display Lidar constants.')
+    fprintf('[%s] display lidar constants\n', tNow());
     pollyxt_display_lidarconst(data, taskInfo, config);
 
     %% display Long-term lidar constant with logbook
-    disp('Display Long-Term lidar cosntants.')
+    %disp('Display Long-Term lidar constants.')
+    fprintf('[%s] display long-term lidar constants\n', tNow());
     pollyxt_display_longterm_cali(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
