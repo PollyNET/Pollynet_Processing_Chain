@@ -1,5 +1,5 @@
 function [wvmr, rh, wvProfileInfo, WVMR, RH, IWV, quality_mask_WVMR, quality_mask_RH] = pollyxt_wv_retrieve(data, config, IWVIntRangeIndx)
-%pollyxt_wv_retrieve retrieve the water vapor mixing ratio and relative humidity.
+%POLLYXT_WV_RETRIEVE retrieve the water vapor mixing ratio and relative humidity.
 %Example:
 %   [wvmr, rh, wvProfileInfo, WVMR, RH] = pollyxt_wv_retrieve(data, config, IWVIntRangeIndx)
 %Inputs:

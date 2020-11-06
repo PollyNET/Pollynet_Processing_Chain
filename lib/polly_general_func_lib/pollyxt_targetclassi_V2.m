@@ -1,5 +1,8 @@
 function [tc_mask] = pollyxt_targetclassi_V2(data, config)
-%POLLYXT_TARGETCLASSI_V2 Aerosol target classification based on algorithms presented in H.Baar et al, 2017, AMT. The inputs of quasi retrieving results are based on the improved quasi retrieving method. Detailed information about this improvement can be found '../../doc/quasi_retrieving_V2.pdf'
+%POLLYXT_TARGETCLASSI_V2 Aerosol target classification based on algorithms
+%presented in H.Baar et al, 2017, AMT. The inputs of quasi retrieving results
+%are based on the improved quasi retrieving method. Detailed information 
+%about this improvement can be found '../../doc/quasi_retrieving_V2.pdf'
 %Example:
 %   [tc_mask] = pollyxt_targetclassi_V2(data, config)
 %Inputs:
