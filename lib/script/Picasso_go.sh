@@ -94,6 +94,7 @@ case $CURRENT_SERVER in
     POLLY_DATA_PATH="/data/level0/polly"
     PERL5LIB="/pollyhome/Bildermacher2/.perlbrew/libs/perl-5.22.2@devel/lib/perl5"
     PERL_BIN="/pollyhome/Bildermacher2/perl5/perlbrew/perls/perl-5.22.2/bin/perl"
+    source /pollyhome/Bildermacher2/picasso-env/bin/activate
     ;;
 
   *)
