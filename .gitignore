@@ -3,7 +3,7 @@
 .vscode
 *.log
 
-config/pollyConfigs/polly_global_config.json
+# config/pollyConfigs/polly_global_config.json
 
 # Processing outputs
 results
