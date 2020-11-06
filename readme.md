@@ -33,7 +33,7 @@ For internal users, please click [here](/doc/pollynet_processing_program.md) for
 
 ### Authors
 
-- [Zhenping Yin](zhenping@tropos.de)
+- [Zhenping Yin](zp.yin@whu.edu.cn)
 - [Holger Baars](baars@tropos.de)
 
 ### Acknowledgements
