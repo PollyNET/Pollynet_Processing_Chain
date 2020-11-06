@@ -1,6 +1,6 @@
 function [overlap, overlapStd, sigRatio, normRange] = pollyxt_overlap_cal(...
     signalFR, bgFR, signalNR, bgNR, height, varargin)
-%pollyxt_overlap_cal calculate the overlap function.
+%POLLYXT_OVERLAP_CAL calculate the overlap function.
 %Example:
 %   overlap = pollyxt_overlap_cal(signalFR, bgFR, signalNR, bgNR, height);
 %Inputs:

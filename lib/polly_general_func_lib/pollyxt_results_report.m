@@ -1,5 +1,5 @@
 function [reportStr] = pollyxt_results_report(data, taskInfo, config)
-%pollyxt_results_report Write the info to done list file and generate the report
+%POLLYXT_RESULTS_REPORT Write the info to done list file and generate the report
 %for the current task. These report can be used for further examination.
 %Example:
 %   [reportStr] = pollyxt_results_report(data, taskInfo, config)

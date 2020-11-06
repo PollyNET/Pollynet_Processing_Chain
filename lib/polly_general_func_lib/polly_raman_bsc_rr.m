@@ -40,6 +40,7 @@ function [ beta_aer, LR ] = polly_raman_bsc_rr(height, sigElastic, sigVRN2, ext_
 %   Ansmann, A., et al. (1992). "Independent measurement of extinction and 
 %   backscatter profiles in cirrus clouds by using a combined Raman elastic-
 %   backscatter lidar." Applied optics 31(33): 7113-7131.
+%
 %   Veselovskii, I., P. Goloub, T. Podvin, V. Bovchaliuk, Y. Derimian, P. 
 %   Augustin, M. Fourmentin, D. Tanre, M. Korenskiy, and D. Whiteman (2016),
 %   Retrieval of optical and physical properties of African dust from 

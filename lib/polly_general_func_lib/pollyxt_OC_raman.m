@@ -1,5 +1,6 @@
 function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_OC_raman(data, config)
-%POLLYXT_OC_RAMAN Retrieve aerosol optical properties for overlap corrected total and raman signal with raman method
+%POLLYXT_OC_RAMAN Retrieve aerosol optical properties for overlap corrected
+%total and raman signal with raman method
 %Example:
 %   [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_OC_raman(data, config)
 %Inputs:

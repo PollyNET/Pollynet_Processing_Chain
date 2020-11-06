@@ -1,5 +1,6 @@
 function [el355, bgEl355, el532, bgEl532] = pollyxt_transratioCor(data, config)
-%POLLYXT_TRANSRATIOCOR correct the effects of non-ideal transmission ratio in total channel to retrieve the real elastic signal.
+%POLLYXT_TRANSRATIOCOR correct the effects of non-ideal transmission ratio in
+%total channel to retrieve the real elastic signal.
 %Example:
 %   [el355, bgEl355, el532, bgEl532] = pollyxt_transratioCor(data, config)
 %Inputs:

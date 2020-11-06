@@ -1,5 +1,6 @@
 function [tc_mask] = pollyxt_targetclassi(data, config)
-%POLLYXT_TARGETCLASSI Aerosol target classification based on algorithms presented in H.Baar et al, 2017, AMT.
+%POLLYXT_TARGETCLASSI Aerosol target classification based on algorithms
+%presented in H.Baar et al, 2017, AMT.
 %Example:
 %   [tc_mask] = pollyxt_targetclassi(data, config)
 %Inputs:

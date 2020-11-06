@@ -1,6 +1,6 @@
 function [aerBsc355_NR_klett, aerBsc532_NR_klett, aerExt355_NR_klett, aerExt532_NR_klett, refBeta_NR_355_klett, refBeta_NR_532_klett] = pollyxt_NR_klett(data, config)
-%POLLYXT_NR_KLETT Retrieve aerosol optical properties from NR channels with klett method
-%Example:
+%POLLYXT_NR_KLETT Retrieve aerosol optical properties from NR channels with klett
+%method Example:
 %   [aerBsc355_NR_klett, aerBsc532_NR_klett, aerExt355_NR_klett, 
 %    aerExt532_NR_klett, refBeta_NR_355_klett, refBeta_NR_532_klett] = 
 %       pollyxt_NR_klett(data, config)
