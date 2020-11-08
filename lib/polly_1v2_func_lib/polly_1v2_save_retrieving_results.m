@@ -72,7 +72,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_volDepol_klett_532 = netcdf.defVar(ncID, 'volDepol_klett_532', 'NC_DOUBLE', dimID_height);
     varID_volDepol_raman_532 = netcdf.defVar(ncID, 'volDepol_raman_532', 'NC_DOUBLE', dimID_height);
     varID_parDepol_klett_532 = netcdf.defVar(ncID, 'parDepol_klett_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);
+    varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);varID_parDepol_std_klett_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_532', 'NC_DOUBLE', dimID_height);
+    varID_parDepol_std_raman_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_532', 'NC_DOUBLE', dimID_height);
     varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_DOUBLE', dimID_height);
     varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_DOUBLE', dimID_height);
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
@@ -89,6 +90,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarFill(ncID, varID_volDepol_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_klett_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_std_klett_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_std_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
     netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
     netcdf.defVarFill(ncID, varID_reference_height_532, false, missing_value);
@@ -105,6 +108,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarDeflate(ncID, varID_volDepol_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_klett_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_raman_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_parDepol_std_klett_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_parDepol_std_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pressure, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_reference_height_532, true, true, 5);
@@ -134,6 +139,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_volDepol_raman_532, fillmissing(data.voldepol532_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_std_klett_532, fillmissing(data.pardepolStd532_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_std_raman_532, fillmissing(data.pardepolStd532_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_reference_height_532, refH532);
@@ -290,8 +297,20 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_klett_532 * data.hRes, data.moldepol532(iGroup)));
+    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
+    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_532 * data.hRes));
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+
+    % parDepol_std_klett_532
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'unit', '');
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'long_name', 'uncertainty of particle depolarization ratio at 532 nm');
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'standard_name', 'sigma (par, 532 nm)');
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_raman_532
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'unit', '');
@@ -300,8 +319,20 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; molecule depolarization ratio: %7.5f', config.smoothWin_raman_532 * data.hRes, data.moldepol532(iGroup)));
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+
+    % parDepol_std_raman_532
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'unit', '');
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'long_name', 'uncertainty of particle depolarization ratio at 532 nm');
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'standard_name', 'sigma (par, 532 nm)');
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'plot_range', [0, 0.4]);
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % temperature
     netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree_Celsius');
