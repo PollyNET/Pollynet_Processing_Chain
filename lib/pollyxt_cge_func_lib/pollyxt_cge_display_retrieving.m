@@ -684,10 +684,18 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
         voldepol532_raman = data.voldepol532_raman(iGroup, :);
         pardepol532_klett = data.pardepol532_klett(iGroup, :);
         pardepolStd532_klett = data.pardepolStd532_klett(iGroup, :);
-        pardepol532_klett((abs(pardepolStd532_klett./pardepol532_klett) >= 0.3) | (pardepol532_klett < 0)) = NaN;
+        flag_pardepol532_klett = (abs(pardepolStd532_klett ./ pardepol532_klett) > 0.6) | ...
+                                 (pardepolStd532_klett > 0.5) | ...
+                                 (voldepol532_klett < data.moldepol532(iGroup)) | ...
+                                 (pardepol532_klett <= 0);
+        pardepol532_klett(flag_pardepol532_klett) = NaN;
         pardepol532_raman = data.pardepol532_raman(iGroup, :);
         pardepolStd532_raman = data.pardepolStd532_raman(iGroup, :);
-        pardepol532_raman(abs((pardepolStd532_raman./pardepol532_raman) >= 0.3) | (pardepol532_raman < 0)) = NaN;
+        flag_pardepol532_raman = (abs(pardepolStd532_raman ./ pardepol532_raman) > 0.6) | ...
+                                 (pardepolStd532_raman > 0.5) | ...
+                                 (voldepol532_raman < data.moldepol532(iGroup)) | ...
+                                 (pardepol532_raman <= 0);
+        pardepol532_raman(flag_pardepol532_raman) = NaN;
 
         % meteor data
         meteorSource = data.meteorAttri.dataSource{iGroup};

@@ -72,7 +72,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_volDepol_klett_532 = netcdf.defVar(ncID, 'volDepol_klett_532', 'NC_DOUBLE', dimID_height);
     varID_volDepol_raman_532 = netcdf.defVar(ncID, 'volDepol_raman_532', 'NC_DOUBLE', dimID_height);
     varID_parDepol_klett_532 = netcdf.defVar(ncID, 'parDepol_klett_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);
+    varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);varID_parDepol_std_klett_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_532', 'NC_DOUBLE', dimID_height);
+    varID_parDepol_std_raman_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_532', 'NC_DOUBLE', dimID_height);
     varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_DOUBLE', dimID_height);
     varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_DOUBLE', dimID_height);
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
@@ -89,6 +90,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarFill(ncID, varID_volDepol_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_klett_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_std_klett_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_std_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
     netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
     netcdf.defVarFill(ncID, varID_reference_height_532, false, missing_value);
@@ -105,6 +108,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarDeflate(ncID, varID_volDepol_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_klett_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_raman_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_parDepol_std_klett_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_parDepol_std_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pressure, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_reference_height_532, true, true, 5);
