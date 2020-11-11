@@ -183,7 +183,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_volDepol_OC_raman_532, fillmissing(data.voldepol532_OC_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_volDepol_OC_raman_355, fillmissing(data.voldepol355_OC_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_OC_klett_532, fillmissing(data.pardepol532_OC_klett(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_OC_std_klett_532, fillmissing(data.pardepolStd532_OC_std_klett(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_OC_std_klett_532, fillmissing(data.pardepolStd532_OC_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_OC_klett_355, fillmissing(data.pardepol355_OC_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_OC_std_klett_355, fillmissing(data.pardepolStd355_OC_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_OC_raman_532, fillmissing(data.pardepol532_OC_raman(iGroup, :), missing_value));
