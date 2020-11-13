@@ -19,6 +19,8 @@ figDPI = processInfo.figDPI;
 yLim_Quasi_Params = config.yLim_Quasi_Params;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% initialization 
@@ -87,7 +89,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_targetclassi.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_dwd_display_targetclassi.py');

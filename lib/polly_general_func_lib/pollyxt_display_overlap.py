@@ -124,6 +124,11 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         overlap355 = mat['overlap355'].reshape(-1)
         overlap532 = mat['overlap532'].reshape(-1)
         overlap355Defaults = mat['overlap355Defaults'].reshape(-1)
@@ -254,8 +259,30 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
         loc='upper right', fontsize=15
         )
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.01, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.16, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.47, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(
-        0.1, 0.02, 'Version {version}'.format(version=version), fontsize=10)
+        0.82, 0.01, 'Version {version}'.format(version=version), fontsize=15)
     # plt.tight_layout()
     fig.savefig(
         os.path.join(
@@ -269,9 +296,8 @@ def pollyxt_display_overlap(tmpFile, saveFolder):
 
 def main():
     pollyxt_display_overlap(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop'
-        )
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
+        'C:\\Users\\zpyin\\Desktop')
 
 
 if __name__ == '__main__':

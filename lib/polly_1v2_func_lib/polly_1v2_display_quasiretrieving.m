@@ -25,6 +25,8 @@ quasi_Par_DR_cRange_532 = config.zLim_quasi_Par_DR_532;
 quasi_beta_cRange_532 = config.zLim_quasi_beta_532;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 colormap_basic = config.colormap_basic;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
@@ -120,7 +122,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_bsc_532', 'quality_mask_532', 'quasi_pardepol_532', 'height', 'time', 'quasi_beta_cRange_532', 'quasi_Par_DR_cRange_532', 'yLim_Quasi_Params', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_quasiretrieving.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_quasiretrieving.py');

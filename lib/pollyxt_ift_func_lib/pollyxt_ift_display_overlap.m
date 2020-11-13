@@ -26,6 +26,8 @@ sigRatio532 = attri.sigRatio532;
 normRange532 = attri.normRange532;
 height = data.height;
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 %% convert the empty array to default filled values
 if isempty(overlap532)
@@ -115,7 +117,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'overlap532', 'overlap532Defaults', 'sig532FR', 'sig532NR', 'sig532Gl', 'sigRatio532', 'normRange532', 'height', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_overlap.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_overlap.py');

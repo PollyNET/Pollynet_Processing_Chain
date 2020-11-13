@@ -103,23 +103,18 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         thisTime = np.concatenate(mat['thisTime'][:])
         time = mat['time'][0][:]
-        LC355_klett = mat['LC355_klett'][:]
-        LC355_raman = mat['LC355_raman'][:]
-        LC355_aeronet = mat['LC355_aeronet'][:]
         LC532_klett = mat['LC532_klett'][:]
         LC532_raman = mat['LC532_raman'][:]
         LC532_aeronet = mat['LC532_aeronet'][:]
-        LC1064_klett = mat['LC1064_klett'][:]
-        LC1064_raman = mat['LC1064_raman'][:]
-        LC1064_aeronet = mat['LC1064_aeronet'][:]
-        LC387_raman = mat['LC387_raman'][:]
         LC607_raman = mat['LC607_raman'][:]
-        yLim355 = mat['yLim355'][0][:]
         yLim532 = mat['yLim532'][0][:]
-        yLim1064 = mat['yLim1064'][0][:]
-        yLim387 = mat['yLim387'][0][:]
         yLim607 = mat['yLim607'][0][:]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
@@ -194,9 +189,31 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
         position=[0.5, 1.05]
         )
 
-    fig.text(0.05, 0.02, datenum_to_datetime(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.71, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.05, 0.06, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(
+    fig.text(0.05, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(
@@ -247,9 +264,31 @@ def polly_1v2_display_lidarconst(tmpFile, saveFolder):
         position=[0.5, 1.05]
         )
 
-    fig.text(0.05, 0.02, datenum_to_datetime(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.71, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.05, 0.06, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.8, 0.02, 'Version: {version}'.format(
+    fig.text(0.05, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(

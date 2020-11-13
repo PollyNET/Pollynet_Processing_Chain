@@ -17,6 +17,8 @@ flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
 
 time = data.mTime;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 height = data.height;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 SAT_FR_355 = double(squeeze(data.flagSaturation(flagChannel355, :, :)));
@@ -158,7 +160,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'yLim_FR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'SAT_FR_532', 'SAT_FR_1064', 'yLim_FR_RCS', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_cge_display_saturation.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_cge_display_saturation.py');

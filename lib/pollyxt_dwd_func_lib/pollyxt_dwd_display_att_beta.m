@@ -21,6 +21,8 @@ quality_mask_1064 = data.quality_mask_1064;
 height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 flagLC355 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag355 + 1});
 flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 flagLC1064 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag1064 + 1});
@@ -160,7 +162,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'ATT_BETA_1064', 'quality_mask_355', 'quality_mask_532', 'quality_mask_1064', 'height', 'time', 'flagLC355', 'flagLC532', 'flagLC1064', 'att_beta_cRange_355', 'att_beta_cRange_532', 'att_beta_cRange_1064', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_dwd_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_dwd_display_att_beta.py');

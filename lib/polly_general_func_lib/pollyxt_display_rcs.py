@@ -113,6 +113,11 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         mTime = mat['mTime'][0][:]
         height = mat['height'][0][:]
         depCalMask = mat['depCalMask'][0][:]
@@ -195,9 +200,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5, )
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_FR_355.{imgFmt}'.format(
@@ -242,9 +269,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_FR_532.{imgFmt}'.format(
@@ -289,9 +338,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_FR_1064.{imgFmt}'.format(
@@ -338,9 +409,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_NR_355.{imgFmt}'.format(
@@ -385,9 +478,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('[a.u.]', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_NR_532.{imgFmt}'.format(
@@ -431,9 +546,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(
         os.path.join(
@@ -477,9 +614,31 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
     cbar.ax.set_title('', fontsize=12)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(0.05, 0.04, datenum_to_datetime(
         mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.8, 0.04, 'Version: {version}'.format(
+    fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(
         os.path.join(
@@ -491,9 +650,8 @@ def pollyxt_display_rcs(tmpFile, saveFolder):
 
 def main():
     pollyxt_display_rcs(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop'
-        )
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\',
+        'C:\\Users\\zpyin\\Desktop')
 
 
 if __name__ == '__main__':

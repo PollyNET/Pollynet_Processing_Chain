@@ -102,6 +102,11 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         if mat['LCTime532'].size:
             thisLCTime532 = mat['LCTime532'][0][:]
         else:
@@ -110,10 +115,22 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
             thisLCTime607 = mat['LCTime607'][0][:]
         else:
             thisLCTime607 = np.array([])
-        LC532Status = mat['LC532Status'][0][:]
-        LC532History = mat['LC532History'][0][:]
-        LC607Status = mat['LC607Status'][0][:]
-        LC607History = mat['LC607History'][0][:]
+        if mat['LC532Status'].size:
+            LC532Status = mat['LC532Status'][0][:]
+        else:
+            LC532Status = np.array([])
+        if mat['LC532History'].size:
+            LC532History = mat['LC532History'][0][:]
+        else:
+            LC532History = np.array([])
+        if mat['LC607Status'].size:
+            LC607Status = mat['LC607Status'][0][:]
+        else:
+            LC607Status = np.array([])
+        if mat['LC607History'].size:
+            LC607History = mat['LC607History'][0][:]
+        else:
+            LC607History = np.array([])
         if mat['logbookTime'].size:
             thisLogbookTime = mat['logbookTime'][0][:]
         else:
@@ -181,7 +198,7 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
                    for thisTime in thisLogbookTime]
     elseTime = [datenum_to_datetime(thisElseTime)
                 for thisElseTime in else_time]
-    
+
     lineColor = {
         'overlap': '#f48f42',
         'windowwipe': '#ff66ff',
@@ -276,8 +293,29 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
     ax2.set_ylim([0, 2])
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
-    fig.text(0.03, 0.01, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.90, 0.01, 'Version: {version}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.60, 0.01, 0.10, 0.02], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='auto')
+        newax_license.axis('off')
+
+        fig.text(0.71, 0.01, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.01,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+    fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
+    fig.text(0.03, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(
@@ -285,7 +323,7 @@ def polly_first_display_longterm_cali(tmpFile, saveFolder):
             saveFolder,
             '{pollyType}_{date}_long_term_cali_results.{imgFmt}'.format(
                 pollyType=pollyVersion,
-                date=dataTime.strftime('%Y%m%d')
+                date=dataTime.strftime('%Y%m%d'),
                 imgFmt=imgFormat
             )), dpi=figDPI)
     plt.close()

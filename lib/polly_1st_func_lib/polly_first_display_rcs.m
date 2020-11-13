@@ -22,6 +22,8 @@ mTime = data.mTime;
 height = data.height;
 figDPI = processInfo.figDPI;
 fogMask = data.fogMask;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 RCS_FR_532 = squeeze(data.signal(flagChannel532, :, :)) ./ repmat(data.mShots(flagChannel532, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 RCS_NR_532 = squeeze(data.signal(flagChannel532NR, :, :)) ./ repmat(data.mShots(flagChannel532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2; 
 yLim_FR_RCS = config.yLim_FR_RCS;
@@ -158,7 +160,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'RCS532FRColorRange', 'RCS532NRColorRange', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'fogMask', 'RCS_FR_532', 'RCS_NR_532', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'yLim_FR_RCS', 'yLim_NR_RCS', 'RCS532FRColorRange', 'RCS532NRColorRange', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_rcs.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_rcs.py');

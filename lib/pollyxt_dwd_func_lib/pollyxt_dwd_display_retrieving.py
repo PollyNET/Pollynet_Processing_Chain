@@ -103,6 +103,11 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         startIndx = mat['startIndx'][:][0][0]
         endIndx = mat['endIndx'][:][0][0]
         rcs355 = mat['rcs355'][:][0]
@@ -231,7 +236,29 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.05, 0.04, 'Version: {version}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.27, 0.002, 0.17, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.71, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.01, 0.02, 'Version: {version}'.format(
         version=version), fontsize=15)
 
     fig.savefig(
@@ -276,8 +303,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Klett'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Klett'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -321,8 +370,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Raman'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Raman'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -366,7 +437,29 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.01, 0.02, 'Version: {version}\nMethod: {method}'.format(
         version=version, method='AERONET'), fontsize=10)
 
     fig.savefig(
@@ -411,8 +504,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Klett'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Klett'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -456,8 +571,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Raman'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Raman'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -501,7 +638,29 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.01, 0.02, 'Version: {version}\nMethod: {method}'.format(
         version=version, method='AERONET'), fontsize=10)
 
     fig.savefig(
@@ -544,8 +703,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Raman'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Raman'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -587,8 +768,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Klett'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Klett'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -632,8 +835,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Raman'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Raman'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -675,8 +900,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Klett'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Klett'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -718,8 +965,30 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Raman'), fontsize=10)
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
+        version=version, method='Raman'), fontsize=12)
 
     fig.savefig(
         os.path.join(
@@ -757,7 +1026,29 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.004, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.014, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.005,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nFrom: {source}'.format(
         version=version, source=meteorSource), fontsize=10)
 
     fig.savefig(
@@ -795,7 +1086,29 @@ def pollyxt_dwd_display_retrieving(tmpFile, saveFolder):
             endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15)
 
-    fig.text(0.7, 0.03, 'Version: {version}\nFrom: {source}'.format(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.3, 0.004, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.46, 0.014, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.69, 0.005,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.02, 0.01, 'Version: {version}\nFrom: {source}'.format(
         version=version, source=meteorSource), fontsize=10)
 
     fig.savefig(

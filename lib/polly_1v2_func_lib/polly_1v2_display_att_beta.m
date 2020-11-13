@@ -17,6 +17,8 @@ quality_mask_532 = data.quality_mask_532;
 height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532 + 1});
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 att_beta_cRange_532 = config.zLim_att_beta_532;
@@ -83,7 +85,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_1v2_display_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_1v2_display_att_beta.py');

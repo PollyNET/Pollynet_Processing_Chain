@@ -20,6 +20,8 @@ monitorStatus = data.monitorStatus;
 figDPI = processInfo.figDPI;
 mTime = data.mTime;
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 % go to different visualization mode
 if strcmpi(processInfo.visualizationMode, 'matlab')
@@ -40,7 +42,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display monitor status
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'monitorStatus', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'mTime', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_cge_display_monitor.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_cge_display_monitor.py');

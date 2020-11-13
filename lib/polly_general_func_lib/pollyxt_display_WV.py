@@ -113,6 +113,11 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         WVMR = mat['WVMR'][:]
         RH = mat['RH'][:]
         lowSNRMask = mat['lowSNRMask'][:]
@@ -184,15 +189,37 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('      [$g*kg^{-1}$]', fontsize=10)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(
-        0.05, 0.02,
+        0.01, 0.02,
         '{time}\nMeteor Data: {meteorSource}'.format(
             time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
             meteorSource=meteorSource
             ),
         fontsize=12
         )
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(
+    fig.text(0.33, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.{imgFmt}'.format(
@@ -228,15 +255,37 @@ def pollyxt_display_WV(tmpFile, saveFolder):
     cbar.ax.tick_params(direction='in', labelsize=15, pad=10)
     cbar.ax.set_title('[$\%$]', fontsize=10)
 
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
     fig.text(
-        0.05, 0.02,
+        0.01, 0.02,
         '{time}\nMeteor Data: {meteorSource}'.format(
             time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
             meteorSource=meteorSource
             ),
         fontsize=12
         )
-    fig.text(0.8, 0.02, 'Version: {version}\nCalibration: {status}'.format(
+    fig.text(0.33, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.{imgFmt}'.format(
@@ -247,8 +296,8 @@ def pollyxt_display_WV(tmpFile, saveFolder):
 
 def main():
     pollyxt_display_WV(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop'
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
+        'C:\\Users\\zpyin\\Desktop'
         )
 
 

@@ -12,6 +12,8 @@ function pollyxt_ift_display_depolcali(data, config, taskInfo, attri)
 global processInfo defaults campaignInfo
 
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
 
@@ -128,7 +130,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
+        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_depolcali.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyxt_ift_display_depolcali.py');

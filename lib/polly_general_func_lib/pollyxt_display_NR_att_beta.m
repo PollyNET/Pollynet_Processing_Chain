@@ -17,6 +17,8 @@ ATT_BETA_532 = data.att_beta_NR_532;
 height = data.height;
 time = data.mTime;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 flagLC355 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag355NR + 1});
 flagLC532 = char(config.LCCalibrationStatus{data.LCUsed.LCUsedTag532NR + 1});
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -115,7 +117,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'height', 'time', 'flagLC355', 'flagLC532', 'att_beta_cRange_355', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'ATT_BETA_532', 'height', 'time', 'flagLC355', 'flagLC532', 'att_beta_cRange_355', 'att_beta_cRange_532', 'yLim_att_beta', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_NR_att_beta.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_NR_att_beta.py');

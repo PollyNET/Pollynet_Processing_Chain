@@ -61,6 +61,8 @@ flagCH607FR = config.is607nm & config.isFR & config.isTot;
 yLim532 = config.yLim_LC_532;
 depolConstLim532 = config.yLim_depolConst_532;
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 %% data visualization 
 % visualization with matlab (low efficiency and less compatible)
@@ -189,7 +191,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display longterm cali results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'LCTime532', 'LCTime607', 'LC532Status', 'LC532History', 'LCStd532History', 'LC607Status', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH532FR', 'flagCH607FR', 'else_time', 'else_label', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'LCTime532', 'LCTime607', 'LC532Status', 'LC532History', 'LCStd532History', 'LC607Status', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH532FR', 'flagCH607FR', 'else_time', 'else_label', 'yLim532', 'processInfo', 'campaignInfo', 'taskInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_longterm_cali.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'polly_first_display_longterm_cali.py');

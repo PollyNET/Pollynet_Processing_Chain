@@ -102,6 +102,11 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         if mat['LCTime355'].size:
             thisLCTime355 = mat['LCTime355'][0][:]
         else:
@@ -537,8 +542,30 @@ def pollyxt_dwd_display_longterm_cali(tmpFile, saveFolder):
     ax6.xaxis.set_major_formatter(DateFormatter('%m-%d'))
     ax6.grid(False)
     ax6.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.60, 0.01, 0.10, 0.02], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='auto')
+        newax_license.axis('off')
+
+        fig.text(0.71, 0.01, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.01,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
     fig.text(0.03, 0.03, startTime.strftime("%Y"), fontsize=12)
-    fig.text(0.90, 0.03, 'Version: {version}'.format(
+    fig.text(0.03, 0.02, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(
