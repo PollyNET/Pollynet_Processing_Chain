@@ -30,6 +30,8 @@ LC387_raman = data.LC.LC_raman_387;
 LC607_raman = data.LC.LC_raman_607;
 time = data.mTime;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 yLim355 = config.yLim_LC_355;
 yLim532 = config.yLim_LC_532;
 yLim1064 = config.yLim_LC_1064;
@@ -187,7 +189,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'LC387_raman', 'LC607_raman', 'yLim355', 'yLim532', 'yLim1064', 'yLim387', 'yLim607', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_ift_display_lidarconst.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_ift_display_lidarconst.py');

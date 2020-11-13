@@ -13,6 +13,8 @@ global processInfo defaults campaignInfo
 
 flagChannel532 = config.isFR & config.is532nm & config.isTot;
 imgFormat = config.imgFormat;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 
 if strcmpi(processInfo.visualizationMode, 'matlab')
     %% signal
@@ -380,7 +382,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
 
         %% display rcs 
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerExt_532_klett', 'aerExt_532_raman', 'LR532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Ext', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', 'imgFormat', '-v6');
+        save(tmpFile, 'figDPI', 'startIndx', 'endIndx', 'rcs532', 'height', 'time', 'molRCS532', 'refHIndx532', 'aerBsc_532_klett', 'aerBsc_532_raman', 'aerExt_532_klett', 'aerExt_532_raman', 'LR532_raman', 'meteorSource', 'temperature', 'pressure', 'processInfo', 'campaignInfo', 'taskInfo', 'yLim_Profi_LR', 'yLim_Profi_DR', 'yLim_Profi_Ext', 'yLim_Profi_Bsc', 'yLim_FR_RCS', 'yLim_NR_RCS', 'xLim_Profi_Bsc', 'xLim_Profi_NR_Bsc', 'xLim_Profi_Ext', 'xLim_Profi_NR_Ext', 'xLim_Profi_RCS', 'xLim_Profi_LR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'polly_first_display_retrieving.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'polly_first_display_retrieving.py');

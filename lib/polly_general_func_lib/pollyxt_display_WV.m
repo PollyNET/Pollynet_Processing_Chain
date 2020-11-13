@@ -24,6 +24,8 @@ height = data.height;
 time = data.mTime;
 yLim_WV_RH = config.yLim_WV_RH;
 figDPI = processInfo.figDPI;
+partnerLabel = config.partnerLabel;
+flagWatermarkOn = processInfo.flagWatermarkOn;
 xLim_Profi_WV_RH = config.xLim_Profi_WV_RH;
 meteorSource = data.quasiAttri.meteorSource;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
@@ -120,7 +122,7 @@ elseif strcmpi(processInfo.visualizationMode, 'python')
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', 'colormap_basic', '-v6');
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'processInfo', 'campaignInfo', 'taskInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(processInfo.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_display_WV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyxt_display_WV.py');

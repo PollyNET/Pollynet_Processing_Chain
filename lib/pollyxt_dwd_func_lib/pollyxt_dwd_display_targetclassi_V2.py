@@ -103,6 +103,11 @@ def pollyxt_dwd_display_targetclassi_V2(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         TC_mask = mat['TC_mask'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
@@ -180,9 +185,31 @@ def pollyxt_dwd_display_targetclassi_V2(tmpFile, saveFolder):
                              'Cloud: ice crystals',
                              'Cloud: likely ice crystals'])
 
-    fig.text(0.05, 0.02, datenum_to_datetime(
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.71, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(0.05, 0.07, datenum_to_datetime(
         time[0]).strftime("%Y-%m-%d"), fontsize=12)
-    fig.text(0.64, 0.02, 'Version: {version}'.format(
+    fig.text(0.05, 0.03, 'Version: {version}'.format(
         version=version), fontsize=12)
 
     fig.savefig(

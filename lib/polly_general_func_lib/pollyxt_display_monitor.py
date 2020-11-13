@@ -102,6 +102,11 @@ def pollyxt_display_monitor(tmpFile, saveFolder):
     try:
         mat = spio.loadmat(tmpFile, struct_as_record=True)
         figDPI = mat['figDPI'][0][0]
+        flagWatermarkOn = mat['flagWatermarkOn'][0][0]
+        if mat['partnerLabel'].size:
+            partnerLabel = mat['partnerLabel'][0][0]
+        else:
+            partnerLabel = ''
         time = mat['monitorStatus']['time'][0][0]
         mTime = mat['mTime'][0][:]
         AD = mat['monitorStatus']['AD'][0][0]
@@ -260,7 +265,7 @@ def pollyxt_display_monitor(tmpFile, saveFolder):
         fontsize=17
         )
     fig.text(
-        0.8, 0.01,
+        0.17, 0.01,
         'Version: {version}'.format(version=version),
         fontsize=17
         )
@@ -275,6 +280,28 @@ def pollyxt_display_monitor(tmpFile, saveFolder):
             'end {:.1f}Mio'.format(counts[0][-1]/1e6),
             fontsize=17
             )
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.63, 0, 0.08, 0.04], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=15, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
 
     # plt.tight_layout()
     fig.savefig(
@@ -293,9 +320,8 @@ def pollyxt_display_monitor(tmpFile, saveFolder):
 
 def main():
     pollyxt_display_monitor(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\recent_plots\\' +
-        'arielle\\20180517'
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+        'C:\\Users\\zpyin\\Desktop\\'
         )
 
 
