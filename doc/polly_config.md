@@ -12,6 +12,12 @@ I will summarize all the configurations in the table below. But you should keep 
 |flagFilterFalseMShots|whether to filter out the profiles with invalid shots. (Since I don't know whether it's trustable for these profiles, I will leave this keyword for future development.)|false||
 |flagDTCor|whether to implement deadtime correction|true||
 |flagWVCalibration|whether to implement water vapor calibration|true||
+|flagLCCalibration|whether to enable lidar calibration|true||
+|flagDepolCali|whether to enable lidar depolarization calibration|true||
+|flagUsePreviousDepolCali|whether to take previous lidar depolarization calibration results when no calibration is available|true||
+|flagUsePreviousWVconst|whether to take previous lidar water vapor calibration results when no water vapor calibration is available|true||
+|flagUsePreviousLC|whether to take previous lidar calibration constants when no lidar calibration is available|true||
+|flagUseSameRefH|whether to take the same reference height for aerosol retrievals at all available wavelength|false||
 |flagAutoscaleRCS|to control whether to configure the color-range for range corrected signal in an automatic way|true||
 |MWRFolder|The folder of prw results from MWR. (This is only for LACROS)|"C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR"||
 |dataFileFormat|regular expression to extract the data and time info from polly data file. (This is based on the syntax of matlab **regexp**)|"(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc"||
