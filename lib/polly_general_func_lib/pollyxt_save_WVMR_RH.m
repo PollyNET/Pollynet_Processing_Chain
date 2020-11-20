@@ -113,6 +113,7 @@ netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
 netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
 thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
@@ -125,9 +126,10 @@ netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
 netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
 netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_RH, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
-netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+netcdf.putAtt(ncID, varID_RH, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
 
 % Quality_mask_WVMR
