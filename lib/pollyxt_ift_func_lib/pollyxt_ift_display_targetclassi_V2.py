@@ -105,7 +105,7 @@ def pollyxt_ift_display_targetclassi_V2(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         flagWatermarkOn = mat['flagWatermarkOn'][0][0]
         if mat['partnerLabel'].size:
-            partnerLabel = mat['partnerLabel'][0][0]
+            partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
         TC_mask = mat['TC_mask'][:]

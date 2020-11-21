@@ -105,7 +105,7 @@ def pollyxt_dwd_display_depolcali(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         flagWatermarkOn = mat['flagWatermarkOn'][0][0]
         if mat['partnerLabel'].size:
-            partnerLabel = mat['partnerLabel'][0][0]
+            partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
         sig_t_p = np.transpose(np.concatenate(mat['sig_t_p']))

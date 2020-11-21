@@ -126,7 +126,7 @@ def pollyxt_dwd_display_overlap(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         flagWatermarkOn = mat['flagWatermarkOn'][0][0]
         if mat['partnerLabel'].size:
-            partnerLabel = mat['partnerLabel'][0][0]
+            partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
         overlap532 = mat['overlap532'].reshape(-1)

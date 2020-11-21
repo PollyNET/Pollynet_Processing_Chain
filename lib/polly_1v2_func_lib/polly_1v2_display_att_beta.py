@@ -115,7 +115,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         flagWatermarkOn = mat['flagWatermarkOn'][0][0]
         if mat['partnerLabel'].size:
-            partnerLabel = mat['partnerLabel'][0][0]
+            partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
         ATT_BETA_532 = mat['ATT_BETA_532'][:]

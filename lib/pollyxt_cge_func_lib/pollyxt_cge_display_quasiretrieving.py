@@ -115,7 +115,7 @@ def pollyxt_cge_display_quasiretrieving(tmpFile, saveFolder):
         figDPI = mat['figDPI'][0][0]
         flagWatermarkOn = mat['flagWatermarkOn'][0][0]
         if mat['partnerLabel'].size:
-            partnerLabel = mat['partnerLabel'][0][0]
+            partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
         quasi_bsc_532 = mat['quasi_bsc_532'][:]
