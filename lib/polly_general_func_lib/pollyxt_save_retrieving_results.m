@@ -590,6 +590,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
     netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
     thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
     netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
     netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
@@ -601,6 +602,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
     netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_RH, 'wv_calibration_constant_used', data.wvconstUsed);
     netcdf.putAtt(ncID, varID_RH, 'retrieving_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
     netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The RH is sensitive to temperature and water vapor calibration constants. Please take care!'));
 
