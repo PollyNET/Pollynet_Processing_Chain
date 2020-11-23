@@ -1,4 +1,4 @@
-Name	Location	Start	Starttime	End	Endtime	Long	Lat	asl	v*	dmol	Caption
+Name	Location	Start	Starttime	End	Endtime	Lat	Lon	asl	v*	dmol	Caption
 arielle	Polarstern	20121027	0000	20121126	2359	-27	0	0	0.09	0.0053	, RV Polarstern, Atlantic Ocean
 arielle	Meteor	20130428	0000	20130523	2359	-50	20	83	0.09	0.0053	, RV Meteor, Atlantic Ocean
 arielle	Melpitz	20130901	0000	20131031	2359	52	13	83	0.094	0.0053	, Melpitz, Germany
