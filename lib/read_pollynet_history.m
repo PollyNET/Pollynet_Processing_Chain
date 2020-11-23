@@ -65,9 +65,7 @@ try
             datenum([data{3}{iRow}, sprintf('%04d', str2num(data{4}{iRow}))], 'yyyymmddHHMM')];
         campaignHistory.endTime = [campaignHistory.endTime, ...
             datenum([data{5}{iRow}, sprintf('%04d', str2num(data{6}{iRow}))], 'yyyymmddHHMM')];
-        campaignHistory.lat = [campaignHistory.lat, ...
-            str2num(data{7}{iRow})];   % the lat and lon were 
-                                       % reversed in the file.
+        campaignHistory.lat = [campaignHistory.lat, str2num(data{7}{iRow})];
         campaignHistory.lon = [campaignHistory.lon, str2num(data{8}{iRow})];
         campaignHistory.asl = [campaignHistory.asl, str2num(data{9}{iRow})];
         campaignHistory.depolConst = [campaignHistory.depolConst, ...

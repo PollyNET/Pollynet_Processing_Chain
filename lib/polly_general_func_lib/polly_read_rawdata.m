@@ -152,8 +152,8 @@ data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;
 data.deadtime = deadtime;
 data.repRate = repRate;
-data.lon = coordinates(1, 1);
-data.lat = coordinates(2, 1);
+data.lon = coordinates(2, 1);
+data.lat = coordinates(1, 1);
 data.alt0 = alt;
 
 end
