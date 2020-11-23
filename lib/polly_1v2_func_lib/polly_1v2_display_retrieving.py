@@ -216,9 +216,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.71, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.01, 0.02, 'Version: {version}'.format(
@@ -282,9 +282,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -348,9 +348,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -414,9 +414,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -480,9 +480,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -546,9 +546,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -612,9 +612,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -678,9 +678,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -744,9 +744,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -812,9 +812,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -880,9 +880,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.003,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
@@ -945,9 +945,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.005,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nFrom: {source}'.format(
@@ -1010,9 +1010,9 @@ def polly_1v2_display_retrieving(tmpFile, saveFolder):
 
         fig.text(
             0.69, 0.005,
-            u"Copyright \u00A9 {0}\n{1}\n{2}".format(
+            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=10, color='black', ha='left',
+            fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
     fig.text(0.02, 0.01, 'Version: {version}\nFrom: {source}'.format(
