@@ -27,8 +27,34 @@ flagCh1064FR = config.isFR & config.is1064nm & config.isTot;
 
 missing_value = -999;
 
-for iGroup = 1:size(data.cloudFreeGroups, 1)
 
+for iGroup = 1:size(data.cloudFreeGroups, 1)
+    save_for_detlef=1;
+    if save_for_detlef==1
+        %cutting lower edge
+        data.aerBsc355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
+        data.aerExt355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
+        data.data.LR355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
+        data.pardepol355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
+        data.aerBsc532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
+        data.aerExt532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
+        data.LR532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
+        data.pardepol532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
+        data.aerBsc1064_raman(iGroup,(data.height<=config.heightFullOverlap(8)))=missing_value;
+        data.aerExt1064_raman(iGroup,:)=missing_value;
+        data.LR1064_raman(iGroup,:)=missing_value;
+        %removing values with no aerosol
+        bsc532_thres=1e-6;
+        data.aerBsc355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.aerExt355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.LR355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.pardepol355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.aerBsc532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.aerExt532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.LR532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.pardepol532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+        data.aerBsc1064_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
+    end
     startTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
     endTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
 
