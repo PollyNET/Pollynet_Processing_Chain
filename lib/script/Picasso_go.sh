@@ -117,7 +117,12 @@ addincludepath;
 pollynetConfig = loadjson(fullfile(POLLYNET_PROCESSING_PATH, 'config', '$POLLYNET_CONFIG_FILE'));
 
 % unzip the polly data
-locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_PATH, 'config', '$POLLYNET_CONFIG_FILE'), '$POLLY_DATA_PATH', pollynetConfig.minDataSize, now - datenum(0, 1, 2), datenum(0, 1, 4), $flagCheckGDAS);
+if $flagCheckGDAS
+  % reprocessing with GDAS1 data
+  locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_PATH, 'config', '$POLLYNET_CONFIG_FILE'), '$POLLY_DATA_PATH', pollynetConfig.minDataSize, now - datenum(0, 1, 2), datenum(0, 1, 4), $flagCheckGDAS);
+else
+  locatenewfiles_newdb('$POLLYAPP_CONFIG_FILE', fullfile(POLLYNET_PROCESSING_PATH, 'config', '$POLLYNET_CONFIG_FILE'), '$POLLY_DATA_PATH', pollynetConfig.minDataSize, now, datenum(0, 1, 4), $flagCheckGDAS);
+end
 
 % running Picasso
 pollynet_processing_chain_main(fullfile(POLLYNET_PROCESSING_PATH, 'config', '$POLLYNET_CONFIG_FILE'));
