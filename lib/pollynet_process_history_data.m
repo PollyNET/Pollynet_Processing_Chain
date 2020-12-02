@@ -35,7 +35,7 @@ function [] = pollynet_process_history_data(pollyType, startTime, endTime, ...
 %   zhenping@tropos.de
 
 projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(fullfile(projectDir, 'lib'));
+addpath(genpath(fullfile(projectDir, 'lib')));
 addpath(projectDir);
 
 if ~ exist('pollynetConfigFile', 'var')
