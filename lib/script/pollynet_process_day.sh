@@ -65,10 +65,7 @@ run_matlab() {
   matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 
 POLLYNET_PROCESSING_DIR = fileparts(fileparts('$cwd'));
-cd(POLLYNET_PROCESSING_DIR);
-addpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib'));
-
-clc;
+addpath(genpath(fullfile(POLLYNET_PROCESSING_DIR, 'lib')));
 
 write_daily_to_filelist('$POLLY_TYPE', '$POLLY_FOLDER', fullfile(POLLYNET_PROCESSING_DIR, 'config', '$POLLYNET_CONFIG_FILE'), $year, $month, $day, 'w');
 
