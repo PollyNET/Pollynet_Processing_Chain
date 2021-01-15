@@ -321,8 +321,8 @@ if processInfo.flagEnableDataVisualization
     polly_first_display_saturation(data, taskInfo, config);
 
     %% display overlap
-    disp('Display overlap')
-    polly_first_display_overlap(data, taskInfo, overlapAttri, config);
+    %disp('Display overlap')
+    %polly_first_display_overlap(data, taskInfo, overlapAttri, config);
 
     %% display optical profiles
     disp('Display profiles')
@@ -341,7 +341,7 @@ if processInfo.flagEnableDataVisualization
     polly_first_display_lidarconst(data, taskInfo, config);
 
     %% display Long-term lidar constant with logbook
-    disp('Display Long-Term lidar cosntants.')
+    disp('Display Long-Term lidar constants.')
     polly_first_display_longterm_cali(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
