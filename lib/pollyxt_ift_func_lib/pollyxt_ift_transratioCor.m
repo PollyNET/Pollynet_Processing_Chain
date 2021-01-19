@@ -27,6 +27,7 @@ end
 %% 532 nm
 flagChannel532 = config.is532nm & config.isTot & config.isFR;
 flagChannel532Cross = config.is532nm & config.isCross & config.isFR;
+
 [el532, bgEl532, ~] = polly_trans_correct(squeeze(data.signal(flagChannel532, :, :)), squeeze(data.bg(flagChannel532, :, :)), squeeze(data.signal(flagChannel532Cross, :, :)), squeeze(data.bg(flagChannel532Cross, :, :)), config.TR(flagChannel532), 0, config.TR(flagChannel532Cross), 0, data.depol_cal_fac_532, data.depol_cal_fac_std_532);
 
 end

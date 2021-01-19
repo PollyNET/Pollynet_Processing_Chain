@@ -1,8 +1,8 @@
-function [data, depCalAttri] = pollyxt_ift_depolcali(data, config, dbFile)
-%POLLYXT_IFT_DEPOLCALI calibrate the PollyXT depol channels at 355 nm
+function [data, depCalAttri] = pollyxt_ift_depolcali_UV(data, config, dbFile)
+%POLLYXT_IFT_DEPOLCALI_UV calibrate the PollyXT depol channels at 355 nm
 %with +- 45\deg method.
 %Example:
-%   [data, depCalAttri] = pollyxt_ift_depolcali(data, config)
+%   [data, depCalAttri] = pollyxt_ift_depolcali_UV(data, config)
 %Inputs:
 %   data.struct
 %       More detailed information can be found in
@@ -19,10 +19,7 @@ function [data, depCalAttri] = pollyxt_ift_depolcali(data, config, dbFile)
 %   depCalAttri: struct
 %       depolarization calibration information for each calibration period.
 %History:
-%   2018-12-17. First edition by Zhenping
-%   2019-08-28. Add flag to control whether to do depolarization
-%               calibration.
-%   2020-04-18. Generalise the interface.
+%   2021-01-19. First edition.
 %Contact:
 %   zhenping@tropos.de
 

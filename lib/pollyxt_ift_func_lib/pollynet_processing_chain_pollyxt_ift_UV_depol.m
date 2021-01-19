@@ -104,7 +104,7 @@ if config.cloudScreenMode == 1
 elseif config.cloudScreenMode == 2
 
     % based on Zhao's algorithm
-    [flagCloudFree_FR, ~] = polly_cloudScreen(data.mTime, data.height, ...
+    [flagCloudFree_FR, layer_status] = polly_cloudScreen(data.mTime, data.height, ...
         squeeze(data.signal(flagChannel532FR, :, :)), ...
         'mode', 2, ...
         'background', squeeze(data.bg(flagChannel532FR, 1, :)), ...
@@ -167,34 +167,14 @@ for iMeteor = 1:length(meteorAttri.dataSource)
 end
 fprintf('Meteorological file : %s.\n', meteorStr);
 
-[data.el532, data.bgEl532] = pollyxt_ift_transratioCor(data, config);
+[data.el355, data.bgEl355] = pollyxt_ift_transratioCor_UV(data, config);
 
 % TODO: replace the total 532nm signal with elastic 532 nm signal
-[data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_ift_klett(data, config);
-[data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_ift_constrainedklett(data, AERONET, config);   % constrain Lidar Ratio
-[data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_ift_raman(data, config);
-[data.voldepol532_klett, data.pardepol532_klett, data.pardepolStd532_klett, data.voldepol532_raman, data.pardepol532_raman, data.pardepolStd532_raman, data.moldepol532, data.moldepolStd532, data.flagDefaultMoldepol532] = pollyxt_ift_depolratio(data, config);
+[data.aerBsc355_klett, data.aerBsc532_klett, data.aerBsc1064_klett, data.aerExt355_klett, data.aerExt532_klett, data.aerExt1064_klett] = pollyxt_ift_klett_UV(data, config);
+[data.aerBsc355_aeronet, data.aerBsc532_aeronet, data.aerBsc1064_aeronet, data.aerExt355_aeronet, data.aerExt532_aeronet, data.aerExt1064_aeronet, data.LR355_aeronet, data.LR532_aeronet, data.LR1064_aeronet, data.deltaAOD355, data.deltaAOD532, data.deltaAOD1064] = pollyxt_ift_constrainedklett_UV(data, AERONET, config);   % constrain Lidar Ratio
+[data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, data.LR355_raman, data.LR532_raman, data.LR1064_raman] = pollyxt_ift_raman_UV(data, config);
+[data.voldepol355_klett, data.pardepol355_klett, data.pardepolStd355_klett, data.voldepol355_raman, data.pardepol355_raman, data.pardepolStd355_raman, data.moldepol355, data.moldepolStd355, data.flagDefaultMoldepol355] = pollyxt_ift_depolratio_UV(data, config);
 [data.ang_ext_355_532_raman, data.ang_bsc_355_532_raman, data.ang_bsc_532_1064_raman, data.ang_bsc_355_532_klett, data.ang_bsc_532_1064_klett] = pollyxt_ift_angstrexp(data, config);
-fprintf('[%s] Finish.\n', tNow());
-
-%% water vapor calibration
-% get IWV from other instruments
-fprintf('\n[%s] Start to water vapor calibration.\n', tNow());
-[data.IWV, IWVAttri] = pollyxt_ift_read_IWV(data, config);
-data.IWVAttri = IWVAttri;
-[wvconst, wvconstStd, wvCaliInfo] = pollyxt_ift_wv_calibration(data, config);
-% if not successful wv calibration, choose the default values
-[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = ...
-select_wvconst(wvconst, wvconstStd, data.IWVAttri, ...
-    polly_parsetime(taskInfo.dataFilename, config.dataFileFormat), ...
-    dbFile, campaignInfo.name, ...
-    'flagUsePrevWVConst', config.flagUsePreviousLC, ...
-    'flagWVCalibration', config.flagWVCalibration, ...
-    'deltaTime', datenum(0, 1, 7), ...
-    'default_wvconst', defaults.wvconst, ...
-    'default_wvconstStd', defaults.wvconstStd);
-[data.wvmr, data.rh, ~, data.WVMR, data.RH] = pollyxt_wv_retrieve(data, ...
-config, wvCaliInfo.IntRange);
 fprintf('[%s] Finish.\n', tNow());
 
 %% lidar calibration
@@ -213,36 +193,28 @@ fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method.\n', tNow());
-[data.quasi_par_beta_355, data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_532, data.volDepol_532, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_532, quasiAttri] = pollyxt_ift_quasiretrieve(data, config);
+[data.quasi_par_beta_355, data.quasi_par_beta_532, data.quasi_par_beta_1064, data.quasi_parDepol_355, data.volDepol_355, data.quasi_ang_532_1064, data.quality_mask_355, data.quality_mask_532, data.quality_mask_1064, data.quality_mask_volDepol_355, quasiAttri] = pollyxt_ift_quasiretrieve_UV(data, config);
 data.quasiAttri = quasiAttri;
 fprintf('[%s] Finish.\n', tNow());
 
 %% quasi-retrieving V2 (with using Raman signal)
 fprintf('\n[%s] Start to retrieve high spatial-temporal resolved backscatter coeff. and vol.Depol with quasi-retrieving method (Version 2).\n', tNow());
-[data.quasi_par_beta_355_V2, data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_532_V2, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_532_V2, quasiAttri_V2] = pollyxt_ift_quasiretrieve_V2(data, config);
+[data.quasi_par_beta_355_V2, data.quasi_par_beta_532_V2, data.quasi_par_beta_1064_V2, data.quasi_parDepol_355_V2, ~, data.quasi_ang_532_1064_V2, data.quality_mask_355_V2, data.quality_mask_532_V2, data.quality_mask_1064_V2, data.quality_mask_volDepol_355_V2, quasiAttri_V2] = pollyxt_ift_quasiretrieve_V2_UV(data, config);
 data.quasiAttri_V2 = quasiAttri_V2;
-fprintf('[%s] Finish.\n', tNow());
-
-%% target classification
-fprintf('\n[%s] Start to aerosol target classification.\n', tNow());
-tc_mask = pollyxt_ift_targetclassi(data, config);
-data.tc_mask = tc_mask;
-fprintf('[%s] Finish.\n', tNow());
-
-%% target classification with quasi-retrieving V2
-fprintf('\n[%s] Start to aerosol target classification with quasi results (V2).\n', tNow());
-tc_mask_V2 = pollyxt_ift_targetclassi_V2(data, config);
-data.tc_mask_V2 = tc_mask_V2;
 fprintf('[%s] Finish.\n', tNow());
 
 %% cloud layering
 fprintf('\n[%s] Start to extract cloud information.\n', tNow());
-[data.clBaseH, data.clTopH, data.clPh, data.clPhProb] = ...
-        cloud_layering(data.mTime, data.height, tc_mask, ...
-                        'minCloudDepth', 100, ...
-                        'liquidCloudBit', 8, ...
-                        'iceCloudBit', 9, ...
-                        'cloudBits', [7, 8, 9, 10, 11]);
+if config.cloudScreenMode == 2
+    [data.clBaseH, data.clTopH, ~, ~] = ...
+            cloud_layering(data.mTime, data.height, layer_status, ...
+                            'minCloudDepth', 100, ...
+                            'liquidCloudBit', 1, ...
+                            'iceCloudBit', 1, ...
+                            'cloudBits', 1);
+    data.clPh = zeros(size(data.clBaseH));
+    data.clPhProb = zeros(size(data.clBaseH));
+end
 fprintf('[%s] Finish.\n', tNow());
 
 %% saving calibration results
@@ -252,13 +224,13 @@ if processInfo.flagEnableCaliResultsOutput
 
     %% save depol calibration results
     save_depolconst(dbFile, ...
-                    depCaliAttri.depol_cal_fac_532, ...
-                    depCaliAttri.depol_cal_fac_std_532, ...
-                    depCaliAttri.depol_cal_start_time_532, ...
-                    depCaliAttri.depol_cal_stop_time_532, ...
+                    depCaliAttri.depol_cal_fac_355, ...
+                    depCaliAttri.depol_cal_fac_std_355, ...
+                    depCaliAttri.depol_cal_start_time_355, ...
+                    depCaliAttri.depol_cal_stop_time_355, ...
                     taskInfo.dataFilename, ...
                     campaignInfo.name, ...
-                    '532');
+                    '355');
 
     %% save lidar calibration results
     save_liconst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
@@ -294,10 +266,6 @@ if processInfo.flagEnableCaliResultsOutput
     save_liconst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
                  LC.LC_start_time, LC.LC_stop_time, taskInfo.dataFilename, ...
                  campaignInfo.name, '1064', 'AOD_Constrained_Method', 'far_range');
-
-    %% save water vapor calibration results
-    save_wvconst(dbFile, wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, ...
-    taskInfo.dataFilename, campaignInfo.name);
 
     fprintf('[%s] Finish.\n', tNow());
 
@@ -339,11 +307,7 @@ if processInfo.flagEnableResultsOutput
 
         case 'aerproffr'
             %% save aerosol optical results
-            pollyxt_ift_save_retrieving_results(data, taskInfo, config);
-
-        case 'wvmr_rh'
-            %% save water vapor mixing ratio and relative humidity
-            pollyxt_ift_save_WVMR_RH(data, taskInfo, config);
+            pollyxt_ift_save_retrieving_results_UV(data, taskInfo, config);
 
         case 'aerattbetafr'
             %% save attenuated backscatter
@@ -351,23 +315,7 @@ if processInfo.flagEnableResultsOutput
 
         case 'voldepol'
             %% save volume depolarization ratio
-            pollyxt_ift_save_voldepol(data, taskInfo, config);
-
-        case 'quasiv1'
-            %% save quasi results
-            pollyxt_ift_save_quasi_results(data, taskInfo, config);
-
-        case 'quasiv2'
-            %% save quasi results V2
-            pollyxt_ift_save_quasi_results_V2(data, taskInfo, config);
-
-        case 'tc'
-            %% save target classification results
-            pollyxt_ift_save_tc(data, taskInfo, config);
-
-        case 'tcv2'
-            %% save target classification results V2
-            pollyxt_ift_save_tc_V2(data, taskInfo, config);
+            pollyxt_ift_save_voldepol_UV(data, taskInfo, config);
 
         case 'cloudinfo'
             pollyxt_save_cloudinfo(data, taskInfo, config);
@@ -412,15 +360,15 @@ if processInfo.flagEnableDataVisualization
 
     %% display signal
     disp('Display RCS and volume depolarization ratio')
-    pollyxt_ift_display_rcs(data, taskInfo, config);
+    pollyxt_ift_display_rcs_UV(data, taskInfo, config);
 
     %% display depol calibration results
     disp('Display depolarization calibration results')
-    pollyxt_ift_display_depolcali(data, config, taskInfo, depCaliAttri);
+    pollyxt_ift_display_depolcali_UV(data, config, taskInfo, depCaliAttri);
 
     %% display saturation and cloud free tags
     disp('Display signal flags')
-    pollyxt_ift_display_saturation(data, taskInfo, config);
+    pollyxt_ift_display_saturation_UV(data, taskInfo, config);
 
     %% display overlap
     disp('Display overlap')
@@ -428,31 +376,11 @@ if processInfo.flagEnableDataVisualization
 
     %% display optical profiles
     disp('Display profiles')
-    pollyxt_ift_display_retrieving(data, taskInfo, config);
+    pollyxt_ift_display_retrieving_UV(data, taskInfo, config);
 
     %% display attenuated backscatter
     disp('Display attnuated backscatter')
     pollyxt_ift_display_att_beta(data, taskInfo, config);
-
-    %% display WVMR and RH
-    disp('Display WVMR and RH')
-    pollyxt_ift_display_WV(data, taskInfo, config);
-
-    %% display quasi backscatter, particle depol and angstroem exponent 
-    disp('Display quasi parameters')
-    pollyxt_ift_display_quasiretrieving(data, taskInfo, config);
-
-    %% display quasi backscatter, particle depol and angstroem exponent V2 
-    disp('Display quasi parameters V2')
-    pollyxt_ift_display_quasiretrieving_V2(data, taskInfo, config);
-
-    %% target classification
-    disp('Display target classifications')
-    pollyxt_ift_display_targetclassi(data, taskInfo, config);
-
-    %% target classification V2
-    disp('Display target classifications V2')
-    pollyxt_ift_display_targetclassi_V2(data, taskInfo, config);
 
     %% display lidar calibration constants
     disp('Display Lidar constants.')
@@ -460,13 +388,13 @@ if processInfo.flagEnableDataVisualization
 
     %% display Long-term lidar constant with logbook
     disp('Display Long-Term lidar cosntants.')
-    pollyxt_ift_display_longterm_cali(dbFile, taskInfo, config);
+    pollyxt_ift_display_longterm_cali_UV(dbFile, taskInfo, config);
 
     fprintf('[%s] Finish.\n', tNow());
 end
 
 %% get report
-report = pollyxt_ift_results_report(data, taskInfo, config);
+report = pollyxt_ift_results_report_UV(data, taskInfo, config);
 
 %% debug output
 if isfield(processInfo, 'flagDebugOutput')

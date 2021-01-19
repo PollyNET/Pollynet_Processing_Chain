@@ -21,13 +21,13 @@ arielle	Polarstern	20160417	1518	20160419	1829	-27	0	24	1.41E-01	0.007	, RV Pola
 arielle	Polarstern	20160419	1834	20160511	1352	-27	0	24	1.43E-01	0.0085	, RV Polarstern, Atlantic Ocean
 arielle	Leipzig	20160523	0000	20160930	2359	51	12	125	0.14	0.0119	, Leipzig, Germany
 arielle	Polarstern	20161110	0000	20161231	0000	-27	0	24	0.14	0.0119	, RV Polarstern, Atlantic Ocean
-arielle	Leipzig2	20170101	0000	20170130	0800	51	12	125	0.14	0.0119	, Leipzig, Germany
-arielle	Melpitz	20170130	1000	20170317	0900	52	13	83	0.14	0.0119	, Melpitz, Germany
+arielle	Leipzig2	20170101	0000	20170130	2359	51	12	125	0.14	0.0119	, Leipzig, Germany
+arielle	Melpitz	20170201	1000	20170317	0900	52	13	83	0.14	0.0119	, Melpitz, Germany
 arielle	Leipzig	20170428	1200	20170519	2359	51	12	125	0.14	0.0119	, Leipzig, Germany
 arielle	Arctic	20170522	0000	20170731	2359	82	11.5	0	2.28e-2	0.0119	, Polarstern, Arctic
 arielle	Leipzig2	20170807	0000	20170814	0800	51	12	125	2.28e-2	0.0119	, Leipzig, Germany
 arielle	Kosetice	20170814	1200	20171120	0800	50	15	535	9.67e-2	0.0186	, Kosetice, Czech Republic
-arielle	Leipzig	20171124	1200	20180216	1400	51	12	125	9.67e-2	0.0186	, Leipzig, Germany
+arielle	Leipzig	20171124	1200	20180216	1600	51	12	125	9.67e-2	0.0186	, Leipzig, Germany
 arielle	Polarstern	20180501	1834	20180610	1352	-27	0	24	9.67e-2	0.0085	, RV Polarstern, Atlantic Ocean
 arielle	Leipzig3	20180611	0000	20180916	2359	51	12	125	9.67e-2	0.0186	, Leipzig, Germany
 arielle	Leipzig	20180917	0000	20181024	2359	51	12	125	9.67e-2	0.0186	, Leipzig, Germany
@@ -121,7 +121,7 @@ PollyXT_NOA	Cyprus	20160423	1030	20160429	1030	35	33	189	0.0383	0.0145	, Nicosia
 PollyXT_NOA	Leipzig	20160525	0000	20160823	1329	51	12	125	0	0.0053	, Leipzig, Germany
 PollyXT_NOA	Leipzig	20160823	1330	20170220	1700	51	12	125	0.055	0.01	, Leipzig, Germany
 PollyXT_NOA	Finokalia	20170225	0000	20170324	2359	26	35	245	0.055	0.01	, Finokalia, Crete, Greece
-PollyXT_NOA	Finokalia	20170325	0000	20170404	1210	26	35	245	0.98	0.0053	, Finokalia, Crete, Greece
+PollyXT_NOA	Finokalia	20170324	0000	20170404	1210	26	35	245	0.98	0.0053	, Finokalia, Crete, Greece
 PollyXT_NOA	Finokalia	20170404	1211	20170405	1352	26	35	245	0.019	0.0053	, Finokalia, Crete, Greece
 PollyXT_NOA	Finokalia	20170405	1355	20170406	0900	26	35	238	0.015	0.0053	, Finokalia, Crete, Greece
 PollyXT_NOA	Finokalia	20170406	0907	20180531	2359	26	35	245	0.043	0.0053	, Finokalia, Crete, Greece
