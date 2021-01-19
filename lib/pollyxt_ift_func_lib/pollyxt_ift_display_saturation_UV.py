@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyxt_ift_display_saturation(tmpFile, saveFolder):
+def pollyxt_ift_display_saturation_UV(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyxt_ift_display_saturation(tmpFile)
+    pollyxt_ift_display_saturation_UV(tmpFile)
 
     History
     -------
@@ -113,7 +113,6 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
         SAT_FR_355 = mat['SAT_FR_355'][:]
         SAT_FR_532 = mat['SAT_FR_532'][:]
         SAT_FR_1064 = mat['SAT_FR_1064'][:]
-        SAT_FR_407 = mat['SAT_FR_407'][:]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
@@ -377,89 +376,9 @@ def pollyxt_ift_display_saturation(tmpFile, saveFolder):
         )
     plt.close()
 
-    # display status of 407
-    fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
-    pcmesh = ax.pcolormesh(
-        Time, Height, SAT_FR_407,
-        vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
-        rasterized=True, shading='nearest')
-    ax.set_xlabel('UTC', fontsize=15)
-    ax.set_ylabel('Height (m)', fontsize=15)
-
-    ax.set_ylim(yLim_FR_RCS.tolist())
-    ax.yaxis.set_major_locator(MultipleLocator(2500))
-    ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xticks(xtick.tolist())
-    ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15,
-                   right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5,
-                   length=3.5, right=True, top=True)
-
-    ax.set_title(
-        'Signal Status at ' +
-        '{wave}nm Far-Range from {instrument} at {location}'.format(
-            wave=407,
-            instrument=pollyVersion,
-            location=location
-            ),
-        fontsize=15
-        )
-
-    cb_ax = fig.add_axes([0.865, 0.15, 0.02, 0.75])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
-                        0, 1, 2], orientation='vertical')
-    cbar.ax.tick_params(direction='in', pad=5)
-    cbar.ax.set_title('', fontsize=9)
-    cbar.ax.set_yticklabels(['Good Signal', 'Saturated', 'Low SNR'])
-    cbar.ax.tick_params(axis='both', which='major', labelsize=12,
-                        right=True, top=True, width=2, length=5)
-    cbar.ax.tick_params(axis='both', which='minor',
-                        width=1.5, length=3.5, right=True, top=True)
-
-    # add watermark
-    if flagWatermarkOn:
-        rootDir = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        im_license = matplotlib.image.imread(
-            os.path.join(rootDir, 'img', 'by-sa.png'))
-
-        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
-        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
-        newax_license.axis('off')
-
-        fig.text(0.72, 0.003, 'Preliminary\nResults.',
-                 fontweight='bold', fontsize=12, color='red',
-                 ha='left', va='bottom', alpha=0.8, zorder=10)
-
-        fig.text(
-            0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=7, color='black', ha='left',
-            va='bottom', alpha=1, zorder=10)
-
-    fig.text(0.05, 0.04, datenum_to_datetime(
-        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.2, 0.04, 'Version: {version}'.format(
-        version=version), fontsize=14)
-
-    fig.savefig(
-        os.path.join(
-            saveFolder,
-            '{dataFilename}_SAT_FR_407.{imgFormat}'.format(
-                dataFilename=rmext(dataFilename),
-                imgFormat=imgFormat
-                )
-            ),
-        dpi=figDPI
-        )
-    plt.close()
-
 
 def main():
-    pollyxt_ift_display_saturation(
+    pollyxt_ift_display_saturation_UV(
         'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
         'C:\\Users\\zpyin\\Desktop'
         )
@@ -467,4 +386,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyxt_ift_display_saturation(sys.argv[1], sys.argv[2])
+    pollyxt_ift_display_saturation_UV(sys.argv[1], sys.argv[2])
