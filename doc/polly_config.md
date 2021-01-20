@@ -10,6 +10,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |:-------:|:------------|:-------:|:--------|
 |flagCorrectFalseMShots|whether to correct the invalid shots stored in the netcdf files. (I don't know the reason yet, but it does exist in pollyxt_tropos for a period of time)|true|
 |flagFilterFalseMShots|whether to filter out the profiles with invalid shots. (Since I don't know whether it's trustable for these profiles, I will leave this keyword for future development.)|false||
+|flagForceMeasTime|whether to fix measurement time according to the mshots instead of using the original PC time|false||
 |flagDTCor|whether to implement deadtime correction|true||
 |flagWVCalibration|whether to implement water vapor calibration|true||
 |flagLCCalibration|whether to enable lidar calibration|true||

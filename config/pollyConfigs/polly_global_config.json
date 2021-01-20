@@ -1,6 +1,7 @@
 {
     "flagCorrectFalseMShots": true, 
     "flagFilterFalseMShots": false,
+    "flagForceMeasTime": false,
     "flagDTCor": true,
     "flagLCCalibration": true,
     "flagDepolCali": true,
