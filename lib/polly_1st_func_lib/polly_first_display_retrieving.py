@@ -140,7 +140,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
         xLim_Profi_NR_Ext = mat['xLim_Profi_NR_Ext'][:][0]
         xLim_Profi_RCS = mat['xLim_Profi_RCS'][:][0]
         xLim_Profi_LR = mat['xLim_Profi_LR'][:][0]
-        imgForamt = mat['imgForamt'][:][0]
+        imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
         print(e)
@@ -222,7 +222,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -288,7 +288,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -354,7 +354,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -420,7 +420,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -486,7 +486,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -552,7 +552,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -617,7 +617,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
@@ -682,7 +682,7 @@ def polly_first_display_retrieving(tmpFile, saveFolder):
                 dataFilename=rmext(dataFilename),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgForamt)),
+                imgFmt=imgFormat)),
         dpi=figDPI)
     plt.close()
 
