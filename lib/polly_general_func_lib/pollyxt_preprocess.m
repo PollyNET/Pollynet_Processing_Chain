@@ -80,7 +80,7 @@ if nInt > 1
 
     % if shots of single profile is less than 600
 
-    nProf_int = floor(length(data.mShots) / nInt);
+    nProf_int = floor(size(data.mShots, 2) / nInt);
     mShots_int = NaN(size(data.mShots, 1), nProf_int);
     mTime_int = NaN(1, nProf_int);
     rawSignal_int = NaN(size(data.rawSignal, 1), size(data.rawSignal, 2), nProf_int);
@@ -91,7 +91,9 @@ if nInt > 1
         mShots_int(:, iProf_int) = nansum(data.mShots(:, profIndx), 2);
         mTime_int(iProf_int) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(600 / data.repRate * (iProf_int - 1)));
         rawSignal_int(:, :, iProf_int) = repmat(nansum(data.rawSignal(:, :, profIndx), 3), 1, 1, 1);
-        depCalAng_int(iProf_int) = data.depCalAng(profIndx(1));
+        if ~ isempty(data.depCalAng)
+            depCalAng_int(iProf_int) = data.depCalAng(profIndx(1));
+        end
     end
 
     data.rawSignal = rawSignal_int;
