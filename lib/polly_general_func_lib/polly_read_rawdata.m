@@ -112,7 +112,7 @@ end
 % search the profiles with invalid mshots
 flagFalseShots = false(1, size(mShots, 2));
 for iChannel = 1:size(mShots, 1)
-    tmp = (mShots(iChannel, :) > 1e6) | (mShots(iChannel, :) <= 0);
+    tmp = (mShots(iChannel, :) > 620) | (mShots(iChannel, :) <= 0);
     flagFalseShots = flagFalseShots | tmp;
 end
 
@@ -125,9 +125,11 @@ if p.Results.flagFilterFalseMShots
         return;
     else
         rawSignal = rawSignal(:, :, ~ flagFalseShots);
-        mShots = mShots(~ flagFalseShots);
-        mTime = mTime(~ flagFalseShots);
-        depCalAng = depCalAng(~ flagFalseShots);
+        mShots = mShots(:, ~ flagFalseShots);
+        mTime = mTime(:, ~ flagFalseShots);
+        if ~ isempty(depCalAng)
+            depCalAng = depCalAng(~ flagFalseShots);
+        end
     end
 
 elseif p.Results.flagCorrectFalseMShots
