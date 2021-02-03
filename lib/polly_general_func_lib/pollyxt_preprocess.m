@@ -104,7 +104,8 @@ end
 
 % re-locate measurement time forcefully.
 if config.flagForceMeasTime
-    data.mTime = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
+    data.mTime = data.filenameStartTime + ...
+                 datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
 end
 
 if (max(config.max_height_bin + config.first_range_gate_indx - 1) > ...
