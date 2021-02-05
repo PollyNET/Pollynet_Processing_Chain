@@ -58,8 +58,8 @@ sumTSig = sum(tSig);
 sumTBG = sum(bgTSig);
 sumCSig = sum(cSig);
 sumCBG = sum(bgCSig);
-stdTSig = sqrt(sumTSig.^2 + sumTBG.^2);
-stdCSig = sqrt(sumCSig.^2 + sumCBG.^2);
+stdTSig = sqrt(sumTSig + sumTBG);
+stdCSig = sqrt(sumCSig + sumCBG);
 
 depolCaliFactor = (sumCSig ./ sumTSig) .* (1 + molDepol .* TR_t) ./ (1 + molDepol .* TR_c);
 
