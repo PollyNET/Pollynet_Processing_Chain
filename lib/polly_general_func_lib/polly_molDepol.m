@@ -63,7 +63,7 @@ flagValidPointTot = snrTot >= minSNR;
 flagValidPointCro = snrCro >= minSNR;
 
 if (~ flagValidPointCro) || (~ flagValidPointTot)
-    fprintf(['Too noisy in the reference heigh to calculate ' ...
+    fprintf(['Too noisy in the reference height to calculate ' ...
              'the molecular depol ratio.\n']);
     return;
 end
