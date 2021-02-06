@@ -77,6 +77,13 @@ if (max(config.max_height_bin + config.first_range_gate_indx - 1) > size(data.ra
     config.first_range_gate_indx = ones(1, size(data.rawSignal, 1));
 end
 
+%% modify mShots
+% Expected mShots should be an matrix with dims of nChannels x profiles
+% However, old polly generate one 1-d mShots.
+if (size(data.mShots, 1) ~= size(data.rawSignal, 1)) && (size(data.mShots, 2) ~= size(data.rawSignal, 3))
+    data.mShots = repmat(transpose(data.mShots), size(data.rawSignal, 1), 1);
+end
+
 %% deadtime correction
 rawSignal = data.rawSignal;
 if config.flagDTCor
