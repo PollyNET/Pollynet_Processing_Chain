@@ -186,7 +186,7 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
             wave=532, instrument=pollyVersion, location=location),
         fontsize=15)
 
-    cb_ax = fig.add_axes([0.93, 0.25, 0.02, 0.55])
+    cb_ax = fig.add_axes([0.92, 0.25, 0.02, 0.55])
     cbar = fig.colorbar(
         pcmesh, cax=cb_ax,
         ticks=np.linspace(att_beta_cRange_532[0], att_beta_cRange_532[1], 5),
@@ -211,8 +211,8 @@ def polly_1v2_display_att_beta(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
