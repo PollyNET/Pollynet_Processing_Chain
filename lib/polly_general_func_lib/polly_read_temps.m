@@ -32,6 +32,7 @@ function [res] = polly_read_temps(file)
 %
 %History:
 %   2019-09-28. First Edition by Zhenping
+%   2021-02-14. Add error catch processing.
 %Contact:
 %   zhenping@tropos.de
 
@@ -59,19 +60,24 @@ fid = fopen(file, 'r');
 resRaw = textscan(fid, '%s %f %f %f %f %f %f %f %f %f %f', ...
                   'delimiter', '\t', ...
                   'HeaderLines', 3);
-
-res.time = datenum(reshape(resRaw{1}, 1, []), 'dd.mm.yyyy HH:MM:SS');
-res.T1064 = resRaw{2};
-res.pyro = resRaw{3};
-res.T1 = resRaw{4};
-res.RH1 = resRaw{5};
-res.T2 = resRaw{6};
-res.RH2 = resRaw{7};
-res.Tout = resRaw{8};
-res.RHout = resRaw{9};
-res.Status = resRaw{10};
-res.Dout = resRaw{11};
-
 fclose(fid);
+
+try
+    res.time = datenum(reshape(resRaw{1}, 1, []), 'dd.mm.yyyy HH:MM:SS');
+    res.T1064 = resRaw{2};
+    res.pyro = resRaw{3};
+    res.T1 = resRaw{4};
+    res.RH1 = resRaw{5};
+    res.T2 = resRaw{6};
+    res.RH2 = resRaw{7};
+    res.Tout = resRaw{8};
+    res.RHout = resRaw{9};
+    res.Status = resRaw{10};
+    res.Dout = resRaw{11};
+catch
+    warning('error in parsing %s. Please check it.', file);
+    return;
+end
+
 
 end
