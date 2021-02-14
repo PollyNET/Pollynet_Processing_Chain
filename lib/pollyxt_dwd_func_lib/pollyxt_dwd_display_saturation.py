@@ -197,8 +197,8 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
@@ -268,8 +268,8 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
@@ -341,8 +341,8 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
@@ -412,8 +412,8 @@ def pollyxt_dwd_display_saturation(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
