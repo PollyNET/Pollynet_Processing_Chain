@@ -29,8 +29,8 @@ missing_value = -999;
 
 
 for iGroup = 1:size(data.cloudFreeGroups, 1)
-    save_for_detlef=1;
-    if save_for_detlef==1
+    save_for_detlef = false;
+    if save_for_detlef
         %cutting lower edge
         data.aerBsc355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
         data.aerExt355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
