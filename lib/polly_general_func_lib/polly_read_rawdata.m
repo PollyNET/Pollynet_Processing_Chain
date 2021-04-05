@@ -40,10 +40,13 @@ function [ data ] = polly_read_rawdata(file, varargin)
 %           longitude of measurement site. [degree]
 %       alt: float
 %           altitude of measurement site. [degree]
+%       filenameStartTime: datenum
+%           start time extracted from filename.
 %History:
 %   2018-12-16. First edition by Zhenping.
 %   2019-07-08. Read the 'laser_rep_rate'.
 %   2020-04-16. Unify the argument interface.
+%   2021-02-03. Extract start time from polly data filename.
 %Contact:
 %   zhenping@tropos.de
 
@@ -112,7 +115,7 @@ end
 % search the profiles with invalid mshots
 flagFalseShots = false(1, size(mShots, 2));
 for iChannel = 1:size(mShots, 1)
-    tmp = (mShots(iChannel, :) > 1e6) | (mShots(iChannel, :) <= 0);
+    tmp = (mShots(iChannel, :) > 620) | (mShots(iChannel, :) <= 0);
     flagFalseShots = flagFalseShots | tmp;
 end
 
@@ -125,9 +128,11 @@ if p.Results.flagFilterFalseMShots
         return;
     else
         rawSignal = rawSignal(:, :, ~ flagFalseShots);
-        mShots = mShots(~ flagFalseShots);
-        mTime = mTime(~ flagFalseShots);
-        depCalAng = depCalAng(~ flagFalseShots);
+        mShots = mShots(:, ~ flagFalseShots);
+        mTime = mTime(:, ~ flagFalseShots);
+        if ~ isempty(depCalAng)
+            depCalAng = depCalAng(~ flagFalseShots);
+        end
     end
 
 elseif p.Results.flagCorrectFalseMShots
@@ -142,6 +147,7 @@ elseif p.Results.flagCorrectFalseMShots
                  thisSecond + 30 .* (0:(size(mTime, 2) - 1));
 end
 
+data.filenameStartTime = polly_parsetime(file, p.Results.dataFileFormat);
 data.zenithAng = zenithAng;
 data.hRes = hRes;
 data.mSite = mSite;

@@ -76,7 +76,7 @@ pollyAPPConfig = loadConfigPrivate(pollyAppConfigFile);
 fprintf('Loading picasso configurations from %s\n', picassoConfigFile);
 picassoConfig = loadjson(picassoConfigFile);
 todoPath = fileparts(picassoConfig.fileinfo_new);
-picassoLinkFile = picassoConfig.pollynet_config_history_file;
+picassoLinkFile = picassoConfig.pollynet_config_link_file;
 
 %% connect to the polly database
 % connect to database (server)
@@ -85,9 +85,9 @@ conn = database(pollyAPPConfig.DATABASE_NAME, pollyAPPConfig.DATABASE_USER, poll
 % conn = database('polly_14', 'webapp_user', 'ramadan1', 'com.mysql.jdbc.Driver', 'jdbc:mysql://localhost:7802/');
 
 %% Retrieve the list of supported system by Picasso
-picassoLinkInfo = read_pollynet_processing_configs(picassoLinkFile);
+picassoLinkInfo = read_camp_and_config(picassoLinkFile);
 % find the unique polly names
-pollyNames = picassoLinkInfo.pollyVersion;
+pollyNames = lower(picassoLinkInfo.instrument);
 pollyNames = transpose(pollyNames);
 pollyNamesTab = cell2table(pollyNames, 'VariableNames', {'polly'});
 pollyUniqNameTable = unique(pollyNamesTab, 'rows');   % [table]
@@ -142,7 +142,7 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
     fileCount = 0;
     for thisDate = floor(tSearchStart - tSearchRange):floor(tSearchStart)
         [year, month, day] = datevec(thisDate);
-        files = dir(fullfile(pollyDataBaseDir, pollyUniqNameTable.polly{iPolly}, 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
+        files = dir(fullfile(pollyDataBaseDir, lower(pollyUniqNameTable.polly{iPolly}), 'data_zip', sprintf('%04d%02d', year, month), sprintf('%04d_%02d_%02d*.nc.zip', year, month, day)));
 
         for iFile = 1:length(files)
             fileCount = fileCount + 1;
@@ -173,7 +173,7 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
         if sum(maskFile) == 0
             % if the file is not in the database
 
-            taskEntry.pollyName = {pollySaveData(iFile).pollyName};
+            taskEntry.pollyName = {lower(pollySaveData(iFile).pollyName)};
             taskEntry.filename = {filename};
             taskEntry.filePath = {pollySaveData(iFile).filePath};
             taskEntry.fileSize = fileSizeNew;
@@ -197,7 +197,7 @@ for iPolly = 1:length(pollyUniqNameTable.polly)
         end
 
         if (fileSizeNew ~= fileSizeOld) || (flagCheckGDAS1 && (~ processedWithGDAS1))
-            taskEntry.pollyName = {pollyDBDataTable.pollyName{maskFile}};
+            taskEntry.pollyName = {lower(pollyDBDataTable.pollyName{maskFile})};
             taskEntry.filename = {basename(pollyDBDataTable.fileName{maskFile})};
             taskEntry.filePath = {pollySaveData(iFile).filePath};
             taskEntry.fileSize = fileSizeNew;

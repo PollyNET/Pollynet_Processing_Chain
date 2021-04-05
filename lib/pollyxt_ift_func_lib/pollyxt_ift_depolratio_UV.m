@@ -31,7 +31,7 @@ function [voldepol355_klett, pardepol355_klett, pardepolStd355_klett, voldepol35
 %Contact:
 %   zhenping@tropos.de
 
-global defaults
+global defaults campaignInfo
 
 voldepol355_klett = [];
 pardepol355_klett = [];
@@ -55,9 +55,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     thisPardepol355_raman = NaN(size(data.height));
     thisPardepolStd355_klett = NaN(size(data.height));
     thisPardepolStd355_raman = NaN(size(data.height));
-    thisMoldepol355 = NaN;
-    thisMoldepolStd355 = NaN;
-    thisFlagDefaultMoldepol355 = false;
+    thisFlagDefaultMoldepol355 = true;
 
     proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
     flagChannel355Tot = config.isFR & config.is355nm & config.isTot;
@@ -77,29 +75,26 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
         if ~ isnan(data.aerBsc355_klett(iGroup, 80))
             [molBsc355, ~] = rayleigh_scattering(355, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
 
-            refHIndx355 = data.refHIndx355(iGroup, 1):data.refHIndx355(iGroup, 2);
-
-            fprintf('Calibrate the molecule depol.ratio for the %d cloud free period at 355 nm.\n', iGroup);
-            [thisMoldepol355, thisMoldepolStd355, thisFlagDefaultMoldepol355] = polly_molDepol(sig355Tot(refHIndx355), bg355Tot(refHIndx355), sig355Cro(refHIndx355), bg355Cro(refHIndx355), config.TR(flagChannel355Tot), 0, config.TR(flagChannel355Cro), 0, data.depol_cal_fac_355, data.depol_cal_fac_std_355, 10, defaults.molDepol355, defaults.molDepolStd355);
-
             % based with klett retrieved bsc
-            [thisPardepol355_klett, thisPardepolStd355_klett] = polly_parDepol(thisVoldepol355_klett, thisVoldepoStdl355_klett, data.aerBsc355_klett(iGroup, :), ones(size(data.aerBsc355_klett(iGroup, :))) * 1e-7, molBsc355, thisMoldepol355, thisMoldepolStd355);
+            [thisPardepol355_klett, thisPardepolStd355_klett] = polly_parDepol(thisVoldepol355_klett, thisVoldepoStdl355_klett, data.aerBsc355_klett(iGroup, :), ones(size(data.aerBsc355_klett(iGroup, :))) * 1e-7, molBsc355, defaults.molDepol355, defaults.molDepolStd355);
 
             % based with raman retrieved bsc
             if ~ isnan(data.aerBsc355_raman(iGroup, 80))
-                [thisPardepol355_raman, thisPardepolStd355_raman] = polly_parDepol(thisVoldepol355_raman, thisVoldepoStdl355_raman, data.aerBsc355_raman(iGroup, :), ones(size(data.aerBsc355_raman(iGroup, :))) * 1e-7, molBsc355, thisMoldepol355, thisMoldepolStd355);
+                [thisPardepol355_raman, thisPardepolStd355_raman] = polly_parDepol(thisVoldepol355_raman, thisVoldepoStdl355_raman, data.aerBsc355_raman(iGroup, :), ones(size(data.aerBsc355_raman(iGroup, :))) * 1e-7, molBsc355, defaults.molDepol355, defaults.molDepolStd355);
             end
         end
     end
+
     voldepol355_klett = cat(1, voldepol355_klett, thisVoldepol355_klett);
     voldepol355_raman = cat(1, voldepol355_raman, thisVoldepol355_raman);
     pardepol355_klett = cat(1, pardepol355_klett, thisPardepol355_klett);
     pardepol355_raman = cat(1, pardepol355_raman, thisPardepol355_raman);
     pardepolStd355_klett = cat(1, pardepolStd355_klett, thisPardepolStd355_klett);
     pardepolStd355_raman = cat(1, pardepolStd355_raman, thisPardepolStd355_raman);
-    moldepol355 = cat(1, moldepol355, thisMoldepol355);
-    moldepolStd355 = cat(1, moldepolStd355, thisMoldepolStd355);
+    moldepol355 = cat(1, moldepol355, defaults.molDepolStd355);
+    moldepolStd355 = cat(1, moldepolStd355, defaults.molDepolStd355);
     flagDefaultMoldepol355 = cat(1, flagDefaultMoldepol355, thisFlagDefaultMoldepol355);
+
 end
 
 end

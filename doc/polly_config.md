@@ -20,6 +20,7 @@ I will summarize all the configurations in the table below. But you should keep 
 |flagUsePreviousLC|whether to take previous lidar calibration constants when no lidar calibration is available|true||
 |flagUseSameRefH|whether to take the same reference height for aerosol retrievals at all available wavelength|false||
 |flagAutoscaleRCS|to control whether to configure the color-range for range corrected signal in an automatic way|true||
+|flagMolDepolCali|to control whether to use molecular depolarization calibration|false|H. Baars, PhD thesis, 2012|
 |MWRFolder|The folder of prw results from MWR. (This is only for LACROS)|"C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR"||
 |dataFileFormat|regular expression to extract the data and time info from polly data file. (This is based on the syntax of matlab **regexp**)|"(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc"||
 |gdas1Site|gdas1 site for the current campaign. (You can find the info in [gdas1-site-list.txt](/doc/gdas1-site-list.txt))|"warsaw"||

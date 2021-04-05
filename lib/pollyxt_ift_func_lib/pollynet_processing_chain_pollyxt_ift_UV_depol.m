@@ -71,17 +71,16 @@ fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), campaignInfo.name);
 data = pollyxt_ift_preprocess(data, config);
 fprintf('[%s] Finish signal preprocessing.\n', tNow());
 
+if size(data.signal, 3) < 2
+    warning('Only single signal profile is available!');
+    return;
+end
+
 %% saturation detection
 fprintf('\n[%s] Start to detect signal saturation.\n', tNow());
 flagSaturation = pollyxt_ift_saturationdetect(data, config);
 data.flagSaturation = flagSaturation;
 fprintf('\n[%s] Finish.\n', tNow());
-
-%% depol calibration
-fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
-[data, depCaliAttri] = pollyxt_ift_depolcali_UV(data, config, dbFile);
-data.depCaliAttri = depCaliAttri;
-fprintf('[%s] Finish depol calibration.\n', tNow());
 
 %% cloud screening
 fprintf('\n[%s] Start to cloud-screen.\n', tNow());
@@ -158,6 +157,13 @@ fprintf('Number of reference height for 355 nm: %2d\n', sum(~ isnan(data.refHInd
 fprintf('Number of reference height for 532 nm: %2d\n', sum(~ isnan(data.refHIndx532(:)))/2);
 fprintf('Number of reference height for 1064 nm: %2d\n', sum(~ isnan(data.refHIndx1064(:)))/2);
 fprintf('[%s] Finish.\n', tNow());
+
+%% depol calibration
+fprintf('\n[%s] Start to calibrate %s depol channel.\n', tNow(), campaignInfo.name);
+[data, depCaliAttri] = pollyxt_ift_depolcali_UV(data, config, dbFile);
+data.depCaliAttri = depCaliAttri;
+fprintf('[%s] Finish depol calibration.\n', tNow());
+
 
 %% optical properties retrieving
 fprintf('\n[%s] Start to retrieve aerosol optical properties.\n', tNow());
@@ -363,8 +369,10 @@ if processInfo.flagEnableDataVisualization
     pollyxt_ift_display_rcs_UV(data, taskInfo, config);
 
     %% display depol calibration results
-    disp('Display depolarization calibration results')
-    pollyxt_ift_display_depolcali_UV(data, config, taskInfo, depCaliAttri);
+    if ~ config.flagMolDepolCali
+        disp('Display depolarization calibration results')
+        pollyxt_ift_display_depolcali_UV(data, config, taskInfo, depCaliAttri);
+    end
 
     %% display saturation and cloud free tags
     disp('Display signal flags')

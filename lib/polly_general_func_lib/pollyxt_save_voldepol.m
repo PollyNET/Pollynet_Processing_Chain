@@ -98,7 +98,7 @@ netcdf.putAtt(ncID, varID_voldepol_355, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_voldepol_355, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_voldepol_355, 'error_variable', 'voldepol_355_error');
 netcdf.putAtt(ncID, varID_voldepol_355, 'bias_variable', 'voldepol_355_bias');
-netcdf.putAtt(ncID, varID_voldepol_355, 'comment', 'The depolarized channel was calibrated with \pm 45\circ method.');
+netcdf.putAtt(ncID, varID_voldepol_355, 'comment', 'The depolarization ratio was calibrated with \Delta 90\circ method.');
 
 % voldepol_532
 netcdf.putAtt(ncID, varID_voldepol_532, 'unit', '');
@@ -109,7 +109,7 @@ netcdf.putAtt(ncID, varID_voldepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_voldepol_532, 'source', campaignInfo.name);
 netcdf.putAtt(ncID, varID_voldepol_532, 'error_variable', 'voldepol_532_error');
 netcdf.putAtt(ncID, varID_voldepol_532, 'bias_variable', 'voldepol_532_bias');
-netcdf.putAtt(ncID, varID_voldepol_532, 'comment', 'The depolarized channel was calibrated with \pm 45\circ method.');
+netcdf.putAtt(ncID, varID_voldepol_532, 'comment', 'The depolarization ratio was calibrated with \Delta 90\circ method.');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
