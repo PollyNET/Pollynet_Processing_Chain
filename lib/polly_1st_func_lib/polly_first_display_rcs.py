@@ -120,11 +120,9 @@ def polly_first_display_rcs(tmpFile, saveFolder):
             partnerLabel = ''
         mTime = mat['mTime'][0][:]
         height = mat['height'][0][:]
-        depCalMask = mat['depCalMask'][0][:]
         fogMask = mat['fogMask'][0][:]
         RCS_FR_532 = mat['RCS_FR_532'][:]
         RCS_NR_532 = mat['RCS_NR_532'][:]
-        volDepol_532 = mat['volDepol_532'][:]
         pollyVersion = mat['campaignInfo']['name'][0][0][0]
         location = mat['campaignInfo']['location'][0][0][0]
         version = mat['processInfo']['programVersion'][0][0][0]
@@ -136,7 +134,6 @@ def polly_first_display_rcs(tmpFile, saveFolder):
         colormap_basic = mat['colormap_basic'][:][0]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         yLim_NR_RCS = mat['yLim_NR_RCS'][:][0]
-        yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         RCS532FRColorRange = mat['RCS532FRColorRange'][:][0]
         RCS532NRColorRange = mat['RCS532NRColorRange'][:][0]
         imgFormat = mat['imgFormat'][:][0]
@@ -152,7 +149,6 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     # meshgrid
     Time, Height = np.meshgrid(mTime, height)
-    depCalMask = np.tile(depCalMask, (RCS_FR_532.shape[0], 1))
     fogMask = np.tile(fogMask, (RCS_FR_532.shape[0], 1))
 
     # define the colormap
@@ -160,7 +156,6 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     # display 532 FR
     # filter out the invalid values
-    RCS_FR_532 = np.ma.masked_where(depCalMask != 0, RCS_FR_532)
     RCS_FR_532 = np.ma.masked_where(fogMask == 1, RCS_FR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
@@ -208,8 +203,8 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
@@ -226,7 +221,6 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     # display 532 NR
     # filter out the invalid values
-    RCS_NR_532 = np.ma.masked_where(depCalMask != 0, RCS_NR_532)
     RCS_NR_532 = np.ma.masked_where(fogMask == 1, RCS_NR_532)
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
@@ -274,8 +268,8 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
         fig.text(
             0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
@@ -286,72 +280,6 @@ def polly_first_display_rcs(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_NR_532.{imgFmt}'.format(
-            dataFilename=rmext(dataFilename),
-            imgFmt=imgFormat)), dpi=figDPI)
-    plt.close()
-
-    # display voldepol 532
-    # filter out the invalid values
-    volDepol_532 = np.ma.masked_where(depCalMask != 0, volDepol_532)
-    volDepol_532 = np.ma.masked_where(fogMask == 1, volDepol_532)
-    fig = plt.figure(figsize=[10, 5])
-    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    pcmesh = ax.pcolormesh(Time, Height, volDepol_532,
-                           vmin=0.0, vmax=0.3, cmap=cmap,
-                           rasterized=True, shading='nearest')
-    ax.set_xlabel('UTC', fontsize=15)
-    ax.set_ylabel('Height (m)', fontsize=15)
-
-    ax.yaxis.set_major_locator(MultipleLocator(2500))
-    ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_ylim([yLim_FR_DR[0], yLim_FR_DR[1]])
-    ax.set_xticks(xtick.tolist())
-    ax.set_xticklabels(celltolist(xticklabel))
-    ax.tick_params(axis='both', which='major', labelsize=15,
-                   right=True, top=True, width=2, length=5)
-    ax.tick_params(axis='both', which='minor', width=1.5,
-                   length=3.5, right=True, top=True)
-
-    ax.set_title(
-        'Volume Depolarization Ratio at ' +
-        '{wave}nm from {instrument} at {location}'.format(
-            wave=532, instrument=pollyVersion, location=location), fontsize=15)
-
-    cb_ax = fig.add_axes([0.92, 0.20, 0.02, 0.65])
-    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=np.arange(
-        0, 0.41, 0.05), orientation='vertical')
-    cbar.ax.tick_params(direction='in', labelsize=12, pad=5)
-    cbar.ax.set_title('', fontsize=12)
-
-    # add watermark
-    if flagWatermarkOn:
-        rootDir = os.path.dirname(
-            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        im_license = matplotlib.image.imread(
-            os.path.join(rootDir, 'img', 'by-sa.png'))
-
-        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
-        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
-        newax_license.axis('off')
-
-        fig.text(0.72, 0.003, 'Preliminary\nResults.',
-                 fontweight='bold', fontsize=12, color='red',
-                 ha='left', va='bottom', alpha=0.8, zorder=10)
-
-        fig.text(
-            0.84, 0.003,
-            u"\u00A9 {1} & {2} {0}.\nCC BY SA 4.0 License.".format(
-                datetime.now().strftime('%Y'), 'TROPOS', partnerLabel),
-            fontweight='bold', fontsize=7, color='black', ha='left',
-            va='bottom', alpha=1, zorder=10)
-
-    fig.text(0.05, 0.04, datenum_to_datetime(
-        mTime[0]).strftime("%Y-%m-%d"), fontsize=15)
-    fig.text(0.2, 0.04, 'Version: {version}'.format(
-        version=version), fontsize=14)
-
-    fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_VDR_532.{imgFmt}'.format(
             dataFilename=rmext(dataFilename),
             imgFmt=imgFormat)), dpi=figDPI)
     plt.close()

@@ -71,6 +71,11 @@ fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), campaignInfo.name);
 data = pollyxt_dwd_preprocess(data, config);
 fprintf('[%s] Finish signal preprocessing.\n', tNow());
 
+if size(data.signal, 3) < 2
+    warning('Only single signal profile is available!');
+    return;
+end
+
 %% saturation detection
 fprintf('\n[%s] Start to detect signal saturation.\n', tNow());
 flagSaturation = pollyxt_dwd_saturationdetect(data, config);

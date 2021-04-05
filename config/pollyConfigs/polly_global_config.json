@@ -11,6 +11,7 @@
     "flagUsePreviousLC": true,
     "flagUseSameRefH": false,
     "flagAutoscaleRCS": true,
+    "flagMolDepolCali": false,
 
     "MWRFolder": "",
 
