@@ -60,6 +60,7 @@ pollyGlobalConfig.isCross = logical(pollyGlobalConfig.isCross);
 pollyGlobalConfig.is387nm = logical(pollyGlobalConfig.is387nm);
 pollyGlobalConfig.is407nm = logical(pollyGlobalConfig.is407nm);
 pollyGlobalConfig.is607nm = logical(pollyGlobalConfig.is607nm);
+pollyGlobalConfig.is1058nm = logical(pollyGlobalConfig.is1058nm);
 pollyConfig.isFR = logical(pollyConfig.isFR);
 pollyConfig.isNR = logical(pollyConfig.isNR);
 pollyConfig.is532nm = logical(pollyConfig.is532nm);
@@ -70,6 +71,9 @@ pollyConfig.isCross = logical(pollyConfig.isCross);
 pollyConfig.is387nm = logical(pollyConfig.is387nm);
 pollyConfig.is407nm = logical(pollyConfig.is407nm);
 pollyConfig.is607nm = logical(pollyConfig.is607nm);
+try
+   pollyConfig.is1058nm = logical(pollyConfig.is1058nm);
+end
 
 %% overwrite polly global configs
 for fn = fieldnames(pollyConfig)'
