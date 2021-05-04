@@ -140,6 +140,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
     varID_reference_height_1064 = netcdf.defVar(ncID, 'reference_height_1064', 'NC_DOUBLE', dimID_refHeight);
 
+    %%%%new
+    varID_aerBsc_RR_1064 = netcdf.defVar(ncID, 'aerBsc_RR_1064', 'NC_DOUBLE', dimID_height);
+    varID_aerExt_RR_1064 = netcdf.defVar(ncID, 'aerExt_RR_1064', 'NC_DOUBLE', dimID_height);
+    varID_aerLR_RR_1064 = netcdf.defVar(ncID, 'aerLR_RR_1064', 'NC_DOUBLE', dimID_height);
+    
+    
     % define the filling value
     netcdf.defVarFill(ncID, varID_aerBsc_klett_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_aerBsc_klett_532, false, missing_value);

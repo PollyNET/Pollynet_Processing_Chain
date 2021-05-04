@@ -142,6 +142,7 @@
     "minRamanRefSNR_NR_532": 20,
     "minRamanRefSNR_NR_387": 40,
     "minRamanRefSNR_NR_607": 20,
+    "min_RR_RefSNR1058": 0,
     "angstrexp": 0.9,
     "angstrexp_NR": 0.9,
     "smoothWin_raman_355": 61,

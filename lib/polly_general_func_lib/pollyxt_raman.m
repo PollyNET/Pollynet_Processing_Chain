@@ -1,4 +1,4 @@
-function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman] = pollyxt_raman(data, config)
+function [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, LR355_raman, LR532_raman, LR1064_raman, aerBsc1064_RR,aerExt1064_RR,LR1064_RR] = pollyxt_raman(data, config)
 %POLLYXT_RAMAN Retrieve aerosol optical properties with raman method
 %Example:
 %   [aerBsc355_raman, aerBsc532_raman, aerBsc1064_raman, aerExt355_raman, aerExt532_raman, aerExt1064_raman, aerLR355_raman, aerLR532_raman, aerLR1064_raman] = pollyxt_raman(data, config)
@@ -41,7 +41,9 @@ aerExt1064_raman = [];
 LR355_raman = [];
 LR532_raman = [];
 LR1064_raman = [];
-
+aerBsc1064_RR = [];
+aerExt1064_RR = [];
+LR1064_RR = [];
 if isempty(data.rawSignal)
     return;
 end
@@ -237,4 +239,70 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     LR1064_raman = cat(1, LR1064_raman, thisLR1064_raman);
 end
 
+if sum(config.is1058nm)>0
+
+    %% 1064 nm + 1058
+    for iGroup = 1:size(data.cloudFreeGroups, 1)
+        thisAerBsc1064_RR = NaN(size(data.height));
+        thisAerExt1064_RR = NaN(size(data.height));
+        thisLR1064_RR = NaN(size(data.height));
+
+        flagChannel1064 = config.isFR & config.isTot & config.is1064nm;
+        flagChannel1058 = config.isFR & config.is1058nm;
+        % Only take into account of profiles with PMT on
+        proIndx = data.cloudFreeGroups(iGroup, 1):data.cloudFreeGroups(iGroup, 2);
+        flagCloudFree = false(size(data.mTime));
+        flagCloudFree(proIndx) = true;
+        proIndx_1058On = flagCloudFree & (~ data.mask1058Off);
+        if sum(proIndx_1058On) == 0
+            warning('No RR measurement during %s - %s', datestr(data.mTime(data.cloudFreeGroups(iGroup, 1)), 'HH:MM'), datestr(data.mTime(data.cloudFreeGroups(iGroup, 2)), 'HH:MM'));
+
+            % concatenate the results
+            aerBsc1064_RR = cat(1, aerBsc1064_RR, thisAerBsc1064_RR);
+            aerExt1064_RR = cat(1, aerExt1064_RR, thisAerExt1064_RR);
+            LR1064_RR = cat(1, LR1064_RR, thisLR1064_RR);
+
+            continue;
+        end
+
+        sig1064 = squeeze(sum(data.signal(flagChannel1064, :, proIndx_1058On), 3));
+        bg1064 = squeeze(sum(data.bg(flagChannel1064, :, proIndx_1058On), 3));
+        sig1058 = squeeze(sum(data.signal(flagChannel1058, :, proIndx_1058On), 3));
+        bg1058 = squeeze(sum(data.bg(flagChannel1058, :, proIndx_1058On), 3));
+
+        % retrieve extinction
+        thisAerExt1058_RR = polly_raman_ext(data.distance0, sig1058, 1064, 1058, config.angstrexp, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, config.smoothWin_raman_1064, 380, 70, 'moving');
+
+        if ~ isnan(data.refHIndx1064(iGroup, 1))
+            refH = [data.distance0(data.refHIndx1064(iGroup, 1)), data.distance0(data.refHIndx1064(iGroup, 2))];
+            hBaseIndx1064 = find(data.height >= config.heightFullOverlap(flagChannel1064) + config.smoothWin_raman_1064/2 * data.hRes, 1);
+            if isempty(hBaseIndx1064)
+                warning('Warning in %s: Failure in searching the index of minHeight. Set the index of the minimum integral range to be 100', mfilename);
+                hBaseIndx1064 = 100;
+            end
+            [molBsc1064, molExt1064] = rayleigh_scattering(1064, data.pressure(iGroup, :), data.temperature(iGroup, :) + 273.17, 380, 70);
+
+            refSig1064 = sum(sig1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            refBg1064 = sum(bg1064(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            refSig1058 = sum(sig1058(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            refBg1058 = sum(bg1058(data.refHIndx1064(iGroup, 1):data.refHIndx1064(iGroup, 2)));
+            snr1064 = polly_SNR(refSig1064, refBg1064);
+            snr1058 = polly_SNR(refSig1058, refBg1058);
+
+            if (snr1058 >= config.min_RR_RefSNR1058) && (snr1064 >= config.minRamanRefSNR1064)
+                thisAerExt1064_RR = thisAerExt1058_RR;
+                tmpAerExt1064_RR = thisAerExt1064_RR;
+                tmpAerExt1064_RR(1:hBaseIndx1064) = tmpAerExt1064_RR(hBaseIndx1064);
+                [thisAerBsc1064_RR, thisLR1064_RR] = polly_raman_bsc(data.distance0, sig1064, sig1058, tmpAerExt1064_RR, config.angstrexp, molExt1064, molBsc1064, refH, 1064, config.refBeta1064, config.smoothWin_raman_1064, true);
+                thisLR1064_RR = thisAerExt1064_RR ./ thisAerBsc1064_RR;
+                % TODO: uncertainty analysis
+            end
+        end
+
+        % concatenate the results
+        aerBsc1064_RR = cat(1, aerBsc1064_RR, thisAerBsc1064_RR);
+        aerExt1064_RR = cat(1, aerExt1064_RR, thisAerExt1064_RR);
+        LR1064_RR = cat(1, LR1064_RR, thisLR1064_RR);
+    end
+end
 end
