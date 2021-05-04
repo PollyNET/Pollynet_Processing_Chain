@@ -1,7 +1,7 @@
-function pollyxt_save_retrieving_results(data, taskInfo, config)
-%pollyxt_save_retrieving_results saving the retrieved results, including backscatter, extinction coefficients, lidar ratio, volume/particles depolarization ratio and so on.
+function pollyxt_ift_save_retrieving_results(data, taskInfo, config)
+%POLLYXT_IFT_SAVE_RETRIEVING_RESULTS saving the retrieved results, including backscatter, extinction coefficients, lidar ratio, volume/particles depolarization ratio and so on.
 %Example:
-%   pollyxt_save_retrieving_results(data, taskInfo, config)
+%   pollyxt_ift_save_retrieving_results(data, taskInfo, config)
 %Inputs:
 %   data.struct
 %       More detailed information can be found in doc/pollynet_processing_program.md
@@ -27,35 +27,7 @@ flagCh1064FR = config.isFR & config.is1064nm & config.isTot;
 
 missing_value = -999;
 
-
 for iGroup = 1:size(data.cloudFreeGroups, 1)
-    save_for_detlef = false;
-    if save_for_detlef
-        %cutting lower edge
-        data.aerBsc355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
-        data.aerExt355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
-        data.LR355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
-        data.pardepol355_raman(iGroup,(data.height<=config.heightFullOverlap(3)))=missing_value;
-        data.aerBsc532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
-        data.aerExt532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
-        data.LR532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
-        data.pardepol532_raman(iGroup,(data.height<=config.heightFullOverlap(6)))=missing_value;
-        data.aerBsc1064_raman(iGroup,(data.height<=config.heightFullOverlap(8)))=missing_value;
-        data.aerExt1064_raman(iGroup,:)=missing_value;
-        data.LR1064_raman(iGroup,:)=missing_value;
-
-        %removing values with no aerosol
-        bsc532_thres=1e-6;
-        data.aerBsc355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.aerExt355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.LR355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.pardepol355_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.aerBsc532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.aerExt532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.LR532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.pardepol532_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-        data.aerBsc1064_raman((data.aerBsc532_raman<=bsc532_thres))=missing_value;
-    end
 
     startTime = data.mTime(data.cloudFreeGroups(iGroup, 1));
     endTime = data.mTime(data.cloudFreeGroups(iGroup, 2));
@@ -118,19 +90,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_aerLR_raman_532 = netcdf.defVar(ncID, 'aerLR_raman_532', 'NC_DOUBLE', dimID_height);
     varID_aerLR_raman_1064 = netcdf.defVar(ncID, 'aerLR_raman_1064', 'NC_DOUBLE', dimID_height);
     varID_volDepol_klett_532 = netcdf.defVar(ncID, 'volDepol_klett_532', 'NC_DOUBLE', dimID_height);
-    varID_volDepol_klett_355 = netcdf.defVar(ncID, 'volDepol_klett_355', 'NC_DOUBLE', dimID_height);
     varID_volDepol_raman_532 = netcdf.defVar(ncID, 'volDepol_raman_532', 'NC_DOUBLE', dimID_height);
-    varID_volDepol_raman_355 = netcdf.defVar(ncID, 'volDepol_raman_355', 'NC_DOUBLE', dimID_height);
     varID_parDepol_klett_532 = netcdf.defVar(ncID, 'parDepol_klett_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_klett_355 = netcdf.defVar(ncID, 'parDepol_klett_355', 'NC_DOUBLE', dimID_height);
     varID_parDepol_raman_532 = netcdf.defVar(ncID, 'parDepol_raman_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_raman_355 = netcdf.defVar(ncID, 'parDepol_raman_355', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_std_klett_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_std_klett_355 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_355', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_std_raman_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_532', 'NC_DOUBLE', dimID_height);
-    varID_parDepol_std_raman_355 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_355', 'NC_DOUBLE', dimID_height);
     varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_DOUBLE', dimID_height);
-    varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', dimID_height);
+    varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', dimID_height);varID_parDepol_std_klett_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_532', 'NC_DOUBLE', dimID_height);
+    varID_parDepol_std_raman_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_532', 'NC_DOUBLE', dimID_height);
     varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_DOUBLE', dimID_height);
     varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_DOUBLE', dimID_height);
     varID_LR_aeronet_355 = netcdf.defVar(ncID, 'LR_aeronet_355', 'NC_DOUBLE', dimID_method);
@@ -157,17 +122,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarFill(ncID, varID_aerLR_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_aerLR_raman_1064, false, missing_value);
     netcdf.defVarFill(ncID, varID_volDepol_klett_532, false, missing_value);
-    netcdf.defVarFill(ncID, varID_volDepol_klett_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_volDepol_raman_532, false, missing_value);
-    netcdf.defVarFill(ncID, varID_volDepol_raman_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_klett_532, false, missing_value);
-    netcdf.defVarFill(ncID, varID_parDepol_std_klett_532, false, missing_value);
-    netcdf.defVarFill(ncID, varID_parDepol_klett_355, false, missing_value);
-    netcdf.defVarFill(ncID, varID_parDepol_std_klett_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_raman_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_parDepol_std_klett_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_parDepol_std_raman_532, false, missing_value);
-    netcdf.defVarFill(ncID, varID_parDepol_raman_355, false, missing_value);
-    netcdf.defVarFill(ncID, varID_parDepol_std_raman_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
     netcdf.defVarFill(ncID, varID_RH, false, missing_value);
     netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
@@ -196,17 +155,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarDeflate(ncID, varID_aerLR_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_aerLR_raman_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_volDepol_klett_532, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_volDepol_klett_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_volDepol_raman_532, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_volDepol_raman_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_klett_532, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_parDepol_std_klett_532, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_parDepol_klett_355, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_parDepol_std_klett_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_raman_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_parDepol_std_klett_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_parDepol_std_raman_532, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_parDepol_raman_355, true, true, 5);
-    netcdf.defVarDeflate(ncID, varID_parDepol_std_raman_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
@@ -248,19 +201,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_aerLR_raman_532, fillmissing(data.LR532_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_aerLR_raman_1064, fillmissing(data.LR1064_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_volDepol_klett_532, fillmissing(data.voldepol532_klett(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_volDepol_klett_355, fillmissing(data.voldepol355_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_volDepol_raman_532, fillmissing(data.voldepol532_raman(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_volDepol_raman_355, fillmissing(data.voldepol355_raman(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_klett_532, fillmissing(data.pardepol532_klett(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_std_klett_532, fillmissing(data.pardepolStd532_klett(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_klett_355, fillmissing(data.pardepol355_klett(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_std_klett_355, fillmissing(data.pardepolStd355_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_raman_532, fillmissing(data.pardepol532_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_parDepol_std_klett_532, fillmissing(data.pardepolStd532_klett(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_parDepol_std_raman_532, fillmissing(data.pardepolStd532_raman(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_raman_355, fillmissing(data.pardepol355_raman(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_parDepol_std_raman_355, fillmissing(data.pardepolStd355_raman(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_WVMR, fillmissing(data.wvmr(iGroup, :), missing_value));
-    netcdf.putVar(ncID, varID_RH, fillmissing(data.rh(iGroup, :), missing_value));
+    %netcdf.putVar(ncID, varID_WVMR, fillmissing(data.wvmr(iGroup, :), missing_value));
+    %netcdf.putVar(ncID, varID_RH, fillmissing(data.rh(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGroup, :), missing_value));
     netcdf.putVar(ncID, varID_LR_aeronet_355, fillmissing(data.LR355_aeronet(iGroup), missing_value));
@@ -329,7 +276,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR355, config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'comment', sprintf('The result is retrieved with Klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_355, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_klett_532
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'unit', 'sr^-1 m^-1');
@@ -340,7 +287,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR532, config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'comment', sprintf('The result is retrieved with Klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_532, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_klett_1064
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'unit', 'sr^-1 m^-1');
@@ -351,40 +298,40 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'retrieving_info', sprintf('Fixed lidar ratio: %5.1f [Sr]; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', config.LR1064, config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_klett_1064 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'comment', sprintf('The result is retrieved with Klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
+    netcdf.putAtt(ncID, varID_aerBsc_klett_1064, 'comment', sprintf('The result is retrieved with klett method. If you want to know more about the algorithm, please go to Klett, J. D. (1985). \"Lidar inversion with variable backscatter/extinction ratios.\" Applied optics 24(11): 1638-1643.'));
 
     % aerBsc_aeronet_355
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'unit', 'sr^-1 m^-1');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'long_name', 'aerosol backscatter coefficient at 355 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'long_name', 'aerosol backscatter coefficient at 355 nm retrieved with constained-AOD method');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'standard_name', 'beta (aer, 355 nm)');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD355(iGroup), config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_355, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_aeronet_532
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'unit', 'sr^-1 m^-1');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'long_name', 'aerosol backscatter coefficient at 532 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'long_name', 'aerosol backscatter coefficient at 532 nm retrieved with constained-AOD method');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'standard_name', 'beta (aer, 532 nm)');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD532(iGroup), config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_532, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_aeronet_1064
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'unit', 'sr^-1 m^-1');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'long_name', 'aerosol backscatter coefficient at 1064 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'long_name', 'aerosol backscatter coefficient at 1064 nm retrieved with constained-AOD method');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'standard_name', 'beta (aer, 1064 nm)');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'plot_range', config.xLim_Profi_Bsc/1e6);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]', data.deltaAOD1064(iGroup), config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_klett_1064 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_aerBsc_aeronet_1064, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % aerBsc_raman_355
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'unit', 'sr^-1 m^-1');
@@ -395,7 +342,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta355 * 1e6, config.heightFullOverlap(flagCh355FR), config.maxDecomHeight355, config.smoothWin_raman_355 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_355, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerBsc_raman_532
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'unit', 'sr^-1 m^-1');
@@ -406,7 +353,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta532 * 1e6, config.heightFullOverlap(flagCh532FR), config.maxDecomHeight532, config.smoothWin_raman_532 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerBsc_raman_1064
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'unit', 'sr^-1 m^-1');
@@ -417,7 +364,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerExt_raman_355
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'unit', 'm^-1');
@@ -428,7 +375,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_355 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerExt_raman_532
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit', 'm^-1');
@@ -439,7 +386,7 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerExt_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_532 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerExt_raman_1064
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'unit', 'm^-1');
@@ -450,7 +397,40 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'comment', sprintf('This result is extrapolated by Raman extinction at 532 nm. Not real Raman extinction. Be careful!!!'));
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'comment', sprintf('This results is extrapolated by Raman extinction at 532 nm. Not real Raman extinction. Be careful!!!'));
+
+    % aerExt_raman_355
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'unit', 'm^-1');
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'unit_html', 'm<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'long_name', 'aerosol extinction coefficient at 355 nm retrieved with Raman method');
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'standard_name', 'alpha (aer, 355 nm)');
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'plot_range', config.xLim_Profi_Ext/1e6);
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_355 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerExt_raman_355, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+
+    % aerExt_raman_532
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit', 'm^-1');
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'unit_html', 'm<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'long_name', 'aerosol extinction coefficient at 532 nm retrieved with Raman method');
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'standard_name', 'alpha (aer, 532 nm)');
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_range', config.xLim_Profi_Ext/1e6);
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_532 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerExt_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+
+    % aerExt_raman_1064
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'unit', 'm^-1');
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'unit_html', 'm<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'long_name', 'aerosol extinction coefficient at 1064 nm retrieved with Raman method');
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'standard_name', 'alpha (aer, 1064 nm)');
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'plot_range', config.xLim_Profi_Ext/1e6);
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'comment', sprintf('This results is extrapolated by Raman extinction at 532 nm. Not real Raman extinction. Be careful!!!'));
 
     % aerLR_raman_355
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'unit', 'sr');
@@ -459,8 +439,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerLR_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerLR_raman_355, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerLR_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerLR_raman_355, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerLR_raman_532
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'unit', 'sr');
@@ -469,8 +449,8 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_aerLR_raman_532, 'comment', sprintf('The results is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
     % aerLR_raman_1064
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'unit', 'sr');
@@ -479,236 +459,168 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %5.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
-    netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'comment', sprintf('This result is based on extrapolated extinction. Not by real Raman method. Be careful!'));
+    netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'retrieved_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %5.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'comment', sprintf('This result is based on interpolated extinction. Not by real Raman method. Be careful!'));
 
     % volDepol_klett_532
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'long_name', 'volume linear depolarization ratio at 532 nm with the same smoothing as Klett method');
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'long_name', 'volume depolarization ratio at 532 nm with the same smoothing as Klett method');
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'standard_name', 'delta (vol, 532 nm)');
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m];', config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'comment', sprintf('Depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
-
-    % volDepol_klett_355
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'long_name', 'volume linear depolarization ratio at 355 nm with the same smoothing as Klett method');
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'standard_name', 'delta (vol, 355 nm)');
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'retrieving_info', sprintf('Smoothing window: %d [m];', config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_volDepol_klett_355, 'comment', sprintf('Depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_klett_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % volDepol_raman_532
     netcdf.putAtt(ncID, varID_volDepol_raman_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'long_name', 'volume linear depolarization ratio at 532 nm with the same smoothing as Raman method');
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'long_name', 'volume depolarization ratio at 532 nm with the same smoothing as Raman method');
     netcdf.putAtt(ncID, varID_volDepol_raman_532, 'standard_name', 'delta (vol, 532 nm)');
     netcdf.putAtt(ncID, varID_volDepol_raman_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_raman_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m];', config.smoothWin_raman_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'comment', sprintf('Depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
-
-    % volDepol_raman_355
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'long_name', 'volume linear depolarization ratio at 355 nm with the same smoothing as Raman method');
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'standard_name', 'delta (vol, 355 nm)');
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m];', config.smoothWin_raman_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_volDepol_raman_355, 'comment', sprintf('Depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', config.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_raman_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % parDepol_klett_532
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'long_name', 'particle linear depolarization ratio at 532 nm with Klett backscatter');
+    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'long_name', 'particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'standard_name', 'delta (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_parDepol_klett_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by Klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_std_klett_532
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'long_name', 'uncertainty of particle linear depolarization ratio at 532 nm with Klett backscatter');
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'long_name', 'uncertainty of particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'standard_name', 'sigma (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
     netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by Klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-
-    % parDepol_klett_355
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'long_name', 'particle linear depolarization ratio at 355 nm with Klett backscatter');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'standard_name', 'delta (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'molecular_depolarization_ratio', data.moldepol355(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_klett_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by Klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-
-    % parDepol_std_klett_355
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'long_name', 'uncertainty of particle linear depolarization ratio at 355 nm with Klett backscatter');
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'standard_name', 'sigma (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'molecular_depolarization_ratio', data.moldepol355(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_std_klett_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by Klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+    netcdf.putAtt(ncID, varID_parDepol_std_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_raman_532
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'long_name', 'particle linear depolarization ratio at 532 nm with Raman backscatter');
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'long_name', 'particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'standard_name', 'delta (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_parDepol_raman_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_std_raman_532
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'long_name', 'uncertainty of particle linear depolarization ratio at 532 nm with Raman backscatter');
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'long_name', 'uncertainty of particle depolarization ratio at 532 nm');
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'standard_name', 'sigma (par, 532 nm)');
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'molecular_depolarization_ratio', data.moldepol532(iGroup));
     netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-
-    % parDepol_raman_355
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'long_name', 'particle linear depolarization ratio at 355 nm with Raman backscatter');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'standard_name', 'delta (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'molecular_depolarization_ratio', data.moldepol355(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_raman_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
-
-    % parDepol_std_raman_355
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'unit', '');
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'long_name', 'uncertainty of particle linear depolarization ratio at 355 nm with Raman backscatter');
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'standard_name', 'sigma (par, 355 nm)');
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'plot_range', [0, 0.4]);
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'molecular_depolarization_ratio', data.moldepol355(iGroup));
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', config.smoothWin_raman_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_parDepol_std_raman_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
+    netcdf.putAtt(ncID, varID_parDepol_std_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % WVMR
-    netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
-    netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
-    netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
-    netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
-    netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
-    thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
-    netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
-    netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
+    %netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
+    %netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
+    %netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'Water vapor mixing ratio');
+    %netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
+    %netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
+    %netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
+    %netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
+    %thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+    %netcdf.putAtt(ncID, varID_WVMR, 'retrieved_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s', data.hRes, thisStr{1}, data.IWVAttri.source));
+    %netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
 
     % RH
-    netcdf.putAtt(ncID, varID_RH, 'unit', '%');
-    netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
-    netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
-    netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
-    netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_RH, 'wv_calibration_constant_used', data.wvconstUsed);
-    netcdf.putAtt(ncID, varID_RH, 'retrieving_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
-    netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('RH is sensitive to temperature and water vapor calibration constants. Please take care!'));
+    %netcdf.putAtt(ncID, varID_RH, 'unit', '%');
+    %netcdf.putAtt(ncID, varID_RH, 'long_name', 'Relative humidity');
+    %netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
+    %netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
+    %netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
+    %netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
+    %netcdf.putAtt(ncID, varID_RH, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
+    %netcdf.putAtt(ncID, varID_RH, 'comment', sprintf('The RH is sensitive to temperature and water vapor calibration constants. Please take care!'));
 
     % temperature
     netcdf.putAtt(ncID, varID_temperature, 'unit', 'degree_Celsius');
     netcdf.putAtt(ncID, varID_temperature, 'unit_html', '&#176C');
-    netcdf.putAtt(ncID, varID_temperature, 'long_name', 'temperature');
+    netcdf.putAtt(ncID, varID_temperature, 'long_name', 'Temperature');
     netcdf.putAtt(ncID, varID_temperature, 'standard_name', 'air_temperature');
     netcdf.putAtt(ncID, varID_temperature, 'plot_range', [-60, 40]);
     netcdf.putAtt(ncID, varID_temperature, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_temperature, 'retrieving_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
+    netcdf.putAtt(ncID, varID_temperature, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
 
     % pressure
     netcdf.putAtt(ncID, varID_pressure, 'unit', 'hPa');
-    netcdf.putAtt(ncID, varID_pressure, 'long_name', 'pressure');
+    netcdf.putAtt(ncID, varID_pressure, 'long_name', 'Pressure');
     netcdf.putAtt(ncID, varID_pressure, 'standard_name', 'air_pressure');
     netcdf.putAtt(ncID, varID_pressure, 'plot_range', [0, 1000]);
     netcdf.putAtt(ncID, varID_pressure, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_pressure, 'retrieving_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
+    netcdf.putAtt(ncID, varID_pressure, 'retrieved_info', sprintf('Meteorological Source: %s', data.meteorAttri.dataSource{iGroup}));
 
     % LR_aeronet_355
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'unit', 'sr');
-    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'long_name', 'aerosol lidar ratio at 355 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'long_name', 'Aerosol lidar ratio at 355 nm');
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'standard_name', 'S (aer, 355 nm)');
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_LR_aeronet_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD355(iGroup), config.refBeta355 * 1e6, config.smoothWin_klett_355 * data.hRes));
-    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD355(iGroup), config.refBeta355 * 1e6, config.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_LR_aeronet_355, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % LR_aeronet_532
     netcdf.putAtt(ncID, varID_LR_aeronet_532, 'unit', 'sr');
-    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'long_name', 'aerosol lidar ratio at 532 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'long_name', 'Aerosol lidar ratio at 532 nm');
     netcdf.putAtt(ncID, varID_LR_aeronet_532, 'standard_name', 'S (aer, 532 nm)');
     netcdf.putAtt(ncID, varID_LR_aeronet_532, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_LR_aeronet_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_LR_aeronet_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD532(iGroup), config.refBeta532 * 1e6, config.smoothWin_klett_532 * data.hRes));
-    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD532(iGroup), config.refBeta532 * 1e6, config.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_LR_aeronet_532, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % LR_aeronet_1064
     netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'unit', 'sr');
-    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'long_name', 'aerosol lidar ratio at 1064 nm retrieved with constrained-AOD method');
+    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'long_name', 'Aerosol lidar ratio at 1064 nm');
     netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'standard_name', 'S (aer, 1064 nm)');
     netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'plot_range', config.xLim_Profi_LR);
     netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'retrieving_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD1064(iGroup), config.refBeta1064 * 1e6, config.smoothWin_klett_1064 * data.hRes));
-    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'comment', sprintf('The result is retrieved with constrained-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned till the deviation converged.'));
+    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'retrieved_info', sprintf('Delta AOD: %7.5f; Reference value: %2e [Mm^{-1}*Sr^{-1}]; Smoothing window: %d [m]', data.deltaAOD1064(iGroup), config.refBeta1064 * 1e6, config.smoothWin_klett_1064 * data.hRes));
+    netcdf.putAtt(ncID, varID_LR_aeronet_1064, 'comment', sprintf('The results is retrieved with constrined-AOD method. In order to reach a good agreement between the AOD from lidar and collocated sunphotometer, the lidar ratio was tuned. And choose lidar ratio as the deviation is converged.'));
 
     % reference_height_355
     netcdf.putAtt(ncID, varID_reference_height_355, 'unit', 'm');
-    netcdf.putAtt(ncID, varID_reference_height_355, 'long_name', 'reference height for 355 nm');
+    netcdf.putAtt(ncID, varID_reference_height_355, 'long_name', 'Reference height for 355 nm');
     netcdf.putAtt(ncID, varID_reference_height_355, 'standard_name', 'ref_h_355');
     netcdf.putAtt(ncID, varID_reference_height_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_355, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_reference_height_355, 'comment', sprintf('The reference height interval is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
+    netcdf.putAtt(ncID, varID_reference_height_355, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
 
     % reference_height_532
     netcdf.putAtt(ncID, varID_reference_height_532, 'unit', 'm');
-    netcdf.putAtt(ncID, varID_reference_height_532, 'long_name', 'reference height for 532 nm');
+    netcdf.putAtt(ncID, varID_reference_height_532, 'long_name', 'Reference height for 532 nm');
     netcdf.putAtt(ncID, varID_reference_height_532, 'standard_name', 'ref_h_532');
     netcdf.putAtt(ncID, varID_reference_height_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_532, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_reference_height_532, 'comment', sprintf('The reference height interval is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
+    netcdf.putAtt(ncID, varID_reference_height_532, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
 
     % reference_height_1064
     netcdf.putAtt(ncID, varID_reference_height_1064, 'unit', 'm');
-    netcdf.putAtt(ncID, varID_reference_height_1064, 'long_name', 'reference height for 1064 nm');
+    netcdf.putAtt(ncID, varID_reference_height_1064, 'long_name', 'Reference height for 1064 nm');
     netcdf.putAtt(ncID, varID_reference_height_1064, 'standard_name', 'ref_h_1064');
     netcdf.putAtt(ncID, varID_reference_height_1064, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_reference_height_1064, 'source', campaignInfo.name);
-    netcdf.putAtt(ncID, varID_reference_height_1064, 'comment', sprintf('The reference height interval is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
+    netcdf.putAtt(ncID, varID_reference_height_1064, 'comment', sprintf('The reference height is searched by Rayleigh Fitting algorithm. It is through comparing the correlation of the slope between molecule backscatter and range-corrected signal and find the segement with best agreement.'));
 
     varID_global = netcdf.getConstant('GLOBAL');
     netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-    netcdf.putAtt(ncID, varID_global, 'Licence', 'Creative Commons Attribution Share Alike 4.0 International (CC BY-SA 4.0)');
-    netcdf.putAtt(ncID, varID_global, 'Data Policy', 'Each PollyNET site has Principal Investigator(s) (PI), responsible for deployment, maintenance and data collection. Information on which PI is responsible can be gathered via polly@tropos.de. The PI has priority use of the data collected at the site. The PI is entitled to be informed of any use of that data. Mandatory guidelines for data use and publication: Using PollyNET data or plots (also for presentations/workshops): Please consult with the PI or the PollyNET team (see contact_mail contact) before using data or plots! This will help to avoid misinterpretations of the lidar data and avoid the use of data from periods of malfunction of the instrument. Using PollyNET images/data on external websites: PIs and PollyNET must be asked for agreement and a link directed to polly.tropos.de must be included. Publishing PollyNET data and/or plots data: Offer authorship for the PI(s)! Acknowledge projects which have made the measurements possible according to PI(s) recommendation. PollyNET requests a notification of any published papers or reports or a brief description of other uses (e.g., posters, oral presentations, etc.) of data/plots used from PollyNET. This will help us determine the use of PollyNET data, which is helpful in optimizing product development and acquire new funding for future measurements. It also helps us to keep our product-related references up-to-date.');
     netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
     netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
     netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
