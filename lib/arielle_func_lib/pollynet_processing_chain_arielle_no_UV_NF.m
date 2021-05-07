@@ -1,7 +1,7 @@
-function [report] = pollynet_processing_chain_pollyxt_cpv(taskInfo, config)
-%POLLYNET_PROCESSING_CHAIN_POLLYXT_CYP processing the data from pollyxt
+function [report] = pollynet_processing_chain_arielle(taskInfo, config)
+%POLLYNET_PROCESSING_CHAIN_ARIELLE processing the data from pollyxt
 %Example:
-%   [report] = pollynet_processing_chain_pollyxt_cpv(taskInfo, config)
+%   [report] = pollynet_processing_chain_arielle(taskInfo, config)
 %Inputs:
 %   fileinfo_new: struct
 %       todoPath: cell
@@ -92,11 +92,6 @@ fprintf('[%s] Finish reading laserlogbook.\n', tNow);
 fprintf('\n[%s] Start to preprocess %s data.\n', tNow(), campaignInfo.name);
 data = pollyxt_preprocess(data, config);
 fprintf('[%s] Finish signal preprocessing.\n', tNow());
-
-if size(data.signal, 3) < 2
-    warning('Only single signal profile is available!');
-    return;
-end
 
 %% saturation detection
 fprintf('\n[%s] Start to detect signal saturation.\n', tNow());
@@ -253,7 +248,7 @@ fprintf('Meteorological file : %s.\n', meteorStr);
 [data.aerBsc355_raman, data.aerBsc532_raman, data.aerBsc1064_raman, ...
  data.aerExt355_raman, data.aerExt532_raman, data.aerExt1064_raman, ...
  data.LR355_raman, data.LR532_raman, ...
- data.LR1064_raman,data.aerBsc1064_RR, data.aerExt1064_RR, data.LR1064_RR] = pollyxt_raman(data, config);
+ data.LR1064_raman] = pollyxt_raman(data, config);
 [data.aerBsc355_NR_raman, data.aerBsc532_NR_raman, data.aerExt355_NR_raman, ...
  data.aerExt532_NR_raman, data.LR355_NR_raman, data.LR532_NR_raman, ...
  data.refBeta_NR_355_raman, ...

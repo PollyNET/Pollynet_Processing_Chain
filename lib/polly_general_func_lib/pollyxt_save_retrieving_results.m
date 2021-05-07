@@ -140,6 +140,12 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
     varID_reference_height_1064 = netcdf.defVar(ncID, 'reference_height_1064', 'NC_DOUBLE', dimID_refHeight);
 
+    %%%%new
+    varID_aerBsc_RR_1064 = netcdf.defVar(ncID, 'aerBsc_RR_1064', 'NC_DOUBLE', dimID_height);
+    varID_aerExt_RR_1064 = netcdf.defVar(ncID, 'aerExt_RR_1064', 'NC_DOUBLE', dimID_height);
+    varID_aerLR_RR_1064 = netcdf.defVar(ncID, 'aerLR_RR_1064', 'NC_DOUBLE', dimID_height);
+    
+    
     % define the filling value
     netcdf.defVarFill(ncID, varID_aerBsc_klett_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_aerBsc_klett_532, false, missing_value);
@@ -178,7 +184,13 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarFill(ncID, varID_reference_height_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_reference_height_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_reference_height_1064, false, missing_value);
-
+    
+    
+    %%%%new
+    netcdf.defVarFill(ncID, varID_aerBsc_RR_1064, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerExt_RR_1064, false, missing_value);
+    netcdf.defVarFill(ncID, varID_aerLR_RR_1064, false, missing_value);
+ 
     % define the data compression
     netcdf.defVarDeflate(ncID, varID_aerBsc_klett_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_aerBsc_klett_532, true, true, 5);
@@ -219,7 +231,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.defVarDeflate(ncID, varID_reference_height_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_shots, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_zenith_angle, true, true, 5);
-
+    %new
+    netcdf.defVarDeflate(ncID, varID_aerBsc_RR_1064, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerExt_RR_1064, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_aerLR_RR_1064, true, true, 5);
+   
     % leave define mode
     netcdf.endDef(ncID);
 
@@ -269,7 +285,11 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putVar(ncID, varID_reference_height_355, refH355);
     netcdf.putVar(ncID, varID_reference_height_532, refH532);
     netcdf.putVar(ncID, varID_reference_height_1064, refH1064);
-
+    %new
+    netcdf.putVar(ncID, varID_aerBsc_RR_1064, fillmissing(data.aerBsc1064_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerExt_RR_1064, fillmissing(data.aerExt1064_raman(iGroup, :), missing_value));
+    netcdf.putVar(ncID, varID_aerLR_RR_1064, fillmissing(data.LR1064_raman(iGroup, :), missing_value));
+   
     % reenter define mode
     netcdf.reDef(ncID);
 
@@ -419,6 +439,17 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerBsc_raman_1064, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
 
+    % aerBsc_RR_1064
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'unit', 'sr^-1 m^-1');
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'long_name', 'aerosol backscatter coefficient at 1064 nm retrieved with Rotational Raman method');
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'standard_name', 'beta (aer, 1064 nm)');
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'plot_range', config.xLim_Profi_Bsc/1e6);
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'retrieving_info', sprintf('Reference value: %2e [Mm^{-1}*Sr^{-1}]; Reference search range: %8.2f - %8.2f [m]; Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.refBeta1064 * 1e6, config.heightFullOverlap(flagCh1064FR), config.maxDecomHeight1064, config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerBsc_RR_1064, 'comment', sprintf('The result is retrieved with Raman method. For information, please go to Ansmann, A., et al. (1992). \"Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar.\" Applied optics 31(33): 7113-7131.'));
+
     % aerExt_raman_355
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'unit', 'm^-1');
     netcdf.putAtt(ncID, varID_aerExt_raman_355, 'unit_html', 'm<sup>-1</sup>');
@@ -452,6 +483,17 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerExt_raman_1064, 'comment', sprintf('This result is extrapolated by Raman extinction at 532 nm. Not real Raman extinction. Be careful!!!'));
 
+    % aerExt_RR_1064
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'unit', 'm^-1');
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'unit_html', 'm<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'long_name', 'aerosol extinction coefficient at 1064 nm retrieved with Rotational Raman method');
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'standard_name', 'alpha (aer, 1064 nm)');
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'plot_range', config.xLim_Profi_Ext/1e6);
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %4.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerExt_RR_1064, 'comment', sprintf('Under testing . Be careful!!!'));
+
     % aerLR_raman_355
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'unit', 'sr');
     netcdf.putAtt(ncID, varID_aerLR_raman_355, 'long_name', 'aerosol lidar ratio at 355 nm retrieved with Raman method');
@@ -481,6 +523,16 @@ for iGroup = 1:size(data.cloudFreeGroups, 1)
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'source', campaignInfo.name);
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %5.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
     netcdf.putAtt(ncID, varID_aerLR_raman_1064, 'comment', sprintf('This result is based on extrapolated extinction. Not by real Raman method. Be careful!'));
+
+    % aerLR_raman_1064
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'unit', 'sr');
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'long_name', 'aerosol lidar ratio at 1064 nm retrieved with Rotational Raman method');
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'standard_name', 'S (aer, 1064 nm)');
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'plot_range', config.xLim_Profi_LR);
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'source', campaignInfo.name);
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; Angstroem exponent: %5.2f', config.smoothWin_raman_1064 * data.hRes, config.angstrexp));
+    netcdf.putAtt(ncID, varID_aerLR_RR_1064, 'comment', sprintf('Under testing. Be careful!'));
 
     % volDepol_klett_532
     netcdf.putAtt(ncID, varID_volDepol_klett_532, 'unit', '');
