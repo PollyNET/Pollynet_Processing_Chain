@@ -248,6 +248,10 @@ data.fogMask(transpose(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :)
 flagChannel607 = config.isFR & config.is607nm;
 data.mask607Off = polly_is607Off(squeeze(data.signal(flagChannel607, :, :)));
 
+%% mask for PMT1058 off
+flagChannel1058 = config.isFR & config.is1058nm;
+data.mask1058Off = polly_is607Off(squeeze(data.signal(flagChannel1058, :, :)));
+
 %% mask for PMT387 off
 flagChannel387 = config.isFR & config.is387nm;
 data.mask387Off = polly_is387Off(squeeze(data.signal(flagChannel387, :, :)));
