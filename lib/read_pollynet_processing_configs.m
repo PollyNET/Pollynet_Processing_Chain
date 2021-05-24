@@ -18,8 +18,8 @@ function [pollyConfigHistory] = read_pollynet_processing_configs(file)
 %       pollyUpdateInfo: cell
 %       pollyDefaultsFile: cell
 %History:
-%   2018-12-17. First edition by Zhenping
-%   2018-12-18. Add pollyDefaultsFile category.
+%   2018-12-17: First edition by Zhenping
+%   2018-12-18: Add pollyDefaultsFile category.
 %Contact:
 %   zhenping@tropos.de
 
