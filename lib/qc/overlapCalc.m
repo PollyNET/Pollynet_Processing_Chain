@@ -1,5 +1,4 @@
-function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(...
-    sigFR, bgFR, sigNR, bgNR, height, varargin)
+function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(sigFR, bgFR, sigNR, bgNR, height, varargin)
 % OVERLAPCALC calculate the overlap function.
 % USAGE:
 %    overlap = overlapCalc(sigFR, bgFR, sigNR, bgNR, height);
@@ -75,8 +74,8 @@ case 1   % ratio of near and far range signal
 
         % calculate the overlap of FR channel
         if ~ isempty(normRange)
-            SNRnormRangeFR = polly_SNR(sum(sigFR(normRange)), sum(bgFR(normRange)));
-            SNRnormRangeNR = polly_SNR(sum(sigNR(normRange)), sum(bgNR(normRange)));
+            SNRnormRangeFR = pollySNR(sum(sigFR(normRange)), sum(bgFR(normRange)));
+            SNRnormRangeNR = pollySNR(sum(sigNR(normRange)), sum(bgNR(normRange)));
             sigRatioStd = sigRatio * sqrt(1 / SNRnormRangeFR.^2 + 1 / SNRnormRangeNR.^2);
             overlap = sigFR ./ sigNR * sigRatio;
             overlapStd = overlap .* ...

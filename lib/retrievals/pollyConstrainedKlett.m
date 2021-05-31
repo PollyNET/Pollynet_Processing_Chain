@@ -1,60 +1,60 @@
-function [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, ...
+function [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, ...
     signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, ...
     AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
-%POLLY_CONSTRAINEDFERNALD retrieve the aerosol backscatter coefficient with AOD 
-%constrain from AERONET.
-%Usage:
-%   [aerBsc, bestLR, biasAOD, nIters] = polly_constrainedfernald(height, 
-%   signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, 
-%   AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
-%Inputs:
-%   height: array
-%       height. [m]
-%   signal: array
-%       measured signal.
-%   SNR: array
-%       signal-noise-ratio
-%   refHeight: 2-element array
-%       reference height. [m]
-%   refBeta: float
-%       reference value. [m^{-1}Sr^{-1}]
-%   molBsc: array
-%       molecular backscatter coefficient. [m^{-1}*Sr^{-1}]
-%   maxIterations: integer
-%       maximum number of the iterations.
-%   minLR: float
-%       minimum aerosol Lidar ratio. [Sr]
-%   maxLR: float
-%       maximum aerosol Lidar ratio. [Sr]
-%   AOD_AERONET: float
-%       AOD measured by AERONET.
-%   minAODDev: float
-%       minimum deviation of AOD between Lidar and AERONET that can be 
-%       tolerable.
-%   LR: float
-%       aerosol lidar ratio. [Sr]
-%   minHeight: float
-%       minimum height for the full FOV. [m]
-%   minSNR: float
-%       minimum SNR
-%   window_size: integer
-%       smoothing window size.
-%Outputs:
-%   aerBsc: array
-%       aerosol backscatter coefficient. [m^{-1}Sr^{-1}] 
-%   bestLR: float
-%       the best lidar ratio with the AOD deviation less that required. 
-%   biasAOD: float
-%       deviation of AOD between lidar and AERONET.
-%   nIters: integer
-%       number of iterations to achieve the minimun AOD deviation.
-%History:
-%   2018-02-03. First edition by Zhenping
-%   2019-03-29. Fix the bug of returning NaN for lidar ratio.
-%   2019-04-09. Screen out the negative backscatter coefficient during the 
-%               calculation.
-%Contact:
-%   zhenping@tropos.de
+% POLLYCONSTRAINEDKLETT retrieve the aerosol backscatter coefficient with AOD 
+% constrain from AERONET.
+% USAGE:
+%    [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, 
+%    signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, 
+%    AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+% INPUTS:
+%    height: array
+%        height. [m]
+%    signal: array
+%        measured signal.
+%    SNR: array
+%        signal-noise-ratio
+%    refHeight: 2-element array
+%        reference height. [m]
+%    refBeta: float
+%        reference value. [m^{-1}sr^{-1}]
+%    molBsc: array
+%        molecular backscatter coefficient. [m^{-1}*sr^{-1}]
+%    maxIterations: integer
+%        maximum number of the iterations.
+%    minLR: float
+%        minimum aerosol Lidar ratio. [sr]
+%    maxLR: float
+%        maximum aerosol Lidar ratio. [sr]
+%    AOD_AERONET: float
+%        AOD measured by AERONET.
+%    minAODDev: float
+%        minimum deviation of AOD between Lidar and AERONET that can be 
+%        tolerable.
+%    LR: float
+%        aerosol lidar ratio. [sr]
+%    minHeight: float
+%        minimum height for the full FOV. [m]
+%    minSNR: float
+%        minimum SNR
+%    window_size: integer
+%        smoothing window size.
+% OUTPUTS:
+%    aerBsc: array
+%        aerosol backscatter coefficient. [m^{-1}sr^{-1}] 
+%    bestLR: float
+%        the best lidar ratio with the AOD deviation less that required. 
+%    biasAOD: float
+%        deviation of AOD between lidar and AERONET.
+%    nIters: integer
+%        number of iterations to achieve the minimun AOD deviation.
+% EXAMPLE:
+% HISTORY:
+%    2018-02-03: First edition by Zhenping
+%    2019-03-29: Fix the bug of returning NaN for lidar ratio.
+%    2019-04-09: Screen out the negative backscatter coefficient during the 
+%                calculation.
+% .. Authors: - zhenping@tropos.de
 
 % initialize
 aerBsc = NaN(size(height));
@@ -87,11 +87,11 @@ hTopIndx = hBaseIndx + hTopIndx - 1;
 while AODDev > minAODDev
     midLR = (minLR + maxLR) / 2;
 
-    bscMid = polly_fernald(height, signal, midLR, refHeight, refBeta, ...
+    bscMid = pollyFernald(height, signal, midLR, refHeight, refBeta, ...
                            molBsc, window_size); 
-    bscMax = polly_fernald(height, signal, maxLR, refHeight, refBeta, ...
+    bscMax = pollyFernald(height, signal, maxLR, refHeight, refBeta, ...
                            molBsc, window_size);
-    bscMin = polly_fernald(height, signal, minLR, refHeight, refBeta, ...
+    bscMin = pollyFernald(height, signal, minLR, refHeight, refBeta, ...
                            molBsc, window_size);
 
     bscMid(1:hBaseIndx) = bscMid(hBaseIndx);
