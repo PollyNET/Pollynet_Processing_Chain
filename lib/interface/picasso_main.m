@@ -1888,6 +1888,252 @@ end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% Water vapor calibration
+print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
+
+% external IWV
+[IWV, IWVAttri] = readIWV(PollyConfig.IWV_instrument, data.mTime(clFreGrps), ...
+    'AERONETSite', PollyConfig.AERONETSite, ...
+    'AERONETIWV', AERONET.IWV, ...
+    'AERONETTime', AERONET.datetime, ...
+    'MWRFolder', PollyConfig.MWRFolder, ...
+    'MWRSite', CampaignConfig.location, ...
+    'maxIWVTLag', PollyConfig.maxIWVTLag, ...
+    'PI', AERONET.AERONETAttri.PI, ...
+    'contact', AERONET.AERONETAttri.contact);
+
+% sunrise/sunset
+sun_rise_set = suncycle(CampaignConfig.lat, CampaignConfig.lon, floor(data.mTime(1), 2880));
+sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
+sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
+
+% water vapor calibration
+wvconst = NaN(size(clFreGrps, 1), 1);
+wvconstStd = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo = struct();
+wvCaliInfo.cali_start_time = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo.cali_stop_time = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo.WVCaliInfo = cell(1, size(clFreGrps, 1));
+wvCaliInfo.IntRange = NaN(size(clFreGrps, 1), 2);
+
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel;
+flag407On = (~ pollyIs407Off(squeeze(data.signal)));
+
+for iGrp = 1:size(clFreGrps, 1)
+
+    thisWVconst = NaN;
+    thisWVconstStd = NaN;
+    thisCaliStartTime = data.mTime(clFreGrps(iGrp, 1));
+    thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
+    thisWVCaliInfo = '407 off';
+    thisIntRange = [NaN, NaN];
+
+    if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1)
+        wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
+        wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
+        wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
+        continue;
+    end
+
+    flagWVCali = false(size(flag407On));
+    wvCaliInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+    flagWVCali(wvCaliInd) = true;
+    flagLowSolarBG = (data.mTime <= (sunriseTime - PollyConfig.tTwilight)) | (data.mTime >= (sunsetTime + PollyConfig.tTwilight));
+
+    sig387 = squeeze(sum(data.signal(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    bg387 = squeeze(sum(data.bg(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    sig407 = squeeze(sum(data.signal(flag407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+    [~, closestIndx] = min(abs(data.mTime - IWVAttri.datetime(iGrp)));
+    print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
+        datestr(IWVAttri.datetime(iGrp), 'HH:MM'), ...
+        datestr(data.mTime(closestIndx), 'HH:MM')), 'flagSimpleMsg', true);
+    E_tot_1064_IWV = sum(squeeze(data.signal(flag1064, :, closestIndx)));
+    E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
+    E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064, :, flag407On & flagWVCali), 2)));
+
+    [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+    [~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+    trans387 = exp(-cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
+    trans407 = exp(-cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
+    rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
+
+    [thisWVconst, thisWVconstStd, thisWVAttri] = pollyWVCali(data.height, ...
+        sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
+        thisCaliStartTime, thisCaliStopTime, IWV(iGrp), flagWVCali, flag407On, ...
+        trans387, trans407, rhoAir, ...
+        'hWVCaliBase', PollyConfig.hWVCaliBase, ...
+        'hWVCaliTop', PollyConfig.hWVCaliTop, ...
+        'hFullOL387', PollyConfig.heightFullOverlap(flag387), ...
+        'minSNRWVCali', PollyConfig.minSNRWVCali);
+
+    wvconst(iGrp) = thisWVconst;
+    wvconstStd(iGrp) = thisWVconstStd;
+    wvCaliInfo.WVCaliInfo{iGrp} = thisWVAttri.WVCaliInfo;
+    wvCaliInfo.IntRange(iGrp, :) = thisWVAttri.IntRange;
+end
+
+% select water vapor calibration constant
+[wvconstUsed, wvconstUsedStd, data.wvconstUsedInfo] = select_wvconst(...
+    wvconst, wvconstStd, IWVAttri, ...
+    pollyParseFiletime(PollyDataInfo.dataFileFormat, PollyConfig.dataFileFormat), ...
+    dbFile, CampaignConfig.name, ...
+    'flagUsePrevWVConst', PollyConfig.flagUsePrevWVConst, ...
+    'flagWVCalibration', PollyConfig.flagWVCalibration, ...
+    'deltaTime', datenum(0, 1, 7), ...
+    'default_wvconst', PollyDefaults.wvconst, ...
+    'default_wvconstStd', PollyDefaults.wvconstStd);
+
+% obtain averaged water vapor profiles
+wvmr = NaN(size(clFreGrps, 1), length(data.height));
+rh = NaN(size(clFreGrps, 1), length(data.height));
+wvPrfInfo = struct();
+wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
+wvPrfInfo.IWV = NaN(size(clFreGrps, 1), 1);
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
+
+for iGrp = 1:size(clFreGrps, 1)
+    flagClFre = false(size(data.mTime));
+    clFreInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+    flagClFre(clFreInd) = true;
+    flag407On = flagClFre & (~ mask407Off);
+    n407OnPrf = sum(flag407On);
+
+    if (n407OnPrf <= 10) || (sum(flag387) ~= 1) || (sum(flag407) ~= 1)
+        continue;
+    end
+
+    sig387 = sum(data.signal(flag387, :, flag407On), 3);
+    bg387 = sum(data.bg(flag387, :, flag407On), 3);
+    snr387 = pollySNR(sig387, bg387);
+
+    sig407 = sum(data.signal(flag407, :, flag407On), 3);
+    bg407 = sum(data.bg(flag407, :, flag407On), 3);
+    snr407 = pollySNR(sig407, bg407);
+        
+    % calculate molecule optical properties
+    [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+    [~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+    trans387 = exp(- cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
+    trans407 = exp(- cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
+
+    % calculate saturated water vapor pressure
+    es = saturated_vapor_pres(data.temperature(iGroup, :));
+    rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
+
+    % calculate wvmr and rh
+    wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
+    rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
+
+    % integral water vapor
+    if isnan(wvCaliInfo.IntRange(iGrp, 1))
+        continue;
+    end
+
+    IWVIntRange= wvCaliInfo.IntRange(iGrp, 1):wvCaliInfo.IntRange(iGrp, 2);
+    wvPrfInfo.n407Prfs(iGrp) = n407OnPrf;
+    wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data,height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
+
+end
+
+%% retrieve high resolution WVMR and RH
+WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
+RH = NaN(size(data.signal, 2), size(data.signal, 3));
+quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
+quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
+
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
+
+if (sum(flag387) == 1) || (sum(flag407 == 1))
+
+    sig387 = squeeze(data.signal(flag387, :, :));
+    sig387(:, data.depCalMask) = NaN;
+    sig407 = squeeze(data.signal(flag407, :, :));
+    sig407(:, data.depCalMask) = NaN;
+
+    % SNR after temporal and vertical accumulation
+    SNR = NaN(size(data.signal));
+    for iCh = 1:size(data.signal, 1)
+        signal_sm = smooth2(squeeze(data.signal(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
+        signal_int = signal_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
+        bg_sm = smooth2(squeeze(data.bg(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
+        bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
+        SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
+    end
+
+    % quality mask to filter low SNR bits
+    quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
+    quality_mask_WVMR((squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
+    quality_mask_WVMR(:, data.depCalMask) = 2;
+    quality_mask_RH = quality_mask_WVMR;
+
+    % mask the signal
+    quality_mask_WVMR(:, data.mask407Off) = 3;
+    sig407_QC = sig407;
+    sig407_QC(:, data.depCalMask) = NaN;
+    sig407_QC(:, data.mask407Off) = NaN;
+    sig387_QC = sig387;
+    sig387_QC(:, data.depCalMask) = NaN;
+    sig387_QC(:, data.mask407Off) = NaN;
+
+    % smooth the signal
+    sig387_QC = smooth2(sig387_QC, PollyConfig.quasi_smooth_h(flag387), PollyConfig.quasi_smooth_t(flag387));
+    sig407_QC = smooth2(sig407_QC, PollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407));
+
+    % read the meteorological data
+    [altRaw, tempRaw, presRaw, relhRaw, ~] = loadMeteor(...
+                            mean(data.mTime), data.alt, ...
+                            'meteorDataSource', config.meteorDataSource, ...
+                            'gdas1Site', config.gdas1Site, ...
+                            'gdas1_folder', processInfo.gdas1_folder, ...
+                            'radiosondeSitenum', config.radiosondeSitenum, ...
+                            'radiosondeFolder', config.radiosondeFolder, ...
+                            'radiosondeType', config.radiosondeType);
+
+    % interp the parameters
+    temp = interpMeteor(altRaw, tempRaw, data.alt);
+    pres = interpMeteor(altRaw, presRaw, data.alt);
+    relh = interpMeteor(altRaw, relhRaw, data.alt);
+
+    % repmat the array to matrix as the size of data.signal
+    temperature = repmat(transpose(temp), 1, length(data.mTime));
+    pressure = repmat(transpose(pres), 1, length(data.mTime));
+
+    % calculate the molecule optical properties
+    [~, mExt387] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
+    [~, mExt407] = rayleigh_scattering(407, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
+    trans387 = exp(- cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
+    trans407 = exp(- cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
+    TRANS387 = repmat(transpose(trans387), 1, length(data.mTime));
+    TRANS407 = repmat(transpose(trans407), 1, length(data.mTime));
+
+    % calculate the saturation water vapor pressure
+    es = saturated_vapor_pres(temperature(:, 1));
+    ES = repmat(es, 1, length(data.mTime));
+
+    rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.17);
+    RHOAIR = repmat(rhoAir, 1, length(data.mTime));
+    DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
+
+    % calculate wvmr and rh
+    WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
+    RH = wvmr_2_rh(WVMR, ES, pressure);
+    IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
+end
+
+print_msg('Start\n', 'flagTimestamp', true);
+
+%% Lidar calibration
+print_msg('Start lidar calibration\n', 'flagTimestamp', true);
+
+LC = struct();
+
+
+print_msg('Finish\n', 'flagTimestamp', true);
+
 %% Clean
 fclose(LogConfig.logFid);
 
