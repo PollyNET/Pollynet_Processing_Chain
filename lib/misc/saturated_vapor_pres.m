@@ -1,19 +1,19 @@
 function [es] = saturated_vapor_pres(temperature)
-%SATURATED_VAPOR_PRES calculate the saturated water vapor pressure.
-%Example:
-%   [es] = saturated_vapor_pres(temperature)
-%Inputs:
-%   temperature: array
-%       air temperature. [°C] 
-%Outputs:
-%   es: array
-%       saturated water vapor pressure. [hPa]
-%References:
-%   https://en.wikipedia.org/wiki/Arden_Buck_equation
-%History:
-%   2018-12-26. First Edition by Zhenping
-%Contact:
-%   zhenping@tropos.de
+% SATURATED_VAPOR_PRES calculate the saturated water vapor pressure.
+% USAGE:
+%    [es] = saturated_vapor_pres(temperature)
+% INPUTS:
+%    temperature: array
+%        air temperature. [°C] 
+% OUTPUTS:
+%    es: array
+%        saturated water vapor pressure. [hPa]
+% REFERENCES:
+%    https://en.wikipedia.org/wiki/Arden_Buck_equation
+% EXAMPLE:
+% HISTORY:
+%    2021-06-01: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 es = NaN(size(temperature));
 
