@@ -2130,7 +2130,600 @@ print_msg('Start\n', 'flagTimestamp', true);
 print_msg('Start lidar calibration\n', 'flagTimestamp', true);
 
 LC = struct();
+LC.LC_klett_355 = NaN(size(clFreGrps, 1), 1);
+LC.LC_klett_355 = NaN(size(clFreGrps, 1), 1);
+LC.LC_klett_532 = NaN(size(clFreGrps, 1), 1);
+LC.LC_klett_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_355 = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_532 = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LC_aeronet_355 = NaN(size(clFreGrps, 1), 1);
+LC.LC_aeronet_532 = NaN(size(clFreGrps, 1), 1);
+LC.LC_aeronet_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_607 = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_387 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_klett_355 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_klett_532 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_klett_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_355 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_532 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_aeronet_355 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_aeronet_532 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_aeronet_1064 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_607 = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_387 = NaN(size(clFreGrps, 1), 1);
+LC.LC_start_time = NaN(size(clFreGrps, 1), 1);
+LC.LC_stop_time = NaN(size(clFreGrps, 1), 1);
 
+flag355 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
+flag532 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
+flag1064 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
+
+for iGrp = 1:size(clFreGrps, 1)
+
+    % 355 nm
+    if sum(flag355) == 1
+
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+        
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+        
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_355/2);
+        
+        if isnan(aerBsc355_klett(iGrp, 80))
+            continue;
+        end
+        
+        [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+        
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt355 = aerExt355_klett(iGrp, :);
+        aExt355(1:hIndBase) = aerExt355_klett(hIndBase);
+        aBsc355 = aerBsc355_klett(iGrp, :);
+        aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
+        mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans355 = exp(-2 * (aOT355 + mOT355));
+        bsc355 = mBsc355 + aBsc355;
+
+        % lidar calibration
+        LC_klett_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
+        [LC_klett_355, ~, lcStd] = mean_stable(LC_klett_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_klett_355 = LC_klett_355 * lcStd;
+
+        LC.LC_klett_355(iGrp) = LC_klett_355;
+        LC.LCStd_klett_355(iGrp) = LCStd_klett_355;
+    end
+
+    % 532 nm
+    if sum(flag532) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_532/2);
+
+        if isnan(aerBsc532_klett(iGrp, 80))
+            continue;
+        end
+
+        [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt532 = aerExt532_klett(iGrp, :);
+        aExt532(1:hIndBase) = aerExt532_klett(hIndBase);
+        aBsc532 = aerBsc532_klett(iGrp, :);
+        aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
+        mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans532 = exp(-2 * (aOT532 + mOT532));
+        bsc532 = mBsc532 + aBsc532;
+
+        % lidar calibration
+        LC_klett_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
+        [LC_klett_532, ~, lcStd] = mean_stable(LC_klett_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_klett_532 = LC_klett_532 * lcStd;
+
+        LC.LC_klett_532(iGrp) = LC_klett_532;
+        LC.LCStd_klett_532(iGrp) = LCStd_klett_532;
+    end
+
+    % 1064 nm
+    if sum(flag1064) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_1064/2);
+
+        if isnan(aerBsc1064_klett(iGrp, 80))
+            continue;
+        end
+
+        [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt1064 = aerExt1064_klett(iGrp, :);
+        aExt1064(1:hIndBase) = aerExt1064_klett(hIndBase);
+        aBsc1064 = aerBsc1064_klett(iGrp, :);
+        aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
+        mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans1064 = exp(-2 * (aOT1064 + mOT1064));
+        bsc1064 = mBsc1064 + aBsc1064;
+
+        % lidar calibration
+        LC_klett_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
+        [LC_klett_1064, ~, lcStd] = mean_stable(LC_klett_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_klett_1064 = LC_klett_1064 * lcStd;
+
+        LC.LC_klett_1064(iGrp) = LC_klett_1064;
+        LC.LCStd_klett_1064(iGrp) = LCStd_klett_1064;
+    end
+
+    % 355 nm (Raman)
+    if sum(flag355) == 1
+
+        if isnan(aerBsc355_raman(iGrp, 80))
+            continue;
+        end
+
+        [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagClFre = false(size(data.mTime));
+        flagClFre(prfInd) = true;
+        flagClFre = flagClFre & (~ data.mask387Off);
+        nPrf = numel(flagClFre);
+        sig355 = squeeze(sum(data.signal(flag355, :, flagClFre), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aBsc355 = aerBsc355_raman(iGrp, :);
+        aExt355 = aerExt355_raman(iGrp, :) * PollyConfig.LR355;
+        aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
+        mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans355 = exp(-2 * (aOT355 + mOT355));
+        bsc355 = mBsc355 + aBsc355;
+
+        % lidar calibration
+        LC_raman_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
+        [LC_raman_355, ~, lcStd] = mean_stable(LC_raman_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_raman_355 = LC_raman_355 * lcStd;
+
+        LC.LC_raman_355(iGrp) = LC_raman_355;
+        LC.LCStd_raman_355(iGrp) = LCStd_raman_355;
+    end
+
+    % 532 nm (Raman)
+    if sum(flag532) == 1
+
+        if isnan(aerBsc532_raman(iGrp, 80))
+            continue;
+        end
+
+        [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagClFre = false(size(data.mTime));
+        flagClFre(prfInd) = true;
+        flagClFre = flagClFre & (~ data.mask607Off);
+        nPrf = numel(flagClFre);
+        sig532 = squeeze(sum(data.signal(flag532, :, flagClFre), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aBsc532 = aerBsc532_raman(iGrp, :);
+        aExt532 = aerExt532_raman(iGrp, :) * PollyConfig.LR532;
+        aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
+        mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans532 = exp(-2 * (aOT532 + mOT532));
+        bsc532 = mBsc532 + aBsc532;
+
+        % lidar calibration
+        LC_raman_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
+        [LC_raman_532, ~, lcStd] = mean_stable(LC_raman_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_raman_532 = LC_raman_532 * lcStd;
+
+        LC.LC_raman_532(iGrp) = LC_raman_532;
+        LC.LCStd_raman_532(iGrp) = LCStd_raman_532;
+    end
+
+    % 1064 nm (Raman)
+    if sum(flag1064) == 1
+
+        if isnan(aerBsc1064_raman(iGrp, 80))
+            continue;
+        end
+
+        [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagClFre = false(size(data.mTime));
+        flagClFre(prfInd) = true;
+        flagClFre = flagClFre & (~ data.mask607Off);
+        nPrf = numel(flagClFre);
+        sig1064 = squeeze(sum(data.signal(flag1064, :, flagClFre), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aBsc1064 = aerBsc1064_raman(iGrp, :);
+        aExt1064 = aerExt1064_raman(iGrp, :) * PollyConfig.LR1064;
+        aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
+        mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans1064 = exp(-2 * (aOT1064 + mOT1064));
+        bsc1064 = mBsc1064 + aBsc1064;
+
+        % lidar calibration
+        LC_raman_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
+        [LC_raman_1064, ~, lcStd] = mean_stable(LC_raman_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_raman_1064 = LC_raman_1064 * lcStd;
+
+        LC.LC_raman_1064(iGrp) = LC_raman_1064;
+        LC.LCStd_raman_1064(iGrp) = LCStd_raman_1064;
+    end
+
+    % 355 nm (Raman)
+    if sum(flag355) == 1
+
+        if isnan(aerBsc355_raman(iGrp, 80))
+            continue;
+        end
+
+        [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+        [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagClFre = false(size(data.mTime));
+        flagClFre(prfInd) = true;
+        flagClFre = flagClFre & (~ data.mask387Off);
+        nPrf = numel(flagClFre);
+        sig387 = squeeze(sum(data.signal(flag387, :, flagClFre), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aBsc355 = aerBsc355_raman(iGrp, :);
+        aExt355 = aerExt355_raman(iGrp, :) * PollyConfig.LR355;
+        aExt387 = aExt355 * (355/387).^PollyConfig.angstrexp;
+        aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
+        aOT387 = nancumsum(aExt387 .* [data.distance0(1), diff(data.distance0)]);
+        mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
+        mOT387 = nancumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans_355_387 = exp(- (aOT355 + mOT355 + aOT387 + mOT387));
+        bsc355 = mBsc355;
+
+        % lidar calibration
+        LC_raman_387 = transpose(smooth(sig387 .* data.distance0.^2, PollyConfig.smoothWin_raman_355)) ./ bsc355 ./ trans_355_387;
+        [LC_raman_387, ~, lcStd] = mean_stable(LC_raman_387, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_raman_387 = LC_raman_387 * lcStd;
+
+        LC.LC_raman_387(iGrp) = LC_raman_387;
+        LC.LCStd_raman_387(iGrp) = LCStd_raman_387;
+    end
+
+    % 607 nm (Raman)
+    if sum(flag532) == 1
+
+        if isnan(aerBsc532_raman(iGrp, 80))
+            continue;
+        end
+
+        [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+        [~, mExt607] = rayleigh_scattering(607, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagClFre = false(size(data.mTime));
+        flagClFre(prfInd) = true;
+        flagClFre = flagClFre & (~ data.mask607Off);
+        nPrf = numel(flagClFre);
+        sig607 = squeeze(sum(data.signal(flag607, :, flagClFre), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aBsc532 = aerBsc532_raman(iGrp, :);
+        aExt532 = aerExt532_raman(iGrp, :) * PollyConfig.LR532;
+        aExt607 = aExt532 * (532/607).^PollyConfig.angstrexp;
+        aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
+        aOT607 = nancumsum(aExt607 .* [data.distance0(1), diff(data.distance0)]);
+        mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
+        mOT607 = nancumsum(mExt607 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans_532_607 = exp(- (aOT532 + mOT532 + aOT607 + mOT607));
+        bsc532 = mBsc532;
+
+        % lidar calibration
+        LC_raman_607 = transpose(smooth(sig607 .* data.distance0.^2, PollyConfig.smoothWin_raman_532)) ./ bsc532 ./ trans_532_607;
+        [LC_raman_607, ~, lcStd] = mean_stable(LC_raman_607, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_raman_607 = LC_raman_607 * lcStd;
+
+        LC.LC_raman_607(iGrp) = LC_raman_607;
+        LC.LCStd_raman_607(iGrp) = LCStd_raman_607;
+    end
+
+    % 355 nm (AOD-constrained Klett)
+    if sum(flag355) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_355/2);
+
+        if isnan(aerBsc355_aeronet(iGrp, 80))
+            continue;
+        end
+
+        [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt355 = aerExt355_aeronet(iGrp, :);
+        aExt355(1:hIndBase) = aerExt355_aeronet(hIndBase);
+        aBsc355 = aerBsc355_aeronet(iGrp, :);
+        aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
+        mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans355 = exp(-2 * (aOT355 + mOT355));
+        bsc355 = mBsc355 + aBsc355;
+
+        % lidar calibration
+        LC_aeronet_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
+        [LC_aeronet_355, ~, lcStd] = mean_stable(LC_aeronet_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_aeronet_355 = LC_aeronet_355 * lcStd;
+
+        LC.LC_aeronet_355(iGrp) = LC_aeronet_355;
+        LC.LCStd_aeronet_355(iGrp) = LCStd_aeronet_355;
+    end
+
+    % 532 nm (AOD-constrained Klett)
+    if sum(flag532) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_532/2);
+
+        if isnan(aerBsc532_aeronet(iGrp, 80))
+            continue;
+        end
+
+        [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt532 = aerExt532_aeronet(iGrp, :);
+        aExt532(1:hIndBase) = aerExt532_aeronet(hIndBase);
+        aBsc532 = aerBsc532_aeronet(iGrp, :);
+        aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
+        mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans532 = exp(-2 * (aOT532 + mOT532));
+        bsc532 = mBsc532 + aBsc532;
+
+        % lidar calibration
+        LC_aeronet_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
+        [LC_aeronet_532, ~, lcStd] = mean_stable(LC_aeronet_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_aeronet_532 = LC_aeronet_532 * lcStd;
+
+        LC.LC_aeronet_532(iGrp) = LC_aeronet_532;
+        LC.LCStd_aeronet_532(iGrp) = LCStd_aeronet_532;
+    end
+
+    % 1064 nm (AOD-constrained Klett)
+    if sum(flag1064) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+
+        if isempty(hIndOL)
+            hIndOL = 70;
+        end
+
+        hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_1064/2);
+
+        if isnan(aerBsc1064_aeronet(iGrp, 80))
+            continue;
+        end
+
+        [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+        prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        nPrf = numel(prfInd);
+        sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
+
+        % optical thickness (OT)
+        aExt1064 = aerExt1064_aeronet(iGrp, :);
+        aExt1064(1:hIndBase) = aerExt1064_aeronet(hIndBase);
+        aBsc1064 = aerBsc1064_aeronet(iGrp, :);
+        aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
+        mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
+
+        % round-trip transmission
+        trans1064 = exp(-2 * (aOT1064 + mOT1064));
+        bsc1064 = mBsc1064 + aBsc1064;
+
+        % lidar calibration
+        LC_aeronet_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
+        [LC_aeronet_1064, ~, lcStd] = mean_stable(LC_aeronet_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
+        LCStd_aeronet_1064 = LC_aeronet_1064 * lcStd;
+
+        LC.LC_aeronet_1064(iGrp) = LC_aeronet_1064;
+        LC.LCStd_aeronet_1064(iGrp) = LCStd_aeronet_1064;
+    end
+end
+
+% lidar constants for near-range channels
+LC.LC_raman_355_NR = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_355_NR = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_387_NR = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_387_NR = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_532_NR = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_532_NR = NaN(size(clFreGrps, 1), 1);
+LC.LC_raman_607_NR = NaN(size(clFreGrps, 1), 1);
+LC.LCStd_raman_607_NR = NaN(size(clFreGrps, 1), 1);
+flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
+flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
+flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
+flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
+if (~ isempty(olAttri355.sigRatio)) && (sum(flag355NR) == 1)
+    LC.LC_raman_355_NR = LC.LC_raman_355 .* olAttri355.sigRatio;
+    LC.LCStd_raman_355_NR = LC.LCStd_raman_355 .* olAttri355.sigRatio;
+end
+if (~ isempty(olAttri387.sigRatio)) && (sum(flag387NR) == 1)
+    LC.LC_raman_387_NR = LC.LC_raman_387 .* olAttri387.sigRatio;
+    LC.LCStd_raman_387_NR = LC.LCStd_raman_387 .* olAttri387.sigRatio;
+end
+if (~ isempty(olAttri532.sigRatio)) && (sum(flag532NR) == 1)
+    LC.LC_raman_532_NR = LC.LC_raman_532 .* olAttri532.sigRatio;
+    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* olAttri532.sigRatio;
+end
+if (~ isempty(olAttri607.sigRatio)) && (sum(flag607NR) == 1)
+    LC.LC_raman_607_NR = LC.LC_raman_607 .* olAttri607.sigRatio;
+    LC.LCStd_raman_607_NR = LC.LCStd_raman_607 .* olAttri607.sigRatio;
+end
+
+% select lidar calibration constant
+LCUsed = struct();
+flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
+flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
+flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
+
+%% far-range calibration constants
+[LCUsed.LCUsed355, ~, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355] = ...
+    select_liconst(LC.LC_raman_355, zeros(size(LC.LC_raman_355)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '355', 'far_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag355), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag355));
+[LCUsed.LCUsed532, ~, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532] = ...
+    select_liconst(LC.LC_raman_532, zeros(size(LC.LC_raman_532)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '532', 'far_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag532), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag532));
+[LCUsed.LCUsed1064, ~, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = ...
+    select_liconst(LC.LC_raman_1064, zeros(size(LC.LC_raman_1064)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '1064', 'far_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag1064), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag1064));
+[LCUsed.LCUsed387, ~, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387] = ...
+    select_liconst(LC.LC_raman_387, zeros(size(LC.LC_raman_387)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '387', 'far_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag387), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag387));
+[LCUsed.LCUsed607, ~, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = ...
+    select_liconst(LC.LC_raman_607, zeros(size(LC.LC_raman_607)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '607', 'far_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag607), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag607));
+
+%% near-range lidar calibration constants
+[LCUsed.LCUsed532NR, ~, LCUsed.LCUsedTag532NR, LCUsed.flagLCWarning532NR] = ...
+    select_liconst(LC.LC_raman_532_NR, zeros(size(LC.LC_raman_532_NR)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '532', 'near_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag532NR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag532NR));
+[LCUsed.LCUsed607NR, ~, LCUsed.LCUsedTag607NR, LCUsed.flagLCWarning607NR] = ...
+    select_liconst(LC.LC_raman_607_NR, zeros(size(LC.LC_raman_607_NR)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '607', 'near_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag607NR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag607NR));
+[LCUsed.LCUsed355NR, ~, LCUsed.LCUsedTag355NR, LCUsed.flagLCWarning355NR] = ...
+    select_liconst(LC.LC_raman_355_NR, zeros(size(LC.LC_raman_355_NR)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '355', 'near_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag355NR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag355NR));
+[LCUsed.LCUsed387NR, ~, LCUsed.LCUsedTag387NR, LCUsed.flagLCWarning387NR] = ...
+    select_liconst(LC.LC_raman_387_NR, zeros(size(LC.LC_raman_387_NR)), ...
+        LC.LC_start_time, ...
+        LC.LC_stop_time, ...
+        mean(data.mTime), dbFile, CampaignConfig.name, '387', 'near_range', ...
+        'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
+        'flagLCCalibration', PollyConfig.flagLCCalibration, ...
+        'deltaTime', datenum(0, 1, 7), ...
+        'default_liconst', PollyDefaults.LC(flag387NR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag387NR));
 
 print_msg('Finish\n', 'flagTimestamp', true);
 
