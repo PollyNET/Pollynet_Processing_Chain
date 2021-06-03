@@ -2727,6 +2727,95 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 print_msg('Finish\n', 'flagTimestamp', true);
 
+%% Attnuated backscatter
+print_msg('Start calculating attnuated backscatter.\n', 'flagTimestamp', true);
+
+flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+att_beta_355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355) == 1)
+    att_beta_355 = squeeze(data.signal(flag355, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
+    att_beta_355(:, data.depCalMask) = NaN;
+end
+
+flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+att_beta_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532) == 1)
+    att_beta_532 = squeeze(data.signal(flag532, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
+    att_beta_532(:, data.depCalMask) = NaN;
+end
+
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+att_beta_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064) == 1)
+    att_beta_1064 = squeeze(data.signal(flag1064, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
+    att_beta_1064(:, data.depCalMask) = NaN;
+end
+
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+att_beta_387 = NaN(length(data.height), length(data.mTime));
+if (sum(flag387) == 1)
+    att_beta_387 = squeeze(data.signal(flag387, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed387;
+    att_beta_387(:, data.depCalMask) = NaN;
+end
+
+flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
+att_beta_607 = NaN(length(data.height), length(data.mTime));
+if (sum(flag607) == 1)
+    att_beta_607 = squeeze(data.signal(flag607, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed607;
+    att_beta_607(:, data.depCalMask) = NaN;
+end
+
+flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+att_beta_OC_355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355) == 1)
+    att_beta_OC_355 = sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
+    att_beta_OC_355(:, data.depCalMask) = NaN;
+end
+
+flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+att_beta_OC_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532) == 1)
+    att_beta_OC_532 = sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
+    att_beta_OC_532(:, data.depCalMask) = NaN;
+end
+
+% flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & flagTotalChannel;
+% att_beta_OC_1064 = NaN(length(data.height), length(data.mTime));
+% if (sum(flag1064) == 1)
+%     att_beta_OC_1064 = sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
+%     att_beta_OC_1064(:, data.depCalMask) = NaN;
+% end
+
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+att_beta_OC_387 = NaN(length(data.height), length(data.mTime));
+if (sum(flag387) == 1)
+    att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed387;
+    att_beta_OC_387(:, data.depCalMask) = NaN;
+end
+
+flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
+att_beta_OC_607 = NaN(length(data.height), length(data.mTime));
+if (sum(flag607) == 1)
+    att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed607;
+    att_beta_OC_607(:, data.depCalMask) = NaN;
+end
+
+flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+att_beta_NR_355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355NR) == 1)
+    att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355NR;
+    att_beta_NR_355(:, data.depCalMask) = NaN;
+end
+
+flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+att_beta_NR_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532NR) == 1)
+    att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532NR;
+    att_beta_NR_532(:, data.depCalMask) = NaN;
+end
+
+print_msg('Finsh.\n', 'flagTimestamp', true);
+
 %% Clean
 fclose(LogConfig.logFid);
 
