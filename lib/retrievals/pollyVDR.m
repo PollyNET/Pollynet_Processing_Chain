@@ -37,11 +37,9 @@ function [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, ...
 %        volume depolarization ratio.
 %    volDepolStd: array
 %        uncertainty of the volume depolarization ratio
-%Reference:
-%    instrumentation info about PollyXT can be found in 
-%    (R.Engelmann et al, AMT, 2016) and deduction about volume 
-%    depolarization calculation can be found in (Freudenthaler et al,
-%    Tellus B, 2009)
+% REFERENCE:
+%    1. Engelmann, R. et al. The automated multiwavelength Raman polarization and water-vapor lidar Polly XT: the neXT generation. Atmospheric Measurement Techniques 9, 1767-1784 (2016).
+%    2. Freudenthaler, V. et al. Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006. Tellus B 61, 165-179 (2009).
 % EXAMPLE:
 % HISTORY:
 %    2018-09-02: First edition by Zhenping

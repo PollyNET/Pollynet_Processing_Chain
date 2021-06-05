@@ -1888,6 +1888,76 @@ end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% Signal status
+SNR = NaN(size(data.signal));
+for iCh = 1:size(data.signal, 1)
+    signal_sm = smooth2(squeeze(data.signal(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
+    signal_int = signal_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
+    bg_sm = smooth2(squeeze(data.bg(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
+    bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
+    SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
+end
+
+flag532T = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.flagTotalChannel;
+flag532C = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.isCross;
+flag355T = PollyConfig.flagFarRangeChannel & PollyConfig.is355nm & PollyConfig.flagTotalChannel;
+flag355C = PollyConfig.flagFarRangeChannel & PollyConfig.flag355nmChannel & PollyConfig.isCross;
+flag1064 = PollyConfig.flagFarRangeChannel & PollyConfig.flag1064nmChannel & PollyConfig.flagTotalChannel;
+flag387 = PollyConfig.flagFarRangeChannel & PollyConfig.is387nm;
+flag607 = PollyConfig.flagFarRangeChannel & PollyConfig.is607nm;
+quality_mask_355 = zeros(length(data.height), length(data.mTime));
+quality_mask_532 = zeros(length(data.height), length(data.mTime));
+quality_mask_1064 = zeros(length(data.height), length(data.mTime));
+quality_mask_volDepol_532 = zeros(length(data.height), length(data.mTime));
+quality_mask_volDepol_355 = zeros(length(data.height), length(data.mTime));
+% 0 in quality_mask means good data
+% 1 in quality_mask means low-SNR data
+% 2 in quality_mask means depolarization calibration periods
+% 3 in quality_mask means shutter on
+% 4 in quality_mask means fog
+if (sum(flag355T) == 1)
+    quality_mask_355(squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T)) = 1;
+    quality_mask_355(:, data.depCalMask) = 2;
+    quality_mask_355(:, data.shutterOnMask) = 3;
+    quality_mask_355(:, data.fogMask) = 4;
+end
+if (sum(flag532T) == 1)
+    quality_mask_532(squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
+    quality_mask_532(:, data.depCalMask) = 2;
+    quality_mask_532(:, data.shutterOnMask) = 3;
+    quality_mask_532(:, data.fogMask) = 4;
+end
+if (sum(flag1064) == 1)
+    quality_mask_1064(squeeze(SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
+    quality_mask_1064(:, data.depCalMask) = 2;
+    quality_mask_1064(:, data.shutterOnMask) = 3;
+    quality_mask_1064(:, data.fogMask) = 4;
+end
+if (sum(flag387) == 1)
+    quality_mask_387(squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
+    quality_mask_387(:, data.depCalMask) = 2;
+    quality_mask_387(:, data.shutterOnMask) = 3;
+    quality_mask_387(:, data.fogMask) = 4;
+end
+if (sum(flag607) == 1)
+    quality_mask_607(squeeze(SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
+    quality_mask_607(:, data.depCalMask) = 2;
+    quality_mask_607(:, data.shutterOnMask) = 3;
+    quality_mask_607(:, data.fogMask) = 4;
+end
+if (sum(flag355T) == 1) && (sum(flag355C) == 1)
+    quality_mask_volDepol_355((squeeze(SNR(flag355C, :, :)) < config.mask_SNRmin(flag355C)) | (squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
+    quality_mask_volDepol_355(:, data.depCalMask) = 2;
+    quality_mask_volDepol_355(:, data.shutterOnMask) = 3;
+    quality_mask_volDepol_355(:, data.fogMask) = 4;
+end
+if (sum(flag532T) == 1) && (sum(flag532C) == 1)
+    quality_mask_volDepol_532((squeeze(SNR(flag532C, :, :)) < config.mask_SNRmin(flag532C)) | (squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T))) = 1;
+    quality_mask_volDepol_532(:, data.depCalMask) = 2;
+    quality_mask_volDepol_532(:, data.shutterOnMask) = 3;
+    quality_mask_volDepol_532(:, data.fogMask) = 4;
+end
+
 %% Water vapor calibration
 print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
 
@@ -2053,16 +2123,6 @@ if (sum(flag387) == 1) || (sum(flag407 == 1))
     sig387(:, data.depCalMask) = NaN;
     sig407 = squeeze(data.signal(flag407, :, :));
     sig407(:, data.depCalMask) = NaN;
-
-    % SNR after temporal and vertical accumulation
-    SNR = NaN(size(data.signal));
-    for iCh = 1:size(data.signal, 1)
-        signal_sm = smooth2(squeeze(data.signal(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
-        signal_int = signal_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
-        bg_sm = smooth2(squeeze(data.bg(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
-        bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
-        SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
-    end
 
     % quality mask to filter low SNR bits
     quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
@@ -2815,6 +2875,374 @@ if (sum(flag532NR) == 1)
 end
 
 print_msg('Finsh.\n', 'flagTimestamp', true);
+
+%% Volume linear depolarization ratio with high temporal resolution
+print_msg('Start calculating volume linear depolarization ratio.\n', 'flagTimestamp', true);
+
+% 355 nm
+flag355T = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
+flag355C = data.flagFarRangeChannel & data.flagCrossChannel & data.flag355nmChannel;
+vdr355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355T) == 1) && (sum(flag355C) == 1)
+    vdr355 = pollyVDR2(squeeze(data.signal(flag355T, :, :)), ...
+                       squeeze(data.signal(flag355C, :, :)), ...
+                       PollyConfig.TR(flag355T), ...
+                       PollyConfig.TR(flag355C), polCaliFac355);
+    vdr355(:, data.depCalMask) = NaN;
+end
+
+% 532 nm
+flag532T = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
+flag532C = data.flagFarRangeChannel & data.flagCrossChannel & data.flag532nmChannel;
+vdr532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532T) == 1) && (sum(flag532C) == 1)
+    vdr532 = pollyVDR2(squeeze(data.signal(flag532T, :, :)), ...
+                       squeeze(data.signal(flag532C, :, :)), ...
+                       PollyConfig.TR(flag532T), ...
+                       PollyConfig.TR(flag532C), polCaliFac532);
+    vdr532(:, data.depCalMask) = NaN;
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% Quasi-retrieval (V1)
+print_msg('Start quasi-retrieval (V1).\n', 'flagTimestamp', true);
+
+% load meteorological data
+[temperature, pressure, ~, ~, ~, thisMeteorAttri] = loadMeteor(mean(data.mTime), data.alt, ...
+    'meteorDataSource', PollyConfig.meteorDataSource, ...
+    'gdas1Site', PollyConfig.gdas1Site, ...
+    'gdas1_folder', PollyConfig.gdas1_folder, ...
+    'radiosondeSitenum', PollyConfig.radiosondeSitenum, ...
+    'radiosondeFolder', pollyConfig.radiosondeFolder, ...
+    'radiosondeType', pollyConfig.radiosondeType, ...
+    'method', 'linear');
+
+quasiAttri = struct();
+quasiAttri.flagGDAS1 = false;
+quasiAttri.timestamp = [];
+
+% quasi-retrieved backscatter at 355 nm
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiBsc355 = NaN(length(data.height), length(data.mTime));
+qsiExt355 = NaN(length(data.height), length(data.mTime));
+att_beta_355_qsi = att_beta_355;
+if (sum(flag355) == 1)
+    att_beta_355_qsi(quality_mask_355 ~= 0) = NaN;
+    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
+
+    % Rayleigh scattering
+    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
+    mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
+    mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+    if ~ isempty(hIndOL)
+        att_beta_355_qsi(1:hIndOL, :) = repmat(att_beta_355_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc355, qsiExt355] = quasiRetrieval(data.height, att_beta_355_qsi, mExt355, mBsc355, PollyConfig.LR355, 6);
+end
+
+% quasi-retrieved backscatter at 532 nm
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiBsc532 = NaN(length(data.height), length(data.mTime));
+qsiExt532 = NaN(length(data.height), length(data.mTime));
+att_beta_532_qsi = att_beta_532;
+if (sum(flag532) == 1)
+    att_beta_532_qsi(quality_mask_532 ~= 0) = NaN;
+    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
+
+    % Rayleigh scattering
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+    if ~ isempty(hIndOL)
+        att_beta_532_qsi(1:hIndOL, :) = repmat(att_beta_532_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc532, qsiExt532] = quasiRetrieval(data.height, att_beta_532_qsi, mExt532, mBsc532, PollyConfig.LR532, 6);
+end
+
+% quasi-retrieved backscatter at 1064 nm
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+qsiBsc1064 = NaN(length(data.height), length(data.mTime));
+qsiExt1064 = NaN(length(data.height), length(data.mTime));
+att_beta_1064_qsi = att_beta_1064;
+if (sum(flag1064) == 1)
+    att_beta_1064_qsi(quality_mask_1064 ~= 0) = NaN;
+    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+
+    % Rayleigh scattering
+    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+    mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
+    mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+    if ~ isempty(hIndOL)
+        att_beta_1064_qsi(1:hIndOL, :) = repmat(att_beta_1064_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc1064, qsiExt1064] = quasiRetrieval(data.height, att_beta_1064_qsi, mExt1064, mBsc1064, PollyConfig.LR1064, 6);
+end
+
+% quasi-retrieved particle depolarization ratio at 532 nm
+flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiPDR532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532T) == 1) && (sum(flag532C) == 1)
+    sig532T = squeeze(data.signal(flag532T, :, :));
+    sig532C = squeeze(data.signal(flag532C, :, :));
+    sig532T(:, data.depCalMask) = NaN;
+    sig532C(:, data.depCalMask) = NaN;
+    sig532TSm = smooth2(sig532T, PollyConfig.quasi_smooth_h(flag532T), PollyConfig.quasi_smooth_t(flag532T));
+    sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532C), PollyConfig.quasi_smooth_t(flag532C));
+
+    % Rayleigh scattering
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, pollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    qsiPDR532 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (qsiBsc532 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+end
+
+% quasi-retrieved Ångström exponents 355-532
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiAE_355_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532) == 1) && (sum(flag355) == 1)
+    ratio_par_bsc_355_532 = qsiBsc532 ./ qsiBsc355;
+    ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
+    qsiAE_355_532 = log(ratio_par_bsc_355_532) ./ log(355/532);
+end
+
+% quasi-retrieved Ångström exponents 355-1064
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiAE_355_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064) == 1) && (sum(flag355) == 1)
+    ratio_par_bsc_355_1064 = qsiBsc1064 ./ qsiBsc355;
+    ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
+    qsiAE_355_1064 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
+end
+
+% quasi-retrieved Ångström exponents 532-1064
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiAE_532_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064) == 1) && (sum(flag532) == 1)
+    ratio_par_bsc_532_1064 = qsiBsc1064 ./ qsiBsc532;
+    ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
+    qsiAE_532_1064 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% Target classification (V1)
+print_msg('Start aerosol/cloud target classification.\n', 'flagTimestamp', true);
+
+tcMask = zeros(length(data.height), length(data.mTime));
+flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
+    tcMask = targetClassify(data.height, att_beta_532, qsiBsc1064, qsiBsc532, qsiPDR532, vdr532Sm, qsiAE_532_1064, ...
+    'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
+    'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
+    'turbidThresBsc532', PollyConfig.turbid_thres_par_beta_532, ...
+    'dropletThresPDR', PollyConfig.droplet_thres_par_depol, ...
+    'spheriodThresPDR', PollyConfig.spheroid_thres_par_depol, ...
+    'unspheroidThresPDR', PollyConfig.unspheroid_thres_par_depol, ...
+    'iceThresVDR', PollyConfig.ice_thres_vol_depol, ...
+    'iceThresPDR', PollyConfig.ice_thres_par_depol, ...
+    'largeThresAE', PollyConfig.large_thres_ang, ...
+    'smallThresAE', PollyConfig.small_thres_ang, ...
+    'cloudThresBsc1064', PollyConfig.cloud_thres_par_beta_1064, ...
+    'minAttnRatioBsc1064', PollyConfig.min_atten_par_beta_1064, ...
+    'searchCloudAbove', PollyConfig.search_cloud_above, ...
+    'searchCloudBelow', PollyConfig.search_cloud_below, ...
+    'hFullOL', max(PollyConfig.heightFullOverlap(flag532T), PollyConfig.heightFullOverlap(flag1064)));
+
+    %% set the value during the depolarization calibration period or in fog conditions to 0
+    tcMask(:, data.depCalMask | data.fogMask) = 0;
+
+    %% set the value with low SNR to 0
+    tcMask((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_volDepol_532 ~= 0)) = 0;
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% Quasi-retrieval (V2)
+
+% quasi-retrieved backscatter at 355 nm
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiBsc355 = NaN(length(data.height), length(data.mTime));
+qsiExt355 = NaN(length(data.height), length(data.mTime));
+att_beta_355_qsi = att_beta_355;
+if (sum(flag355) == 1)
+    att_beta_355_qsi(quality_mask_355 ~= 0) = NaN;
+    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
+
+    % Rayleigh scattering
+    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
+    mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
+    mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+    if ~ isempty(hIndOL)
+        att_beta_355_qsi(1:hIndOL, :) = repmat(att_beta_355_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc355, qsiExt355] = quasiRetrieval(data.height, att_beta_355_qsi, mExt355, mBsc355, PollyConfig.LR355, 6);
+end
+
+% quasi-retrieved backscatter at 532 nm
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiBsc532 = NaN(length(data.height), length(data.mTime));
+qsiExt532 = NaN(length(data.height), length(data.mTime));
+att_beta_532_qsi = att_beta_532;
+if (sum(flag532) == 1)
+    att_beta_532_qsi(quality_mask_532 ~= 0) = NaN;
+    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
+
+    % Rayleigh scattering
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+    if ~ isempty(hIndOL)
+        att_beta_532_qsi(1:hIndOL, :) = repmat(att_beta_532_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc532, qsiExt532] = quasiRetrieval(data.height, att_beta_532_qsi, mExt532, mBsc532, PollyConfig.LR532, 6);
+end
+
+% quasi-retrieved backscatter at 1064 nm
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+qsiBsc1064 = NaN(length(data.height), length(data.mTime));
+qsiExt1064 = NaN(length(data.height), length(data.mTime));
+att_beta_1064_qsi = att_beta_1064;
+if (sum(flag1064) == 1)
+    att_beta_1064_qsi(quality_mask_1064 ~= 0) = NaN;
+    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+
+    % Rayleigh scattering
+    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+    mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
+    mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+    if ~ isempty(hIndOL)
+        att_beta_1064_qsi(1:hIndOL, :) = repmat(att_beta_1064_qsi(hIndOL, :), hIndOL, 1);
+    else
+        warning('Full overlap height is too large.');
+    end
+
+    [qsiBsc1064, qsiExt1064] = quasiRetrieval(data.height, att_beta_1064_qsi, mExt1064, mBsc1064, PollyConfig.LR1064, 6);
+end
+
+% quasi-retrieved particle depolarization ratio at 532 nm
+flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiPDR532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532T) == 1) && (sum(flag532C) == 1)
+    sig532T = squeeze(data.signal(flag532T, :, :));
+    sig532C = squeeze(data.signal(flag532C, :, :));
+    sig532T(:, data.depCalMask) = NaN;
+    sig532C(:, data.depCalMask) = NaN;
+    sig532TSm = smooth2(sig532T, PollyConfig.quasi_smooth_h(flag532T), PollyConfig.quasi_smooth_t(flag532T));
+    sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532C), PollyConfig.quasi_smooth_t(flag532C));
+
+    % Rayleigh scattering
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.timestamp = thisMeteorAttri.datetime;
+
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, pollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    qsiPDR532 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (qsiBsc532 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+end
+
+% quasi-retrieved Ångström exponents 355-532
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiAE_355_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532) == 1) && (sum(flag355) == 1)
+    ratio_par_bsc_355_532 = qsiBsc532 ./ qsiBsc355;
+    ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
+    qsiAE_355_532 = log(ratio_par_bsc_355_532) ./ log(355/532);
+end
+
+% quasi-retrieved Ångström exponents 355-1064
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
+qsiAE_355_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064) == 1) && (sum(flag355) == 1)
+    ratio_par_bsc_355_1064 = qsiBsc1064 ./ qsiBsc355;
+    ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
+    qsiAE_355_1064 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
+end
+
+% quasi-retrieved Ångström exponents 532-1064
+flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
+flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
+qsiAE_532_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064) == 1) && (sum(flag532) == 1)
+    ratio_par_bsc_532_1064 = qsiBsc1064 ./ qsiBsc532;
+    ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
+    qsiAE_532_1064 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% Target classification (V2)
+
+%% Cloud detection
+
+%% Saving calibration results
+
+%% Saving products
+
+%% Data visualization
+
+%% Done filelist
 
 %% Clean
 fclose(LogConfig.logFid);
