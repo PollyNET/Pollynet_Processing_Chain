@@ -1,21 +1,21 @@
-function pollyxt_save_att_bsc(data, taskInfo, config)
-%POLLYXT_SAVE_ATT_BSC save the attenuated backscatter.
-%Example:
-%   pollyxt_save_att_bsc(data, taskInfo, config)
-%Inputs:
-%   data, taskInfo, config
-%History:
-%   2019-01-10. First Edition by Zhenping
-%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%   2019-09-27. Turn on the netCDF4 compression.
-%Contact:
-%   zhenping@tropos.de
+function pollySaveAttnBeta(data)
+% POLLYSAVEATTNBETA save attenuated backscatter.
+% USAGE:
+%    pollySaveAttnBeta(data)
+% INPUTS:
+%    data: struct
+% EXAMPLE:
+% HISTORY:
+%    2019-01-10: First Edition by Zhenping
+%    2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
+%    2019-09-27: Turn on the netCDF4 compression.
+% .. Authors: - zhenping@tropos.de
 
 missing_value = -999;
 
-global processInfo defaults campaignInfo
+global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_att_bsc.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_att_bsc.nc', rmext(PollyDataInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -72,40 +72,9 @@ netcdf.endDef(ncID);
 % (temporary solution to be compatible with Cloudnet)
 
 %calculate the quality mask to filter the points with high SNR
-quality_mask_355 = zeros(size(data.att_beta_355));
-quality_mask_532 = zeros(size(data.att_beta_355));
-quality_mask_1064 = zeros(size(data.att_beta_355));
-
-% SNR after temporal and vertical accumulation
-SNR = NaN(size(data.signal));
-for iChannel = 1:size(data.signal, 1)
-    signal = squeeze(data.signal(iChannel, :, :));
-    bg = squeeze(data.bg(iChannel, :, :));
-    SNR(iChannel, :, :) = polly_SNR(signal, bg);
-
-    SNR(iChannel, (signal + bg) <= 0) = 0;
-end
-
-% 0 in quality_mask means good data
-% 1 in quality_mask means low-SNR data
-% 2 in quality_mask means depolarization calibration periods
-% 3 in quality_mask means shutter on
-% 4 in quality_mask means fog
-flagChannel355 = config.isFR & config.is355nm & config.isTot;
-flagChannel532 = config.isFR & config.is532nm & config.isTot;
-flagChannel1064 = config.isFR & config.is1064nm & config.isTot;
-quality_mask_355(squeeze(SNR(flagChannel355, :, :)) < config.mask_SNRmin(flagChannel355)) = 1;
-quality_mask_532(squeeze(SNR(flagChannel532, :, :)) < config.mask_SNRmin(flagChannel532)) = 1;
-quality_mask_1064(squeeze(SNR(flagChannel1064, :, :)) < config.mask_SNRmin(flagChannel1064)) = 1;
-quality_mask_355(:, data.depCalMask) = 2;
-quality_mask_532(:, data.depCalMask) = 2;
-quality_mask_1064(:, data.depCalMask) = 2;
-quality_mask_355(:, data.shutterOnMask) = 3;
-quality_mask_532(:, data.shutterOnMask) = 3;
-quality_mask_1064(:, data.shutterOnMask) = 3;
-quality_mask_355(:, data.fogMask) = 4;
-quality_mask_532(:, data.fogMask) = 4;
-quality_mask_1064(:, data.fogMask) = 4;
+flag355 = PollyConfig.flagFarRangeChannel & PollyConfig.flag355nmChannel & PollyConfig.flagTotalChannel;
+flag532 = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.flagTotalChannel;
+flag1064 = PollyConfig.flagFarRangeChannel & PollyConfig.flag1064nmChannel & PollyConfig.flagTotalChannel;
 
 %% write data to .nc file
 netcdf.putVar(ncID, varID_altitude, data.alt0);
@@ -116,12 +85,12 @@ netcdf.putVar(ncID, varID_height, data.height);
 netcdf.putVar(ncID, varID_att_bsc_355, fillmissing(data.att_beta_355, missing_value));
 netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_532, missing_value));
 netcdf.putVar(ncID, varID_att_bsc_1064, fillmissing(data.att_beta_1064, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_355, fillmissing(quality_mask_355, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_532, fillmissing(quality_mask_532, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_1064, fillmissing(quality_mask_1064, missing_value));
-netcdf.putVar(ncID, varID_SNR_355, fillmissing(squeeze(SNR(flagChannel355, :, :)), missing_value));
-netcdf.putVar(ncID, varID_SNR_532, fillmissing(squeeze(SNR(flagChannel532, :, :)), missing_value));
-netcdf.putVar(ncID, varID_SNR_1064, fillmissing(squeeze(SNR(flagChannel1064, :, :)), missing_value));
+netcdf.putVar(ncID, varID_quality_mask_355, fillmissing(data.quality_mask_355, missing_value));
+netcdf.putVar(ncID, varID_quality_mask_532, fillmissing(data.quality_mask_532, missing_value));
+netcdf.putVar(ncID, varID_quality_mask_1064, fillmissing(data.quality_mask_1064, missing_value));
+netcdf.putVar(ncID, varID_SNR_355, fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value));
+netcdf.putVar(ncID, varID_SNR_532, fillmissing(squeeze(data.SNR(flag532, :, :)), missing_value));
+netcdf.putVar(ncID, varID_SNR_1064, fillmissing(squeeze(data.SNR(flag1064, :, :)), missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -163,9 +132,9 @@ netcdf.putAtt(ncID, varID_att_bsc_355, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'long_name', 'attenuated backscatter at 355 nm');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'standard_name', 'att_beta_355');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', config.zLim_att_beta_355/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', PollyConfig.zLim_att_beta_355/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_355, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
 % netcdf.putAtt(ncID, varID_att_bsc_355, 'error_variable', 'att_beta_355_error');
 % netcdf.putAtt(ncID, varID_att_bsc_355, 'bias_variable', 'att_beta_355_bias');
@@ -176,9 +145,9 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.zLim_att_beta_532/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', PollyConfig.zLim_att_beta_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
@@ -189,9 +158,9 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'long_name', 'attenuated backscatter at 1064 nm');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'standard_name', 'att_beta_1064');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', config.zLim_att_beta_1064/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', PollyConfig.zLim_att_beta_1064/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'error_variable', 'att_beta_1064_error');
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'bias_variable', 'att_beta_1064_bias');
@@ -201,54 +170,54 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'comment', 'This parameter is calculated
 netcdf.putAtt(ncID, varID_quality_mask_355, 'unit', '');
 netcdf.putAtt(ncID, varID_quality_mask_355, 'long_name', 'quality mask for attenuated backscatter at 355 nm');
 netcdf.putAtt(ncID, varID_quality_mask_355, 'standard_name', 'quality_mask_355');
-netcdf.putAtt(ncID, varID_quality_mask_355, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_quality_mask_355, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quality_mask_355, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 355 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
 
 % quality_mask_532
 netcdf.putAtt(ncID, varID_quality_mask_532, 'unit', '');
 netcdf.putAtt(ncID, varID_quality_mask_532, 'long_name', 'quality mask for attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_quality_mask_532, 'standard_name', 'quality_mask_532');
-netcdf.putAtt(ncID, varID_quality_mask_532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_quality_mask_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quality_mask_532, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 532 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
 
 % quality_mask_1064
 netcdf.putAtt(ncID, varID_quality_mask_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_quality_mask_1064, 'long_name', 'quality mask for attenuated backscatter at 1064 nm');
 netcdf.putAtt(ncID, varID_quality_mask_1064, 'standard_name', 'quality_mask_1064');
-netcdf.putAtt(ncID, varID_quality_mask_1064, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_quality_mask_1064, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quality_mask_1064, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 1064 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
 
 % SNR 355 nm
 netcdf.putAtt(ncID, varID_SNR_355, 'unit', '');
 netcdf.putAtt(ncID, varID_SNR_355, 'long_name', 'SNR at 355 nm');
 netcdf.putAtt(ncID, varID_SNR_355, 'standard_name', 'signal-noise-ratio 355 nm');
-netcdf.putAtt(ncID, varID_SNR_355, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_SNR_355, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_SNR_355, 'comment', '');
 
 % SNR 532 nm
 netcdf.putAtt(ncID, varID_SNR_532, 'unit', '');
 netcdf.putAtt(ncID, varID_SNR_532, 'long_name', 'SNR at 532 nm');
 netcdf.putAtt(ncID, varID_SNR_532, 'standard_name', 'signal-noise-ratio 532 nm');
-netcdf.putAtt(ncID, varID_SNR_532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_SNR_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_SNR_532, 'comment', '');
 
 % SNR 1064 nm
 netcdf.putAtt(ncID, varID_SNR_1064, 'unit', '');
 netcdf.putAtt(ncID, varID_SNR_1064, 'long_name', 'SNR at 1064 nm');
 netcdf.putAtt(ncID, varID_SNR_1064, 'standard_name', 'signal-noise-ratio 1064 nm');
-netcdf.putAtt(ncID, varID_SNR_1064, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_SNR_1064, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_SNR_1064, 'comment', '');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

@@ -1,31 +1,31 @@
-function save_depolconst(dbFile, depolconst, depolconstStd, ...
+function saveDepolConst(dbFile, depolconst, depolconstStd, ...
                          dcStartTime, dcStopTime, ...
                          pollyDataFilename, pollyType, wavelength)
-%SAVE_DEPOLCONST save depolarization calibration results. 
-%Example:
-%   save_depolconst(dbFile, depolconst, depolconstStd, dcStartTime, 
+% SAVEDEPOLCONST save depolarization calibration results.
+% USAGE:
+%    saveDepolConst(dbFile, depolconst, depolconstStd, dcStartTime, 
 %                   dcStopTime, pollyDataFilename, pollyType, wavelength)
-%Inputs:
-%   dbFile: char
-%       absolute path of the database.
-%   depolconst: array
-%       depolarization calibration constants.
-%   depolconstStd: array
-%       uncertainty of depolarization calibration constants.
-%   dcStartTime: array
-%       start time of each calibration period.
-%   dcStopTime: array
-%       stop time of each calibration period.
-%   pollyDataFilename: char
-%       the polly netcdf data file.
-%   pollyType: char
-%       polly type. (case-sensitive)
-%   wavelength: char
-%       wavelength. ('355' or '532')
-%History:
-%   2020-04-18. First edition.
-%Contact:
-%   zhenping@tropos.de
+% INPUTS:
+%    dbFile: char
+%        absolute path of the database.
+%    depolconst: array
+%        depolarization calibration constants.
+%    depolconstStd: array
+%        uncertainty of depolarization calibration constants.
+%    dcStartTime: array
+%        start time of each calibration period.
+%    dcStopTime: array
+%        stop time of each calibration period.
+%    pollyDataFilename: char
+%        the polly netcdf data file.
+%    pollyType: char
+%        polly type. (case-sensitive)
+%    wavelength: char
+%        wavelength. ('355' or '532')
+% EXAMPLE:
+% HISTORY:
+%    2021-06-08: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
 set(conn, 'AutoCommit', 'off');

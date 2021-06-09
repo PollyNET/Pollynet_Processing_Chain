@@ -1,42 +1,40 @@
-function [depolconst, depolconstStd, caliStartTime, caliStopTime] = ...
-    load_depolconst(queryTime, dbFile, pollyType, ...
-        wavelength, varargin)
-%load_depolconst load depolarization calibration constant from database.
-%Example:
-%   [depolconst, depolconstStd, caliStartTime, caliStopTime] = 
-%       load_depolconst(queryTime, dbFile, pollyType, wavelength)
-%Inputs:
-%   queryTime: datenum
-%       query time.
-%   dbFile: char
-%       absolute path of the SQLite database.
-%   pollyType: char
-%       polly name. (case-sensitive)
-%   wavelength: char
-%       wavelength ('355' or '532').
-%Keywords:
-%   deltaTime: datenum
-%       search range for the query time. (default: NaN)
-%   flagClosest: logical
-%       flag to control whether to return the closest value only.
-%       (default: false)
-%       (default: false)
-%   flagBeforeQuery: logical
-%       flag to control whether to return records with calibration time before
-%       queryTime. (default: false)
-%Outputs:
-%   depolconst: array
-%       depolarization calibration constant.
-%   depolconstStd: array
-%       uncertainty of depolarization calibration constant.
-%   caliStartTime: array
-%       calibration start time for each record.
-%   caliStopTime: array
-%       calibration stop time for each record.
-%History:
-%   2020-04-17. First Edition by Zhenping
-%Contact:
-%   zp.yin@whu.edu.cn
+function [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolConst(queryTime, dbFile, pollyType, wavelength, varargin)
+% LOADDEPOLCONST load depolarization calibration constant from database.
+% USAGE:
+%    [depolconst, depolconstStd, caliStartTime, caliStopTime] = 
+%        loadDepolConst(queryTime, dbFile, pollyType, wavelength)
+% INPUTS:
+%    queryTime: datenum
+%        query time.
+%    dbFile: char
+%        absolute path of the SQLite database.
+%    pollyType: char
+%        polly name. (case-sensitive)
+%    wavelength: char
+%        wavelength ('355' or '532').
+% KEYWORDS:
+%    deltaTime: datenum
+%        search range for the query time. (default: NaN)
+%    flagClosest: logical
+%        flag to control whether to return the closest value only.
+%        (default: false)
+%        (default: false)
+%    flagBeforeQuery: logical
+%        flag to control whether to return records with calibration time before
+%        queryTime. (default: false)
+% OUTPUTS:
+%    depolconst: array
+%        depolarization calibration constant.
+%    depolconstStd: array
+%        uncertainty of depolarization calibration constant.
+%    caliStartTime: array
+%        calibration start time for each record.
+%    caliStopTime: array
+%        calibration stop time for each record.
+% EXAMPLE:
+% HISTORY:
+%    2021-06-08: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 %% parse arguments
 p = inputParser;

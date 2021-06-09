@@ -1,19 +1,19 @@
-function pollyxt_save_OC_att_bsc(data, taskInfo, config)
-%POLLYXT_SAVE_OC_ATT_BSC save the attenuated backscatter.
-%Example:
-%   pollyxt_save_OC_att_bsc(data, taskInfo, config)
-%Inputs:
-%   data, taskInfo, config
-%History:
-%   2019-11-27. First Edition by Zhenping
-%Contact:
-%   zhenping@tropos.de
+function pollySaveOCAttnBeta(data)
+% POLLYSAVEOCATTNBETA save overlap corrected attenuated backscatter.
+% USAGE:
+%    pollySaveOCAttnBeta(data)
+% INPUTS:
+%    data: struct
+% EXAMPLE:
+% HISTORY:
+%    2021-06-09: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 missing_value = -999;
 
-global processInfo defaults campaignInfo
+global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_OC_att_bsc.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_OC_att_bsc.nc', rmext(PollyDataInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -98,9 +98,9 @@ netcdf.putAtt(ncID, varID_att_bsc_355, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'long_name', 'overlap corrected attenuated backscatter at 355 nm');
 netcdf.putAtt(ncID, varID_att_bsc_355, 'standard_name', 'att_beta_355');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', config.zLim_att_beta_355/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_range', PollyConfig.zLim_att_beta_355/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_355, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_355, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
 % netcdf.putAtt(ncID, varID_att_bsc_355, 'error_variable', 'att_beta_355_error');
 % netcdf.putAtt(ncID, varID_att_bsc_355, 'bias_variable', 'att_beta_355_bias');
@@ -111,9 +111,9 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'long_name', 'overlap corrected attenuated backscatter at 532 nm');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'standard_name', 'att_beta_532');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', config.zLim_att_beta_532/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_range', PollyConfig.zLim_att_beta_532/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'error_variable', 'att_beta_532_error');
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
@@ -124,9 +124,9 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'long_name', 'overlap corrected attenuated backscatter at 1064 nm');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'standard_name', 'att_beta_1064');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', config.zLim_att_beta_1064/1e6);
+netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_range', PollyConfig.zLim_att_beta_1064/1e6);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_att_bsc_1064, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'error_variable', 'att_beta_1064_error');
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'bias_variable', 'att_beta_1064_bias');
@@ -134,14 +134,14 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'comment', 'This parameter is calculated
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

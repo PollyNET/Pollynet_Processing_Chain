@@ -1,24 +1,20 @@
-function pollyxt_save_tc_V2(data, taskInfo, config)
-%POLLYXT_SAVE_TC_V2 Saving the target classification results to netcdf file. (Based on quasi retrieving results V2)
-%Example:
-%   pollyxt_save_tc_V2(data, config)
-%Inputs:
-%   data.struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%   taskInfo: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%   config: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%History:
-%   2018-12-30. First Edition by Zhenping
-%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%   2019-09-27. Turn on the netCDF4 compression.
-%Contact:
-%   zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+function pollySaveTCV1(data)
+% POLLYSAVETCV1 save aerosol/cloud target classification products.
+% USAGE:
+%    pollySaveTCV1(data)
+% INPUTS:
+%    data: struct
+% EXAMPLE:
+% HISTORY:
+%    2018-12-30: First Edition by Zhenping
+%    2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
+%    2019-09-27: Turn on the netCDF4 compression.
+% .. Authors: - zhenping@tropos.de
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_target_classification_V2.nc', rmext(taskInfo.dataFilename)));
+global PicassoConfig CampaignConfig PollyDataInfo
+
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_target_classification.nc', rmext(PollyDataInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -53,7 +49,7 @@ netcdf.putVar(ncID, varID_longitude, data.lon);
 netcdf.putVar(ncID, varID_latitude, data.lat);
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_tc_mask, data.tc_mask_V2);
+netcdf.putVar(ncID, varID_tc_mask, data.tcMaskV1);
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -96,7 +92,7 @@ netcdf.putAtt(ncID, varID_tc_mask, 'long_name', 'Target classification');
 netcdf.putAtt(ncID, varID_tc_mask, 'standard_name', 'tc_mask');
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_range', [0, 11]);
 netcdf.putAtt(ncID, varID_tc_mask, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_tc_mask, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_tc_mask, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_tc_mask, 'comment', 'This variable provides 11 atmospheric target classifications that can be distinguished by multiwavelength raman lidar.');
 netcdf.putAtt(ncID, varID_tc_mask, 'definition', '\"0: No signal\"\n\"1: Clean atmosphere\"\n\"2: Non-typed particles/low conc.\"\n\"3: Aerosol: small\"\n\"4: Aerosol: large, spherical\"\n\"5: Aerosol: mixture, partly non-spherical\"\n\"6: Aerosol: large, non-spherical\"\n\"7: Cloud: non-typed\"\n\"8: Cloud: water droplets\"\n\"9: Cloud: likely water droplets\"\n\"10: Cloud: ice crystals\"\n\"11: Cloud: likely ice crystals');
 netcdf.putAtt(ncID, varID_tc_mask, 'legend_key_red', [1.0000, 0.9000, 0.6000, 0.8667, 0.9059, 0.5333, 0, 0.4706, 0.2275, 0.7059, 0.0667, 0.5255]);
@@ -105,18 +101,18 @@ netcdf.putAtt(ncID, varID_tc_mask, 'legend_key_blue', [1.00, 0.90, 0.60, 0.47, 0
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-
+ 
 % close file
 netcdf.close(ncID);
 

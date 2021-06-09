@@ -1,21 +1,21 @@
-function pollyxt_save_WVMR_RH(data, taskInfo, config)
-%POLLYXT_SAVE_WVMR_RH save the water vapor mixing ratio and relative humidity.
-%Example:
-%   pollyxt_save_WVMR_RH(data, taskInfo, config)
-%Inputs:
-%   data, taskInfo, config
-%History:
-%   2019-03-15. First Edition by Zhenping
-%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%   2019-09-27. Turn on the netCDF4 compression.
-%Contact:
-%   zhenping@tropos.de
+function pollySaveWV(data)
+% pollySaveWV save water vapor products.
+% USAGE:
+%    pollySaveWV(data)
+% INPUTS:
+%    data: struct
+% EXAMPLE:
+% HISTORY:
+%    2019-03-15: First Edition by Zhenping
+%    2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
+%    2019-09-27: Turn on the netCDF4 compression.
+% .. Authors: - zhenping@tropos.de
 
 missing_value = -999;
 
-global processInfo campaignInfo
+global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
-ncfile = fullfile(processInfo.results_folder, campaignInfo.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR_RH.nc', rmext(taskInfo.dataFilename)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_WVMR_RH.nc', rmext(PollyDataInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -62,13 +62,9 @@ netcdf.putVar(ncID, varID_WVMR, fillmissing(data.WVMR, missing_value));
 netcdf.putVar(ncID, varID_RH, fillmissing(data.RH, missing_value));
 
 % Quality_mask_WVMR
-if isfield(data, 'quality_mask_WVMR')
-    netcdf.putVar(ncID, varID_QM_WVMR, fillmissing(data.quality_mask_WVMR, missing_value));
-end
+netcdf.putVar(ncID, varID_QM_WVMR, fillmissing(data.quality_mask_WVMR, missing_value));
 % Quality_mask_RH
-if isfield(data, 'quality_mask_RH')
-    netcdf.putVar(ncID, varID_QM_RH, fillmissing(data.quality_mask_RH, missing_value));
-end
+netcdf.putVar(ncID, varID_QM_RH, fillmissing(data.quality_mask_RH, missing_value));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -110,9 +106,9 @@ netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
 netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
-netcdf.putAtt(ncID, varID_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
+netcdf.putAtt(ncID, varID_WVMR, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_WVMR, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_WVMR, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
@@ -125,7 +121,7 @@ netcdf.putAtt(ncID, varID_RH, 'long_name', 'relative humidity');
 netcdf.putAtt(ncID, varID_RH, 'standard_name', 'RH');
 netcdf.putAtt(ncID, varID_RH, 'plot_range', [0, 100]);
 netcdf.putAtt(ncID, varID_RH, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_RH, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_RH, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_RH, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_RH, 'error_variable', 'RH_error');
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
@@ -133,36 +129,33 @@ netcdf.putAtt(ncID, varID_RH, 'retrieving_info', sprintf('flagCalibrated: %s; Ca
 
 
 % Quality_mask_WVMR
-if isfield(data, 'quality_mask_WVMR')
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'unit', 'flag');
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'unit_html', 'flag');
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'long_name', 'Quality mask for WVMR ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'standard_name', 'QM_WVMR');
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_range', config.xLim_Profi_WV_RH);
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_QM_WVMR, 'source', campaignInfo.name);
-end
+netcdf.putAtt(ncID, varID_QM_WVMR, 'unit', 'flag');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'unit_html', 'flag');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'long_name', 'Quality mask for WVMR ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'standard_name', 'QM_WVMR');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
+netcdf.putAtt(ncID, varID_QM_WVMR, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_QM_WVMR, 'source', CampaignConfig.name);
+
 % Quality_mask_RH
-if isfield(data, 'quality_mask_RH')
-    netcdf.putAtt(ncID, varID_QM_RH, 'unit', 'flag');
-    netcdf.putAtt(ncID, varID_QM_RH, 'unit_html', 'flag');
-    netcdf.putAtt(ncID, varID_QM_RH, 'long_name', 'Quality mask for RH ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
-    netcdf.putAtt(ncID, varID_QM_RH, 'standard_name', 'QM_RH');
-    netcdf.putAtt(ncID, varID_QM_RH, 'plot_range', config.xLim_Profi_WV_RH);
-    netcdf.putAtt(ncID, varID_QM_RH, 'plot_scale', 'linear');
-    netcdf.putAtt(ncID, varID_QM_RH, 'source', campaignInfo.name);
-end
+netcdf.putAtt(ncID, varID_QM_RH, 'unit', 'flag');
+netcdf.putAtt(ncID, varID_QM_RH, 'unit_html', 'flag');
+netcdf.putAtt(ncID, varID_QM_RH, 'long_name', 'Quality mask for RH ratio retrieval. 0=ok,1=SNR too low,2=depol calibation');
+netcdf.putAtt(ncID, varID_QM_RH, 'standard_name', 'QM_RH');
+netcdf.putAtt(ncID, varID_QM_RH, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
+netcdf.putAtt(ncID, varID_QM_RH, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_QM_RH, 'source', CampaignConfig.name);
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

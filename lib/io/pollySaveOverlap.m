@@ -1,41 +1,28 @@
-function pollyxt_save_overlap(data, taskInfo, config, globalAttri, file)
-%POLLYXT_SAVE_OVERLAP Save the overlap file.
-%Example:
-%   pollyxt_save_overlap(data, taskInfo, config, globalAttri, file);
-%Inputs:
-%   data.struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%   config: struct
-%       polly processing configuration. More detailed information can be found in doc/polly_config.md
-%   globalAttri: struct
-%       overlap532: array
-%           calculated overlap for 532 nm far range total channel.
-%       overlap355: array
-%           calculated overlap for 355 nm far range total channel.
-%       overlap532Defaults: array
-%           default overlap for 532 nm far range total channel.
-%       overlap355Defaults: array
-%           default overlap for 355 nm far range total channel.
-%   file: char
-%       netcdf file to save the overlap parameters.
-%History:
+function pollySaveOverlap(data, file)
+% POLLYSAVEOVERLAP save overlap function.
+% USAGE:
+%    pollySaveOverlap(data, file)
+% INPUTS:
+%    data: struct
+%    file: char
+% EXAMPLE:
+% HISTORY:
 %   2018-12-21. First Edition by Zhenping
 %   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
 %   2019-09-27. Turn on the netCDF4 compression.
-%Contact:
-%   zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de
 
-global processInfo defaults campaignInfo
+global PicassoConfig PollyDefaults CampaignConfig PollyConfig
 
 if isempty(data.rawSignal)
     return;
 end
 
 % convert empty array to defaults
-overlap355 = globalAttri.overlap355;
-overlap532 = globalAttri.overlap532;
-overlap355Defaults = globalAttri.overlap355DefaultInterp;
-overlap532Defaults = globalAttri.overlap532DefaultInterp;
+overlap355 = data.olFunc355;
+overlap532 = data.olFunc532;
+overlap355Defaults = data.olFuncDeft355;
+overlap532Defaults = data.olFuncDeft532;
 if isempty(overlap532)
     overlap532 = -999 * ones(size(data.height));
 end
@@ -99,7 +86,7 @@ netcdf.putVar(ncID, varID_overlap532, overlap532);
 netcdf.putVar(ncID, varID_overlap355, overlap355);
 netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
 netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
-netcdf.putVar(ncID, varID_overlapCalMethod, config.overlapCalMode);
+netcdf.putVar(ncID, varID_overlapCalMethod, PollyConfig.overlapCalMode);
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -148,7 +135,7 @@ netcdf.putAtt(ncID, varID_overlap532, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532, 'valid_max', 100);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap532, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_overlap532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_overlap532, 'comment', 'This variable is not quality-assured. Only use with instructions from the PollyNET develop team.');
 
 % overlap 355
@@ -158,7 +145,7 @@ netcdf.putAtt(ncID, varID_overlap355, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap355, 'valid_max', 100);
 netcdf.putAtt(ncID, varID_overlap355, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap355, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap355, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_overlap355, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_overlap355, 'comment', 'This variable is not quality-assured. Only use with instructions from the PollyNET develop team.');
 
 % Default overlap 532
@@ -168,7 +155,7 @@ netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap532Defaults, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_overlap532Defaults, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_overlap532Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
 
 % Default overlap 355
@@ -178,7 +165,7 @@ netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_min', 0.0);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'valid_max', 1.0);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_range', [0, 1.1]);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_overlap355Defaults, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_overlap355Defaults, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_overlap355Defaults, 'comment', 'This is the theoretical overlap function which is not identical to the real overlap function. Do not use it to correct the signal.');
 
 % overlap calibration method
@@ -188,14 +175,14 @@ netcdf.putAtt(ncID, varID_overlapCalMethod, 'definition', '1: signal ratio of ne
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
