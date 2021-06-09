@@ -1,39 +1,39 @@
-function save_liconst(dbFile, liconst, liconstStd, ...
+function saveLiConst(dbFile, liconst, liconstStd, ...
                          lcStartTime, lcStopTime, ...
                          pollyDataFilename, pollyType, ...
                          wavelength, caliMethod, telescope)
-%SAVE_LICONST save lidar calibration results. 
-%Example:
-%   save_liconst(dbFile, liconst, liconstStd, lcStartTime,
-%                lcStopTime, pollyDataFilename, pollyType, wavelength,
-%                caliMethod)
-%Inputs:
-%   dbFile: char
-%       absolute path of the database.
-%   liconst: array
-%       lidar calibration constants.
-%   liconstStd: array
-%       uncertainty of lidar calibration constants.
-%   lcStartTime: array
-%       start time of each calibration period.
-%   lcStopTime: array
-%       stop time of each calibration period.
-%   pollyDataFilename: char
-%       the polly netcdf data file.
-%   pollyType: char
-%       polly type. (case-sensitive)
-%   wavelength: char
-%       wavelength. ('355', '532', '1064', '387' or '607')
-%   caliMethod: char
-%       applied lidar calibration method.
-%       ('Klett_Method', 'Raman_Method' or 'AOD_Constrained_Method')
-%   telescope: char
-%       detection range.
-%       ('near_range', or 'far_range')
-%History:
-%   2020-04-18. First edition.
-%Contact:
-%   zhenping@tropos.de
+% SAVELICONST save lidar calibration results.
+% USAGE:
+%    saveLiConst(dbFile, liconst, liconstStd, lcStartTime,
+%                 lcStopTime, pollyDataFilename, pollyType, wavelength,
+%                 caliMethod)
+% INPUTS:
+%    dbFile: char
+%        absolute path of the database.
+%    liconst: array
+%        lidar calibration constants.
+%    liconstStd: array
+%        uncertainty of lidar calibration constants.
+%    lcStartTime: array
+%        start time of each calibration period.
+%    lcStopTime: array
+%        stop time of each calibration period.
+%    pollyDataFilename: char
+%        the polly netcdf data file.
+%    pollyType: char
+%        polly type. (case-sensitive)
+%    wavelength: char
+%        wavelength. ('355', '532', '1064', '387' or '607')
+%    caliMethod: char
+%        applied lidar calibration method.
+%        ('Klett_Method', 'Raman_Method' or 'AOD_Constrained_Method')
+%    telescope: char
+%        detection range.
+%        ('near_range', or 'far_range')
+% EXAMPLE:
+% HISTORY:
+%    2021-06-08: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
 set(conn, 'AutoCommit', 'off');

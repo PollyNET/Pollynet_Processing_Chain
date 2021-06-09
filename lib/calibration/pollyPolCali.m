@@ -77,10 +77,10 @@ case '355nm'
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
         p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
-    polCalAttri355.polCaliFac355 = polCaliFac355;
-    polCalAttri355.polCaliFacStd355 = polCaliFacStd355;
-    polCalAttri355.polCaliStartTime355 = polCaliStartTime355;
-    polCalAttri355.polCaliStopTime355 = polCaliStopTime355;
+    polCalAttri355.polCaliFac = polCaliFac355;
+    polCalAttri355.polCaliFacStd = polCaliFacStd355;
+    polCalAttri355.polCaliStartTime = polCaliStartTime355;
+    polCalAttri355.polCaliStopTime = polCaliStopTime355;
 
     if exist(p.Results.dbFile, 'file') == 2
         [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = select_depolconst(...
@@ -125,10 +125,10 @@ case '532nm'
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
         p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
-    polCalAttri532.polCaliFac532 = polCaliFac532;
-    polCalAttri532.polCaliFacStd532 = polCaliFacStd532;
-    polCalAttri532.polCaliStartTime532 = polCaliStartTime532;
-    polCalAttri532.polCaliStopTime532 = polCaliStopTime532;
+    polCalAttri532.polCaliFac = polCaliFac532;
+    polCalAttri532.polCaliFacStd = polCaliFacStd532;
+    polCalAttri532.polCaliStartTime = polCaliStartTime532;
+    polCalAttri532.polCaliStopTime = polCaliStopTime532;
 
     if exist(p.Results.dbFile, 'file') == 2
         [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = select_depolconst(...

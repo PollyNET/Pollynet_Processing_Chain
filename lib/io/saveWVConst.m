@@ -1,46 +1,46 @@
-function save_wvconst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
+function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
                       pollyDataFilename, pollyType)
-%save_wvconst  save water vapor calibration results. 
-%Example:
-%   save_wvconst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
-%                pollyDataFilename, pollyType)
-%Inputs:
-%   dbFile: char
-%       absolute path of the database.
-%   wvconst: array
-%       water vapor calibration constants. [g*kg^{-1}] 
-%   wvconstStd: array
-%       uncertainty of water vapor calibration constants. [g*kg^{-1}] 
-%   WVCaliInfo: struct
-%       source: char
-%           data source. ('AERONET', 'MWR' or else)
-%       site: char
-%           measurement site.
-%       datetime: array
-%           datetime of applied IWV.
-%       PI: char
-%       contact: char
-%   IWVAttri: struct
-%       cali_start_time: array
-%           water vapor calibration start time. [datenum]
-%       cali_stop_time: array
-%           water vapor calibration stop time. [datenum]
-%       WVCaliInfo: cell
-%           calibration information for each calibration period.
-%       IntRange: matrix
-%           index of integration range for calculate the raw IWV from lidar. 
-%   pollyDataFilename: char
-%       the polly netcdf data file.
-%   pollyType: char
-%       polly type. (case-sensitive)
-%History:
-%   2018-12-19. First Edition by Zhenping
-%   2019-02-12. Remove the bug for saving flagCalibration at some time with 
-%               no calibration constants.
-%   2019-08-09. Saving the real applied water vapor constant instead of the 
-%               defaults. And remove the outputs of the function.
-%Contact:
-%   zhenping@tropos.de
+% SAVEWVCONST save water vapor calibration results.
+% USAGE:
+%    saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
+%                 pollyDataFilename, pollyType)
+% INPUTS:
+%    dbFile: char
+%        absolute path of the database.
+%    wvconst: array
+%        water vapor calibration constants. [g*kg^{-1}] 
+%    wvconstStd: array
+%        uncertainty of water vapor calibration constants. [g*kg^{-1}] 
+%    WVCaliInfo: struct
+%        source: char
+%            data source. ('AERONET', 'MWR' or else)
+%        site: char
+%            measurement site.
+%        datetime: array
+%            datetime of applied IWV.
+%        PI: char
+%        contact: char
+%    IWVAttri: struct
+%        cali_start_time: array
+%            water vapor calibration start time. [datenum]
+%        cali_stop_time: array
+%            water vapor calibration stop time. [datenum]
+%        WVCaliInfo: cell
+%            calibration information for each calibration period.
+%        IntRange: matrix
+%            index of integration range for calculate the raw IWV from lidar. 
+%    pollyDataFilename: char
+%        the polly netcdf data file.
+%    pollyType: char
+%        polly type. (case-sensitive)
+% EXAMPLE:
+% HISTORY:
+%    2018-12-19: First Edition by Zhenping
+%    2019-02-12: Remove the bug for saving flagCalibration at some time with 
+%                no calibration constants.
+%    2019-08-09: Saving the real applied water vapor constant instead of the 
+%                defaults. And remove the outputs of the function.
+% .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
 set(conn, 'AutoCommit', 'off');

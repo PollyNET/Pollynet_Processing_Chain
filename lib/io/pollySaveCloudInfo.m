@@ -1,32 +1,27 @@
-function pollyxt_save_cloudinfo(data, taskInfo, config)
-%POLLYXT_SAVE_CLOUDINFO Saving the cloud layering information to netcdf file.
-%Example:
-%   pollyxt_save_cloudinfo(data, taskInfo, config)
-%Inputs:
-%   data.struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%   taskInfo: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%   config: struct
-%       More detailed information can be found in doc/pollynet_processing_program.md
-%History:
-%   2020-04-21 First edition by Zhenping.
-%Contact:
-%   zhenping@tropos.de
+function pollySaveCloudInfo(data)
+% pollySaveCloudInfo save cloud layering information to netcdf file.
+% USAGE:
+%    pollySaveCloudInfo(data)
+% INPUTS:
+%    data: struct
+% EXAMPLE:
+% HISTORY:
+%    2021-06-09: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
-global processInfo campaignInfo
+global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
 if ~ isfield(data, 'clBaseH')
     warning('No available cloud information.');
     return;
 end
 
-ncfile = fullfile(processInfo.results_folder, ...
-                  campaignInfo.name, ...
+ncfile = fullfile(PicassoConfig.results_folder, ...
+                  CampaignConfig.name, ...
                   datestr(data.mTime(1), 'yyyy'), ...
                   datestr(data.mTime(1), 'mm'), ...
                   datestr(data.mTime(1), 'dd'), ...
-                  sprintf('%s_cloudinfo.nc', rmext(taskInfo.dataFilename)));
+                  sprintf('%s_cloudinfo.nc', rmext(PollyDataInfo.dataFilename)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -114,40 +109,40 @@ netcdf.putAtt(ncID, varID_layer_index, 'axis', 'Z');
 netcdf.putAtt(ncID, varID_cloud_base_height, 'unit', 'm');
 netcdf.putAtt(ncID, varID_cloud_base_height, 'long_name', 'cloud base height');
 netcdf.putAtt(ncID, varID_cloud_base_height, 'standard_name', 'H_cb');
-netcdf.putAtt(ncID, varID_cloud_base_height, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_cloud_base_height, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_cloud_base_height, 'comment', 'cloud base height for each classified cloud layer.');
 
 % cloud_top_height
 netcdf.putAtt(ncID, varID_cloud_top_height, 'unit', 'm');
 netcdf.putAtt(ncID, varID_cloud_top_height, 'long_name', 'cloud top height');
 netcdf.putAtt(ncID, varID_cloud_top_height, 'standard_name', 'H_ct');
-netcdf.putAtt(ncID, varID_cloud_top_height, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_cloud_top_height, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_cloud_top_height, 'comment', 'cloud top height for each classified cloud layer.');
 
 % cloud_phase
 netcdf.putAtt(ncID, varID_cloud_phase, 'unit', '');
 netcdf.putAtt(ncID, varID_cloud_phase, 'long_name', 'cloud phase');
 netcdf.putAtt(ncID, varID_cloud_phase, 'standard_name', 'cloud_phase');
-netcdf.putAtt(ncID, varID_cloud_phase, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_cloud_phase, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_cloud_phase, 'comment', 'cloud phase for each classified cloud layer (0: unknow; 1: liquid; 2: ice; 3: mixed phase)');
 
 % cloud_phase_probability
 netcdf.putAtt(ncID, varID_cloud_phase_probability, 'unit', '');
 netcdf.putAtt(ncID, varID_cloud_phase_probability, 'long_name', 'probability of cloud phase');
 netcdf.putAtt(ncID, varID_cloud_phase_probability, 'standard_name', 'prob_cloud_phase');
-netcdf.putAtt(ncID, varID_cloud_phase_probability, 'source', campaignInfo.name);
+netcdf.putAtt(ncID, varID_cloud_phase_probability, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_cloud_phase_probability, 'comment', 'probability for the cloud phase.');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
-netcdf.putAtt(ncID, varID_global, 'location', campaignInfo.location);
-netcdf.putAtt(ncID, varID_global, 'institute', processInfo.institute);
-netcdf.putAtt(ncID, varID_global, 'source', campaignInfo.name);
-netcdf.putAtt(ncID, varID_global, 'version', processInfo.programVersion);
-netcdf.putAtt(ncID, varID_global, 'reference', processInfo.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', processInfo.contact);
+netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
+netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
+netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(processInfo.projectDir);
+cd(PicassoConfig.projectDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
