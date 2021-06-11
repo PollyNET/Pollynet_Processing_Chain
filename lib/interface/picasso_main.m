@@ -3030,7 +3030,7 @@ if (sum(flag532NR) == 1)
     att_beta_NR_532(:, data.depCalMask) = NaN;
 end
 
-print_msg('Finsh.\n', 'flagTimestamp', true);
+print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Volume linear depolarization ratio with high temporal resolution
 print_msg('Start calculating volume linear depolarization ratio.\n', 'flagTimestamp', true);
@@ -3554,6 +3554,133 @@ if PicassoConfig.flagEnableCaliResultsOutput
     print_msg('Finish.\n', 'flagTimestamp', true);
 end
 
+data.olFunc532 = olFunc532;
+data.olFunc355 = olFunc355;
+data.olAttri355 = olAttri355;
+data.olAttri532 = olAttri532;
+data.olFuncDeft355 = olFuncDeft355;
+data.olFuncDeft532 = olFuncDeft532;
+data.aerBsc355_klett = aerBsc355_klett;
+data.aerBsc532_klett = aerBsc532_klett;
+data.aerBsc1064_klett = aerBsc1064_klett;
+data.aerBsc355_aeronet = aerBsc355_aeronet;
+data.aerBsc532_aeronet = aerBsc532_aeronet;
+data.aerBsc1064_aeronet = aerBsc1064_aeronet;
+data.LR355_aeronet = LC_aeronet_355;
+data.LR532_aeronet = LC_aeronet_532;
+data.LR1064_aeronet = LC_aeronet_1064;
+data.aerBsc355_raman = aerBsc355_raman;
+data.aerBsc532_raman = aerBsc532_raman;
+data.aerBsc1064_raman = aerBsc1064_raman;
+data.aerExt355_raman = aerExt355_raman;
+data.aerExt532_raman = aerExt532_raman;
+data.aerExt1064_raman = aerExt1064_raman;
+data.LR355_raman = LR355_raman;
+data.LR532_raman = LR532_raman;
+data.LR1064_raman = LR1064_raman;
+data.vdr355_klett = vdr355_klett;
+data.vdr532_klett = vdr532_klett;
+data.vdr355_raman = vdr355_raman;
+data.vdr532_raman = vdr532_raman;
+data.pdr355_klett = pdr355_klett;
+data.pdr532_klett = pdr532_klett;
+data.pdr355_raman = pdr355_raman;
+data.pdr532_raman = pdr532_raman;
+data.pdrStd355_klett = pdrStd355_klett;
+data.pdrStd532_klett = pdrStd532_klett;
+data.pdrStd355_raman = pdrStd355_raman;
+data.pdrStd532_raman = pdrStd532_raman;
+data.wvmr = wvmr;
+data.rh = rh;
+data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
+data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
+data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
+data.AE_Bsc_532_1064_raman = AE_Bsc_532_1064_raman;
+data.AE_Ext_355_532_raman = AE_Ext_355_532_raman;
+data.refHInd355 = refHInd355;
+data.refHInd532 = refHInd532;
+data.refHInd1064 = refHInd1064;
+data.deltaAOD355 = deltaAOD355;
+data.deltaAOD532 = deltaAOD532;
+data.deltaAOD1064 = deltaAOD1064;
+data.mdr355 = mdr355;
+data.mdr532 = mdr532;
+data.IWVAttri = IWVAttri;
+data.meteorAttri = meteorAttri;
+data.aerBsc355_NR_klett = aerBsc355_NR_klett;
+data.aerBsc532_NR_klett = aerBsc532_NR_klett;
+data.aerBsc355_NR_raman = aerBsc355_NR_raman;
+data.aerBsc532_NR_raman = aerBsc532_NR_raman;
+data.aerExt355_NR_klett = aerExt355_NR_klett;
+data.aerExt532_NR_raman = aerExt532_NR_raman;
+data.LR355_NR_raman = LR355_NR_raman;
+data.LR532_NR_raman = LR532_NR_raman;
+data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
+data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
+data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
+data.aerBsc355_OC_klett = aerBsc355_OC_klett;
+data.aerBsc532_OC_klett = aerBsc532_OC_klett;
+data.aerBsc1064_OC_klett = aerBsc1064_OC_klett;
+data.aerBsc355_OC_raman = aerBsc355_OC_raman;
+data.aerBsc532_OC_raman = aerBsc532_OC_raman;
+data.aerBsc1064_OC_raman = aerBsc1064_OC_raman;
+data.aerExt355_OC_raman = aerExt355_OC_raman;
+data.aerExt532_OC_raman = aerExt532_OC_raman;
+data.aerExt1064_OC_raman = aerExt1064_OC_raman;
+data.AE_Bsc_355_532_OC_klett = AE_Bsc_355_532_OC_klett;
+data.AE_Bsc_532_1064_OC_klett = AE_Bsc_532_1064_OC_klett;
+data.AE_Bsc_355_532_OC_raman = AE_Bsc_355_532_OC_raman;
+data.AE_Bsc_532_1064_OC_raman = AE_Bsc_532_1064_OC_raman;
+data.AE_Ext_355_532_OC_raman = AE_Ext_355_532_OC_raman;
+data.LR355_OC_raman = LR355_OC_raman;
+data.LR532_OC_raman = LR532_OC_raman;
+data.LR1064_OC_raman = LR1064_OC_raman;
+data.pdr355_OC_klett = pdr355_OC_klett;
+data.pdr532_OC_klett = pdr532_OC_klett;
+data.pdr355_OC_raman = pdr355_OC_raman;
+data.pdr532_OC_raman = pdr532_OC_raman;
+data.pdrStd355_OC_klett = pdrStd355_OC_klett;
+data.pdrStd532_OC_klett = pdrStd532_OC_klett;
+data.pdrStd355_OC_raman = pdrStd355_OC_raman;
+data.pdrStd532_OC_raman = pdrStd532_OC_raman;
+data.att_beta_355 = att_beta_355;
+data.att_beta_532 = att_beta_532;
+data.att_beta_1064 = att_beta_1064;
+data.quality_mask_355 = quality_mask_355;
+data.quality_mask_532 = quality_mask_532;
+data.quality_mask_1064 = quality_mask_1064;
+data.SNR = SNR;
+data.LCUsed = LCUsed;
+data.att_beta_OC_355 = att_beta_OC_355;
+data.att_beta_OC_532 = att_beta_OC_532;
+data.att_beta_OC_1064 = att_beta_OC_1064;
+data.WVMR = WVMR;
+data.RH = RH;
+data.quality_mask_WVMR = quality_mask_WVMR;
+data.quality_mask_RH = quality_mask_RH;
+data.quasiAttri = quasiAttri;
+data.qsiBsc532V1 = qsiBsc532V1;
+data.qsiBsc1064V1 = qsiBsc1064V1;
+data.qsiPDR532V1 = qsiPDR532V1;
+data.qsiAE_532_1064_V1 = qsiAE_532_1064_V1;
+data.quality_mask_vdr_532 = quality_mask_vdr_532;
+data.qsiBsc532V2 = qsiBsc532V2;
+data.qsiBsc1064V2 = qsiBsc1064V2;
+data.qsiPDR532V2 = qsiPDR532V2;
+data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
+quality_mask_532_V2 = quality_mask_532;
+quality_mask_532_V2((quality_mask_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
+data.quality_mask_532_V2 = quality_mask_532_V2;
+quality_mask_1064_V2 = quality_mask_1064;
+quality_mask_1064_V2((quality_mask_1064_V2 == 0) & ((quality_mask_607 == 1) | (quality_mask_532 == 1))) = 1;
+data.quality_mask_1064_V2 = quality_mask_1064_V2;
+data.tcMaskV1 = tcMaskV1;
+data.tcMaskV2 = tcMaskV2;
+data.clBaseH = clBaseH;
+data.clTopH = clTopH;
+data.clPh = clPh;
+data.clPhProb = clPhProb;
+
 %% Saving products
 if PicassoConfig.flagEnableCaliResultsOutput
 
@@ -3583,174 +3710,88 @@ if PicassoConfig.flagEnableCaliResultsOutput
         switch lower(PollyConfig.prodSaveList{iProd})
 
         case 'overlap'
+            print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true);
             %% save overlap function
             saveFile = fullfile(PicassoConfig.results_folder, ...
                                 campaignInfo.name, datestr(data.mTime(1), 'yyyy'), ...
                                 datestr(data.mTime(1), 'mm'), ...
                                 datestr(data.mTime(1), 'dd'), ...
                                 sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
-            data.olFunc532 = olFunc532;
-            data.olFunc355 = olFunc355;
-            data.olAttri355 = olAttri355;
-            data.olAttri532 = olAttri532;
-            data.olFuncDeft355 = olFuncDeft355;
-            data.olFuncDeft532 = olFuncDeft532;
             pollySaveOverlap(data, saveFile);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'aerproffr'
+            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true);
             %% save aerosol optical results
-            data.aerBsc355_klett = aerBsc355_klett;
-            data.aerBsc532_klett = aerBsc532_klett;
-            data.aerBsc1064_klett = aerBsc1064_klett;
-            data.aerBsc355_aeronet = aerBsc355_aeronet;
-            data.aerBsc532_aeronet = aerBsc532_aeronet;
-            data.aerBsc1064_aeronet = aerBsc1064_aeronet;
-            data.LR355_aeronet = LC_aeronet_355;
-            data.LR532_aeronet = LC_aeronet_532;
-            data.LR1064_aeronet = LC_aeronet_1064;
-            data.aerBsc355_raman = aerBsc355_raman;
-            data.aerBsc532_raman = aerBsc532_raman;
-            data.aerBsc1064_raman = aerBsc1064_raman;
-            data.aerExt355_raman = aerExt355_raman;
-            data.aerExt532_raman = aerExt532_raman;
-            data.aerExt1064_raman = aerExt1064_raman;
-            data.LR355_raman = LR355_raman;
-            data.LR532_raman = LR532_raman;
-            data.LR1064_raman = LR1064_raman;
-            data.vdr355_klett = vdr355_klett;
-            data.vdr532_klett = vdr532_klett;
-            data.vdr355_raman = vdr355_raman;
-            data.vdr532_raman = vdr532_raman;
-            data.pdr355_klett = pdr355_klett;
-            data.pdr532_klett = pdr532_klett;
-            data.pdr355_raman = pdr355_raman;
-            data.pdr532_raman = pdr532_raman;
-            data.pdrStd355_klett = pdrStd355_klett;
-            data.pdrStd532_klett = pdrStd532_klett;
-            data.pdrStd355_raman = pdrStd355_raman;
-            data.pdrStd532_raman = pdrStd532_raman;
-            data.wvmr = wvmr;
-            data.rh = rh;
-            data.refHInd355 = refHInd355;
-            data.refHInd532 = refHInd532;
-            data.refHInd1064 = refHInd1064;
-            data.deltaAOD355 = deltaAOD355;
-            data.deltaAOD532 = deltaAOD532;
-            data.deltaAOD1064 = deltaAOD1064;
-            data.mdr355 = mdr355;
-            data.mdr532 = mdr532;
-            data.IWVAttri = IWVAttri;
-            data.meteorAttri = meteorAttri;
             pollySaveProfiles(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'aerprofnr'
+            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true);
             %% save aerosol optical results
-            data.aerBsc355_NR_klett = aerBsc355_NR_klett;
-            data.aerBsc532_NR_klett = aerBsc532_NR_klett;
-            data.aerBsc355_NR_raman = aerBsc355_NR_raman;
-            data.aerBsc532_NR_raman = aerBsc532_NR_raman;
-            data.aerExt355_NR_klett = aerExt355_NR_klett;
-            data.aerExt532_NR_raman = aerExt532_NR_raman;
-            data.LR355_NR_raman = LR355_NR_raman;
-            data.LR532_NR_raman = LR532_NR_raman;
             pollySaveNRProfiles(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'aerprofoc'
+            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true);
             %% save aerosol optical results
-            data.aerBsc355_OC_klett = aerBsc355_OC_klett;
-            data.aerBsc532_OC_klett = aerBsc532_OC_klett;
-            data.aerBsc1064_OC_klett = aerBsc1064_OC_klett;
-            data.aerBsc355_OC_raman = aerBsc355_OC_raman;
-            data.aerBsc532_OC_raman = aerBsc532_OC_raman;
-            data.aerBsc1064_OC_raman = aerBsc1064_OC_raman;
-            data.aerExt355_OC_raman = aerExt355_OC_raman;
-            data.aerExt532_OC_raman = aerExt532_OC_raman;
-            data.aerExt1064_OC_raman = aerExt1064_OC_raman;
-            data.LR355_OC_raman = LR355_OC_raman;
-            data.LR532_OC_raman = LR532_OC_raman;
-            data.LR1064_OC_raman = LR1064_OC_raman;
-            data.pdr355_OC_klett = pdr355_OC_klett;
-            data.pdr532_OC_klett = pdr532_OC_klett;
-            data.pdr355_OC_raman = pdr355_OC_raman;
-            data.pdr532_OC_raman = pdr532_OC_raman;
-            data.pdrStd355_OC_klett = pdrStd355_OC_klett;
-            data.pdrStd532_OC_klett = pdrStd532_OC_klett;
-            data.pdrStd355_OC_raman = pdrStd355_OC_raman;
-            data.pdrStd532_OC_raman = pdrStd532_OC_raman;
             pollySaveOCProfiles(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'aerattbetafr'
+            print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true);
             %% save attenuated backscatter
-            data.att_beta_355 = att_beta_355;
-            data.att_beta_532 = att_beta_532;
-            data.att_beta_1064 = att_beta_1064;
-            data.quality_mask_355 = quality_mask_355;
-            data.quality_mask_532 = quality_mask_532;
-            data.quality_mask_1064 = quality_mask_1064;
-            data.SNR = SNR;
-            data.LCUsed = LCUsed;
             pollySaveAttnBeta(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'aerattbetaoc'
+            print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true);
             %% save attenuated backscatter
-            data.att_beta_OC_355 = att_beta_OC_355;
-            data.att_beta_OC_532 = att_beta_OC_532;
-            data.att_beta_OC_1064 = att_beta_OC_1064;
             pollySaveOCAttnBeta(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'wvmr_rh'
+            print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true);
             %% save water vapor mixing ratio and relative humidity
-            data.WVMR = WVMR;
-            data.RH = RH;
-            data.quality_mask_WVMR = quality_mask_WVMR;
-            data.quality_mask_RH = quality_mask_RH;
             pollySaveWV(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'voldepol'
+            print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true);
             %% save volume depolarization ratio
             data.vdr355 = vdr355;
             data.vdr532 = vdr532;
             pollySaveVDR(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'quasiv1'
+            print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true);
             %% save quasi results (V1)
-            data.qsiBsc532V1 = qsiBsc532V1;
-            data.qsiBsc1064V1 = qsiBsc1064V1;
-            data.qsiPDR532V1 = qsiPDR532V1;
-            data.qsiAE_532_1064_V1 = qsiAE_532_1064_V1;
-            data.quality_mask_vdr_532 = quality_mask_vdr_532;
             pollySaveQsiV1(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'quasiv2'
+            print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true);
             %% save quasi results (V2)
-            data.qsiBsc532V2 = qsiBsc532V2;
-            data.qsiBsc1064V2 = qsiBsc1064V2;
-            data.qsiPDR532V2 = qsiPDR532V2;
-            data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
-            quality_mask_532_V2 = quality_mask_532;
-            quality_mask_532_V2((quality_mask_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
-            data.quality_mask_532_V2 = quality_mask_532_V2;
-            quality_mask_1064_V2 = quality_mask_1064;
-            quality_mask_1064_V2((quality_mask_1064_V2 == 0) & ((quality_mask_607 == 1) | (quality_mask_532 == 1))) = 1;
-            data.quality_mask_1064_V2 = quality_mask_1064_V2;
             pollySaveQsiV2(data);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
         case 'tc'
+            print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true);
             %% save target classification results (V1)
-            data.tcMaskV1 = tcMaskV1;
             pollySaveTCV1(data);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
 
         case 'tcv2'
+            print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true);
             %% save target classification results (V2)
-            data.tcMaskV2 = tcMaskV2;
             pollySaveTCV2(data);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
 
         case 'cloudinfo'
-            data.clBaseH = clBaseH;
-            data.clTopH = clTopH;
-            data.clPh = clPh;
-            data.clPhProb = clPhProb;
+            print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true);
             pollySaveCloudInfo(data);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
 
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
@@ -3761,6 +3802,119 @@ if PicassoConfig.flagEnableCaliResultsOutput
 end
 
 %% Data visualization
+if PicassoConfig.flagEnableDataVisualization
+
+    % delete the previous outputs
+    % This is only necessary when you run the code on the server, 
+    % where the polly data was updated in time. If the 
+    % previous outputs were not cleared, it will piled up to a huge amount.
+    if PicassoConfig.flagDeletePreOutputs
+        print_msg('Start deleting previous figures.\n', 'flagTimestamp', true);
+
+        % search files associated with the same start time
+        picFileList = listfile(fullfile(PicassoConfig.pic_folder, ...
+                                     CampaignConfig.name, ...
+                                     datestr(data.mTime(1), 'yyyy'), ...
+                                     datestr(data.mTime(1), 'mm'), ...
+                                     datestr(data.mTime(1), 'dd')), ...
+                            sprintf('%s.*.png', rmext(PollyDataInfo.dataFilename)));
+        
+        % delete the files
+        for iFile = 1:length(picFileList)
+            delete(picFileList{iFile});
+        end
+
+        print_msg('Finish!\n', 'flagTimestamp', true);
+    end
+
+    print_msg('Start data visualization', 'flagTimestamp', true);
+
+    %% diaplay monitor status
+    print_msg('Start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayHousekeeping(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display range corrected signal
+    print_msg('Start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayRCS(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display volume depolarization ratio
+    print_msg('Start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayVDR(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display polarization calibration results
+    print_msg('Start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    data.polCali355Attri = polCali355Attri;
+    data.polCali532Attri = polCali532Attri;
+    pollyDisplayPolCali(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display signal status
+    print_msg('Start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplaySigStatus(data);
+    print_msg('Finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+
+    %% display overlap function
+    print_msg('Start displaying overlap function.\n', 'flagSimpleMsg', 'flagTimestamp', true);
+    data.olFunc355 = olFunc355;
+    data.olAttri355 = olAttri355;
+    data.olFuncDeft355 = olFuncDeft355;
+    data.olFunc532 = olFunc532;
+    data.olAttri532 = olAttri532;
+    data.olFuncDeft532 = olFuncDeft532;
+    pollyDisplayOL(data);
+    print_msg('Finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+
+    %% display aerosol vertical profiles
+    print_msg('Start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayProfiles(data);
+    pollyDisplayOCProfiles(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display attenuated backscatter
+    print_msg('Start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayAttnBsc(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display water vapor products
+    print_msg('Start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayWV(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display quasi-retrieved products (V1)
+    print_msg('Start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayQsiV1(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display quasi-retrieved products (V2)
+    print_msg('Start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayQsiV2(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display aerosol/cloud target classification mask (V1)
+    print_msg('Start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayTCV1(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display aerosol/cloud target classification mask (V2)
+    print_msg('Start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayTCV2(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display lidar calibration constants
+    print_msg('Start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayLC(data);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display long-term lidar calibration results
+    print_msg('Start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayLTLCali(data, dbFile);
+    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    print_msg('Finish!\n', 'flagTimestamp', true);
+end
 
 %% Done filelist
 
