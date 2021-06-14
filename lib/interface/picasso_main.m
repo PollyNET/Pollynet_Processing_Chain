@@ -7,11 +7,18 @@ global LogConfig
 
 %% Parameter initialization
 PicassoDir = fileparts((fileparts(fileparts(mfilename('fullpath')))));
-defaultPiassoConfig = fullfile(picassoDir, 'config', 'pollynet_processing_chain_config.json');
+defaultPiassoConfigFile = fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json');
+pollyGlobalConfigFile = fullfile(PicassoDir, 'lib', 'config', 'polly_global_config.json');
+PicassoConfigFile = 'D:\Coding\Matlab\Pollynet_Processing_Chain\config\pollynet_processing_chain_config.json';
 report = cell(0);
 pollyType = 'arielle';
-pollyDataFile = 'D:\';
-pollyLaserlogbook = 'D:\';
+pollyDataFile = 'G:\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.zip';
+pollyLaserlogbook = 'G:\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.laserlogbook.txt.zip';
+
+%% Input check
+if ~ exist('PicassoConfigFile', 'var')
+    PicassoConfigFile = defaultPiassoConfigFile;
+end
 
 %% Set PollyDataInfo
 PollyDataInfo.pollyType = pollyType;
@@ -32,50 +39,13 @@ PollyDataInfo.pollyLaserlogbook = pollyLaserlogbook;
 %% Get Picasso program version
 PicassoVersion = getPicassoVersion();
 
-% Set logger configuration
-LogConfig.folder = PicassoVersion.log_folder;
-LogConfig.flagEnableLogSubFolder = PicassoVersion.flagEnableLogSubFolder;
-LogConfig.printLevel = PicassoVersion.printLevel;   % 0: log file & matlab command line
-                            % 1: log file only
-                            % 2: matlab command line only
-                            % 3: simple message in log file & matlab command line
-                            % 4: simple message in log file only
-                            % 5: simple message in matlab command line only
-
-%% Input check
-if ~ exist('PicassoConfig', 'var')
-    PicassoConfig = defaultPiassoConfig;
-end
-
-%% Print headers
-tStart = now();
-print_msg('\n%%------------------------------------------------------%%');
-print_msg(sprintf('    ____  _                               _____  ____'), 'flagSimpleMsg', true);
-print_msg(sprintf('   / __ \(_)________ _______________     |__  / / __ \'), 'flagSimpleMsg', true);
-print_msg(sprintf('  / /_/ / / ___/ __ `/ ___/ ___/ __ \     /_ < / / / /'), 'flagSimpleMsg', true);
-print_msg(sprintf(' / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /'), 'flagSimpleMsg', true);
-print_msg(sprintf('/_/   /_/\___/\__,_/____/____/\____/   /____(_)____/'), 'flagSimpleMsg', true);
-print_msg('\nStart pollynet processing chain\n');
-print_msg(sprintf('pollynet_config_file: %s\n', PicassoConfig));
-print_msg(sprintf('Polly Type: %s\n', PollyDataInfo.pollyType));
-print_msg(sprintf('Polly Data: %s\n', PollyDataInfo.pollyDataFile));
-print_msg('%%------------------------------------------------------%%\n');
-
 %% Load Picasso configurations
-PicassoConfig = loadConfig(PicassoConfig, defaultPiassoConfig);
+PicassoConfig = loadConfig(PicassoConfigFile, defaultPiassoConfigFile);
 PicassoConfig.PicassoVersion = PicassoVersion;
-
-% Reduce the dependence on additionable toolboxes to get rid of license problems
-% after the turndown of usage of matlab toolbox, we need to replace the applied
-% function with user defined functions
-if processInfo.flagReduceMATLABToolboxDependence
-    license('checkout', 'statistics_toolbox', 'disable');
-    print_msg('Disable matlab statistics_toolbox\n', 'flagSimpleMsg', true);
-end
 
 %% Create log file
 if ~ exist(PicassoConfig.log_folder, 'dir')
-    print_msg(sprintf('Create log folder: %s.\n', PicassoConfig.log_folder), 'flagTimestamp', true);
+    fprintf('Create log folder: %s.\n', PicassoConfig.log_folder);
     mkdir(PicassoConfig.log_folder);
 end
 
@@ -85,19 +55,53 @@ else
     logPath = PicassoConfig.log_folder;
 end
 mkdir(logPath);
-logFile = fullfile(logPath, sprintf('%s.log', pollyDataFile));
+logFile = fullfile(logPath, sprintf('%s.log', basename(pollyDataFile)));
 
 if PicassoConfig.flagRenewLogFile
     logFid = fopen(logFile, 'w');
 else
-    logFid = fopen(logFid, 'a');
+    logFid = fopen(logFile, 'a');
 end
+
+% Set logger configuration
 LogConfig.logFid = logFid;
+LogConfig.logFile = logFile;
+LogConfig.folder = PicassoConfig.log_folder;
+LogConfig.flagEnableLogSubFolder = PicassoConfig.flagEnableLogSubFolder;
+LogConfig.printLevel = PicassoConfig.printLevel;   % 0: log file & matlab command line
+                            % 1: log file only
+                            % 2: matlab command line only
+                            % 3: simple message in log file & matlab command line
+                            % 4: simple message in log file only
+                            % 5: simple message in matlab command line only
+
+%% Print headers
+tStart = now();
+print_msg('\n%%------------------------------------------------------%%\n');
+print_msg('    ____  _                               _____  ____\n', 'flagSimpleMsg', true);
+print_msg('   / __ \\(_)________ _______________     |__  / / __ \\\n', 'flagSimpleMsg', true);
+print_msg('  / /_/ / / ___/ __ `/ ___/ ___/ __ \\     /_ < / / / /\n', 'flagSimpleMsg', true);
+print_msg(' / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /\n', 'flagSimpleMsg', true);
+print_msg('/_/   /_/\\___/\\__,_/____/____/\\____/   /____(_)____/\n', 'flagSimpleMsg', true);
+print_msg('\nStart pollynet processing chain\n');
+print_msg(sprintf('pollynet_config_file: %s\n', strrep(PicassoConfigFile, '\', '\\')));
+print_msg(sprintf('Polly Type: %s\n', PollyDataInfo.pollyType));
+print_msg(sprintf('Polly Data: %s\n', strrep(PollyDataInfo.pollyDataFile, '\', '\\')));
+print_msg('%%------------------------------------------------------%%\n');
+
+% Reduce the dependence on additionable toolboxes to get rid of license problems
+% after the turndown of usage of matlab toolbox, we need to replace the applied
+% function with user defined functions
+if PicassoConfig.flagReduceMATLABToolboxDependence
+    license('checkout', 'statistics_toolbox', 'disable');
+    print_msg('Disable matlab statistics_toolbox\n', 'flagSimpleMsg', true);
+end
 
 %% Print PC system info for debugging
+[USER, HOME, OS] = getsysinfo();
 print_msg(sprintf('## PC Info\n'), 'flagSimpleMsg', true);
 print_msg(sprintf('USER: %s\n', USER), 'flagSimpleMsg', true);
-print_msg(sprintf('HOME: %s\n', HOME), 'flagSimpleMsg', true);
+print_msg(sprintf('HOME: %s\n', strrep(HOME, '\', '\\')), 'flagSimpleMsg', true);
 print_msg(sprintf('OS: %s\n', OS), 'flagSimpleMsg', true);
 print_msg(sprintf('MATLAB: %s\n', version), 'flagSimpleMsg', true);
 
@@ -125,7 +129,7 @@ if isempty(CampaignConfig.location) || isempty(CampaignConfig.name)
     return;
 end
 
-if isempty(PollyConfig.startTime) || (PollyConfig.endTime)
+if isempty(PollyConfig.startTime) || isempty(PollyConfig.endTime)
     return;
 end
 
@@ -160,20 +164,20 @@ pic_folder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name);
 
 if ~ exist(results_folder, 'dir')
     print_msg(sprintf('Create a new folder for saving results for %s\n%s\n', ...
-    CampaignConfig.name, results_folder), 'flagTimestamp', true);
+    CampaignConfig.name, strrep(results_folder, '\', '\\')), 'flagTimestamp', true);
     mkdir(results_folder);
 end
 
 if ~ exist(pic_folder, 'dir')
     print_msg(sprintf('Create a new folder for saving plots for %s\n%s\n', ...
-    CampaignConfig.name, pic_folder), 'flagTimestamp', true);
+    CampaignConfig.name, strrep(pic_folder, '\', '\\')), 'flagTimestamp', true);
     mkdir(pic_folder);
 end
 
 %% Load polly configuration
-print_msg('Start loading polly config.', 'flagTimestamp', true);
+print_msg('Start loading polly config.\n', 'flagTimestamp', true);
 PollyConfigTmp = PollyConfig;
-PollyConfig = loadPollyConfig(PollyConfig.pollyConfigFile, PicassoConfig.polly_config_folder);
+PollyConfig = loadPollyConfig(fullfile(PicassoConfig.polly_config_folder, PollyConfig.pollyConfigFile), pollyGlobalConfigFile);
 if ~ isstruct(PollyConfigTmp)
     % cracked polly config file
     warning('PICASSO:IOError', 'Failure in loading %s for %s\n', PollyConfig.pollyConfigFile, CampaignConfig.name);
@@ -182,9 +186,9 @@ end
 PollyConfig.startTime = PollyConfigTmp.startTime;
 PollyConfig.endTime = PollyConfigTmp.endTime;
 PollyConfig.pollyConfigFile = PollyConfigTmp.pollyConfigFile;
-PollyConfig.pollyPeox = PollyConfigTmp.pollyProcessFunc;
-PollyConfig.startTime = PollyConfigTmp.pollyUpdateInfo;
-PollyConfig.startTime = PollyConfigTmp.pollyDefaultsFile;
+PollyConfig.pollyProcessFunc = PollyConfigTmp.pollyProcessFunc;
+PollyConfig.pollyUpdateInfo = PollyConfigTmp.pollyUpdateInfo;
+PollyConfig.pollyDefaultsFile = PollyConfigTmp.pollyDefaultsFile;
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 % Keep the same naming of polly
@@ -193,7 +197,7 @@ PollyDataInfo.pollyType  = CampaignConfig.name;
 
 %% Load polly defaults
 print_msg('Start loading polly defaults.\n', 'flagTimestamp', true);
-defaultsFilepath = fullfile(PicassoDir, PollyConfig.pollyDefaultsFile);
+defaultsFilepath = fullfile(PicassoConfig.defaultFile_folder, PollyConfig.pollyDefaultsFile);
 PollyDefaults = readPollyDefaults(defaultsFilepath);
 if ~ isstruct(PollyDefaults)
     warning('PICASSO:IOError', 'Failure in loading %s for %s.', ...
@@ -215,12 +219,12 @@ picSubFolder = fullfile(PicassoConfig.results_folder, CampaignConfig.name, ...
 % Create sub-folders if not exist
 if ~ exist(resSubFolder, 'dir')
     print_msg(sprintf('Create a new folder for saving outputs of %s at %s\n%s\n', ...
-        CampaignConfig.name, CampaignConfig.location, resSubFolder), 'flagSimpleMsg', true);
+        CampaignConfig.name, CampaignConfig.location, strrep(resSubFolder, '\', '\\')), 'flagSimpleMsg', true);
     mkdir(resSubFolder);
 end
 if ~ exist(picSubFolder, 'dir')
     print_msg(sprintf('Create a new folder for saving figures of %s at %s\n%s\n', ...
-        CampaignConfig.name, CampaignConfig.location, picSubFolder), 'flagSimpleMsg', true);
+        CampaignConfig.name, CampaignConfig.location, strrep(picSubFolder, '\', '\\')), 'flagSimpleMsg', true);
     mkdir(picSubFolder);
 end
 
@@ -228,13 +232,19 @@ end
 dbFile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, PollyConfig.calibrationDB);
 
 %% Specify channel tags
-[channelTags, channelLabels, flagFarRangeChannel, flagNearRangeChannel, flagRotRamanChannel, flagTotalChannel, flagCrossChannel, flagParallelChannel, flag355nmChannel, flag387nmChannel, flag407nmChannel, flag532nmChannel, flag607nmChannel, flag1064nmChannel] = pollyChannelTags(PollyConfig.isFR, PollyConfig.isNR, ...
-                               PollyConfig.isRR, PollyConfig.isTot, ...
-                               PollyConfig.isCross, PollyConfig.isParallel, ...
-                               PollyConfig.is355nm, PollyConfig.is387nm, ...
-                               PollyConfig.is407nm, PollyConfig.is532nm, ...
-                               PollyConfig.is607nm, PollyConfig.is1064nm, ...
-                               'chTags', PollyConfig.channelTags);
+[channelTags, channelLabels, flagFarRangeChannel, flagNearRangeChannel, flagRotRamanChannel, flagTotalChannel, flagCrossChannel, flagParallelChannel, flag355nmChannel, flag387nmChannel, flag407nmChannel, flag532nmChannel, flag607nmChannel, flag1064nmChannel] = pollyChannelTags(PollyConfig.channelTags, ...
+    'flagFarRangeChannel', PollyConfig.isFR, ...
+    'flagNearRangeChannel', PollyConfig.isNR, ...
+    'flagRotRamanChannel', PollyConfig.isRR, ...
+    'flagTotalChannel', PollyConfig.isTot, ...
+    'flagCrossChannel', PollyConfig.isCross, ...
+    'flagParallelChannel', PollyConfig.isParallel, ...
+    'flag355nmChannel', PollyConfig.is355nm, ...
+    'flag387nmChannel', PollyConfig.is387nm, ...
+    'flag407nmChannel', PollyConfig.is407nm, ...
+    'flag532nmChannel', PollyConfig.is532nm, ...
+    'flag607nmChannel', PollyConfig.is607nm, ...
+    'flag1064nmChannel', PollyConfig.is1064nm);
 data.channelTags = channelTags;
 data.channelLabels = channelLabels;
 data.flagFarRangeChannel = flagFarRangeChannel;
@@ -2304,7 +2314,7 @@ if (sum(flag387) == 1) || (sum(flag407 == 1))
                             mean(data.mTime), data.alt, ...
                             'meteorDataSource', config.meteorDataSource, ...
                             'gdas1Site', config.gdas1Site, ...
-                            'gdas1_folder', processInfo.gdas1_folder, ...
+                            'gdas1_folder', PicassoConfig.gdas1_folder, ...
                             'radiosondeSitenum', config.radiosondeSitenum, ...
                             'radiosondeFolder', config.radiosondeFolder, ...
                             'radiosondeType', config.radiosondeType);

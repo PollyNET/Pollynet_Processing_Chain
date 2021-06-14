@@ -57,7 +57,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 p = inputParser;
 p.KeepUnmatched = true;
 
-addRequired(p, 'chTagsI', @isnumeric);
+addRequired(p, 'chTagsI');
 addParameter(p, 'flagFarRangeChannel', false, @islogical);
 addParameter(p, 'flagNearRangeChannel', false, @islogical);
 addParameter(p, 'flagRotRamanChannel', false, @islogical);

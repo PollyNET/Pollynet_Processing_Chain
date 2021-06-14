@@ -47,11 +47,11 @@ end
 currentDir = pwd;
 
 % define the root path of The COBRA Toolbox and change to it.
-picassoDir = fileparts(which('initPicassoToolbox'));
-cd(picassoDir);
+PicassoDir = fileparts(which('initPicassoToolbox'));
+cd(PicassoDir);
 
-addpath(genpath(fullfile(picassoDir, 'lib')));
-addpath(genpath(fullfile(picassoDir, 'include')));
+addpath(genpath(fullfile(PicassoDir, 'lib')));
+addpath(genpath(fullfile(PicassoDir, 'include')));
 
 %% check if git is installed
 [installedGit, versionGit] = checkGit();
@@ -63,7 +63,7 @@ if installedGit && versionGit > 2100
 end
 
 % change to the root of The Picasso Tooolbox
-cd(picassoDir);
+cd(PicassoDir);
 
 % configure a remote tracking repository
 if ENV_VARS.printLevel
@@ -71,7 +71,7 @@ if ENV_VARS.printLevel
 end
 
 % check if the directory is a git-tracked folder
-if exist(fullfile(picassoDir, '.git'), 'dir') ~= 7
+if exist(fullfile(PicassoDir, '.git'), 'dir') ~= 7
     % initialize the directory
     [status_gitInit, result_gitInit] = system('git init');
     
