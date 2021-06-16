@@ -21,7 +21,7 @@ ncfile = fullfile(PicassoConfig.results_folder, ...
                   datestr(data.mTime(1), 'yyyy'), ...
                   datestr(data.mTime(1), 'mm'), ...
                   datestr(data.mTime(1), 'dd'), ...
-                  sprintf('%s_cloudinfo.nc', rmext(PollyDataInfo.dataFilename)));
+                  sprintf('%s_cloudinfo.nc', rmext(PollyDataInfo.pollyDataFile)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -138,11 +138,11 @@ netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
 netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
-netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(PicassoConfig.projectDir);
+cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

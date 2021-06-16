@@ -66,7 +66,7 @@ if p.Results.overlapSmWin <= 3
 end
 
 %% read default overlap function
-[hDeft, olDeft] = read_default_overlap(p.Results.defaultOLFile);
+[hDeft, olDeft] = readDefaultOL(p.Results.defaultOLFile);
 
 %% interpolate default overlap to the same grid of lidar data
 if ~ isempty(olDeft)
@@ -77,8 +77,8 @@ end
 
 %% overlap correction
 flagOLDeft = false;
-sigOLCor = [];
-bgOLCor = [];
+sigOLCor = sigFR;
+bgOLCor = bgFR;
 
 switch p.Results.overlapCorMode
 case 0
@@ -112,7 +112,7 @@ case 3
     if (~ isempty(p.Results.signalNR)) && (length(p.Results.signalNR) == length(sigFR))
         sigOLCor = sigGlue(sigFR, p.Results.signalNR, p.Results.signalRatio, ...
             height, height(p.Results.normRange));
-        bgOLCor = sigGlue(bgFR, p.Results.bgNR, height, height(p.Results.normRange));
+        bgOLCor = sigGlue(bgFR, p.Results.bgNR, p.Results.signalRatio, height, height(p.Results.normRange));
     end
 
 otherwise

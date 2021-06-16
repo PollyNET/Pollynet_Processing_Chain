@@ -82,7 +82,7 @@ for iCh = 1:nChs
     if (~ isempty(chTagsI))
         % channel tag from keyword of 'chTags'
         chTagsO(iCh) = chTagsI(iCh);
-    elseif isempty(chTagsI) && (~ any(p.Results.flagFarRangeChannel | ...
+    elseif isempty(chTagsI) && (any(p.Results.flagFarRangeChannel | ...
                                       p.Results.flagNearRangeChannel | ...
                                       p.Results.flagRotRamanChannel | ...
                                       p.Results.flagTotalChannel | ...
@@ -95,11 +95,11 @@ for iCh = 1:nChs
                                       p.Results.flag607nmChannel | ...
                                       p.Results.flag1064nmChannel))
         % channel tag from logical variables
-        chTagsO(iCh) = sum(2.^(0:(nCh - 1)) .* [p.Results.flagFarRangeChannel(iCh), ...
+        chTagsO(iCh) = sum(2.^(0:(12 - 1)) .* [p.Results.flagFarRangeChannel(iCh), ...
         p.Results.flagNearRangeChannel(iCh), p.Results.flagRotRamanChannel(iCh), ...
         p.Results.flagTotalChannel(iCh), p.Results.flagCrossChannel(iCh), ...
         p.Results.flagParallelChannel(iCh), p.Results.flag355nmChannel(iCh), ...
-        p.Results.flag387nmChannel, p.Results.flag407nmChannel(iCh), ...
+        p.Results.flag387nmChannel(iCh), p.Results.flag407nmChannel(iCh), ...
         p.Results.flag532nmChannel(iCh), p.Results.flag607nmChannel(iCh), ...
         p.Results.flag1064nmChannel(iCh)]);
     else
@@ -136,22 +136,23 @@ for iCh = 1:nChs
     case 2053   % far-range rotational Raman 1064 nm
         chLabels{iCh} = 'far-range rot. Raman 1064 nm';
     otherwise
-        error('PICASSO:InvalidInput', 'Unknown channel tags (%d) at channel %d', chTagsO(iCh), iCh);
+        warning('PICASSO:InvalidInput', 'Unknown channel tags (%d) at channel %d', chTagsO(iCh), iCh);
+        chLabels{iCh} = 'Unknown';
     end
 end
 
 %% Extract logical variables for all channels
-flagFarRangeChannelO = mod(chTagsO, 2);
-flagNearRangeChannelO = mod(chTagsO / 2, 2);
-flagRotRamanChannelO = mod(chTagsO / 2^2, 2);
-flagTotalChannelO = mod(chTagsO / 2^3, 2);
-flagCrossChannelO = mod(chTagsO / 2^4, 2);
-flagParallelChannelO = mod(chTagsO / 2^5, 2);
-flag355nmChannelO = mod(chTagsO / 2^6, 2);
-flag387nmChannelO = mod(chTagsO / 2^7, 2);
-flag407nmChannelO = mod(chTagsO / 2^8, 2);
-flag532nmChannelO = mod(chTagsO / 2^9, 2);
-flag607nmChannelO = mod(chTagsO / 2^10, 2);
-flag1064nmChannelO = mod(chTagsO / 2^11, 2);
+flagFarRangeChannelO = logical(mod(chTagsO, 2));
+flagNearRangeChannelO = logical(mod(floor(chTagsO / 2), 2));
+flagRotRamanChannelO = logical(mod(floor(chTagsO / 2^2), 2));
+flagTotalChannelO = logical(mod(floor(chTagsO / 2^3), 2));
+flagCrossChannelO = logical(mod(floor(chTagsO / 2^4), 2));
+flagParallelChannelO = logical(mod(floor(chTagsO / 2^5), 2));
+flag355nmChannelO = logical(mod(floor(chTagsO / 2^6), 2));
+flag387nmChannelO = logical(mod(floor(chTagsO / 2^7), 2));
+flag407nmChannelO = logical(mod(floor(chTagsO / 2^8), 2));
+flag532nmChannelO = logical(mod(floor(chTagsO / 2^9), 2));
+flag607nmChannelO = logical(mod(floor(chTagsO / 2^10), 2));
+flag1064nmChannelO = logical(mod(floor(chTagsO / 2^11), 2));
 
 end

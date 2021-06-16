@@ -53,6 +53,12 @@ cd(PicassoDir);
 addpath(genpath(fullfile(PicassoDir, 'lib')));
 addpath(genpath(fullfile(PicassoDir, 'include')));
 
+%% add SQLite driver
+pathJDBC = fullfile(PicassoDir, 'include', 'sqlite-jdbc-3.30.1.jar');
+if ~ testSQLiteJDBC()
+    addSQLiteJDBC(pathJDBC);
+end
+
 %% check if git is installed
 [installedGit, versionGit] = checkGit();
 

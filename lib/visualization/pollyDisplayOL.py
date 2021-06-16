@@ -19,7 +19,7 @@ def parse_polly_filename(pollyFile):
     """
 
     psFmt = r"^(\d{4})_(\d{2})_(\d{2}).*_(\d{2})_(\d{2})_(\d{2})*.*"
-    items = re.search(psFmt, pollyFile)
+    items = re.search(psFmt, os.path.basename(pollyFile))
 
     dt = datetime(
         int(items[1]),
@@ -146,9 +146,9 @@ def pollyDisplayOL(tmpFile, saveFolder):
         height = mat['height'].reshape(-1)
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         imgFormat = mat['imgFormat'][:][0]
     except Exception as e:
         print(e)
@@ -288,7 +288,7 @@ def pollyDisplayOL(tmpFile, saveFolder):
         os.path.join(
             saveFolder,
             '{dataFilename}_overlap.{imgFmt}'.format(
-                dataFilename=rmext(dataFilename),
+                dataFilename=rmext(os.path.basename(dataFilename)),
                 imgFmt=imgFormat)), dpi=figDPI)
 
     plt.close()
@@ -296,7 +296,7 @@ def pollyDisplayOL(tmpFile, saveFolder):
 
 def main():
     pollyDisplayOL(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
+        'd:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\tpd1987174_92a1_4d09_acf9_34f47907126d.mat',
         'C:\\Users\\zpyin\\Desktop')
 
 

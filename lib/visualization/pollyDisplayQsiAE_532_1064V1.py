@@ -126,9 +126,9 @@ def pollyDisplayQsiAE_532_1064V1(tmpFile, saveFolder):
         yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -215,7 +215,7 @@ def pollyDisplayQsiAE_532_1064V1(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_Quasi_ANGEXP_532_1064.{imgFmt}'.format(
-            dataFilename=rmext(dataFilename),
+            dataFilename=rmext(os.path.basename(dataFilename)),
             imgFmt=imgFormat
             )), dpi=figDPI)
     plt.close()

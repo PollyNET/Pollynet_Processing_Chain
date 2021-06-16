@@ -130,7 +130,7 @@ for iIndx = 1:length(dpIndx) - 1
         deltaSig_aer = nanstd(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));
-        SNRTmp = polly_SNR(nansum(pc(jIndx:(jIndx + winLen))), ...
+        SNRTmp = pollySNR(nansum(pc(jIndx:(jIndx + winLen))), ...
                            nansum(bg(jIndx:(jIndx + winLen))));
 
         if ~ ((meanSig_aer + deltaSig_aer/3) >= meanSig_mol) && (flagShowDetail)
@@ -174,7 +174,7 @@ for iIndx = 1:length(dpIndx) - 1
 
     % Quality test 4: SNR check
     % which is assured in Douglas-Peucker algorithm
-    SNR = polly_SNR(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))), ...
+    SNR = pollySNR(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))), ...
                     nansum(bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
     if SNR < SNRConstrain && flagShowDetail
         fprintf('Region %d: %f - %f fails in SNR criterion.\n', iIndx, ...

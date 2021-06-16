@@ -13,15 +13,15 @@ global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 
 time = data.mTime;
 figDPI = PicassoConfig.figDPI;
-partnerLabel = config.partnerLabel;
+partnerLabel = PollyConfig.partnerLabel;
 flagWatermarkOn = PicassoConfig.flagWatermarkOn;
 height = data.height;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
 
-yLim_FR_RCS = config.yLim_FR_RCS;
-yLim_NR_RCS = config.yLim_NR_RCS;
-yLim_WV_RH = config.yLim_WV_RH;
-imgFormat = config.imgFormat;
+yLim_FR_RCS = PollyConfig.yLim_FR_RCS;
+yLim_NR_RCS = PollyConfig.yLim_NR_RCS;
+yLim_WV_RH = PollyConfig.yLim_WV_RH;
+imgFormat = PollyConfig.imgFormat;
 
 %% 355 nm far-field signal
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;

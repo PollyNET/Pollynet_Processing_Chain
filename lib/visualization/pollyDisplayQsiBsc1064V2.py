@@ -126,9 +126,9 @@ def pollyDisplayQsiBsc1064V2(tmpFile, saveFolder):
         quasi_beta_cRange_1064 = mat['quasi_beta_cRange_1064'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -224,7 +224,7 @@ def pollyDisplayQsiBsc1064V2(tmpFile, saveFolder):
         os.path.join(
             saveFolder,
             '{dataFilename}_Quasi_Bsc_1064_V2.{imgFmt}'.format(
-                dataFilename=rmext(dataFilename),
+                dataFilename=rmext(os.path.basename(dataFilename)),
                 imgFmt=imgFormat
                 )
             ),

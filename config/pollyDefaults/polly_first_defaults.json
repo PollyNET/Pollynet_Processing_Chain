@@ -1,0 +1,9 @@
+{
+    "depolCaliConst532": 0.0289,
+    "depolCaliConstStd532": 0,
+    "LC": [1, 1],
+    "LCStd": [0, 0],
+    "overlapFile532": "polly_1v2_overlap_532.txt",
+    "molDepol532": 0.0053,
+    "molDepolStd532": 0.001
+}

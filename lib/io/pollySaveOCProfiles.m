@@ -14,7 +14,7 @@ global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 missing_value = -999;
 
 for iGrp = 1:size(data.clFreGrps, 1)
-    ncFile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_OC_profiles.nc', rmext(PollyDataInfo.dataFilename), datestr(data.mTime(data.clFreGrps(iGrp, 1)), 'HHMM'), datestr(data.mTime(data.clFreGrps(iGrp, 2)), 'HHMM')));
+    ncFile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_OC_profiles.nc', rmext(PollyDataInfo.pollyDataFile), datestr(data.mTime(data.clFreGrps(iGrp, 1)), 'HHMM'), datestr(data.mTime(data.clFreGrps(iGrp, 2)), 'HHMM')));
     startTime = data.mTime(data.clFreGrps(iGrp, 1));
     endTime = data.mTime(data.clFreGrps(iGrp, 2));
 
@@ -558,11 +558,11 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
     netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
     netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
-    netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+    netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
     netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
     netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
     cwd = pwd;
-    cd(PicassoConfig.projectDir);
+    cd(PicassoConfig.PicassoRootDir);
     gitInfo = getGitInfo();
     cd(cwd);
     netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

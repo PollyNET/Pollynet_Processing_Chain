@@ -142,22 +142,22 @@ for iDay = 1:nDays
 
         sig_t_p = nanmean(signal_t(:, indx_45p), 2);
         bg_t_p = nanmean(bg_t(:, indx_45p), 2);
-        SNR_t_p = polly_SNR(sig_t_p, bg_t_p);
+        SNR_t_p = pollySNR(sig_t_p, bg_t_p);
         indxBad_t_p = (SNR_t_p <= SNRmin(1)) | (sig_t_p >= sigMax(1));
 
         sig_t_m = nanmean(signal_t(:, indx_45m), 2);
         bg_t_m = nanmean(bg_t(:, indx_45m), 2);
-        SNR_t_m = polly_SNR(sig_t_m, bg_t_m);
+        SNR_t_m = pollySNR(sig_t_m, bg_t_m);
         indxBad_t_m = (SNR_t_m <= SNRmin(2)) | (sig_t_m >= sigMax(2));
 
         sig_x_p = nanmean(signal_x(:, indx_45p), 2);
         bg_x_p = nanmean(bg_x(:, indx_45p), 2);
-        SNR_x_p = polly_SNR(sig_x_p, bg_x_p);
+        SNR_x_p = pollySNR(sig_x_p, bg_x_p);
         indxBad_x_p = (SNR_x_p <= SNRmin(3)) | (sig_x_p >= sigMax(3));
 
         sig_x_m = nanmean(signal_x(:, indx_45m), 2);
         bg_x_m = nanmean(bg_x(:, indx_45m), 2);
-        SNR_x_m = polly_SNR(sig_x_m, bg_x_m);
+        SNR_x_m = pollySNR(sig_x_m, bg_x_m);
         indxBad_x_m = (SNR_x_m <= SNRmin(4)) | (sig_x_m >= sigMax(4));
 
         dplus = smooth(sig_x_p, 'moving', smoothWin) ./ ...
