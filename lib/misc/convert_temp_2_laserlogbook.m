@@ -29,25 +29,25 @@ end
 laserlogbookFullpath = '';
 
 %% parsing the fileinfo_new
-taskInfo = read_fileinfo_new(fileinfo_new);
+pollyDataInfo = read_fileinfo_new(fileinfo_new);
 
-for iTask = 1:length(taskInfo.zipFile)
+for iTask = 1:length(pollyDataInfo.zipFile)
 
-    pollyVersion = taskInfo.pollyVersion{iTask};
-    pollyDataFile = taskInfo.zipFile{iTask};
-    pollyLaserlogbookFile = sprintf('%s.laserlogbook.txt', taskInfo.dataFilename{iTask});
+    pollyType = pollyDataInfo.pollyType{iTask};
+    pollyDataFile = pollyDataInfo.zipFile{iTask};
+    pollyLaserlogbookFile = sprintf('%s.laserlogbook.txt', pollyDataInfo.dataFilename{iTask});
 
-    if ~ any(ismember(lower(pollyList), lower(pollyVersion)))
+    if ~ any(ismember(lower(pollyList), lower(pollyType)))
         % if the current polly is not in the pollyList
         continue;
     end
 
-    switch lower(pollyVersion)
+    switch lower(pollyType)
 
     case {'pollyxt_tjk', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tau', 'arielle', 'pollyxt_fmi', 'pollyxt_uw'}
 
         pollyDataFileFormat = '(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})_\w*_(?<hour>\d{2})_(?<minute>\d{2})_(?<second>\d{2})\w*.nc';
-        pollyTempDir = pollyTempDirs{ismember(lower(pollyList), lower(pollyVersion))};
+        pollyTempDir = pollyTempDirs{ismember(lower(pollyList), lower(pollyType))};
 
         %% find the polly temps file
         measTime = pollyParseFiletime(pollyDataFile, pollyDataFileFormat);
@@ -58,7 +58,7 @@ for iTask = 1:length(taskInfo.zipFile)
 
         %% create a fake laserlogbook file
         fprintf('Start to convert the %s to %s\n', basename(pollyTempsFile), basename(pollyLaserlogbookFile));
-        laserlogbookFullpath = fullfile(taskInfo.todoPath{iTask}, taskInfo.dataPath{iTask}, pollyLaserlogbookFile);
+        laserlogbookFullpath = fullfile(pollyDataInfo.todoPath{iTask}, pollyDataInfo.dataPath{iTask}, pollyLaserlogbookFile);
         write_laserlogbook(laserlogbookFullpath, laserlogData, 'w');
 
     end

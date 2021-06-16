@@ -39,7 +39,7 @@ bg = repmat(...
 
 sigO = NaN(size(sigI, 1), p.Results.maxHeightBin, size(sigI, 3));
 for iCh = 1:size(sigI, 1)
-    sigO(iCh, :, :) = sigO(iCh, p.Results.firstBinIndex(iCh):(p.Results.maxHeightBin + p.Results.firstBinIndex(iCh) - 1), :) - bg(iCh, :, :);
+    sigO(iCh, :, :) = sigI(iCh, p.Results.firstBinIndex(iCh):(p.Results.maxHeightBin + p.Results.firstBinIndex(iCh) - 1), :) - bg(iCh, :, :);
 end
 
 end

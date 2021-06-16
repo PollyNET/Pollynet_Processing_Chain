@@ -15,7 +15,7 @@ missing_value = -999;
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 
-ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_att_bsc.nc', rmext(PollyDataInfo.dataFilename)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_att_bsc.nc', rmext(PollyDataInfo.pollyDataFile)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -72,9 +72,9 @@ netcdf.endDef(ncID);
 % (temporary solution to be compatible with Cloudnet)
 
 %calculate the quality mask to filter the points with high SNR
-flag355 = PollyConfig.flagFarRangeChannel & PollyConfig.flag355nmChannel & PollyConfig.flagTotalChannel;
-flag532 = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.flagTotalChannel;
-flag1064 = PollyConfig.flagFarRangeChannel & PollyConfig.flag1064nmChannel & PollyConfig.flagTotalChannel;
+flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 
 %% write data to .nc file
 netcdf.putVar(ncID, varID_altitude, data.alt0);
@@ -213,11 +213,11 @@ netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
 netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
-netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(PicassoConfig.projectDir);
+cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

@@ -22,7 +22,11 @@ flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalCha
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 
 overlap355 = data.olFunc355;
-overlap355Default = data.olFuncDeft355;
+
+if isempty(overlap355)
+    overlap355 = NaN(size(height));
+end
+
 if isfield(data.olAttri355, 'sigFR')
     sig355FR = data.olAttri355.sigFR;
     sig355NR = data.olAttri355.sigNR;
@@ -31,7 +35,10 @@ if isfield(data.olAttri355, 'sigFR')
 end
 
 overlap532 = data.olFunc532;
-overlap532Default = data.olFuncDeft532;
+
+if isempty(overlap532)
+    overlap532 = NaN(size(height));
+end
 if isfield(data.olAttri532, 'sigFR')
     sig532FR = data.olAttri532.sigFR;
     sig532NR = data.olAttri532.sigNR;
@@ -39,9 +46,7 @@ if isfield(data.olAttri532, 'sigFR')
     normRange532 = data.olAttri532.normRange;
 end
 
-if isempty(overlap355)
-    overlap355 = NaN(size(height));
-end
+overlap355Defaults = data.olFuncDeft355;
 if isempty(overlap355Defaults)
     overlap355Defaults = NaN(size(height));
 end
@@ -57,9 +62,7 @@ else
     sig355Gl = sig355FR ./ overlap355;
 end
 
-if isempty(overlap532)
-    overlap532 = NaN(size(height));
-end
+overlap532Defaults = data.olFuncDeft532;
 if isempty(overlap532Defaults)
     overlap532Defaults = NaN(size(height));
 end

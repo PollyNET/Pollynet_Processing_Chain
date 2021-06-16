@@ -67,21 +67,21 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% signal profile
     if sum(flag355FR) == 1
-        sig355 = squeeze(transpose(mean(data.sigOLCor355(:, startInd:endInd), 2))) / mean(data.mShots(flagChannel355, startInd:endInd), 2) * 150 / data.hRes;
+        sig355 = squeeze(transpose(mean(data.sigOLCor355(:, startInd:endInd), 2))) / mean(data.mShots(flag355FR, startInd:endInd), 2) * 150 / data.hRes;
     else
         sig355 = NaN(1, size(data.signal, 2));
     end
     rcs355 = sig355 .* data.height.^2;
     rcs355 = transpose(smooth(rcs355, smoothWin_355));
     if sum(flag532FR) == 1
-        sig532 = squeeze(transpose(mean(data.sigOLCor532(:, startInd:endInd), 2))) / mean(data.mShots(flagChannel532, startInd:endInd), 2) * 150 / data.hRes;
+        sig532 = squeeze(transpose(mean(data.sigOLCor532(:, startInd:endInd), 2))) / mean(data.mShots(flag532FR, startInd:endInd), 2) * 150 / data.hRes;
     else
         sig532 = NaN(1, size(data.signal, 2));
     end
     rcs532 = sig532 .* data.height.^2;
     rcs532 = transpose(smooth(rcs532, smoothWin_532));
     if sum(flag1064FR) == 1
-        sig1064 = squeeze(transpose(mean(data.sigOLCor1064(:, startInd:endInd), 2))) / mean(data.mShots(flagChannel1064, startInd:endInd), 2) * 150 / data.hRes;
+        sig1064 = squeeze(transpose(mean(data.sigOLCor1064(:, startInd:endInd), 2))) / mean(data.mShots(flag1064FR, startInd:endInd), 2) * 150 / data.hRes;
     else
         sig1064 = NaN(1, size(data.signal, 2));
     end
@@ -103,7 +103,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         rcs355 = rcs355 * factor355;
     else 
         % if no reference height was found, using the lidar constants
-        rcs355 = rcs355 / data.LCUsed.LCUsed355 * mean(data.mShots(flag355, startInd:endInd), 2) / 150 * data.hRes;
+        rcs355 = rcs355 / data.LCUsed.LCUsed355 * mean(data.mShots(flag355FR, startInd:endInd), 2) / 150 * data.hRes;
     end
     if ~ isnan(data.refHInd532(iGrp, 1))
         % according to the ratio at the reference height
@@ -111,7 +111,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         rcs532 = rcs532 * factor532;
     else 
         % if no reference height was found, using the lidar constants
-        rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flag532, startInd:endInd), 2) / 150 * data.hRes;
+        rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flag532FR, startInd:endInd), 2) / 150 * data.hRes;
     end
     if ~ isnan(data.refHInd1064(iGrp, 1))
         % according to the ratio at the reference height
@@ -119,7 +119,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         rcs1064 = rcs1064 * factor1064;
     else 
         % if no reference height was found, using the lidar constants
-        rcs1064 = rcs1064 / data.LCUsed.LCUsed1064 * mean(data.mShots(flag1064, startInd:endInd), 2) / 150 * data.hRes;
+        rcs1064 = rcs1064 / data.LCUsed.LCUsed1064 * mean(data.mShots(flag1064FR, startInd:endInd), 2) / 150 * data.hRes;
     end
 
     % reference height
@@ -130,7 +130,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     % display range corrected signal
     pyFolder = fileparts(mfilename('fullpath'));   % folder of python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-    saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -152,7 +152,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         aerBsc_1064_klett = data.aerBsc1064_OC_klett(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -175,7 +175,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         aerBsc_1064_raman = data.aerBsc1064_OC_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -198,7 +198,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         aerExt_1064_klett = data.aerExt1064_OC_klett(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -221,7 +221,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         aerExt_1064_raman = data.aerExt1064_OC_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -243,7 +243,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         LR532_raman = data.LR532_OC_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -265,7 +265,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         AE_Bsc_532_1064_klett = data.AE_Bsc_532_1064_OC_klett(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -288,7 +288,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         AE_Ext_355_532_raman = data.AE_Ext_355_532_OC_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -306,8 +306,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% Volume/particle depolarization ratio (Klett method based on far-field signal)
     if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
-        vdr355_klett = data.vdr355_OC_klett(iGrp, :);
-        vdr532_klett = data.vdr532_OC_klett(iGrp, :);
+        vdr355_klett = data.vdr355_klett(iGrp, :);
+        vdr532_klett = data.vdr532_klett(iGrp, :);
         pdr355_klett = data.pdr355_OC_klett(iGrp, :);
         pdr532_klett = data.pdr532_OC_klett(iGrp, :);
         pdrStd355_klett = data.pdrStd355_OC_klett(iGrp, :);
@@ -317,14 +317,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr355_klett < data.mdr355(iGrp)) | ...
                                  (pdr355_klett <= 0);
         pdr355_klett(flag_pdr355_klett) = NaN;
-        flag_pardepol532_klett = (abs(pdrStd532_klett ./ pdr532_klett) > 0.6) | ...
+        flag_pdr532_klett = (abs(pdrStd532_klett ./ pdr532_klett) > 0.6) | ...
                                  (pdrStd532_klett > 0.5) | ...
                                  (vdr532_klett < data.mdr532(iGrp)) | ...
                                  (pdr532_klett <= 0);
-        pdr532_klett(flag_pardepol532_klett) = NaN;
+        pdr532_klett(flag_pdr532_klett) = NaN;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')
@@ -342,8 +342,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% Volume/particle depolarization ratio (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
-        vdr355_raman = data.vdr355_OC_raman(iGrp, :);
-        vdr532_raman = data.vdr532_OC_raman(iGrp, :);
+        vdr355_raman = data.vdr355_raman(iGrp, :);
+        vdr532_raman = data.vdr532_raman(iGrp, :);
         pdr355_raman = data.pdr355_OC_raman(iGrp, :);
         pdr532_raman = data.pdr532_OC_raman(iGrp, :);
         pdrStd355_raman = data.pdrStd355_OC_raman(iGrp, :);
@@ -353,14 +353,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr355_raman < data.mdr355(iGrp)) | ...
                                  (pdr355_raman <= 0);
         pdr355_raman(flag_pdr355_raman) = NaN;
-        flag_pardepol532_raman = (abs(pdrStd532_raman ./ pdr532_raman) > 0.6) | ...
+        flag_pdr532_raman = (abs(pdrStd532_raman ./ pdr532_raman) > 0.6) | ...
                                  (pdrStd532_raman > 0.5) | ...
                                  (vdr532_raman < data.mdr532(iGrp)) | ...
                                  (pdr532_raman <= 0);
-        pdr532_raman(flag_pardepol532_raman) = NaN;
+        pdr532_raman(flag_pdr532_raman) = NaN;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
-        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyVersion, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
 
         % create tmp folder by force, if it does not exist.
         if ~ exist(tmpFolder, 'dir')

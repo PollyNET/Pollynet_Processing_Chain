@@ -33,7 +33,7 @@ if (sum(flag355FR) == 1)
     RCS_FR_355 = squeeze(data.signal(flag355FR, :, :)) ./ repmat(data.mShots(flag355FR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
     if PollyConfig.flagAutoscaleRCS
-        RCS355FRColorRange = auto_RCS_cRange(data.height, RCS_FR_355, 'hRange', [0, 4000] ./ 1e6);
+        RCS355FRColorRange = auto_RCS_cRange(data.height, RCS_FR_355, 'hRange', [0, 4000]) ./ 1e6;
     else
         RCS355FRColorRange = PollyConfig.zLim_FR_RCS_355;
     end
@@ -65,7 +65,7 @@ if (sum(flag532FR) == 1)
     RCS_FR_532 = squeeze(data.signal(flag532FR, :, :)) ./ repmat(data.mShots(flag532FR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
     if PollyConfig.flagAutoscaleRCS
-        RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000] ./ 1e6);
+        RCS532FRColorRange = auto_RCS_cRange(data.height, RCS_FR_532, 'hRange', [0, 4000]) ./ 1e6;
     else
         RCS532FRColorRange = PollyConfig.zLim_FR_RCS_532;
     end
@@ -97,7 +97,7 @@ if (sum(flag1064FR) == 1)
     RCS_FR_1064 = squeeze(data.signal(flag1064FR, :, :)) ./ repmat(data.mShots(flag1064FR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
     if PollyConfig.flagAutoscaleRCS
-        RCS1064FRColorRange = auto_RCS_cRange(data.height, RCS_FR_1064, 'hRange', [0, 4000] ./ 1e6);
+        RCS1064FRColorRange = auto_RCS_cRange(data.height, RCS_FR_1064, 'hRange', [0, 4000]) ./ 1e6;
     else
         RCS1064FRColorRange = PollyConfig.zLim_FR_RCS_1064;
     end
@@ -129,7 +129,7 @@ if (sum(flag355NR) == 1)
     RCS_NR_355 = squeeze(data.signal(flag355NR, :, :)) ./ repmat(data.mShots(flag355NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
     if PollyConfig.flagAutoscaleRCS
-        RCS355NRColorRange = auto_RCS_cRange(data.height, RCS_NR_355, 'hRange', [0, 3000] ./ 1e6);
+        RCS355NRColorRange = auto_RCS_cRange(data.height, RCS_NR_355, 'hRange', [0, 3000]) ./ 1e6;
     else
         RCS355NRColorRange = PollyConfig.zLim_NR_RCS_355;
     end
@@ -161,7 +161,7 @@ if (sum(flag532NR) == 1)
     RCS_NR_532 = squeeze(data.signal(flag532NR, :, :)) ./ repmat(data.mShots(flag532NR, :), numel(data.height), 1) * 150 / double(data.hRes) .* repmat(transpose(data.height), 1, numel(data.mTime)).^2;
 
     if PollyConfig.flagAutoscaleRCS
-        RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 3000] ./ 1e6);
+        RCS532NRColorRange = auto_RCS_cRange(data.height, RCS_NR_532, 'hRange', [0, 3000]) ./ 1e6;
     else
         RCS532NRColorRange = PollyConfig.zLim_NR_RCS_532;
     end

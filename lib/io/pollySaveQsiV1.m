@@ -13,7 +13,7 @@ function pollySaveQsiV1(data)
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
-ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results.nc', rmext(PollyDataInfo.dataFilename)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_quasi_results.nc', rmext(PollyDataInfo.pollyDataFile)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
@@ -148,7 +148,7 @@ netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'error_variable', 'quasi_pardepol_532_error');
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'bias_variable', 'quasi_pardepol_532_bias');
-netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]; Depolarization calibration factor is %f.', PollyConfig.LR532, data.depol_cal_fac_532));
+netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]; Depolarization calibration factor is %f.', PollyConfig.LR532, data.polCaliFac532));
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin.');
 
 % quasi_ang_532_1064
@@ -168,11 +168,11 @@ netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
 netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
-netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(PicassoConfig.projectDir);
+cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

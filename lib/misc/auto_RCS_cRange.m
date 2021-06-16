@@ -1,34 +1,33 @@
 function [cRange] = auto_RCS_cRange(height, rcs, varargin)
-%auto_RCS_cRange search the suitable color range for range corrected signal.
-%Example:
-%   % Usecase 1: find the color range of range corrected signal
-%   cRange = auto_RCS_cRange(height, rcs)
+% AUTO_RCS_CRANGE search the suitable color range for range corrected signal.
+% USAGE:
+%    % Usecase 1: find the color range of range corrected signal
+%    cRange = auto_RCS_cRange(height, rcs)
 %
-%   % Usecase 2: find the color range based with signal at given spatial range
-%   cRange = auto_RCS_cRange(height, rcs, 'hRange', [0, 7000])
+%    % Usecase 2: find the color range based with signal at given spatial range
+%    cRange = auto_RCS_cRange(height, rcs, 'hRange', [0, 7000])
 %
-%   % Usecase 3: specify the minimun color range
-%   cRange = auto_RCS_cRange(height, rcs, 'minCRange', 0)
+%    % Usecase 3: specify the minimun color range
+%    cRange = auto_RCS_cRange(height, rcs, 'minCRange', 0)
 %
-%Inputs:
-%   height: array
-%       height over ground. [m]
-%   rcs: matrix (height * time)
-%       range corrected signal
-%Keywords:
-%   hRange: 2-element array
-%       vertical range for searching the best color range. [m]
-%   minCRange: double
-%       minimum color range.
-%   maxCRange: double
-%       maximum color range.
-%Outputs:
-%   cRange: 2-element array
-%       color range of the range corrected signal.
-%History:
-%   2020-05-16. First Edition by Zhenping
-%Contact:
-%   zp.yin@whu.edu.cn
+% INPUTS:
+%    height: array
+%        height over ground. [m]
+%    rcs: matrix (height * time)
+%        range corrected signal
+% KEYWORDS:
+%    hRange: 2-element array
+%        vertical range for searching the best color range. [m]
+%    minCRange: double
+%        minimum color range.
+%    maxCRange: double
+%        maximum color range.
+% OUTPUTS:
+%    cRange: 2-element array
+%        color range of the range corrected signal.
+% HISTORY:
+%    2020-05-16. First Edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 p = inputParser;
 p.KeepUnmatched = true;

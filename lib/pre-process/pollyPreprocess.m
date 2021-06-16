@@ -31,7 +31,7 @@ function data = pollyPreprocess(data, varargin)
 %        number of range bins to read out from data file. (default: 3000)
 %    firstBinIndex: numeric
 %        index of first bin to read out. (default: 1)
-%    pollyVersion: char
+%    pollyType: char
 %        polly version. (default: 'arielle')
 %    flagDeadTimeCorrection: logical
 %        flag to control whether to apply deadtime correction. (default: false)
@@ -56,7 +56,9 @@ function data = pollyPreprocess(data, varargin)
 %        which 'p' stands for positive angle, while 'n' for negative angle.
 %        (default: {})
 %    minSNRThresh: numeric
-%        lower bound of signal-noise ratio. 
+%        lower bound of signal-noise ratio.
+%    minPC_fog: numeric
+%        minimun number of photon count after strong attenuation by fog.
 %    flagFarRangeChannel: logical
 %        flags of far-range channel.
 %    flag532nmChannel: logical
@@ -133,7 +135,7 @@ addParameter(p, 'flagForceMeasTime', false, @islogical);
 addParameter(p, 'maxHeightBin', 3000, @isnumeric);
 addParameter(p, 'firstBinIndex', 1, @isnumeric);
 addParameter(p, 'firstBinHeight', 0, @isnumeric);
-addParameter(p, 'pollyVersion', 'arielle', @ischar);
+addParameter(p, 'pollyType', 'arielle', @ischar);
 addParameter(p, 'flagDeadTimeCorrection', false, @islogical);
 addParameter(p, 'deadtimeCorrectionMode', 2, @isnumeric);
 addParameter(p, 'deadtimeParams', [], @isnumeric);
@@ -142,6 +144,7 @@ addParameter(p, 'asl', 0, @isnumeric);
 addParameter(p, 'initialPolAngle', 0, @isnumeric);
 addParameter(p, 'maskPolCalAngle', {}, @iscell);
 addParameter(p, 'minSNRThresh', [], @isnumeric);
+addParameter(p, 'minPC_fog', 50, @isnumeric);
 addParameter(p, 'flagFarRangeChannel', false, @islogical);
 addParameter(p, 'flag532nmChannel', false, @islogical);
 addParameter(p, 'flagTotalChannel', false, @islogical);
@@ -217,7 +220,7 @@ rawSignal = pollyDTCor(data.rawSignal, data.mShots, data.hRes, ...
                 'deadtimeCorrectionMode', config.deadtimeCorrectionMode, ...
                 'deadtime', data.deadtime, ...
                 'deadtimeParams', config.deadtimeParams, ...
-                'pollyVersion', config.pollyVersion);
+                'pollyType', config.pollyType);
 
 %% Background Substraction
 [sigBGCor, bg] = pollyRemoveBG(rawSignal, ...

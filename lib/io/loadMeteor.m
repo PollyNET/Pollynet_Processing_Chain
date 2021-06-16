@@ -63,7 +63,7 @@ addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);
 addParameter(p, 'flagTemporalInterp', false, @islogical);
 addParameter(p, 'flagReadLess', false, @islogical);
-addParameter(p, 'method', 'nearest', @islogical);
+addParameter(p, 'method', 'nearest', @ischar);
 
 parse(p, mTime, asl, varargin{:});
 
@@ -92,7 +92,7 @@ windQry = [];
 %% read meteorological data
 for iTime = 1:length(mTimeQry)
 
-    [altRaw, tempRaw, presRaw, relhRaw, winsRaw, windRaw, attri] = readMeteor(mTimeQry(iTime), varargin);
+    [altRaw, tempRaw, presRaw, relhRaw, winsRaw, windRaw, attri] = readMeteor(mTimeQry(iTime), varargin{:});
     meteorAttri.dataSource{end + 1} = attri.dataSource;
     meteorAttri.URL{end + 1} = attri.URL;
     meteorAttri.datetime = cat(2, meteorAttri.datetime, attri.datetime);
@@ -113,10 +113,26 @@ for iTime = 1:length(mTimeQry)
 end
 
 %% interp meteorological data
-temp = interp2(mTimeQry, asl, tempQry, mTime, asl, p.Results.method);
-pres = interp2(mTimeQry, asl, presQry, mTime, asl, p.Results.method);
-relh = interp2(mTimeQry, asl, relhQry, mTime, asl, p.Results.method);
-wins = interp2(mTimeQry, asl, winsQry, mTime, asl, p.Results.method);
-wind = interp2(mTimeQry, asl, windQry, mTime, asl, p.Results.method);
+[MTIMEQRY, ASL] = meshgrid(asl, mTimeQry);
+[MTIME, ~] = meshgrid(asl, mTime);
+if length(mTimeQry) == 1
+    temp = repmat(tempQry, length(mTime), 1);
+    pres = repmat(presQry, length(mTime), 1);
+    relh = repmat(relhQry, length(mTime), 1);
+    wins = repmat(winsQry, length(mTime), 1);
+    wind = repmat(windQry, length(mTime), 1);
+elseif length(mTimeQry) >= 2
+    temp = interp2(MTIMEQRY, ASL, tempQry, MTIME, ASL, p.Results.method);
+    pres = interp2(MTIMEQRY, ASL, presQry, MTIME, ASL, p.Results.method);
+    relh = interp2(MTIMEQRY, ASL, relhQry, MTIME, ASL, p.Results.method);
+    wins = interp2(MTIMEQRY, ASL, winsQry, MTIME, ASL, p.Results.method);
+    wind = interp2(MTIMEQRY, ASL, windQry, MTIME, ASL, p.Results.method);
+else
+    temp = [];
+    pres = [];
+    relh = [];
+    wins = [];
+    wind = [];
+end
 
 end

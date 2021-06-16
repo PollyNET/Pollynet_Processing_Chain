@@ -10,7 +10,7 @@ function [sigO] = pollyDTCor(sigI, mShots, hRes, varargin)
 %    hRes: numeric
 %        height resolution. (m)
 % KEYWORDS:
-%    pollyVersion: char
+%    pollyType: char
 %        polly version. (default: 'arielle')
 %    flagDeadTimeCorrection: logical
 %        flag to control whether to apply deadtime correction. (default: false)
@@ -42,7 +42,7 @@ addParameter(p, 'flagDeadTimeCorrection', false, @islogical);
 addParameter(p, 'deadtimeCorrectionMode', 4, @isnumeric);
 addParameter(p, 'deadtime', [], @isnumeric);
 addParameter(p, 'deadtimeParams', [], @isnumeric);
-addParameter(p, 'pollyVersion', 'polly', @ischar);
+addParameter(p, 'pollyType', 'polly', @ischar);
 
 parse(p, sigI, mShots, hRes, varargin{:});
 
@@ -85,7 +85,7 @@ if p.Results.flagDeadTimeCorrection
         else
             warning(['User defined deadtime parameters were not found. ', ...
                      'Please go back to check the configuration ', ...
-                     'file for %s.'], p.Results.pollyVersion);
+                     'file for %s.'], p.Results.pollyType);
             warning(['In order to continue the current processing, ', ...
                      'deadtime correction will not be implemented. ', ...
                      'Be careful!']);
@@ -99,6 +99,6 @@ if p.Results.flagDeadTimeCorrection
         error(['Unknow deadtime correction setting! ', ...
                'Please go back to check the configuration ', ...
                'file for %s. For deadtimeCorrectionMode, only 1-4 is allowed.'], ...
-               p.Results.pollyVersion);
+               p.Results.pollyType);
     end
 end

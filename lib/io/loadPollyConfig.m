@@ -57,62 +57,62 @@ pollyGlobalConfig.isParallel = logical(pollyGlobalConfig.isParallel);
 if isfield(pollyConfig, 'isFR')
     pollyConfig.isFR = logical(pollyConfig.isFR);
 else
-    pollyConfig.isFR = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isFR = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'isNR')
     pollyConfig.isNR = logical(pollyConfig.isNR);
 else
-    pollyConfig.isNR = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isNR = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is532nm')
     pollyConfig.is532nm = logical(pollyConfig.is532nm);
 else
-    pollyConfig.is532nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is532nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is355nm')
     pollyConfig.is355nm = logical(pollyConfig.is355nm);
 else
-    pollyConfig.is355nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is355nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is1064nm')
     pollyConfig.is1064nm = logical(pollyConfig.is1064nm);
 else
-    pollyConfig.is1064nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is1064nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'isTot')
     pollyConfig.isTot = logical(pollyConfig.isTot);
 else
-    pollyConfig.isTot = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isTot = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'isCross')
     pollyConfig.isCross = logical(pollyConfig.isCross);
 else
-    pollyConfig.isCross = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isCross = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is387nm')
     pollyConfig.is387nm = logical(pollyConfig.is387nm);
 else
-    pollyConfig.is387nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is387nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is407nm')
     pollyConfig.is407nm = logical(pollyConfig.is407nm);
 else
-    pollyConfig.is407nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is407nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'is607nm')
     pollyConfig.is607nm = logical(pollyConfig.is607nm);
 else
-    pollyConfig.is607nm = true(1, length(pollyConfig.is532nm));
+    pollyConfig.is607nm = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'isRR')
     pollyConfig.isRR = logical(pollyConfig.isRR);
 else
-    pollyConfig.isRR = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isRR = false(1, length(pollyConfig.is532nm));
 end
 if isfield(pollyConfig, 'isParallel')
     pollyConfig.isParallel = logical(pollyConfig.isParallel);
 else
-    pollyConfig.isParallel = true(1, length(pollyConfig.is532nm));
+    pollyConfig.isParallel = false(1, length(pollyConfig.is532nm));
 end
 
 %% overwrite polly global configs
@@ -131,6 +131,8 @@ for fn = fieldnames(pollyConfig)'
         warning('''zLim_NR_RCS_355'' was deprecated');
     elseif strcmp(fn{1}, 'zLim_NR_RCS_532')
         warning('''zLim_NR_RCS_532'' was deprecated');
+    elseif strcmp(fn{1}, 'channelTag')
+        warning('''channelTag'' was deprecated');
     else
         error('Unknown polly settings: %s', fn{1});
     end

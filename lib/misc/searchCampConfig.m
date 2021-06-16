@@ -14,7 +14,7 @@ function [pollyConfig, campaign_info] = searchCampConfig(pollyDataFile, pollyTyp
 %    pollyConfig: struct
 %        startTime: datenum
 %        endTime: datenum
-%        pollyVersion: char
+%        pollyType: char
 %        pollyConfigFile: char
 %        pollyProcessFunc: char
 %        pollyUpdateInfo: char
@@ -49,7 +49,7 @@ campaign_info.caption = '';
 pollyConfig = struct();
 pollyConfig.startTime = [];
 pollyConfig.endTime = [];
-pollyConfig.pollyVersion = '';
+pollyConfig.pollyType = '';
 pollyConfig.pollyConfigFile = '';
 pollyConfig.pollyProcessFunc = '';
 pollyConfig.pollyUpdateInfo = '';
@@ -105,7 +105,7 @@ elseif sum(isCurrentPolly & isWithinMeasPeriod & isWithinConfigPeriod) == 1
                                    char(160), ' ');
     pollyConfig.startTime = PicassoCampLinks.config_starttime(flag);
     pollyConfig.endTime = PicassoCampLinks.config_stoptime(flag);
-    pollyConfig.pollyVersion = PicassoCampLinks.instrument{flag};
+    pollyConfig.pollyType = PicassoCampLinks.instrument{flag};
     pollyConfig.pollyConfigFile = PicassoCampLinks.config_file{flag};
     pollyConfig.pollyProcessFunc = PicassoCampLinks.process_func{flag}(1:(end-2));
     pollyConfig.pollyUpdateInfo = PicassoCampLinks.caption{flag};

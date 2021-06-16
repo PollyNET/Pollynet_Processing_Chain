@@ -12,7 +12,7 @@ function pollySaveOverlap(data, file)
 %   2019-09-27. Turn on the netCDF4 compression.
 % .. Authors: - zhenping@tropos.de
 
-global PicassoConfig PollyDefaults CampaignConfig PollyConfig
+global PicassoConfig CampaignConfig PollyConfig
 
 if isempty(data.rawSignal)
     return;
@@ -178,11 +178,11 @@ netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
 netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
-netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.programVersion);
+netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
-cd(PicassoConfig.projectDir);
+cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();
 cd(cwd);
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));

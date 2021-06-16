@@ -1,9 +1,18 @@
 function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR, varargin)
 % pollyOVLCalc calculate overlap function from polly measurements.
 % USAGE:
-%    [output] = pollyOVLCalc(params)
+%    [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR)
 % INPUTS:
-%    [olFunc, olStd, olAttri] = pollyOVLCalc(sigFR, sigNR, bgFR, bgNR)
+%    height: array
+%        height above ground. (m)
+%    sigFR: array
+%        far-field signal.
+%    sigNR: array
+%        near-field signal.
+%    bgFR: array
+%        far-field background.
+%    bgNR: array
+%        near-field background.
 % KEYWORDS:
 %    hFullOverlap: numeric
 %        minimum height with complete overlap (default: 600). (m)
@@ -13,6 +22,8 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 %        1:overlap correction with using the default overlap function
 %        2: overlap correction with using the calculated overlap function
 %        3: overlap correction with gluing near-range and far-range signal
+%    PC2PCR: numeric
+%        conversion factor from photon count to photon count rate (default: 1).
 % OUTPUTS:
 %    olFunc: numeric
 %        overlap function.
@@ -42,20 +53,17 @@ addRequired(p, 'bgFR', @isnumeric);
 addRequired(p, 'bgNR', @isnumeric);
 addParameter(p, 'hFullOverlap', 600, @isnumeric);
 addParameter(p, 'overlapCalMode', 1, @isnumeric);
+addParameter(p, 'PC2PCR', 1, @isnumeric);
 
-parse(p, param1, varargin{:});
+parse(p, height, sigFR, sigNR, bgFR, bgNR, varargin{:});
 
 olAttri = struct();
-[olFunc, olStd, sigRatio, normRange] = overlapCalc(height, ...
-    sigFR, bgFR, sigNR, bgNR, ...
-    'hFullOverlap', p.Results.heightFullOverlap(flagFR), ...
-    'overlapCalMode', p.Results.overlapCalMode);
+[olFunc, olStd, sigRatio, normRange] = overlapCalc(height, sigFR, bgFR, sigNR, bgNR, varargin{:});
 
-% PC2PCR = data.hRes * sum(data.mShots(data.flagCloudFree_NR)) / 150;
 if (~ isempty(sigFR)) && (~ isempty(sigNR))
     % if both near- and far-field channels exist
-    olAttri.sigFR = sigFR * PC2PCR;
-    olAttri.sigNR = sigNR * PC2PCR;
+    olAttri.sigFR = sigFR * p.Results.PC2PCR;
+    olAttri.sigNR = sigNR * p.Results.PC2PCR;
     olAttri.sigRatio = sigRatio;
     olAttri.normRange = normRange;
 end

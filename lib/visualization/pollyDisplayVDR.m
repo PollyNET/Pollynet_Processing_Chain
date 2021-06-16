@@ -32,7 +32,8 @@ flag355T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChan
 
 if (sum(flag355C) == 1) && (sum(flag355T) == 1)
 
-    fprintf('Display the results with Python.\n');
+    vdr355 = data.vdr355;
+
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -59,7 +60,8 @@ flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChan
 
 if (sum(flag532C) == 1) && (sum(flag532T) == 1)
 
-    fprintf('Display the results with Python.\n');
+    vdr532 = data.vdr532;
+
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
