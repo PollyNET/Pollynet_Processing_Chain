@@ -119,16 +119,16 @@ def pollyDisplayQsiPDR532V1(tmpFile, saveFolder):
         else:
             partnerLabel = ''
         quality_mask_532 = mat['quality_mask_532'][:]
-        quasi_pardepol_532 = mat['quasi_pardepol_532'][:]
+        quasi_pdr_532 = mat['quasi_pdr_532'][:]
         height = mat['height'][0][:]
         time = mat['time'][0][:]
         yLim_Quasi_Params = mat['yLim_Quasi_Params'][:][0]
         quasi_Par_DR_cRange_532 = mat['quasi_Par_DR_cRange_532'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -144,9 +144,9 @@ def pollyDisplayQsiPDR532V1(tmpFile, saveFolder):
 
     # meshgrid
     Time, Height = np.meshgrid(time, height)
-    quasi_pardepol_532 = np.ma.masked_where(
+    quasi_pdr_532 = np.ma.masked_where(
         quality_mask_532 > 0,
-        quasi_pardepol_532
+        quasi_pdr_532
     )
 
     # define the colormap
@@ -156,7 +156,7 @@ def pollyDisplayQsiPDR532V1(tmpFile, saveFolder):
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
     pcmesh = ax.pcolormesh(
-        Time, Height, quasi_pardepol_532,
+        Time, Height, quasi_pdr_532,
         vmin=quasi_Par_DR_cRange_532[0],
         vmax=quasi_Par_DR_cRange_532[1],
         cmap=cmap,
@@ -219,7 +219,7 @@ def pollyDisplayQsiPDR532V1(tmpFile, saveFolder):
 
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_Quasi_PDR_532.{imgFmt}'.format(
-            dataFilename=rmext(dataFilename),
+            dataFilename=rmext(os.path.basename(dataFilename)),
             imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()

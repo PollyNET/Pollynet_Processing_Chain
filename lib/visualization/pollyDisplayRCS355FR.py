@@ -125,9 +125,9 @@ def pollyDisplayRCS355FR(tmpFile, saveFolder):
         RCS_FR_355 = mat['RCS_FR_355'][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         RCS355FRColorRange = mat['RCS355FRColorRange'][:][0]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         xtick = mat['xtick'][0][:]
@@ -214,7 +214,7 @@ def pollyDisplayRCS355FR(tmpFile, saveFolder):
         version=version), fontsize=14)
     fig.savefig(os.path.join(
         saveFolder, '{dataFilename}_RCS_FR_355.{imgFmt}'.format(
-            dataFilename=rmext(dataFilename),
+            dataFilename=rmext(os.path.basename(dataFilename)),
             imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()

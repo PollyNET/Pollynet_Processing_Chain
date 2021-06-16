@@ -57,7 +57,7 @@ health.OutsideTemp = [];
 health.OutsideRH = [];
 
 if exist(file, 'file') ~= 2
-    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyVersion, file);
+    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyType, file);
     return;
 end
 
@@ -111,7 +111,7 @@ try
 
 catch
     fclose(fid);
-    warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyVersion, iLine, file);
+    warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyType, iLine, file);
     return
 end
 

@@ -120,9 +120,9 @@ def pollyDisplayOCExtKlett(tmpFile, saveFolder):
         pressure = mat['pressure'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         yLim_Profi_Ext = mat['yLim_Profi_Ext'][:][0]
         xLim_Profi_Ext = mat['xLim_Profi_Ext'][:][0]
         imgFormat = mat['imgFormat'][:][0]
@@ -201,7 +201,7 @@ def pollyDisplayOCExtKlett(tmpFile, saveFolder):
         os.path.join(
             saveFolder,
             '{dataFile}_{sTime}_{eTime}_OC_Ext_Klett.{imgFmt}'.format(
-                dataFile=rmext(dataFilename),
+                dataFile=rmext(os.path.basename(dataFilename)),
                 sTime=datenum_to_datetime(starttime).strftime('%H%M'),
                 eTime=datenum_to_datetime(endtime).strftime('%H%M'),
                 imgFmt=imgFormat)

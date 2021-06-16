@@ -1,0 +1,10 @@
+{
+    "depolCaliConst532": 0.024443,
+    "depolCaliConstStd532": 0.0,
+    "LC": [67250555628.586708, 127878575429631.625000, 1, 1, 198315275855.517181, 608864572587.048950, 1, 1],
+    "LCStd": [0, 0, 0, 0, 0, 0, 0, 0],
+    "overlapFile532": "pollyxt_dwd_overlap_532.txt",
+    "overlapFile355": "pollyxt_dwd_overlap_355.txt",
+    "molDepol532": 0.0053,
+    "molDepolStd532": 0.001
+}

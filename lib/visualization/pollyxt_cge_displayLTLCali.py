@@ -245,7 +245,7 @@ def pollyxt_cge_displayLTLCali(tmpFile, saveFolder):
         dataTime = mat['PollyDataInfo']['dataTime'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         startTime = mat['CampaignConfig']['startTime'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
         imgFormat = mat['imgFormat'][:][0]
     except Exception as e:

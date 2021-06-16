@@ -1,8 +1,10 @@
-function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(sigFR, bgFR, sigNR, bgNR, height, varargin)
+function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(height, sigFR, bgFR, sigNR, bgNR, varargin)
 % OVERLAPCALC calculate the overlap function.
 % USAGE:
 %    overlap = overlapCalc(sigFR, bgFR, sigNR, bgNR, height);
 % INPUTS:
+%    height: array
+%        height above ground. (m)
 %    sigFR: array
 %        far-range signal. (photon count)
 %    bgFR: array
@@ -11,8 +13,6 @@ function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(sigFR, bgFR, s
 %        near-range signal. (photon count)
 %    bgNR: array
 %        background of near-range signal. (photon count)
-%    height: array
-%        height above ground. (m)
 % KEYWORDS:
 %    hFullOverlap: numeric
 %        minimum height with full overlap function for far-range signal
@@ -48,7 +48,7 @@ addRequired(p, 'height', @isnumeric);
 addParameter(p, 'hFullOverlap', 600, @isnumeric);
 addParameter(p, 'overlapCalMode', 1, @isnumeric);
 
-parse(p, sigFR, bgFR, sigNR, bgNR, height, varargin{:});
+parse(p, height, sigFR, bgFR, sigNR, bgNR, varargin{:});
 
 %% initialization
 overlap = [];

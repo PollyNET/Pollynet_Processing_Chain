@@ -57,7 +57,7 @@ addParameter(p, 'AERONETIWV', [], @isnumeric);
 addParameter(p, 'AERONETTime', [], @isnumeric);
 addParameter(p, 'MWRFolder', '', @ischar);
 addParameter(p, 'MWRSite', 'leipzig', @ischar);
-addParameter(p, 'maxIWVTLag', datenum(0,1,0,2,0,0), @ischar);
+addParameter(p, 'maxIWVTLag', datenum(0,1,0,2,0,0), @isnumeric);
 addParameter(p, 'PI', '', @ischar);
 addParameter(p, 'contact', '', @ischar);
 
@@ -118,7 +118,7 @@ for iGrp = 1:size(clFreTime, 1)
     thisIWV = NaN;
     thisDatetime = NaN;
 
-    switch lower(p.Results.IWV_instrument)
+    switch lower(instrument)
     case 'aeronet'
         if isempty(p.Results.AERONETIWV)
             fprintf('No IWV measurement for AERONET at %s, %s.\n', ...

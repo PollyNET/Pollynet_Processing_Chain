@@ -15,7 +15,7 @@ height = data.height;
 time = data.mTime;
 figDPI = PicassoConfig.figDPI;
 partnerLabel = PollyConfig.partnerLabel;
-flagWatermarkOn = PicassoPollyConfig.flagWatermarkOn;
+flagWatermarkOn = PicassoConfig.flagWatermarkOn;
 yLim_Quasi_Params = PollyConfig.yLim_Quasi_Params;
 quasi_Par_DR_cRange_532 = PollyConfig.zLim_quasi_Par_DR_532;
 quasi_beta_cRange_355 = PollyConfig.zLim_quasi_beta_355;
@@ -107,7 +107,7 @@ flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChan
 flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     % save quasi-retrieved particle depolarization ratio at 532 nm
-    quasi_parDepol_532 = data.qsiPDR532V1;
+    quasi_pdr_532 = data.qsiPDR532V1;
     quality_mask_532 = data.quality_mask_532;
 
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -122,7 +122,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
 
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_parDepol_532', 'quality_mask_532', 'yLim_Quasi_Params', 'quasi_Par_DR_cRange_532', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_pdr_532', 'quality_mask_532', 'yLim_Quasi_Params', 'quasi_Par_DR_cRange_532', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayQsiPDR532V1.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayQsiPDR532V1.py');

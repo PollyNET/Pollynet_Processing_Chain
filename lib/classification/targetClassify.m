@@ -80,7 +80,7 @@ addParameter(p, 'searchCloudAbove', 300, @isnumeric);
 addParameter(p, 'searchCloudBelow', 100, @isnumeric);
 addParameter(p, 'hFullOL', 600, @isnumeric);
 
-parse(p, attBeta532, quasiBsc1064, quasiBsc532, quasiPDR532, VDR532, quasiAE, varargin{:});
+parse(p, height, attBeta532, quasiBsc1064, quasiBsc532, quasiPDR532, VDR532, quasiAE, varargin{:});
 
 tc_mask = zeros(size(attBeta532));
 
@@ -109,7 +109,7 @@ tc_mask(flag_large_par_beta_1064 & flag_large_par_beta_532 & flag_large_par_depo
 tc_mask(flag_large_par_beta_1064 & ~ flag_large_ang & flag_small_par_depol) = 4;
 
 % cloud mask
-flag_cloud = detectLiquidBits(height, quasiBsc1064, varargin);
+flag_cloud = detectLiquidBits(height, quasiBsc1064, varargin{:});
 tc_mask(flag_cloud) = 7;
 tc_mask(flag_cloud & flag_water_par_depol) = 9;
 tc_mask(flag_cloud & flag_water_par_depol & flag_small_ang) = 8;

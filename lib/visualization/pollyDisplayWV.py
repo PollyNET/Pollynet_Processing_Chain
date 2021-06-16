@@ -127,9 +127,9 @@ def pollyDisplayWV(tmpFile, saveFolder):
         meteorSource = mat['meteorSource'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         yLim_WV_RH = mat['yLim_WV_RH'][:][0]
         xLim_Profi_WV_RH = mat['xLim_Profi_WV_RH'][:][0]
         xtick = mat['xtick'][0][:]
@@ -223,7 +223,7 @@ def pollyDisplayWV(tmpFile, saveFolder):
         version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_WVMR.{imgFmt}'.format(
-        dataFilename=rmext(dataFilename),
+        dataFilename=rmext(os.path.basename(dataFilename)),
         imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
@@ -289,7 +289,7 @@ def pollyDisplayWV(tmpFile, saveFolder):
         version=version, status=flagCalibrated), fontsize=12)
 
     fig.savefig(os.path.join(saveFolder, '{dataFilename}_RH.{imgFmt}'.format(
-        dataFilename=rmext(dataFilename),
+        dataFilename=rmext(os.path.basename(dataFilename)),
         imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 

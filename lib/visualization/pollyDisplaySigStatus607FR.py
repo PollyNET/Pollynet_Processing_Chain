@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
+def pollyDisplaySigStatus607FR(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyDisplaySigStatusd607FR(tmpFile)
+    pollyDisplaySigStatus607FR(tmpFile)
 
     History
     -------
@@ -110,13 +110,13 @@ def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
             partnerLabel = ''
         mTime = mat['time'][0][:]
         height = mat['height'][0][:]
-        SAT_FR_d607 = mat['SAT_FR_d607'][:]
+        SAT_FR_607 = mat['SAT_FR_607'][:]
         yLim_FR_RCS = mat['yLim_FR_RCS'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -140,11 +140,11 @@ def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
     except Exception as e:
         raise ImportError('python_colormap module is necessary.')
 
-    # display status of d607 FR
+    # display status of 607 FR
     fig = plt.figure(figsize=[10, 5])
     ax = fig.add_axes([0.11, 0.15, 0.74, 0.75])
     pcmesh = ax.pcolormesh(
-        Time, Height, SAT_FR_d607,
+        Time, Height, SAT_FR_607,
         vmin=-0.5, vmax=2.5, cmap=signal_status_colormap(),
         rasterized=True, shading='nearest')
     ax.set_xlabel('UTC', fontsize=15)
@@ -163,7 +163,7 @@ def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
     ax.set_title(
         'Signal Status at ' +
         '{wave}nm Far-Range from {instrument} at {location}'.format(
-            wave=d607,
+            wave=607,
             instrument=pollyVersion,
             location=location
             ),
@@ -209,15 +209,15 @@ def pollyDisplaySigStatusd607FR(tmpFile, saveFolder):
         version=version), fontsize=14)
 
     fig.savefig(os.path.join(
-        saveFolder, '{dataFilename}_SAT_FR_d607.{imgFmt}'.format(
-            dataFilename=rmext(dataFilename),
+        saveFolder, '{dataFilename}_SAT_FR_607.{imgFmt}'.format(
+            dataFilename=rmext(os.path.basename(dataFilename)),
             imgFmt=imgFormat
         )), dpi=figDPI)
     plt.close()
 
 
 def main():
-    pollyDisplaySigStatusd607FR(
+    pollyDisplaySigStatus607FR(
         'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
         'C:\\Users\\zpyin\\Desktop'
         )
@@ -225,4 +225,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyDisplaySigStatusd607FR(sys.argv[1], sys.argv[2])
+    pollyDisplaySigStatus607FR(sys.argv[1], sys.argv[2])

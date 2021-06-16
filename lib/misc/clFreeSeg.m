@@ -21,7 +21,7 @@ function [clFreSegs] = clFreeSeg(prfFlag, nIntPrf, minNIntPrf)
 p = inputParser;
 p.KeepUnmatched = true;
 
-addRequired(p, 'prfFlag', @isnumeric);
+addRequired(p, 'prfFlag', @islogical);
 addRequired(p, 'nIntPrf', @isnumeric);
 addRequired(p, 'minNIntPrf', @isnumeric);
 

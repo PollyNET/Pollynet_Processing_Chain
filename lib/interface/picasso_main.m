@@ -12,8 +12,8 @@ pollyGlobalConfigFile = fullfile(PicassoDir, 'lib', 'config', 'polly_global_conf
 PicassoConfigFile = 'D:\Coding\Matlab\Pollynet_Processing_Chain\config\pollynet_processing_chain_config.json';
 report = cell(0);
 pollyType = 'arielle';
-pollyDataFile = 'G:\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.zip';
-pollyLaserlogbook = 'G:\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.laserlogbook.txt.zip';
+pollyDataFile = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc';
+pollyLaserlogbook = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.laserlogbook.txt';
 
 %% Input check
 if ~ exist('PicassoConfigFile', 'var')
@@ -42,6 +42,7 @@ PicassoVersion = getPicassoVersion();
 %% Load Picasso configurations
 PicassoConfig = loadConfig(PicassoConfigFile, defaultPiassoConfigFile);
 PicassoConfig.PicassoVersion = PicassoVersion;
+PicassoConfig.PicassoRootDir = PicassoDir;
 
 %% Create log file
 if ~ exist(PicassoConfig.log_folder, 'dir')
@@ -107,7 +108,11 @@ print_msg(sprintf('MATLAB: %s\n', version), 'flagSimpleMsg', true);
 
 %% Determine data size
 fileInfo = dir(pollyDataFile);
-if fileInfo.bytes < PicassoConfig.minDataSize
+if isempty(fileInfo)
+    warning('PICASSO:EmptyData', 'No polly data was found.\n');
+    fclose(LogConfig.logFid);
+    return;
+elseif fileInfo.bytes < PicassoConfig.minDataSize
     warning('PICASSO:InsufficientDatasize', 'Polly data file size is less than %d bytes\nStop processing.\n', PicassoConfig.minDataSize);
     fclose(LogConfig.logFid);
     return;
@@ -151,7 +156,7 @@ print_msg(sprintf(['%s process info:\n', ...
                    'process func: %s\n', ...
                    'Instrument info: %s\n', ...
                    'polly defaults file: %s\n'], ...
-                   PollyConfig.pollyVersion, ...
+                   PollyConfig.pollyType, ...
                    PollyConfig.pollyConfigFile, ...
                    PollyConfig.pollyProcessFunc, ...
                    PollyConfig.pollyUpdateInfo, ...
@@ -159,8 +164,14 @@ print_msg(sprintf(['%s process info:\n', ...
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Create folders for saving Picasso outputs
-results_folder = fullfile(PicassoConfig.results_folder, CampaignConfig.name);
-pic_folder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name);
+results_folder = fullfile(PicassoConfig.results_folder, CampaignConfig.name, ...
+                          datestr(PollyDataInfo.dataTime, 'yyyy'), ...
+                          datestr(PollyDataInfo.dataTime, 'mm'), ...
+                          datestr(PollyDataInfo.dataTime, 'dd'));
+pic_folder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, ...
+                          datestr(PollyDataInfo.dataTime, 'yyyy'), ...
+                          datestr(PollyDataInfo.dataTime, 'mm'), ...
+                          datestr(PollyDataInfo.dataTime, 'dd'));
 
 if ~ exist(results_folder, 'dir')
     print_msg(sprintf('Create a new folder for saving results for %s\n%s\n', ...
@@ -192,7 +203,7 @@ PollyConfig.pollyDefaultsFile = PollyConfigTmp.pollyDefaultsFile;
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 % Keep the same naming of polly
-PollyConfig.pollyVersion = CampaignConfig.name;
+PollyConfig.pollyType = CampaignConfig.name;
 PollyDataInfo.pollyType  = CampaignConfig.name;
 
 %% Load polly defaults
@@ -231,6 +242,20 @@ end
 % Path of calibration database
 dbFile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, PollyConfig.calibrationDB);
 
+%% Read data
+print_msg(sprintf('Start reading %s data.\n', CampaignConfig.name), 'flagTimestamp', true);
+data = readPollyRawData(PollyDataInfo.pollyDataFile, ...
+            'flagFilterFalseMShots', PollyConfig.flagFilterFalseMShots, ...
+            'flagCorrectFalseMShots', PollyConfig.flagCorrectFalseMShots, ...
+            'flagDeleteData', PicassoConfig.flagDeleteData, ...
+            'dataFileFormat', PollyConfig.dataFileFormat);
+if isempty(data.rawSignal)
+    warning('PICASSO:NoData', 'No measurement data in %s for %s.\n', ...
+            PollyDataInfo.pollyDataFile, CampaignConfig.name);
+    return;
+end
+print_msg('Finish.\n', 'flagTimestamp', true);
+
 %% Specify channel tags
 [channelTags, channelLabels, flagFarRangeChannel, flagNearRangeChannel, flagRotRamanChannel, flagTotalChannel, flagCrossChannel, flagParallelChannel, flag355nmChannel, flag387nmChannel, flag407nmChannel, flag532nmChannel, flag607nmChannel, flag1064nmChannel] = pollyChannelTags(PollyConfig.channelTags, ...
     'flagFarRangeChannel', PollyConfig.isFR, ...
@@ -260,22 +285,8 @@ data.flag532nmChannel = flag532nmChannel;
 data.flag607nmChannel = flag607nmChannel;
 data.flag1064nmChannel = flag1064nmChannel;
 
-%% Read data
-print_msg(sprintf('Start reading %s data.\n', CampaignConfig.name), 'flagTimestamp', true);
-data = readPollyRawData(PollyDataInfo.pollyDataFile, ...
-            'flagFilterFalseMShots', PollyConfig.flagFilterFalseMShots, ...
-            'flagCorrectFalseMShots', PollyConfig.flagCorrectFalseMShots, ...
-            'flagDeleteData', PicassoConfig.flagDeleteData, ...
-            'dataFileFormat', PollyConfig.dataFileFormat);
-if isempty(data.rawSignal)
-    warning('PICASSO:NoData', 'No measurement data in %s for %s.\n', ...
-            PollyDataInfo.pollyDataFile, CampaignConfig.name);
-    return;
-end
-print_msg('Finish.\n', 'flagTimestamp', true);
-
 %% Read laserlogbook file
-print_msg(sprintf('Start reading laserlogbook file.\n%s\n', PollyDataInfo.pollyLaserlogbook), 'flagTimestamp', true);
+print_msg(sprintf('Start reading laserlogbook file.\n%s\n', strrep(PollyDataInfo.pollyLaserlogbook, '\', '\\')), 'flagTimestamp', true);
 monitorStatus = readPollyLaserlogbook(PollyDataInfo.pollyLaserlogbook, ...
                         'flagDeleteData', PicassoConfig.flagDeleteData, ...
                         'pollyType', CampaignConfig.name);
@@ -288,7 +299,7 @@ data = pollyPreprocess(data, 'flagForceMeasTime', PollyConfig.flagForceMeasTime,
                     'maxHeightBin', PollyConfig.max_height_bin, ...
                     'firstBinIndex', PollyConfig.first_range_gate_indx, ...
                     'firstBinHeight', PollyConfig.first_range_gate_height, ...
-                    'pollyVersion', CampaignConfig.name, ...
+                    'pollyType', CampaignConfig.name, ...
                     'flagDeadTimeCorrection', PollyConfig.flagDTCor, ...
                     'deadtimeCorrectionMode', PollyConfig.dtCorMode, ...
                     'deadtimeParams', PollyConfig.dt, ...
@@ -297,6 +308,7 @@ data = pollyPreprocess(data, 'flagForceMeasTime', PollyConfig.flagForceMeasTime,
                     'initialPolAngle', PollyConfig.init_depAng, ...
                     'maskPolCalAngle', PollyConfig.maskDepCalAng, ...
                     'minSNRThresh', PollyConfig.mask_SNRmin, ...
+                    'minPC_fog', PollyConfig.minPC_fog, ...
                     'flagFarRangeChannel', data.flagFarRangeChannel, ...
                     'flag532nmChannel', data.flag532nmChannel, ...
                     'flagTotalChannel', data.flagTotalChannel, ...
@@ -328,8 +340,8 @@ print_msg('Start polarization calibration.\n', 'flagTimestamp', true);
     'depolCaliSegLen', PollyConfig.depol_cal_segmentLen_355, ...
     'depolCaliSmWin', PollyConfig.depol_cal_smoothWin_355, ...
     'dbFile', dbFile, ...
-    'pollyVersion', CampaignConfig.name, ...
-    'flagUsePrevDepolConst', PollyConfig.flagUsePrevDepolConst, ...
+    'pollyType', CampaignConfig.name, ...
+    'flagUsePrevDepolConst', PollyConfig.flagUsePreviousDepolCali, ...
     'flagDepolCali', PollyConfig.flagDepolCali, ...
     'default_depolconst', PollyDefaults.depolCaliConst355, ...
     'default_depolconstStd', PollyDefaults.depolCaliConstStd355);
@@ -344,8 +356,8 @@ print_msg('Start polarization calibration.\n', 'flagTimestamp', true);
     'depolCaliSegLen', PollyConfig.depol_cal_segmentLen_532, ...
     'depolCaliSmWin', PollyConfig.depol_cal_smoothWin_532, ...
     'dbFile', dbFile, ...
-    'pollyVersion', CampaignConfig.name, ...
-    'flagUsePrevDepolConst', PollyConfig.flagUsePrevDepolConst, ...
+    'pollyType', CampaignConfig.name, ...
+    'flagUsePrevDepolConst', PollyConfig.flagUsePreviousDepolCali, ...
     'flagDepolCali', PollyConfig.flagDepolCali, ...
     'default_depolconst', PollyDefaults.depolCaliConst532, ...
     'default_depolconstStd', PollyDefaults.depolCaliConstStd532);
@@ -397,6 +409,8 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Overlap estimation
 print_msg('Start overlap estimation.\n', 'flagTimestamp', true);
 
+PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
 % 355 nm
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
@@ -404,14 +418,15 @@ olAttri355 = struct();
 olFunc355 = NaN(length(data.height), 1);
 olStd355 = NaN(length(data.height), 1);
 if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
-    sig355NR = squeeze(sum(data.signal(flag355NR, :, data.flagCloudFree_NR), 3));
-    bg355NR = squeeze(sum(data.bg(flag355NR, :, data.flagCloudFree_NR), 3));
-    sig355FR = squeeze(sum(data.signal(flag355FR, :, data.flagCloudFree_NR), 3));
-    bg355FR = squeeze(sum(data.bg(flag355FR, :, data.flagCloudFree_NR), 3));
+    sig355NR = squeeze(sum(data.signal(flag355NR, :, flagCloudFree_NR), 3));
+    bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
+    sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
+    bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_NR), 3));
     [olFunc355, olStd355, olAttri355] = pollyOVLCalc(data.height, ...
         sig355FR, sig355NR, bg355FR, bg355NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode);
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
 end
 
 % 387 nm
@@ -421,14 +436,15 @@ olAttri387 = struct();
 olFunc387 = NaN(length(data.height), 1);
 olStd387 = NaN(length(data.height), 1);
 if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
-    sig387NR = squeeze(sum(data.signal(flag387NR, :, data.flagCloudFree_NR), 3));
-    bg387NR = squeeze(sum(data.bg(flag387NR, :, data.flagCloudFree_NR), 3));
-    sig387FR = squeeze(sum(data.signal(flag387FR, :, data.flagCloudFree_NR), 3));
-    bg387FR = squeeze(sum(data.bg(flag387FR, :, data.flagCloudFree_NR), 3));
+    sig387NR = squeeze(sum(data.signal(flag387NR, :, flagCloudFree_NR), 3));
+    bg387NR = squeeze(sum(data.bg(flag387NR, :, flagCloudFree_NR), 3));
+    sig387FR = squeeze(sum(data.signal(flag387FR, :, flagCloudFree_NR), 3));
+    bg387FR = squeeze(sum(data.bg(flag387FR, :, flagCloudFree_NR), 3));
     [olFunc387, olStd387, olAttri387] = pollyOVLCalc(data.height, ...
         sig387FR, sig387NR, bg387FR, bg387NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag387FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode);
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
 end
 
 % 532 nm
@@ -438,14 +454,15 @@ olAttri532 = struct();
 olFunc532 = NaN(length(data.height), 1);
 olStd532 = NaN(length(data.height), 1);
 if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
-    sig532NR = squeeze(sum(data.signal(flag532NR, :, data.flagCloudFree_NR), 3));
-    bg532NR = squeeze(sum(data.bg(flag532NR, :, data.flagCloudFree_NR), 3));
-    sig532FR = squeeze(sum(data.signal(flag532FR, :, data.flagCloudFree_NR), 3));
-    bg532FR = squeeze(sum(data.bg(flag532FR, :, data.flagCloudFree_NR), 3));
+    sig532NR = squeeze(sum(data.signal(flag532NR, :, flagCloudFree_NR), 3));
+    bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
+    bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_NR), 3));
     [olFunc532, olStd532, olAttri532] = pollyOVLCalc(data.height, ...
         sig532FR, sig532NR, bg532FR, bg532NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode);
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
 end
 
 % 607 nm
@@ -455,14 +472,15 @@ olAttri607 = struct();
 olFunc607 = NaN(length(data.height), 1);
 olStd607 = NaN(length(data.height), 1);
 if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
-    sig607NR = squeeze(sum(data.signal(flag607NR, :, data.flagCloudFree_NR), 3));
-    bg607NR = squeeze(sum(data.bg(flag607NR, :, data.flagCloudFree_NR), 3));
-    sig607FR = squeeze(sum(data.signal(flag607FR, :, data.flagCloudFree_NR), 3));
-    bg607FR = squeeze(sum(data.bg(flag607FR, :, data.flagCloudFree_NR), 3));
+    sig607NR = squeeze(sum(data.signal(flag607NR, :, flagCloudFree_NR), 3));
+    bg607NR = squeeze(sum(data.bg(flag607NR, :, flagCloudFree_NR), 3));
+    sig607FR = squeeze(sum(data.signal(flag607FR, :, flagCloudFree_NR), 3));
+    bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_NR), 3));
     [olFunc607, olStd607, olAttri607] = pollyOVLCalc(data.height, ...
         sig607FR, sig607NR, bg607FR, bg607NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag607FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode);
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
 end
 
 % 1064 nm
@@ -565,8 +583,8 @@ flagOLDeft1064 = false;
 if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1)
     sig1064FR = squeeze(data.signal(flag1064FR, :, :));
     bg1064FR = squeeze(data.bg(flag1064FR, :, :));
-    sig1064NR = squeeze(data.signal(flag1064NR, :, :));
-    bg1064NR = squeeze(data.bg(flag1064NR, :, :));
+    sig1064NR = [];
+    bg1064NR = [];
     [sigOLCor1064, bgOLCor1064, olFuncDeft1064, flagOLDeft1064] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
         'signalNR', sig1064NR, 'bgNR', bg1064NR, ...
         'signalRatio', olAttri1064.sigRatio, 'normRange', olAttri1064.normRange, ...
@@ -581,7 +599,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Cloud-free profiles segmentation
 print_msg('Start cloud-free profiles segmentation.\n', 'flagTimestamp', true);
 
-flagValPrf = data.flagCloudFree & (~ data.fogMask) & (~ data.depCalMask) & (~ data.shutterOnMask);
+flagValPrf = flagCloudFree & (~ data.fogMask) & (~ data.depCalMask) & (~ data.shutterOnMask);
 clFreGrps = clFreeSeg(flagValPrf, PollyConfig.intNProfiles, PollyConfig.minIntNProfiles);
 data.clFreGrps = clFreGrps;
 
@@ -619,8 +637,8 @@ AERONET = struct();
 [AERONET.datetime, AERONET.AOD_1640, AERONET.AOD_1020, AERONET.AOD_870, ...
  AERONET.AOD_675, AERONET.AOD_500, AERONET.AOD_440, AERONET.AOD_380, ...
  AERONET.AOD_340, AERONET.wavelength, AERONET.IWV, ...
- AERONET.angstrexp440_870, AERONET.AERONETAttri] = read_AERONET(...
-    config.AERONETSite, ...
+ AERONET.angstrexp440_870, AERONET.AERONETAttri] = readAERONET(...
+    PollyConfig.AERONETSite, ...
     [floor(data.mTime(1)) - 1, floor(data.mTime(1)) + 1], '15');
 data.AERONET = AERONET;
 
@@ -654,9 +672,9 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % Rayleigh scattering
         [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mSig532 = mBsc532 .* exp(-2 * cumsum(mExt532 .* [data.distance0(0), diff(data.distance0)]));
+        mSig532 = mBsc532 .* exp(-2 * cumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('\n Start searching reference height for 532 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('Start searching reference height for 532 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH532, thisDPInd532] = pollyRayleighFit(data.distance0, sig532, pcr532, bg532, mSig532, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist532, ...
@@ -683,9 +701,9 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % Rayleigh scattering
         [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
-        mSig355 = mBsc355 .* exp(-2 * cumsum(mExt355 .* [data.distance0(0), diff(data.distance0)]));
+        mSig355 = mBsc355 .* exp(-2 * cumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('\n Start searching reference height for 355 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('Start searching reference height for 355 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH355, thisDPInd355] = pollyRayleighFit(data.distance0, sig355, pcr355, bg355, mSig355, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist355, ...
@@ -712,9 +730,9 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % Rayleigh scattering
         [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
-        mSig1064 = mBsc1064 .* exp(-2 * cumsum(mExt1064 .* [data.distance0(0), diff(data.distance0)]));
+        mSig1064 = mBsc1064 .* exp(-2 * cumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('\n Start searching reference height for 1064 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('Start searching reference height for 1064 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH1064, thisDPInd1064] = pollyRayleighFit(data.distance0, sig1064, pcr1064, bg1064, mSig1064, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist1064, ...
@@ -766,8 +784,8 @@ if (sum(flag355) == 1) && (sum(flag355X) == 1) && PollyConfig.flagTransCor
         'transRatioTotalStd', 0, ...
         'transRatioCross', PollyConfig.TR(flag355X), ...
         'transRatioCrossStd', 0, ...
-        'polCaliFactor', data.polCaliFac355, ...
-        'polCaliFacStd', data.polCaliFacStd355);
+        'polCaliFactor', polCaliFac355, ...
+        'polCaliFacStd', polCaliFacStd355);
 elseif (sum(flag355) == 1) && (sum(flag355X ~= 1))
     % disable transmission correction
     el355 = squeeze(data.signal(flag355, :, :));
@@ -791,8 +809,8 @@ if (sum(flag532) == 1) && (sum(flag532X) == 1) && PollyConfig.flagTransCor
         'transRatioTotalStd', 0, ...
         'transRatioCross', PollyConfig.TR(flag532X), ...
         'transRatioCrossStd', 0, ...
-        'polCaliFactor', data.polCaliFac532, ...
-        'polCaliFacStd', data.polCaliFacStd532);
+        'polCaliFactor', polCaliFac532, ...
+        'polCaliFacStd', polCaliFacStd532);
 elseif (sum(flag532) == 1) && (sum(flag532X ~= 1))
     % disable transmission correction
     el532 = squeeze(data.signal(flag532, :, :));
@@ -816,8 +834,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = transpose(squeeze(sum(data.el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
-    bg355 = transpose(squeeze(sum(data.bgEl355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    sig355 = transpose(squeeze(sum(el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    bg355 = transpose(squeeze(sum(bgEl355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -848,8 +866,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = transpose(squeeze(sum(data.el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
-    bg532 = transpose(squeeze(sum(data.bgEl532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    sig532 = transpose(squeeze(sum(el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    bg532 = transpose(squeeze(sum(bgEl532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -913,7 +931,7 @@ for iGrp = 1:size(clFreGrps, 1)
     refBeta355 = NaN;
 
     % determine the existence of near-field data
-    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355NR) ~= 1)
+    if isnan(refHInd355(iGrp, 1)) || (sum(flag355NR) ~= 1)
         continue;
     end
 
@@ -924,8 +942,6 @@ for iGrp = 1:size(clFreGrps, 1)
             refH355(1), refH355(2)), 'flagSimpleMsg', true);
         print_msg('Set refH_NR_355 to [2500 - 3000 m]\n');
         refH355 = [2500, 3000];
-    else
-        refH355 = PollyConfig.refH_NR_355;
     end
     refHTopInd355 = find(data.height <= refH355(2), 1, 'last');
     refHBaseInd355 = find(data.height >= refH355(1), 1, 'first');
@@ -967,7 +983,7 @@ for iGrp = 1:size(clFreGrps, 1)
     refBeta532 = NaN;
 
     % determine the existence of near-field data
-    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532NR) ~= 1)
+    if isnan(refHInd532(iGrp, 1)) || (sum(flag532NR) ~= 1)
         continue;
     end
 
@@ -978,8 +994,6 @@ for iGrp = 1:size(clFreGrps, 1)
             refH532(1), refH532(2)), 'flagSimpleMsg', true);
         print_msg('Set refH_NR_532 to [2500 - 3000 m]\n');
         refH532 = [2500, 3000];
-    else
-        refH532 = PollyConfig.refH_NR_532;
     end
     refHTopInd532 = find(data.height <= refH532(2), 1, 'last');
     refHBaseInd532 = find(data.height >= refH532(1), 1, 'first');
@@ -1253,8 +1267,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = transpose(squeeze(sum(data.el355(:, flagClFre), 2)));
-    bg355 = transpose(squeeze(sum(data.bgEl355(:, flagClFre), 2)));
+    sig355 = transpose(squeeze(sum(el355(:, flagClFre), 2)));
+    bg355 = transpose(squeeze(sum(bgEl355(:, flagClFre), 2)));
     sig387 = squeeze(sum(data.signal(flag387FR, :, flagClFre), 3));
     bg387 = squeeze(sum(data.bg(flag387FR, :, flagClFre), 3));
 
@@ -1315,8 +1329,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = transpose(squeeze(sum(data.el532(:, flagClFre), 2)));
-    bg532 = transpose(squeeze(sum(data.bgEl532(:, flagClFre), 2)));
+    sig532 = transpose(squeeze(sum(el532(:, flagClFre), 2)));
+    bg532 = transpose(squeeze(sum(bgEl532(:, flagClFre), 2)));
     sig607 = squeeze(sum(data.signal(flag607FR, :, flagClFre), 3));
     bg607 = squeeze(sum(data.bg(flag607FR, :, flagClFre), 3));
 
@@ -1422,6 +1436,8 @@ end
 aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
+refH355 = PollyConfig.refH_NR_355;
 
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
@@ -1430,6 +1446,15 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if (sum(flag355NR) == 1) && (sum(flag387NR) == 1)
         continue;
+    end
+
+    % search index for reference height
+    if (refH355(1) < data.height(1)) || (refH355(1) > data.height(end)) || ...
+       (refH355(2) < data.height(1)) || (refH355(2) > data.height(end))
+        print_msg(sprintf('refH_NR_355 (%f - %f m) in the polly config file is out of range.\n', ...
+            refH355(1), refH355(2)), 'flagSimpleMsg', true);
+        print_msg('Set refH_NR_355 to [2500 - 3000 m]\n');
+        refH355 = [2500, 3000];
     end
 
     thisAerBsc355_NR_raman = NaN(size(data.height));
@@ -1453,8 +1478,6 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt355_NR_raman = pollyRamanExt(data.distance0, sig387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_NR_355, 380, 70, 'moving');
     aerExt355_NR_raman(iGrp, :) = thisAerExt355_NR_raman;
-
-    refH355 = PollyConfig.refH_NR_355;
     hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355NR) + PollyConfig.smoothWin_raman_NR_355/2 * data.hRes, 1);
     if isempty(hBaseInd355)
         print_msg('Failure in searching the index of minimum height for near-field channel. Set the index of the minimum integral range to be 40\n', 'flagSimpleMsg', true);
@@ -1488,6 +1511,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     aerBsc355_NR_raman(iGrp, :) = thisAerBsc355_NR_raman;
     LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
+    refBeta_NR_355_raman(iGrp) = refBeta355;
 
 end
 
@@ -1495,6 +1519,8 @@ end
 aerBsc532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
+refH532 = PollyConfig.refH_NR_532;
 
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
@@ -1503,6 +1529,15 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if (sum(flag532NR) == 1) && (sum(flag607NR) == 1)
         continue;
+    end
+
+    % search index for reference height
+    if (refH532(1) < data.height(1)) || (refH532(1) > data.height(end)) || ...
+       (refH532(2) < data.height(1)) || (refH532(2) > data.height(end))
+        print_msg(sprintf('refH_NR_532 (%f - %f m) in the polly config file is out of range.\n', ...
+            refH532(1), refH532(2)), 'flagSimpleMsg', true);
+        print_msg('Set refH_NR_532 to [2500 - 3000 m]\n');
+        refH532 = [2500, 3000];
     end
 
     thisAerBsc532_NR_raman = NaN(size(data.height));
@@ -1561,6 +1596,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     aerBsc532_NR_raman(iGrp, :) = thisAerBsc532_NR_raman;
     LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
+    refBeta_NR_532_raman(iGrp) = refBeta532;
 
 end
 
@@ -1761,7 +1797,7 @@ flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChan
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag355Tot) ~= 1) || (sum(flag355Cro) ~= 1)
+    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1)
         continue;
     end
 
@@ -1796,7 +1832,7 @@ flag532C = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChan
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag532Tot) ~= 1) || (sum(flag532Cro) ~= 1)
+    if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1)
         continue;
     end
 
@@ -1835,7 +1871,7 @@ flagDeftMdr355 = true(size(clFreGrps, 1), 1);
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag355Tot) ~= 1) || (sum(flag355Cro) ~= 1) || isnan(refHInd355(iGrp, 1))
+    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1) || isnan(refHInd355(iGrp, 1))
         continue;
     end
 
@@ -1870,13 +1906,13 @@ for iGrp = 1:size(clFreGrps, 1)
         pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
-    if ~ isnan(aerBsc355_OC_klett(iGp, 80))
+    if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
         [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
         pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
-    if ~ isnan(aerBsc355_OC_raman(iGp, 80))
+    if ~ isnan(aerBsc355_OC_raman(iGrp, 80))
         [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
         pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
         pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
@@ -1898,7 +1934,7 @@ flagDeftMdr532 = true(size(clFreGrps, 1), 1);
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag532Tot) ~= 1) || (sum(flag532Cro) ~= 1) || isnan(refHInd532(iGrp, 1))
+    if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1) || isnan(refHInd532(iGrp, 1))
         continue;
     end
 
@@ -1933,13 +1969,13 @@ for iGrp = 1:size(clFreGrps, 1)
         pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
-    if ~ isnan(aerBsc532_OC_klett(iGp, 80))
+    if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
         [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
         pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
-    if ~ isnan(aerBsc532_OC_raman(iGp, 80))
+    if ~ isnan(aerBsc532_OC_raman(iGrp, 80))
         [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
         pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
         pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
@@ -2064,18 +2100,20 @@ for iCh = 1:size(data.signal, 1)
     SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
 
-flag532T = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.flagTotalChannel;
-flag532C = PollyConfig.flagFarRangeChannel & PollyConfig.flag532nmChannel & PollyConfig.isCross;
-flag355T = PollyConfig.flagFarRangeChannel & PollyConfig.is355nm & PollyConfig.flagTotalChannel;
-flag355C = PollyConfig.flagFarRangeChannel & PollyConfig.flag355nmChannel & PollyConfig.isCross;
-flag1064 = PollyConfig.flagFarRangeChannel & PollyConfig.flag1064nmChannel & PollyConfig.flagTotalChannel;
-flag387 = PollyConfig.flagFarRangeChannel & PollyConfig.is387nm;
-flag607 = PollyConfig.flagFarRangeChannel & PollyConfig.is607nm;
+flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
+flag355T = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 quality_mask_355 = zeros(length(data.height), length(data.mTime));
 quality_mask_532 = zeros(length(data.height), length(data.mTime));
 quality_mask_1064 = zeros(length(data.height), length(data.mTime));
 quality_mask_vdr_532 = zeros(length(data.height), length(data.mTime));
 quality_mask_vdr_355 = zeros(length(data.height), length(data.mTime));
+quality_mask_387 = zeros(length(data.height), length(data.mTime));
+quality_mask_607 = zeros(length(data.height), length(data.mTime));
 % 0 in quality_mask means good data
 % 1 in quality_mask means low-SNR data
 % 2 in quality_mask means depolarization calibration periods
@@ -2112,13 +2150,13 @@ if (sum(flag607) == 1)
     quality_mask_607(:, data.fogMask) = 4;
 end
 if (sum(flag355T) == 1) && (sum(flag355C) == 1)
-    quality_mask_vdr_355((squeeze(SNR(flag355C, :, :)) < config.mask_SNRmin(flag355C)) | (squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
+    quality_mask_vdr_355((squeeze(SNR(flag355C, :, :)) < PollyConfig.mask_SNRmin(flag355C)) | (squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
     quality_mask_vdr_355(:, data.depCalMask) = 2;
     quality_mask_vdr_355(:, data.shutterOnMask) = 3;
     quality_mask_vdr_355(:, data.fogMask) = 4;
 end
 if (sum(flag532T) == 1) && (sum(flag532C) == 1)
-    quality_mask_vdr_532((squeeze(SNR(flag532C, :, :)) < config.mask_SNRmin(flag532C)) | (squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T))) = 1;
+    quality_mask_vdr_532((squeeze(SNR(flag532C, :, :)) < PollyConfig.mask_SNRmin(flag532C)) | (squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T))) = 1;
     quality_mask_vdr_532(:, data.depCalMask) = 2;
     quality_mask_vdr_532(:, data.shutterOnMask) = 3;
     quality_mask_vdr_532(:, data.fogMask) = 4;
@@ -2139,7 +2177,7 @@ print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
     'contact', AERONET.AERONETAttri.contact);
 
 % sunrise/sunset
-sun_rise_set = suncycle(CampaignConfig.lat, CampaignConfig.lon, floor(data.mTime(1), 2880));
+sun_rise_set = suncycle(CampaignConfig.lat, CampaignConfig.lon, floor(data.mTime(1)), 2880);
 sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
 sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
 
@@ -2155,7 +2193,6 @@ wvCaliInfo.IntRange = NaN(size(clFreGrps, 1), 2);
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel;
-flag407On = (~ pollyIs407Off(squeeze(data.signal)));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2166,13 +2203,14 @@ for iGrp = 1:size(clFreGrps, 1)
     thisWVCaliInfo = '407 off';
     thisIntRange = [NaN, NaN];
 
-    if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1)
+    if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
         wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
         wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
         wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
         continue;
     end
 
+    flag407On = (~ pollyIs407Off(squeeze(data.signal(flag407, :, :))));
     flagWVCali = false(size(flag407On));
     wvCaliInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
     flagWVCali(wvCaliInd) = true;
@@ -2211,11 +2249,11 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % select water vapor calibration constant
-[wvconstUsed, wvconstUsedStd, data.wvconstUsedInfo] = select_wvconst(...
+[wvconstUsed, wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
     wvconst, wvconstStd, IWVAttri, ...
-    pollyParseFiletime(PollyDataInfo.dataFileFormat, PollyConfig.dataFileFormat), ...
+    pollyParseFiletime(basename(PollyDataInfo.pollyDataFile), PollyConfig.dataFileFormat), ...
     dbFile, CampaignConfig.name, ...
-    'flagUsePrevWVConst', PollyConfig.flagUsePrevWVConst, ...
+    'flagUsePrevWVConst', PollyConfig.flagUsePreviousWVconst, ...
     'flagWVCalibration', PollyConfig.flagWVCalibration, ...
     'deltaTime', datenum(0, 1, 7), ...
     'default_wvconst', PollyDefaults.wvconst, ...
@@ -2234,7 +2272,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     clFreInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
     flagClFre(clFreInd) = true;
-    flag407On = flagClFre & (~ mask407Off);
+    flag407On = flagClFre & (~ data.mask407Off);
     n407OnPrf = sum(flag407On);
 
     if (n407OnPrf <= 10) || (sum(flag387) ~= 1) || (sum(flag407) ~= 1)
@@ -2256,7 +2294,7 @@ for iGrp = 1:size(clFreGrps, 1)
     trans407 = exp(- cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
 
     % calculate saturated water vapor pressure
-    es = saturated_vapor_pres(data.temperature(iGroup, :));
+    es = saturated_vapor_pres(data.temperature(iGrp, :));
     rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
 
     % calculate wvmr and rh
@@ -2310,19 +2348,14 @@ if (sum(flag387) == 1) || (sum(flag407 == 1))
     sig407_QC = smooth2(sig407_QC, PollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407));
 
     % read the meteorological data
-    [altRaw, tempRaw, presRaw, relhRaw, ~] = loadMeteor(...
+    [temp, pres, relh, ~] = loadMeteor(...
                             mean(data.mTime), data.alt, ...
-                            'meteorDataSource', config.meteorDataSource, ...
-                            'gdas1Site', config.gdas1Site, ...
+                            'meteorDataSource', PollyConfig.meteorDataSource, ...
+                            'gdas1Site', PollyConfig.gdas1Site, ...
                             'gdas1_folder', PicassoConfig.gdas1_folder, ...
-                            'radiosondeSitenum', config.radiosondeSitenum, ...
-                            'radiosondeFolder', config.radiosondeFolder, ...
-                            'radiosondeType', config.radiosondeType);
-
-    % interp the parameters
-    temp = interpMeteor(altRaw, tempRaw, data.alt);
-    pres = interpMeteor(altRaw, presRaw, data.alt);
-    relh = interpMeteor(altRaw, relhRaw, data.alt);
+                            'radiosondeSitenum', PollyConfig.radiosondeSitenum, ...
+                            'radiosondeFolder', PollyConfig.radiosondeFolder, ...
+                            'radiosondeType', PollyConfig.radiosondeType);
 
     % repmat the array to matrix as the size of data.signal
     temperature = repmat(transpose(temp), 1, length(data.mTime));
@@ -2859,7 +2892,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 %% far-range calibration constants
 [LCUsed.LCUsed355, ~, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355] = ...
-    select_liconst(LC.LC_raman_355, zeros(size(LC.LC_raman_355)), ...
+    selectLiConst(LC.LC_raman_355, zeros(size(LC.LC_raman_355)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '355', 'far_range', ...
@@ -2869,7 +2902,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag355), ...
         'default_liconstStd', PollyDefaults.LCStd(flag355));
 [LCUsed.LCUsed532, ~, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532] = ...
-    select_liconst(LC.LC_raman_532, zeros(size(LC.LC_raman_532)), ...
+    selectLiConst(LC.LC_raman_532, zeros(size(LC.LC_raman_532)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '532', 'far_range', ...
@@ -2879,7 +2912,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag532), ...
         'default_liconstStd', PollyDefaults.LCStd(flag532));
 [LCUsed.LCUsed1064, ~, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = ...
-    select_liconst(LC.LC_raman_1064, zeros(size(LC.LC_raman_1064)), ...
+    selectLiConst(LC.LC_raman_1064, zeros(size(LC.LC_raman_1064)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '1064', 'far_range', ...
@@ -2889,7 +2922,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag1064), ...
         'default_liconstStd', PollyDefaults.LCStd(flag1064));
 [LCUsed.LCUsed387, ~, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387] = ...
-    select_liconst(LC.LC_raman_387, zeros(size(LC.LC_raman_387)), ...
+    selectLiConst(LC.LC_raman_387, zeros(size(LC.LC_raman_387)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '387', 'far_range', ...
@@ -2899,7 +2932,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag387), ...
         'default_liconstStd', PollyDefaults.LCStd(flag387));
 [LCUsed.LCUsed607, ~, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = ...
-    select_liconst(LC.LC_raman_607, zeros(size(LC.LC_raman_607)), ...
+    selectLiConst(LC.LC_raman_607, zeros(size(LC.LC_raman_607)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '607', 'far_range', ...
@@ -2911,7 +2944,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 %% near-range lidar calibration constants
 [LCUsed.LCUsed532NR, ~, LCUsed.LCUsedTag532NR, LCUsed.flagLCWarning532NR] = ...
-    select_liconst(LC.LC_raman_532_NR, zeros(size(LC.LC_raman_532_NR)), ...
+    selectLiConst(LC.LC_raman_532_NR, zeros(size(LC.LC_raman_532_NR)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '532', 'near_range', ...
@@ -2921,7 +2954,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag532NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag532NR));
 [LCUsed.LCUsed607NR, ~, LCUsed.LCUsedTag607NR, LCUsed.flagLCWarning607NR] = ...
-    select_liconst(LC.LC_raman_607_NR, zeros(size(LC.LC_raman_607_NR)), ...
+    selectLiConst(LC.LC_raman_607_NR, zeros(size(LC.LC_raman_607_NR)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '607', 'near_range', ...
@@ -2931,7 +2964,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag607NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag607NR));
 [LCUsed.LCUsed355NR, ~, LCUsed.LCUsedTag355NR, LCUsed.flagLCWarning355NR] = ...
-    select_liconst(LC.LC_raman_355_NR, zeros(size(LC.LC_raman_355_NR)), ...
+    selectLiConst(LC.LC_raman_355_NR, zeros(size(LC.LC_raman_355_NR)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '355', 'near_range', ...
@@ -2941,7 +2974,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconst', PollyDefaults.LC(flag355NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag355NR));
 [LCUsed.LCUsed387NR, ~, LCUsed.LCUsedTag387NR, LCUsed.flagLCWarning387NR] = ...
-    select_liconst(LC.LC_raman_387_NR, zeros(size(LC.LC_raman_387_NR)), ...
+    selectLiConst(LC.LC_raman_387_NR, zeros(size(LC.LC_raman_387_NR)), ...
         LC.LC_start_time, ...
         LC.LC_stop_time, ...
         mean(data.mTime), dbFile, CampaignConfig.name, '387', 'near_range', ...
@@ -3078,10 +3111,10 @@ print_msg('Start quasi-retrieval (V1).\n', 'flagTimestamp', true);
 [temperature, pressure, ~, ~, ~, thisMeteorAttri] = loadMeteor(mean(data.mTime), data.alt, ...
     'meteorDataSource', PollyConfig.meteorDataSource, ...
     'gdas1Site', PollyConfig.gdas1Site, ...
-    'gdas1_folder', PollyConfig.gdas1_folder, ...
+    'gdas1_folder', PicassoConfig.gdas1_folder, ...
     'radiosondeSitenum', PollyConfig.radiosondeSitenum, ...
-    'radiosondeFolder', pollyConfig.radiosondeFolder, ...
-    'radiosondeType', pollyConfig.radiosondeType, ...
+    'radiosondeFolder', PollyConfig.radiosondeFolder, ...
+    'radiosondeType', PollyConfig.radiosondeType, ...
     'method', 'linear');
 
 quasiAttri = struct();
@@ -3100,8 +3133,8 @@ if (sum(flag355) == 1)
     [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
     mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
     mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
@@ -3126,8 +3159,8 @@ if (sum(flag532) == 1)
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
     mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
@@ -3152,8 +3185,8 @@ if (sum(flag1064) == 1)
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
     mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
     mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
@@ -3182,13 +3215,13 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
     mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, pollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
     qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
-    qsiPDR532V1((quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN
+    qsiPDR532V1((quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 end
 
 % % quasi-retrieved Ångström exponents 355-532
@@ -3277,11 +3310,11 @@ if (sum(flag355) == 1) && (sum(flag387) == 1)
     mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
     mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
     mExt387 = repmat(transpose(mExt387), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    [qsiBsc355V2, ~] = quasiRetrieval(data.height, att_beta_355_qsi, att_beta_387_qsi, 355, mExt355, mBsc355, mExt387, 0.5, PollyConfig.LR355, 'nIters', 3);
+    [qsiBsc355V2, ~] = quasiRetrieval2(data.height, att_beta_355_qsi, att_beta_387_qsi, 355, mExt355, mBsc355, mExt387, 0.5, PollyConfig.LR355, 'nIters', 3);
     qsiBsc355V2 = smooth2(qsiBsc355V2, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
 end
 
@@ -3303,11 +3336,11 @@ if (sum(flag532) == 1) && (sum(flag607) == 1)
     mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
     mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
     mExt607 = repmat(transpose(mExt607), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    [qsiBsc532V2, ~] = quasiRetrieval(data.height, att_beta_532_qsi, att_beta_607_qsi, 532, mExt532, mBsc532, mExt607, 0.5, PollyConfig.LR532, 'nIters', 3);
+    [qsiBsc532V2, ~] = quasiRetrieval2(data.height, att_beta_532_qsi, att_beta_607_qsi, 532, mExt532, mBsc532, mExt607, 0.5, PollyConfig.LR532, 'nIters', 3);
     qsiBsc532V2 = smooth2(qsiBsc532V2, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
 end
 
@@ -3329,11 +3362,11 @@ if (sum(flag1064) == 1) && (sum(flag607) == 1)
     mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
     mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
     mExt607 = repmat(transpose(mExt607), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    [qsiBsc1064V2, ~] = quasiRetrieval(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
+    [qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
     qsiBsc1064V2 = smooth2(qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
 end
 
@@ -3353,11 +3386,11 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
     mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
-    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.source, 'gdas1');
-    quasiAttri.meteorSource = thisMeteorAttri.source;
+    quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
+    quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, pollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
     qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
     qsiPDR532V2((quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 end
@@ -3488,7 +3521,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
                        polCali355Attri.polCaliFacStd, ...
                        polCali355Attri.polCaliStartTime, ...
                        polCali355Attri.polCaliStopTime, ...
-                       PollyDataInfo.dataFilename, ...
+                       PollyDataInfo.pollyDataFile, ...
                        CampaignConfig.name, '355');
         print_msg('--> finish.\n', 'flagTimestamp', true);
     end
@@ -3500,7 +3533,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
                        polCali532Attri.polCaliFacStd, ...
                        polCali532Attri.polCaliStartTime, ...
                        polCali532Attri.polCaliStopTime, ...
-                       PollyDataInfo.dataFilename, ...
+                       PollyDataInfo.pollyDataFile, ...
                        CampaignConfig.name, '532');
         print_msg('--> finish.\n', 'flagTimestamp', true);
     end
@@ -3508,77 +3541,90 @@ if PicassoConfig.flagEnableCaliResultsOutput
     %% save lidar calibration results
     print_msg('--> start saving lidar calibration constants.\n', 'flagTimestamp', true);
     saveLiConst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '355', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '532', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '1064', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '355', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '532', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '1064', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '387', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '607', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '355', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '532', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '1064', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_355_NR, LC.LCStd_raman_355_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '355', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LC_raman_387_NR, LC.LCStd_raman_387_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '387', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LC_raman_532_NR, LC.LCStd_raman_532_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '532', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LCStd_raman_607_NR, LC.LCStd_raman_607_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.dataFilename, ...
+                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                  CampaignConfig.name, '607', 'Raman_Method', 'near_range');
     print_msg('--> finish.\n', 'flagTimestamp', true);
 
     %% save water vapor calibration results
     if (sum(flag407) == 1) && (sum(flag387) == 1)
         print_msg('--> start saving water vapor calibration results...\n', 'flagTimestamp', true);
-        saveWVConst(dbFile, wvconst, wvconstStd, IWVAttri, PollyDataInfo.dataFilename, CampaignConfig.name);
+        saveWVConst(dbFile, wvconst, wvconstStd, IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
         print_msg('--> finish.\n', 'flagTimestamp', true);
     end
 
     print_msg('Finish.\n', 'flagTimestamp', true);
 end
 
+data.sigOLCor355 = sigOLCor355;
+data.sigOLCor532 = sigOLCor532;
+data.sigOLCor1064 = sigOLCor1064;
 data.olFunc532 = olFunc532;
 data.olFunc355 = olFunc355;
 data.olAttri355 = olAttri355;
 data.olAttri532 = olAttri532;
 data.olFuncDeft355 = olFuncDeft355;
 data.olFuncDeft532 = olFuncDeft532;
+data.polCaliFac355 = polCaliFac355;
+data.polCaliFacStd355 = polCaliFacStd355;
+data.polCaliFac532 = polCaliFac532;
+data.polCaliFacStd532 = polCaliFacStd532;
 data.aerBsc355_klett = aerBsc355_klett;
 data.aerBsc532_klett = aerBsc532_klett;
 data.aerBsc1064_klett = aerBsc1064_klett;
+data.aerExt355_klett = aerExt355_klett;
+data.aerExt532_klett = aerExt532_klett;
+data.aerExt1064_klett = aerExt1064_klett;
 data.aerBsc355_aeronet = aerBsc355_aeronet;
 data.aerBsc532_aeronet = aerBsc532_aeronet;
 data.aerBsc1064_aeronet = aerBsc1064_aeronet;
-data.LR355_aeronet = LC_aeronet_355;
-data.LR532_aeronet = LC_aeronet_532;
-data.LR1064_aeronet = LC_aeronet_1064;
+data.aerExt355_aeronet = aerExt355_aeronet;
+data.aerExt532_aeronet = aerExt532_aeronet;
+data.aerExt1064_aeronet = aerExt1064_aeronet;
+data.LR355_aeronet = LR355_aeronet;
+data.LR532_aeronet = LR532_aeronet;
+data.LR1064_aeronet = LR1064_aeronet;
 data.aerBsc355_raman = aerBsc355_raman;
 data.aerBsc532_raman = aerBsc532_raman;
 data.aerBsc1064_raman = aerBsc1064_raman;
@@ -3602,6 +3648,8 @@ data.pdrStd355_raman = pdrStd355_raman;
 data.pdrStd532_raman = pdrStd532_raman;
 data.wvmr = wvmr;
 data.rh = rh;
+data.wvconstUsed = wvconstUsed;
+data.wvconstUsedStd = wvconstUsedStd;
 data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
 data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
 data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
@@ -3617,11 +3665,17 @@ data.mdr355 = mdr355;
 data.mdr532 = mdr532;
 data.IWVAttri = IWVAttri;
 data.meteorAttri = meteorAttri;
+data.refBeta_NR_355_klett = refBeta_NR_355_klett;
+data.refBeta_NR_532_klett = refBeta_NR_532_klett;
+data.refBeta_NR_355_raman = refBeta_NR_355_raman;
+data.refBeta_NR_532_raman = refBeta_NR_532_raman;
 data.aerBsc355_NR_klett = aerBsc355_NR_klett;
 data.aerBsc532_NR_klett = aerBsc532_NR_klett;
+data.aerExt355_NR_klett = aerExt355_NR_klett;
+data.aerExt532_NR_klett = aerExt532_NR_klett;
 data.aerBsc355_NR_raman = aerBsc355_NR_raman;
 data.aerBsc532_NR_raman = aerBsc532_NR_raman;
-data.aerExt355_NR_klett = aerExt355_NR_klett;
+data.aerExt355_NR_raman = aerExt355_NR_raman;
 data.aerExt532_NR_raman = aerExt532_NR_raman;
 data.LR355_NR_raman = LR355_NR_raman;
 data.LR532_NR_raman = LR532_NR_raman;
@@ -3631,6 +3685,9 @@ data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
 data.aerBsc355_OC_klett = aerBsc355_OC_klett;
 data.aerBsc532_OC_klett = aerBsc532_OC_klett;
 data.aerBsc1064_OC_klett = aerBsc1064_OC_klett;
+data.aerExt355_OC_klett = aerExt355_OC_klett;
+data.aerExt532_OC_klett = aerExt532_OC_klett;
+data.aerExt1064_OC_klett = aerExt1064_OC_klett;
 data.aerBsc355_OC_raman = aerBsc355_OC_raman;
 data.aerBsc532_OC_raman = aerBsc532_OC_raman;
 data.aerBsc1064_OC_raman = aerBsc1064_OC_raman;
@@ -3653,14 +3710,19 @@ data.pdrStd355_OC_klett = pdrStd355_OC_klett;
 data.pdrStd532_OC_klett = pdrStd532_OC_klett;
 data.pdrStd355_OC_raman = pdrStd355_OC_raman;
 data.pdrStd532_OC_raman = pdrStd532_OC_raman;
+data.LC = LC;
 data.att_beta_355 = att_beta_355;
 data.att_beta_532 = att_beta_532;
 data.att_beta_1064 = att_beta_1064;
 data.quality_mask_355 = quality_mask_355;
 data.quality_mask_532 = quality_mask_532;
 data.quality_mask_1064 = quality_mask_1064;
+data.quality_mask_387 = quality_mask_387;
+data.quality_mask_607 = quality_mask_607;
 data.SNR = SNR;
 data.LCUsed = LCUsed;
+data.att_beta_NR_355 = att_beta_NR_355;
+data.att_beta_NR_532 = att_beta_NR_532;
 data.att_beta_OC_355 = att_beta_OC_355;
 data.att_beta_OC_532 = att_beta_OC_532;
 data.att_beta_OC_1064 = att_beta_OC_1064;
@@ -3669,11 +3731,13 @@ data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
 data.quality_mask_RH = quality_mask_RH;
 data.quasiAttri = quasiAttri;
+data.qsiBsc355V1 = qsiBsc355V1;
 data.qsiBsc532V1 = qsiBsc532V1;
 data.qsiBsc1064V1 = qsiBsc1064V1;
 data.qsiPDR532V1 = qsiPDR532V1;
 data.qsiAE_532_1064_V1 = qsiAE_532_1064_V1;
 data.quality_mask_vdr_532 = quality_mask_vdr_532;
+data.qsiBsc355V2 = qsiBsc355V2;
 data.qsiBsc532V2 = qsiBsc532V2;
 data.qsiBsc1064V2 = qsiBsc1064V2;
 data.qsiPDR532V2 = qsiPDR532V2;
@@ -3705,7 +3769,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
                                        datestr(data.mTime(1), 'yyyy'), ...
                                        datestr(data.mTime(1), 'mm'), ...
                                        datestr(data.mTime(1), 'dd')), ...
-                              sprintf('%s.*.nc', rmext(PollyDataInfo.dataFilename)));
+                              sprintf('%s.*.nc', rmext(PollyDataInfo.pollyDataFile)));
 
         for iFile = 1:length(ncFileList)
             delete(ncFileList{iFile});
@@ -3723,10 +3787,10 @@ if PicassoConfig.flagEnableCaliResultsOutput
             print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true);
             %% save overlap function
             saveFile = fullfile(PicassoConfig.results_folder, ...
-                                campaignInfo.name, datestr(data.mTime(1), 'yyyy'), ...
+                                CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), ...
                                 datestr(data.mTime(1), 'mm'), ...
                                 datestr(data.mTime(1), 'dd'), ...
-                                sprintf('%s_overlap.nc', rmext(taskInfo.dataFilename)));
+                                sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
             pollySaveOverlap(data, saveFile);
             print_msg('--> finish!\n', 'flagSimpleMsg', true);
 
@@ -3827,7 +3891,7 @@ if PicassoConfig.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'yyyy'), ...
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
-                            sprintf('%s.*.png', rmext(PollyDataInfo.dataFilename)));
+                            sprintf('%s.*.png', rmext(PollyDataInfo.pollyDataFile)));
         
         % delete the files
         for iFile = 1:length(picFileList)
@@ -3837,7 +3901,7 @@ if PicassoConfig.flagEnableDataVisualization
         print_msg('Finish!\n', 'flagTimestamp', true);
     end
 
-    print_msg('Start data visualization', 'flagTimestamp', true);
+    print_msg('Start data visualization\n', 'flagTimestamp', true);
 
     %% diaplay monitor status
     print_msg('Start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
@@ -3867,7 +3931,7 @@ if PicassoConfig.flagEnableDataVisualization
     print_msg('Finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display overlap function
-    print_msg('Start displaying overlap function.\n', 'flagSimpleMsg', 'flagTimestamp', true);
+    print_msg('Start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     data.olFunc355 = olFunc355;
     data.olAttri355 = olAttri355;
     data.olFuncDeft355 = olFuncDeft355;
@@ -3928,16 +3992,16 @@ end
 
 %% Done filelist
 
-%% Clean
-fclose(LogConfig.logFid);
-
 tEnd = now();
 tUsage = (tEnd - tStart) * 24 * 3600;
 report{end + 1} = tStart;
 report{end + 1} = tUsage;
-print_msg('\n%%------------------------------------------------------%%');
+print_msg('\n%%------------------------------------------------------%%\n');
 print_msg('Finish pollynet processing chain\n', 'flagTimestamp', true);
 print_msg('%%------------------------------------------------------%%\n');
+
+%% Clean
+fclose(LogConfig.logFid);
 
 %% Enable the usage of matlab toolbox
 if PicassoConfig.flagReduceMATLABToolboxDependence
