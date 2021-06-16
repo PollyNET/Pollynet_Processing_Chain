@@ -125,9 +125,9 @@ def pollyDisplayVDR355(tmpFile, saveFolder):
         vdr355 = mat['vdr355'][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         yLim_FR_DR = mat['yLim_FR_DR'][:][0]
         Voldepol355ColorRange = mat['Voldepol355ColorRange'][:][0]
         xtick = mat['xtick'][0][:]
@@ -215,7 +215,7 @@ def pollyDisplayVDR355(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder, '{dataFilename}_VDR_355.{imgFmt}'.format(
-                dataFilename=rmext(dataFilename),
+                dataFilename=rmext(os.path.basename(dataFilename)),
                 imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 

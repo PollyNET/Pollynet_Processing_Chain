@@ -18,7 +18,7 @@ function [fileinfo_new] = read_fileinfo_new(file)
 %            filename of the zipped polly data
 %        dataSize: array
 %            file size of the zipped polly data
-%        pollyVersion: cell
+%        pollyType: cell
 %            polly lidar label. e.g., 'POLLYXT_TROPOS'
 % HISTORY:
 %    2021-06-13: first edition by Zhenping
@@ -30,7 +30,7 @@ fileinfo_new.dataPath = {};
 fileinfo_new.dataFilename = {};
 fileinfo_new.zipFile = {};
 fileinfo_new.dataSize = [];
-fileinfo_new.pollyVersion = {};
+fileinfo_new.pollyType = {};
 
 if exist(file, 'file') ~= 2
     warning('fileinfo_new does not exist. \n%s\n', file);
@@ -45,7 +45,7 @@ try
     fileinfo_new.dataPath = transpose(data{2});
     fileinfo_new.dataFilename = transpose(data{3});
     fileinfo_new.zipFile = transpose(data{4});
-    fileinfo_new.pollyVersion = transpose(data{6});
+    fileinfo_new.pollyType = transpose(data{6});
 
     for iTask = 1:length(data{5})
         fileinfo_new.dataSize = [fileinfo_new.dataSize, ...

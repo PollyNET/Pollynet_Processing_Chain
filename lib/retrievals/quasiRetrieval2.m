@@ -53,12 +53,12 @@ addRequired(p, 'att_beta_ra', @isnumeric);
 addRequired(p, 'wavelength', @isnumeric);
 addRequired(p, 'molExtEl', @isnumeric);
 addRequired(p, 'molBscEl', @isnumeric);
-addRequired(p, 'molBscRa', @isnumeric);
+addRequired(p, 'molExtRa', @isnumeric);
 addRequired(p, 'AE', @isnumeric);
 addRequired(p, 'LR', @isnumeric);
 addParameter(p, 'nIters', 1, @isnumeric);
 
-parse(p, height, att_beta_el, att_beta_ra, wavelength, molExtEl, molBscEl, molBscRa, AE, LR, varargin{:});
+parse(p, height, att_beta_el, att_beta_ra, wavelength, molExtEl, molBscEl, molExtRa, AE, LR, varargin{:});
 
 diffHeight = repmat(transpose([height(1), diff(height)]), 1, ...
                     size(att_beta_el, 2));

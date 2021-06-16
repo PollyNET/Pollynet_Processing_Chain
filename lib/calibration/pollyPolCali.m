@@ -1,4 +1,4 @@
-function [polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, varargin)
+function [polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio, varargin)
 % POLLYPOLCALI calibrate the PollyXT cross channels for 355 and 532 nm
 % with ±45° method.
 % USAGE:
@@ -6,9 +6,49 @@ function [polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(d
 % INPUTS:
 %    data: struct
 %        More detailed information can be found in doc/pollynet_processing_program.md
+%    transRatio: array
+%        transmission ratios at each channel.
 % KEYWORDS:
+%    wavelength: char
+%        '355nm' or '532nm'.
+%    depolCaliMinBin: numeric
+%        minimum search index for stable depolarization calibration constants.
+%    depolCaliMaxBin
+%        maximum search index for stable depolarization calibration constants.
+%    depolCaliMinSNR: numeric
+%        minimum signal-noise ratio for calculating depolarization calibration constants.
+%    depolCaliMaxSig: numeric
+%        maximum signal in photon count (to avoid signal saturation).
+%    relStdDPlus: numeric
+%        maximum relative std of dplus that is allowed.
+%    relStdDMinus: numeric
+%        maximum relative std of dminus that is allowed.
+%    depolCaliSegLen: numeric
+%        segement length for testing the variability of the calibration results
+%        to prevent of cloud contamintaion.
+%    depolCaliSmWin: numeric
+%        width of the sliding window for smoothing the signal.
+%    dbFile: char
+%        absolute path of the calibration database file.
+%    pollyType: char
+%        polly version. ('arielle')
+%    flagUsePrevDepolConst: logical
+%        whether to use previous calibration constants.
+%    flagDepolCali: logical
+%        whether to perform depolarization calibration.
+%    default_depolconst: numeric
+%        default depolarization calibration constant.
+%    default_depolconstStd
+%        standard deviation of default depolarization calibration constant.
 % OUTPUTS:
-%     output
+%    polCaliFac: numeric
+%        depolarization calibration constant.
+%    polCaliFacStd: numeric
+%        uncertainty of depolarization calibration constant.
+%    polCaliTime: 2-element array
+%        [start, stop] time of depolarization calibration.
+%    polCaliAttri: struct
+%
 % EXAMPLE:
 % HISTORY:
 %    2018-12-17: First edition by Zhenping
@@ -21,7 +61,7 @@ p = inputParser;
 p.KeepUnmatched = true;
 
 addRequired(p, 'data', @isstruct);
-addRequired(p, 'TransRatio', @isnumeric);
+addRequired(p, 'transRatio', @isnumeric);
 addParameter(p, 'wavelength', '532nm', @ischar);
 addParameter(p, 'depolCaliMinBin', 0, @isnumeric);
 addParameter(p, 'depolCaliMaxBin', 1, @isnumeric);
@@ -32,13 +72,13 @@ addParameter(p, 'relStdDMinus', 1, @isnumeric);
 addParameter(p, 'depolCaliSegLen', 1, @isnumeric);
 addParameter(p, 'depolCaliSmWin', 1, @isnumeric);
 addParameter(p, 'dbFile', '', @ischar);
-addParameter(p, 'pollyVersion', 'polly', @ischar);
+addParameter(p, 'pollyType', 'polly', @ischar);
 addParameter(p, 'flagUsePrevDepolConst', false, @islogical);
 addParameter(p, 'flagDepolCali', true', @islogical);
 addParameter(p, 'default_depolconst', NaN, @isnumeric);
 addParameter(p, 'default_depolconstStd', NaN, @isnumeric);
 
-parse(p, data, varargin{:});
+parse(p, data, transRatio, varargin{:});
 
 polCaliFac = [];
 polCaliFacStd = [];
@@ -58,7 +98,7 @@ case '355nm'
     flagTot355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
     flagCro355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
 
-    if (~ flag(flagTot355)) || (~ flag(flagCro355))
+    if (~ any(flagTot355)) || (~ any(flagCro355))
         warning('Cross or total channel at 355 nm does not exist.');
         return;
     end
@@ -72,7 +112,7 @@ case '355nm'
         sigTot355, bgTot355, sigCro355, bgCro355, time, ...
         data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
         data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
-        TransRatio(flagTot355), TransRatio(flagCro355), ...
+        transRatio(flagTot355), transRatio(flagCro355), ...
         [p.Results.depolCaliMinBin, p.Results.depolCaliMaxBin], ...
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
@@ -83,15 +123,15 @@ case '355nm'
     polCalAttri355.polCaliStopTime = polCaliStopTime355;
 
     if exist(p.Results.dbFile, 'file') == 2
-        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = select_depolconst(...
+        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
             polCaliFac355, polCaliFacStd355, ...
             polCaliStartTime355, polCaliStopTime355, ...
-            mean(time), p.Results.dbFile, p.Results.pollyVersion, '355', ...
-            'flagUsePrevDepolConst', p.Results.flagUsePreviousDepolCali, ...
+            mean(time), p.Results.dbFile, p.Results.pollyType, '355', ...
+            'flagUsePrevDepolConst', p.Results.flagUsePrevDepolConst, ...
             'flagDepolCali', p.Results.flagDepolCali, ...
             'deltaTime', datenum(0, 1, 7), ...
-            'default_depolconst', p.Results.depolCaliConst355, ...
-            'default_depolconstStd', p.Results.depolCaliConstStd355);
+            'default_depolconst', p.Results.default_depolconst, ...
+            'default_depolconstStd', p.Results.default_depolconstStd);
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri355;
     else
@@ -106,7 +146,7 @@ case '532nm'
     flagTot532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
     flagCro532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 
-    if (~ flag(flagTot532)) || (~ flag(flagCro532))
+    if (~ any(flagTot532)) || (~ any(flagCro532))
         warning('Cross or total channel at 532 nm does not exist.');
         return;
     end
@@ -120,7 +160,7 @@ case '532nm'
         sigTot532, bgTot532, sigCro532, bgCro532, time, ...
         data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
         data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
-        TransRatio(flagTot532), TransRatio(flagCro532), ...
+        transRatio(flagTot532), transRatio(flagCro532), ...
         [p.Results.depolCaliMinBin, p.Results.depolCaliMaxBin], ...
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
@@ -131,15 +171,15 @@ case '532nm'
     polCalAttri532.polCaliStopTime = polCaliStopTime532;
 
     if exist(p.Results.dbFile, 'file') == 2
-        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = select_depolconst(...
+        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
             polCaliFac532, polCaliFacStd532, ...
             polCaliStartTime532, polCaliStopTime532, ...
-            mean(time), p.Results.dbFile, p.Results.pollyVersion, '532', ...
-            'flagUsePrevDepolConst', p.Results.flagUsePreviousDepolCali, ...
+            mean(time), p.Results.dbFile, p.Results.pollyType, '532', ...
+            'flagUsePrevDepolConst', p.Results.flagUsePrevDepolConst, ...
             'flagDepolCali', p.Results.flagDepolCali, ...
             'deltaTime', datenum(0, 1, 7), ...
-            'default_depolconst', p.Results.depolCaliConst532, ...
-            'default_depolconstStd', p.Results.depolCaliConstStd532);
+            'default_depolconst', p.Results.default_depolconst, ...
+            'default_depolconstStd', p.Results.default_depolconstStd);
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri532;
     else

@@ -6,12 +6,12 @@
 # config/pollyConfigs/polly_global_config.json
 
 # Processing outputs
-results
-tmp
-config
-recent_plots_new
-recent_plots
-results_new
+./results
+./tmp
+./config
+./recent_plots_new
+./recent_plots
+./results_new
 todo_filelist
 test
 netcdf4
@@ -28,4 +28,3 @@ debug.mat
 package-lock.json
 package.json
 lib/arielle_func_lib/pollynet_processing_chain_arielle.m
-lib/interface/picasso_main.m

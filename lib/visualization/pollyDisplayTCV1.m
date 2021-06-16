@@ -41,7 +41,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
     
     %% display rcs 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'PicassoConfig', 'CampaignConfig', 'taskInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'TC_mask', 'height', 'time', 'yLim_Quasi_Params', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayTCV1.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayTCV1.py');

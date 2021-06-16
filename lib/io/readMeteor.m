@@ -81,7 +81,7 @@ case 'gdas1'
     [alt, temp, pres, relh, wins, wind, gdas1File] = readGDAS1(measTime, ...
     p.Results.gdas1Site, p.Results.gdas1_folder);
 
-    if isnan(alt(1))
+    if isempty(alt)
         alt = [];
         temp = [];
         pres = [];

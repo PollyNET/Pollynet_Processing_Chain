@@ -18,15 +18,15 @@ end
 thisTime = mean(data.mTime(data.clFreGrps), 2);
 time = data.mTime;
 figDPI = PicassoConfig.figDPI;
-partnerLabel = config.partnerLabel;
+partnerLabel = PollyConfig.partnerLabel;
 flagWatermarkOn = PicassoConfig.flagWatermarkOn;
-yLim355 = config.yLim_LC_355;
-yLim532 = config.yLim_LC_532;
-yLim1064 = config.yLim_LC_1064;
-yLim387 = config.yLim_LC_387;
-yLim607 = config.yLim_LC_607;
+yLim355 = PollyConfig.yLim_LC_355;
+yLim532 = PollyConfig.yLim_LC_532;
+yLim1064 = PollyConfig.yLim_LC_1064;
+yLim387 = PollyConfig.yLim_LC_387;
+yLim607 = PollyConfig.yLim_LC_607;
 [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-imgFormat = config.imgFormat;
+imgFormat = PollyConfig.imgFormat;
 
 %% 355 nm
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;

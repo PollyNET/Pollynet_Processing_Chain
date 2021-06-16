@@ -116,9 +116,9 @@ def pollyDisplayLC532FR(tmpFile, saveFolder):
         yLim532 = mat['yLim532'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
-        version = mat['PicassoConfig']['programVersion'][0][0][0]
+        version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
-        dataFilename = mat['PollyDataInfo']['dataFilename'][0][0][0]
+        dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         xtick = mat['xtick'][0][:]
         xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
@@ -218,7 +218,7 @@ def pollyDisplayLC532FR(tmpFile, saveFolder):
         os.path.join(
             saveFolder,
             '{dataFilename}_LC_532.{imgFmt}'.format(
-                dataFilename=rmext(dataFilename),
+                dataFilename=rmext(os.path.basename(dataFilename)),
                 imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
