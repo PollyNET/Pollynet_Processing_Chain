@@ -15,8 +15,8 @@
     "minDataSize": 100000,
 
     "institute": "Ground-based Remote Sensing Group (TROPOS)",
-    "homepage": "http://polly.rsd.tropos.de/",
-    "contact": "Zhenping Yin <zhenping@tropos.de>",
+    "homepage": "https://polly.tropos.de/",
+    "contact": "Holger Baars <baars@tropos.de>",
 
     "visualizationMode": "python",
     "pyBinDir": "/pollyhome/Picasso/anaconda3/bin",
