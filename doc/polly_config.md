@@ -1,8 +1,8 @@
-## Polly Config
+# Polly Config
 
 The filename of polly config should be names as {polly version}_config.json. And it should be noted that the {polly version} is the lower case. Any wrong spelling can not be recognized correctly. 
 
-### Descriptions
+## Overview
 
 I will summarize all the configurations in the table below. But you should keep in mind there could be different settings for different polly, so you should create a new configuration file according to your demands.
 
@@ -151,3 +151,36 @@ I will summarize all the configurations in the table below. But you should keep 
 |imgFormat|image format|'png'||
 |partnerLabel|partner label to be displayed in the figures|'UMA'||
 |prodSaveList|control the output of nc files. If the product was specified in the product save list (prodSaveList), it will then be saved.|["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2"]||
+
+## Rayleigh fit configurations
+
+There are two steps for [Rayleigh fit algorithm](./doc/Picasso_Rayleigh_fit_algorithm.pptx) implemented in Picasso:
+
+1. Signal de-composition by [Douglas-Peucker algorithm][1]
+2. Rayleigh fit on each signal segments (de-composed by step **1**)
+
+To obtain required reference height in terms of reference height width and SNR, there are 7 configs applied:
+
+1. decomSmoothWin{wavelength}
+2. maxDecomHeight{wavelength}
+3. maxDecomThickness{wavelength}
+4. minDecomLogDist{wavelength}
+5. minRefThickness{wavelength}
+6. minRefSNR{wavelength}
+7. minRefDeltaExt{wavelength}
+
+The first 4 parameters are associated with signal de-composition. Before the signal de-composition, range-corrected signal is first divided by Rayleigh signal to correct signal attenuation by molecules and then is smoothed to remove signal spikes caused by signal noise. The smoothing window width is controlled by `decomSmoothWin`. The larger the smoothing window width, the more likely suitable reference height can be found. But it should be noted that signal smoothing would remove weak signal features and make them de-composed wrongly. Therefore, one may need to tune this parameter to get more reliable reference height.
+
+During the signal de-composition, the signal was decomposed according to the required maximum distance of all points to the line determined by start/end point of each signal segment. It would ensure that every signal segment is close to a line with maximum deviation less than maximum distance, configured by `maxDecomLogDist`. The smaller the maximum distance, the narrower the signal segments. Besides, `maxDecomHeight` and `maxDecomThickness` control the top boundary of signal de-composition and maximum length of signal segments, which would determine the top boundary of Rayleigh fit and final width of reference height.
+
+After the signal de-composition, the signal segments are fed into Rayleigh fit algorithm. The Rayleigh fit criteria are applied for each signal segment to choose suitable reference height. The criteria includes:
+
+1. minimum reference height width (controlled by `minRefThickness`)
+2. near- and far-range test
+3. White-noise test
+4. SNR test (controlled by `minRefSNR`)
+5. Slope test (Pure Rayleigh test controlled by `minRefDeltaExt`)
+
+`minRefThickness` is the parameter to control the width of reference height. It should be at least larger than 500 m to fulfill criterion **3** of requirement for minimum SNR. `minRefDeltaExt` is a key parameter to control the similarity between lidar signal and Rayleigh signal (Details can be found in [Picasso_Rayleigh_fit_algorithm.pptx](./doc/Picasso_Rayleigh_fit_algorithm.pptx)). Usually, this should be fixed to 1.
+
+[1]: https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
