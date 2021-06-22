@@ -88,11 +88,11 @@ end
 %% signal decomposition with Douglas-Peucker algorithm
 scaRatio = sigPCR .* height.^2 ./ mSig;
 DPInd = DouglasPeucker(scaRatio, height, p.Results.minDecomLogDist, ...
-p.Results.heightFullOverlap, p.Results.maxDecomHeight, ...
-p.Results.maxDecomThickness, p.Results.decomSmWin);
+    p.Results.heightFullOverlap, p.Results.maxDecomHeight, ...
+    p.Results.maxDecomThickness, p.Results.decomSmWin);
 
 %% Rayleigh fitting
-if ~ p.Results.flagSameRef
+if p.Results.flagSameRef
     % take default values of reference height and DPInd
     refHInd = p.Results.defaultRefH;
     DPInd = p.Results.defaultDPInd;

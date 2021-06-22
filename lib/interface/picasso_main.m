@@ -12,7 +12,9 @@ pollyGlobalConfigFile = fullfile(PicassoDir, 'lib', 'config', 'polly_global_conf
 PicassoConfigFile = 'D:\Coding\Matlab\Pollynet_Processing_Chain\config\pollynet_processing_chain_config.json';
 report = cell(0);
 pollyType = 'arielle';
+pollyZipFile = '';
 pollyDataFile = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc';
+
 pollyLaserlogbook = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.laserlogbook.txt';
 
 %% Input check
@@ -23,6 +25,7 @@ end
 %% Set PollyDataInfo
 PollyDataInfo.pollyType = pollyType;
 PollyDataInfo.pollyDataFile = pollyDataFile;
+PollyDataInfo.zipFile = pollyZipFile;
 try
     PollyDataInfo.dataTime = pollyParseFiletime(basename(pollyDataFile), ...
         ['(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})', ...
@@ -674,7 +677,7 @@ for iGrp = 1:size(clFreGrps, 1)
         [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
         mSig532 = mBsc532 .* exp(-2 * cumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('Start searching reference height for 532 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('\nStart searching reference height for signal at 532 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH532, thisDPInd532] = pollyRayleighFit(data.distance0, sig532, pcr532, bg532, mSig532, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist532, ...
@@ -691,6 +694,7 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH532 = [NaN, NaN];
         thisDPInd532 = [];
     end
+    print_msg(sprintf('Determined reference height at 532 nm: [%f - %f] m\n', thisRefH532(1), thisRefH532(2)), 'flagSimpleMsg', true);
 
     % 355 nm
     if sum(flag355FR) == 1
@@ -703,7 +707,7 @@ for iGrp = 1:size(clFreGrps, 1)
         [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
         mSig355 = mBsc355 .* exp(-2 * cumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('Start searching reference height for 355 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('\nStart searching reference height for 355 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH355, thisDPInd355] = pollyRayleighFit(data.distance0, sig355, pcr355, bg355, mSig355, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist355, ...
@@ -720,6 +724,7 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH355 = [NaN, NaN];
         thisDPInd355 = [];
     end
+    print_msg(sprintf('Determined reference height at 355 nm: [%f - %f] m\n', thisRefH355(1), thisRefH355(2)), 'flagSimpleMsg', true);
 
     % 1064 nm
     if sum(flag1064FR) == 1
@@ -732,7 +737,7 @@ for iGrp = 1:size(clFreGrps, 1)
         [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
         mSig1064 = mBsc1064 .* exp(-2 * cumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]));
 
-        print_msg(sprintf('Start searching reference height for 1064 nm, period from %s to %s.\n', ...
+        print_msg(sprintf('\nStart searching reference height for 1064 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
         [thisRefH1064, thisDPInd1064] = pollyRayleighFit(data.distance0, sig1064, pcr1064, bg1064, mSig1064, ...
             'minDecomLogDist', PollyConfig.minDecomLogDist1064, ...
@@ -749,6 +754,7 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH1064 = [NaN, NaN];
         thisDPInd1064 = [];
     end
+    print_msg(sprintf('Determined reference height at 1064 nm: [%f - %f] m\n', thisRefH1064(1), thisRefH1064(2)), 'flagSimpleMsg', true);
 
     refHInd355 = cat(1, refHInd355, thisRefH355);
     refHInd532 = cat(1, refHInd532, thisRefH532);
@@ -899,7 +905,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     sig1064 = squeeze(sum(data.signal(flag1064, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg1064 = squeeze(sum(data.bgEl1064(flag1064, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
+    bg1064 = squeeze(sum(data.bg(flag1064, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
 
     refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -960,7 +966,7 @@ for iGrp = 1:size(clFreGrps, 1)
         refBeta355 = mean(aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2); 
 
         [thisAerBsc355_NR_klett, ~] = pollyFernald(data.distance0, sig355, PollyConfig.LR_NR_355, refH355, refBeta355, mBsc355, PollyConfig.smoothWin_klett_NR_355);
-        thisAerExt355_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
+        thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
     
         aerBsc355_klett(iGrp, :) = thisAerBsc355_NR_klett;
         aerExt355_klett(iGrp, :) = thisAerExt355_NR_klett;
@@ -1012,7 +1018,7 @@ for iGrp = 1:size(clFreGrps, 1)
         refBeta532 = mean(aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2); 
 
         [thisAerBsc532_NR_klett, ~] = pollyFernald(data.distance0, sig532, PollyConfig.LR_NR_532, refH532, refBeta532, mBsc532, PollyConfig.smoothWin_klett_NR_532);
-        thisAerExt532_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
+        thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
     
         aerBsc532_klett(iGrp, :) = thisAerBsc532_NR_klett;
         aerExt532_klett(iGrp, :) = thisAerExt532_NR_klett;
@@ -1132,8 +1138,8 @@ for iGrp = size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = squeeze(sum(data.el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
-    bg355 = squeeze(sum(data.bg355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
+    sig355 = squeeze(sum(el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
+    bg355 = squeeze(sum(bgEl355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR355 = pollySNR(sig355, bg355);
     refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -1141,13 +1147,13 @@ for iGrp = size(clFreGrps, 1)
     % SNR at reference height
     SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
 
-    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AEROENT.datetime, datenum(0,1,0,2,0,0));
+    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
 
     if isempty(AERONETInd)
         continue;
     end
 
-    AOD_355_aeronet = interp_AERONET_AOD(340, AERONET.AOD_340(AERONETInd), 380, AEROENT.AOD_380(AERONETInd), 355);
+    AOD_355_aeronet = interp_AERONET_AOD(340, AERONET.AOD_340(AERONETInd), 380, AERONET.AOD_380(AERONETInd), 355);
 
     % constrained Klett method
     [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, ~] = pollyConstrainedKlett(data.distance0, sig355, SNR355, refH355, PollyConfig.refBeta355, mBsc355, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_355_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag355FR), PollyConfig.mask_SNRmin(flag355FR), PollyConfig.smoothWin_klett_355);
@@ -1175,8 +1181,8 @@ for iGrp = size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = squeeze(sum(data.el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
-    bg532 = squeeze(sum(data.bg532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
+    sig532 = squeeze(sum(el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
+    bg532 = squeeze(sum(bgEl532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR532 = pollySNR(sig532, bg532);
     refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -1184,13 +1190,13 @@ for iGrp = size(clFreGrps, 1)
     % SNR at reference height
     SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
 
-    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AEROENT.datetime, datenum(0,1,0,2,0,0));
+    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
 
     if isempty(AERONETInd)
         continue;
     end
 
-    AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETInd), 675, AEROENT.AOD_675(AERONETInd), 532);
+    AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETInd), 675, AERONET.AOD_675(AERONETInd), 532);
 
     % constrained Klett method
     [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, ~] = pollyConstrainedKlett(data.distance0, sig532, SNR532, refH532, PollyConfig.refBeta532, mBsc532, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_532_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag532FR), PollyConfig.mask_SNRmin(flag532FR), PollyConfig.smoothWin_klett_532);
@@ -1227,13 +1233,13 @@ for iGrp = size(clFreGrps, 1)
     % SNR at reference height
     SNRRef1064 = pollySNR(sum(sig1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
 
-    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AEROENT.datetime, datenum(0,1,0,2,0,0));
+    AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
 
     if isempty(AERONETInd)
         continue;
     end
 
-    AOD_1064_aeronet = interp_AERONET_AOD(1020, AERONET.AOD_1020(AERONETInd), 1640, AEROENT.AOD_1640(AERONETInd), 1064);
+    AOD_1064_aeronet = interp_AERONET_AOD(1020, AERONET.AOD_1020(AERONETInd), 1640, AERONET.AOD_1640(AERONETInd), 1064);
 
     % constrained Klett method
     [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, ~] = pollyConstrainedKlett(data.distance0, sig1064, SNR1064, refH1064, PollyConfig.refBeta1064, mBsc1064, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_1064_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag1064FR), PollyConfig.mask_SNRmin(flag1064FR), PollyConfig.smoothWin_klett_1064);
@@ -1299,7 +1305,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt355_raman_tmp = thisAerExt355_raman;
     thisAerExt355_raman(1:hBaseInd355) = thisAerExt355_raman(hBaseInd355);
-    [thisAerBsc355_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355, mBsc355, [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))], 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
+    [thisAerBsc355_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355, mBsc355, refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
     thisLR355_raman = thisAerExt355_raman_tmp ./ thisAerBsc355_raman;
 
     aerBsc355_raman(iGrp, :) = thisAerBsc355_raman;
@@ -1361,7 +1367,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt532_raman_tmp = thisAerExt532_raman;
     thisAerExt532_raman(1:hBaseInd532) = thisAerExt532_raman(hBaseInd532);
-    [thisAerBsc532_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532, mBsc532, [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))], 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
+    [thisAerBsc532_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532, mBsc532, refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
     thisLR532_raman = thisAerExt532_raman_tmp ./ thisAerBsc532_raman;
 
     aerBsc532_raman(iGrp, :) = thisAerBsc532_raman;
@@ -1895,25 +1901,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
 
     if ~ isnan(aerBsc355_klett(iGrp, 80))
-        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
+        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_klett(iGrp, :) = thisPdr355_klett;
         pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
     end
 
     if ~ isnan(aerBsc355_raman(iGrp, 80))
-        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
+        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_raman(iGrp, :) = thisPdr355_raman;
         pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
     if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
-        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
+        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
     if ~ isnan(aerBsc355_OC_raman(iGrp, 80))
-        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc355, thisMdr355, thisMdrStd355));
+        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
         pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
     end
@@ -1958,57 +1964,57 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
 
     if ~ isnan(aerBsc532_klett(iGrp, 80))
-        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
+        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_klett(iGrp, :) = thisPdr532_klett;
         pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
     end
 
     if ~ isnan(aerBsc532_raman(iGrp, 80))
-        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
+        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_raman(iGrp, :) = thisPdr532_raman;
         pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
     if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
-        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
+        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
     if ~ isnan(aerBsc532_OC_raman(iGrp, 80))
-        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height) * 1e-7, mBsc532, thisMdr532, thisMdrStd532));
+        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
         pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
     end
 end
 
-% (Near-field) Angström exponent (Klett/Fernald/Raman method retrieved parameters)
+% (Near-field) Ångström exponent (Klett/Fernald/Raman method retrieved parameters)
 AE_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 AE_Ext_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 AE_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    % Angström exponent 355-532 (based on parameters by Klett method)
+    % Ångström exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(aerExt355_NR_klett(iGrp, 60))) && (~ isnan(aerExt355_NR_klett(iGrp, 60)))
         thisAE_Bsc_355_532_NR_klett = pollyAE(aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
         AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerExt355_NR_raman(iGrp, 80))) && (~ isnan(aerExt532_NR_raman(iGrp, 80)))
         thisAE_Ext_355_532_NR_raman = pollyAE(aerExt355_NR_raman(iGrp, :), zeros(size(data.height)), aerExt532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
         AE_Ext_355_532_NR_raman(iGrp, :) = thisAE_Ext_355_532_NR_raman;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerBsc355_NR_raman(iGrp, 80))) && (~ isnan(aerBsc532_NR_raman(iGrp, 80)))
         thisAE_Bsc_355_532_NR_raman = pollyAE(aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_NR_raman_532);
         AE_Bsc_355_532_NR_raman(iGrp, :) = thisAE_Bsc_355_532_NR_raman;
     end
 end
 
-% (Overlap corrected) Angström exponent (Klett/Fernald/Raman method retrieved parameters)
+% (Overlap corrected) Ångström exponent (Klett/Fernald/Raman method retrieved parameters)
 AE_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
 AE_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 AE_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2017,38 +2023,38 @@ AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    % Angström exponent 355-532 (based on parameters by Klett method)
+    % Ångström exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(refHInd355(1))) && (~ isnan(refHInd532(1)))
         thisAE_Bsc_355_532_klett = pollyAE(aerBsc355_klett(iGrp, :), zeros(size(data.height)), aerBsc532_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
     end
 
-    % Angström exponent 532-1064 (based on parameters by Klett method)
+    % Ångström exponent 532-1064 (based on parameters by Klett method)
     if (~ isnan(refHInd532(1))) && (~ isnan(refHInd1064(1)))
         thisAE_Bsc_532_1064_klett = pollyAE(aerBsc532_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerExt355_raman(iGrp, 80))) && (~ isnan(aerExt532_raman(iGrp, 80)))
         thisAE_Ext_355_532_raman = pollyAE(aerExt355_raman(iGrp, :), zeros(size(data.height)), aerExt532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
         AE_Ext_355_532_raman(iGrp, :) = thisAE_Ext_355_532_raman;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerBsc355_raman(iGrp, 80))) && (~ isnan(aerBsc532_raman(iGrp, 80)))
         thisAE_Bsc_355_532_raman = pollyAE(aerBsc355_raman(iGrp, :), zeros(size(data.height)), aerBsc532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
         AE_Bsc_355_532_raman(iGrp, :) = thisAE_Bsc_355_532_raman;
     end
 
-    % Angström exponent 532-1064 (based on parameters by Raman method)
+    % Ångström exponent 532-1064 (based on parameters by Raman method)
     if (~ isnan(aerBsc532_raman(iGrp, 80))) && (~ isnan(aerBsc1064_raman(iGrp, 80)))
         thisAE_Bsc_532_1064_raman = pollyAE(aerBsc532_raman(iGrp, :), zeros(size(data.height)), aerBsc1064_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
         AE_Bsc_532_1064_raman(iGrp, :) = thisAE_Bsc_532_1064_raman;
     end
 end
 
-% Angström exponent (Klett/Fernald/Raman method retrieved parameters)
+% Ångström exponent (Klett/Fernald/Raman method retrieved parameters)
 AE_Bsc_355_532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 AE_Bsc_532_1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 AE_Ext_355_532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2057,31 +2063,31 @@ AE_Bsc_532_1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    % Angström exponent 355-532 (based on parameters by Klett method)
+    % Ångström exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(refHInd355(1))) && (~ isnan(refHInd532(1)))
         thisAE_Bsc_355_532_OC_klett = pollyAE(aerBsc355_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_OC_klett(iGrp, :) = thisAE_Bsc_355_532_OC_klett;
     end
 
-    % Angström exponent 532-1064 (based on parameters by Klett method)
+    % Ångström exponent 532-1064 (based on parameters by Klett method)
     if (~ isnan(refHInd532(1))) && (~ isnan(refHInd1064(1)))
         thisAE_Bsc_532_1064_OC_klett = pollyAE(aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_OC_klett(iGrp, :) = thisAE_Bsc_532_1064_OC_klett;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerExt355_OC_raman(iGrp, 80))) && (~ isnan(aerExt532_OC_raman(iGrp, 80)))
         thisAE_Ext_355_532_OC_raman = pollyAE(aerExt355_OC_raman(iGrp, :), zeros(size(data.height)), aerExt532_OC_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
         AE_Ext_355_532_OC_raman(iGrp, :) = thisAE_Ext_355_532_OC_raman;
     end
 
-    % Angström exponent 355-532 (based on parameters by Raman method)
+    % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerBsc355_OC_raman(iGrp, 80))) && (~ isnan(aerBsc532_OC_raman(iGrp, 80)))
         thisAE_Bsc_355_532_OC_raman = pollyAE(aerBsc355_OC_raman(iGrp, :), zeros(size(data.height)), aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
         AE_Bsc_355_532_OC_raman(iGrp, :) = thisAE_Bsc_355_532_OC_raman;
     end
 
-    % Angström exponent 532-1064 (based on parameters by Raman method)
+    % Ångström exponent 532-1064 (based on parameters by Raman method)
     if (~ isnan(aerBsc532_OC_raman(iGrp, 80))) && (~ isnan(aerBsc1064_OC_raman(iGrp, 80)))
         thisAE_Bsc_532_1064_OC_raman = pollyAE(aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
         AE_Bsc_532_1064_OC_raman(iGrp, :) = thisAE_Bsc_532_1064_OC_raman;
@@ -2236,7 +2242,7 @@ for iGrp = 1:size(clFreGrps, 1)
     [thisWVconst, thisWVconstStd, thisWVAttri] = pollyWVCali(data.height, ...
         sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
         thisCaliStartTime, thisCaliStopTime, IWV(iGrp), flagWVCali, flag407On, ...
-        trans387, trans407, rhoAir, ...
+        trans387, trans407, rhoAir, sunriseTime, sunsetTime, ...
         'hWVCaliBase', PollyConfig.hWVCaliBase, ...
         'hWVCaliTop', PollyConfig.hWVCaliTop, ...
         'hFullOL387', PollyConfig.heightFullOverlap(flag387), ...
@@ -2246,6 +2252,8 @@ for iGrp = 1:size(clFreGrps, 1)
     wvconstStd(iGrp) = thisWVconstStd;
     wvCaliInfo.WVCaliInfo{iGrp} = thisWVAttri.WVCaliInfo;
     wvCaliInfo.IntRange(iGrp, :) = thisWVAttri.IntRange;
+    wvCaliInfo.cali_start_time(iGrp) = thisWVAttri.cali_start_time;
+    wvCaliInfo.cali_stop_time(iGrp) = thisWVAttri.cali_stop_time;
 end
 
 % select water vapor calibration constant
@@ -2308,7 +2316,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     IWVIntRange= wvCaliInfo.IntRange(iGrp, 1):wvCaliInfo.IntRange(iGrp, 2);
     wvPrfInfo.n407Prfs(iGrp) = n407OnPrf;
-    wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data,height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
+    wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
 
 end
 
@@ -2422,24 +2430,26 @@ flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
+    LC.LC_start_time(iGrp) = data.mTime(clFreGrps(iGrp, 1));
+    LC.LC_stop_time(iGrp) = data.mTime(clFreGrps(iGrp, 2));
 
     % 355 nm
     if sum(flag355) == 1
 
         hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
-        
+
         if isempty(hIndOL)
             hIndOL = 70;
         end
-        
+
         hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_355/2);
-        
+
         if isnan(aerBsc355_klett(iGrp, 80))
             continue;
         end
-        
+
         [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        
+
         prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
         nPrf = numel(prfInd);
         sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
@@ -2557,12 +2567,12 @@ for iGrp = 1:size(clFreGrps, 1)
         flagClFre = false(size(data.mTime));
         flagClFre(prfInd) = true;
         flagClFre = flagClFre & (~ data.mask387Off);
-        nPrf = numel(flagClFre);
+        nPrf = sum(flagClFre);
         sig355 = squeeze(sum(data.signal(flag355, :, flagClFre), 3)) / nPrf;
 
         % optical thickness (OT)
         aBsc355 = aerBsc355_raman(iGrp, :);
-        aExt355 = aerExt355_raman(iGrp, :) * PollyConfig.LR355;
+        aExt355 = aerBsc355_raman(iGrp, :) * PollyConfig.LR355;
         aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
         mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2592,12 +2602,12 @@ for iGrp = 1:size(clFreGrps, 1)
         flagClFre = false(size(data.mTime));
         flagClFre(prfInd) = true;
         flagClFre = flagClFre & (~ data.mask607Off);
-        nPrf = numel(flagClFre);
+        nPrf = sum(flagClFre);
         sig532 = squeeze(sum(data.signal(flag532, :, flagClFre), 3)) / nPrf;
 
         % optical thickness (OT)
         aBsc532 = aerBsc532_raman(iGrp, :);
-        aExt532 = aerExt532_raman(iGrp, :) * PollyConfig.LR532;
+        aExt532 = aerBsc532_raman(iGrp, :) * PollyConfig.LR532;
         aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
         mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2627,12 +2637,12 @@ for iGrp = 1:size(clFreGrps, 1)
         flagClFre = false(size(data.mTime));
         flagClFre(prfInd) = true;
         flagClFre = flagClFre & (~ data.mask607Off);
-        nPrf = numel(flagClFre);
+        nPrf = sum(flagClFre);
         sig1064 = squeeze(sum(data.signal(flag1064, :, flagClFre), 3)) / nPrf;
 
         % optical thickness (OT)
         aBsc1064 = aerBsc1064_raman(iGrp, :);
-        aExt1064 = aerExt1064_raman(iGrp, :) * PollyConfig.LR1064;
+        aExt1064 = aerBsc1064_raman(iGrp, :) * PollyConfig.LR1064;
         aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
         mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2649,7 +2659,7 @@ for iGrp = 1:size(clFreGrps, 1)
         LC.LCStd_raman_1064(iGrp) = LCStd_raman_1064;
     end
 
-    % 355 nm (Raman)
+    % 387 nm (Raman)
     if sum(flag355) == 1
 
         if isnan(aerBsc355_raman(iGrp, 80))
@@ -2663,12 +2673,12 @@ for iGrp = 1:size(clFreGrps, 1)
         flagClFre = false(size(data.mTime));
         flagClFre(prfInd) = true;
         flagClFre = flagClFre & (~ data.mask387Off);
-        nPrf = numel(flagClFre);
+        nPrf = sum(flagClFre);
         sig387 = squeeze(sum(data.signal(flag387, :, flagClFre), 3)) / nPrf;
 
         % optical thickness (OT)
         aBsc355 = aerBsc355_raman(iGrp, :);
-        aExt355 = aerExt355_raman(iGrp, :) * PollyConfig.LR355;
+        aExt355 = aerBsc355_raman(iGrp, :) * PollyConfig.LR355;
         aExt387 = aExt355 * (355/387).^PollyConfig.angstrexp;
         aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
         aOT387 = nancumsum(aExt387 .* [data.distance0(1), diff(data.distance0)]);
@@ -2702,12 +2712,12 @@ for iGrp = 1:size(clFreGrps, 1)
         flagClFre = false(size(data.mTime));
         flagClFre(prfInd) = true;
         flagClFre = flagClFre & (~ data.mask607Off);
-        nPrf = numel(flagClFre);
+        nPrf = sum(flagClFre);
         sig607 = squeeze(sum(data.signal(flag607, :, flagClFre), 3)) / nPrf;
 
         % optical thickness (OT)
         aBsc532 = aerBsc532_raman(iGrp, :);
-        aExt532 = aerExt532_raman(iGrp, :) * PollyConfig.LR532;
+        aExt532 = aerBsc532_raman(iGrp, :) * PollyConfig.LR532;
         aExt607 = aExt532 * (532/607).^PollyConfig.angstrexp;
         aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
         aOT607 = nancumsum(aExt607 .* [data.distance0(1), diff(data.distance0)]);
@@ -3541,56 +3551,56 @@ if PicassoConfig.flagEnableCaliResultsOutput
     %% save lidar calibration results
     print_msg('--> start saving lidar calibration constants.\n', 'flagTimestamp', true);
     saveLiConst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '355', 'Klett_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '355', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_klett_532, LC.LCStd_klett_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '532', 'Klett_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '532', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_klett_1064, LC.LCStd_klett_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '1064', 'Klett_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '1064', 'Klett_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_355, LC.LCStd_raman_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '355', 'Raman_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '355', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_532, LC.LCStd_raman_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '532', 'Raman_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '532', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_1064, LC.LCStd_raman_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '1064', 'Raman_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '1064', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_387, LC.LCStd_raman_387, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '387', 'Raman_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '387', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_607, LC.LCStd_raman_607, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '607', 'Raman_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '607', 'Raman_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_355, LC.LCStd_aeronet_355, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '355', 'AOD_Constrained_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '355', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_532, LC.LCStd_aeronet_532, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '532', 'AOD_Constrained_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '532', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_aeronet_1064, LC.LCStd_aeronet_1064, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '1064', 'AOD_Constrained_Method', 'far_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '1064', 'AOD_Constrained_Method', 'far_range');
     saveLiConst(dbFile, LC.LC_raman_355_NR, LC.LCStd_raman_355_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '355', 'Raman_Method', 'near_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '355', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LC_raman_387_NR, LC.LCStd_raman_387_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '387', 'Raman_Method', 'near_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '387', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LC_raman_532_NR, LC.LCStd_raman_532_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '532', 'Raman_Method', 'near_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '532', 'Raman_Method', 'near_range');
     saveLiConst(dbFile, LC.LCStd_raman_607_NR, LC.LCStd_raman_607_NR, ...
-                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
-                 CampaignConfig.name, '607', 'Raman_Method', 'near_range');
+                LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
+                CampaignConfig.name, '607', 'Raman_Method', 'near_range');
     print_msg('--> finish.\n', 'flagTimestamp', true);
 
     %% save water vapor calibration results
     if (sum(flag407) == 1) && (sum(flag387) == 1)
         print_msg('--> start saving water vapor calibration results...\n', 'flagTimestamp', true);
-        saveWVConst(dbFile, wvconst, wvconstStd, IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
+        saveWVConst(dbFile, wvconst, wvconstStd, wvCaliInfo, IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
         print_msg('--> finish.\n', 'flagTimestamp', true);
     end
 
@@ -3784,7 +3794,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
         switch lower(PollyConfig.prodSaveList{iProd})
 
         case 'overlap'
-            print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save overlap function
             saveFile = fullfile(PicassoConfig.results_folder, ...
                                 CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), ...
@@ -3792,80 +3802,80 @@ if PicassoConfig.flagEnableCaliResultsOutput
                                 datestr(data.mTime(1), 'dd'), ...
                                 sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
             pollySaveOverlap(data, saveFile);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'aerproffr'
-            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
             pollySaveProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'aerprofnr'
-            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
             pollySaveNRProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'aerprofoc'
-            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
             pollySaveOCProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'aerattbetafr'
-            print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter
             pollySaveAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'aerattbetaoc'
-            print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter
             pollySaveOCAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'wvmr_rh'
-            print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save water vapor mixing ratio and relative humidity
             pollySaveWV(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'voldepol'
-            print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save volume depolarization ratio
             data.vdr355 = vdr355;
             data.vdr532 = vdr532;
             pollySaveVDR(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'quasiv1'
-            print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save quasi results (V1)
             pollySaveQsiV1(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'quasiv2'
-            print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save quasi results (V2)
             pollySaveQsiV2(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'tc'
-            print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save target classification results (V1)
             pollySaveTCV1(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'tcv2'
-            print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save target classification results (V2)
             pollySaveTCV2(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         case 'cloudinfo'
-            print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true);
+            print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             pollySaveCloudInfo(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
@@ -3892,7 +3902,7 @@ if PicassoConfig.flagEnableDataVisualization
                                      datestr(data.mTime(1), 'mm'), ...
                                      datestr(data.mTime(1), 'dd')), ...
                             sprintf('%s.*.png', rmext(PollyDataInfo.pollyDataFile)));
-        
+
         % delete the files
         for iFile = 1:length(picFileList)
             delete(picFileList{iFile});
@@ -3991,6 +4001,7 @@ if PicassoConfig.flagEnableDataVisualization
 end
 
 %% Done filelist
+
 
 tEnd = now();
 tUsage = (tEnd - tStart) * 24 * 3600;

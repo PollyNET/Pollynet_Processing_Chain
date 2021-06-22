@@ -27,7 +27,7 @@ if (exist(p.Results.SQLiteJDBCPath, 'file') == 2)
 elseif p.Results.flagDownloadSQLiteJDBC
     SQLJDBCURL = 'https://bitbucket.org/xerial/sqlite-jdbc/downloads/sqlite-jdbc-3.30.1.jar';
 
-    system(sprintf('wget -O %s %s', p.Results.SQLiteJDBCPath, SQLJDBCURL));
+    system(sprintf('curl -o %s %s -s', p.Results.SQLiteJDBCPath, SQLJDBCURL));
     pathJDBC = p.Results.SQLiteJDBCPath;
 end
 

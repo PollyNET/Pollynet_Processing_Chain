@@ -1,4 +1,4 @@
-function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, trans387, trans407, rhoAir, varargin)
+function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, trans387, trans407, rhoAir, sunriseTime, sunsetTime, varargin)
 % POLLYWVCALI water vapor calibration.
 % USAGE:
 %    [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387, ...
@@ -27,6 +27,8 @@ function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387,
 %    trans387: numeric
 %    trans407: numeric
 %    rhoAir: numeric
+%    sunriseTime: numeric
+%    sunsetTime: numeric
 % KEYWORDS
 %    hWVCaliBase: numeric
 %    hFullOL387: numeric
@@ -66,27 +68,29 @@ addRequired(p, 'E_tot_1064_cali', @isnumeric);
 addRequired(p, 'E_tot_1064_cali_std', @isnumeric);
 addRequired(p, 'wvCaliStarttime', @isnumeric);
 addRequired(p, 'wvCaliStoptime', @isnumeric);
-addRequired(p, 'IWV', @islogical);
+addRequired(p, 'IWV', @isnumeric);
 addRequired(p, 'flagWVCali', @islogical);
 addRequired(p, 'flag407On', @islogical);
 addRequired(p, 'trans387', @isnumeric);
 addRequired(p, 'trans407', @isnumeric);
 addRequired(p, 'rhoAir', @isnumeric);
+addRequired(p, 'sunriseTime', @isnumeric);
+addRequired(p, 'sunsetTime', @isnumeric);
 
 addParameter(p, 'hWVCaliBase', 0, @isnumeric);
 addParameter(p, 'hWVCaliTop', 4000, @isnumeric);
 addParameter(p, 'hFullOL387', 600, @isnumeric);
 addParameter(p, 'minSNRWVCali', 5, @isnumeric);
 
-parse(p, height, sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, trans387, trans407, rhoAir, varargin{:});
+parse(p, height, sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, trans387, trans407, rhoAir, sunriseTime, sunsetTime, varargin{:});
 
 wvconst = NaN;
 wvconstStd = NaN;
 globalAttri = struct();
 globalAttri.cali_start_time = wvCaliStarttime;
 globalAttri.cali_stop_time = wvCaliStoptime;
-globalAttri.WVCaliInfo = '407 off';
-globalAttri.IntRange = [NaN, NaN];
+thisWVCaliInfo = '407 off';
+thisIntRange = [NaN, NaN];
 
 flagNotEnough407Prf = false;
 flagLowSNR = false;
@@ -196,11 +200,11 @@ if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Prf) && ...
 
     wvconst = IWV_Cali ./ IWVRaw;   % g*kg^{-1}
     wvconstStd = 0;   % TODO: this can be done by taking into account of
-                            % the uncertainty of IWV by AERONET and the signal
-                            % uncertainty by lidar.
-end
+                        % the uncertainty of IWV by AERONET and the signal
+                        % uncertainty by lidar.
+                    end
 
-globalAttri.WVCaliInfo{end + 1} = thisWVCaliInfo;
+globalAttri.WVCaliInfo = thisWVCaliInfo;
 globalAttri.IntRange = thisIntRange;
 
 end

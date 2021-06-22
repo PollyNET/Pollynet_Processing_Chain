@@ -1,35 +1,18 @@
 function initPicassoToolbox(updateToolbox)
-%      _____   _____   _____   _____     _____     |
-%     /  ___| /  _  \ |  _  \ |  _  \   / ___ \    |   COnstraint-Based Reconstruction and Analysis
-%     | |     | | | | | |_| | | |_| |  | |___| |   |   The COBRA Toolbox verson 3.1 
-%     | |     | | | | |  _  { |  _  /  |  ___  |   |
-%     | |___  | |_| | | |_| | | | \ \  | |   | |   |   Documentation:
-%     \_____| \_____/ |_____/ |_|  \_\ |_|   |_|   |   http://opencobra.github.io/cobratoolbox
-%                                                  |
+%           ____  _                               _____  ____
+%          / __ \(_)________ _______________     |__  / / __ \
+%         / /_/ / / ___/ __ `/ ___/ ___/ __ \     /_ < / / / /
+%        / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /
+%       /_/   /_/\___/\__,_/____/____/\____/   /____(_)____/
 %
-%     setup_PollyNET_processing_toolbox Setup the toolbox for 
+%   Setup Picasso toolbox and install all dependencies.
+%     Maintained by Zhenping Yin & Holger Baars
+% HISTORY:
+%   2021-06-22: first edition.
 %
-%     Defines default solvers and paths, tests SBML io functionality.
-%     Function only needs to be called once per installation. Saves paths afer script terminates.
-%
-%     In addition add either of the following into startup.m (generally in MATLAB_DIRECTORY/toolbox/local/startup.m)
-%
-%     initCobraToolbox
-%           -or-
-%     changeCobraSolver('gurobi');
-%     changeCobraSolver('gurobi', 'MILP');
-%     changeCobraSolver('tomlab_cplex', 'QP');
-%     changeCobraSolver('tomlab_cplex', 'MIQP');
-%     changeCbMapOutput('svg');
-%
-%     Maintained by Ronan M.T. Fleming, Laurent Heirendt
 
 % define GLOBAL variables
 global PicassoConfig
-global CampaignConfig
-global PollyConfig
-global RetConfig;
-global VisConfig
 global ENV_VARS;
 global gitBashVersion;
 
@@ -40,14 +23,21 @@ if ~ isfield(ENV_VARS, 'printLevel') || ENV_VARS.printLevel
     fprintf('%s\n', '  / /_/ / / ___/ __ `/ ___/ ___/ __ \     /_ < / / / /');
     fprintf('%s\n', ' / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /');
     fprintf('%s\n', '/_/   /_/\___/\__,_/____/____/\____/   /____(_)____/');
+
+    ENV_VARS.printLevel = true;
+end
+
+if ~ exist('updateToolbox', 'var')
+    updateToolbox = false;
 end
 
 %% add search paths
 % retrieve the current directory
 currentDir = pwd;
 
-% define the root path of The COBRA Toolbox and change to it.
+% define the root path of The Picasso Toolbox and change to it.
 PicassoDir = fileparts(which('initPicassoToolbox'));
+PicassoConfig.PicassoDir = PicassoDir;
 cd(PicassoDir);
 
 addpath(genpath(fullfile(PicassoDir, 'lib')));
@@ -61,10 +51,14 @@ end
 
 %% check if git is installed
 [installedGit, versionGit] = checkGit();
+if ~ installedGit
+    warning('Failure in setting up Picasso toolbox.');
+    return;
+end
 
 % set the depth flag if the version of git is higher than 2.10.0
 depthFlag = '';
-if installedGit && versionGit > 2100
+if installedGit && (versionGit > 2100)
     depthFlag = '--depth=1';
 end
 
@@ -73,7 +67,7 @@ cd(PicassoDir);
 
 % configure a remote tracking repository
 if ENV_VARS.printLevel
-    fprintf(' > Checking if the repository is tracked using git ... ');
+    fprintf(' > Checking if the repository is tracked using git ... \n');
 end
 
 % check if the directory is a git-tracked folder
@@ -129,101 +123,15 @@ end
 % check curl
 [status_curl, result_curl] = checkCurlAndRemote(false);
 
-submoduleWarning=0;
-% check if the URL exists
-if exist([CBTDIR filesep 'binary' filesep 'README.md'], 'file') && status_curl ~= 0
-    fprintf(' > Submodules exist but cannot be updated (remote cannot be reached).\n');
-elseif status_curl == 0
-    if ENV_VARS.printLevel
-        fprintf(' > Initializing and updating submodules (this may take a while)...');
-    end
-    
-    % Clean the test/models folder
-    [status, result] = system('git submodule status models');
-    if status == 0 && strcmp(result(1), '-')
-        [status, message, messageid] = rmdir([CBTDIR filesep 'test' filesep 'models'], 's');
-    end
-    
-    %Check for changes to submodules
-    [status_gitSubmodule, result_gitSubmodule] = system('git submodule foreach git status');
-    if status_gitSubmodule==0
-        if contains(result_gitSubmodule,'modified') || contains(result_gitSubmodule,'Untracked files')
-            submoduleWarning = 1;
-            [status_gitSubmodule, result_gitSubmodule] = system('git submodule foreach git stash push -u');
-            if status_gitSubmodule==0
-                fprintf('\n%s\n','***Local changes to submodules have been stashed. See https://git-scm.com/docs/git-stash.')
-                disp(result_gitSubmodule)
-            end
-        end
-    end
-    
-    % Update/initialize submodules
-    %By default your submodules repository is in a state called 'detached HEAD'. 
-    %This means that the checked-out commit -- which is the one that the super-project (core) needs -- is not associated with a local branch name.
-    [status_gitSubmodule, result_gitSubmodule] = system(['git submodule update --init --remote --no-fetch ' depthFlag]);
-    
-    if status_gitSubmodule ~= 0
-        fprintf(strrep(result_gitSubmodule, '\', '\\'));
-        error('The submodules could not be initialized.');
-    end
-    
-    % reset each submodule
-    %https://github.com/bazelbuild/continuous-integration/issues/727
-    %[status_gitReset, result_gitReset] = system('git submodule foreach --recursive git reset --hard');
-    %[status_gitReset, result_gitReset] = system('git submodule foreach --recursive --git reset --hard');%old
-    
-%     if status_gitReset ~= 0
-%         fprintf(strrep(result_gitReset, '\', '\\'));
-%         warning('The submodules could not be reset.');
-%     end
-    
-    if ENV_VARS.printLevel
-        fprintf(' Done.\n');
-    end
-end
-
-%get the current content of the init Folder
-dirContent = getFilesInDir('type','all');
-
-% add the folders of The COBRA Toolbox
-folders = {'tutorials', 'papers', 'binary', 'deprecated', 'src', 'test', '.tmp'};
-
 if ENV_VARS.printLevel
-    fprintf(' > Adding all the files of The COBRA Toolbox ... ')
-end
-
-% add the root folder
-addpath(CBTDIR);
-
-% add the external folder
-addpath(genpath([CBTDIR filesep 'external']));
-
-% add specific subfolders
-for k = 1:length(folders)
-    tmpDir = [CBTDIR, filesep, folders{k}];
-    if exist(tmpDir, 'dir') == 7
-        addpath(genpath(tmpDir));
-    end
-end
-
-%Adapt the mac path depending on the mac version.
-if ismac
-    adaptMacPath()
-end
-
-% add the docs/source/notes folder
-addpath(genpath([CBTDIR filesep 'docs' filesep 'source' filesep 'notes']));
-
-% print a success message
-if ENV_VARS.printLevel
-    fprintf(' Done.\n');
+    fprintf(' > Adding all the files of Picasso Toolbox ... \n')
 end
 
 % check if a new update exists
 if ENV_VARS.printLevel && status_curl == 0 && contains(result_curl, ' 200') && updateToolbox
-    updateCobraToolbox(true); % only check
+    warning('Update functionality is not ready. Please check the link below for how to update Picasso toolbox manually\nhttps://github.com/PollyNET/Pollynet_Processing_Chain\n');
 else
-    if ~updateToolbox && ENV_VARS.printLevel
+    if ~ updateToolbox && ENV_VARS.printLevel
         fprintf('> Checking for available updates ... skipped\n')
     end
 end
@@ -236,21 +144,12 @@ if status_setSSLVerify ~= 0
     warning('Your global git configuration could not be restored.');
 end
 
-% set up the COBRA System path
-addCOBRABinaryPathToSystemPath();
-
 % change back to the current directory
 cd(currentDir);
 
 % cleanup at the end of the successful run
-removeTempFiles(CBTDIR, dirContent);
-
-if submoduleWarning
-    warning('Local changes have been made to submodules\n%s\n%s\n%s','Local changes have been stashed. See ***Local changes ... above for details.','Such changes should ideally be made to separate forks.', 'See, e.g., https://github.com/opencobra/COBRA.tutorials#contribute-a-new-tutorial-or-modify-an-existing-tutorial')
-end
 
 % clear all temporary variables
-% Note: global variables are kept in memory - DO NOT clear all the variables!
 if ENV_VARS.printLevel
     clearvars
 end
@@ -273,7 +172,7 @@ global ENV_VARS
 installed = false;
 
 if ENV_VARS.printLevel
-    fprintf(' > Checking if git is installed ... ')
+    fprintf(' > Checking if git is installed ... \n')
 end
 
 % check if git is properly installed
@@ -283,11 +182,11 @@ end
 searchStr = 'git version';
 index = strfind(result_gitVersion, searchStr);
 
-if status_gitVersion == 0 && ~isempty(index)
-    
+if status_gitVersion == 0 && (~ isempty(index))
+
     % determine the version of git
     versionGitStr = result_gitVersion(length(searchStr)+1:end);
-    
+
     % replace line breaks and white spaces
     versionGitStr = regexprep(versionGitStr(1:7),'\s+','');
     
@@ -304,15 +203,11 @@ if status_gitVersion == 0 && ~isempty(index)
         fprintf([' Done (version: ' versionGitStr ').\n']);
     end
 else
-    if ispc
-        fprintf('(not installed).\n');
-        installGitBash();
-    else
-        fprintf(result_gitVersion);
-        fprintf(' > Please follow the guidelines on how to install git: https://opencobra.github.io/cobratoolbox/docs/requirements.html.\n');
-        error(' > git is not installed.');
-    end
+    fprintf('(not installed).\n');
+    versionGit = '';
+    fprintf(' > Please install git: https://git-scm.com/downloads.\n');
 end
+
 end
 
 function [status_curl, result_curl] = checkCurlAndRemote(throwError)
@@ -332,7 +227,7 @@ if nargin < 1
 end
 
 if ENV_VARS.printLevel
-    fprintf(' > Checking if curl is installed ... ')
+    fprintf(' > Checking if curl is installed ... \n')
 end
 
 origLD = getenv('LD_LIBRARY_PATH');
@@ -362,7 +257,7 @@ elseif ((status_curl == 127 || status_curl == 48) && isunix)
     else
         if throwError
             fprintf(result_curl);
-            fprintf(' > Please follow the guidelines on how to install curl: https://opencobra.github.io/cobratoolbox/docs/requirements.html.\n');
+            fprintf(' > Please install git where curl was built-in: https://git-scm.com/downloads.\n');
             error(' > curl is not installed.');
         else
             if ENV_VARS.printLevel
@@ -372,14 +267,8 @@ elseif ((status_curl == 127 || status_curl == 48) && isunix)
     end
 else
     if throwError
-        if ispc
-            fprintf('(not installed).\n');
-            installGitBash();
-        else
-            fprintf(result_curl);
-            fprintf(' > Please follow the guidelines on how to install curl: https://opencobra.github.io/cobratoolbox/docs/requirements.html.\n');
-            error(' > curl is not installed.');
-        end
+        fprintf(' > Please install git where curl was built-in: https://git-scm.com/downloads.\n');
+        error(' > curl is not installed.');
     else
         if ENV_VARS.printLevel
             fprintf(' (not installed).\n');
@@ -388,7 +277,7 @@ else
 end
 
 if ENV_VARS.printLevel
-    fprintf(' > Checking if remote can be reached ... ')
+    fprintf(' > Checking if remote can be reached ... \n')
 end
 
 % check if the remote repository can be reached

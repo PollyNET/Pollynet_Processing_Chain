@@ -10,7 +10,7 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "melpitz",
-    "AERONETSite": " ",
+    "AERONETSite": "",
 
     "max_height_bin": 3000,
     "first_range_gate_indx": [261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262, 262],
