@@ -66,7 +66,7 @@ function write_2_donelist(file, permission, lidar, location, startTime, ...
 %                done_fielist.
 % .. Authors: - zhenping@tropos.de
 
-global processInfo
+global PicassoConfig
 
 if exist(file, 'file') ~= 2
     warning(['Done list file does not exist! For archiving the pic info, ' ...
@@ -81,7 +81,7 @@ if exist(file, 'file') ~= 2
 end
 
 % imageFile contain the basedir of pic_folder
-if exist(fullfile(fileparts(processInfo.pic_folder), imageFile), 'file') ~= 2
+if exist(fullfile(fileparts(PicassoConfig.pic_folder), imageFile), 'file') ~= 2
     warning('image file does not exist.\n%s\n', imageFile);
     return;
 end

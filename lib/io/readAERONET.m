@@ -109,32 +109,23 @@ aod_url = ['https://aeronet.gsfc.nasa.gov/cgi-bin/print_web_data_v2?site=' site 
     '&year2=' thisYearStr2 '&month2=' thisMonthStr2 '&day2=' thisDayStr2 ...
     '&LEV' level '=1&AVG=10'];
 
-% call the system command 'wget' to download the html text
+% call the system command 'curl' to download the html text
 if ispc
-    [status, html_text] = system(['wget -qO- "' aod_url '"']);
+    [status, html_text] = system(['curl -s "' aod_url '"']);
     if status ~= 0
-        warning(['Error in calling wget in window cmd. Please make sure ' ...
-                 'wget is available and it is in the searching path of ' ...
-                 'window. \nOtherwise, you need to download the suitable ' ...
-                 'version online and add the path to the environment ' ...
-                 'variables manually.\n You can go to ' ...
-                 'https://de.mathworks.com/matlabcentral/answers/' ...
-                 '94933-how-do-i-edit-my-system-path-in-windows ' ...
-                 'for detailed information']);
+        warning('''curl'' is missing in the search path.');
         return;
     end
 elseif isunix
-    % add search path of 'wget' to matlab environment
+    % add search path of 'curl' to matlab environment
     path1 = getenv('PATH');
     path1 = [path1 ':/usr/local/bin'];
     setenv('PATH', path1);
-    [status, html_text] = system(['wget -qO- "' aod_url '"']);
+    [status, html_text] = system(['curl -s "' aod_url '"']);
 end
 
 if status == 0
-    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), ...
-                '%f', '%*s %*s', '%f', '%*s', '%f %f %f', ...
-                repmat('%*s', 1, 17), '%f', repmat('%*s', 1, 28)];
+    TextSpec = ['%s %s %*s %f %f %f %f', repmat('%*s', 1, 5), '%f', '%*s %*s', '%f', '%*s', '%f %f %f', repmat('%*s', 1, 17), '%f', repmat('%*s', 1, 28)];
     T = textscan(html_text, TextSpec, 'Delimiter', ',', ...
                  'HeaderLines', 9, 'TreatAsEmpty', 'N/A');
     if numel(T{1}) > 1

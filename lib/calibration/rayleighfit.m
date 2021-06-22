@@ -175,7 +175,7 @@ for iIndx = 1:length(dpIndx) - 1
     % Quality test 4: SNR check
     % which is assured in Douglas-Peucker algorithm
     SNR = pollySNR(nansum(pc(dpIndx(iIndx):dpIndx(iIndx + 1))), ...
-                    nansum(bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
+                   nansum(bg(dpIndx(iIndx):dpIndx(iIndx + 1))));
     if SNR < SNRConstrain && flagShowDetail
         fprintf('Region %d: %f - %f fails in SNR criterion.\n', iIndx, ...
                 height(iDpBIndx), height(iDpTIndx));

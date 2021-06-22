@@ -259,7 +259,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Angström exponent (Klett method based on far-field signal)
+    %% Ångström exponent (Klett method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
         AE_Bsc_355_532_klett = data.AE_Bsc_355_532_OC_klett(iGrp, :);
         AE_Bsc_532_1064_klett = data.AE_Bsc_532_1064_OC_klett(iGrp, :);
@@ -281,7 +281,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Angström exponent (Raman method based on far-field signal)
+    %% Ångström exponent (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
         AE_Bsc_355_532_raman = data.AE_Bsc_355_532_OC_raman(iGrp, :);
         AE_Bsc_532_1064_raman = data.AE_Bsc_532_1064_OC_raman(iGrp, :);
