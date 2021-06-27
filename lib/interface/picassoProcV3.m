@@ -1,3 +1,38 @@
+function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, varargin)
+% PICASSOPROCV3 Picasso processing main program (Version 3.0).
+% USAGE:
+%    % Usecase 1: process polly data
+%    [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile)
+%    % Usecase 2: process polly data and laserlogbook
+%    [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, 'pollyLaserlogbook', pollyLaserlogbook)
+% INPUTS:
+%    pollyDataFile: char
+%        absolute path of polly data.
+%    pollyType: char
+%        polly type.
+%    PicassoConfigFile: char
+%        absolute path of Picasso configuration file.
+% KEYWORDS:
+%    defaultPiassoConfigFile: char
+%        absolute path of default Picasso configuration file.
+%    pollyGlobalConfigFile:
+%        polly global configuration file.
+%    pollyZipFile: char
+%        path of the compressed file of polly data.
+%    pollyZipFileSize: numeric
+%        compressed polly data file size in bytes.
+%    pollyLaserlogbook: char
+%        absolut path of polly laserlogbook file.
+%    flagDonefileList: logical
+%        flag for writing done_filelist.
+% OUTPUTS:
+%    report: cell
+%        processing report.
+% EXAMPLE:
+% HISTORY:
+%    2021-06-25: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
+
 global PicassoConfig
 global CampaignConfig
 global PollyConfig
@@ -5,17 +40,30 @@ global PollyDataInfo
 global PollyDefaults
 global LogConfig
 
-%% Parameter initialization
 PicassoDir = fileparts((fileparts(fileparts(mfilename('fullpath')))));
-defaultPiassoConfigFile = fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json');
-pollyGlobalConfigFile = fullfile(PicassoDir, 'lib', 'config', 'polly_global_config.json');
-PicassoConfigFile = 'D:\Coding\Matlab\Pollynet_Processing_Chain\config\pollynet_processing_chain_config.json';
-report = cell(0);
-pollyType = 'arielle';
-pollyZipFile = '';
-pollyDataFile = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc';
 
-pollyLaserlogbook = 'D:\Data\PollyXT\arielle\data_zip\201903\2019_03_22_Fri_ARI_18_00_02.nc.laserlogbook.txt';
+%% Input parser
+p = inputParser;
+p.KeepUnmatched = true;
+
+addRequired(p, 'pollyDataFile', @ischar);
+addRequired(p, 'pollyType', @ischar);
+addRequired(p, 'PicassoConfigFile', @ischar);
+addParameter(p, 'defaultPiassoConfigFile', fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json'), @ischar);
+addParameter(p, 'pollyGlobalConfigFile', fullfile(PicassoDir, 'lib', 'config', 'polly_global_config.json'), @ischar);
+addParameter(p, 'pollyZipFile', '', @ischar);
+addParameter(p, 'pollyZipFileSize', 0, @isnumeric);
+addParameter(p, 'pollyLaserlogbook', '', @ischar);
+addParameter(p, 'flagDonefileList', false, @islogical);
+
+parse(p, pollyDataFile, pollyType, PicassoConfigFile, varargin{:});
+
+%% Parameter initialization
+defaultPiassoConfigFile = p.Results.defaultPiassoConfigFile;
+pollyGlobalConfigFile = p.Results.pollyGlobalConfigFile;
+report = cell(0);
+pollyZipFile = p.Results.pollyZipFile;
+pollyLaserlogbook = p.Results.pollyLaserlogbook;
 
 %% Input check
 if ~ exist('PicassoConfigFile', 'var')
@@ -26,6 +74,7 @@ end
 PollyDataInfo.pollyType = pollyType;
 PollyDataInfo.pollyDataFile = pollyDataFile;
 PollyDataInfo.zipFile = pollyZipFile;
+PollyDataInfo.dataSize = p.Results.pollyZipFileSize;
 try
     PollyDataInfo.dataTime = pollyParseFiletime(basename(pollyDataFile), ...
         ['(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})', ...
@@ -1888,10 +1937,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [thisMdr355, thisMdrStd355, thisFlagDeftMdr355] = pollyMDR(...
-        sig355T(refHInd355(1):refHInd355(2)), ...
-        bg355T(refHInd355(1):refHInd355(2)), ...
-        sig355C(refHInd355(1):refHInd355(2)), ...
-        bg355C(refHInd355(1):refHInd355(2)), ...
+        sig355T(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
+        bg355T(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
+        sig355C(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
+        bg355C(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
         PollyConfig.TR(flag355T), 0, ...
         PollyConfig.TR(flag355C), 0, ...
         polCaliFac355, polCaliFacStd355, 10, ...
@@ -1951,10 +2000,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [thisMdr532, thisMdrStd532, thisFlagDeftMdr532] = pollyMDR(...
-        sig532T(refHInd532(1):refHInd532(2)), ...
-        bg532T(refHInd532(1):refHInd532(2)), ...
-        sig532C(refHInd532(1):refHInd532(2)), ...
-        bg532C(refHInd532(1):refHInd532(2)), ...
+        sig532T(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
+        bg532T(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
+        sig532C(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
+        bg532C(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
         PollyConfig.TR(flag532T), 0, ...
         PollyConfig.TR(flag532C), 0, ...
         polCaliFac532, polCaliFacStd532, 10, ...
@@ -2024,13 +2073,13 @@ AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Ångström exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(refHInd355(1))) && (~ isnan(refHInd532(1)))
+    if (~ isnan(refHInd355(iGrp, 1))) && (~ isnan(refHInd532(iGrp, 1)))
         thisAE_Bsc_355_532_klett = pollyAE(aerBsc355_klett(iGrp, :), zeros(size(data.height)), aerBsc532_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
     end
 
     % Ångström exponent 532-1064 (based on parameters by Klett method)
-    if (~ isnan(refHInd532(1))) && (~ isnan(refHInd1064(1)))
+    if (~ isnan(refHInd532(iGrp, 1))) && (~ isnan(refHInd1064(iGrp, 1)))
         thisAE_Bsc_532_1064_klett = pollyAE(aerBsc532_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
     end
@@ -2064,13 +2113,13 @@ AE_Bsc_532_1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Ångström exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(refHInd355(1))) && (~ isnan(refHInd532(1)))
+    if (~ isnan(refHInd355(iGrp, 1))) && (~ isnan(refHInd532(iGrp, 1)))
         thisAE_Bsc_355_532_OC_klett = pollyAE(aerBsc355_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_OC_klett(iGrp, :) = thisAE_Bsc_355_532_OC_klett;
     end
 
     % Ångström exponent 532-1064 (based on parameters by Klett method)
-    if (~ isnan(refHInd532(1))) && (~ isnan(refHInd1064(1)))
+    if (~ isnan(refHInd532(iGrp, 1))) && (~ isnan(refHInd1064(iGrp, 1)))
         thisAE_Bsc_532_1064_OC_klett = pollyAE(aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_OC_klett(iGrp, :) = thisAE_Bsc_532_1064_OC_klett;
     end
@@ -3914,34 +3963,34 @@ if PicassoConfig.flagEnableDataVisualization
     print_msg('Start data visualization\n', 'flagTimestamp', true);
 
     %% diaplay monitor status
-    print_msg('Start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayHousekeeping(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display range corrected signal
-    print_msg('Start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayRCS(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display volume depolarization ratio
-    print_msg('Start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayVDR(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display polarization calibration results
-    print_msg('Start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     data.polCali355Attri = polCali355Attri;
     data.polCali532Attri = polCali532Attri;
     pollyDisplayPolCali(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display signal status
-    print_msg('Start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplaySigStatus(data);
-    print_msg('Finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display overlap function
-    print_msg('Start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     data.olFunc355 = olFunc355;
     data.olAttri355 = olAttri355;
     data.olFuncDeft355 = olFuncDeft355;
@@ -3949,59 +3998,63 @@ if PicassoConfig.flagEnableDataVisualization
     data.olAttri532 = olAttri532;
     data.olFuncDeft532 = olFuncDeft532;
     pollyDisplayOL(data);
-    print_msg('Finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display aerosol vertical profiles
-    print_msg('Start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayProfiles(data);
     pollyDisplayOCProfiles(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display attenuated backscatter
-    print_msg('Start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayAttnBsc(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display water vapor products
-    print_msg('Start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayWV(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display quasi-retrieved products (V1)
-    print_msg('Start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayQsiV1(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display quasi-retrieved products (V2)
-    print_msg('Start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayQsiV2(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display aerosol/cloud target classification mask (V1)
-    print_msg('Start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayTCV1(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display aerosol/cloud target classification mask (V2)
-    print_msg('Start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayTCV2(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display lidar calibration constants
-    print_msg('Start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayLC(data);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display long-term lidar calibration results
-    print_msg('Start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayLTLCali(data, dbFile);
-    print_msg('Finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     print_msg('Finish!\n', 'flagTimestamp', true);
 end
 
 %% Done filelist
-
+if p.Results.flagDonefileList
+    print_msg('Start writing done_filelist.\n', 'flagTimestamp', true);
+    pollyWriteDonelist(data);
+    print_msg('Finish.\n', 'flagTimestamp', true);
+end
 
 tEnd = now();
 tUsage = (tEnd - tStart) * 24 * 3600;
@@ -4021,12 +4074,4 @@ if PicassoConfig.flagReduceMATLABToolboxDependence
               'flagSimpleMsg', true);
 end
 
-% %% publish the report
-% if PicassoConfig.flagSendNotificationEmail
-%     system(sprintf('%s %s %s %s "%s" "%s" "%s"', ...
-%            fullfile(PicassoConfig.pyBinDir, 'python'), ...
-%            fullfile(PicassoDir, 'lib', 'sendmail_msg.py'), ...
-%            'sender@email.com', 'recipient@email.com', ...
-%            sprintf('[%s] PollyNET Processing Report', tNow()), ...
-%            'Have an overview', PicassoConfig.fileinfo_new));
-% end
+end
