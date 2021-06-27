@@ -5,8 +5,8 @@ function initPicassoToolbox(updateToolbox)
 %        / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /
 %       /_/   /_/\___/\__,_/____/____/\____/   /____(_)____/
 %
-%   Setup Picasso toolbox and install all dependencies.
-%     Maintained by Zhenping Yin & Holger Baars
+% Setup Picasso toolbox and install all dependencies.
+% Maintained by Zhenping Yin & Holger Baars
 % HISTORY:
 %   2021-06-22: first edition.
 %
@@ -14,7 +14,6 @@ function initPicassoToolbox(updateToolbox)
 % define GLOBAL variables
 global PicassoConfig
 global ENV_VARS;
-global gitBashVersion;
 
 %% print header
 if ~ isfield(ENV_VARS, 'printLevel') || ENV_VARS.printLevel
@@ -128,7 +127,7 @@ if ENV_VARS.printLevel
 end
 
 % check if a new update exists
-if ENV_VARS.printLevel && status_curl == 0 && contains(result_curl, ' 200') && updateToolbox
+if ENV_VARS.printLevel && status_curl == 0 && (~ isempty(strfind(result_curl, ' 200'))) && updateToolbox
     warning('Update functionality is not ready. Please check the link below for how to update Picasso toolbox manually\nhttps://github.com/PollyNET/Pollynet_Processing_Chain\n');
 else
     if ~ updateToolbox && ENV_VARS.printLevel

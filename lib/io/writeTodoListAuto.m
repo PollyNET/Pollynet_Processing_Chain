@@ -1,11 +1,11 @@
-function [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
-% LOCATENEWFILES_NEWDB Search the updated polly data in the server with comparing 
+function [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
+% writeTodoListAuto Search the updated polly data in the server with comparing 
 % its file size with the file size saved in the database. And also checked the 
 % GDAS1 status together if 'flagCheckGDAS1' was set true. The modified zipped 
 % files will be extracted to the todopath and the fileinfo_new file will be 
 % created to trigger the Picasso.
 % USAGE:
-%    [flag] = locatenewfiles_newdb(pollyAppConfigFile, picassoConfigFile, ...
+%    [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, ...
 % pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
 % INPUTS:
 %    pollyAppConfigFile: char
