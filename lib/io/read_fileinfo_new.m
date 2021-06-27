@@ -1,12 +1,12 @@
 function [fileinfo_new] = read_fileinfo_new(file)
 % READ_FILEINFO_NEW read new file info.
 % classification processing
-% Example:
+% USAGE:
 %    [fileinfo_new] = read_fileinfo_new(file)
-% Inputs:
+% INPUTS:
 %    file: char
 %        filename of the fileinfo_new which locates in todo_filelist
-% Outputs:
+% OUTPUTS:
 %    fileinfo_new: struct
 %        todoPath: cell
 %            path of the todo_filelist
@@ -49,7 +49,7 @@ try
 
     for iTask = 1:length(data{5})
         fileinfo_new.dataSize = [fileinfo_new.dataSize, ...
-                                 int32(str2num(data{5}{iTask}))];
+                                 int32(str2double(data{5}{iTask}))];
     end
 
 catch
