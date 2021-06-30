@@ -135,8 +135,8 @@ case '355nm'
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri355;
     else
-        polCaliFac = polCaliFac355;
-        polCaliFacStd = polCaliFacStd355;
+        polCaliFac = p.Results.default_depolconst;
+        polCaliFacStd = p.Results.default_depolconstStd;
         polCaliTime = [polCaliStartTime355, polCaliStopTime355];
         polCaliAttri = polCalAttri355;
     end
@@ -183,8 +183,8 @@ case '532nm'
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri532;
     else
-        polCaliFac = polCaliFac532;
-        polCaliFacStd = polCaliFacStd532;
+        polCaliFac = p.Results.default_depolconst;
+        polCaliFacStd = p.Results.default_depolconstStd;
         polCaliTime = [polCaliStartTime532, polCaliStopTime532];
         polCaliAttri = polCalAttri532;
     end

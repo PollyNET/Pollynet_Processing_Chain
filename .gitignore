@@ -3,8 +3,6 @@
 .vscode
 *.log
 
-# config/pollyConfigs/polly_global_config.json
-
 # Processing outputs
 ./results
 ./tmp
@@ -27,3 +25,7 @@ debug.mat
 *.asv
 package-lock.json
 package.json
+
+# untracked folders
+tmp
+config

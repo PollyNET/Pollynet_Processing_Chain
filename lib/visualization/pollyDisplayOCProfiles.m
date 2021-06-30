@@ -97,29 +97,35 @@ for iGrp = 1:size(data.clFreGrps, 1)
     molRCS1064 = molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));
 
     % normalize the range-corrected signal to molecular signal
-    if ~ isnan(data.refHInd355(iGrp, 1))
+    if (~ isnan(data.refHInd355(iGrp, 1))) && (sum(flag355FR) == 1)
         % according to the ratio at the reference height
         factor355 = sum(molRCS355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))) / sum(rcs355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)));
         rcs355 = rcs355 * factor355;
-    else 
+    elseif sum(flag355FR) == 1 
         % if no reference height was found, using the lidar constants
         rcs355 = rcs355 / data.LCUsed.LCUsed355 * mean(data.mShots(flag355FR, startInd:endInd), 2) / 150 * data.hRes;
+    else
+        rcs355 = NaN(1, length(data.height));
     end
-    if ~ isnan(data.refHInd532(iGrp, 1))
+    if (~ isnan(data.refHInd532(iGrp, 1))) && (sum(flag532FR) == 1)
         % according to the ratio at the reference height
         factor532 = sum(molRCS532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))) / sum(rcs532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)));
         rcs532 = rcs532 * factor532;
-    else 
+    elseif sum(flag532FR) == 1 
         % if no reference height was found, using the lidar constants
         rcs532 = rcs532 / data.LCUsed.LCUsed532 * mean(data.mShots(flag532FR, startInd:endInd), 2) / 150 * data.hRes;
+    else
+        rcs532 = NaN(1, length(data.height));
     end
-    if ~ isnan(data.refHInd1064(iGrp, 1))
+    if (~ isnan(data.refHInd1064(iGrp, 1))) && (sum(flag1064FR) == 1)
         % according to the ratio at the reference height
         factor1064 = sum(molRCS1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))) / sum(rcs1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)));
         rcs1064 = rcs1064 * factor1064;
-    else 
+    elseif sum(flag1064FR) == 1 
         % if no reference height was found, using the lidar constants
         rcs1064 = rcs1064 / data.LCUsed.LCUsed1064 * mean(data.mShots(flag1064FR, startInd:endInd), 2) / 150 * data.hRes;
+    else
+        rcs1064 = NaN(1, length(data.height));
     end
 
     % reference height

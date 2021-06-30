@@ -37,10 +37,12 @@ pollyDataTasks = read_fileinfo_new(PicassoConfig.fileinfo_new);
 %% Start data processing
 report = cell(1, length(pollyDataTasks.dataFilename));
 
-for iTask = 1:length(pollyDataTasks)
+for iTask = 1:length(pollyDataTasks.dataFilename)
     fprintf('Processing task No.%d. There are still %d remained.\n', iTask, length(pollyDataTasks) - iTask);
-    reportTmp = picassoProcV3(fullfile(pollyDataTasks.todoPath{iTask}, pollyDataTasks.dataPath{iTask}, pollyDataTasks.dataFilename{iTask}), pollyDataTasks.pollyType{iTask}, PicassoConfigFile, ...
-        'pollyZipFile', pollyDataTasks.zipFile{iTask}, 'pollyZipFileSize', pollyDataTasks.dataSize(iTask));
+    pollyDataFile = fullfile(pollyDataTasks.todoPath{iTask}, pollyDataTasks.dataPath{iTask}, pollyDataTasks.dataFilename{iTask});
+    laserlogbook = fullfile(pollyDataTasks.todoPath{iTask}, pollyDataTasks.dataPath{iTask}, sprintf('%s.laserlogbook.txt', pollyDataTasks.dataFilename{iTask}));
+    reportTmp = picassoProcV3(pollyDataFile, pollyDataTasks.pollyType{iTask}, PicassoConfigFile, ...
+        'pollyZipFile', pollyDataTasks.zipFile{iTask}, 'pollyZipFileSize', pollyDataTasks.dataSize(iTask), 'pollyLaserlogbook', laserlogbook, 'pollyType', pollyDataTasks.pollyType{iTask});
     report{end + 1} = reportTmp;
 end
 

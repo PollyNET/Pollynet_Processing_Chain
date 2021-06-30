@@ -60,11 +60,11 @@ case {'polly_1st'}
     laserlogs = readPolly1stLaserlogbook(laserlogFile, p.Results.flagDeleteData);
 case {'polly_1v2'}
     laserlogs = readPolly1v2Laserlogbook(laserlogFile, p.Results.flagDeleteData);
-case {'polly_cge'}
+case {'pollyxt_cge'}
     laserlogs = readPollyXTCGELaserlogbook(laserlogFile, p.Results.flagDeleteData);
-case {'polly_dwd'}
+case {'pollyxt_dwd'}
     laserlogs = readPollyXTDWDLaserlogbook(laserlogFile, p.Results.flagDeleteData);
-case {'polly_ift'}
+case {'pollyxt_ift'}
     laserlogs = readPollyXTIfTLaserlogbook(laserlogFile, p.Results.flagDeleteData);
 otherwise
     warning('PICASSO:InvalidInput', 'Unknown polly type %s', p.Results.pollyType);
