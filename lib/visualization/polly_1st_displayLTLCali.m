@@ -19,6 +19,19 @@ global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
     loadLiConst(PollyDataInfo.dataTime, dbFile, CampaignConfig.name, '607', ...
         'Raman_Method', 'far_range', 'flagBeforeQuery', true);
+
+if (length(startTime532) ~= length(startTime607))
+    [~, indTime532, indTime607] = intersect(startTime532, startTime607);
+    LC532History = LC532History(indTime532);
+    LCStd532History = LCStd532History(indTime532);
+    startTime532 = startTime532(indTime532);
+    stopTime532 = stopTime607(indTime532);
+    LC607History = LC607History(indTime607);
+    LCStd607History = LCStd607History(indTime607);
+    startTime607 = startTime607(indTime607);
+    stopTime607 = stopTime607(indTime607);
+end
+
 if ~ isempty(startTime532)
     LCTime532 = mean([startTime532; stopTime532], 1);
 else
@@ -37,7 +50,7 @@ if ~ isfield(PollyConfig, 'logbookFile')
     % if 'logbookFile' was no set
     PollyConfig.logbookFile = '';
 end
-logbookInfo = read_logbook(PollyConfig.logbookFile, numel(PollyConfig.first_range_gate_indx));
+logbookInfo = readLogBook(PollyConfig.logbookFile, numel(PollyConfig.first_range_gate_indx));
 flagLogbookTillNow = (logbookInfo.datetime <= PollyDataInfo.dataTime);
 logbookTime = logbookInfo.datetime(flagLogbookTillNow);
 flagOverlap = logbookInfo.changes.flagOverlap(flagLogbookTillNow);

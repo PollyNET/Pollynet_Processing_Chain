@@ -13,6 +13,12 @@ function [flag] = pollyIs607Off(sig607)
 %    2021-04-21: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de
 
+if isempty(sig607)
+    % empty signal has dimensions of 0 x height x time
+    flag = false(1, size(sig607, 3));
+    return;
+end
+
 flag = false(1, size(sig607, 2));
 
 flag((mean(sig607, 1) <= 0.1) & (std(sig607, 0, 1) <= 0.1)) = true;

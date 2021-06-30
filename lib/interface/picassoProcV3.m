@@ -62,8 +62,6 @@ parse(p, pollyDataFile, pollyType, PicassoConfigFile, varargin{:});
 defaultPiassoConfigFile = p.Results.defaultPiassoConfigFile;
 pollyGlobalConfigFile = p.Results.pollyGlobalConfigFile;
 report = cell(0);
-pollyZipFile = p.Results.pollyZipFile;
-pollyLaserlogbook = p.Results.pollyLaserlogbook;
 
 %% Input check
 if ~ exist('PicassoConfigFile', 'var')
@@ -73,7 +71,7 @@ end
 %% Set PollyDataInfo
 PollyDataInfo.pollyType = pollyType;
 PollyDataInfo.pollyDataFile = pollyDataFile;
-PollyDataInfo.zipFile = pollyZipFile;
+PollyDataInfo.zipFile = p.Results.pollyZipFile;
 PollyDataInfo.dataSize = p.Results.pollyZipFileSize;
 try
     PollyDataInfo.dataTime = pollyParseFiletime(basename(pollyDataFile), ...
@@ -86,7 +84,7 @@ catch ErrMsg
         rethrow(ErrMsg);
     end
 end
-PollyDataInfo.pollyLaserlogbook = pollyLaserlogbook;
+PollyDataInfo.pollyLaserlogbook = p.Results.pollyLaserlogbook;
 
 %% Get Picasso program version
 PicassoVersion = getPicassoVersion();
@@ -137,7 +135,7 @@ print_msg('  / /_/ / / ___/ __ `/ ___/ ___/ __ \\     /_ < / / / /\n', 'flagSimp
 print_msg(' / ____/ / /__/ /_/ (__  |__  ) /_/ /   ___/ // /_/ /\n', 'flagSimpleMsg', true);
 print_msg('/_/   /_/\\___/\\__,_/____/____/\\____/   /____(_)____/\n', 'flagSimpleMsg', true);
 print_msg('\nStart pollynet processing chain\n');
-print_msg(sprintf('pollynet_config_file: %s\n', strrep(PicassoConfigFile, '\', '\\')));
+print_msg(sprintf('Picasso config file: %s\n', strrep(PicassoConfigFile, '\', '\\')));
 print_msg(sprintf('Polly Type: %s\n', PollyDataInfo.pollyType));
 print_msg(sprintf('Polly Data: %s\n', strrep(PollyDataInfo.pollyDataFile, '\', '\\')));
 print_msg('%%------------------------------------------------------%%\n');
@@ -261,7 +259,8 @@ PollyDataInfo.pollyType  = CampaignConfig.name;
 %% Load polly defaults
 print_msg('Start loading polly defaults.\n', 'flagTimestamp', true);
 defaultsFilepath = fullfile(PicassoConfig.defaultFile_folder, PollyConfig.pollyDefaultsFile);
-PollyDefaults = readPollyDefaults(defaultsFilepath);
+globalDefaultFile = fullfile(PicassoConfig.PicassoRootDir, 'lib', 'config', 'polly_global_defaults.json');
+PollyDefaults = readPollyDefaults(defaultsFilepath, globalDefaultFile);
 if ~ isstruct(PollyDefaults)
     warning('PICASSO:IOError', 'Failure in loading %s for %s.', ...
             PollyConfig.pollyDefaultsFile, CampaignConfig.name);
@@ -461,15 +460,20 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Overlap estimation
 print_msg('Start overlap estimation.\n', 'flagTimestamp', true);
 
-PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
 
 % 355 nm
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 olAttri355 = struct();
+olAttri355.sigFR = [];
+olAttri355.sigNR = [];
+olAttri355.sigRatio = [];
+olAttri355.normRange = [];
 olFunc355 = NaN(length(data.height), 1);
 olStd355 = NaN(length(data.height), 1);
 if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
     sig355NR = squeeze(sum(data.signal(flag355NR, :, flagCloudFree_NR), 3));
     bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
     sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
@@ -485,9 +489,15 @@ end
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 olAttri387 = struct();
+olAttri387.sigFR = [];
+olAttri387.sigNR = [];
+olAttri387.sigRatio = [];
+olAttri387.normRange = [];
 olFunc387 = NaN(length(data.height), 1);
 olStd387 = NaN(length(data.height), 1);
 if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
     sig387NR = squeeze(sum(data.signal(flag387NR, :, flagCloudFree_NR), 3));
     bg387NR = squeeze(sum(data.bg(flag387NR, :, flagCloudFree_NR), 3));
     sig387FR = squeeze(sum(data.signal(flag387FR, :, flagCloudFree_NR), 3));
@@ -503,9 +513,15 @@ end
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 olAttri532 = struct();
+olAttri532.sigFR = [];
+olAttri532.sigNR = [];
+olAttri532.sigRatio = [];
+olAttri532.normRange = [];
 olFunc532 = NaN(length(data.height), 1);
 olStd532 = NaN(length(data.height), 1);
 if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
     sig532NR = squeeze(sum(data.signal(flag532NR, :, flagCloudFree_NR), 3));
     bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
     sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
@@ -521,9 +537,15 @@ end
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 olAttri607 = struct();
+olAttri607.sigFR = [];
+olAttri607.sigNR = [];
+olAttri607.sigRatio = [];
+olAttri607.normRange = [];
 olFunc607 = NaN(length(data.height), 1);
 olStd607 = NaN(length(data.height), 1);
 if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
     sig607NR = squeeze(sum(data.signal(flag607NR, :, flagCloudFree_NR), 3));
     bg607NR = squeeze(sum(data.bg(flag607NR, :, flagCloudFree_NR), 3));
     sig607FR = squeeze(sum(data.signal(flag607FR, :, flagCloudFree_NR), 3));
@@ -538,6 +560,10 @@ end
 % 1064 nm
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 olAttri1064 = struct();
+olAttri1064.sigFR = [];
+olAttri1064.sigNR = [];
+olAttri1064.sigRatio = [];
+olAttri1064.normRange = [];
 olFunc1064 = NaN(length(data.height), 1);
 olStd1064 = NaN(length(data.height), 1);
 if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
@@ -743,7 +769,6 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH532 = [NaN, NaN];
         thisDPInd532 = [];
     end
-    print_msg(sprintf('Determined reference height at 532 nm: [%f - %f] m\n', thisRefH532(1), thisRefH532(2)), 'flagSimpleMsg', true);
 
     % 355 nm
     if sum(flag355FR) == 1
@@ -773,7 +798,6 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH355 = [NaN, NaN];
         thisDPInd355 = [];
     end
-    print_msg(sprintf('Determined reference height at 355 nm: [%f - %f] m\n', thisRefH355(1), thisRefH355(2)), 'flagSimpleMsg', true);
 
     % 1064 nm
     if sum(flag1064FR) == 1
@@ -803,7 +827,6 @@ for iGrp = 1:size(clFreGrps, 1)
         thisRefH1064 = [NaN, NaN];
         thisDPInd1064 = [];
     end
-    print_msg(sprintf('Determined reference height at 1064 nm: [%f - %f] m\n', thisRefH1064(1), thisRefH1064(2)), 'flagSimpleMsg', true);
 
     refHInd355 = cat(1, refHInd355, thisRefH355);
     refHInd532 = cat(1, refHInd532, thisRefH532);
@@ -1499,7 +1522,7 @@ flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag355NR) == 1) && (sum(flag387NR) == 1)
+    if (sum(flag355NR) ~= 1) || (sum(flag387NR) ~= 1)
         continue;
     end
 
@@ -1582,7 +1605,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag532NR) == 1) && (sum(flag607NR) == 1)
+    if (sum(flag532NR) ~= 1) || (sum(flag607NR) ~= 1)
         continue;
     end
 
@@ -2378,7 +2401,7 @@ quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 
-if (sum(flag387) == 1) || (sum(flag407 == 1))
+if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     sig387 = squeeze(data.signal(flag387, :, :));
     sig387(:, data.depCalMask) = NaN;
@@ -2621,7 +2644,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % optical thickness (OT)
         aBsc355 = aerBsc355_raman(iGrp, :);
-        aExt355 = aerBsc355_raman(iGrp, :) * PollyConfig.LR355;
+        aBsc355(aBsc355 <= 0) = NaN;
+        aExt355 = aBsc355 * PollyConfig.LR355;
         aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
         mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2631,6 +2655,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % lidar calibration
         LC_raman_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
+        LC_raman_355(LC_raman_355 <= 0) = NaN;
         [LC_raman_355, ~, lcStd] = mean_stable(LC_raman_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
         LCStd_raman_355 = LC_raman_355 * lcStd;
 
@@ -2656,7 +2681,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % optical thickness (OT)
         aBsc532 = aerBsc532_raman(iGrp, :);
-        aExt532 = aerBsc532_raman(iGrp, :) * PollyConfig.LR532;
+        aBsc532(aBsc532 <= 0) = NaN;
+        aExt532 = aBsc532 * PollyConfig.LR532;
         aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
         mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2666,6 +2692,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % lidar calibration
         LC_raman_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
+        LC_raman_532(LC_raman_532 <= 0) = NaN;
         [LC_raman_532, ~, lcStd] = mean_stable(LC_raman_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
         LCStd_raman_532 = LC_raman_532 * lcStd;
 
@@ -2691,7 +2718,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % optical thickness (OT)
         aBsc1064 = aerBsc1064_raman(iGrp, :);
-        aExt1064 = aerBsc1064_raman(iGrp, :) * PollyConfig.LR1064;
+        aBsc1064(aBsc1064 <= 0) = NaN;
+        aExt1064 = aBsc1064 * PollyConfig.LR1064;
         aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
         mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -2701,6 +2729,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % lidar calibration
         LC_raman_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
+        LC_raman_1064(LC_raman_1064 <= 0) = NaN;
         [LC_raman_1064, ~, lcStd] = mean_stable(LC_raman_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
         LCStd_raman_1064 = LC_raman_1064 * lcStd;
 
@@ -2727,7 +2756,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % optical thickness (OT)
         aBsc355 = aerBsc355_raman(iGrp, :);
-        aExt355 = aerBsc355_raman(iGrp, :) * PollyConfig.LR355;
+        aBsc355(aBsc355 <= 0) = NaN;
+        aExt355 = aBsc355 * PollyConfig.LR355;
         aExt387 = aExt355 * (355/387).^PollyConfig.angstrexp;
         aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
         aOT387 = nancumsum(aExt387 .* [data.distance0(1), diff(data.distance0)]);
@@ -2740,6 +2770,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % lidar calibration
         LC_raman_387 = transpose(smooth(sig387 .* data.distance0.^2, PollyConfig.smoothWin_raman_355)) ./ bsc355 ./ trans_355_387;
+        LC_raman_387(LC_raman_387 <= 0) = NaN;
         [LC_raman_387, ~, lcStd] = mean_stable(LC_raman_387, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
         LCStd_raman_387 = LC_raman_387 * lcStd;
 
@@ -2766,7 +2797,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % optical thickness (OT)
         aBsc532 = aerBsc532_raman(iGrp, :);
-        aExt532 = aerBsc532_raman(iGrp, :) * PollyConfig.LR532;
+        aBsc532(aBsc532 <= 0) = NaN;
+        aExt532 = aBsc532 * PollyConfig.LR532;
         aExt607 = aExt532 * (532/607).^PollyConfig.angstrexp;
         aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
         aOT607 = nancumsum(aExt607 .* [data.distance0(1), diff(data.distance0)]);
@@ -2779,6 +2811,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         % lidar calibration
         LC_raman_607 = transpose(smooth(sig607 .* data.distance0.^2, PollyConfig.smoothWin_raman_532)) ./ bsc532 ./ trans_532_607;
+        LC_raman_607(LC_raman_607 <= 0) = NaN;
         [LC_raman_607, ~, lcStd] = mean_stable(LC_raman_607, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
         LCStd_raman_607 = LC_raman_607 * lcStd;
 

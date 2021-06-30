@@ -88,9 +88,21 @@ netcdf.putVar(ncID, varID_att_bsc_1064, fillmissing(data.att_beta_1064, missing_
 netcdf.putVar(ncID, varID_quality_mask_355, fillmissing(data.quality_mask_355, missing_value));
 netcdf.putVar(ncID, varID_quality_mask_532, fillmissing(data.quality_mask_532, missing_value));
 netcdf.putVar(ncID, varID_quality_mask_1064, fillmissing(data.quality_mask_1064, missing_value));
-netcdf.putVar(ncID, varID_SNR_355, fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value));
-netcdf.putVar(ncID, varID_SNR_532, fillmissing(squeeze(data.SNR(flag532, :, :)), missing_value));
-netcdf.putVar(ncID, varID_SNR_1064, fillmissing(squeeze(data.SNR(flag1064, :, :)), missing_value));
+if sum(flag355) == 1
+    netcdf.putVar(ncID, varID_SNR_355, fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value));
+else
+    netcdf.putVar(ncID, varID_SNR_355, missing_value * ones(length(data.height), length(data.mTime)));
+end
+if sum(flag532) == 1
+    netcdf.putVar(ncID, varID_SNR_532, fillmissing(squeeze(data.SNR(flag532, :, :)), missing_value));
+else
+    netcdf.putVar(ncID, varID_SNR_532, missing_value * ones(length(data.height), length(data.mTime)));
+end
+if sum(flag1064) == 1
+    netcdf.putVar(ncID, varID_SNR_1064, fillmissing(squeeze(data.SNR(flag1064, :, :)), missing_value));
+else
+    netcdf.putVar(ncID, varID_SNR_1064, missing_value * ones(length(data.height), length(data.mTime)));
+end
 
 % re enter define mode
 netcdf.reDef(ncID);

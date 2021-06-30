@@ -1,5 +1,4 @@
-function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, ...
-                                                 minRelStd)
+function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, minRelStd)
 % MEAN_STABLE calculate the mean value of x based on the least fluctuated 
 % segment of x. The searching is based on the std inside each window of x.
 % USAGE:
@@ -33,7 +32,9 @@ if ~ exist('maxBin', 'var')
     maxBin = length(x);
 end
 
+flagNaN = isnan(x);
 x = smooth(x, win, 'moving');
+x(flagNaN) = NaN;
 
 if (maxBin - minBin + 1) <= win
     xIndx = minBin:maxBin;
@@ -47,7 +48,11 @@ for iX = minBin:(maxBin - win)
     thisStd = nanstd(x(iX:(iX + win)));
     thisMean = nanmean(x(iX:(iX + win)));
 
-    relStd = cat(2, relStd, thisStd / abs(thisMean));
+    if (sum(isnan(x(iX:(iX + win)))) / (win + 1) <= 0.2)
+        relStd = cat(2, relStd, thisStd / abs(thisMean));
+    else
+        relStd = cat(2, relStd, NaN);
+    end
 end
 
 if ~ exist('minRelStd', 'var')

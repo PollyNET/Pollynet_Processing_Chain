@@ -6,18 +6,19 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %    chTagsI: numeric array
 %        manual specified channel tag for each channel. (default: [])
 %        73: far-range total 355 nm
-%        521: far-range total 532 nm
-%        2057: far-range total 1064 nm
-%        129: far-range 387 nm
-%        257: far-range 407 nm
-%        1025: far-range 607 nm
-%        81: far-range cross 355 nm
-%        529: far-range cross 532 nm
 %        74: near-range 355 nm
-%        522: near-range 532 nm
+%        81: far-range cross 355 nm
+%        129: far-range 387 nm
 %        130: near-range 387 nm
-%        1026: near-range 607 nm
+%        257: far-range 407 nm
 %        517: far-range rotational Raman 532 nm
+%        521: far-range total 532 nm
+%        522: near-range 532 nm
+%        529: far-range cross 532 nm
+%        545: far-range parallel 532 nm
+%        1025: far-range 607 nm
+%        2057: far-range total 1064 nm
+%        1026: near-range 607 nm
 %        2053: far-range rotational Raman 1064 nm
 % KEYWORDS:
 %    flagFarRangeChannel: logical
@@ -135,6 +136,8 @@ for iCh = 1:nChs
         chLabels{iCh} = 'far-range rot. Raman 532 nm';
     case 2053   % far-range rotational Raman 1064 nm
         chLabels{iCh} = 'far-range rot. Raman 1064 nm';
+    case 545   % far-range parallel 532 nm
+        chLabels{iCh} = 'far-range parallel 532 nm';
     otherwise
         warning('PICASSO:InvalidInput', 'Unknown channel tags (%d) at channel %d', chTagsO(iCh), iCh);
         chLabels{iCh} = 'Unknown';

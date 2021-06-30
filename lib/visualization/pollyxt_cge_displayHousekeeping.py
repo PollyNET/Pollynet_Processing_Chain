@@ -262,7 +262,7 @@ def pollyxt_cge_displayHousekeeping(tmpFile, saveFolder):
 
 def main():
     pollyxt_cge_displayHousekeeping(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
+        # 'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
         'C:\\Users\\zhenping\\Desktop')
 
 

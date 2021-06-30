@@ -87,7 +87,6 @@ height = height(minIndex:end);
 %% 1. Semi-Discretization Process (SDP)
 noise_level = sqrt(BG + P);
 Ps = transpose(smooth(P, smoothWin, 'moving'));
-RCS = Ps .* height.^2;   % range-corrected signal
 
 % bottom to top semi-discretization
 PD1 = Ps;

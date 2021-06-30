@@ -102,7 +102,7 @@ for iDate = startDate:ceil(endDate)
         %% unzip polly data to todofolder
         try
             % extract the file 
-            fprintf('--->Extracting %s.\n', pollyZipFile);
+            fprintf('---> Extracting %s.\n', pollyZipFile);
             pollyUnzipFile = unzip(files{iFile}, ...
                 fullfile(todolistFolder, pollyType, 'data_zip'));
         catch
