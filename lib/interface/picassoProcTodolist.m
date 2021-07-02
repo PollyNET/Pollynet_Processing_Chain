@@ -42,7 +42,7 @@ for iTask = 1:length(pollyDataTasks.dataFilename)
     pollyDataFile = fullfile(pollyDataTasks.todoPath{iTask}, pollyDataTasks.dataPath{iTask}, pollyDataTasks.dataFilename{iTask});
     laserlogbook = fullfile(pollyDataTasks.todoPath{iTask}, pollyDataTasks.dataPath{iTask}, sprintf('%s.laserlogbook.txt', pollyDataTasks.dataFilename{iTask}));
     reportTmp = picassoProcV3(pollyDataFile, pollyDataTasks.pollyType{iTask}, PicassoConfigFile, ...
-        'pollyZipFile', pollyDataTasks.zipFile{iTask}, 'pollyZipFileSize', pollyDataTasks.dataSize(iTask), 'pollyLaserlogbook', laserlogbook, 'pollyType', pollyDataTasks.pollyType{iTask});
+        'pollyZipFile', pollyDataTasks.zipFile{iTask}, 'pollyZipFileSize', pollyDataTasks.dataSize(iTask), 'pollyLaserlogbook', laserlogbook);
     report{end + 1} = reportTmp;
 end
 
