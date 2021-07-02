@@ -10,6 +10,21 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        absolute path of polly data.
 %    pollyType: char
 %        polly type.
+%        - arielle
+%        - Polly
+%        - Polly_1V2
+%        - PollyXT_CGE
+%        - PollyXT_DWD
+%        - PollyXT_FMI
+%        - PollyXT_IFT
+%        - PollyXT_LACROS
+%        - PollyXT_NIER
+%        - PollyXT_NOA
+%        - PollyXT_TROPOS
+%        - PollyXT_UW
+%        - PollyXT_TJK
+%        - PollyXT_TAU
+%        - PollyXT_CYP
 %    PicassoConfigFile: char
 %        absolute path of Picasso configuration file.
 % KEYWORDS:
@@ -1574,6 +1589,10 @@ for iGrp = 1:size(clFreGrps, 1)
     % molecular scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
+    if isnan(refHInd355(iGrp, 1)) || isnan(refHInd355(iGrp, 2))
+        continue;
+    end
+
     SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
     SNRRef387 = pollySNR(sum(sig387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
     refBeta355 = mean(aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);
@@ -1658,6 +1677,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     % molecular scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+
+    if isnan(refHInd532(iGrp, 1)) || isnan(refHInd532(iGrp, 2))
+        continue;
+    end
 
     SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
     SNRRef607 = pollySNR(sum(sig607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
