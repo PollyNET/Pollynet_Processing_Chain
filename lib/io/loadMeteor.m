@@ -78,7 +78,7 @@ if p.Results.flagReadLess
     % the same meteorological profile. Therefore, using the keyword 'flagReadLess'
     % can avoid it because it only allow the program to access meteorological at 
     % interval of 1 hour.
-    mTimeQry = mTime(1):datenum(0, 1, 0, 1, 0, 0):mTime(end);
+    mTimeQry = mTime(1):datenum(0, 1, 0, 3, 0, 0):mTime(end);
 else
     mTimeQry = mTime;
 end
@@ -113,8 +113,8 @@ for iTime = 1:length(mTimeQry)
 end
 
 %% interp meteorological data
-[MTIMEQRY, ASL] = meshgrid(asl, mTimeQry);
-[MTIME, ~] = meshgrid(asl, mTime);
+[MTIMEQRY, ASLQRY] = meshgrid(asl, mTimeQry);
+[MTIME, ASL] = meshgrid(asl, mTime);
 if length(mTimeQry) == 1
     temp = repmat(tempQry, length(mTime), 1);
     pres = repmat(presQry, length(mTime), 1);
@@ -122,11 +122,11 @@ if length(mTimeQry) == 1
     wins = repmat(winsQry, length(mTime), 1);
     wind = repmat(windQry, length(mTime), 1);
 elseif length(mTimeQry) >= 2
-    temp = interp2(MTIMEQRY, ASL, tempQry, MTIME, ASL, p.Results.method);
-    pres = interp2(MTIMEQRY, ASL, presQry, MTIME, ASL, p.Results.method);
-    relh = interp2(MTIMEQRY, ASL, relhQry, MTIME, ASL, p.Results.method);
-    wins = interp2(MTIMEQRY, ASL, winsQry, MTIME, ASL, p.Results.method);
-    wind = interp2(MTIMEQRY, ASL, windQry, MTIME, ASL, p.Results.method);
+    temp = interp2(MTIMEQRY, ASLQRY, tempQry, MTIME, ASL, p.Results.method);
+    pres = interp2(MTIMEQRY, ASLQRY, presQry, MTIME, ASL, p.Results.method);
+    relh = interp2(MTIMEQRY, ASLQRY, relhQry, MTIME, ASL, p.Results.method);
+    wins = interp2(MTIMEQRY, ASLQRY, winsQry, MTIME, ASL, p.Results.method);
+    wind = interp2(MTIMEQRY, ASLQRY, windQry, MTIME, ASL, p.Results.method);
 else
     temp = [];
     pres = [];
