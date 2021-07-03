@@ -6,7 +6,6 @@
 # Processing outputs
 ./results
 ./tmp
-./config
 recent_plots_new
 recent_plots
 results_new
@@ -29,3 +28,4 @@ package.json
 # untracked folders
 tmp
 config
+data
