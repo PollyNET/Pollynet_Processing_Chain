@@ -780,6 +780,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'heightFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
             'flagSameRef', false, ...
             'defaultRefH', [NaN, NaN], 'defaultDPInd', []);
+    elseif PollyConfig.flagUseManualRefH
+        % use pre-defined reference height
+        if length(PollyConfig.flagUseManualRefH) == 2
+            thisRefH532 = PollyConfig.refH_FR_532;
+            thisDPInd532 = [];
+        else
+            warning('refH_FR_532 should be 2-element array');
+            thisRefH532 = [NaN, NaN];
+            thisDPInd532 = [];
+        end
     else
         thisRefH532 = [NaN, NaN];
         thisDPInd532 = [];
@@ -809,6 +819,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'heightFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
             'flagSameRef', PollyConfig.flagUseSameRefH, ...
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
+    elseif PollyConfig.flagUseManualRefH
+        % use pre-defined reference height
+        if length(PollyConfig.flagUseManualRefH) == 2
+            thisRefH355 = PollyConfig.refH_FR_355;
+            thisDPInd355 = [];
+        else
+            warning('refH_FR_355 should be 2-element array');
+            thisRefH355 = [NaN, NaN];
+            thisDPInd355 = [];
+        end
     else
         thisRefH355 = [NaN, NaN];
         thisDPInd355 = [];
@@ -838,6 +858,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'heightFullOverlap', PollyConfig.heightFullOverlap(flag1064FR), ...
             'flagSameRef', PollyConfig.flagUseSameRefH, ...
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
+    elseif PollyConfig.flagUseManualRefH
+        % use pre-defined reference height
+        if length(PollyConfig.flagUseManualRefH) == 2
+            thisRefH1064 = PollyConfig.refH_FR_1064;
+            thisDPInd1064 = [];
+        else
+            warning('refH_FR_1064 should be 2-element array');
+            thisRefH1064 = [NaN, NaN];
+            thisDPInd1064 = [];
+        end
     else
         thisRefH1064 = [NaN, NaN];
         thisDPInd1064 = [];
