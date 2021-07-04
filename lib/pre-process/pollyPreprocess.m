@@ -171,13 +171,14 @@ if (max(config.maxHeightBin + config.firstBinIndex - 1) > size(data.rawSignal, 2
 end
 
 %% Re-sample the temporal grid to 30 s, if it's not in 30s.
-nInt = round(600 / nanmean(data.mShots(1, :), 2));   % number of profiles to be
-                                                     % integrated. Usually, 600
-                                                     % shots per 30 s
+mShotsPer30s = 30 * data.repRate;
+nInt = round(mShotsPer30s / nanmean(data.mShots(1, :), 2));   % number of profiles to be
+                                                              % integrated. Usually, 600
+                                                              % shots per 30 s
 
 if nInt > 1
-    % if shots of single profile is less than 600
-    warning('MShots for single profile is not 600... Please check!!!');
+    % if shots of single profile is less than mShotsPer30s
+    warning('MShots for single profile is not %4.0f... Please check!!!', mShotsPer30s);
 
     nProfInt = floor(size(data.mShots, 2) / nInt);
     mShotsInt = NaN(size(data.mShots, 1), nProfInt);
@@ -188,7 +189,7 @@ if nInt > 1
     for iProfInt = 1:nProfInt
         profIndx = ((iProfInt - 1) * nInt + 1):(iProfInt * nInt);
         mShotsInt(:, iProfInt) = nansum(data.mShots(:, profIndx), 2);
-        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(600 / data.repRate * (iProfInt - 1)));
+        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(mShotsPer30s / data.repRate * (iProfInt - 1)));
         rawSignalInt(:, :, iProfInt) = repmat(nansum(data.rawSignal(:, :, profIndx), 3), 1, 1, 1);
         if ~ isempty(data.depCalAng)
             depCalAngInt(iProfInt) = data.depCalAng(profIndx(1));
@@ -213,6 +214,8 @@ if config.flagForceMeasTime
     data.mTime = data.filenameStartTime + ...
                  datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
 end
+
+%% 
 
 %% Deadtime correction
 rawSignal = pollyDTCor(data.rawSignal, data.mShots, data.hRes, ...

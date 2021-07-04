@@ -115,9 +115,10 @@ if p.Results.flagDeleteData
 end
 
 % search the profiles with invalid mshots
+mShotsPer30s = 30 * repRate;
 flagFalseShots = false(1, size(mShots, 2));
 for iChannel = 1:size(mShots, 1)
-    tmp = (mShots(iChannel, :) > 620) | (mShots(iChannel, :) <= 0);
+    tmp = (mShots(iChannel, :) > mShotsPer30s * 1.1) | (mShots(iChannel, :) <= 0);
     flagFalseShots = flagFalseShots | tmp;
 end
 
@@ -138,7 +139,7 @@ if p.Results.flagFilterFalseMShots
     end
 
 elseif p.Results.flagCorrectFalseMShots
-    mShots(:, flagFalseShots) = 600;
+    mShots(:, flagFalseShots) = mShotsPer30s;
     mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
                        datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
     [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
