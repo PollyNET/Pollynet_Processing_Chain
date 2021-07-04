@@ -112,7 +112,7 @@ for iDate = startDate:ceil(endDate)
 
         %% write the file to fileinfo_new.txt
         fid = fopen(config.fileinfo_new, writeMode);
-        
+
         fileInfo = dir(pollyUnzipFile{1});
 
         fprintf(fid, '%s, %s, %s, %s, %d, %s\n', todolistFolder, ...

@@ -148,7 +148,7 @@ for iGrp = 1:size(clFreTime, 1)
         else
             [tLagStart, tStartIndx] = min(abs(tIWV_mwr - clFreTime(iGrp, 1)));
             [tLagEnd, tEndIndx] = min(abs(tIWV_mwr - clFreTime(iGrp, 2)));
-            
+
             if (tLagStart > p.Results.maxIWVTLag) || (tLagEnd > p.Results.maxIWVTLag)
                 fprintf('No close measurement for IWV at %s - %s.\n', ...
                     datestr(clFreTime(iGrp, 1), 'yyyymmdd HH:MM'), ...

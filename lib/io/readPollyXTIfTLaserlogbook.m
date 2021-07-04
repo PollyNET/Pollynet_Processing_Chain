@@ -83,7 +83,7 @@ try
     while ~ feof(fid)
         iLine = iLine + 1;
         thisLine = fgetl(fid);
-        
+
         tokenInfo = regexp(thisLine, dateSpec, 'names');
         if ~ isempty(tokenInfo)
             health.time = [health.time; datenum(str2double(tokenInfo.year), str2double(tokenInfo.month), str2double(tokenInfo.day), str2double(tokenInfo.hour), str2double(tokenInfo.minute), str2double(tokenInfo.second))];
@@ -108,7 +108,7 @@ try
         fclose(fid);
         delete(file);
     end
-        
+
 catch
     fclose(fid);
     warning('Failure in reading %s laserlogbook at line %d.\n%s\n', config.pollyType, iLine, file);

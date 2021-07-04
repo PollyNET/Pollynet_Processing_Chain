@@ -61,7 +61,7 @@ for iTable = 1:length(tableNames)
     if ~ isempty(regexp(tableNames{iTable}, p.Results.tablename, 'once'))
         %% get column names
         tableColNames = fetch(conn, sprintf('PRAGMA table_info(%s);', tableNames{iTable}));
-        
+
         %% load data
         data = fetch(conn, sprintf('SELECT * from %s;', tableNames{iTable}));
         if isempty(data)

@@ -55,7 +55,7 @@ flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChan
 for iGrp = 1:size(data.clFreGrps, 1)
     startInd = data.clFreGrps(iGrp, 1);
     endInd = data.clFreGrps(iGrp, 2);
-    
+
     % meteor data
     meteorSource = data.meteorAttri.dataSource{iGrp};
     temperature = data.temperature(iGrp, :);
