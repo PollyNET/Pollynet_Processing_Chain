@@ -12,7 +12,7 @@ function pollySaveTCV1(data)
 %    2019-09-27: Turn on the netCDF4 compression.
 % .. Authors: - zhenping@tropos.de
 
-global PicassoConfig CampaignConfig PollyDataInfo
+global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
 ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_target_classification.nc', rmext(PollyDataInfo.pollyDataFile)));
 
@@ -106,7 +106,20 @@ netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
-netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
+netcdf.putAtt(ncID, varID_global, 'PI', PollyConfig.PI);
+netcdf.putAtt(ncID, varID_global, 'PI_affiliation', PollyConfig.PI_affiliation);
+netcdf.putAtt(ncID, varID_global, 'PI_affiliation_acronym', PollyConfig.PI_affiliation_acronym);
+netcdf.putAtt(ncID, varID_global, 'PI_address', PollyConfig.PI_address);
+netcdf.putAtt(ncID, varID_global, 'PI_phone', PollyConfig.PI_phone);
+netcdf.putAtt(ncID, varID_global, 'PI_email', PollyConfig.PI_email);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator', PollyConfig.Data_Originator);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator_affiliation', PollyConfig.Data_Originator_affiliation);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator_affiliation_acronym', PollyConfig.Data_Originator_affiliation_acronym);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator_address', PollyConfig.Data_Originator_address);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator_phone', PollyConfig.Data_Originator_phone);
+netcdf.putAtt(ncID, varID_global, 'Data_Originator_email', PollyConfig.Data_Originator_email);
+netcdf.putAtt(ncID, varID_global, 'title', 'aerosol/cloud target classifications (V1)');
+netcdf.putAtt(ncID, varID_global, 'comment', PollyConfig.comment);
 cwd = pwd;
 cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();

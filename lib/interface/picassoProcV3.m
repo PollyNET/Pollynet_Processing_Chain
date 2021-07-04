@@ -3871,6 +3871,8 @@ data.att_beta_NR_532 = att_beta_NR_532;
 data.att_beta_OC_355 = att_beta_OC_355;
 data.att_beta_OC_532 = att_beta_OC_532;
 data.att_beta_OC_1064 = att_beta_OC_1064;
+data.vdr355 = vdr355;
+data.vdr532 = vdr532;
 data.WVMR = WVMR;
 data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
@@ -3978,8 +3980,6 @@ if PicassoConfig.flagEnableCaliResultsOutput
         case 'voldepol'
             print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save volume depolarization ratio
-            data.vdr355 = vdr355;
-            data.vdr532 = vdr532;
             pollySaveVDR(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
