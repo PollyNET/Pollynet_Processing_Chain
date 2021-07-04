@@ -2134,7 +2134,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     % Ångström exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerBsc355_NR_raman(iGrp, 80))) && (~ isnan(aerBsc532_NR_raman(iGrp, 80)))
-        thisAE_Bsc_355_532_NR_raman = pollyAE(aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_NR_raman_532);
+        thisAE_Bsc_355_532_NR_raman = pollyAE(aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
         AE_Bsc_355_532_NR_raman(iGrp, :) = thisAE_Bsc_355_532_NR_raman;
     end
 end

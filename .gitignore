@@ -26,6 +26,6 @@ package-lock.json
 package.json
 
 # untracked folders
-tmp
-config
-data
+./tmp
+./config
+./data
