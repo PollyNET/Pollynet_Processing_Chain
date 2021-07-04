@@ -130,7 +130,7 @@ netcdf.putAtt(ncID, varID_global, 'location', 'Atlantic Ocean');
 netcdf.putAtt(ncID, varID_global, 'institute', 'AWI');
 netcdf.putAtt(ncID, varID_global, 'contact', 'Alina Herzog');
 netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s', tNow, mfilename));
-    
+
 % close file
 netcdf.close(ncID);
 
