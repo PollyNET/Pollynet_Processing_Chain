@@ -241,10 +241,17 @@ def pollyDisplayRCS(tmpFile, saveFolder):
 
 def main():
     pollyDisplayRCS(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
-        'C:\\Users\\zpyin\\Desktop')
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+            'C:\\Users\\zhenping\\Desktop')
 
 
 if __name__ == '__main__':
     # main()
     pollyDisplayRCS(sys.argv[1], sys.argv[2])
+    # import cProfile, pstats
+    # profiler = cProfile.Profile()
+    # profiler.enable()
+    # main()
+    # profiler.disable()
+    # stats = pstats.Stats(profiler).sort_stats('cumtime').reverse_order()
+    # stats.print_stats()

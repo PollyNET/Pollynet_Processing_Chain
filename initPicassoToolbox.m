@@ -73,23 +73,23 @@ end
 if exist(fullfile(PicassoDir, '.git'), 'dir') ~= 7
     % initialize the directory
     [status_gitInit, result_gitInit] = system('git init');
-    
+
     if status_gitInit ~= 0
         fprintf(result_gitInit);
         error(' > This directory is not a git repository.\n');
     end
-    
+
     % set the remote origin
     [status_setOrigin, result_setOrigin] = system('git remote add origin https://github.com/PollyNET/Pollynet_Processing_Chain.git');
-    
+
     if status_setOrigin ~= 0
         fprintf(result_setOrigin);
         error(' > The remote tracking origin could not be set.');
     end
-    
+
     % check curl
     [status_curl, result_curl] = checkCurlAndRemote();
-    
+
     if status_curl == 0
         % set the remote origin
         [status_fetch, result_fetch] = system(['git fetch origin master ' depthFlag]);
@@ -97,9 +97,9 @@ if exist(fullfile(PicassoDir, '.git'), 'dir') ~= 7
             fprintf(result_fetch);
             error(' > The files could not be fetched.');
         end
-        
+
         [status_resetMixed, result_resetMixed] = system('git reset --mixed origin/master');
-        
+
         if status_resetMixed ~= 0
             fprintf(result_resetMixed);
             error(' > The remote tracking origin could not be set.');
@@ -188,16 +188,16 @@ if status_gitVersion == 0 && (~ isempty(index))
 
     % replace line breaks and white spaces
     versionGitStr = regexprep(versionGitStr(1:7),'\s+','');
-    
+
     % replace the dots in the version number
     tmp = strrep(versionGitStr, '.', '');
-    
+
     % convert the string of the version number to a number
     versionGit = str2num(tmp);
-    
+
     % set the boolean to true
     installed = true;
-    
+
     if ENV_VARS.printLevel
         fprintf([' Done (version: ' versionGitStr ').\n']);
     end
