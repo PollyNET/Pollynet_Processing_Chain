@@ -579,7 +579,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     gitInfo = getGitInfo();
     cd(cwd);
     netcdf.putAtt(ncID, varID_global, 'history', sprintf('Last processing time at %s by %s, git branch: %s, git commit: %s', tNow, mfilename, gitInfo.branch, gitInfo.hash));
-        
+
     % close file
     netcdf.close(ncID);
 

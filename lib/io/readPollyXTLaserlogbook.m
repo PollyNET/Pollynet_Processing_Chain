@@ -96,7 +96,7 @@ try
     while ~ feof(fid)
         iLine = iLine + 1;
         thisLn = fgetl(fid);
-        
+
         tokenInfo = regexp(thisLn, dateSpec, 'names');
         if ~ isempty(tokenInfo)
             health.time = [health.time; ...

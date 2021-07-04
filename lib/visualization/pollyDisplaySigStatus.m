@@ -32,13 +32,13 @@ if (sum(flag355FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus355FR.py'), tmpFile, saveFolder));
@@ -57,13 +57,13 @@ if (sum(flag355CFR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_355C', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus355CFR.py'), tmpFile, saveFolder));
@@ -82,13 +82,13 @@ if (sum(flag387FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_387', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus387FR.py'), tmpFile, saveFolder));
@@ -107,13 +107,13 @@ if (sum(flag407FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_407', 'yLim_WV_RH', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus407FR.py'), tmpFile, saveFolder));
@@ -132,13 +132,13 @@ if (sum(flag532FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus532FR.py'), tmpFile, saveFolder));
@@ -157,13 +157,13 @@ if (sum(flag532CFR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_532C', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus532CFR.py'), tmpFile, saveFolder));
@@ -182,13 +182,13 @@ if (sum(flag607FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_607', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus607FR.py'), tmpFile, saveFolder));
@@ -207,13 +207,13 @@ if (sum(flag1064FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_FR_1064', 'yLim_FR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus1064FR.py'), tmpFile, saveFolder));
@@ -232,13 +232,13 @@ if (sum(flag355NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_NR_355', 'yLim_NR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus355NR.py'), tmpFile, saveFolder));
@@ -257,13 +257,13 @@ if (sum(flag387NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_NR_387', 'yLim_NR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus387NR.py'), tmpFile, saveFolder));
@@ -282,13 +282,13 @@ if (sum(flag532NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_NR_532', 'yLim_NR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus532NR.py'), tmpFile, saveFolder));
@@ -307,13 +307,13 @@ if (sum(flag607NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
-    
+
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
         fprintf('Create the tmp folder to save the temporary results.\n');
         mkdir(tmpFolder);
     end
-    
+
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'height', 'xtick', 'xtickstr', 'SAT_NR_607', 'yLim_NR_RCS', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplaySigStatus607NR.py'), tmpFile, saveFolder));

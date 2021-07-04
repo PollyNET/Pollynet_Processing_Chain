@@ -15,7 +15,7 @@ function [ n ] = number_density_at_pt(pressure, temperature, relative_humidity, 
 %       n: array or array
 %           Number density of the atmosphere [m^{-3}]   
     Xw = molar_fraction_water_vapour(pressure, temperature, relative_humidity);
-        
+
     if ideal
         Z = 1;
     else   
@@ -27,4 +27,4 @@ function [ n ] = number_density_at_pt(pressure, temperature, relative_humidity, 
     n = p_pa ./ (Z * temperature * const.k_b);
 end
 
-    
+
