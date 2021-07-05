@@ -144,7 +144,7 @@ def pollyDisplayAEKlett(tmpFile, saveFolder):
 
     ax.set_xlabel('Angstroem Exponent', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2], loc='upper right', fontsize=13)
 
     ax.set_ylim(yLim_Profi_Ext.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))

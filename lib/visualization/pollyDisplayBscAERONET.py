@@ -115,6 +115,9 @@ def pollyDisplayBscAERONET(tmpFile, saveFolder):
         aerBsc_355_aeronet = mat['aerBsc_355_aeronet'][:][0]
         aerBsc_532_aeronet = mat['aerBsc_532_aeronet'][:][0]
         aerBsc_1064_aeronet = mat['aerBsc_1064_aeronet'][:][0]
+        refHInd355 = mat['refHInd355'][:][0]
+        refHInd532 = mat['refHInd532'][:][0]
+        refHInd1064 = mat['refHInd1064'][:][0]
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
@@ -148,7 +151,7 @@ def pollyDisplayBscAERONET(tmpFile, saveFolder):
 
     ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=13)
 
     ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
@@ -194,8 +197,33 @@ def pollyDisplayBscAERONET(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(0.01, 0.02, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='AERONET'), fontsize=10)
+    if not np.isnan(refHInd355[0]):
+        refHBase355 = height[refHInd355[0] - 1]/1000
+        refHTop355 = height[refHInd355[1] - 1]/1000
+    else:
+        refHBase355 = np.nan
+        refHTop355 = np.nan
+    if not np.isnan(refHInd532[0]):
+        refHBase532 = height[refHInd532[0] - 1]/1000
+        refHTop532 = height[refHInd532[1] - 1]/1000
+    else:
+        refHBase532 = np.nan
+        refHTop532 = np.nan
+    if not np.isnan(refHInd1064[0]):
+        refHBase1064 = height[refHInd1064[0] - 1]/1000
+        refHTop1064 = height[refHInd1064[1] - 1]/1000
+    else:
+        refHBase1064 = np.nan
+        refHTop1064 = np.nan
+    fig.text(
+        0.23, 0.80,
+        'refH355: {0:4.1f}-{1:4.1f} km\n'.format(refHBase355, refHTop355) +
+        'refH532: {0:4.1f}-{1:4.1f} km\n'.format(refHBase532, refHTop532) +
+        'refH1064: {0:4.1f}-{1:4.1f} km'.format(refHBase1064, refHTop1064),
+        fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.4], alpha=1)
+    fig.text(
+        0.02, 0.01, 'Version: {0}\n'.format(version) +
+        'Method: {0}'.format('AERONET'), fontsize=10)
 
     fig.savefig(
         os.path.join(

@@ -115,6 +115,7 @@ def pollyDisplayRH(tmpFile, saveFolder):
         flagWVCalibration = mat['flagWVCalibration'][:][0]
         rh = mat['rh'][:][0]
         rh_meteor = mat['rh_meteor'][:][0]
+        wvconstUsed = mat['wvconstUsed'][:][0][0]
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
@@ -145,7 +146,7 @@ def pollyDisplayRH(tmpFile, saveFolder):
 
     ax.set_xlabel('Relative Humidity ($\%$)', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2], loc='upper right', fontsize=13)
 
     ax.set_ylim(yLim_Profi_WV_RH.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1500))
@@ -191,8 +192,10 @@ def pollyDisplayRH(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(0.02, 0.01, 'Version: {version}\nCalibrated?: {status}'.format(
-        version=version, status=flagWVCalibration), fontsize=12)
+    fig.text(
+        0.02, 0.01,
+        'Version: {0}\nwvconst: {1:6.2f}\nCalibrated?: {2}'.format(
+            version, wvconstUsed, flagWVCalibration), fontsize=12)
 
     fig.savefig(
         os.path.join(

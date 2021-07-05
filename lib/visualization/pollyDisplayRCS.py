@@ -162,18 +162,18 @@ def pollyDisplayRCS(tmpFile, saveFolder):
                       linestyle='-', label='Reference Height')
     if not np.isnan(refHInd355[0]):
         ax.semilogx(
-            rcs355[refHInd355[0]:refHInd355[1]] * 1e6,
-            height[refHInd355[0]:refHInd355[1]], color='#000000', zorder=9
+            rcs355[(refHInd355[0] - 1):(refHInd355[1] - 1)] * 1e6,
+            height[(refHInd355[0] - 1):(refHInd355[1] - 1)], color='#000000', zorder=9
             )
     if not np.isnan(refHInd532[0]):
         ax.semilogx(
-            rcs532[refHInd532[0]:refHInd532[1]] * 6e6,
-            height[refHInd532[0]:refHInd532[1]], color='#000000', zorder=8
+            rcs532[(refHInd532[0] - 1):(refHInd532[1] - 1)] * 6e6,
+            height[(refHInd532[0] - 1):(refHInd532[1] - 1)], color='#000000', zorder=8
             )
     if not np.isnan(refHInd1064[0]):
         ax.semilogx(
-            rcs1064[refHInd1064[0]:refHInd1064[1]] * 1.2e8,
-            height[refHInd1064[0]:refHInd1064[1]], color='#000000', zorder=7
+            rcs1064[(refHInd1064[0] - 1):(refHInd1064[1] - 1)] * 1.2e8,
+            height[(refHInd1064[0] - 1):(refHInd1064[1] - 1)], color='#000000', zorder=7
             )
 
     ax.set_xlabel('Range-Corrected Signal [$Mm^{-1}*sr^{-1}$]', fontsize=15)

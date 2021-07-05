@@ -18,6 +18,7 @@ if (sum(flag407) == 1) && (sum(flag387) == 1)
 
     WVMR = data.WVMR;
     RH = data.RH;
+    wvconstUsed = data.wvconstUsed;
     lowSNRMask = (squeeze(data.lowSNRMask(flag387, :, :)) | squeeze(data.lowSNRMask(flag407, :, :)));
     flagCalibrated = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
     flagCalibrated = flagCalibrated{1};
@@ -44,7 +45,7 @@ if (sum(flag407) == 1) && (sum(flag387) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'meteorSource', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'WVMR', 'RH', 'lowSNRMask', 'flagCalibrated', 'wvconstUsed', 'meteorSource', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'xLim_Profi_WV_RH', 'yLim_WV_RH', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayWV.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayWV.py');

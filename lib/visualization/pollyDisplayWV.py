@@ -124,7 +124,8 @@ def pollyDisplayWV(tmpFile, saveFolder):
         height = mat['height'][0][:]
         time = mat['time'][0][:]
         flagCalibrated = mat['flagCalibrated'][:][0]
-        meteorSource = mat['meteorSource'][:][0]
+        wvconstUsed = mat['wvconstUsed'][:][0][0]
+        meteorSource = mat['meteorSource'][:][0][0][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -211,14 +212,11 @@ def pollyDisplayWV(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(
-        0.01, 0.02,
-        '{time}\nMeteor Data: {meteorSource}'.format(
-            time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-            meteorSource=meteorSource
-            ),
-        fontsize=12
-        )
+    fig.text(0.01, 0.02,
+             '{0}    WVconst: {1:6.2f}\nMeteor Data: {2:s}'.format(
+                datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+                wvconstUsed, meteorSource),
+             fontsize=12)
     fig.text(0.33, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
@@ -277,14 +275,11 @@ def pollyDisplayWV(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(
-        0.01, 0.02,
-        '{time}\nMeteor Data: {meteorSource}'.format(
-            time=datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-            meteorSource=meteorSource
-            ),
-        fontsize=12
-        )
+    fig.text(0.01, 0.02,
+             '{0}    WVconst: {1:6.2f}\nMeteor Data: {2:s}'.format(
+                datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+                wvconstUsed, meteorSource),
+             fontsize=12)
     fig.text(0.33, 0.02, 'Version: {version}\nCalibration: {status}'.format(
         version=version, status=flagCalibrated), fontsize=12)
 
@@ -296,8 +291,8 @@ def pollyDisplayWV(tmpFile, saveFolder):
 
 def main():
     pollyDisplayWV(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
-        'C:\\Users\\zpyin\\Desktop'
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+        'C:\\Users\\zhenping\\Desktop'
         )
 
 

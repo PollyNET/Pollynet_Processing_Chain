@@ -33,6 +33,7 @@ if (sum(flag355FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed355 = data.LCUsed.LCUsed355;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -41,7 +42,7 @@ if (sum(flag355FR) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'LCUsed355', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc355FR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc355FR.py');
@@ -59,6 +60,7 @@ if (sum(flag532FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed532 = data.LCUsed.LCUsed532;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -67,7 +69,7 @@ if (sum(flag532FR) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'LCUsed532', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc532FR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc532FR.py');
@@ -85,6 +87,7 @@ if (sum(flag1064FR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed1064 = data.LCUsed.LCUsed1064;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -93,7 +96,7 @@ if (sum(flag1064FR) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_1064', 'quality_mask_1064', 'height', 'time', 'flagLC1064', 'att_beta_cRange_1064', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_1064', 'quality_mask_1064', 'height', 'time', 'LCUsed1064', 'flagLC1064', 'att_beta_cRange_1064', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc1064FR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc1064FR.py');
@@ -111,6 +114,7 @@ if (sum(flag355FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed355 = data.LCUsed.LCUsed355;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -119,7 +123,7 @@ if (sum(flag355FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'LCUsed355', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc355FROC.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc355FROC.py');
@@ -137,6 +141,7 @@ if (sum(flag532FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed532 = data.LCUsed.LCUsed532;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -145,7 +150,7 @@ if (sum(flag532FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'LCUsed532', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc532FROC.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc532FROC.py');
@@ -163,6 +168,7 @@ if (sum(flag1064FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed1064 = data.LCUsed.LCUsed1064;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -171,7 +177,7 @@ if (sum(flag1064FR) == 1) && (PollyConfig.overlapCorMode ~= 0)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_1064', 'quality_mask_1064', 'height', 'time', 'flagLC1064', 'att_beta_cRange_1064', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_1064', 'quality_mask_1064', 'height', 'time', 'LCUsed1064', 'flagLC1064', 'att_beta_cRange_1064', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc1064FROC.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc1064FROC.py');
@@ -189,6 +195,7 @@ if (sum(flag355NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed355 = data.LCUsed.LCUsed355NR;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -197,7 +204,7 @@ if (sum(flag355NR) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_355', 'quality_mask_355', 'height', 'time', 'LCUsed355', 'flagLC355', 'att_beta_cRange_355', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc355NR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc355NR.py');
@@ -215,6 +222,7 @@ if (sum(flag532NR) == 1)
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+    LCUsed532 = data.LCUsed.LCUsed532NR;
 
     % create tmp folder by force, if it does not exist.
     if ~ exist(tmpFolder, 'dir')
@@ -223,7 +231,7 @@ if (sum(flag532NR) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'ATT_BETA_532', 'quality_mask_532', 'height', 'time', 'LCUsed532', 'flagLC532', 'att_beta_cRange_532', 'yLim_att_beta', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayAttnBsc532NR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayAttnBsc532NR.py');
