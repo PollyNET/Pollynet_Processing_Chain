@@ -128,6 +128,7 @@ def pollyDisplayAttnBsc355FR(tmpFile, saveFolder):
             time = mat['time'][0][:]
         else:
             time = np.array([])
+        LCUsed355 = mat['LCUsed355'][:][0]
         att_beta_cRange_355 = mat['att_beta_cRange_355'][0][:]
         yLim_att_beta = mat['yLim_att_beta'][:][0]
         flagLC355 = mat['flagLC355'][:][0]
@@ -219,9 +220,10 @@ def pollyDisplayAttnBsc355FR(tmpFile, saveFolder):
             va='bottom', alpha=1, zorder=10)
 
     fig.text(
-        0.05, 0.04,
-        datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-        fontsize=15)
+        0.05, 0.02,
+        '{0}\nLC: {1:.2e}'.format(
+            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+            LCUsed355[0]), fontsize=12)
     fig.text(
         0.2, 0.02,
         'Version: {version}\nCalibration: {method}'.format(

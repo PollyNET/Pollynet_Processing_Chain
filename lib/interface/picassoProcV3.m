@@ -3906,6 +3906,15 @@ if PicassoConfig.flagEnableCaliResultsOutput
 end
 
 %% Data visualization
+data.polCali355Attri = polCali355Attri;
+data.polCali532Attri = polCali532Attri;
+data.olFunc355 = olFunc355;
+data.olAttri355 = olAttri355;
+data.olFuncDeft355 = olFuncDeft355;
+data.olFunc532 = olFunc532;
+data.olAttri532 = olAttri532;
+data.olFuncDeft532 = olFuncDeft532;
+
 if PicassoConfig.flagEnableDataVisualization
 
     % delete the previous outputs
@@ -3950,8 +3959,6 @@ if PicassoConfig.flagEnableDataVisualization
 
     %% display polarization calibration results
     print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    data.polCali355Attri = polCali355Attri;
-    data.polCali532Attri = polCali532Attri;
     pollyDisplayPolCali(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
@@ -3962,12 +3969,6 @@ if PicassoConfig.flagEnableDataVisualization
 
     %% display overlap function
     print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    data.olFunc355 = olFunc355;
-    data.olAttri355 = olAttri355;
-    data.olFuncDeft355 = olFuncDeft355;
-    data.olFunc532 = olFunc532;
-    data.olAttri532 = olAttri532;
-    data.olFuncDeft532 = olFuncDeft532;
     pollyDisplayOL(data);
     print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 

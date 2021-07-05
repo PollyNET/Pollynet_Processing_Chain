@@ -33,6 +33,7 @@ flag355T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChan
 if (sum(flag355C) == 1) && (sum(flag355T) == 1)
 
     vdr355 = data.vdr355;
+    polCaliFac355 = data.polCaliFac355;
 
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -45,7 +46,7 @@ if (sum(flag355C) == 1) && (sum(flag355T) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_DR', 'vdr355', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'Voldepol355ColorRange', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_DR', 'vdr355', 'polCaliFac355', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'Voldepol355ColorRange', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayVDR355.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayVDR355.py');
@@ -61,6 +62,7 @@ flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChan
 if (sum(flag532C) == 1) && (sum(flag532T) == 1)
 
     vdr532 = data.vdr532;
+    polCaliFac532 = data.polCaliFac532;
 
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -73,7 +75,7 @@ if (sum(flag532C) == 1) && (sum(flag532T) == 1)
     end
 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_DR', 'vdr532', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'Voldepol532ColorRange', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'mTime', 'height', 'depCalMask', 'fogMask', 'yLim_FR_DR', 'vdr532', 'polCaliFac532', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'Voldepol532ColorRange', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayVDR532.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayVDR532.py');

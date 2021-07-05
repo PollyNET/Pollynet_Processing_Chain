@@ -154,7 +154,7 @@ def pollyDisplayExtRamanNR(tmpFile, saveFolder):
 
     ax.set_xlabel('Extinction Coefficient [$Mm^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim_NR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))

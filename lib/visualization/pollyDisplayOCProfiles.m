@@ -39,6 +39,20 @@ xLim_Profi_RCS = PollyConfig.xLim_Profi_RCS;
 xLim_Profi_LR = PollyConfig.xLim_Profi_LR;
 flagWatermarkOn = PicassoConfig.flagWatermarkOn;
 figDPI = PicassoConfig.figDPI;
+if length(PollyConfig.refH_NR_355) == 2
+    refHBaseNR355 = PollyConfig.refH_NR_355(1);
+    refHTopNR355 = PollyConfig.refH_NR_355(2);
+else
+    refHBaseNR355 = NaN;
+    refHTopNR355 = NaN;
+end
+if length(PollyConfig.refH_NR_532) == 2
+    refHBaseNR532 = PollyConfig.refH_NR_532(1);
+    refHTopNR532 = PollyConfig.refH_NR_532(2);
+else
+    refHBaseNR532 = NaN;
+    refHTopNR532 = NaN;
+end
 
 height = data.height;
 time = data.mTime;
@@ -166,7 +180,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Bsc', 'xLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_355_klett', 'aerBsc_532_klett', 'aerBsc_1064_klett', 'refHInd355', 'refHInd532', 'refHInd1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Bsc', 'xLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayOCBscKlett.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayOCBscKlett.py');
@@ -189,7 +203,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Bsc', 'xLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_355_raman', 'aerBsc_532_raman', 'aerBsc_1064_raman', 'refHInd355', 'refHInd532', 'refHInd1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Bsc', 'xLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayOCBscRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayOCBscRaman.py');
@@ -328,6 +342,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_klett < data.mdr532(iGrp)) | ...
                                  (pdr532_klett <= 0);
         pdr532_klett(flag_pdr532_klett) = NaN;
+        polCaliFac355 = data.polCaliFac355;
+        polCaliFac532 = data.polCaliFac532;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -338,7 +354,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett', 'pdr355_klett', 'pdr532_klett', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett', 'pdr355_klett', 'pdr532_klett', 'polCaliFac355', 'polCaliFac532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayOCDRKlett.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayOCDRKlett.py');
@@ -364,6 +380,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_raman < data.mdr532(iGrp)) | ...
                                  (pdr532_raman <= 0);
         pdr532_raman(flag_pdr532_raman) = NaN;
+        polCaliFac355 = data.polCaliFac355;
+        polCaliFac532 = data.polCaliFac532;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -374,7 +392,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman', 'pdr355_raman', 'pdr532_raman', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman', 'pdr355_raman', 'pdr532_raman', 'polCaliFac355', 'polCaliFac532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayOCDRRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayOCDRRaman.py');

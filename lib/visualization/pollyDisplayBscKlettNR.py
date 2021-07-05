@@ -112,6 +112,10 @@ def pollyDisplayBscKlettNR(tmpFile, saveFolder):
         endInd = mat['endInd'][:][0][0]
         height = mat['height'][:][0]
         time = mat['time'][:][0]
+        refHBaseNR355 = mat['refHBaseNR355'][:][0][0]
+        refHTopNR355 = mat['refHTopNR355'][:][0][0]
+        refHBaseNR532 = mat['refHBaseNR532'][:][0][0]
+        refHTopNR532 = mat['refHTopNR532'][:][0][0]
         aerBsc_355_klett = mat['aerBsc_355_klett'][:][0]
         aerBsc_532_klett = mat['aerBsc_532_klett'][:][0]
         aerBsc_1064_klett = mat['aerBsc_1064_klett'][:][0]
@@ -154,7 +158,7 @@ def pollyDisplayBscKlettNR(tmpFile, saveFolder):
 
     ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2, p3, p4, p5], loc='upper right', fontsize=12)
 
     ax.set_ylim(yLim_NR_RCS.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(1000))
@@ -199,8 +203,26 @@ def pollyDisplayBscKlettNR(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(0.02, 0.01, 'Version: {version}\nMethod: {method}'.format(
-        version=version, method='Klett'), fontsize=12)
+    if not np.isnan(refHBaseNR355):
+        refHBase355 = refHBaseNR355/1000
+        refHTop355 = refHTopNR355/1000
+    else:
+        refHBase355 = np.nan
+        refHTop355 = np.nan
+    if not np.isnan(refHBaseNR532):
+        refHBase532 = refHBaseNR532/1000
+        refHTop532 = refHTopNR532/1000
+    else:
+        refHBase532 = np.nan
+        refHTop532 = np.nan
+    fig.text(
+        0.23, 0.80,
+        'refH355: {0:4.1f}-{1:4.1f} km\n'.format(refHBase355, refHTop355) +
+        'refH532: {0:4.1f}-{1:4.1f} km'.format(refHBase532, refHTop532),
+        fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.4], alpha=1)
+    fig.text(
+        0.02, 0.01, 'Version: {0}\n'.format(version) +
+        'Method: {0}'.format('Klett'), fontsize=11)
 
     fig.savefig(
         os.path.join(

@@ -114,6 +114,7 @@ def pollyDisplayWVMR(tmpFile, saveFolder):
         time = mat['time'][:][0]
         wvmr = mat['wvmr'][:][0]
         flagWVCalibration = mat['flagWVCalibration'][:][0]
+        wvconstUsed = mat['wvconstUsed'][:][0][0]
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
@@ -187,8 +188,10 @@ def pollyDisplayWVMR(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(0.02, 0.01, 'Version: {version}\nCalibrated?: {status}'.format(
-        version=version, status=flagWVCalibration), fontsize=12)
+    fig.text(
+        0.02, 0.01,
+        'Version: {0}\nwvconst: {1:6.2f}\nCalibrated?: {2}'.format(
+            version, wvconstUsed, flagWVCalibration), fontsize=12)
 
     fig.savefig(
         os.path.join(
