@@ -369,7 +369,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'source', CampaignConfig.name);
-    netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', PollyConfig.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % volDepol_OC_klett_355
@@ -379,7 +379,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'source', CampaignConfig.name);
-    netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m];', PollyConfig.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_volDepol_OC_klett_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % volDepol_OC_raman_532
@@ -389,7 +389,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'source', CampaignConfig.name);
-    netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m];', PollyConfig.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_532, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % volDepol_OC_raman_355
@@ -399,7 +399,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'plot_range', [0, 0.4]);
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'source', CampaignConfig.name);
-    netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m];', PollyConfig.smoothWin_raman_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_volDepol_OC_raman_355, 'comment', sprintf('depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
     % parDepol_OC_klett_532
@@ -410,7 +410,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'molecular_depolarization_ratio', data.mdr532(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_std_klett_532
@@ -421,7 +421,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'molecular_depolarization_ratio', data.mdr532(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_klett_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_klett_355
@@ -432,7 +432,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'molecular_depolarization_ratio', data.mdr532(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_parDepol_OC_klett_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_std_klett_355
@@ -443,7 +443,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'molecular_depolarization_ratio', data.mdr355(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_klett_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_parDepol_OC_std_klett_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_raman_532
@@ -454,7 +454,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'molecular_depolarization_ratio', data.mdr532(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_std_raman_532
@@ -465,7 +465,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'molecular_depolarization_ratio', data.mdr532(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_raman_532 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_532 * data.hRes, data.polCaliEta532));
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_532, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_raman_355
@@ -476,7 +476,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'molecular_depolarization_ratio', data.mdr355(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_raman_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'retrieved_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_parDepol_OC_raman_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % parDepol_OC_std_raman_355
@@ -487,7 +487,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'plot_scale', 'linear');
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'source', CampaignConfig.name);
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'molecular_depolarization_ratio', data.mdr355(iGrp));
-    netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]', PollyConfig.smoothWin_raman_355 * data.hRes));
+    netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_355 * data.hRes, data.polCaliEta355));
     netcdf.putAtt(ncID, varID_parDepol_OC_std_raman_355, 'comment', sprintf('The aerosol backscatter profile was retrieved by raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
     % WVMR

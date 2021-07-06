@@ -536,7 +536,7 @@ def pollyxt_dwd_displayLTLCali(tmpFile, saveFolder):
     for elseTime in else_time:
         ax6.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
-    ax6.set_ylabel('V* 532')
+    ax6.set_ylabel('$\eta_{532}$')
     ax6.set_xlabel('Date (mm-dd)')
     ax6.set_ylim(depolConstLim532.tolist())
     ax6.xaxis.set_major_formatter(DateFormatter('%m-%d'))

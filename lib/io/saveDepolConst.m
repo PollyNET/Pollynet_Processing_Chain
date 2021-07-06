@@ -1,7 +1,7 @@
 function saveDepolConst(dbFile, depolconst, depolconstStd, ...
                          dcStartTime, dcStopTime, ...
                          pollyDataFilename, pollyType, wavelength)
-% SAVEDEPOLCONST save depolarization calibration results.
+% SAVEDEPOLCONST save polarization calibration results.
 % USAGE:
 %    saveDepolConst(dbFile, depolconst, depolconstStd, dcStartTime, 
 %                   dcStopTime, pollyDataFilename, pollyType, wavelength)
@@ -9,9 +9,9 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
 %    dbFile: char
 %        absolute path of the database.
 %    depolconst: array
-%        depolarization calibration constants.
+%        polarization calibration constants.
 %    depolconstStd: array
-%        uncertainty of depolarization calibration constants.
+%        uncertainty of polarization calibration constants.
 %    dcStartTime: array
 %        start time of each calibration period.
 %    dcStopTime: array

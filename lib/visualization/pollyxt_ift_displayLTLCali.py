@@ -585,7 +585,7 @@ def pollyxt_ift_displayLTLCali(tmpFile, saveFolder):
     for elseTime in else_time:
         ax7.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
-    ax7.set_ylabel('V* 532')
+    ax7.set_ylabel('$\eta_{532}$')
     ax7.set_xlabel('Date (mm-dd)')
     ax7.set_ylim(depolConstLim532.tolist())
     ax7.xaxis.set_major_formatter(DateFormatter('%m-%d'))

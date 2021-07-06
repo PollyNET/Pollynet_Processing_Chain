@@ -116,8 +116,8 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
         vdr532_raman = mat['vdr532_raman'][:][0]
         pdr355_raman = mat['pdr355_raman'][:][0]
         pdr532_raman = mat['pdr532_raman'][:][0]
-        polCaliFac355 = mat['polCaliFac355'][:][0]
-        polCaliFac532 = mat['polCaliFac532'][:][0]
+        polCaliEta355 = mat['polCaliEta355'][:][0]
+        polCaliEta532 = mat['polCaliEta532'][:][0]
         meteorSource = mat['meteorSource'][:][0]
         temperature = mat['temperature'][:][0]
         pressure = mat['pressure'][:][0]
@@ -200,8 +200,9 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
 
     fig.text(
         0.02, 0.01,
-        'Version: {0}\nMethod: {1}\nV*355: {2:6.4f}\nV*532: {3:6.4f}'.format(
-            version, 'Klett', polCaliFac355[0], polCaliFac532[0]), fontsize=12)
+        'Version: {0}\nMethod: {1}\n'.format(version, 'Raman') +
+        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}'.format(
+            polCaliEta355[0], polCaliEta532[0]), fontsize=12)
 
     fig.savefig(
         os.path.join(

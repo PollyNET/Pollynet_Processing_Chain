@@ -1,5 +1,5 @@
 function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst(depolconst, depolconstStd, depolCaliStartTime, depolCaliStopTime, queryTime, dbFile, pollyType, wavelength, varargin)
-% SELECTDEPOLCONST select most suitable depol calibration constant.
+% SELECTDEPOLCONST select most suitable eta of polarization calibration.
 % USAGE:
 %    [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] =
 %        selectDepolConst(depolconst, depolconstStd, depolCaliTime,
@@ -30,10 +30,10 @@ function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst
 %    deltaTime: datenum
 %        maximum time lapse between query time and calibration time of old
 %        calibration results.
-%    default_depolconst: double
+%    default_polCaliEta: double
 %        default depolarization calibration constant, which will be used if no
 %        suitable calibration results were found.
-%    default_depolconstStd: double
+%    default_polCaliEtaStd: double
 %        uncertainty of default depolarization calibration constant.
 % OUTPUTS:
 %    dcUsed: double
@@ -65,8 +65,8 @@ addRequired(p, 'pollyType', @ischar);
 addParameter(p, 'deltaTime', NaN, @isnumeric);
 addParameter(p, 'flagUsePrevDepolConst', true, @islogical);
 addParameter(p, 'flagDepolCali', true, @islogical);
-addParameter(p, 'default_depolconst', NaN, @isnumeric);
-addParameter(p, 'default_depolconstStd', NaN, @isnumeric);
+addParameter(p, 'default_polCaliEta', NaN, @isnumeric);
+addParameter(p, 'default_polCaliEtaStd', NaN, @isnumeric);
 
 parse(p, depolconst, depolconstStd, depolCaliStartTime, depolCaliStopTime, ...
       queryTime, dbFile, wavelength, pollyType, varargin{:});
@@ -93,8 +93,8 @@ else
         % there were no previous calibration results
         dcUsedStartTime = 0;
         dcUsedStopTime = 0;
-        dcUsed = p.Results.default_depolconst;
-        dcUsedStd = p.Results.default_depolconstStd;
+        dcUsed = p.Results.default_polCaliEta;
+        dcUsedStd = p.Results.default_polCaliEtaStd;
     else
         dcUsedStartTime = caliStartTime;
         dcUsedStopTime = caliStopTime;
