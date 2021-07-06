@@ -610,7 +610,7 @@ def pollyxt_displayLTLCali(tmpFile, saveFolder):
     for elseTime in else_time:
         ax7.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
-    ax7.set_ylabel('V* 355')
+    ax7.set_ylabel('$\eta_{355}$')
     ax7.grid(False)
     ax7.set_ylim(depolConstLim355.tolist())
     ax7.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
@@ -643,7 +643,7 @@ def pollyxt_displayLTLCali(tmpFile, saveFolder):
     for elseTime in else_time:
         ax8.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
-    ax8.set_ylabel('V* 532')
+    ax8.set_ylabel('$\eta_{532}$')
     ax8.set_xlabel('Date (mm-dd)')
     ax8.set_ylim(depolConstLim532.tolist())
     ax8.xaxis.set_major_formatter(DateFormatter('%m-%d'))

@@ -123,7 +123,7 @@ def pollyDisplayVDR532(tmpFile, saveFolder):
         depCalMask = mat['depCalMask'][0][:]
         fogMask = mat['fogMask'][0][:]
         vdr532 = mat['vdr532'][:]
-        polCaliFac532 = mat['polCaliFac532'][:][0]
+        polCaliEta532 = mat['polCaliEta532'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -210,9 +210,9 @@ def pollyDisplayVDR532(tmpFile, saveFolder):
             va='bottom', alpha=1, zorder=10)
 
     fig.text(
-        0.05, 0.02, '{0}\nV*: {1:6.4f}'.format(
+        0.05, 0.02, '{0}\n$\eta$: {1:6.2f}'.format(
             datenum_to_datetime(mTime[0]).strftime("%Y-%m-%d"),
-            polCaliFac532[0]), fontsize=12)
+            polCaliEta532[0]), fontsize=12)
     fig.text(0.2, 0.04, 'Version: {version}'.format(
         version=version), fontsize=14)
     fig.savefig(

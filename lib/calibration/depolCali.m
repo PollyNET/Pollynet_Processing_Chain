@@ -1,11 +1,11 @@
-function [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAttri] = depolCali(signal_t, ...
+function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAttri] = depolCali(signal_t, ...
         bg_t, signal_x, bg_x, time, polCaliPAngStartTime, ...
         polCaliPAngStopTime, polCaliNAngStartTime, ...
         polCaliNAngStopTime, TR_t, TR_x, caliHIndxRange, ...
         SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
-% depolCali depolarization calibration for PollyXT lidar system.
+% depolCali polarization calibration for PollyXT lidar system.
 % USAGE:
-%    [polCaliFac, polCaliFacStd, depol_cal_time] = depolCali(signal_t, 
+%    [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, depol_cal_time] = depolCali(signal_t, 
 %        bg_t, signal_x, bg_x, time, polCaliPAngStartTime, 
 %        polCaliPAngStopTime, polCaliNAngStartTime, 
 %        polCaliNAngStopTime, TR_t, TR_x, caliHIndxRange, 
@@ -42,16 +42,16 @@ function [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAt
 %        transmision at cross channel.
 %    caliHIndxRange: 2-element array
 %        range of height indexes at which the signal can be used for
-%        depolarization calibration.
+%        polarization calibration.
 %    SNRmin: array
 %        minimum SNR for calibration.
 %    sigMax: array
 %        maximum signal that could be used in the calibration to prevent
 %        pulse pileup effects. (Photon Count)
 %    rel_std_dplus: float
-%        maximum relative std of dplus that is allowed.
+%        maximum relative uncertainty of dplus that is allowed.
 %    rel_std_dplus: float
-%        maximum relative std of dminus that is allowed.
+%        maximum relative uncertainty of dminus that is allowed.
 %    segmentLen: integer
 %        segement length for testing the variability of the calibration results
 %        to prevent of cloud contamintaion.
@@ -60,10 +60,14 @@ function [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAt
 %    flagShowResults: logical
 %        flag to control whether to save the intermediate results.
 % OUTPUTS:
+%    polCaliEta: array
+%        eta from polarization calibration.
+%    polCaliEtaStd: array
+%        uncertainty of eta from polarizatrion calibration.
 %    polCaliFac: array
-%        depolarization calibration factor.
+%        polarization calibration factor.
 %    polCaliFacStd: array
-%        std of depolarization calibration factor.
+%        uncertainty of polarization calibration factor.
 %    polCaliStartTime: array
 %        start time for each successful calibration.
 %    polCaliStopTime: array
@@ -71,6 +75,8 @@ function [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAt
 %    globalAttri: struct
 %        all the information about the depol calibration.
 % EXAMPLE:
+% REFERENCE:
+%    1. Freudenthaler, V.: About the effects of polarising optics on lidar signals and the Δ90 calibration, Atmos. Meas. Tech., 9, 4181-4255, 10.5194/amt-9-4181-2016, 2016.
 % HISTORY:
 %    2018-07-25: First edition by Zhenping.
 %    2019-06-08: If no depol cali, return empty array.
@@ -79,6 +85,8 @@ function [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime, globalAt
 % .. Authors: - zhenping@tropos.de
 
 %% parameters initialization
+polCaliEta = [];
+polCaliEtaStd = [];
 polCaliFac = [];
 polCaliFacStd = [];
 mean_dminus = [];
@@ -109,7 +117,7 @@ globalAttri.segIndx = cell(0);
 globalAttri.caliTime = cell(0);
 
 if isempty(signal_t) || isempty(signal_x) 
-    warning('No data for depolarization calibration.');
+    warning('No data for polarization calibration.');
     return;
 end
 
@@ -246,11 +254,10 @@ if isempty(mean_dminus) || isempty(mean_dplus)
     return;
 end
 
-% calculate the depol-calibration factor and std
-polCaliFac = nanmean((1 + TR_t) ./ (1 + TR_x) .* ...
-                        sqrt(mean_dplus .* mean_dminus), 1);
-polCaliFacStd = nanmean(sqrt(((1 + TR_t) ./ (1 + TR_x) ./ ...
-                            sqrt(mean_dplus .* mean_dminus) .* ...
-        0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus)).^2), 1);
+% calculate the depol-calibration factor and unceratinty
+polCaliEta = sqrt(mean_dplus .* mean_dminus);
+polCaliEtaStd = 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus) ./ sqrt(mean_dplus .* mean_dminus);
+polCaliFac = nanmean((1 + TR_t) ./ (1 + TR_x) .* polCaliEta, 1);
+polCaliFacStd = nanmean((1 + TR_t) ./ (1 + TR_x) .* polCaliEtaStd, 1);
 
 end

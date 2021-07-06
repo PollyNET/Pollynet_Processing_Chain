@@ -1,22 +1,21 @@
-function [polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio, varargin)
+function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio, varargin)
 % POLLYPOLCALI calibrate the PollyXT cross channels for 355 and 532 nm
 % with ±45° method.
 % USAGE:
-%    [polCaliFac355, polCaliFacStd355, polCaliFac532, polCaliFacStd532, polCaliAttri] = pollyPolCali(data)
+%    [polCaliEta, polCaliEtaStd,polCaliFac, polCaliFacStd,  polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio)
 % INPUTS:
 %    data: struct
-%        More detailed information can be found in doc/pollynet_processing_program.md
 %    transRatio: array
 %        transmission ratios at each channel.
 % KEYWORDS:
 %    wavelength: char
 %        '355nm' or '532nm'.
 %    depolCaliMinBin: numeric
-%        minimum search index for stable depolarization calibration constants.
+%        minimum search index for stable polarization calibration constants.
 %    depolCaliMaxBin
-%        maximum search index for stable depolarization calibration constants.
+%        maximum search index for stable polarization calibration constants.
 %    depolCaliMinSNR: numeric
-%        minimum signal-noise ratio for calculating depolarization calibration constants.
+%        minimum signal-noise ratio for calculating polarization calibration constants.
 %    depolCaliMaxSig: numeric
 %        maximum signal in photon count (to avoid signal saturation).
 %    relStdDPlus: numeric
@@ -36,19 +35,22 @@ function [polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(d
 %        whether to use previous calibration constants.
 %    flagDepolCali: logical
 %        whether to perform depolarization calibration.
-%    default_depolconst: numeric
-%        default depolarization calibration constant.
-%    default_depolconstStd
-%        standard deviation of default depolarization calibration constant.
+%    default_polCaliEta: numeric
+%        default eta for polarization calibration.
+%    default_polCaliEtaStd
+%        uncertainty of default eta for polarization calibration.
 % OUTPUTS:
+%    polCaliEta: numeric
+%        polarization calibration eta.
+%    polCaliEtaStd: numeric
+%        uncertainty of eta for polarization calibration.
 %    polCaliFac: numeric
-%        depolarization calibration constant.
+%        polarization calibration constant.
 %    polCaliFacStd: numeric
-%        uncertainty of depolarization calibration constant.
+%        uncertainty of polarization calibration constant.
 %    polCaliTime: 2-element array
 %        [start, stop] time of depolarization calibration.
 %    polCaliAttri: struct
-%
 % EXAMPLE:
 % HISTORY:
 %    2018-12-17: First edition by Zhenping
@@ -75,11 +77,13 @@ addParameter(p, 'dbFile', '', @ischar);
 addParameter(p, 'pollyType', 'polly', @ischar);
 addParameter(p, 'flagUsePrevDepolConst', false, @islogical);
 addParameter(p, 'flagDepolCali', true', @islogical);
-addParameter(p, 'default_depolconst', NaN, @isnumeric);
-addParameter(p, 'default_depolconstStd', NaN, @isnumeric);
+addParameter(p, 'default_polCaliEta', NaN, @isnumeric);
+addParameter(p, 'default_polCaliEtaStd', NaN, @isnumeric);
 
 parse(p, data, transRatio, varargin{:});
 
+polCaliEta = [];
+polCaliEtaStd = [];
 polCaliFac = [];
 polCaliFacStd = [];
 polCaliTime = [];
@@ -108,7 +112,7 @@ case '355nm'
     sigCro355 = squeeze(data.signal(flagCro355, :, :));
     bgCro355 = squeeze(data.bg(flagCro355, :, :));
 
-    [polCaliFac355, polCaliFacStd355, polCaliStartTime355, polCaliStopTime355, polCalAttri355] = depolCali(...
+    [polCaliEta355, polCaliEtaStd355, polCaliFac355, polCaliFacStd355, polCaliStartTime355, polCaliStopTime355, polCalAttri355] = depolCali(...
         sigTot355, bgTot355, sigCro355, bgCro355, time, ...
         data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
         data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
@@ -117,26 +121,34 @@ case '355nm'
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
         p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
+        polCalAttri355.polCaliEta355 = polCaliEta355;
+        polCalAttri355.polCaliEtaStd355 = polCaliEtaStd355;
+    polCalAttri355.polCaliEta = polCaliEta355;
+    polCalAttri355.polCaliEtaStd = polCaliEtaStd355;
     polCalAttri355.polCaliFac = polCaliFac355;
     polCalAttri355.polCaliFacStd = polCaliFacStd355;
     polCalAttri355.polCaliStartTime = polCaliStartTime355;
     polCalAttri355.polCaliStopTime = polCaliStopTime355;
 
     if exist(p.Results.dbFile, 'file') == 2
-        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
-            polCaliFac355, polCaliFacStd355, ...
+        [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
+            polCaliEta355, polCaliEtaStd355, ...
             polCaliStartTime355, polCaliStopTime355, ...
             mean(time), p.Results.dbFile, p.Results.pollyType, '355', ...
             'flagUsePrevDepolConst', p.Results.flagUsePrevDepolConst, ...
             'flagDepolCali', p.Results.flagDepolCali, ...
             'deltaTime', datenum(0, 1, 7), ...
-            'default_depolconst', p.Results.default_depolconst, ...
-            'default_depolconstStd', p.Results.default_depolconstStd);
+            'default_polCaliEta', p.Results.default_polCaliEta, ...
+            'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
+        polCaliFac = (1 + transRatio(flagTot355)) ./ (1 + transRatio(flagCro355)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot355)) ./ (1 + transRatio(flagCro355)) * polCaliEtaStd;
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri355;
     else
-        polCaliFac = p.Results.default_depolconst;
-        polCaliFacStd = p.Results.default_depolconstStd;
+        polCaliEta = p.Results.default_polCaliEta;
+        polCaliEtaStd = p.Results.default_polCaliEtaStd;
+        polCaliFac = (1 + transRatio(flagTot355)) ./ (1 + transRatio(flagCro355)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot355)) ./ (1 + transRatio(flagCro355)) * polCaliEtaStd;
         polCaliTime = [polCaliStartTime355, polCaliStopTime355];
         polCaliAttri = polCalAttri355;
     end
@@ -156,7 +168,7 @@ case '532nm'
     sigCro532 = squeeze(data.signal(flagCro532, :, :));
     bgCro532 = squeeze(data.bg(flagCro532, :, :));
 
-    [polCaliFac532, polCaliFacStd532, polCaliStartTime532, polCaliStopTime532, polCalAttri532] = depolCali(...
+    [polCaliEta532, polCaliEtaStd532, polCaliFac532, polCaliFacStd532, polCaliStartTime532, polCaliStopTime532, polCalAttri532] = depolCali(...
         sigTot532, bgTot532, sigCro532, bgCro532, time, ...
         data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
         data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
@@ -165,26 +177,32 @@ case '532nm'
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
         p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
+    polCalAttri532.polCaliEta = polCaliEta532;
+    polCalAttri532.polCaliEtaStd = polCaliEtaStd532;
     polCalAttri532.polCaliFac = polCaliFac532;
     polCalAttri532.polCaliFacStd = polCaliFacStd532;
     polCalAttri532.polCaliStartTime = polCaliStartTime532;
     polCalAttri532.polCaliStopTime = polCaliStopTime532;
 
     if exist(p.Results.dbFile, 'file') == 2
-        [polCaliFac, polCaliFacStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
-            polCaliFac532, polCaliFacStd532, ...
+        [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
+            polCaliEta532, polCaliEtaStd532, ...
             polCaliStartTime532, polCaliStopTime532, ...
             mean(time), p.Results.dbFile, p.Results.pollyType, '532', ...
             'flagUsePrevDepolConst', p.Results.flagUsePrevDepolConst, ...
             'flagDepolCali', p.Results.flagDepolCali, ...
             'deltaTime', datenum(0, 1, 7), ...
-            'default_depolconst', p.Results.default_depolconst, ...
-            'default_depolconstStd', p.Results.default_depolconstStd);
+            'default_polCaliEta', p.Results.default_polCaliEta, ...
+            'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
+        polCaliFac = (1 + transRatio(flagTot532)) ./ (1 + transRatio(flagCro532)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot532)) ./ (1 + transRatio(flagCro532)) * polCaliEtaStd;
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri532;
     else
-        polCaliFac = p.Results.default_depolconst;
-        polCaliFacStd = p.Results.default_depolconstStd;
+        polCaliEta = p.Results.default_polCaliEta;
+        polCaliEtaStd = p.Results.default_polCaliEtaStd;
+        polCaliFac = (1 + transRatio(flagTot532)) ./ (1 + transRatio(flagCro532)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot532)) ./ (1 + transRatio(flagCro532)) * polCaliEtaStd;
         polCaliTime = [polCaliStartTime532, polCaliStopTime532];
         polCaliAttri = polCalAttri532;
     end
