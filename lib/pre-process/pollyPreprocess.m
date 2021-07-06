@@ -43,6 +43,26 @@ function data = pollyPreprocess(data, varargin)
 %        4: disable deadtime correction
 %    deadtimeParams: numeric
 %        deadtime parameters. (default: [])
+%    flagRamanTempCor: logical
+%        flag to implement temperature correction for Raman signal.
+%    flagRamanChannelTempCor: logical
+%        flag to denote channel that needs temperature correction.
+%    meteorDataSource: str
+%        meteorological data type.
+%        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
+%    gdas1Site: str
+%        the GDAS1 site for the current campaign.
+%    gdas1_folder: str
+%        the main folder of the GDAS1 profiles.
+%    radiosondeSitenum: integer
+%        site number, which can be found in 
+%        doc/radiosonde-station-list.txt.
+%    radiosondeFolder: str
+%        the folder of the sonding files.
+%    radiosondeType: integer
+%        file type of the radiosonde file.
+%        - 1: radiosonde file for MOSAiC (default)
+%        - 2: radiosonde file for MUA
 %    bgCorrectionIndex: 2-element array
 %        base and top index of bins for background estimation.
 %        (defaults: [1, 2])
@@ -139,6 +159,14 @@ addParameter(p, 'pollyType', 'arielle', @ischar);
 addParameter(p, 'flagDeadTimeCorrection', false, @islogical);
 addParameter(p, 'deadtimeCorrectionMode', 2, @isnumeric);
 addParameter(p, 'deadtimeParams', [], @isnumeric);
+addParameter(p, 'flagRamanTempCor', false, @islogical);
+addParameter(p, 'flagRamanChannelTempCor', false, @islogical);
+addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
+addParameter(p, 'gdas1Site', '', @ischar);
+addParameter(p, 'gdas1_folder', '', @ischar);
+addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
+addParameter(p, 'radiosondeFolder', '', @ischar);
+addParameter(p, 'radiosondeType', 1, @isnumeric);
 addParameter(p, 'bgCorrectionIndex', [1, 2], @isnumeric);
 addParameter(p, 'asl', 0, @isnumeric);
 addParameter(p, 'initialPolAngle', 0, @isnumeric);
@@ -215,8 +243,6 @@ if config.flagForceMeasTime
                  datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
 end
 
-%% 
-
 %% Deadtime correction
 rawSignal = pollyDTCor(data.rawSignal, data.mShots, data.hRes, ...
                 'flagDeadTimeCorrection', config.flagDeadTimeCorrection, ...
@@ -239,6 +265,26 @@ data.height = double((0:(size(data.signal, 2)-1)) * data.hRes * ...
 data.alt = double(data.height + config.asl);   % geopotential height
 % distance between range bin and system.
 data.distance0 = double(data.height ./ cos(data.zenithAng / 180 * pi));
+
+%% Temperature effect correction (for Raman signal)
+if config.flagRamanTempCor
+    temperature = loadMeteor(mean(data.mTime), data.alt, ...
+        'meteorDataSource', config.meteorDataSource, ...
+        'gdas1Site', config.gdas1Site, ...
+        'gdas1_folder', config.gdas1_folder, ...
+        'radiosondeSitenum', config.radiosondeSitenum, ...
+        'radiosondeFolder', config.radiosondeFolder, ...
+        'radiosondeType', config.radiosondeType, ...
+        'method', 'linear');
+    absTemp = temperature + 273.17;
+    corFac = transpose(exp(-0.001 * absTemp) ./ exp(-0.001210));
+
+    for iCh = 1:size(data.signal, 1)
+        if config.flagRamanChannelTempCor(iCh)
+            data.signal(iCh, :, :) = squeeze(data.signal(iCh, :, :)) ./ repmat(corFac, 1, size(signal, 3));
+        end
+    end
+end
 
 %% Mask for bins with low SNR
 SNR = pollySNR(data.signal, data.bg);

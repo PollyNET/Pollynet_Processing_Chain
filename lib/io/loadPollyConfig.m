@@ -53,6 +53,7 @@ pollyGlobalConfig.is407nm = logical(pollyGlobalConfig.is407nm);
 pollyGlobalConfig.is607nm = logical(pollyGlobalConfig.is607nm);
 pollyGlobalConfig.isRR = logical(pollyGlobalConfig.isRR);
 pollyGlobalConfig.isParallel = logical(pollyGlobalConfig.isParallel);
+pollyGlobalConfig.flagRamanChannelTempCor = logical(pollyGlobalConfig.flagRamanChannelTempCor);
 
 if isfield(pollyConfig, 'isFR')
     pollyConfig.isFR = logical(pollyConfig.isFR);
@@ -113,6 +114,11 @@ if isfield(pollyConfig, 'isParallel')
     pollyConfig.isParallel = logical(pollyConfig.isParallel);
 else
     pollyConfig.isParallel = false(1, length(pollyConfig.is532nm));
+end
+if isfield(pollyConfig, 'flagRamanChannelTempCor')
+    pollyConfig.flagRamanChannelTempCor = logical(pollyConfig.flagRamanChannelTempCor);
+else
+    pollyConfig.flagRamanChannelTempCor = false(1, length(pollyConfig.is532nm));
 end
 
 %% overwrite polly global configs
