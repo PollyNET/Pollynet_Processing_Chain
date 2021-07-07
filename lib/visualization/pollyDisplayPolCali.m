@@ -29,7 +29,7 @@ end
 flag532C = data.flagCrossChannel & data.flag532nmChannel & data.flagFarRangeChannel;
 flag532T = data.flagTotalChannel & data.flag532nmChannel & data.flagFarRangeChannel;
 
-if (sum(flag532C) == 1) && (sum(flag532T) == 1)
+if (sum(flag532C) == 1) && (sum(flag532T) == 1) && (~ PollyConfig.flagMolDepolCali)
     for iCali = 1:length(data.polCali532Attri.caliTime)  
         wavelength = 532; 
         time = data.mTime;
@@ -55,7 +55,7 @@ if (sum(flag532C) == 1) && (sum(flag532T) == 1)
         segIndx = data.polCali532Attri.segIndx{iCali};
         caliTime = data.polCali532Attri.caliTime{iCali};
 
-        %% display rcs 
+        %% display depol-cali results
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
         save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayPolCali.py'), tmpFile, saveFolder));
@@ -70,7 +70,7 @@ end
 flag355C = data.flagCrossChannel & data.flag355nmChannel & data.flagFarRangeChannel;
 flag355T = data.flagTotalChannel & data.flag355nmChannel & data.flagFarRangeChannel;
 
-if (sum(flag355C) == 1) && (sum(flag355T) == 1)
+if (sum(flag355C) == 1) && (sum(flag355T) == 1) && (~ PollyConfig.flagMolDepolCali)
     for iCali = 1:length(data.polCali355Attri.caliTime)  
         wavelength = 355; 
         time = data.mTime;
