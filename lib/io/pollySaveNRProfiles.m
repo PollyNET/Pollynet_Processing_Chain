@@ -34,24 +34,24 @@ for iGrp = 1:size(data.clFreGrps, 1)
     dimID_refHeight = netcdf.defDim(ncID, 'reference_height', 2);
 
     %% define variables
-    varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_method);
-    varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_method);
-    varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_method);
+    varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_method);
+    varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_method);
+    varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_method);
     varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_method);
     varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_method);
-    varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-    varID_aerBsc_klett_NR_355 = netcdf.defVar(ncID, 'aerBsc_klett_NR_355', 'NC_DOUBLE', dimID_height);
-    varID_aerBsc_klett_NR_532 = netcdf.defVar(ncID, 'aerBsc_klett_NR_532', 'NC_DOUBLE', dimID_height);
-    varID_aerBsc_raman_NR_355 = netcdf.defVar(ncID, 'aerBsc_raman_NR_355', 'NC_DOUBLE', dimID_height);
-    varID_aerBsc_raman_NR_532 = netcdf.defVar(ncID, 'aerBsc_raman_NR_532', 'NC_DOUBLE', dimID_height);
-    varID_aerExt_raman_NR_355 = netcdf.defVar(ncID, 'aerExt_raman_NR_355', 'NC_DOUBLE', dimID_height);
-    varID_aerExt_raman_NR_532 = netcdf.defVar(ncID, 'aerExt_raman_NR_532', 'NC_DOUBLE', dimID_height);
-    varID_aerLR_raman_NR_355 = netcdf.defVar(ncID, 'aerLR_raman_NR_355', 'NC_DOUBLE', dimID_height);
-    varID_aerLR_raman_NR_532 = netcdf.defVar(ncID, 'aerLR_raman_NR_532', 'NC_DOUBLE', dimID_height);
-    varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_DOUBLE', dimID_height);
-    varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_DOUBLE', dimID_height);
-    varID_reference_height_355 = netcdf.defVar(ncID, 'reference_height_355', 'NC_DOUBLE', dimID_refHeight);
-    varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_DOUBLE', dimID_refHeight);
+    varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+    varID_aerBsc_klett_NR_355 = netcdf.defVar(ncID, 'aerBsc_klett_NR_355', 'NC_FLOAT', dimID_height);
+    varID_aerBsc_klett_NR_532 = netcdf.defVar(ncID, 'aerBsc_klett_NR_532', 'NC_FLOAT', dimID_height);
+    varID_aerBsc_raman_NR_355 = netcdf.defVar(ncID, 'aerBsc_raman_NR_355', 'NC_FLOAT', dimID_height);
+    varID_aerBsc_raman_NR_532 = netcdf.defVar(ncID, 'aerBsc_raman_NR_532', 'NC_FLOAT', dimID_height);
+    varID_aerExt_raman_NR_355 = netcdf.defVar(ncID, 'aerExt_raman_NR_355', 'NC_FLOAT', dimID_height);
+    varID_aerExt_raman_NR_532 = netcdf.defVar(ncID, 'aerExt_raman_NR_532', 'NC_FLOAT', dimID_height);
+    varID_aerLR_raman_NR_355 = netcdf.defVar(ncID, 'aerLR_raman_NR_355', 'NC_FLOAT', dimID_height);
+    varID_aerLR_raman_NR_532 = netcdf.defVar(ncID, 'aerLR_raman_NR_532', 'NC_FLOAT', dimID_height);
+    varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_FLOAT', dimID_height);
+    varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_FLOAT', dimID_height);
+    varID_reference_height_355 = netcdf.defVar(ncID, 'reference_height_355', 'NC_FLOAT', dimID_refHeight);
+    varID_reference_height_532 = netcdf.defVar(ncID, 'reference_height_532', 'NC_FLOAT', dimID_refHeight);
 
     % define the filling value
     netcdf.defVarFill(ncID, varID_aerBsc_klett_NR_355, false, missing_value);
@@ -85,24 +85,24 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.endDef(ncID);
 
     %% write data to .nc file
-    netcdf.putVar(ncID, varID_altitude, data.alt0);
-    netcdf.putVar(ncID, varID_longitude, data.lon);
-    netcdf.putVar(ncID, varID_latitude, data.lat);
+    netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+    netcdf.putVar(ncID, varID_longitude, single(data.lon));
+    netcdf.putVar(ncID, varID_latitude, single(data.lat));
     netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
     netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
-    netcdf.putVar(ncID, varID_height, data.height);
-    netcdf.putVar(ncID, varID_aerBsc_klett_NR_355, fillmissing(data.aerBsc355_NR_klett(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerBsc_klett_NR_532, fillmissing(data.aerBsc532_NR_klett(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerBsc_raman_NR_355, fillmissing(data.aerBsc355_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerBsc_raman_NR_532, fillmissing(data.aerBsc532_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerExt_raman_NR_355, fillmissing(data.aerExt355_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerExt_raman_NR_532, fillmissing(data.aerExt532_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerLR_raman_NR_355, fillmissing(data.LR355_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_aerLR_raman_NR_532, fillmissing(data.LR532_NR_raman(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_temperature, fillmissing(data.temperature(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_pressure, fillmissing(data.pressure(iGrp, :), missing_value));
-    netcdf.putVar(ncID, varID_reference_height_355, refH355);
-    netcdf.putVar(ncID, varID_reference_height_532, refH532);
+    netcdf.putVar(ncID, varID_height, single(data.height));
+    netcdf.putVar(ncID, varID_aerBsc_klett_NR_355, single(fillmissing(data.aerBsc355_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_klett_NR_532, single(fillmissing(data.aerBsc532_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_raman_NR_355, single(fillmissing(data.aerBsc355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_raman_NR_532, single(fillmissing(data.aerBsc532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExt_raman_NR_355, single(fillmissing(data.aerExt355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExt_raman_NR_532, single(fillmissing(data.aerExt532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLR_raman_NR_355, single(fillmissing(data.LR355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLR_raman_NR_532, single(fillmissing(data.LR532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_temperature, single(fillmissing(data.temperature(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_pressure, single(fillmissing(data.pressure(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_reference_height_355, single(refH355));
+    netcdf.putVar(ncID, varID_reference_height_532, single(refH532));
 
     % reenter define mode
     netcdf.reDef(ncID);

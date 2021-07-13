@@ -28,28 +28,28 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 %% define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_att_bsc_355 = netcdf.defVar(ncID, 'attenuated_backscatter_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_att_bsc_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_1064nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_355 = netcdf.defVar(ncID, 'quality_mask_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_SNR_355 = netcdf.defVar(ncID, 'SNR_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_SNR_532 = netcdf.defVar(ncID, 'SNR_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_SNR_1064 = netcdf.defVar(ncID, 'SNR_1064nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_att_bsc_355 = netcdf.defVar(ncID, 'attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quality_mask_355 = netcdf.defVar(ncID, 'quality_mask_355nm', 'NC_BYTE', [dimID_height, dimID_time]);
+varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532nm', 'NC_BYTE', [dimID_height, dimID_time]);
+varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064nm', 'NC_BYTE', [dimID_height, dimID_time]);
+varID_SNR_355 = netcdf.defVar(ncID, 'SNR_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_SNR_532 = netcdf.defVar(ncID, 'SNR_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_SNR_1064 = netcdf.defVar(ncID, 'SNR_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_att_bsc_355, false, missing_value);
 netcdf.defVarFill(ncID, varID_att_bsc_532, false, missing_value);
 netcdf.defVarFill(ncID, varID_att_bsc_1064, false, missing_value);
-netcdf.defVarFill(ncID, varID_quality_mask_355, false, missing_value);
-netcdf.defVarFill(ncID, varID_quality_mask_532, false, missing_value);
-netcdf.defVarFill(ncID, varID_quality_mask_1064, false, missing_value);
+netcdf.defVarFill(ncID, varID_quality_mask_355, false, 1);
+netcdf.defVarFill(ncID, varID_quality_mask_532, false, 1);
+netcdf.defVarFill(ncID, varID_quality_mask_1064, false, 1);
 netcdf.defVarFill(ncID, varID_SNR_355, false, missing_value);
 netcdf.defVarFill(ncID, varID_SNR_532, false, missing_value);
 netcdf.defVarFill(ncID, varID_SNR_1064, false, missing_value);
@@ -68,40 +68,37 @@ netcdf.defVarDeflate(ncID, varID_SNR_1064, true, true, 5);
 % leave define mode
 netcdf.endDef(ncID);
 
-%% re-generate SNR and quality mask for attenuated backscatter
-% (temporary solution to be compatible with Cloudnet)
-
 %calculate the quality mask to filter the points with high SNR
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 
 %% write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
-netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_att_bsc_355, fillmissing(data.att_beta_355, missing_value));
-netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_532, missing_value));
-netcdf.putVar(ncID, varID_att_bsc_1064, fillmissing(data.att_beta_1064, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_355, fillmissing(data.quality_mask_355, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_532, fillmissing(data.quality_mask_532, missing_value));
-netcdf.putVar(ncID, varID_quality_mask_1064, fillmissing(data.quality_mask_1064, missing_value));
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
+netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_att_bsc_355, single(fillmissing(data.att_beta_355, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_532, single(fillmissing(data.att_beta_532, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_1064, single(fillmissing(data.att_beta_1064, missing_value)));
+netcdf.putVar(ncID, varID_quality_mask_355, int8(fillmissing(data.quality_mask_355, 1)));
+netcdf.putVar(ncID, varID_quality_mask_532, int8(fillmissing(data.quality_mask_532, 1)));
+netcdf.putVar(ncID, varID_quality_mask_1064, int8(fillmissing(data.quality_mask_1064, 1)));
 if sum(flag355) == 1
-    netcdf.putVar(ncID, varID_SNR_355, fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value));
+    netcdf.putVar(ncID, varID_SNR_355, single(fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value)));
 else
-    netcdf.putVar(ncID, varID_SNR_355, missing_value * ones(length(data.height), length(data.mTime)));
+    netcdf.putVar(ncID, varID_SNR_355, single(missing_value * ones(length(data.height), length(data.mTime))));
 end
 if sum(flag532) == 1
-    netcdf.putVar(ncID, varID_SNR_532, fillmissing(squeeze(data.SNR(flag532, :, :)), missing_value));
+    netcdf.putVar(ncID, varID_SNR_532, single(fillmissing(squeeze(data.SNR(flag532, :, :)), missing_value)));
 else
-    netcdf.putVar(ncID, varID_SNR_532, missing_value * ones(length(data.height), length(data.mTime)));
+    netcdf.putVar(ncID, varID_SNR_532, single(missing_value * ones(length(data.height), length(data.mTime))));
 end
 if sum(flag1064) == 1
-    netcdf.putVar(ncID, varID_SNR_1064, fillmissing(squeeze(data.SNR(flag1064, :, :)), missing_value));
+    netcdf.putVar(ncID, varID_SNR_1064, single(fillmissing(squeeze(data.SNR(flag1064, :, :)), missing_value)));
 else
-    netcdf.putVar(ncID, varID_SNR_1064, missing_value * ones(length(data.height), length(data.mTime)));
+    netcdf.putVar(ncID, varID_SNR_1064, single(missing_value * ones(length(data.height), length(data.mTime))));
 end
 
 % re enter define mode

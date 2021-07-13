@@ -48,16 +48,16 @@ dimID_method = netcdf.defDim(ncID, 'method', 1);
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 %% define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_constant);
 varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_DOUBLE', dimID_height);
-varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_DOUBLE', dimID_height);
-varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_DOUBLE', dimID_height);
-varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_DOUBLE', dimID_height);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_FLOAT', dimID_height);
+varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_FLOAT', dimID_height);
+varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_FLOAT', dimID_height);
+varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_FLOAT', dimID_height);
 varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
 
 % define the filling value
@@ -76,17 +76,17 @@ netcdf.defVarDeflate(ncID, varID_overlap532Defaults, true, true, 5);
 netcdf.endDef(ncID);
 
 %% write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_overlap532, overlap532);
-netcdf.putVar(ncID, varID_overlap355, overlap355);
-netcdf.putVar(ncID, varID_overlap532Defaults, overlap532Defaults);
-netcdf.putVar(ncID, varID_overlap355Defaults, overlap355Defaults);
-netcdf.putVar(ncID, varID_overlapCalMethod, PollyConfig.overlapCalMode);
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_overlap532, single(overlap532));
+netcdf.putVar(ncID, varID_overlap355, single(overlap355));
+netcdf.putVar(ncID, varID_overlap532Defaults, single(overlap532Defaults));
+netcdf.putVar(ncID, varID_overlap355Defaults, single(overlap355Defaults));
+netcdf.putVar(ncID, varID_overlapCalMethod, int16(PollyConfig.overlapCalMode));
 
 % re enter define mode
 netcdf.reDef(ncID);

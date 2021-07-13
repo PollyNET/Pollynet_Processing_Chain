@@ -26,27 +26,27 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_quasi_bsc_532 = netcdf.defVar(ncID, 'quasi_bsc_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quasi_bsc_1064 = netcdf.defVar(ncID, 'quasi_bsc_1064', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quasi_pardepol_532 = netcdf.defVar(ncID, 'quasi_pardepol_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quasi_ang_532_1064 = netcdf.defVar(ncID, 'quasi_ang_532_1064', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_quasi_bsc_532 = netcdf.defVar(ncID, 'quasi_bsc_532', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_1064 = netcdf.defVar(ncID, 'quasi_bsc_1064', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_pardepol_532 = netcdf.defVar(ncID, 'quasi_pardepol_532', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_ang_532_1064 = netcdf.defVar(ncID, 'quasi_ang_532_1064', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_BYTE', [dimID_height, dimID_time]);
+varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064', 'NC_BYTE', [dimID_height, dimID_time]);
+varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532', 'NC_BYTE', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_bsc_1064, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_ang_532_1064, false, -999);
-netcdf.defVarFill(ncID, varID_quality_mask_532, false, -999);
-netcdf.defVarFill(ncID, varID_quality_mask_1064, false, -999);
-netcdf.defVarFill(ncID, varID_quality_mask_voldepol_532, false, -999);
+netcdf.defVarFill(ncID, varID_quality_mask_532, false, 1);
+netcdf.defVarFill(ncID, varID_quality_mask_1064, false, 1);
+netcdf.defVarFill(ncID, varID_quality_mask_voldepol_532, false, 1);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
@@ -61,18 +61,18 @@ netcdf.defVarDeflate(ncID, varID_quality_mask_voldepol_532, true, true, 5);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_quasi_bsc_532, data.qsiBsc532V1);
-netcdf.putVar(ncID, varID_quasi_bsc_1064, data.qsiBsc1064V1);
-netcdf.putVar(ncID, varID_quasi_pardepol_532, data.qsiPDR532V1);
-netcdf.putVar(ncID, varID_quasi_ang_532_1064, data.qsiAE_532_1064_V1);
-netcdf.putVar(ncID, varID_quality_mask_532, data.quality_mask_532);
-netcdf.putVar(ncID, varID_quality_mask_1064, data.quality_mask_1064);
-netcdf.putVar(ncID, varID_quality_mask_voldepol_532, data.quality_mask_vdr_532);
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_quasi_bsc_532, single(data.qsiBsc532V1));
+netcdf.putVar(ncID, varID_quasi_bsc_1064, single(data.qsiBsc1064V1));
+netcdf.putVar(ncID, varID_quasi_pardepol_532, single(data.qsiPDR532V1));
+netcdf.putVar(ncID, varID_quasi_ang_532_1064, single(data.qsiAE_532_1064_V1));
+netcdf.putVar(ncID, varID_quality_mask_532, int8(data.quality_mask_532));
+netcdf.putVar(ncID, varID_quality_mask_1064, int8(data.quality_mask_1064));
+netcdf.putVar(ncID, varID_quality_mask_voldepol_532, int8(data.quality_mask_vdr_532));
 
 % re enter define mode
 netcdf.reDef(ncID);

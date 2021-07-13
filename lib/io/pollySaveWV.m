@@ -28,18 +28,18 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_RH = netcdf.defVar(ncID, 'RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_RH = netcdf.defVar(ncID, 'RH', 'NC_FLOAT', [dimID_height, dimID_time]);
 if isfield(data, 'quality_mask_WVMR')
-    varID_QM_WVMR = netcdf.defVar(ncID, 'QM_WVMR', 'NC_DOUBLE', [dimID_height, dimID_time]);
+    varID_QM_WVMR = netcdf.defVar(ncID, 'QM_WVMR', 'NC_BYTE', [dimID_height, dimID_time]);
 end
 if isfield(data, 'quality_mask_RH')
-    varID_QM_RH = netcdf.defVar(ncID, 'QM_RH', 'NC_DOUBLE', [dimID_height, dimID_time]);
+    varID_QM_RH = netcdf.defVar(ncID, 'QM_RH', 'NC_BYTE', [dimID_height, dimID_time]);
 end
 % define the filling value
 netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
@@ -53,18 +53,18 @@ netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_latitude, data.lat);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_height, data.height);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_height, single(data.height));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
-netcdf.putVar(ncID, varID_WVMR, fillmissing(data.WVMR, missing_value));	
-netcdf.putVar(ncID, varID_RH, fillmissing(data.RH, missing_value));
+netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.WVMR, missing_value)));	
+netcdf.putVar(ncID, varID_RH, single(fillmissing(data.RH, missing_value)));
 
 % Quality_mask_WVMR
-netcdf.putVar(ncID, varID_QM_WVMR, fillmissing(data.quality_mask_WVMR, missing_value));
+netcdf.putVar(ncID, varID_QM_WVMR, int8(fillmissing(data.quality_mask_WVMR, missing_value)));
 % Quality_mask_RH
-netcdf.putVar(ncID, varID_QM_RH, fillmissing(data.quality_mask_RH, missing_value));
+netcdf.putVar(ncID, varID_QM_RH, int8(fillmissing(data.quality_mask_RH, missing_value)));
 
 % re enter define mode
 netcdf.reDef(ncID);

@@ -26,13 +26,13 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_voldepol_355 = netcdf.defVar(ncID, 'volume_depolarization_ratio_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_voldepol_532 = netcdf.defVar(ncID, 'volume_depolarization_ratio_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_voldepol_355 = netcdf.defVar(ncID, 'volume_depolarization_ratio_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_voldepol_532 = netcdf.defVar(ncID, 'volume_depolarization_ratio_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_voldepol_355, false, -999);
@@ -46,13 +46,13 @@ netcdf.defVarDeflate(ncID, varID_voldepol_532, true, true, 5);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_voldepol_355, data.vdr355);
-netcdf.putVar(ncID, varID_voldepol_532, data.vdr532);
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_voldepol_355, single(data.vdr355));
+netcdf.putVar(ncID, varID_voldepol_532, single(data.vdr532));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -109,7 +109,7 @@ netcdf.putAtt(ncID, varID_voldepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_voldepol_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_voldepol_532, 'error_variable', 'voldepol_532_error');
 netcdf.putAtt(ncID, varID_voldepol_532, 'bias_variable', 'voldepol_532_bias');
-netcdf.putAtt(ncID, varID_voldepol_532, 'comment', sprintf('The depolarization ratio was calibrated with \Delta 90\circ method. (eta: %f)', data.polCaliEta355));
+netcdf.putAtt(ncID, varID_voldepol_532, 'comment', sprintf('The depolarization ratio was calibrated with \\Delta 90\\circ method. (eta: %f)', data.polCaliEta355));
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

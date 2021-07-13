@@ -34,20 +34,20 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_layer_index = netcdf.defVar(ncID, 'layer_index', 'NC_DOUBLE', dimID_layer_index);
-varID_cloud_base_height = netcdf.defVar(ncID, 'cloud_base_height', 'NC_DOUBLE', [dimID_layer_index, dimID_time]);
-varID_cloud_top_height = netcdf.defVar(ncID, 'cloud_top_height', 'NC_DOUBLE', [dimID_layer_index, dimID_time]);
-varID_cloud_phase = netcdf.defVar(ncID, 'cloud_phase', 'NC_DOUBLE', [dimID_layer_index, dimID_time]);
-varID_cloud_phase_probability = netcdf.defVar(ncID, 'cloud_phase_probability', 'NC_DOUBLE', [dimID_layer_index, dimID_time]);
+varID_layer_index = netcdf.defVar(ncID, 'layer_index', 'NC_BYTE', dimID_layer_index);
+varID_cloud_base_height = netcdf.defVar(ncID, 'cloud_base_height', 'NC_FLOAT', [dimID_layer_index, dimID_time]);
+varID_cloud_top_height = netcdf.defVar(ncID, 'cloud_top_height', 'NC_FLOAT', [dimID_layer_index, dimID_time]);
+varID_cloud_phase = netcdf.defVar(ncID, 'cloud_phase', 'NC_BYTE', [dimID_layer_index, dimID_time]);
+varID_cloud_phase_probability = netcdf.defVar(ncID, 'cloud_phase_probability', 'NC_FLOAT', [dimID_layer_index, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_cloud_base_height, false, NaN);
 netcdf.defVarFill(ncID, varID_cloud_top_height, false, NaN);
-netcdf.defVarFill(ncID, varID_cloud_phase, false, NaN);
+netcdf.defVarFill(ncID, varID_cloud_phase, false, 0);
 netcdf.defVarFill(ncID, varID_cloud_phase_probability, false, NaN);
 
 % define the data compression
@@ -60,15 +60,15 @@ netcdf.defVarDeflate(ncID, varID_cloud_phase_probability, true, true, 5);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_layer_index, 1:size(data.clBaseH, 1));
-netcdf.putVar(ncID, varID_cloud_base_height, data.clBaseH);
-netcdf.putVar(ncID, varID_cloud_top_height, data.clTopH);
-netcdf.putVar(ncID, varID_cloud_phase, data.clPh);
-netcdf.putVar(ncID, varID_cloud_phase_probability, data.clPhProb);
+netcdf.putVar(ncID, varID_layer_index, int8(1:size(data.clBaseH, 1)));
+netcdf.putVar(ncID, varID_cloud_base_height, single(data.clBaseH));
+netcdf.putVar(ncID, varID_cloud_top_height, single(data.clTopH));
+netcdf.putVar(ncID, varID_cloud_phase, int8(data.clPh));
+netcdf.putVar(ncID, varID_cloud_phase_probability, single(data.clPhProb));
 
 % re enter define mode
 netcdf.reDef(ncID);
