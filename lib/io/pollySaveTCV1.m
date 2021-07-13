@@ -27,15 +27,15 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 % define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_tc_mask = netcdf.defVar(ncID, 'target_classification', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_tc_mask = netcdf.defVar(ncID, 'target_classification', 'NC_BYTE', [dimID_height, dimID_time]);
 
 % define the filling value
-netcdf.defVarFill(ncID, varID_tc_mask, false, NaN);
+netcdf.defVarFill(ncID, varID_tc_mask, false, 0);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_tc_mask, true, true, 5);
@@ -44,12 +44,12 @@ netcdf.defVarDeflate(ncID, varID_tc_mask, true, true, 5);
 netcdf.endDef(ncID);
 
 % write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_tc_mask, data.tcMaskV1);
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_tc_mask, int8(data.tcMaskV1));
 
 % re enter define mode
 netcdf.reDef(ncID);

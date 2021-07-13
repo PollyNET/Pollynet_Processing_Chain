@@ -26,13 +26,13 @@ dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
 %% define variables
-varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_DOUBLE', dimID_constant);
-varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_DOUBLE', dimID_constant);
-varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_DOUBLE', dimID_constant);
+varID_altitude = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_constant);
+varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
+varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
-varID_height = netcdf.defVar(ncID, 'height', 'NC_DOUBLE', dimID_height);
-varID_att_bsc_355 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_355nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
-varID_att_bsc_532 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_532nm', 'NC_DOUBLE', [dimID_height, dimID_time]);
+varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_att_bsc_355 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_532 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_att_bsc_355, false, missing_value);
@@ -46,13 +46,13 @@ netcdf.defVarDeflate(ncID, varID_att_bsc_532, true, true, 5);
 netcdf.endDef(ncID);
 
 %% write data to .nc file
-netcdf.putVar(ncID, varID_altitude, data.alt0);
-netcdf.putVar(ncID, varID_longitude, data.lon);
-netcdf.putVar(ncID, varID_latitude, data.lat);
+netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+netcdf.putVar(ncID, varID_longitude, single(data.lon));
+netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
-netcdf.putVar(ncID, varID_height, data.height);
-netcdf.putVar(ncID, varID_att_bsc_355, fillmissing(data.att_beta_NR_355, missing_value));
-netcdf.putVar(ncID, varID_att_bsc_532, fillmissing(data.att_beta_NR_532, missing_value));
+netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_att_bsc_355, single(fillmissing(data.att_beta_NR_355, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_532, single(fillmissing(data.att_beta_NR_532, missing_value)));
 
 % re enter define mode
 netcdf.reDef(ncID);
