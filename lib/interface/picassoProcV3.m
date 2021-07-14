@@ -1022,7 +1022,7 @@ if PollyConfig.flagMolDepolCali
 end
 
 %% Lidar retrievals for aerosol optical properties
-print_msg('Start to retrieve aerosol optical properties.\n', 'flagTimestamp', true);
+print_msg('Start retrieving aerosol optical properties.\n', 'flagTimestamp', true);
 
 meteorStr = '';
 for iMeteor = 1:length(meteorAttri.dataSource)
@@ -1325,7 +1325,7 @@ aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR355_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD355 = NaN(size(clFreGrps, 1), 1);
-for iGrp = size(clFreGrps, 1)
+for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
         continue;
@@ -1361,7 +1361,7 @@ aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR532_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD532 = NaN(size(clFreGrps, 1), 1);
-for iGrp = size(clFreGrps, 1)
+for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
         continue;
@@ -1397,7 +1397,7 @@ aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
-for iGrp = size(clFreGrps, 1)
+for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
         continue;
