@@ -31,7 +31,7 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 %       Interpolation method. (default: 'nearest')
 % OUTPUTS:
 %   temp: matrix (time * height)
-%       temperature for each range bin. [C]
+%       temperature for each range bin. [°C]
 %   pres: matrix (time * height)
 %       pressure for each range bin. [hPa]
 %   relh: matrix (time * height)
