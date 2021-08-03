@@ -19,6 +19,8 @@ I will summarize all the configurations in the table below. But you should keep 
 |flagUsePreviousWVconst|whether to take previous lidar water vapor calibration results when no water vapor calibration is available|true||
 |flagUsePreviousLC|whether to take previous lidar calibration constants when no lidar calibration is available|true||
 |flagUseSameRefH|whether to take the same reference height for aerosol retrievals at all available wavelength|false||
+|flagSigTempCor|whether to implement signal temperature correction|false||
+|tempCorFunc|temperature correction function for each channel|["1", "exp(-0.001*T)", "1"] (Unit: Kelvin)||
 |flagAutoscaleRCS|to control whether to configure the color-range for range corrected signal in an automatic way|true||
 |flagMolDepolCali|to control whether to use molecular depolarization calibration|false|H. Baars, PhD thesis, 2012|
 |MWRFolder|The folder of prw results from MWR. (This is only for LACROS)|"C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR"||

@@ -43,10 +43,12 @@ function data = pollyPreprocess(data, varargin)
 %        4: disable deadtime correction
 %    deadtimeParams: numeric
 %        deadtime parameters. (default: [])
-%    flagRamanTempCor: logical
-%        flag to implement temperature correction for Raman signal.
-%    flagRamanChannelTempCor: logical
-%        flag to denote channel that needs temperature correction.
+%    flagSigTempCor: logical
+%        flag to implement signal temperature correction.
+%    tempCorFunc: cell
+%        symbolic function for signal temperature correction.
+%        "1": no correction
+%        "exp(-0.001*T)": exponential correction function. (Unit: Kelvin)
 %    meteorDataSource: str
 %        meteorological data type.
 %        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
@@ -159,8 +161,8 @@ addParameter(p, 'pollyType', 'arielle', @ischar);
 addParameter(p, 'flagDeadTimeCorrection', false, @islogical);
 addParameter(p, 'deadtimeCorrectionMode', 2, @isnumeric);
 addParameter(p, 'deadtimeParams', [], @isnumeric);
-addParameter(p, 'flagRamanTempCor', false, @islogical);
-addParameter(p, 'flagRamanChannelTempCor', false, @islogical);
+addParameter(p, 'flagSigTempCor', false, @islogical);
+addParameter(p, 'tempCorFunc', '', @iscell);
 addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
 addParameter(p, 'gdas1Site', '', @ischar);
 addParameter(p, 'gdas1_folder', '', @ischar);
@@ -267,7 +269,7 @@ data.alt = double(data.height + config.asl);   % geopotential height
 data.distance0 = double(data.height ./ cos(data.zenithAng / 180 * pi));
 
 %% Temperature effect correction (for Raman signal)
-if config.flagRamanTempCor
+if config.flagSigTempCor
     temperature = loadMeteor(mean(data.mTime), data.alt, ...
         'meteorDataSource', config.meteorDataSource, ...
         'gdas1Site', config.gdas1Site, ...
@@ -277,12 +279,12 @@ if config.flagRamanTempCor
         'radiosondeType', config.radiosondeType, ...
         'method', 'linear');
     absTemp = temperature + 273.17;
-    corFac = transpose(exp(-0.001 * absTemp) ./ exp(-0.001210));
-
+    
+    syms T
     for iCh = 1:size(data.signal, 1)
-        if config.flagRamanChannelTempCor(iCh)
-            data.signal(iCh, :, :) = squeeze(data.signal(iCh, :, :)) ./ repmat(corFac, 1, size(signal, 3));
-        end
+        corFunc = sym(config.tempCorFunc{iCh});
+        corFac = double(subs(corFunc, T, absTemp));
+        data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
 end
 

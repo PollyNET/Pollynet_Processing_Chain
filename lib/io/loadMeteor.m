@@ -78,7 +78,7 @@ if p.Results.flagReadLess
     % the same meteorological profile. Therefore, using the keyword 'flagReadLess'
     % can avoid it because it only allow the program to access meteorological at 
     % interval of 1 hour.
-    mTimeQry = mTime(1):datenum(0, 1, 0, 3, 0, 0):mTime(end);
+    mTimeQry = (mTime(1) - datenum(0, 1, 0, 3, 0, 0)):datenum(0, 1, 0, 3, 0, 0):(mTime(end) + datenum(0, 1, 0, 3, 0, 0));
 else
     mTimeQry = mTime;
 end
