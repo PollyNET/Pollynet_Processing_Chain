@@ -1,0 +1,20 @@
+{
+    "depolCaliConst532": 0,
+    "depolCaliConstStd532": 0,
+    "depolCaliConst355": 0,
+    "depolCaliConstStd355": 0,
+    "polCaliEta532": 0,
+    "polCaliEtaStd532": 0,
+    "polCaliEta355": 0,
+    "polCaliEtaStd355": 0,
+    "LC": [],
+    "LCStd": [],
+    "overlapFile532": "",
+    "overlapFile355": "",
+    "molDepol532": 0,
+    "molDepolStd532": 0,
+    "molDepol355": 0,
+    "molDepolStd355": 0,
+    "wvconst": 0,
+    "wvconstStd": 0
+}
