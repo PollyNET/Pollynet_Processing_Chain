@@ -202,7 +202,7 @@ if (~ flagLowSNR) && (~ flagNoIWVMeas) && (~ flagNotEnough407Prf) && ...
     wvconstStd = 0;   % TODO: this can be done by taking into account of
                         % the uncertainty of IWV by AERONET and the signal
                         % uncertainty by lidar.
-                    end
+end
 
 globalAttri.WVCaliInfo = thisWVCaliInfo;
 globalAttri.IntRange = thisIntRange;
