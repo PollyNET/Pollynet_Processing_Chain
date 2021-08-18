@@ -1,5 +1,5 @@
 function [depCal_P_Ang_time_start, depCal_P_Ang_time_end, depCal_N_Ang_time_start, depCal_N_Ang_time_end, maskDepCal] = pollyPolCaliTime(depCalAng, mTime, init_depAng, maskDepCalAng)
-% pollyPolCaliTime Retrieve the time for the polly depolarization calibration 
+% POLLYPOLCALITIME Retrieve the time for the polly depolarization calibration 
 % period. depolarization calibration: 5 min (+45°) + 5 min (-45°) + 0.5 min 
 % (which I don't know why)
 % USAGE:
