@@ -130,8 +130,8 @@ for iIndx = 1:length(dpIndx) - 1
         deltaSig_aer = nanstd(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_aer = nanmean(sig_aer_norm(jIndx:(jIndx + winLen)));
         meanSig_mol = nanmean(sig_mol(jIndx:(jIndx + winLen)));
-        SNRTmp = pollySNR(nansum(pc(jIndx:(jIndx + winLen))), ...
-                           nansum(bg(jIndx:(jIndx + winLen))));
+        % SNRTmp = pollySNR(nansum(pc(jIndx:(jIndx + winLen))), ...
+        %                    nansum(bg(jIndx:(jIndx + winLen))));
 
         if ~ ((meanSig_aer + deltaSig_aer/3) >= meanSig_mol) && (flagShowDetail)
             fprintf(['Region %d: %f - %f fails in near and far-Range ' ...
