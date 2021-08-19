@@ -1,19 +1,24 @@
 function [report] = picassoProcTodolist(PicassoConfigFile, varargin)
 % PICASSOPROCTODOLIST process polly data with entries listed in todolist.
+%
 % USAGE:
 %    [report] = picassoProcTodolist(PicassoConfigFile)
+%
 % INPUTS:
 %    PicassoConfigFile: char
 %        absolute path of Picasso configuration file.
+%
 % KEYWORDS:
 %    flagDonefileList: logical
 %        flag for writing done_filelist.
+%
 % OUTPUTS:
 %    report: cell
 %        processing report.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-27: first edition by Zhenping
+%    - 2021-06-27: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

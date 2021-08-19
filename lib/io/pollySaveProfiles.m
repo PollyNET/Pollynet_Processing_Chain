@@ -1,14 +1,15 @@
 function pollySaveProfiles(data)
-% POLLYSAVEPROFILES save the retrieved results, including backscatter,
-% extinction coefficients, lidar ratio, volume/particles depolarization ratio
-% and so on.
+% POLLYSAVEPROFILES save the retrieved results, including backscatter, extinction coefficients, lidar ratio, volume/particles depolarization ratio and so on.
+%
 % USAGE:
 %    pollySaveProfiles(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

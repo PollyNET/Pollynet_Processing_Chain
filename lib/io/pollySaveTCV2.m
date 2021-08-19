@@ -1,14 +1,17 @@
 function pollySaveTCV2(data)
 % POLLYSAVETCV2 save target classification results (V2)
+%
 % USAGE:
 %    pollySaveTCV2(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-30: First Edition by Zhenping
-%    2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
-%    2019-09-27: Turn on the netCDF4 compression.
+%    - 2018-12-30: First Edition by Zhenping
+%    - 2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
+%    - 2019-09-27: Turn on the netCDF4 compression.
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

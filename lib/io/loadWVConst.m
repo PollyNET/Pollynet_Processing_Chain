@@ -1,8 +1,9 @@
 function [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument, instrumentMeasTime] = loadWVConst(queryTime, dbFile, pollyType, varargin)
 % LOADWVCONST load water vapor calibration constant from database.
+%
 % USAGE:
-%    [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument,
-%     instrumentMeasTime] = loadWVConst(queryTime, dbFile, pollyType)
+%    [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument, instrumentMeasTime] = loadWVConst(queryTime, dbFile, pollyType)
+%
 % INPUTS:
 %    queryTime: datenum
 %        query time.
@@ -10,6 +11,7 @@ function [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument, inst
 %        absolute path of the SQLite database.
 %    pollyType: char
 %        polly name. (case-sensitive)
+%
 % KEYWORDS:
 %    deltaTime: datenum
 %        search range for the query time. (default: NaN)
@@ -19,6 +21,7 @@ function [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument, inst
 %    flagBeforeQuery: logical
 %        flag to control whether to return records with calibration time before
 %        queryTime. (default: false)
+%
 % OUTPUTS:
 %    wvconst: array
 %        water vapor calibration constant. (g*kg^{-1})
@@ -32,9 +35,10 @@ function [wvconst, wvconstStd, caliStartTime, caliStopTime, caliInstrument, inst
 %        intrument used in the water vapor calibration for each record.
 %    instrumentMeasTime: array
 %        timestamp for the data measured by the standard instrument.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parse arguments

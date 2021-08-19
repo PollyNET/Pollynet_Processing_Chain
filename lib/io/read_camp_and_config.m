@@ -1,10 +1,13 @@
 function [PicassoCampLinks] = read_camp_and_config(PicassoLinkFile)
 % READ_CAMP_AND_CONFIG read pollynet campaign link file.
+%
 % USAGE:
 %    [PicassoCampLinks] = read_camp_and_config(PicassoLinkFile)
+%
 % INPUTS:
 %    PicassoLinkFile: char
 %        absolute path of the pollynet config link file.
+%
 % OUTPUTS:
 %    PicassoCampLinks: struct
 %        instrument: cell
@@ -21,9 +24,10 @@ function [PicassoCampLinks] = read_camp_and_config(PicassoLinkFile)
 %        default_file: cell
 %        caption: cell
 %        comment: cell
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-07: first edition by Zhenping
+%    - 2021-04-07: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(PicassoLinkFile, 'file') ~= 2

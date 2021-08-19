@@ -1,7 +1,9 @@
 function laserlogbookFullpath = convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
 % CONVERT_TEMP_2_LASERLOGBOOK convert the polly temps file to laserlogbook file.
+%
 % USAGE:
 %   convert_temp_2_laserlogbook(fileinfo_new, pollyList, pollyTempDirs)
+%
 % INPUTS:
 %   fileinfo_new: char
 %       absolute path of the fileinfo_new
@@ -9,12 +11,14 @@ function laserlogbookFullpath = convert_temp_2_laserlogbook(fileinfo_new, pollyL
 %       python list whose temps file needs to be converted.
 %   pollyTempDirs: cell
 %       the respective temps folder.
+%
 % OUTPUTS:
 %   laserlogbookFullpath: char
 %       absolute path of the laserlogbook file that was converted from the temps file.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(fileinfo_new, 'file') ~= 2

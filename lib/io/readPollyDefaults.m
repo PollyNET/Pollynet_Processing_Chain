@@ -1,17 +1,20 @@
 function [defts] = readPollyDefaults(deftFile, globalDeftFile)
-% readPollyDefaults Read polly default settings.
+% READPOLLYDEFAULTS Read polly default settings.
+%
 % USAGE:
 %    [defts] = readPollyDefaults(deftFile)
+%
 % INPUTS:
 %    deftFile: char
 %        absoluta path of the polly defaults file.
+%
 % OUTPUTS:
 %    defts:
 %        default settings for polly lidar system.
-%        More detailed information can be found in doc/polly_defaults.md
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-10: first edition by Zhenping
+%    - 2021-04-10: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(deftFile, 'file') ~= 2

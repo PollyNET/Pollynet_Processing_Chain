@@ -1,16 +1,18 @@
 function [status_colormap, TC_colormap] = update_colormap()
-% UPDATE_COLORMAP Update user defined colormaps used in the 
-% pollynet_processing_programss
+% UPDATE_COLORMAP Update user defined colormaps.
+%
 % USAGE:
 %    [status_colormap, TC_colormap] = update_colormap()
-% INPUTS:
+%
 % OUTPUTS:
 %    status_colormap: matrix
 %        color table for the signal status plot. 
 %    TC_colormap: matrix
 %        color table for the aerosol target classification plot.
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 %% colormao for signal status

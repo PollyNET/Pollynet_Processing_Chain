@@ -1,7 +1,9 @@
 function [sondeFile] = sondeSearch(sondeFolder, measurementTime, fileType)
 % SONDESEARCH search the most close radiosonde data with given time.
+%
 % USAGE:
 %    [sondeFile] = sondeSearch(sondeFolder, measurementTime)
+%
 % INPUTS:
 %   sondeFolder: str
 %       the folder of the sonding files. 
@@ -12,14 +14,16 @@ function [sondeFile] = sondeSearch(sondeFolder, measurementTime, fileType)
 %       file type of the radiosonde file.
 %       - 1: radiosonde file for MOSAiC (default)
 %       - 2: radiosonde file for MUA
+%
 % OUTPUTS:
 %   sondeFile: str
 %       the filename of the searched sonding file. If no file was found, an 
 %       empty string will be returned.
-% EXAMPLE:
+%
 % HISTORY:
-%   2019-07-19: First Edition by Zhenping
-%   2019-12-18: Add `fileType` to specify the type of the radiosonde file.
+%    - 2019-07-19: First Edition by Zhenping
+%    - 2019-12-18: Add `fileType` to specify the type of the radiosonde file.
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('fileType', 'var')

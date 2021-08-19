@@ -1,7 +1,9 @@
 function picassoProcHistoryData(startTime, endTime, saveFolder, varargin)
 % PICASSOPROCHISTORYDATA process archived polly data.
+%
 % USAGE:
-%    [output] = picassoProcHistoryData(startTime, endTime, saveFolder)
+%    picassoProcHistoryData(startTime, endTime, saveFolder)
+%
 % INPUTS:
 %    startDate: char
 %        start date of polly data to be decompressed. i.e, '20150101' stands for Jan 1st, 2015.
@@ -10,6 +12,7 @@ function picassoProcHistoryData(startTime, endTime, saveFolder, varargin)
 %    saveFolder: char
 %        polly data folder. 
 %        e.g., /oceanethome/pollyxt
+%
 % KEYWORDS:
 %    pollyType: char
 %        polly instrument. 
@@ -19,9 +22,10 @@ function picassoProcHistoryData(startTime, endTime, saveFolder, varargin)
 %    mode: char
 %        If mode was 'a', the polly data info will be appended. If 'w', 
 %        a new todofile will be created.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-27: first edition by Zhenping
+%    - 2021-06-27: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

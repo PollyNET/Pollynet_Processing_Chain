@@ -1,8 +1,9 @@
 function [sigTCor, bgTCor, sigTCorStd] = transCor(sigT, bgT, sigC, bgC, varargin)
-% TRANSCOR correct the effect of different transmission inside the 
-% Tot and depol channel.
+% TRANSCOR correct the effect of different transmission inside the Tot and depol channel.
+%
 % USAGE:
 %    [sigTCor, bgTCor, sigTCorStd] = transCor(sigEl, bgT, sigC, bgC)
+%
 % INPUTS:
 %    sigT: array
 %        signal in total channel.
@@ -12,6 +13,7 @@ function [sigTCor, bgTCor, sigTCorStd] = transCor(sigT, bgT, sigC, bgC, varargin
 %        signal in cross channel.
 %    bgC: array
 %        background in total channel.
+%
 % KEYWORDS:
 %    transRatioTotal: float
 %        transmission ratio of perpendicular and parallel component in 
@@ -29,6 +31,7 @@ function [sigTCor, bgTCor, sigTCorStd] = transCor(sigT, bgT, sigC, bgC, varargin
 %        depolarization calibration constant.
 %    polCaliFacStd: float
 %        uncertainty of the depolarization calibration constant.
+%
 % OUTPUTS:
 %    sigTCor: array
 %        transmission corrected elastic signal.
@@ -36,14 +39,13 @@ function [sigTCor, bgTCor, sigTCorStd] = transCor(sigT, bgT, sigC, bgC, varargin
 %        background of transmission corrected elastic signal.
 %    sigTCorStd: array
 %        uncertainty of transmission corrected elastic signal.
-% References:
-%    Mattis, I., Tesche, M., Grein, M., Freudenthaler, V., and Müller, D.:
-%    Systematic error of lidar profiles caused by a polarization-dependent
-%    receiver transmission: Quantification and error correction scheme,
-%    Appl. Opt., 48, 2742-2751, 2009.
-% EXAMPLE:
+%
+% REFERENCES:
+%    Mattis, I., Tesche, M., Grein, M., Freudenthaler, V., and Müller, D.: Systematic error of lidar profiles caused by a polarization-dependent receiver transmission: Quantification and error correction scheme, Appl. Opt., 48, 2742-2751, 2009.
+%
 % HISTORY:
-%    2021-05-27: first edition by Zhenping
+%    - 2021-05-27: first edition by Zhenping.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

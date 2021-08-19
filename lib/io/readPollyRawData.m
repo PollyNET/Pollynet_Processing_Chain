@@ -1,10 +1,13 @@
 function [ data ] = readPollyRawData(file, varargin)
 % READPOLLYRAWDATA Read polly raw data.
+%
 % USAGE:
 %    data = readPollyRawData(file)
+%
 % INPUTS:
 %    file: char
 %        absolute path of the polly data.
+%
 % KEYWORDS:
 %    flagFilterFalseMShots: logical
 %        whether to filter out profiles with false shots number.
@@ -15,6 +18,7 @@ function [ data ] = readPollyRawData(file, varargin)
 %        the data.
 %    dataFileFormat: char
 %        parsing rules for polly data filename.
+%
 % OUTPUTS:
 %    data: struct
 %        rawSignal: array
@@ -44,12 +48,13 @@ function [ data ] = readPollyRawData(file, varargin)
 %            altitude of measurement site. [degree]
 %        filenameStartTime: datenum
 %            start time extracted from filename.
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-16: First edition by Zhenping.
-%    2019-07-08: Read the 'laser_rep_rate'.
-%    2020-04-16: Unify the argument interface.
-%    2021-02-03: Extract start time from polly data filename.
+%    - 2018-12-16: First edition by Zhenping.
+%    - 2019-07-08: Read the 'laser_rep_rate'.
+%    - 2020-04-16: Unify the argument interface.
+%    - 2021-02-03: Extract start time from polly data filename.
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parse arguments

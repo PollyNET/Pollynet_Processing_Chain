@@ -1,10 +1,11 @@
 function [depCal_P_Ang_time_start, depCal_P_Ang_time_end, depCal_N_Ang_time_start, depCal_N_Ang_time_end, maskDepCal] = pollyPolCaliTime(depCalAng, mTime, init_depAng, maskDepCalAng)
 % POLLYPOLCALITIME Retrieve the time for the polly depolarization calibration 
-% period. depolarization calibration: 5 min (+45°) + 5 min (-45°) + 0.5 min 
-% (which I don't know why)
+% period. depolarization calibration: 5 min (+45°) + 5 min (-45°) + 0.5 min.
+%
 % USAGE:
 %    [depCal_P_Ang_time_start, depCal_N_Ang_time_start, maskDepCal] = 
 %          pollyPolCaliTime(depCalAng, mTime, init_depAng, maskDepCalAng)
+%
 % INPUTS:
 %    depCalAng: array
 %        depolarization calibration angle. [degree]
@@ -18,6 +19,7 @@ function [depCal_P_Ang_time_start, depCal_P_Ang_time_end, depCal_N_Ang_time_star
 %                'p', 'none', 'none', 'n', 'n', 'n', 'n', 'n', 'n', 'n', 
 %                'n', 'none'};   % 'p' for positive angle, 
 %             %'n' for negative angle and 'none' for invalid profile.
+%
 % OUTPUTS:
 %    depCal_P_Ang_time_start: scalar
 %        time for the first profile with valid positive angle depolarization 
@@ -33,9 +35,10 @@ function [depCal_P_Ang_time_start, depCal_P_Ang_time_end, depCal_N_Ang_time_star
 %        calibration. [datenum]
 %    maskDepCal: logical array
 %        profile mask for depolarization calibration.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-21: first edition by Zhenping
+%    - 2021-04-21: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 depCal_N_Ang_time_start = [];

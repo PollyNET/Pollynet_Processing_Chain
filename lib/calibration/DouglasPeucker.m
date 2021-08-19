@@ -1,7 +1,9 @@
 function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heightTop, maxHThick, window_size)
 % DOUGLASPEUCKER simplify signal according to Douglas-Peucker algorithm.
+%
 % USAGE:
 %    [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heightTop, maxHThick, window_size)
+%
 % INPUTS:
 %    signal: array
 %        Molecule corrected signal. [MHz]
@@ -17,18 +19,20 @@ function [ sigIndx ] = DouglasPeucker(signal, height, epsilon, heightBase, heigh
 %        maximum spatial thickness of each segment. [m]
 %    window_size: integer
 %        size of the average smooth window.
+%
 % OUTPUTS:
 %    sigIndx: array
 %        index of the signal that stands for different segments of the
 %        signal.
+%
 % REFERERENCES:
 %    https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm
-% EXAMPLE:
+%
 % HISTORY:
-%    2017-12-29: First edition by Zhenping.
-%    2018-07-29: Add the height range for the searching instead of SNR restriction.
-%    2018-07-31: Add the maxHThick argument to control the maximum thickness
-%    of each output segment.x
+%    - 2017-12-29: First edition by Zhenping.
+%    - 2018-07-29: Add the height range for the searching instead of SNR restriction.
+%    - 2018-07-31: Add the maxHThick argument to control the maximum thickness of each output segment.x
+%
 % .. Authors: - zhenping@tropos.de
 
 % input check

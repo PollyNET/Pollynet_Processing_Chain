@@ -1,7 +1,9 @@
 function [sigCor] = olCor(sigFR, overlap, height, normRange)
 % OLCOR overlap correction.
+%
 % USAGE:
 %    sigCor = olCor(sigFR, overlap, height, normRange)
+%
 % INPUTS:
 %    sigFR: matrix (height * time)
 %        far-range signal
@@ -11,12 +13,14 @@ function [sigCor] = olCor(sigFR, overlap, height, normRange)
 %        height above ground. (m)
 %    normRange: array
 %        signal normalization range. (m)
+%
 % OUTPUTS:
 %    sigCor: matrix (height * time)
 %        glued signal.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 sigCor = NaN(size(sigFR));

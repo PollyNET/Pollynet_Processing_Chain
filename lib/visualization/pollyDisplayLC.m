@@ -1,12 +1,15 @@
 function pollyDisplayLC(data)
 % POLLYDISPLAYLC display lidar calibration constants.
+%
 % USAGE:
 %    pollyDisplayLC(data)
+%
 % INPUTS:
-%    data
-% EXAMPLE:
+%    data: struct
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

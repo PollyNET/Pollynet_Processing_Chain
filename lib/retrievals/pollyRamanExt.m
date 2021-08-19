@@ -1,12 +1,11 @@
 function [ ext_aer ] = pollyRamanExt(height, sig, lambda_emit, ...
     lambda_rec, angstrom, pressure, temperature, window_size, C, rh, ...
     method, measure_error)
-% POLLYRAMANEXT etrieve the aerosol extinction coefficient
-% with Raman method
+% POLLYRAMANEXT etrieve the aerosol extinction coefficient with Raman method
+%
 % USAGE:
-%    [ ext_aer ] = pollyRamanExt(height, sig, lambda_emit, lambda_rec, 
-%    angstrom, pressure, temperature, window_size, C, rh, method, 
-%    measure_error)
+%    [ ext_aer ] = pollyRamanExt(height, sig, lambda_emit, lambda_rec, angstrom, pressure, temperature, window_size, C, rh, method, measure_error)
+%
 % INPUTS:
 %    height: array
 %        height[m]
@@ -35,19 +34,19 @@ function [ ext_aer ] = pollyRamanExt(height, sig, lambda_emit, ...
 %        choose from 'moving', 'smoothing' and 'chi2'.
 %    measure_error: array
 %        measurement error for each bin.
+%
 % OUTPUTS:
 %    ext_aer: array
 %        aerosol extinction coefficient [m^{-1}]
+%
 % REFERENCES:
 %    https://bitbucket.org/iannis_b/lidar_processing
 %
-%    Ansmann, A. et al. Independent measurement of extinction and backscatter 
-%    profiles
-%    in cirrus clouds by using a combined Raman elastic-backscatter lidar.
-%    Applied Optics Vol. 31, Issue 33, pp. 7113-7131 (1992)
-% EXAMPLE:
+%    Ansmann, A. et al. Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar. Applied Optics Vol. 31, Issue 33, pp. 7113-7131 (1992)
+%
 % HISTORY:
-%    2021-05-31: first edition by Zhenping
+%    - 2021-05-31: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 % default method is movingslope

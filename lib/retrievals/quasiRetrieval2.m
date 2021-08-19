@@ -4,10 +4,12 @@ function [quasi_par_bsc, quasi_par_ext] = quasiRetrieval2(height, ...
 % QUASIRETRIEVAL2 Retrieve the aerosol optical properties with quasi 
 % retrieving method (V2). This method was improved from the quasi-retrieving 
 % method, which also takes use of the Raman signal.
+%
 % USAGE:
 %    [quasi_par_bsc, quasi_par_ext] = quasiRetrieval2(height, ...
 %    att_beta_el, att_beta_ra, wavelength, molExtEl, molBscEl, molExtRa, ...
 %    AE, LR)
+%
 % INPUTS:
 %    height: array
 %        height. [m] 
@@ -31,17 +33,20 @@ function [quasi_par_bsc, quasi_par_ext] = quasiRetrieval2(height, ...
 %        Extinction related Angstroem exponent.
 %    LR: float
 %        aerosol lidar ratio. [sr]
+%
 % KEYWORDS:
 %     nIters: numeric
 %         iteration times.
+%
 % OUTPUTS:
 %    quasi_par_bsc: matrix
 %        quasi particle backscatter coefficient. [m^{-1}sr^{-1}] 
 %    quasi_par_ext: matrix
 %        quasi particle extinction coefficient. [m^{-1}]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-07: first edition by Zhenping
+%    - 2021-06-07: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

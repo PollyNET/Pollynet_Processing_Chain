@@ -2,9 +2,10 @@ function [alt, temp, pres, rh, wins, wind, globalAttri] = readWebsonde(measTime,
                                                             tRange, sitenum)
 % READWEBSONDE search the closest radionsde based on the ui in 
 % http://weather.uwyo.edu/upperair/sounding.html. And read the data.
+%
 % USAGE:
-%    [alt, temp, pres, rh, wins, wind, globalAttri] = readWebsonde(measTime, tRange, 
-%    sitenum)
+%    [alt, temp, pres, rh, wins, wind, globalAttri] = readWebsonde(measTime, tRange, sitenum)
+%
 % INPUTS:
 %    measTime: float
 %        polly measurement time. [datenum] 
@@ -13,6 +14,7 @@ function [alt, temp, pres, rh, wins, wind, globalAttri] = readWebsonde(measTime,
 %    sitenum: integer
 %        site number, which can be found in doc/radiosonde-station-list.txt. 
 %        You can update the list with using download_radiosonde_list.m
+%
 % OUTPUTS:
 %    alt: array
 %        altitute for each range bin. [m]
@@ -33,9 +35,10 @@ function [alt, temp, pres, rh, wins, wind, globalAttri] = readWebsonde(measTime,
 %        URL: URL which can be used to retrieve the current returned values.
 %        datetime: measurement time for current used sonde. [datenum]
 %        sitenum: site number for current used sonde.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-24: first edition by Zhenping
+%    - 2021-05-24: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 alt = [];

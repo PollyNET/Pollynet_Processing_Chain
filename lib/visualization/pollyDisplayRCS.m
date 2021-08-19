@@ -1,12 +1,15 @@
 function pollyDisplayRCS(data)
 % POLLYDISPLAYRCS display range corrected signal.
+%
 % USAGE:
 %    pollyDisplayRCS(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-09: first edition by Zhenping
+%    - 2021-06-09: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global CampaignConfig PicassoConfig PollyConfig PollyDataInfo

@@ -1,13 +1,16 @@
 function polly_1st_displayLTLCali(data, dbFile)
 % POLLY_1ST_DISPLAYLTLCALI display long-term calibration results.
+%
 % USAGE:
 %    polly_1st_displayLTLCali(data, dbFile)
+%
 % INPUTS:
 %    data: struct
 %    dbFile: char
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

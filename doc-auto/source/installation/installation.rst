@@ -1,0 +1,194 @@
+=========================
+Download and Installation
+=========================
+
+Picasso can be installed and used in Windows 10 and Linux (tested on Centos 5). Since Picasso is developed in **Matlab (r2014a), it's required to have Matlab with compatible version installed in your machine.
+
+Download
+--------
+
+Dependencies
+------------
+
+### Windows
+
+-> TODO
+
+### Linux
+
+
+#### Download the Anaconda installation script
+
+Navigate to the `/tmp` directory and download the Anaconda installation script using the link that you copied from the Downloads page:
+
+```
+cd /tmp
+curl -O https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+```
+
+#### Verify the Data Integrity of the script
+
+Use the `sha256sum` command to verify the script checksum:
+
+```
+sha256sum Anaconda3-5.3.1-Linux-x86_64.sh
+```
+
+You should see an output like the following:
+
+```
+Output
+d4c4256a8f46173b675dd6a62d12f566ed3487f932bab6bb7058f06c124bcc27  Anaconda3-5.3.1-Linux-x86_64.sh
+```
+
+Make sure the hash printed from the command above matches the one available at the Anaconda with Python 3 on 64-bit Linux page for your appropriate Anaconda version.
+
+```
+https://docs.anaconda.com/anaconda/install/hashes/Anaconda3-5.3.1-Linux-x86_64.sh-hash.html
+```
+
+![anaconda_verify](../_static/centos-anaconda-installer-hash.jpg)
+
+#### Run the Anaconda Installation Script
+
+To start the Anaconda installation process run the installation script:
+
+```
+bash Anaconda3-5.3.1-Linux-x86_64.sh
+```
+
+You should see the output like the following:
+
+```
+Welcome to Anaconda3 5.3.1
+
+In order to continue the installation process, please review the license
+agreement.
+Please, press ENTER to continue
+```
+
+Press `ENTER` to continue and then press `ENTER` to scroll through the license. Once you’re done reviewing the license, you’ll be asked to approve the license terms:
+
+```
+Do you accept the license terms? [yes|no]
+```
+
+Type `yes` to accept the license and you’ll be prompted to choose the installation location.
+
+```
+Anaconda3 will now be installed into this location:
+/home/linuxize/anaconda3
+
+    - Press ENTER to confirm the location
+    - Press CTRL-C to abort the installation
+    - Or specify a different location below
+```
+
+The default location is fine for most users, press `ENTER` to confirm the location and installation process will continue.
+
+If you get an error saying `bunzip2: command not found`, install the `bzip2` package with: `sudo yum install bzip2`.
+
+The installation may take some time and once it is completed, the following output will be displayed:
+
+```
+Installation finished.
+
+Do you wish the installer to initialize Anaconda3
+in your /home/linuxize/.bashrc ? [yes|no]
+```
+
+If you want to use the conda command type `yes` press `ENTER` and you’ll be presented the following output:
+
+```
+Appending source /home/linuxize/anaconda3/bin/activate to /home/linuxize/.bashrc
+A backup will be made to: /home/linuxize/.bashrc-anaconda3.bak
+
+For this change to become active, you have to open a new terminal.
+
+Thank you for installing Anaconda3!
+```
+
+The installer will also ask you whether you would like to download and install Visual Studio Code.
+
+```
+Anaconda is partnered with Microsoft! Microsoft VSCode is a streamlined
+code editor with support for development operations like debugging, task
+running and version control.
+
+To install Visual Studio Code, you will need:
+    - Administrator Privileges
+    - Internet connectivity
+
+Visual Studio Code License: https://code.visualstudio.com/license
+
+Do you wish to proceed with the installation of Microsoft VSCode? [yes|no]
+```
+
+You can find more information about [Visual Studio](https://linuxize.com/post/how-to-install-visual-studio-code-on-centos-7/) on the editor [website](https://code.visualstudio.com/). If you want to install Visual Studio Code type `yes` otherwise type `no`.
+
+To activate the Anaconda installation load the new `PATH` environment variable which was added by the Anaconda installer into the current shell session with the following command:
+
+```
+source ~/.bashrc
+```
+
+#### Verify the Installation
+
+You can verify your Anaconda installation using the `conda` command. For example to display information about current conda install type:
+
+```
+conda info
+```
+
+```
+    active environment : base
+    active env location : /home/linuxize/anaconda3
+            shell level : 1
+    user config file : /home/linuxize/.condarc
+populated config files : 
+        conda version : 4.5.11
+    conda-build version : 3.15.1
+        python version : 3.7.0.final.0
+    base environment : /home/linuxize/anaconda3  (writable)
+        channel URLs : https://repo.anaconda.com/pkgs/main/linux-64
+                        https://repo.anaconda.com/pkgs/main/noarch
+                        https://repo.anaconda.com/pkgs/free/linux-64
+                        https://repo.anaconda.com/pkgs/free/noarch
+                        https://repo.anaconda.com/pkgs/r/linux-64
+                        https://repo.anaconda.com/pkgs/r/noarch
+                        https://repo.anaconda.com/pkgs/pro/linux-64
+                        https://repo.anaconda.com/pkgs/pro/noarch
+        package cache : /home/linuxize/anaconda3/pkgs
+                        /home/linuxize/.conda/pkgs
+    envs directories : /home/linuxize/anaconda3/envs
+                        /home/linuxize/.conda/envs
+            platform : linux-64
+            user-agent : conda/4.5.11 requests/2.19.1 CPython/3.7.0 Linux/3.10.0-957.1.3.el7.x86_64 centos/7 glibc/2.17
+                UID:GID : 0:0
+            netrc file : None
+        offline mode : False
+```
+
+#### Updating Anaconda
+
+Updating the Anaconda is a pretty straight forward process, first update the conda tool with:
+
+```
+conda update conda
+```
+
+When prompted to confirm the update, type `y` to proceed.
+
+Once conda is updated, proceed with the Anaconda update:
+
+```
+conda update anaconda
+```
+
+Same as with the previous command, when prompted, type `y` to proceed.
+
+You should regularly update your Anaconda installation.
+
+### References
+
+[1] https://linuxize.com/post/how-to-install-anaconda-on-centos-7/

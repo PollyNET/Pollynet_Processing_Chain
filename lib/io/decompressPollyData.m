@@ -1,7 +1,9 @@
 function decompressPollyData(startDate, endDate, saveFolder, PicassoConfigFile, varargin)
 % DECOMPRESSPOLLYDATA Unzip the polly data and write data info to the todolist file for pollynet processing chain.
+%
 % USAGE:
 %    decompressPollyData(startDate, endDate, saveFolder, PicassoConfigFile)
+%
 % INPUTS:
 %    startDate: numeric
 %        start date of polly data to be decompressed. i.e, datenum(2015, 1, 1) stands for Jan 1st, 2015.
@@ -13,16 +15,17 @@ function decompressPollyData(startDate, endDate, saveFolder, PicassoConfigFile, 
 %    PicassoConfigFile: char
 %        the absolute path of the pollynet configuration file.
 %        e.g., /home/picasso/Pollynet_Processing_Chain/config/pollynet_processing_chain_config.json
+%
 % KEYWORDS:
 %    pollyType: char
-%        polly instrument. 
-%        e.g., arielle
+%        polly instrument. e.g., arielle
 %    mode: char
-%        If mode was 'a', the polly data info will be appended. If 'w', 
-%        a new todofile will be created.
+%        If mode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
+%
 % HISTORY:
-%    2019-07-21: First Edition by Zhenping
-%    2019-10-16: Add warnings when no polly data files were found.
+%    - 2019-07-21: First Edition by Zhenping
+%    - 2019-10-16: Add warnings when no polly data files were found.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

@@ -1,9 +1,9 @@
 function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst, liconstStd, caliStartTime, caliStopTime, queryTime, dbFile, pollyType, wavelength, telescope, varargin)
 % SELECTLICONST select the most suitable lidar constant.
+%
 % USAGE:
-%    [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst,
-%        liconstStd, caliStartTime, caliStopTime, queryTime, dbFile, pollyType,
-%        wavelength)
+%    [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst, liconstStd, caliStartTime, caliStopTime, queryTime, dbFile, pollyType, wavelength)
+%
 % INPUTS:
 %    liconst: array
 %        lidar calibration constants.
@@ -24,6 +24,7 @@ function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst, 
 %        wavelength ('355', '532', '1064', '387' or '607')
 %    telescope: char
 %        detection range. ('near_range', or 'far_range')
+%
 % KEYWORDS:
 %    flagUsePrevLC: logical
 %        flag to control whether to search for lidar calibration
@@ -38,6 +39,7 @@ function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst, 
 %        suitable calibration results were found.
 %    default_liconstStd: double
 %        uncertainty of default lidar calibration constant.
+%
 % OUTPUTS:
 %    lcUsed: double
 %        lidar constant that will be used. (photon_count * m^3 * sr)
@@ -48,8 +50,10 @@ function [lcUsed, lcUsedStd, lcUsedTag, lcUsedWarning] = selectLiConst(liconst, 
 %        (1: klett; 2: raman; 3: defaults; 4: history) 
 %    lcUsedWarning: logical
 %        flag to show whether the calibration constant is unstable.
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

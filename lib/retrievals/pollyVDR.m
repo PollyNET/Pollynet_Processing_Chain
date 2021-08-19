@@ -1,10 +1,11 @@
 function [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, ...
     bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow, ...
     flagSmoothBefore)
-% POLLYVDR calculate the volume depolarization ratio.
+% POLLYVDR calculate volume depolarization ratio.
+%
 % USAGE:
-%    [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, 
-%    bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow)
+%    [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow)
+%
 % INPUTS:
 %    sigTot: array
 %        signal strength of the total channel. [photon count]
@@ -32,20 +33,22 @@ function [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, ...
 %    flagSmoothBefore: logical
 %        flag to control the vol-depol smoothing whether before or after the 
 %        signal ratio.
+%
 % OUTPUTS:
 %    volDepol: array
 %        volume depolarization ratio.
 %    volDepolStd: array
 %        uncertainty of the volume depolarization ratio
+%
 % REFERENCE:
-%    1. Engelmann, R. et al. The automated multiwavelength Raman polarization and water-vapor lidar Polly XT: the neXT generation. Atmospheric Measurement Techniques 9, 1767-1784 (2016).
-%    2. Freudenthaler, V. et al. Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006. Tellus B 61, 165-179 (2009).
-% EXAMPLE:
+%    Engelmann, R. et al. The automated multiwavelength Raman polarization and water-vapor lidar Polly XT: the neXT generation. Atmospheric Measurement Techniques 9, 1767-1784 (2016).
+%    Freudenthaler, V. et al. Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006. Tellus B 61, 165-179 (2009).
+%
 % HISTORY:
-%    2018-09-02: First edition by Zhenping
-%    2018-09-04: Change the smoothing order. Smoothing the signal ratio 
-%    instead of smoothing the signal.
-%    2019-05-24: Add 'flagSmoothBefore' to control the smoothing order.
+%    - 2018-09-02: First edition by Zhenping
+%    - 2018-09-04: Change the smoothing order. Smoothing the signal ratio instead of smoothing the signal.
+%    - 2019-05-24: Add 'flagSmoothBefore' to control the smoothing order.
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('smoothWindow', 'var')

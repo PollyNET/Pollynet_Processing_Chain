@@ -15,6 +15,9 @@ netcdf4
 log
 done_filelist
 
+# Sphinx build
+doc-auto/build
+
 # Interim outputs
 node_modules
 __pycache__

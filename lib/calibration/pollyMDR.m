@@ -1,10 +1,11 @@
 function [MDR, MDRStd, flagDeft] = pollyMDR(sigT, bgT, sigC, bgC, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, minSNR, deftMDR, deftMDRStd)
-% POLLYMDR etimate the molecular depolarization ratio according to the 
-% measurements at reference height.
+% POLLYMDR etimate the molecular depolarization ratio according to the measurements at reference height.
+%
 % USAGE:
 %    [MDR, MDRStd, flagDeft] = pollyMDR(sigT, bgT, ...
 %    sigC, bgC, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, ...
 %    minSNR, deftMDR, deftMDRStd)
+%
 % INPUTS:
 %    sigT: array
 %        signal strength of the total channel at reference height. 
@@ -37,6 +38,7 @@ function [MDR, MDRStd, flagDeft] = pollyMDR(sigT, bgT, sigC, bgC, Rt, RtStd, Rc,
 %        default molecular depolarization ratio.
 %    deftMDRStd: float
 %        default std of molecular depolarization ratio.
+%
 % OUTPUTS:
 %    MDR: float
 %        retrieved molecular depolarization ratio. 
@@ -45,9 +47,10 @@ function [MDR, MDRStd, flagDeft] = pollyMDR(sigT, bgT, sigC, bgC, Rt, RtStd, Rc,
 %    flagDeft: logical
 %        flag to show whether using the default values. If true, 
 %        it means default MDR and MDRStd were used.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-31: first edition by Zhenping
+%    - 2021-05-31: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 MDR = deftMDR;

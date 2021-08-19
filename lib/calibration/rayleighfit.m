@@ -1,10 +1,12 @@
 function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, ...
     dpIndx, layerThickConstrain, slopeConstrain, SNRConstrain, flagShowDetail)
 % RAYLEIGHFIT search the clean region with rayleigh fit algorithm.
+%
 % USAGE:
 %    [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, sig_mol, dpIndx, 
 %            layerThickConstrain, slopeConstrain, SNRConstrain, 
 %            flagShowDetail)
+%
 % INPUTS:
 %    height: array
 %        height. [m]
@@ -29,6 +31,7 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, ...
 %    flagShowDetail: boolean
 %        if flagShowDetail is true, the calculation information will be
 %        printed. Default is false.
+%
 % OUTPUTS:
 %    hBIndx: int
 %        index of the bottom of the searched region. If the region is not
@@ -36,23 +39,18 @@ function [ hBIndx, hTIndx ] = rayleighfit(height, sig_aer, pc, bg, sig_mol, ...
 %    hTIndx: int
 %        index of the top of the searched region. If the region is not found,
 %        NaN will be returned.
+%
 % REFERENCES:
-%    Baars, H., et al. (2016). "An overview of the first decade of Polly NET: 
-%    an emerging network of automated Raman-polarization lidars for 
-%    continuous aerosol profiling." Atmospheric Chemistry and Physics 16(8): 
-%    5111-5137.
-% EXAMPLE:
+%    Baars, H., et al. (2016). "An overview of the first decade of Polly NET: an emerging network of automated Raman-polarization lidars for continuous aerosol profiling." Atmospheric Chemistry and Physics 16(8): 5111-5137.
+%
 % HISTORY:
-%    2018-01-01: First edition by Zhenping.
-%    2018-07-05: Add the SNR constrain for the reference height.
-%    2019-01-01: change the single array to double to avoid overflow in 
-%                chi2fit.
-%    2019-05-26: Strengthen the criteria for Near-Far Range test.
-%                Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol
-%                New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
-%    2019-08-03: Using the SNR for the final determination. The higher SNR of
-%                the reference, the better.
-%    2019-09-15: Fix the bug in slope criteria.
+%    - 2018-01-01: First edition by Zhenping.
+%    - 2018-07-05: Add the SNR constrain for the reference height.
+%    - 2019-01-01: change the single array to double to avoid overflow in chi2fit.
+%    - 2019-05-26: Strengthen the criteria for Near-Far Range test. Old: (meanSig_aer + deltaSig_aer) >= meanSig_mol; New: (meanSig_aer + deltaSig_aer/3) >= meanSig_mol
+%    - 2019-08-03: Using the SNR for the final determination. The higher SNR of the reference, the better.
+%    - 2019-09-15: Fix the bug in slope criteria.
+%
 % .. Authors: - zhenping@tropos.de
 
 if (nargin <= 6)

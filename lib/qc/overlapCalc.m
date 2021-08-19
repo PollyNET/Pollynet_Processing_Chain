@@ -1,7 +1,9 @@
 function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(height, sigFR, bgFR, sigNR, bgNR, varargin)
-% OVERLAPCALC calculate the overlap function.
+% OVERLAPCALC calculate overlap function.
+%
 % USAGE:
 %    overlap = overlapCalc(sigFR, bgFR, sigNR, bgNR, height);
+%
 % INPUTS:
 %    height: array
 %        height above ground. (m)
@@ -13,6 +15,7 @@ function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(height, sigFR,
 %        near-range signal. (photon count)
 %    bgNR: array
 %        background of near-range signal. (photon count)
+%
 % KEYWORDS:
 %    hFullOverlap: numeric
 %        minimum height with full overlap function for far-range signal
@@ -21,6 +24,7 @@ function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(height, sigFR,
 %        overlap calculation mode.
 %        1: signal ratio between near-range and far-range channel
 %        2: Raman method
+%
 % OUTPUTS:
 %    overlap: array
 %        overlap function. If no overlap function was calculated, `overlap` will
@@ -32,9 +36,10 @@ function [overlap, overlapStd, sigRatio, normRange] = overlapCalc(height, sigFR,
 %        signal ratio between near-range and far-range signal.
 %    normRange: 2-element array
 %        height index of the signal normalization range.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-18: first edition by Zhenping
+%    - 2021-05-18: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

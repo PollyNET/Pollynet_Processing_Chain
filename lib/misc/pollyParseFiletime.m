@@ -1,20 +1,23 @@
 function [time] = pollyParseFiletime(file, textFormat)
 % POLLYPARSEFILETIME parse time from polly data file.
+%
 % USAGE:
 %    [time] = pollyParseFiletime(file, textFormat)
+%
 % INPUTS:
 %    file: char
 %        filename of polly data.
 %    textFormat: char
 %        parsing format to analysis polly data filename.
+%
 % OUTPUTS:
 %    time: datenum
 %        time when the polly data file was created.
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-17: First edition by Zhenping
-%    2020-07-23: Add error message when filename cannot be parsed by the 
-%                textFormat
+%    - 2018-12-17: First edition by Zhenping
+%    - 2020-07-23: Add error message when filename cannot be parsed by the textFormat
+%
 % .. Authors: - zhenping@tropos.de
 
 try

@@ -1,12 +1,15 @@
 function pollyxt_displayHousekeeping(data)
 % POLLYXT_DISPLAYHOUSEKEEPING display housekeeping data.
+%
 % USAGE:
 %    pollyxt_displayHousekeeping(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-09: first edition by Zhenping
+%    - 2021-06-09: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

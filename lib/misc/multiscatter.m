@@ -3,6 +3,7 @@ function data = multiscatter(option, varargin)
 % program is just a simple wrapper for the c programs from Hogan R. The original 
 % programs of the model can be downloaded at http://www.met.rdg.ac.uk/clouds/multiscatter/. 
 % Version 1.2.10 is required for the base of the wrapper function.
+%
 % USAGE:
 %    % Usage 1:
 %    data = multiscatter('Userdefined', filename);   % User defined cloud 
@@ -14,6 +15,7 @@ function data = multiscatter(option, varargin)
 %        ('monodispersed' or 'Userdefined')
 %    filename: char
 %        the full path of the input file.
+%
 %    % Usage 2:
 %    data = multiscatter('monodispersed', range, cloudBase, ...
 %        cloudExt, cloudRadius, cloudLR, lambda, fov, ...
@@ -43,6 +45,7 @@ function data = multiscatter(option, varargin)
 %        transmitter divergence, 1/e half-width. Default is 0.1. [mrad]
 %    altitude: float
 %        altitude of the instrument. Default is 0. [m]
+%
 % OUTPUTS:
 %    data: struct
 %        range: array
@@ -56,8 +59,10 @@ function data = multiscatter(option, varargin)
 %        att_single: array
 %            attenuated backscatter with single backscattering. 
 %            [m^{-1}*Sr^{-1}]
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if strcmpi(option, 'Userdefined')

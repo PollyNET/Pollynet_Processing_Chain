@@ -3,11 +3,13 @@ function [ aerBscStd ] = pollyRamanBscStd(height, sigElastic, bgElastic, ...
                     sigma_angstroem, ext_mol, beta_mol, HRef, wavelength, ...
                     betaRef, smoothWindow, nSamples, method, flagSmoothBefore)
 % POLLYRAMANBSCSTD calculate uncertainty of aerosol backscatter coefficient with Monte-Carlo simulation.
+%
 % USAGE:
 %    [ aerBscStd ] = pollyRamanBscStd(height, sigElastic, bgElastic, ...
 %                       sigVRN2, bgVRN2, ext_aer, sigma_ext_aer, angstroem, ...
 %                       sigma_angstroem, ext_mol, beta_mol, HRef, wavelength, ...
 %                       betaRef, smoothWindow, nSamples, method, flagSmoothBefore)
+%
 % INPUTS:
 %    height: array
 %        height. [m]
@@ -34,25 +36,23 @@ function [ aerBscStd ] = pollyRamanBscStd(height, sigElastic, bgElastic, ...
 %    wavelength: integer
 %        wavelength of the corresponding elastic signal. [nm]
 %    betaRef: float
-%        aerosol backscatter coefficient at the reference region. 
-%        [m^{-1}Sr^{-1}]
+%        aerosol backscatter coefficient at the reference region. [m^{-1}Sr^{-1}]
 %    smoothWindow: integer or n*3 matrix
-%        number of the bins of the sliding window for the signal smooth. 
-%        [default: 40]
+%        number of the bins of the sliding window for the signal smooth. [default: 40]
 %    nSamples: scalar or matrix
-%        samples for each error source.
-%        [samples_angstroem, samples_aerExt, samples_signal,
-%         samples_aerBscRef]
+%        samples for each error source. [samples_angstroem, samples_aerExt, samples_signal, samples_aerBscRef]
 %    method: char
 %        computational method. ['monte-carlo' or 'analytical']
 %    flagSmoothBefore: logical
 %        flag to control the smooth order.
+%
 % OUTPUTS:
 %    aerBscStd: array
 %        uncertainty of aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-07-16: first edition by Zhenping
+%    - 2021-07-16: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('method', 'var')

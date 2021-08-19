@@ -1,6 +1,6 @@
 function [layerInfo, PD, PN] = VDE_cld(signal, height, BG, minLayerDepth, minHeight, smoothWin, minSNR)
-% VDE_CLD cloud layer detection with VDE method. THis method only required elstic
-% signal.
+% VDE_CLD cloud layer detection with VDE method. THis method only required elstic signal.
+%
 % INPUTS:
 %    signal: array
 %        raw signal without background. [photon count]
@@ -16,6 +16,7 @@ function [layerInfo, PD, PN] = VDE_cld(signal, height, BG, minLayerDepth, minHei
 %        smoothindow in bins (default: 3).
 %    minSNR: numeric
 %        minimum layer SNR to filter the fake features (default: 5).
+%
 % OUTPUTS:
 %    layerInfo: struct array
 %        id: numeric
@@ -34,13 +35,16 @@ function [layerInfo, PD, PN] = VDE_cld(signal, height, BG, minLayerDepth, minHei
 %        SDP signal.
 %    PN: array
 %        VDE signal
+%
 % REFERENCES:
 %    1. Zhao, C., Y. Wang, Q. Wang, Z. Li, Z. Wang, and D. Liu (2014), A new
 %       cloud and aerosol layer detection method based on micropulse lidar 
 %       measurements, Journal of Geophysical Research: Atmospheres, 119(11),
 %       6788-6802.
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if nargin < 3

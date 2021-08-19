@@ -1,5 +1,6 @@
 function [cRange] = auto_RCS_cRange(height, rcs, varargin)
 % AUTO_RCS_CRANGE search the suitable color range for range corrected signal.
+%
 % USAGE:
 %    % Usecase 1: find the color range of range corrected signal
 %    cRange = auto_RCS_cRange(height, rcs)
@@ -15,6 +16,7 @@ function [cRange] = auto_RCS_cRange(height, rcs, varargin)
 %        height over ground. [m]
 %    rcs: matrix (height * time)
 %        range corrected signal
+%
 % KEYWORDS:
 %    hRange: 2-element array
 %        vertical range for searching the best color range. [m]
@@ -22,11 +24,14 @@ function [cRange] = auto_RCS_cRange(height, rcs, varargin)
 %        minimum color range.
 %    maxCRange: double
 %        maximum color range.
+%
 % OUTPUTS:
 %    cRange: 2-element array
 %        color range of the range corrected signal.
+%
 % HISTORY:
-%    2020-05-16. First Edition by Zhenping
+%    - 2020-05-16. First Edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

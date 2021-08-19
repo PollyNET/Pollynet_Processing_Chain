@@ -1,10 +1,10 @@
 function [ext_std] = pollyRamanExtStd(height, signal, bg, lambda_emit, ...
     lambda_rec, angstrom, pressure, temperature, window_size, C, rh, nProfiles, method, measure_error)
 % POLLYRAMANEXTSTD calcualte uncertainty of aerosol extinction coefficient with Monte-Carlo simulation.
+%
 % USAGE:
-%    [ext_std] = pollyRamanExtStd(height, signal, bg, lambda_emit, ...
-%       lambda_rec, angstrom, pressure, temperature, window_size, ...
-%       C, rh, nProfiles, method, measure_error)
+%    [ext_std] = pollyRamanExtStd(height, signal, bg, lambda_emit, lambda_rec, angstrom, pressure, temperature, window_size, C, rh, nProfiles, method, measure_error)
+%
 % INPUTS:
 %    height: array
 %        height[m]
@@ -30,12 +30,14 @@ function [ext_std] = pollyRamanExtStd(height, signal, bg, lambda_emit, ...
 %        relative humidity.
 %    nProfiles: integer
 %        number of the generated profiles to calculate the uncertainty.
+%
 % OUTPUTS:
 %    ext_std: array
 %        uncertainty of aerosol extinction coefficient [m^{-1}]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-07-16: first edition by Zhenping
+%    - 2021-07-16: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('method', 'var')

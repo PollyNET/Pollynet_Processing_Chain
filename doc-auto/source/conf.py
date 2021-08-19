@@ -17,12 +17,12 @@ import sys
 
 # -- Project information -----------------------------------------------------
 
-project = 'Pollynet_Processing_Chain'
-copyright = '2021, Yin, Baars'
-author = 'Yin, Baars'
+project = 'Picasso'
+copyright = '2021, TROPOS'
+author = 'The Picasso developers'
 
 # The short X.Y version
-version = '2.0'
+version = '3.0'
 # The full version, including alpha/beta/rc tags
 release = ''
 

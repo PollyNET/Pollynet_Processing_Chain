@@ -1,7 +1,9 @@
 function [tc_mask] = targetClassify(height, attBeta532, quasiBsc1064, quasiBsc532, quasiPDR532, VDR532, quasiAE, varargin)
 % TARGETCLASSIFY aerosol/cloud target classification.
+%
 % USAGE:
 %    [tc_mask] = targetClassify(height, attBeta532, quasiBsc1064, quasiBsc532, quasiPDR532, VDR532, quasiAE)
+%
 % INPUTS:
 %   height: numeric
 %       height. (m)
@@ -17,6 +19,7 @@ function [tc_mask] = targetClassify(height, attBeta532, quasiBsc1064, quasiBsc53
 %       volume depolarization ratio at 532 nm
 %   quasiAE: matrix (height x time)
 %       quasi Ångström exponents.
+%
 % KEYWORDS:
 %   clearThresBsc1064: numeric
 %   turbidThresBsc1064: numeric
@@ -33,6 +36,7 @@ function [tc_mask] = targetClassify(height, attBeta532, quasiBsc1064, quasiBsc53
 %   searchCloudAbove: numeric
 %   searchCloudBelow: numeric
 %   hFullOL: numeric
+%
 % OUTPUTS:
 %   tc_mask: matrix
 %           '0: No signal' 
@@ -47,11 +51,13 @@ function [tc_mask] = targetClassify(height, attBeta532, quasiBsc1064, quasiBsc53
 %           '9: Cloud: likely water droplets'  
 %           '10: Cloud: ice crystals' 
 %           '11: Cloud: likely ice crystal
+%
 % REFERENCES:
 %   Baars, H., Seifert, P., Engelmann, R. & Wandinger, U. Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements. Atmospheric Measurement Techniques 10, 3175-3201, doi:10.5194/amt-10-3175-2017 (2017).
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-05: first edition by Zhenping
+%    - 2021-06-05: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

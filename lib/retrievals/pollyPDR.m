@@ -1,8 +1,9 @@
 function [parDepol, parDepolStd] = pollyPDR(volDepol, volDepolStd, aerBsc, aerBscStd, molBsc, molDepol, molDepolStd)
-% POLLYPDR calculate the particle depolarization ratio and estimate the 
-% standard deviation of particle depolarization ratio.
+% POLLYPDR calculate the particle depolarization ratio and estimate the standard deviation of particle depolarization ratio.
+%
 % USAGE:
 %    [parDepol, parDepolStd] = pollyPDR(volDepol, volDepolStd, aerBsc, aerBscStd, molBsc, molDepol, molDepolStd)
+%
 % INPUTS:
 %    volDepol: array
 %        volume depolarization ratio.
@@ -21,16 +22,19 @@ function [parDepol, parDepolStd] = pollyPDR(volDepol, volDepolStd, aerBsc, aerBs
 %        channel.
 %    molDepolStd: scalar
 %        standard deviation of molecule depolarization ratio.
+%
 % OUTPUTS:
 %    parDepol: array
 %        particle depolarization ratio. 
 %    parDepolStd: array
 %        standard deviation of particle depolarization ratio.
+%
 % REFERENCES:
 %    Freudenthaler, V., Esselborn, M., Wiegner, M., Heese, B., Tesche, M., Ansmann, A., Müller, D., Althausen, D., Wirth, M., and Fix, A.: Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006, Tellus B, 61, 165-179, 2009.
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-05-31: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 parDepol = (volDepol + 1) ./ (molBsc .* (molDepol - volDepol) ./ ...

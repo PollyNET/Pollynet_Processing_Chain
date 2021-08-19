@@ -1,24 +1,28 @@
 function [flag] = pollySaturationDetect(data, varargin)
-% POLLYSATURATIONDETECT detect the bins which is fully saturated by the
-% clouds.
+% POLLYSATURATIONDETECT detect the bins which is fully saturated by the clouds.
+%
 % USAGE:
 %    [flag] = pollySaturationDetect(data)
+%
 % INPUTS:
 %    data: struct
 %        More detailed information can be found in doc\pollynet_processing_program.md
+%
 % KEYWORDS:
 %    hFullOverlap: double
 %        minimum height with full overlap (m). (default: 500)
 %    sigSaturateThresh: double
 %        threshold of saturated signal (photon count). (default: 500)
+%
 % OUTPUTS:
 %    flag: logical matrix
 %        if it is true, it means the current range bin should be saturated
 %        by clouds. Vice versa.
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-21: First Edition by Zhenping
-%    2019-07-08: Fix the bug of converting signal to PCR.
+%    - 2018-12-21: First Edition by Zhenping
+%    - 2019-07-08: Fix the bug of converting signal to PCR.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

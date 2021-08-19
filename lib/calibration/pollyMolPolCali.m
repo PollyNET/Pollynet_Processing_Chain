@@ -1,7 +1,9 @@
 function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCali(tSig, bgTSig, cSig, bgCSig, TR_t, TR_t_std, TR_c, TR_c_std, minSNR, mdr, mdrStd)
 % POLLYMOLPOLCALI molecular polarization calibration.
+
 % USAGE:
 %    [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCali(tSig, bgTSig, cSig, bgCSig, TR_t, TR_t_std, TR_c, TR_c_std, minSNR, mdr, mdrStd)
+%
 % INPUTS:
 %    tSig: numeric
 %        total signal. (photon count)
@@ -27,6 +29,7 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCal
 %        default molecular depolarization ratio.
 %    mdrStd: float
 %        default std of molecular depolarization ratio.
+%
 % OUTPUTS:
 %    polCaliEta: array
 %        polarization calibration eta.
@@ -36,10 +39,13 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCal
 %        polarization calibration factor.
 %    polCaliFacStd: array
 %        uncertainty of polarization calibration factor.
+%
 % REFERENCES:
 %    Baars, H., Ansmann, A., Althausen, D., Engelmann, R., Heese, B., Muller, D., Artaxo, P., Paixao, M., Pauliquevis, T., and Souza, R.: Aerosol profiling with lidar in the Amazon Basin during the wet and dry season, J Geophys Res-Atmos, 117, 10.1029/2012jd018338, 2012.
+%
 % HISTORY:
-%    2021-07-06: first edition by Zhenping
+%    - 2021-07-06: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 polCaliEta = [];

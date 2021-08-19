@@ -1,5 +1,6 @@
 function [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc, varargin)
 % CLOUDGEOEXTRACT extracting cloud information from target classification product.
+%
 % USAGE:
 %    Usage 1:
 %    [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc)
@@ -7,6 +8,7 @@ function [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc, v
 %    Usage 2:
 %    % threshold for the minimum cloud layer depth
 %    clBaseH = cloudGeoExtract(time, height, tc, 'minCloudDepth', 100)
+%
 % INPUTS:
 %    time: array
 %        time for each profile. (datenum)
@@ -14,6 +16,7 @@ function [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc, v
 %        height above ground. (m)
 %    tc: matrix (height x time)
 %        target classification.
+%
 % KEYWORDS:
 %    minCloudDepth: double
 %        minimum cloud layer depth (default: 0). (m)
@@ -23,6 +26,7 @@ function [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc, v
 %        target classification bit for ice cloud (default: 2).
 %    cloudBits: array
 %        target classification bits for clouds (default: [1, 2]).
+%
 % OUTPUTS:
 %    clBaseH: maxtrix (MAXCLOUDLAYERS x time)
 %        cloud based height. (m)
@@ -32,9 +36,10 @@ function [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(time, height, tc, v
 %        cloud phase. (0: unknown; 1: ice; 2: liquid; 3: mixed-phase)
 %    clPhProb: maxtrix (MAXCLOUDLAYERS x time)
 %        probability of cloud phase. (Range: 0-1)
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

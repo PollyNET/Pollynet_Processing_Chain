@@ -1,18 +1,22 @@
 function [config] = loadConfig(configFile, globalConfigFile)
 % LOADCONFIG load configurations
+%
 % USAGE:
 %    [config] = loadConfig(configFile, globalConfigFile)
+%
 % INPUTS:
 %    configFile: char
 %        absolute path of the configuration file.
 %    globalConfigFile: char
 %        absolute path of the global configuration file.
+%
 % OUTPUTS:
 %    config: struct
 %        configurations.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-07: first edition by Zhenping
+%    - 2021-04-07: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(configFile, 'file') ~= 2

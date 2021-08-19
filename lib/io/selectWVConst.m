@@ -1,7 +1,9 @@
 function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = selectWVConst(wvconst, wvconstStd, IWVAttri, queryTime, dbFile, pollyType, varargin)
-% SELECTWVCONST  select the most appropriate water vapor calibration constant.
+% SELECTWVCONST select the most appropriate water vapor calibration constant.
+%
 % USAGE:
 %    [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = selectWVConst(wvconst, wvconstStd, IWVAttri, queryTime, dbFile, pollyType)
+%
 % INPUTS:
 %    wvconst: array
 %        water vapor calibration constants. [g*kg^{-1}] 
@@ -21,6 +23,7 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = selectWVConst(wvconst,
 %        results.
 %    pollyType: char
 %        polly type name. (case-sensitive)
+%
 % KEYWORDS:
 %    flagUsePrevWVConst: logical
 %        flag to control whether to search for the water vapor calibration
@@ -35,6 +38,7 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = selectWVConst(wvconst,
 %        suitable calibration results were found.
 %    default_wvconstStd: double
 %        uncertainty of default water vapor calibration constant.
+%
 % OUTPUTS:
 %    wvconstUsed: float
 %        applied water vapor calibration constants.[g*kg^{-1}]  
@@ -50,11 +54,12 @@ function [wvconstUsed, wvconstUsedStd, wvconstUsedInfo] = selectWVConst(wvconst,
 %            the instrument for external standard IWV measurement 
 %        nIWVCali: integer
 %            number of successful water vapor calibration.
+%
 % HISTORY:
-%    2018-12-19: First Edition by Zhenping
-%    2019-08-16: Fix bug for taking defaults when there was no calibration 
-%                instead of taking the previous calibration results.
-%    2020-04-18: Update the interface.
+%    - 2018-12-19: First Edition by Zhenping
+%    - 2019-08-16: Fix bug for taking defaults when there was no calibration instead of taking the previous calibration results.
+%    - 2020-04-18: Update the interface.
+%
 % .. Authors: - zhenping@tropos.de
 
 

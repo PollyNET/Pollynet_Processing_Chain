@@ -1,12 +1,11 @@
 function [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, ...
     signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, ...
     AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
-% POLLYCONSTRAINEDKLETT retrieve the aerosol backscatter coefficient with AOD 
-% constrain from AERONET.
+% POLLYCONSTRAINEDKLETT retrieve the aerosol backscatter coefficient with AOD constrain from AERONET.
+%
 % USAGE:
-%    [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, 
-%    signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, 
-%    AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+%    [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, signal, SNR, refHeight, refBeta, molBsc, maxIterations, minLR, maxLR, AOD_AERONET, minAODDev, minHeight, minSNR, window_size)
+%
 % INPUTS:
 %    height: array
 %        height. [m]
@@ -39,6 +38,7 @@ function [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, ...
 %        minimum SNR
 %    window_size: integer
 %        smoothing window size.
+%
 % OUTPUTS:
 %    aerBsc: array
 %        aerosol backscatter coefficient. [m^{-1}sr^{-1}] 
@@ -48,12 +48,12 @@ function [aerBsc, bestLR, biasAOD, nIters] = pollyConstrainedKlett(height, ...
 %        deviation of AOD between lidar and AERONET.
 %    nIters: integer
 %        number of iterations to achieve the minimun AOD deviation.
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-02-03: First edition by Zhenping
-%    2019-03-29: Fix the bug of returning NaN for lidar ratio.
-%    2019-04-09: Screen out the negative backscatter coefficient during the 
-%                calculation.
+%    - 2018-02-03: First edition by Zhenping
+%    - 2019-03-29: Fix the bug of returning NaN for lidar ratio.
+%    - 2019-04-09: Screen out the negative backscatter coefficient during the calculation.
+%
 % .. Authors: - zhenping@tropos.de
 
 % initialize

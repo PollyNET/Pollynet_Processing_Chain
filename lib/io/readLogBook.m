@@ -1,12 +1,15 @@
 function [logbook] = readLogBook(logbookFile, nChannel)
 % READLOGBOOK read logbook information from logbookFile.
+%
 % USAGE:
 %    [logbook] = readLogBook(logbookFile, nChannel)
+%
 % INPUTS:
 %    logbookFile: char
 %        filename of the logbook file.
 %    nChannel: int32
 %        number of all the channels.
+%
 % OUTPUTS:
 %    logbook: struct
 %        datetime: array
@@ -20,9 +23,10 @@ function [logbook] = readLogBook(logbookFile, nChannel)
 %        flag_CH_NDChange: logical matrix (IDs * nChannel)
 %            logical to show whether there is ND filter changes in certain 
 %            channels.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 logbook = struct();

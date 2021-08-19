@@ -1,13 +1,16 @@
 function polly_1v2_displayLTLCali(data, dbFile)
 % POLLY_1V2_DISPLAYLTLCALI display long-term lidar calibration results.
+%
 % USAGE:
 %    polly_1v2_displayLTLCali(data, dbFile)
+%
 % INPUTS:
 %    data: struct
 %    dbFile: char
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

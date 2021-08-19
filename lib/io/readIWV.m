@@ -1,8 +1,9 @@
 function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
-% READIWV read integrated water vapor from external instruments, like
-% sunphotometer or microwave radiometer.
+% READIWV read integrated water vapor from external instruments, like sunphotometer or microwave radiometer.
+%
 % USAGE:
 %    [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
+%
 % INPUTS:
 %    instrument: char
 %        instrument for providing integral water vapor (IWV) measurements.
@@ -10,6 +11,7 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 %    clFreTime: matrix
 %        start and stop time of cloud free segments.
 %        [[startTime1, stopTime1]; [startTime2, stopTime2], ...]
+%
 % KEYWORDS:
 %    AERONETSite: char
 %        AERONET site (default: leipzig).
@@ -28,6 +30,7 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 %        PI (default: '').
 %    contact: char
 %        contact of PI (default: '').
+%
 % OUTPUTS:
 %    IWV: array
 %        integrated water vapor. (kg * m^{-2})
@@ -39,12 +42,14 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 %        datetime: array
 %            datetime of applied IWV.
 %        PI: char
+%            PI
 %        contact: char
-% EXAMPLE:
+%            contact
+%
 % HISTORY:
-%    2018-12-26: First Edition by Zhenping
-%    2019-05-19: Fix the bug of returning empty IWV when more than 2 MWR files
-%                were found.
+%    - 2018-12-26: First Edition by Zhenping
+%    - 2019-05-19: Fix the bug of returning empty IWV when more than 2 MWR files were found.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

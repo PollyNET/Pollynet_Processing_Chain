@@ -1,20 +1,24 @@
 function [tOutTick, tOutTickStr] = timelabellayout(tIn, outFormat)
 % TIMELABELLAYOUT tight layout of time label.
+%
 % USAGE:
 %    [tOutTick, tOutTickStr] = timelabellayout(tIn, outFormat)
+%
 % INPUTS:
 %   tIn: array
 %       measurement time. [datenum]
 %   outFormat: char
 %       output format for the date string.
+%
 % OUTPUTS:
 %   tOutTick: array
 %       datenum for each tick label. 
 %   tOutTickStr: cell
 %       tick label.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-09: first edition by Zhenping
+%    - 2021-06-09: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 tOutTick = [];

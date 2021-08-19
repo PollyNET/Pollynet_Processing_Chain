@@ -1,22 +1,24 @@
 function [pollyConfig] = loadPollyConfig(pollyConfigFile, pollyGlobalConfigFile)
 % LOADPOLLYCONFIG load polly configurations from polly config file.
+%
 % USAGE:
 %    [pollyConfig] = loadPollyConfig(pollyConfigFile, pollyGlobalConfigFile)
+%
 % INPUTS:
 %    pollyConfigFile: char
 %        absolute path of polly config file.
 %    pollyGlobalConfigFile: char
 %        absolute path of polly global config file.
+%
 % OUTPUTS:
 %    pollyConfig: struct
 %        polly configurations. Details can be found in doc/polly_config.md
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-16: First edition by Zhenping
-%    2019-08-01: Remove the conversion of depol cali time. 
-%                (Don't need to set the depol cali time any more)
-%    2019-08-03: Add global polly config for unify the defaults polly 
-%                settings.
+%    - 2018-12-16: First edition by Zhenping
+%    - 2019-08-01: Remove the conversion of depol cali time. (Don't need to set the depol cali time any more)
+%    - 2019-08-03: Add global polly config for unify the defaults polly settings.
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(pollyConfigFile, 'file') ~= 2

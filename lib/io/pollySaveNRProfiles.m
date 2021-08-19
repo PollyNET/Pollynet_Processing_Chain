@@ -1,12 +1,16 @@
 function pollySaveNRProfiles(data)
 % POLLYSAVENRPROFILES save profiles of aerosol optical properties.
+%
 % Usage:
 %    pollySaveNRProfiles(data)
+%
 % INPUTS:
 %    data.struct
+%
 % History:
-%    2019-08-06: First Edition by Zhenping
-%    2019-09-27: Turn on the netCDF4 compression
+%    - 2019-08-06: First Edition by Zhenping
+%    - 2019-09-27: Turn on the netCDF4 compression
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

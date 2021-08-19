@@ -1,8 +1,10 @@
 function [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
 % SIGNALSTD The uncertainty of the signal with taking into account of background 
 % noise and additional smoothing.
+%
 % USAGE:
 %    [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
+%
 % INPUTS:
 %    signal: array
 %        signal strength
@@ -14,11 +16,14 @@ function [sigStd] = signalStd(signal, bg, smoothWindow, dimension)
 %        dependent of the height.
 %    dimension: integer
 %        the dimension which the smoothing is along with.
+%
 % OUTPUTS:
 %    sigStd: array
 %        uncertainty of the signal
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('smoothWindow', 'var')

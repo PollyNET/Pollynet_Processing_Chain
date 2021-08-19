@@ -1,15 +1,19 @@
 function [reportStr] = pollyWriteDonelist(data)
 % POLLYWRITEDONELIST Write processing information to done list file and generate report
 % for the current task. These report can be used for further examination.
+%
 % USAGE:
 %    [reportStr] = pollyWriteDonelist(data)
+%
 % INPUTS:
 %    data: struct
+%
 % OUTPUTS:
 %    reportStr: char
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-21: first edition by Zhenping
+%    - 2021-06-21: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global CampaignConfig PicassoConfig PollyConfig PollyDataInfo

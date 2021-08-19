@@ -3,11 +3,13 @@ function write_2_donelist(file, permission, lidar, location, startTime, ...
     nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, ...
     software_version, product_type, product_starttime, product_stoptime)
 % WRITE_2_DONELIST Write info of each generated pic to donelist file.
+%
 % USAGE:
 %    write_2_donelist(file, permission, lidar, location, startTime, 
 %    endTime, last_update, lambda, imageFile, level, thisinfo, nc_zip_file, 
 %    nc_zip_file_size, active, GDAS1, GDAS1_timestamp, lidar_ratio, 
 %    software_version, comment);
+%
 % INPUTS:
 %    file: char
 %        filename of the done list file. 
@@ -48,22 +50,18 @@ function write_2_donelist(file, permission, lidar, location, startTime, ...
 %    software_version: char
 %        software version
 %    product_type: char
-%        identification for different lidar product. 
-%        (Detailed information can be found in 
-%         /doc/pollynet_processing_program.md)
+%        identification for different lidar product.
 %    product_starttime: char
 %        the start time for the current product. (yyyymmdd HH:MM:SS)
 %    product_stoptime: char
 %        the stop time for the current product. (yyyymmdd HH:MM:SS)
+%
 % HISTORY:
-%    2019-01-04. First Edition by Zhenping
-%    2019-02-15. Add two params of 'product_starttime' and 
-%                'nproduct_stoptime'.
-%    2019-03-12. Add input parameter of 'product_type' according to the 
-%                requirement of new pollyWebApplication.
-%    2019-08-16. Add the criteria for 'imageFile'. If the image doesn't 
-%                exist, throw an warning instead of writing to the 
-%                done_fielist.
+%    - 2019-01-04. First Edition by Zhenping
+%    - 2019-02-15. Add two params of 'product_starttime' and 'nproduct_stoptime'.
+%    - 2019-03-12. Add input parameter of 'product_type' according to the requirement of new pollyWebApplication.
+%    - 2019-08-16. Add the criteria for 'imageFile'. If the image doesn't exist, throw an warning instead of writing to the done_fielist.
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig

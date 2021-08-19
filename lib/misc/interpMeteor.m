@@ -1,7 +1,9 @@
 function [yOut] = interpMeteor(x, y, xOut, method)
-% INTERPMETOER interp the meteorological parameters with NaNs.
+% INTERPMETOER interp meteorological parameters with NaNs.
+%
 % USAGE:
 %    [yOut] = interpMeteor(x, y, xOut, method)
+%
 % INPUTS:
 %    x: array
 %        sample points
@@ -11,12 +13,14 @@ function [yOut] = interpMeteor(x, y, xOut, method)
 %        query points.
 %    method: char
 %        interpolation method. ('linear', 'cubic', 'nearest')
+%
 % OUTPUTS:
 %    yOut: array
 %        query values.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-24: first edition by Zhenping
+%    - 2021-05-24: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('method', 'var')

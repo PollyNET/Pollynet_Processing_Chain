@@ -1,12 +1,15 @@
 function [aerLR, effRes, aerLRStd] = pollyLR(aerExt, aerBsc, varargin)
 % POLLYLR calculate aerosol lidar ratio.
+%
 % USAGE:
 %    [aerLR, effRes, aerLRStd] = pollyLR(aerExt, aerBsc)
+%
 % INPUTS:
 %    aerExt: numeric
 %        aerosol extinction coefficient. (m^-1)
 %    aerBsc: numeric
 %        aerosol backscatter coefficient. (m^-1sr^-1)
+%
 % KEYWORDS:
 %    hRes: numeric
 %        vertical resolution of each height bin. (m)
@@ -18,6 +21,7 @@ function [aerLR, effRes, aerLRStd] = pollyLR(aerExt, aerBsc, varargin)
 %        applied smooth window length for calculating aerosol extinction coefficient.
 %    smoothWinBsc: numeric
 %        applied smooth window length for calculating aerosol backscatter coefficient.
+%
 % OUTPUTS:
 %    aerLR: numeric
 %        aerosol lidar ratio. (sr)
@@ -25,11 +29,13 @@ function [aerLR, effRes, aerLRStd] = pollyLR(aerExt, aerBsc, varargin)
 %        effective resolution of lidar ratio. (m)
 %    aerLRStd: numeric
 %        uncertainty of aerosol lidar ratio. (sr)
-% EXAMPLE:
+%
 % REFERENCES:
-%    1. Mattis, I., D'Amico, G., Baars, H., Amodeo, A., Madonna, F., and Iarlori, M.: EARLINET Single Calculus Chain–technical–Part 2: Calculation of optical products, Atmospheric Measurement Techniques, 9, 3009-3029, 2016.
+%    Mattis, I., D'Amico, G., Baars, H., Amodeo, A., Madonna, F., and Iarlori, M.: EARLINET Single Calculus Chain–technical–Part 2: Calculation of optical products, Atmospheric Measurement Techniques, 9, 3009-3029, 2016.
+%
 % HISTORY:
 %    2021-07-20: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

@@ -1,8 +1,9 @@
 function [liconst, liconstStd, caliStartTime, caliStopTime] = loadLiConst(queryTime, dbFile, pollyType, wavelength, caliMethod, telescope, varargin)
 % LOADLICONST load lidar calibration constant from database.
+%
 % USAGE:
-%    [liconst, liconstStd, caliStartTime, caliStopTime] = 
-%        loadLiConst(queryTime, dbFile, pollyType, wavelength, caliMethod)
+%    [liconst, liconstStd, caliStartTime, caliStopTime] = loadLiConst(queryTime, dbFile, pollyType, wavelength, caliMethod)
+%
 % INPUTS:
 %    queryTime: datenum
 %        query time.
@@ -16,6 +17,7 @@ function [liconst, liconstStd, caliStartTime, caliStopTime] = loadLiConst(queryT
 %        calibration method ('Klett_Method', 'Raman_Method', 'AOD_Constrained_Method')
 %    telescope: char
 %        detection range. ('far_range', or 'near_range')
+%
 % KEYWORDS:
 %    deltaTime: datenum
 %        search range for the query time. (default: NaN)
@@ -26,6 +28,7 @@ function [liconst, liconstStd, caliStartTime, caliStopTime] = loadLiConst(queryT
 %    flagBeforeQuery: logical
 %        flag to control whether to return records with calibration time before
 %        queryTime. (default: false)
+%
 % OUTPUTS:
 %    liconst: array
 %        lidar calibration constant.
@@ -35,9 +38,10 @@ function [liconst, liconstStd, caliStartTime, caliStopTime] = loadLiConst(queryT
 %        calibration start time for each record.
 %    caliStopTime: array
 %        calibration stop time for each record.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parse arguments

@@ -1,7 +1,9 @@
 function res = smooth2(data, win_m, win_n, flagMatrix)
 % SMOOTH2 smooth matrix with running mean window.
+%
 % USAGE:
 %    res = smooth2(data, win_m, win_n)
+%
 % INPUTS:
 %    data: matrix
 %        input data.
@@ -12,13 +14,15 @@ function res = smooth2(data, win_m, win_n, flagMatrix)
 %    flagMatrix: logical
 %        whether to calculate the smoothing in a matrix way, which is much 
 %        faster than by loop.
+%
 % OUTPUTS:
 %    res: matrix
 %        smoothed data
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-02-22: First edition by Zhenping
-%    2019-09-05: Add the 'flagMatrix' to speed up the 2-D smoothing
+%    - 2018-02-22: First edition by Zhenping
+%    - 2019-09-05: Add the 'flagMatrix' to speed up the 2-D smoothing
+%
 % .. Authors: - zhenping@tropos.de
 
 if nargin < 3 

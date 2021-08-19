@@ -1,9 +1,9 @@
 function [username, userpath, platform] = getsysinfo()
 % GETSYSINFO get system information.
+%
 % USAGE:
 %    [username, userpath, platform] = getsysinfo()
-% INPUTS:
-%    params
+%
 % OUTPUTS:
 %    username: char
 %        current user of the OS.
@@ -11,9 +11,10 @@ function [username, userpath, platform] = getsysinfo()
 %        home directory of the current user.
 %    platform: char
 %        current running OS.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ispc

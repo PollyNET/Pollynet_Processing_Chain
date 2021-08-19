@@ -1,13 +1,15 @@
 function [tIWV, IWV, IWVErr, IWVAttri] = readMWR(files)
-% READMWR read integrated water vapor from the microwave radiometer 
-% outputs.
+% READMWR read integrated water vapor from the microwave radiometer outputs.
+%
 % USAGE:
 %    [tIWV, IWV, IWVErr, IWVAttri] = readMWR(files)
+%
 % INPUTS:
 %    files: char | cell
 %        absolute paths of the netcdf files for saving the IWV results from 
 %        HATPRO. Generally, you can find the data in our rsd server. 
 %        Detailed information you can contact with Patric Seifert.
+%
 % OUTPUTS:
 %    IWV: array
 %        intergrated water vapor. [kg*m^{-2}] 
@@ -17,14 +19,18 @@ function [tIWV, IWV, IWVErr, IWVAttri] = readMWR(files)
 %        standar deviation of IWV. [kg*m^{-2}]
 %    IWVAttri: struct
 %        institution: char
+%            Institution
 %        contact: char
+%            contact
 %        source: char
 %            data source or instrument.
 %        site: char
-% EXAMPLE:
+%            site
+%
 % HISTORY:
-%    2019-01-03: First Edition by Zhenping
-%    2019-12-02: Add support for reading multiple files.
+%    - 2019-01-03: First Edition by Zhenping
+%    - 2019-12-02: Add support for reading multiple files.
+%
 % .. Authors: - zhenping@tropos.de
 
 tIWV = [];
