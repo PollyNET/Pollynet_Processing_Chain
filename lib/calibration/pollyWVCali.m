@@ -1,10 +1,12 @@
 function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, trans387, trans407, rhoAir, sunriseTime, sunsetTime, varargin)
 % POLLYWVCALI water vapor calibration.
+%
 % USAGE:
 %    [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387, ...
 %       sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
 %       wvCaliStarttime, wvCaliStoptime, IWV, flagWVCali, flag407On, ...
 %       trans387, trans407, rhoAir)
+%
 % INPUTS:
 %    height: numeric
 %        height. (m)
@@ -19,20 +21,36 @@ function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387,
 %    E_tot_1064_cali: numeric
 %        integral 1064 nm signal.
 %    E_tot_1064_cali_std: numeric
+%        integral of signal at 1064 nm.
 %    wvCaliStarttime: numeric
+%        water vapor calibration start time.
 %    wvCaliStoptime: numeric
+%        water vapor calibration stop time.
 %    IWV: numeric
+%        integral water vapor.
 %    flagWVCali: logical
+%        water vapor calibration flag.
 %    flag407On: logical
+%        flag of channel status at 407 nm.
 %    trans387: numeric
+%        transmittance at 387 nm.
 %    trans407: numeric
+%        transmittance at 407 nm.
 %    rhoAir: numeric
+%        air density.
 %    sunriseTime: numeric
+%        sunrise time.
 %    sunsetTime: numeric
+%        sunset time.
+%
 % KEYWORDS
 %    hWVCaliBase: numeric
+%        base height of water vapor calibration range.
 %    hFullOL387: numeric
+%        minimum height of full overlap at 387 nm.
 %    minSNRWVCali: numeric
+%        minimum SNR for water vapor calibration.
+%
 % OUTPUTS:
 %    wvconst: array
 %        water vapor calibration constant. [g/kg] 
@@ -47,13 +65,14 @@ function [wvconst, wvconstStd, globalAttri] = pollyWVCali(height, sig387, bg387,
 %            calibration information for each calibration period.
 %        IntRange: matrix
 %            index of integration range for calculate the raw IWV from lidar.
+%
 % REFERENCES:
 %    Dai, G., Althausen, D., Hofer, J., Engelmann, R., Seifert, P., Bühl, J., Mamouri, R.-E., Wu, S., and Ansmann, A.: Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data, Atmospheric Measurement Techniques, 11, 2735-2748, 2018.
-% EXAMPLE:
+%
 % HISTORY:
-%   2018-12-26: First Edition by Zhenping
-%   2019-08-08: Add the sunrise and sunset to exclude the low SNR 
-%               calibration periods.
+%   - 2018-12-26: First Edition by Zhenping
+%   - 2019-08-08: Add the sunrise and sunset to exclude the low SNR calibration periods.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

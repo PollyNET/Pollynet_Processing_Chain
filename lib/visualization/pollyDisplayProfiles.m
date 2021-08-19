@@ -1,12 +1,15 @@
 function pollyDisplayProfiles(data)
 % POLLYDISPLAYPROFILES display averaged profiles.
+%
 % USAGE:
 %    pollyDisplayProfiles(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

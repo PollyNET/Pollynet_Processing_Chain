@@ -1,7 +1,9 @@
 function [refHInd, DPInd] = pollyRayleighFit(height, sig, sigPCR, bg, mSig, varargin)
 % POLLYRAYLEIGHFIT search reference height with Rayleigh fit algorithm.
+%
 % USAGE:
 %    [refHInd, DPInd] = pollyRayleighFit(height, sig, sigPCR, bg, mSig)
+%
 % INPUTS:
 %    height: array
 %        height. (m)
@@ -13,6 +15,7 @@ function [refHInd, DPInd] = pollyRayleighFit(height, sig, sigPCR, bg, mSig, vara
 %        background. (photon count)
 %    mSig: array
 %        molecular signal.
+%
 % KEYWORDS:
 %    minDecomLogDist: float
 %        maximum distance for Douglas-Peucker algorithm (default: 0.2).
@@ -43,15 +46,17 @@ function [refHInd, DPInd] = pollyRayleighFit(height, sig, sigPCR, bg, mSig, vara
 %        print level.
 %        0, 1, 2: print details while running.
 %        3, 4, 5: hide prompts while running.
+%
 % OUTPUTS:
 %    refHInd: 2-element array
 %        [base, top] index of the reference height.
 %    DPInd: array
 %        index of the signal that stands for different segments of the
 %        signal.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-25: first edition by Zhenping
+%    - 2021-05-25: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

@@ -1,8 +1,10 @@
 function [item] = regexp_token(thisStr, pattern, defaults)
 % REGEXP_TOKEN regexp with the input pattern. If not found, return defaults. (Use 
 % only 1 output token in the 'pattern')
+%
 % USAGE:
 %    [item] = regexp_token(thisStr, pattern, defaults)
+%
 % INPUTS:
 %    thisStr: char
 %        input char array.
@@ -12,12 +14,15 @@ function [item] = regexp_token(thisStr, pattern, defaults)
 %        e.g., '(?<=b: )\d*' 
 %    defaults: char
 %        default return for the searched patter.
+%
 % OUTPUTS:
 %    item: char
 %        the searched pattern.
 %        e.g., '3'
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('defaults', 'var')

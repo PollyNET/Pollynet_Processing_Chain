@@ -1,10 +1,16 @@
 function print_msg(inStr, varargin)
 % PRINT_MSG Print message. 
+%
 % USAGE:
-%    print_msg(inStr)
+%    % Usercase 1: print message
+%    print_msg('Hello world!');
+%    % Usercase 2: print message with timestamp
+%    print_msg('Hello world!', 'flagTimestamp', true);
+%
 % INPUTS:
 %    inStr: char
 %       input char array
+%
 % KEYWORDS:
 %    mode: digit
 %       0: normal mode
@@ -13,13 +19,10 @@ function print_msg(inStr, varargin)
 %       simple message flag. (default: true)
 %    flagTimestamp: logical
 %       flag to control whether add timestamp for the message. (default: false)
-% EXAMPLE:
-%    % Usercase 1: print message
-%    print_msg('Hello world!');
-%    % Usercase 2: print message with timestamp
-%    print_msg('Hello world!', 'flagTimestamp', true);
+%
 % HISTORY:
-%    2021-04-06: first edition by Zhenping
+%    - 2021-04-06: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global LogConfig

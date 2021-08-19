@@ -2,6 +2,7 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
                          dcStartTime, dcStopTime, ...
                          pollyDataFilename, pollyType, wavelength)
 % SAVEDEPOLCONST save polarization calibration results.
+%
 % USAGE:
 %    saveDepolConst(dbFile, depolconst, depolconstStd, dcStartTime, 
 %                   dcStopTime, pollyDataFilename, pollyType, wavelength)
@@ -22,9 +23,10 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
 %        polly type. (case-sensitive)
 %    wavelength: char
 %        wavelength. ('355' or '532')
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));

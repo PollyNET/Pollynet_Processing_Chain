@@ -1,11 +1,13 @@
 function [alt, temp, pres, relh, wins, wind, attri] = readMeteor(measTime, varargin)
-% READMETEOR Read the meteorological data according the input 
-% meteorological data type.
+% READMETEOR Read meteorological data according the input meteorological data type.
+%
 % USAGE:
 %    [alt, temp, pres, relh, attri] = readMeteor(measTime)
+%
 % INPUTS:
 %    measTime: datenum
 %        the measurement time.
+%
 % KEYWORDS:
 %    meteorDataSource: str
 %        meteorological data type.
@@ -23,6 +25,7 @@ function [alt, temp, pres, relh, wins, wind, attri] = readMeteor(measTime, varar
 %        file type of the radiosonde file.
 %        - 1: radiosonde file for MOSAiC (default)
 %        - 2: radiosonde file for MUA
+%
 % OUTPUTS:
 %    alt: array
 %        height above the mean sea surface. [m]
@@ -44,10 +47,11 @@ function [alt, temp, pres, relh, wins, wind, attri] = readMeteor(measTime, varar
 %            data file info for each cloud-free group.
 %        datetime: array
 %            datetime label for the meteorlogical data.
-% EXAMPLE:
+%
 % HISTORY:
-%    2019-07-20: First Edition by Zhenping
-%    2020-04-16: rewrite the function interface
+%    - 2019-07-20: First Edition by Zhenping
+%    - 2020-04-16: rewrite the function interface
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parse arguments

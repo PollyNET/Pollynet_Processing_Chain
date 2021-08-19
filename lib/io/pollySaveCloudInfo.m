@@ -1,12 +1,15 @@
 function pollySaveCloudInfo(data)
-% pollySaveCloudInfo save cloud layering information to netcdf file.
+% POLLYSAVECLOUDINFO save cloud layering information to netcdf file.
+%
 % USAGE:
 %    pollySaveCloudInfo(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-09: first edition by Zhenping
+%    - 2021-06-09: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

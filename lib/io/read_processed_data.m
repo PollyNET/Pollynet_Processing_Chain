@@ -1,8 +1,9 @@
 function [time, height, res] = read_processed_data(instrument, parameter, hRange, tRange, resFolder)
-% READ_PROCESSED_DATA read processed data from pollynet processing program 
-% in the given range.
+% READ_PROCESSED_DATA read processed data from pollynet processing program in the given range.
+%
 % USAGE:
 %    [time, height, res] = read_processed_data(instrument, parameter, tRange, resFolder)
+%
 % INPUTS:
 %    instrument: str
 %        polly instrument. {'pollyxt_lacros', 'pollyxt_noa', 
@@ -32,10 +33,18 @@ function [time, height, res] = read_processed_data(instrument, parameter, hRange
 %        start time and end time of the extraction. 
 %    resFolder: str
 %        the folder of saving the processign results.
+%
 % OUTPUTS:
-%    time, height, res
+%    time: array
+%       measurement time.
+%    height: array
+%       height above ground. (m)
+%    res: matrix (height x time)
+%       target parameters.
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('resFolder', 'var')

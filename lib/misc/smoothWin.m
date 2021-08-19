@@ -1,7 +1,9 @@
 function [signalSM] = smoothWin(signal, win, method)
-% SMOOTHWIN smooth the signal with a height dependent window
+% SMOOTHWIN smooth signal with a height dependent window
+%
 % USAGE:
 %    [signal] = smoothWin(signal, win, method)
+%
 % INPUTS:
 %    signal: array
 %        signal array.
@@ -12,11 +14,14 @@ function [signalSM] = smoothWin(signal, win, method)
 %        different range
 %    method: char
 %        smoothing method. (default, 'moving')
+%
 % OUTPUTS:
 %    signalSM: array
 %        smoothed signal
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('method', 'var')

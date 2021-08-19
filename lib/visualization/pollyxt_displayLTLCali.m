@@ -1,13 +1,16 @@
 function pollyxt_displayLTLCali(data, dbFile)
 % POLLYXT_DISPLAYLTLCALI display lidar calibration results.
+%
 % USAGE:
 %    pollyxt_displayLTLCali(data)
+%
 % INPUTS:
 %    data: struct
 %    dbFile: char
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

@@ -1,12 +1,15 @@
 function pollySaveNRAttnBeta(data)
 % POLLYSAVENRATTNBETA save near-field attenuated backscatter.
+%
 % USAGE:
 %    pollySaveNRAttnBeta(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-09: first edition by Zhenping
+%    - 2021-06-09: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 missing_value = -999;

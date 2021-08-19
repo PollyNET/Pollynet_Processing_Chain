@@ -1,7 +1,9 @@
 function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRotRamanChannelO, flagTotalChannelO, flagCrossChannelO, flagParallelChannelO, flag355nmChannelO, flag387nmChannelO, flag407nmChannelO, flag532nmChannelO, flag607nmChannelO, flag1064nmChannelO] = pollyChannelTags(chTagsI, varargin)
 % POLLYCHANNELTAGS specify channel tags and labels according to logical settings.
+%
 % USAGE:
 %    [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRotRamanChannelO, flagTotalChannelO, flagCrossChannelO, flagParallelChannelO, flag355nmChannelO, flag387nmChannelO, flag407nmChannelO, flag532nmChannelO, flag607nmChannelO, flag1064nmChannelO] = pollyChannelTags(chTagsI)
+%
 % INPUTS:
 %    chTagsI: numeric array
 %        manual specified channel tag for each channel. (default: [])
@@ -20,6 +22,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %        2057: far-range total 1064 nm
 %        1026: near-range 607 nm
 %        2053: far-range rotational Raman 1064 nm
+%
 % KEYWORDS:
 %    flagFarRangeChannel: logical
 %    flagNearRangeChannel: logical
@@ -33,6 +36,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %    flag387nmChannel: logical
 %    flag407nmChannel: logical
 %    flag607nmChannel: logical
+%
 % OUTPUTS:
 %    chTagsO: numeric array
 %        channel tag.
@@ -50,9 +54,10 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %    flag387nmChannelO: logical
 %    flag407nmChannelO: logical
 %    flag607nmChannelO: logical
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-23: first edition by Zhenping
+%    - 2021-04-23: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

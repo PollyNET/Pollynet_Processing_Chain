@@ -7,28 +7,12 @@ Pollynet_Processing_Chain
 ========================================
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Documentation:
 
-   Overview <readme.md>
-   doc/anaconda_installation.md
-   doc/polly_config.md
-   doc/polly_defaults.md
-   doc/polly_logbook.md
-   doc/pollynet.md
-   doc/pollynet_processing_chain_config.md
-   doc/pollynet_processing_program.md
-   doc/running_Pollynet_Processing_Chain_on_the_server.md
-
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Modules:
-
+   overview.rst
+   installation/installation.rst
    lib.rst
-   polly_general_func.rst
-   scattering.rst
-
 
 --------
 

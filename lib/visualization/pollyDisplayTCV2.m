@@ -1,12 +1,15 @@
 function pollyDisplayTCV2(data)
-% pollyDisplayTCV2 display aerosol/cloud target classification mask (V2).
+% POLLYDISPLAYTCV2 display aerosol/cloud target classification mask (V2).
+%
 % USAGE:
 %    pollyDisplayTCV2(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-11: first edition by Zhenping
+%    - 2021-06-11: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

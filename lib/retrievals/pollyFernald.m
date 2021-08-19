@@ -1,7 +1,9 @@
 function [aerBsc, aerBscStd, aerBR, aerBRStd] = pollyFernald(alt, signal, bg, LR_aer, refAlt, refBeta, molBsc, window_size)
 % POLLYFERNALD retrieve aerosol backscatter coefficient with Fernald method.
+%
 % USAGE:
 %    [aerBsc, aerBscStd, aerBR, aerBRStd] = pollyFernald(alt, signal, bg, LR_aer, refAlt, refBeta, molBsc, window_size)
+%
 % INPUTS:
 %    alt: array
 %        height. [m]
@@ -20,6 +22,7 @@ function [aerBsc, aerBscStd, aerBR, aerBRStd] = pollyFernald(alt, signal, bg, LR
 %        molecular backscattering coefficient. Unit: m^{-1}*sr^{-1}
 %    window_size: int32
 %        Bins of the smoothing window for the signal. [default, 40 bins]
+%
 % OUTPUTS:
 %    aerBsc: array
 %        aerosol backscatter coefficient. [m^{-1}*sr^{-1}]
@@ -29,11 +32,13 @@ function [aerBsc, aerBscStd, aerBR, aerBRStd] = pollyFernald(alt, signal, bg, LR
 %        aerosol backscatter ratio.
 %    aerBRStd: array
 %        statistical uncertainty of aerosol backscatter ratio.
+%
 % REFERENCES:
-%    1. Fernald, F. G.: Analysis of atmospheric lidar observations: some comments, Appl. Opt., 23, 652-653, 10.1364/AO.23.000652, 1984.
-% EXAMPLE:
+%    Fernald, F. G.: Analysis of atmospheric lidar observations: some comments, Appl. Opt., 23, 652-653, 10.1364/AO.23.000652, 1984.
+%
 % HISTORY:
-%    2021-05-30: first edition by Zhenping
+%    - 2021-05-30: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if nargin < 6

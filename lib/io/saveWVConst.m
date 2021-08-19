@@ -1,9 +1,10 @@
 function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
                       pollyDataFilename, pollyType)
 % SAVEWVCONST save water vapor calibration results.
+%
 % USAGE:
-%    saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, 
-%                 pollyDataFilename, pollyType)
+%    saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, pollyDataFilename, pollyType)
+%
 % INPUTS:
 %    dbFile: char
 %        absolute path of the database.
@@ -19,7 +20,9 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 %        datetime: array
 %            datetime of applied IWV.
 %        PI: char
+%            PI.
 %        contact: char
+%            contact.
 %    IWVAttri: struct
 %        cali_start_time: array
 %            water vapor calibration start time. [datenum]
@@ -33,13 +36,12 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 %        the polly netcdf data file.
 %    pollyType: char
 %        polly type. (case-sensitive)
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-19: First Edition by Zhenping
-%    2019-02-12: Remove the bug for saving flagCalibration at some time with 
-%                no calibration constants.
-%    2019-08-09: Saving the real applied water vapor constant instead of the 
-%                defaults. And remove the outputs of the function.
+%    - 2018-12-19: First Edition by Zhenping
+%    - 2019-02-12: Remove the bug for saving flagCalibration at some time with no calibration constants.
+%    - 2019-08-09: Saving the real applied water vapor constant instead of the defaults. And remove the outputs of the function.
+%
 % .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));

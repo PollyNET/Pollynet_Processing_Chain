@@ -1,8 +1,9 @@
 function [angexp, angexpStd] = pollyAE(param1, param1_std, param2, param2_std, wavelength1, wavelength2, smoothWindow)
 % POLLYAE calculate the angstroem exponent and its uncertainty.
+%
 % USAGE:
-%    [angexp, angexpStd] = pollyAE(param1, param1_std, param2, 
-%    param2_std, wavelength1, wavelength2)
+%    [angexp, angexpStd] = pollyAE(param1, param1_std, param2, param2_std, wavelength1, wavelength2)
+%
 % INPUTS:
 %    param1: array
 %        extinction or backscatter coefficient at wavelength1. 
@@ -16,14 +17,16 @@ function [angexp, angexpStd] = pollyAE(param1, param1_std, param2, param2_std, w
 %        the wavelength for the input parameter 1. [nm] 
 %    wavelength2: float
 %        the wavelength for the input parameter 2. [nm]
+%
 % OUTPUTS:
 %    angexp: array
 %        angstroem exponent based on param1 and param2 
 %    angexpStd: array
 %        uncertainty of angstroem exponent.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-31: first edition by Zhenping
+%    - 2021-05-31: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('smoothWindow', 'var')

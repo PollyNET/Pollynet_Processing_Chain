@@ -1,8 +1,9 @@
 function [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolConst(queryTime, dbFile, pollyType, wavelength, varargin)
 % LOADDEPOLCONST load depolarization calibration constant from database.
+%
 % USAGE:
-%    [depolconst, depolconstStd, caliStartTime, caliStopTime] = 
-%        loadDepolConst(queryTime, dbFile, pollyType, wavelength)
+%    [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolConst(queryTime, dbFile, pollyType, wavelength)
+%
 % INPUTS:
 %    queryTime: datenum
 %        query time.
@@ -12,6 +13,7 @@ function [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolCon
 %        polly name. (case-sensitive)
 %    wavelength: char
 %        wavelength ('355' or '532').
+%
 % KEYWORDS:
 %    deltaTime: datenum
 %        search range for the query time. (default: NaN)
@@ -22,6 +24,7 @@ function [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolCon
 %    flagBeforeQuery: logical
 %        flag to control whether to return records with calibration time before
 %        queryTime. (default: false)
+%
 % OUTPUTS:
 %    depolconst: array
 %        depolarization calibration constant.
@@ -31,9 +34,10 @@ function [depolconst, depolconstStd, caliStartTime, caliStopTime] = loadDepolCon
 %        calibration start time for each record.
 %    caliStopTime: array
 %        calibration stop time for each record.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parse arguments

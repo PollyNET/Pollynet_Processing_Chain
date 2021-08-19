@@ -1,12 +1,15 @@
 function pollySaveOCProfiles(data)
 % POLLYSAVEOCPROFILES saving vertical profiles of aerosol properties.
+%
 % USAGE:
 %    pollySaveOCProfiles(data)
+%
 % INPUTS:
 %    data.struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

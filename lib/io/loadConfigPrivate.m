@@ -1,7 +1,9 @@
 function [thisConfig] = loadConfigPrivate(configFile)
 % LOADCONFIGPRIVATE load key-value paired configuration file, and convert it into matlab struct.
+%
 % USAGE:
 %    [thisConfig] = loadConfigPrivate(configFile)
+%
 % INPUTS:
 %    configFile: char
 %        absolute path the configuration file. This file should only contain the key=value pair and with comments start with '#'.
@@ -9,13 +11,15 @@ function [thisConfig] = loadConfigPrivate(configFile)
 %        # This is an example
 %        user="Zhenping"
 %        password='123'
+%
 % OUTPUTS:
 %    thisConfig: struct
 %        this struct contains all the valid key-value pairs in the configuration file. The comments will be filtered and any line start with whitespace will be filtered as well.
-% EXAMPLE:
+%
 % HISTORY:
-%    2019-09-02: Source code comes from the answer in matlab forum under the link [https://de.mathworks.com/matlabcentral/answers/16494-periodically-updated-static-text-and-reading-from-key-value-file]: Great thanks to the author Meric Ozturk.
-%    2019-09-02: Modified by Zhenping.
+%    - 2019-09-02: Source code comes from the answer in matlab forum under the link [https://de.mathworks.com/matlabcentral/answers/16494-periodically-updated-static-text-and-reading-from-key-value-file]: Great thanks to the author Meric Ozturk.
+%    - 2019-09-02: Modified by Zhenping.
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(configFile, 'file') ~= 2

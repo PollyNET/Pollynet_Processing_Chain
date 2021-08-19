@@ -1,10 +1,13 @@
 function [res] = pollyReadTemps(file)
-% pollyReadTemps read polly housekeeping data saved in a temporary file.
+% POLLYREADTEMPS read polly housekeeping data saved in a temporary file.
+%
 % USAGE:
 %    [res] = pollyReadTemps(file)
+%
 % INPUTS:
 %    file: char
 %        filename. (absolute filename)
+%
 % OUTPUTS:
 %    res: struct
 %        time: datenum array
@@ -14,17 +17,26 @@ function [res] = pollyReadTemps(file)
 %        pyro: array
 %            laser energy
 %        T1: array
+%            temperature 1
 %        RH1: array
+%            RH 1
 %        T2: array
+%            temperature 2
 %        RH2: array
+%            RH 2
 %        Tout: array
+%            temperature outside
 %        RHout: array
+%            RH outside
 %        Status: array
+%            status
 %        Dout: array
-% EXAMPLE:
+%            D outside
+%
 % HISTORY:
-%    2019-09-28. First Edition by Zhenping
-%    2021-02-14. Add error catch processing.
+%    - 2019-09-28: First Edition by Zhenping
+%    - 2021-02-14: Add error catch processing.
+%
 % .. Authors: - zhenping@tropos.de
 
 %% initialization

@@ -1,16 +1,19 @@
 function health = readPollyXTCGELaserlogbook(file, flagDeleteData)
-% READPOLLYXTCGELASERLOGBOOK Read the health parameters of the lidar from 
-% the zipped laserlogbook file
+% READPOLLYXTCGELASERLOGBOOK Read housekeeping data from the zipped laserlogbook file
+%
 % USAGE:
 %    health = readPollyXTCGELaserlogbook(file, flagDeleteData)
+%
 % INPUTS:
 %    file: char
 %        the full filename.
 %    flagDeleteData: logical
 %        flag to control whether to delete the laserlogbook file.
+%
 % OUTPUTS:
 %    health: struct
 %        time: datenum array
+%            time.
 %        AD: array
 %            laser energy (measured inside laser head.) [a.u.]
 %        EN: array
@@ -27,9 +30,10 @@ function health = readPollyXTCGELaserlogbook(file, flagDeleteData)
 %            laser shutter.
 %        HV1064: array
 %            high voltage for 1064. [V]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-12: first edition by Zhenping
+%    - 2021-04-12: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')

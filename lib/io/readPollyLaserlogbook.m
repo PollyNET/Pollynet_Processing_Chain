@@ -1,18 +1,23 @@
 function [laserlogs] = readPollyLaserlogbook(laserlogFile, varargin)
 % READPOLLYLASERLOGBOOK Read polly laserlog book file.
+%
 % USAGE:
 %    [laserlogs] = readPollyLaserlogbook(laserlogFile)
+%
 % INPUTS:
 %    laserlogFile: char
 %       absolute path of the laserlog book file.
+%
 % KEYWORDS:
 %    flagDeleteData: logical
 %        flag to control whether to delete the laserlog book file.
 %    pollyType: char
 %        polly type.
+%
 % OUTPUTS:
 %    laserlogs: struct
 %        time: datenum array
+%            time.
 %        AD: array
 %            laser energy (measured inside laser head.) [a.u.]
 %        EN: array
@@ -37,9 +42,10 @@ function [laserlogs] = readPollyLaserlogbook(laserlogFile, varargin)
 %            status to show whether it is raining.
 %        shutter: array
 %            status to show whether the shutter is closed.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-10: first edition by Zhenping
+%    - 2021-04-10: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

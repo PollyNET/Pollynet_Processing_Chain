@@ -1,16 +1,20 @@
 function [flag] = pollyIs407Off(sig407)
 % POLLYIS407OFF determine whether channel 407nm is turned off.
+%
 % USAGE:
 %    [flag] = pollyIs407Off(sig407)
+%
 % INPUTS:
 %    sig407: array
 %        photon count. [height * time]
+%
 % OUTPUTS:
 %    flag: logical array
 %        if flag is true, channel 407nm is turned off.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-21: first edition by Zhenping
+%    - 2021-04-21: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if isempty(sig407)

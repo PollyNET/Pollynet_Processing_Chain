@@ -1,7 +1,9 @@
 function [ind] = search_AERONET_AOD(lidarTime, AEROENTTime, minLag)
 % SEARCH_AERONET_AOD search the closest AOD measurement index.
+%
 % USAGE:
 %   [ind] = search_AERONET_AOD(lidarTime, AEROENTTime, minLag)
+%
 % INPUTS:
 %   lidarTime: datenum
 %       lidar measurement time.
@@ -9,13 +11,15 @@ function [ind] = search_AERONET_AOD(lidarTime, AEROENTTime, minLag)
 %       measurement time for each AERONET points. 
 %   minLag: datenum
 %       minimum lag.
+%
 % OUTPUTS:
 %   ind: integer
 %       index of the closest AERONET measurement point. If no required point 
 %       was found, an empty array will be returned.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-30: first edition by Zhenping
+%    - 2021-05-30: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 ind = [];

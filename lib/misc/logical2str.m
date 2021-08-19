@@ -1,18 +1,22 @@
 function [strOut] = logical2str(logicalIn, replaceString)
-% LOGICAL2STR convert the logical array to cell array with replace the 0/1 to true/false or yes/no.
+% LOGICAL2STR convert logical array to cell array with replacing 0/1 to true/false or yes/no.
+%
 % USAGE:
 %   [strOut] = logical2str(logicalIn, replaceString)
+%
 % INPUTS:
 %   logicalIn: logical
 %   replaceString: char
 %       If set 'yes', the true will be replaced with yes. Otherwise, 
 %       true will be replaced with true.
+%
 % OUTPUTS:
 %   strOut: cell
 %       char array for each logical element
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('replaceString', 'var')

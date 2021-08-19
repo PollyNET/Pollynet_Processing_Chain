@@ -1,14 +1,17 @@
 function pollySaveAttnBeta(data)
 % POLLYSAVEATTNBETA save attenuated backscatter.
+%
 % USAGE:
 %    pollySaveAttnBeta(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2019-01-10: First Edition by Zhenping
-%    2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
-%    2019-09-27: Turn on the netCDF4 compression.
+%    - 2019-01-10: First Edition by Zhenping
+%    - 2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
+%    - 2019-09-27: Turn on the netCDF4 compression.
+%
 % .. Authors: - zhenping@tropos.de
 
 missing_value = -999;

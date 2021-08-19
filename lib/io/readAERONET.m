@@ -1,5 +1,5 @@
 function [measTime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_380, AOD_340, wavelength, IWV, angstrexp440_870, AERONETAttri] = readAERONET(site, mdate, level, flagFilterNegAOD)
-% readAERONET This function determines the Aerosol Optical Depth (AOD) from a
+% READAERONET This function determines the Aerosol Optical Depth (AOD) from a
 % collocated photometer. Available AOD values for a specified day are returned. 
 % Data is downloaded for the specified location from Aeronet website:
 % http://aeronet.gsfc.nasa.gov/new_web/aerosols.html
@@ -7,11 +7,12 @@ function [measTime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 % the website is triggered to create a compressed file with the requested
 % data. This file is accessed and unzipped into a temporary file. The
 % temporary file is then read and finally deleted. AOD values and
-% corresponding time along with the link to the aeronet website are
-% returned.  
+% corresponding time along with the link to the aeronet website are returned.  
+%
 % USAGE:
 %    [measTime, AOD, wavelength, IWV, angstrexp440_870, AERONETAttri] = 
 %    readAERONET(site, date, level)
+%
 % INPUTS:
 %    site: char
 %        AERONET site. You can find the nearest site by referring to 
@@ -21,8 +22,8 @@ function [measTime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %    level: char
 %        product level. ('10', '15', '20')
 %    flagFilterNegAOD: logical
-%        flag to control whether to filter out the negative AOD values. 
-%        (default: true)
+%        flag to control whether to filter out the negative AOD values. (default: true)
+%
 % OUTPUTS:
 %    measTime: array
 %        time of each measurment point.
@@ -49,15 +50,14 @@ function [measTime, AOD_1640, AOD_1020, AOD_870, AOD_675, AOD_500, AOD_440, AOD_
 %            PI of the current AERONET site.
 %        contact: char
 %            email of the PI.
-% EXAMPLE:
+%
 % HISTORY:
-%    2017-12-19: First edition by Zhenping.
-%    2018-06-22: Add 'TreatAsEmpty' keyword to textscan function to filter 
-%                N/A field in AERONET data.
-%    2018-12-23: Second Edition by Zhenping
-%    2019-02-06: Add 'flagFilterNegAOD' to keyword to enable filtering out 
-%                negative AOD values.
-%    2019-09-01: Enable download the AERONET data between two dates.
+%    - 2017-12-19: First edition by Zhenping.
+%    - 2018-06-22: Add 'TreatAsEmpty' keyword to textscan function to filter N/A field in AERONET data.
+%    - 2018-12-23: Second Edition by Zhenping
+%    - 2019-02-06: Add 'flagFilterNegAOD' to keyword to enable filtering out negative AOD values.
+%    - 2019-09-01: Enable download the AERONET data between two dates.
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('flagFilterNegAOD', 'var')

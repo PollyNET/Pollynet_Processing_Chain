@@ -1,20 +1,23 @@
 function [flag] = is_nc_variable(ncFile, varName)
-% IS_NC_VARIABLE test the ncFile whether contains the variable with name of 
-% varName.
+% IS_NC_VARIABLE test the ncFile whether contains the variable with name of varName.
+%
 % USAGE:
 %    [flag] = is_nc_variable(ncFile, varName)
+%
 % INPUTS:
 %    ncFile: char
 %        the path for the input netcdf file.
 %    varName: char
 %        the variable name you want to search.
+%
 % OUTPUTS:
 %    flag: logical
 %        if flag is true, it means the varName was contained in the ncFile.
 %        Vice versa.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 flag = false;

@@ -1,12 +1,15 @@
 function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, varargin)
 % LOADMETEOR read meteorological data.
+%
 % USAGE:
-%    [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, varargin)
+%    [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl)
+%
 % INPUTS:
 %    mTime: array
-%       query time.
-%   asl: array
-%       height above sea level. (m)
+%        query time.
+%    asl: array
+%        height above sea level. (m)
+%
 % KEYWORDS:
 %    meteorDataSource: str
 %        meteorological data type.
@@ -22,32 +25,34 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 %        the folder of the sonding files.
 %    radiosondeType: integer
 %        file type of the radiosonde file.
-%        - 1: radiosonde file for MOSAiC (default)
-%        - 2: radiosonde file for MUA
-%   flagReadLess: logical
-%       flag to determine whether access meteorological data by certain time
-%       interval. (default: false)
-%   method: char
-%       Interpolation method. (default: 'nearest')
+%        1: radiosonde file for MOSAiC (default)
+%        2: radiosonde file for MUA
+%    flagReadLess: logical
+%        flag to determine whether access meteorological data by certain time
+%        interval. (default: false)
+%    method: char
+%        Interpolation method. (default: 'nearest')
+%
 % OUTPUTS:
-%   temp: matrix (time * height)
-%       temperature for each range bin. [°C]
-%   pres: matrix (time * height)
-%       pressure for each range bin. [hPa]
-%   relh: matrix (time * height)
-%       relative humidity for each range bin. [%]
-%   wins: matrix (time * height)
-%       wind speed. (m/s)
-%   meteorAttri: struct
-%       dataSource: cell
-%           The data source used in the data processing for each cloud-free group.
-%       URL: cell
-%           The data file info for each cloud-free group.
-%       datetime: array
-%           datetime label for the meteorlogical data.
-% EXAMPLE:
+%    temp: matrix (time * height)
+%        temperature for each range bin. [°C]
+%    pres: matrix (time * height)
+%        pressure for each range bin. [hPa]
+%    relh: matrix (time * height)
+%        relative humidity for each range bin. [%]
+%    wins: matrix (time * height)
+%        wind speed. (m/s)
+%    meteorAttri: struct
+%        dataSource: cell
+%            The data source used in the data processing for each cloud-free group.
+%        URL: cell
+%            The data file info for each cloud-free group.
+%        datetime: array
+%            datetime label for the meteorlogical data.
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

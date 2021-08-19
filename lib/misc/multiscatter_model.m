@@ -2,11 +2,13 @@ function data = multiscatter_model(filename)
 % MULTISCATTER_MODEL running the mulple scattering model to calculate the 
 % multiple scattering factor. Detailed information you can find in 
 % '../lib/multiscatter.m'
+%
 % USAGE:
 %    filename: char
 %        the absolute path for the lidar configuration file. You can find 
 %        an detailed information about the format and the multiple 
 %        scattering model [here](http://www.met.reading.ac.uk/clouds/multiscatter/)
+%
 % INPUTS:
 %    data: struct
 %        range: array
@@ -20,11 +22,18 @@ function data = multiscatter_model(filename)
 %        att_single: array
 %            attenuated backscatter with single backscattering. 
 %            [m^{-1}*Sr^{-1}]
+%
 % OUTPUTS:
-%    output
-% EXAMPLE:
+%    data: struct
+%        range
+%        cloudExt
+%        cloudRadius
+%        att_total
+%        att_single
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if exist(filename, 'file') ~= 2

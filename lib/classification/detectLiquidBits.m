@@ -1,12 +1,15 @@
 function flagLiquid = detectLiquidBits(height, bsc1064, varargin)
 % DETECTLIQUIDBITS detect liquid cloud bits.
+%
 % USAGE:
 %    flagLiquid = detectLiquidBits(height, bsc1064, cloudThresBsc1064, minAttnBsc1064, p.Results.searchCloudAbove, p.Results.searchCloudBelow)
+%
 % INPUTS:
 %    height: numeric
 %        height. (m)
 %    bsc1064: matrix (height x time)
 %        particle backscatter at 1064 nm.
+%
 % KEYWORDS:
 %    cloudThresBsc1064: numeric
 %        threshold of cloud backscatter at 1064 nm.
@@ -16,11 +19,13 @@ function flagLiquid = detectLiquidBits(height, bsc1064, varargin)
 %        cloud search window above current bit. (m)
 %    searchCloudBelow
 %        cloud search window below current bit. (m)
+%
 % OUTPUTS:
 %    flagLiquid: logical (height x time)
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-05: first edition by Zhenping
+%    - 2021-06-05: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

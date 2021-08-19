@@ -1,12 +1,15 @@
 function pollyDisplayOL(data)
 % pollyDisplayOL display overlap function.
+%
 % USAGE:
 %    pollyDisplayOL(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-10: first edition by Zhenping
+%    - 2021-06-10: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

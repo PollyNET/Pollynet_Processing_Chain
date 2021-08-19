@@ -1,7 +1,9 @@
 function [dirs] = listdir(path, exppat, depth)
-% LISTDIR list all the valid directory in path.
+% LISTDIR list all valid directory in path.
+%
 % USAGE:
 %    a = listdir('~/Desktop');
+%
 % INPUTS:
 %    path: char
 %        the path for searching.
@@ -9,15 +11,16 @@ function [dirs] = listdir(path, exppat, depth)
 %        expression pattern for the search.
 %    depth: [optional]
 %        recursive searching depth.
+%
 % OUTPUTS:
 %    dirs: cell array
 %        the searched items.
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-05-18: First edition by Zhenping.
-%    2018-09-14: Add the depth parameter for supporting recursive searching.
-%    2018-11-11: Remove the searched . and .. folder. Rearrange the search 
-%                logic
+%    - 2018-05-18: First edition by Zhenping.
+%    - 2018-09-14: Add the depth parameter for supporting recursive searching.
+%    - 2018-11-11: Remove the searched . and .. folder. Rearrange the search logic
+%
 % .. Authors: - zhenping@tropos.de
 
 dirs = cell(0);

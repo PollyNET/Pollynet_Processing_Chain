@@ -1,35 +1,37 @@
 function [csvFilenames, csvFileID] = extract_cali_results(dbFile, csvFilepath, varargin)
 % EXTRACT_CALI_RESULTS extract calibration results from SQLite database to ASCII files.
+%
 % USAGE:
 %    % Usecase 1: convert single table
-%    extract_cali_results('/path/to/dbFile', '/path/to/csvFile', ...
-%        'tablename', 'lidar_calibration_constant');
+%    extract_cali_results('/path/to/dbFile', '/path/to/csvFile', 'tablename', 'lidar_calibration_constant');
 %
 %    % Usecase 2: convert all tables
 %    extract_cali_results('/path/to/dbFile', '/path/to/csvFile');
 %
 %    % Usecase 3: add prefix for csv files
-%    extract_cali_results('/path/to/dbFile', '/path/to/csvFile', ...
-%        'prefix', 'arielle_');
+%    extract_cali_results('/path/to/dbFile', '/path/to/csvFile', 'prefix', 'arielle-');
+%
 % INPUTS:
 %    dbFile: char
 %        absolute path of database file.
 %    csvFilepath: char
 %        output folder for the csv file.
+%
 % KEYWORDS:
 %    tablename: char
-%        table name that needs to be extracted (regular expression is supported).
-%        (defaults: '.*')
+%        table name that needs to be extracted (regular expression is supported). (defaults: '.*')
 %    prefix: char
 %        prefix for the ASCII filename.
+%
 % OUTPUTS:
 %    csvFilenames: cell
 %        absolute path for extracted ASCII files.
 %    csvFileID: cell
 %        identifier (table name) for respective csv file.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

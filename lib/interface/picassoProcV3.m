@@ -1,10 +1,13 @@
 function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, varargin)
 % PICASSOPROCV3 Picasso processing main program (Version 3.0).
+%
 % USAGE:
 %    % Usecase 1: process polly data
 %    [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile)
+%
 %    % Usecase 2: process polly data and laserlogbook
 %    [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, 'pollyLaserlogbook', pollyLaserlogbook)
+%
 % INPUTS:
 %    pollyDataFile: char
 %        absolute path of polly data.
@@ -27,6 +30,7 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        - PollyXT_CYP
 %    PicassoConfigFile: char
 %        absolute path of Picasso configuration file.
+%
 % KEYWORDS:
 %    defaultPiassoConfigFile: char
 %        absolute path of default Picasso configuration file.
@@ -40,12 +44,14 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        absolut path of polly laserlogbook file.
 %    flagDonefileList: logical
 %        flag for writing done_filelist.
+%
 % OUTPUTS:
 %    report: cell
 %        processing report.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-25: first edition by Zhenping
+%    - 2021-06-25: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig

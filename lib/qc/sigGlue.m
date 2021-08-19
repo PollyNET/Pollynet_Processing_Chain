@@ -1,7 +1,9 @@
 function [sigGl] = sigGlue(sigFR, sigNR, sigRatio, height, normRange)
 % SIGGLUE glue near-range and far-range signal.
+%
 % USAGE:
 %    sigGl = sigGlue(sigFR, sigNR, height, normRange)
+%
 % INPUTS:
 %    sigFR: matrix (height * time)
 %        far-range signal
@@ -13,12 +15,14 @@ function [sigGl] = sigGlue(sigFR, sigNR, sigRatio, height, normRange)
 %        height above ground. (m)
 %    normRange: array
 %        signal normalization range. (m)
+%
 % OUTPUTS:
 %    sigGl: matrix (height * time)
 %        glued signal.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 sigGl = NaN(size(sigFR));

@@ -1,16 +1,19 @@
 function health = readPollyXTIfTLaserlogbook(file, flagDeleteData)
-% READPOLLYXTIFTLASERLOGBOOK Read the health parameters of the lidar from 
-% the zipped laserlogbook file
+% READPOLLYXTIFTLASERLOGBOOK Read housekeeping data from the zipped laserlogbook file
+%
 % USAGE:
 %    health = readPollyXTIfTLaserlogbook(file, flagDeleteData)
+%
 % INPUTS:
 %    file: char
 %        the full filename.
 %    flagDeleteData: logical
 %        flag to control whether to delete the laserlogbook file.
+%
 % OUTPUTS:
 %    health: struct
 %        time: datenum array
+%            time.
 %        AD: array
 %            laser energy (measured inside laser head.) [a.u.]
 %        EN: array
@@ -32,9 +35,10 @@ function health = readPollyXTIfTLaserlogbook(file, flagDeleteData)
 %            environment temperature. [degree celsius]
 %        OutsideRH: array
 %            environment relative humidity. [%]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-04-12: first edition by Zhenping
+%    - 2021-04-12: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('flagDeleteData', 'var')

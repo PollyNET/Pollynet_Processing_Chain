@@ -1,11 +1,13 @@
 function [fileinfo_new] = read_fileinfo_new(file)
 % READ_FILEINFO_NEW read new file info.
-% classification processing
+%
 % USAGE:
 %    [fileinfo_new] = read_fileinfo_new(file)
+%
 % INPUTS:
 %    file: char
 %        filename of the fileinfo_new which locates in todo_filelist
+%
 % OUTPUTS:
 %    fileinfo_new: struct
 %        todoPath: cell
@@ -20,8 +22,10 @@ function [fileinfo_new] = read_fileinfo_new(file)
 %            file size of the zipped polly data
 %        pollyType: cell
 %            polly lidar label. e.g., 'POLLYXT_TROPOS'
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 fileinfo_new = struct();

@@ -1,13 +1,16 @@
 function pollySaveQsiV2(data)
 % pollySaveQsiV2 save quasi-retrieving (V2) results.
+%
 % USAGE:
 %    pollySaveQsiV2(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2019-08-03: First Edition by Zhenping
-%    2019-09-27: Turn on the netCDF4 compression.
+%    - 2019-08-03: First Edition by Zhenping
+%    - 2019-09-27: Turn on the netCDF4 compression.
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

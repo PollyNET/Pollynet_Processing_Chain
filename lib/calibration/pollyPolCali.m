@@ -1,12 +1,15 @@
 function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio, varargin)
-% POLLYPOLCALI calibrate the PollyXT cross channels for 355 and 532 nm
-% with ±45° method.
+% POLLYPOLCALI calibrate the PollyXT cross channels for 355 and 532 nm with ±45° method.
+%
 % USAGE:
 %    [polCaliEta, polCaliEtaStd,polCaliFac, polCaliFacStd,  polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio)
+%
 % INPUTS:
 %    data: struct
+%       data
 %    transRatio: array
 %        transmission ratios at each channel.
+%
 % KEYWORDS:
 %    wavelength: char
 %        '355nm' or '532nm'.
@@ -39,6 +42,7 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, pol
 %        default eta for polarization calibration.
 %    default_polCaliEtaStd
 %        uncertainty of default eta for polarization calibration.
+%
 % OUTPUTS:
 %    polCaliEta: numeric
 %        polarization calibration eta.
@@ -49,14 +53,15 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, pol
 %    polCaliFacStd: numeric
 %        uncertainty of polarization calibration constant.
 %    polCaliTime: 2-element array
-%        [start, stop] time of depolarization calibration.
+%        time of depolarization calibration.
 %    polCaliAttri: struct
-% EXAMPLE:
+%        polly polarization calibration attributes.
+%
 % HISTORY:
-%    2018-12-17: First edition by Zhenping
-%    2019-08-28: Add flag to control whether to do depolarization
-%                calibration.
-%    2020-04-18: Generalise the interface.
+%    - 2018-12-17: First edition by Zhenping
+%    - 2019-08-28: Add flag to control whether to do polarization calibration.
+%    - 2020-04-18: Generalise the interface.
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

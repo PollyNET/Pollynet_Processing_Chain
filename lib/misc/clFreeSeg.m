@@ -1,7 +1,9 @@
 function [clFreSegs] = clFreeSeg(prfFlag, nIntPrf, minNIntPrf)
 % CLFREESEG split continous cloud free profiles into small sections.
+%
 % USAGE:
 %    [clFreSegs] = clFreeSeg(prfFlag, nIntPrf, minNIntPrf)
+%
 % INPUTS:
 %    prfFlag: logical
 %        cloud-free flags for each profile.
@@ -9,13 +11,15 @@ function [clFreSegs] = clFreeSeg(prfFlag, nIntPrf, minNIntPrf)
 %        number of integral profiles.
 %    minNIntPrf: numeric
 %        minimum number of integral profiles.
+%
 % OUTPUTS:
 %    clFreSegs: 2xn matrix
 %        start and stop indexes for each cloud free section.
 %        [[startI1, stopI1], [startI2, stopI2], ...]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

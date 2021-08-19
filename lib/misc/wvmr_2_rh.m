@@ -1,7 +1,9 @@
 function [rh] = wvmr_2_rh(wvmr, es, pressure)
 % WVMR_2_RH convert water vapor mixing ratio to relative humidity.
+%
 % USAGE:
 %    [rh] = wvmr_2_rh(wvmr, es, pressure)
+%
 % INPUTS:
 %    wvmr: array or matrix
 %        water vapor mixing ratio. [g*kg^{-1}] 
@@ -9,12 +11,14 @@ function [rh] = wvmr_2_rh(wvmr, es, pressure)
 %        saturated vapor pressure. [hPa]
 %    pressure: array or matrix
 %        air pressure. [hPa]
+%
 % OUTPUTS:
 %    rh: array or matrix
 %        relative humidity. [%]
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-01: first edition by Zhenping
+%    - 2021-06-01: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ isequal(size(wvmr), size(pressure)) 

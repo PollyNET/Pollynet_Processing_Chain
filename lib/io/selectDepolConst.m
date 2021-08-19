@@ -1,9 +1,9 @@
 function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst(depolconst, depolconstStd, depolCaliStartTime, depolCaliStopTime, queryTime, dbFile, pollyType, wavelength, varargin)
-% SELECTDEPOLCONST select most suitable eta of polarization calibration.
+% SELECTDEPOLCONST select the most suitable eta of polarization calibration.
+%
 % USAGE:
-%    [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] =
-%        selectDepolConst(depolconst, depolconstStd, depolCaliTime,
-%            queryTime, dbFile, pollyType, wavelength)
+%    [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst(depolconst, depolconstStd, depolCaliTime, queryTime, dbFile, pollyType, wavelength)
+%
 % INPUTS:
 %    depolconst: array
 %        depolarization calibration constant.
@@ -21,6 +21,7 @@ function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst
 %        polly type. (case-sensitive)
 %    wavelength: char
 %        wavelength ('355' or '532')
+%
 % KEYWORDS:
 %    flagUsePrevDepolConst: logical
 %        flag to control whether to search for depolarization calibration
@@ -35,6 +36,7 @@ function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst
 %        suitable calibration results were found.
 %    default_polCaliEtaStd: double
 %        uncertainty of default depolarization calibration constant.
+%
 % OUTPUTS:
 %    dcUsed: double
 %        depolarization calibration constants.
@@ -46,9 +48,10 @@ function [dcUsed, dcUsedStd, dcUsedStartTime, dcUsedStopTime] = selectDepolConst
 %    dcUsedStopTime: double
 %        depolarization calibration stop time.
 %        (0 was set if there was no successful depolarization calibration.)
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

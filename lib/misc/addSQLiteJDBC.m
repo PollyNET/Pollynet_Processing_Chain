@@ -1,15 +1,20 @@
 function addSQLiteJDBC(SQLiteJDBCPath, varargin)
 % ADDSQLITEJDBC add SQLite Java database connector (JDBC) to MATLAB search path.
+%
 % USAGE:
 %    addSQLiteJDBC(SQLiteJDBCPath)
+%
 % INPUTS:
 %    SQLiteJDBCPath: char
 %        absolute path of the SQLite JDBC.
+%
 % KEYWORDS:
 %    flagDownloadSQLiteJDBC: logical
 %        flag to control whether to download the SQLite JDBC. (default: false)
+%
 % HISTORY:
-%    2021-06-15: first edition by Zhenping
+%    - 2021-06-15: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

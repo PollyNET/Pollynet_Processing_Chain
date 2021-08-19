@@ -1,7 +1,9 @@
 function [figPos] = subfigPos(pos, nRow, nColumn, xPad, yPad)
 % SUBFIGPOS calculate the normalized position of each subfigure.
+%
 % USAGE:
 %    [figPos] = subfigPos(pos, nRow, nColumn, xpad, ypad)
+%
 % INPUTS:
 %    pos: 4-element array
 %        [left, bottom, width, height]
@@ -13,14 +15,17 @@ function [figPos] = subfigPos(pos, nRow, nColumn, xPad, yPad)
 %        x-padding
 %    yPad: numeric
 %        y-padding
+%
 % OUTPUTS:
 %    figPos: matrix
 %        returned postition of each subfigures. The first figure is the 
 %        top-right one and as followed by from left-to-right and 
 %        top-to-base.
+%
 % HISTORY:
-%    2018-11-09: First edition by Zhenping
-%    2019-12-15: Enable set the x-y padding.
+%    - 2018-11-09: First edition by Zhenping
+%    - 2019-12-15: Enable set the x-y padding.
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('xPad', 'var')

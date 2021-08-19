@@ -1,12 +1,15 @@
 function pollyDisplayVDR(data)
 % POLLYDISPLAYVDR display volume depolarization ratio.
+%
 % USAGE:
 %    pollyDisplayVDR(data)
+%
 % INPUTS:
 %    data: struct
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-10: first edition by Zhenping
+%    - 2021-06-10: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig

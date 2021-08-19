@@ -1,12 +1,15 @@
 function pollyDisplayPolCali(data)
 % POLLYDISPLAYPOLCALI display polarization calibration results.
+%
 % USAGE:
 %    pollyDisplayPolCali(data)
+%
 % INPUTS:
-%    data
-% EXAMPLE:
+%    data: struct
+%
 % HISTORY:
-%    2021-06-10: first edition by Zhenping
+%    - 2021-06-10: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo

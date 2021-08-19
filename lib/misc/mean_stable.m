@@ -1,8 +1,10 @@
 function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, minRelStd)
 % MEAN_STABLE calculate the mean value of x based on the least fluctuated 
 % segment of x. The searching is based on the std inside each window of x.
+%
 % USAGE:
 %    [xStable, xIndx, xRelStd] = mean_stable(x, win)
+%
 % INPUTS:
 %    x: array
 %        signal
@@ -12,6 +14,7 @@ function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, minRelS
 %        the start bin for the mean calculation
 %    maxBin: integer
 %        the end bin for the mean calculation
+%
 % OUTPUTS:
 %    xStable: float
 %        stable mean value.
@@ -19,9 +22,10 @@ function [xStable, xIndx, xRelStd] = mean_stable(x, win, minBin, maxBin, minRelS
 %        index of the elements to be used to calculate the mean value. 
 %    xRelStd: float
 %        relative uncertainty of the sequences to calculate the mean values.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-30: first edition by Zhenping
+%    - 2021-05-30: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('minBin', 'var')

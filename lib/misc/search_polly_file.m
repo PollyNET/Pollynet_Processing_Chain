@@ -1,7 +1,9 @@
 function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse, flagLatest, flagModifiedTime)
 % SEARCH_POLLY_FILE Search the most recent polly measurement data.
+%
 % USAGE:
 %    [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse)
+%
 % INPUTS:
 %    pollyFolder: char
 %        the polly folder. 
@@ -15,16 +17,17 @@ function [filePath] = search_polly_file(pollyFolder, thisTime, timeLapse, flagLa
 %        whether to take the latest file only. (Defaults: false)
 %    flagModifiedTime: logical
 %        whether to search file based on its modified time. (Defaults: true)
+%
 % OUTPUTS:
 %    filePath: cell
 %        the absolute path of the found polly data files.
+%
 % HISTORY:
-%    2019-07-22: First Edition by Zhenping
-%    2019-08-07: Enable the output of multiple filepaths.
-%    2019-08-09: Add the variable to control the output of the latest polly 
-%                data file.
-%    2019-09-02: Add the flag to search the recent files based on the 
-%                modiefied time.
+%    - 2019-07-22: First Edition by Zhenping
+%    - 2019-08-07: Enable the output of multiple filepaths.
+%    - 2019-08-09: Add the variable to control the output of the latest polly data file.
+%    - 2019-09-02: Add the flag to search the recent files based on the modiefied time.
+%
 % .. Authors: - zhenping@tropos.de
 
 if ~ exist('timeLapse', 'var')

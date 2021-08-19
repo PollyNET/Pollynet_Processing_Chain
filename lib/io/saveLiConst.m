@@ -3,10 +3,10 @@ function saveLiConst(dbFile, liconst, liconstStd, ...
                          pollyDataFilename, pollyType, ...
                          wavelength, caliMethod, telescope)
 % SAVELICONST save lidar calibration results.
+%
 % USAGE:
-%    saveLiConst(dbFile, liconst, liconstStd, lcStartTime,
-%                 lcStopTime, pollyDataFilename, pollyType, wavelength,
-%                 caliMethod)
+%    saveLiConst(dbFile, liconst, liconstStd, lcStartTime, lcStopTime, pollyDataFilename, pollyType, wavelength, caliMethod)
+%
 % INPUTS:
 %    dbFile: char
 %        absolute path of the database.
@@ -30,9 +30,10 @@ function saveLiConst(dbFile, liconst, liconstStd, ...
 %    telescope: char
 %        detection range.
 %        ('near_range', or 'far_range')
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-08: first edition by Zhenping
+%    - 2021-06-08: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));

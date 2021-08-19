@@ -1,8 +1,10 @@
 function [pollyConfig, campaign_info] = searchCampConfig(pollyDataFile, pollyType, PicassoLinkFile)
-% SEARCHCAMPCONFIG search the campaign information and polly
+% SEARCHCAMPCONFIG search campaign information and polly
 % configuration file from pollynet_processing_chain_config_links.xlsx
+%
 % USAGE:
 %   [campaign_info] = searchCampConfig(pollyDataFile, pollyType, PicassoLinkFile)
+%
 % INPUTS:
 %    pollyDataFile: char
 %        absolute path of polly data file.
@@ -10,6 +12,7 @@ function [pollyConfig, campaign_info] = searchCampConfig(pollyDataFile, pollyTyp
 %        polly type.
 %    PicassoLinkFile: char
 %        Picasso campaign link file.
+%
 % OUTPUTS:
 %    pollyConfig: struct
 %        startTime: datenum
@@ -28,12 +31,12 @@ function [pollyConfig, campaign_info] = searchCampConfig(pollyDataFile, pollyTyp
 %        lat: double
 %        asl: double
 %        caption: char
-% EXAMPLE:
+%
 % HISTORY:
-%    2018-12-17: First edition by Zhenping
-%    2019-08-15: Change the function name
-%    2021-02-01: Merge `pollynet_history_and_places_new.txt` and
-%                `pollynet_processing_chain_link.txt`.
+%    - 2018-12-17: First edition by Zhenping
+%    - 2019-08-15: Change the function name
+%    - 2021-02-01: Merge `pollynet_history_and_places_new.txt` and `pollynet_processing_chain_link.txt`.
+%
 % .. Authors: - zhenping@tropos.de
 
 campaign_info = struct();

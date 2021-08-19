@@ -1,15 +1,18 @@
 function pollySaveOverlap(data, file)
 % POLLYSAVEOVERLAP save overlap function.
+%
 % USAGE:
 %    pollySaveOverlap(data, file)
+%
 % INPUTS:
 %    data: struct
 %    file: char
-% EXAMPLE:
+%
 % HISTORY:
-%   2018-12-21. First Edition by Zhenping
-%   2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
-%   2019-09-27. Turn on the netCDF4 compression.
+%   - 2018-12-21. First Edition by Zhenping
+%   - 2019-05-16. Extended the attributes for all the variables and comply with the ACTRIS convention.
+%   - 2019-09-27. Turn on the netCDF4 compression.
+%
 % .. Authors: - zhenping@tropos.de
 
 global PicassoConfig CampaignConfig PollyConfig

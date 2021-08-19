@@ -1,30 +1,20 @@
 function write_laserlogbook(file, data, mode)
 % WRITE_LASERLOGBOOK create laserlogbook file with the given laserlogbook data.
+%
 % USAGE:
 %   write_laserlogbook(file, data, mode)
+%
 % INPUTS:
 %   file: char
 %       absolute file path of the laserlogbook file.
 %   data: struct
-%       time: datenum array
-%           log time.
-%       T1064: array
-%           temperature of the 1064 PMT
-%       pyro: array
-%           laser energy
-%       T1: array
-%       RH1: array
-%       T2: array
-%       RH2: array
-%       Tout: array
-%       RHout: array
-%       Status: array
-%       Dout: array
+%       laserlogbook data.
 %   mode: char
 %       file creation mode.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 fid = fopen(file, mode);

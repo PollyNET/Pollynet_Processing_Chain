@@ -3,7 +3,8 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliStartTime
         polCaliPAngStopTime, polCaliNAngStartTime, ...
         polCaliNAngStopTime, TR_t, TR_x, caliHIndxRange, ...
         SNRmin, sigMax, rel_std_dplus, rel_std_dminus, segmentLen, smoothWin)
-% depolCali polarization calibration for PollyXT lidar system.
+% DEPOLCALI polarization calibration for PollyXT lidar system.
+%
 % USAGE:
 %    [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, depol_cal_time] = depolCali(signal_t, 
 %        bg_t, signal_x, bg_x, time, polCaliPAngStartTime, 
@@ -11,6 +12,7 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliStartTime
 %        polCaliNAngStopTime, TR_t, TR_x, caliHIndxRange, 
 %        SNRmin, sigMax, rel_std_dplus, rel_std_dminus, 
 %        segmentLen, smoothWin, flagShowResults)
+%
 % INPUTS:
 %    signal_t: matrix
 %        background-removed photon count signal at total channel.
@@ -59,6 +61,7 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliStartTime
 %        width of the sliding window for smoothing the signal.
 %    flagShowResults: logical
 %        flag to control whether to save the intermediate results.
+%
 % OUTPUTS:
 %    polCaliEta: array
 %        eta from polarization calibration.
@@ -74,14 +77,15 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliStartTime
 %        stop time for each successful calibration.
 %    globalAttri: struct
 %        all the information about the depol calibration.
-% EXAMPLE:
+%
 % REFERENCE:
 %    1. Freudenthaler, V.: About the effects of polarising optics on lidar signals and the Δ90 calibration, Atmos. Meas. Tech., 9, 4181-4255, 10.5194/amt-9-4181-2016, 2016.
+%
 % HISTORY:
-%    2018-07-25: First edition by Zhenping.
-%    2019-06-08: If no depol cali, return empty array.
-%    2019-09-06: Remove the part to replace the bins of low SNR with NaN, 
-%                because it will lead to bias when doing smoothing.
+%    - 2018-07-25: First edition by Zhenping.
+%    - 2019-06-08: If no depol cali, return empty array.
+%    - 2019-09-06: Remove the part to replace the bins of low SNR with NaN, because it will lead to bias when doing smoothing.
+%
 % .. Authors: - zhenping@tropos.de
 
 %% parameters initialization

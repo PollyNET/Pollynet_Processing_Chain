@@ -1,12 +1,13 @@
 function [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
-% writeTodoListAuto Search the updated polly data in the server with comparing 
+% WRITETODOLISTAUTO Search the updated polly data in the server with comparing 
 % its file size with the file size saved in the database. And also checked the 
 % GDAS1 status together if 'flagCheckGDAS1' was set true. The modified zipped 
 % files will be extracted to the todopath and the fileinfo_new file will be 
 % created to trigger the Picasso.
+%
 % USAGE:
-%    [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, ...
-% pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
+%    [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, pollyDataBaseDir, minDataSize, tSearchStart, tSearchRange, flagCheckGDAS1)
+%
 % INPUTS:
 %    pollyAppConfigFile: char
 %        filename of the pollyAPP private configuration file. 
@@ -25,12 +26,14 @@ function [flag] = writeTodoListAuto(pollyAppConfigFile, picassoConfigFile, polly
 %        search range for searching the polly data file before the tSearchStart.
 %    flagCheckGDAS1: logical
 %        flag to control whether to reprocess the data when GDAS1 files were ready.
+%
 % OUTPUTS:
 %    flag: logical
 %        status for the whole process.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-06-13: first edition by Zhenping
+%    - 2021-06-13: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 flag = false;

@@ -1,7 +1,9 @@
 function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR, bgFR, varargin)
 % POLLYOLCOR overlap correction.
+%
 % USAGE:
 %    [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR, bgFR)
+%
 % INPUTS:
 %    height: array
 %        height above ground. (m) 
@@ -9,6 +11,7 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %        far-field channel signal.
 %    bgFR: array
 %        far-field channel background
+%
 % KEYWORDS:
 %    signalNR: array
 %        near-field channel signal
@@ -30,6 +33,7 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %        smoothing window for overlap function (in bins)
 %    overlap: array
 %        overlap function.
+%
 % OUTPUTS:
 %    sigOLCor: array
 %        overlap corrected signal.
@@ -39,9 +43,10 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %        default overlap function.
 %    flagOLDeft
 %        flag to determine whether default overlap function was applied in the overlap correction.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;

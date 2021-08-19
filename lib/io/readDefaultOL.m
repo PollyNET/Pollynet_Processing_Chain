@@ -1,19 +1,23 @@
 function [height, overlap] = readDefaultOL(file)
-%READDEFAULTOL Read the overlap function from file.
+%READDEFAULTOL Read default overlap function from file.
+%
 % USAGE:
 %    [height, overlap] = readDefaultOL(file)
+%
 % INPUTS:
 %    file: char
 %        overlap file. The format of this file can be referred to 
 %        doc/polly_defaults.md
+%
 % OUTPUTS:
 %    height: array
 %        height for each range bin. [m] 
 %    overlap: array
 %        overlap function.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-22: first edition by Zhenping
+%    - 2021-05-22: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 height = [];

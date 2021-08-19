@@ -1,10 +1,9 @@
 function [ beta_aer, LR ] = pollyRamanBsc(height, sigElastic, sigVRN2, ext_aer, angstroem, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, flagSmoothBefore)
-% POLLYRAMANBSC calculate the aerosol backscatter coefficient
-% with Raman method.
+% POLLYRAMANBSC calculate the aerosol backscatter coefficient with Raman method.
+%
 % USAGE:
-%    [ beta_aer, LR ] = pollyRamanBsc(height, sigElastic, ...
-%    sigVRN2, ext_aer, ext_mol, beta_mol, HRef, wavelength, betaRef, ...
-%    window_size, flagSmoothBefore)
+%    [ beta_aer, LR ] = pollyRamanBsc(height, sigElastic, sigVRN2, ext_aer, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, flagSmoothBefore)
+%
 % INPUTS:
 %    height: array
 %        height. [m]
@@ -33,25 +32,23 @@ function [ beta_aer, LR ] = pollyRamanBsc(height, sigElastic, sigVRN2, ext_aer, 
 %    flagSmoothBefore: logical
 %        flag bit to control whether to smooth the signal before or after 
 %        calculating the signal ratio.
+%
 % OUTPUTS:
 %    beta_aer: array
 %        aerosol backscatter coefficient. [m^{-1}Sr^{-1}]
 %    LR: array
 %        aerosol lidar ratio.
+%
 % REFERENCES:
 %    netcdf-florian
-%    Ansmann, A., et al. (1992). "Independent measurement of extinction and 
-%    backscatter profiles in cirrus clouds by using a combined Raman elastic-
-%    backscatter lidar." Applied optics 31(33): 7113-7131.
-% EXAMPLE:
+%    Ansmann, A., et al. (1992). "Independent measurement of extinction and backscatter profiles in cirrus clouds by using a combined Raman elastic-backscatter lidar." Applied optics 31(33): 7113-7131.
+%
 % HISTORY:
-%    2018-01-02: First edition by Zhenping.
-%    2018-07-24: Add the ext_mol_factor and ext_aer_factor for wavelength 
-%    of 1064nm
-%    2018-09-04: Change the smoothing order. Previous way is smoothing the 
-%    signal. This will create large drift at the signal ridges.
-%    2018-09-05: Keep the original smoothing order for 355, which makes the 
-%    retrieving results at the far range bins quite stable.
+%    - 2018-01-02: First edition by Zhenping.
+%    - 2018-07-24: Add the ext_mol_factor and ext_aer_factor for wavelength of 1064nm
+%    - 2018-09-04: Change the smoothing order. Previous way is smoothing the signal. This will create large drift at the signal ridges.
+%    - 2018-09-05: Keep the original smoothing order for 355, which makes the retrieving results at the far range bins quite stable.
+%
 % .. Authors: - zhenping@tropos.de
 
 % check the inputs

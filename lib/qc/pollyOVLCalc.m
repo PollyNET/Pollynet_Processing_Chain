@@ -1,7 +1,9 @@
 function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR, varargin)
-% pollyOVLCalc calculate overlap function from polly measurements.
+% POLLYOVLCALC calculate overlap function from polly measurements.
+%
 % USAGE:
 %    [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR)
+%
 % INPUTS:
 %    height: array
 %        height above ground. (m)
@@ -13,6 +15,7 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 %        far-field background.
 %    bgNR: array
 %        near-field background.
+%
 % KEYWORDS:
 %    hFullOverlap: numeric
 %        minimum height with complete overlap (default: 600). (m)
@@ -24,6 +27,7 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 %        3: overlap correction with gluing near-range and far-range signal
 %    PC2PCR: numeric
 %        conversion factor from photon count to photon count rate (default: 1).
+%
 % OUTPUTS:
 %    olFunc: numeric
 %        overlap function.
@@ -38,9 +42,10 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 %            signal ratio of near-field and far-field signal.
 %        normRange: 2-element array
 %            normalization range.
-% EXAMPLE:
+%
 % HISTORY:
-%    2021-05-20: first edition by Zhenping
+%    - 2021-05-20: first edition by Zhenping
+%
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;
