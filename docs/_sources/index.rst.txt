@@ -4,17 +4,23 @@
    contain the root `toctree` directive.
 
 Pollynet_Processing_Chain 
-========================================
+=========================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Documentation:
+   :maxdepth: 1
 
    overview.rst
-   installation/anaconda_installation.md
+   installation/installation.rst
+   example_Picasso_usage.rst
+   modules/config.rst
+   modules/pollynet_campaign.rst
+   modules/polly_hardware.rst
+   modules/calibration.rst
+   modules/retrieval.rst
    lib.rst
 
---------
+Indices
+=======
 
 * :ref:`genindex`
 * `MATLAB Module Index <mat-modindex.html>`_

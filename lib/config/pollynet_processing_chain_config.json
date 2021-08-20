@@ -26,7 +26,7 @@
     "flagRenewLogFile": false,
     "flagDeleteData": false,
     "flagDeletePreOutputs": true,
-	"flagEnableCaliResultsOutput": true,
+    "flagEnableCaliResultsOutput": true,
     "flagEnableResultsOutput": true,
     "flagEnableDataVisualization": true,	
     "flagDebugOutput": true,
