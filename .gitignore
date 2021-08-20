@@ -17,6 +17,7 @@ done_filelist
 
 # Sphinx build
 doc-auto/build
+doc-auto/source/_build
 
 # Interim outputs
 node_modules
