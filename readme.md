@@ -5,16 +5,6 @@ This repository contains the matlab codes for processing and visualizing the dat
 
 As the development of PollyNET, the data accumulated dramatically and the realtime dataflow can be as large as ~ GB. Therefore, the automatic processing program is essential for translating the information about aerosol distribution, transportation and aerosol-cloud interaction simultaneously from the lidar recorded lidar. The program in this repository can automatically calibrate the lidar depolarization, total and water vapor channels, retrieving 1-h averaged cloud-free profiles of aerosol intensive properties and categorizing the aerosol groups with [aerosol target classification algorithm](https://www.atmos-meas-tech.net/10/3175/2017/).
 
-## Requirement
-
-The program has been tested in **MATLAB 2014a** and **2018a**. And it can run on both **window 10** and **centos 6**, which has been fully tested. 
-
-## Download
-
-You can download the whole repository by
-```
-git clone https://github.com/ZPYin/Pollynet_Processing_Chain.git
-```
 
 **Documentation**: https://pollynet.github.io/Pollynet_Processing_Chain/
 
