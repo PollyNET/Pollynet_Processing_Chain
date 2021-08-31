@@ -69,7 +69,7 @@ Picasso Link File
 
        Picasso Link File.
 
-**Picasso Link File** is the logbook for different campaigns and can be used to search **Polly Configurations** and **Polly Defaults** for polly data. `Picasso Link File <../../../config/template_pollynet_processing_chain_config_links.xlsx>`_ contains basic information about campaigns and assigns **Polly Configuration** file and **Polly Defaults** file. If a new campaign was ready, the relevant information of this campaign should be added into **Picasso Link File** in case the campaign data can be processed.
+**Picasso Link File** is the logbook for different campaigns and can be used to search **Polly Configurations** and **Polly Defaults** for different polly data. `Picasso Link File <https://github.com/PollyNET/Pollynet_Processing_Chain/blob/v3.0/config/template_pollynet_processing_chain_config_links.xlsx>`_ contains basic information about campaigns and assigns **Polly Configuration** file and **Polly Defaults** file. If a new campaign was ready, the relevant information of this campaign should be added into **Picasso Link File** in case the campaign data can be processed.
 
 .. note::
 

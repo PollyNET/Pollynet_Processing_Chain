@@ -2,6 +2,8 @@
 Overview
 ========
 
+PollyNET is a Raman polarization lidar network.
+
 .. figure:: _static/Lidar_Design.png
       :width: 600 px
       :align: center
