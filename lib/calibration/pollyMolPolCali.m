@@ -1,6 +1,6 @@
 function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCali(tSig, bgTSig, cSig, bgCSig, TR_t, TR_t_std, TR_c, TR_c_std, minSNR, mdr, mdrStd)
 % POLLYMOLPOLCALI molecular polarization calibration.
-
+%
 % USAGE:
 %    [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCali(tSig, bgTSig, cSig, bgCSig, TR_t, TR_t_std, TR_c, TR_c_std, minSNR, mdr, mdrStd)
 %

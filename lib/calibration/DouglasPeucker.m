@@ -69,20 +69,20 @@ if hTopIndx <= hBaseIndx
 end
 
 % create cell array for storing the points
-signalTemp = smooth(signal(hBaseIndx:hTopIndx), window_size, 'moving');
-heightTemp = height(hBaseIndx:hTopIndx);
-posIndx = find(signalTemp > 0);
-signalTemp = signalTemp(posIndx);
-heightTemp = heightTemp(posIndx);
-pointList = cell(1, length(signalTemp));
+signalTmp = smooth(signal(hBaseIndx:hTopIndx), window_size, 'moving');
+heightTmp = height(hBaseIndx:hTopIndx);
+posIndx = find(signalTmp > 0);
+signalTmp = signalTmp(posIndx);
+heightTmp = heightTmp(posIndx);
+pointList = cell(1, length(signalTmp));
 
-if length(signalTemp) < 2
+if length(signalTmp) < 2
     sigIndx = [1; hTopIndx - hBaseIndx + 1];
     return;
 end
 
-for index = 1: length(signalTemp)
-    pointList{index} = [heightTemp(index), log(signalTemp(index))];
+for index = 1: length(signalTmp)
+    pointList{index} = [heightTmp(index), log(signalTmp(index))];
 end
 
 sigIndx = DP_aglorithm(pointList, epsilon, maxHThick);
