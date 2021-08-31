@@ -384,6 +384,56 @@ it means default MDR and MDRStd were used.</p>
 <dt class="sig sig-object mat" id="lib.calibration.pollyMolPolCali">
 <span class="sig-prename descclassname"><span class="pre">lib.calibration.</span></span><span class="sig-name descname"><span class="pre">pollyMolPolCali</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">tSig</span></em>, <em class="sig-param"><span class="pre">bgTSig</span></em>, <em class="sig-param"><span class="pre">cSig</span></em>, <em class="sig-param"><span class="pre">bgCSig</span></em>, <em class="sig-param"><span class="pre">TR_t</span></em>, <em class="sig-param"><span class="pre">TR_t_std</span></em>, <em class="sig-param"><span class="pre">TR_c</span></em>, <em class="sig-param"><span class="pre">TR_c_std</span></em>, <em class="sig-param"><span class="pre">minSNR</span></em>, <em class="sig-param"><span class="pre">mdr</span></em>, <em class="sig-param"><span class="pre">mdrStd</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.calibration.pollyMolPolCali" title="Permalink to this definition">¶</a></dt>
 <dd><p>POLLYMOLPOLCALI molecular polarization calibration.</p>
+<dl class="simple">
+<dt>USAGE:</dt><dd><p>[polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd] = pollyMolPolCali(tSig, bgTSig, cSig, bgCSig, TR_t, TR_t_std, TR_c, TR_c_std, minSNR, mdr, mdrStd)</p>
+</dd>
+<dt>INPUTS:</dt><dd><dl class="simple">
+<dt>tSig: numeric</dt><dd><p>total signal. (photon count)</p>
+</dd>
+<dt>bgTSig: numeric</dt><dd><p>background at total channel. (photon count)</p>
+</dd>
+<dt>cSig: numeric</dt><dd><p>cross signal. (photon count)</p>
+</dd>
+<dt>bgCSig: numeric</dt><dd><p>background at cross channel. (photon count)</p>
+</dd>
+<dt>TR_t: scalar</dt><dd><p>transmission ratio at total channel</p>
+</dd>
+<dt>TR_t_std: scalar</dt><dd><p>uncertainty of the transmission ratio at total channel</p>
+</dd>
+<dt>TR_c: scalar</dt><dd><p>transmission ratio at cross channel</p>
+</dd>
+<dt>TR_c_std: scalar</dt><dd><p>uncertainty of the transmission ratio at cross channel.</p>
+</dd>
+<dt>minSNR: float</dt><dd><p>the SNR constrain for the the signal strength at reference height.
+Choose a strong constrain for ensuring a stable result,
+like 50 or 100.</p>
+</dd>
+<dt>mdr: float</dt><dd><p>default molecular depolarization ratio.</p>
+</dd>
+<dt>mdrStd: float</dt><dd><p>default std of molecular depolarization ratio.</p>
+</dd>
+</dl>
+</dd>
+<dt>OUTPUTS:</dt><dd><dl class="simple">
+<dt>polCaliEta: array</dt><dd><p>polarization calibration eta.</p>
+</dd>
+<dt>polCaliEtaStd: array</dt><dd><p>uncertainty of polarization calibration eta.</p>
+</dd>
+<dt>polCaliFac: array</dt><dd><p>polarization calibration factor.</p>
+</dd>
+<dt>polCaliFacStd: array</dt><dd><p>uncertainty of polarization calibration factor.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">References</p>
+<p>Baars, H., Ansmann, A., Althausen, D., Engelmann, R., Heese, B., Muller, D., Artaxo, P., Paixao, M., Pauliquevis, T., and Souza, R.: Aerosol profiling with lidar in the Amazon Basin during the wet and dry season, J Geophys Res-Atmos, 117, 10.1029/2012jd018338, 2012.</p>
+<dl class="simple">
+<dt>HISTORY:</dt><dd><ul class="simple">
+<li><p>2021-07-06: first edition by Zhenping</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="mat function">
