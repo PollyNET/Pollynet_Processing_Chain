@@ -17,6 +17,7 @@ global ENV_VARS;
 
 %% print header
 if ~ isfield(ENV_VARS, 'printLevel') || ENV_VARS.printLevel
+    fprintf('\n');
     fprintf('%s\n', '    ____  _                               _____  ____');
     fprintf('%s\n', '   / __ \(_)________ _______________     |__  / / __ \');
     fprintf('%s\n', '  / /_/ / / ___/ __ `/ ___/ ___/ __ \     /_ < / / / /');
