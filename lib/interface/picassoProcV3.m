@@ -399,6 +399,11 @@ data = pollyPreprocess(data, 'flagForceMeasTime', PollyConfig.flagForceMeasTime,
             'flag532nmRotRaman', data.flag532nmChannel & data.flagRotRamanChannel);
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+if isempty(data.signal) || (size(data.signal, 3) <= 1)
+    warning('Empty or only 1 profile was remained after quality control!');
+    return;
+end
+
 %% Saturation detection
 print_msg('Start detecting signal saturation.\n', 'flagTimestamp', true);
 flagSaturation = pollySaturationDetect(data, ...

@@ -157,27 +157,27 @@ def pollyxt_display_depolcali(tmpFile, saveFolder):
         sig_t_p, height,
         color='#E75A17',
         linestyle='-',
-        label=r'$Sig_{+45^\circ}$'
+        label=r'$Sig_{p, +45^\circ}$'
         )
     p2, = ax1.semilogx(
         sig_t_m, height,
         color='#1770E7',
         linestyle='-',
-        label=r'$Sig_{-45^\circ}$'
+        label=r'$Sig_{p, -45^\circ}$'
         )
     p3, = ax1.semilogx(
         sig_x_p,
         height,
         color='#E75A17',
         linestyle='--',
-        label=r'$Sig_{+45^\circ}$'
+        label=r'$Sig_{c, +45^\circ}$'
         )
     p4, = ax1.semilogx(
         sig_x_m,
         height,
         color='#1770E7',
         linestyle='--',
-        label=r'$Sig_{-45^\circ}$'
+        label=r'$Sig_{c, -45^\circ}$'
         )
     ax1.set_ylim(
         [height[caliHIndxRange[0] - 1], height[caliHIndxRange[1] - 1]]

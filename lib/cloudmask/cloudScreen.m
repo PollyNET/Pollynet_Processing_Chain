@@ -73,6 +73,7 @@ parse(p, time, height, signal, varargin{:});
 if isempty(signal)
     warning('input signal is empty');
     flagCloudFree = false(size(time));
+    layerStatus = zeros(size(signal));
     return;
 end
 
