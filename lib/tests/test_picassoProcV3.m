@@ -10,7 +10,7 @@ PicassoCfg = loadConfig(picassoCfgFile, fullfile(PicassoDir, 'lib', 'config', 'p
 PicassoCampLinks = read_camp_and_config(PicassoCfg.pollynet_config_link_file);
 
 %% Start test
-for iCamp = 7:length(PicassoCampLinks.camp_starttime)
+for iCamp = 10:length(PicassoCampLinks.camp_starttime)
 
     fprintf('Finished %6.2f%%: Campaign location: %s; start time: %s\n', (iCamp - 1) / length(PicassoCampLinks.camp_starttime) * 100, PicassoCampLinks.location{iCamp}, datestr(PicassoCampLinks.camp_starttime(iCamp)));
 
