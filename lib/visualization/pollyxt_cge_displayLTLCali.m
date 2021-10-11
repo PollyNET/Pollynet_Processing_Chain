@@ -37,11 +37,11 @@ if (length(startTime355) ~= length(startTime387))
     LC355History = LC355History(indTime355);
     LCStd355History = LCStd355History(indTime355);
     startTime355 = startTime355(indTime355);
-    stopTime355 = stopTime607(indTime355);
+    stopTime355 = stopTime355(indTime355);
     LC387History = LC387History(indTime387);
     LCStd387History = LCStd387History(indTime387);
     startTime387 = startTime387(indTime387);
-    stopTime387 = stopTime607(indTime387);
+    stopTime387 = stopTime387(indTime387);
 end
 
 if (length(startTime532) ~= length(startTime607))
@@ -49,7 +49,7 @@ if (length(startTime532) ~= length(startTime607))
     LC532History = LC532History(indTime532);
     LCStd532History = LCStd532History(indTime532);
     startTime532 = startTime532(indTime532);
-    stopTime532 = stopTime607(indTime532);
+    stopTime532 = stopTime532(indTime532);
     LC607History = LC607History(indTime607);
     LCStd607History = LCStd607History(indTime607);
     startTime607 = startTime607(indTime607);
