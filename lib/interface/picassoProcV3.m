@@ -4376,10 +4376,10 @@ if PicassoConfig.flagEnableDataVisualization
     print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display aerosol vertical profiles
-    % print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     % pollyDisplayProfiles(data);
     % pollyDisplayOCProfiles(data);
-    % print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display attenuated backscatter
     print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);

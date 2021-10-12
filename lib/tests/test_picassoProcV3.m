@@ -10,7 +10,7 @@ PicassoCfg = loadConfig(picassoCfgFile, fullfile(PicassoDir, 'lib', 'config', 'p
 PicassoCampLinks = read_camp_and_config(PicassoCfg.pollynet_config_link_file);
 
 %% Start test
-for iCamp = 30:length(PicassoCampLinks.camp_starttime)
+for iCamp = 45:length(PicassoCampLinks.camp_starttime)
 
     fprintf('Finished %6.2f%%: Campaign location: %s; start time: %s\n', (iCamp - 1) / length(PicassoCampLinks.camp_starttime) * 100, PicassoCampLinks.location{iCamp}, datestr(PicassoCampLinks.camp_starttime(iCamp)));
 
@@ -23,5 +23,5 @@ for iCamp = 30:length(PicassoCampLinks.camp_starttime)
     thisStopTime = PicassoCampLinks.camp_starttime(iCamp) + 1;
     pollyDataFolder = fullfile(pollyDataRootPath, PicassoCampLinks.instrument{iCamp});
 
-    picassoProcHistoryData(datestr(thisStartTime, 'yyyymmdd'), datestr(thisStopTime, 'yyyymmdd'), pollyDataFolder, 'pollyType', PicassoCampLinks.instrument{iCamp}, 'PicassoConfigFile', picassoCfgFile, 'mode', 'w');
+    picassoProcHistoryData(datestr(thisStartTime, 'yyyymmdd-HHMMSS'), datestr(thisStopTime, 'yyyymmdd-HHMMSS'), pollyDataFolder, 'pollyType', PicassoCampLinks.instrument{iCamp}, 'PicassoConfigFile', picassoCfgFile, 'mode', 'w');
 end
