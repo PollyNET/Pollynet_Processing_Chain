@@ -4377,8 +4377,8 @@ if PicassoConfig.flagEnableDataVisualization
 
     %% display aerosol vertical profiles
     print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    % pollyDisplayProfiles(data);
-    % pollyDisplayOCProfiles(data);
+    pollyDisplayProfiles(data);
+    pollyDisplayOCProfiles(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display attenuated backscatter
