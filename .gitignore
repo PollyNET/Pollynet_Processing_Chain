@@ -3,12 +3,9 @@
 .vscode
 *.log
 
-# config/pollyConfigs/polly_global_config.json
-
 # Processing outputs
-results
-tmp
-config
+./results
+./tmp
 recent_plots_new
 recent_plots
 results_new
@@ -17,6 +14,10 @@ test
 netcdf4
 log
 done_filelist
+
+# Sphinx build
+doc-auto/build
+doc-auto/source/_build
 
 # Interim outputs
 node_modules
@@ -27,4 +28,8 @@ debug.mat
 *.asv
 package-lock.json
 package.json
-lib/arielle_func_lib/pollynet_processing_chain_arielle.m
+
+# untracked folders
+tmp
+config
+data

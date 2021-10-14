@@ -1,0 +1,1344 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Picasso Configurations &mdash; Picasso  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="PollyNET History" href="pollynet_campaign.html" />
+    <link rel="prev" title="Usage" href="../example_Picasso_usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Picasso
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                3.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation/installation.html">Download and Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../example_Picasso_usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Picasso Configurations</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#global-configurations">Global Configurations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#picasso-link-file">Picasso Link File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#polly-configurations">Polly Configurations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rayleigh-fit-configurations">Rayleigh fit configurations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#polly-defaults">Polly Defaults</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pollynet_campaign.html">PollyNET History</a></li>
+<li class="toctree-l1"><a class="reference internal" href="polly_hardware.html">Polly Logbook</a></li>
+<li class="toctree-l1"><a class="reference internal" href="calibration.html">Lidar Calibration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="retrieval.html">Lidar Retrievals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lib.html">Picasso Functions</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Picasso</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Picasso Configurations</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/modules/config.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="picasso-configurations">
+<h1>Picasso Configurations<a class="headerlink" href="#picasso-configurations" title="Permalink to this headline">¶</a></h1>
+<p>There are many features in Picasso and they can be switched on/off according to the configurations. These configurations can be divided into four parts:</p>
+<ul class="simple">
+<li><p><strong>Global Configurations</strong>: valid for all processing tasks.</p></li>
+<li><p><strong>Picasso Link File</strong>: entries for <strong>Polly Configurations</strong> and <strong>Polly Defaults</strong>.</p></li>
+<li><p><strong>Polly Configurations</strong>: valid for single Polly or campaign.</p></li>
+<li><p><strong>Polly Defaults</strong>: valid for single Polly and campaign.</p></li>
+</ul>
+<p>These three configurations are the basics for using Picasso properly.</p>
+<div class="section" id="global-configurations">
+<h2>Global Configurations<a class="headerlink" href="#global-configurations" title="Permalink to this headline">¶</a></h2>
+<p><strong>Global Configurations</strong> are mainly associated with paths, folders and figure qualities. Below is the default settings for <strong>Global Configurations</strong>:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+<span class="nt">&quot;fileinfo_new&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;doneListFile&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;polly_config_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;log_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;gdas1_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;defaultFile_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;results_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;pic_folder&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="nt">&quot;pollynet_config_link_file&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+<span class="nt">&quot;printLevel&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+<span class="nt">&quot;figDPI&quot;</span><span class="p">:</span> <span class="mi">150</span><span class="p">,</span>
+<span class="nt">&quot;fontname&quot;</span><span class="p">:</span> <span class="s2">&quot;DejaVu Serif&quot;</span><span class="p">,</span>
+
+<span class="nt">&quot;minDataSize&quot;</span><span class="p">:</span> <span class="mi">500000</span><span class="p">,</span>
+
+<span class="nt">&quot;institute&quot;</span><span class="p">:</span> <span class="s2">&quot;Ground-based Remote Sensing Group (TROPOS)&quot;</span><span class="p">,</span>
+<span class="nt">&quot;homepage&quot;</span><span class="p">:</span> <span class="s2">&quot;http://polly.rsd.tropos.de/&quot;</span><span class="p">,</span>
+<span class="nt">&quot;contact&quot;</span><span class="p">:</span> <span class="s2">&quot;Zhenping Yin &lt;zhenping@tropos.de&gt;&quot;</span><span class="p">,</span>
+
+<span class="nt">&quot;pyBinDir&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+
+<span class="nt">&quot;flagEnableLogSubFolder&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nt">&quot;flagRenewLogFile&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nt">&quot;flagDeleteData&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nt">&quot;flagDeletePreOutputs&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;flagEnableCaliResultsOutput&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;flagEnableResultsOutput&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;flagEnableDataVisualization&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;flagDebugOutput&quot;</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="nt">&quot;flagReduceMATLABToolboxDependence&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nt">&quot;flagSendNotificationEmail&quot;</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+<span class="nt">&quot;flagWatermarkOn&quot;</span><span class="p">:</span> <span class="kc">true</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The <strong>Global Configurations</strong> can be overridden by setting up a new .json_ file or just editing the <cite>template</cite> file in <strong>config</strong>. The details of each keyword can be found below:</p>
+<table class="colwidths-given docutils align-default" id="id4">
+<caption><span class="caption-text">Picasso global configurations</span><a class="headerlink" href="#id4" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 53%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>fileinfo_new</p></td>
+<td><p>absolute path of fileinfo_new, which stores the information of polly data</p></td>
+<td><p>/home/zhenping/fileinfo_new.txt</p></td>
+</tr>
+<tr class="row-odd"><td><p>doneListFile</p></td>
+<td><p>absolute path of donefile_list, which stores the information of output figures</p></td>
+<td><p>/home/zhenping/donefile_list.txt</p></td>
+</tr>
+<tr class="row-even"><td><p>polly_config_folder</p></td>
+<td><p>directory of polly configuration files</p></td>
+<td><p>/home/zhenping/pollyConfig</p></td>
+</tr>
+<tr class="row-odd"><td><p>log_folder</p></td>
+<td><p>directory of log files</p></td>
+<td><p>/home/zhenping/log</p></td>
+</tr>
+<tr class="row-even"><td><p>gdas1_folder</p></td>
+<td><p>directory of GDAS1 meteorological data</p></td>
+<td><p>/home/zhenping/gdas1</p></td>
+</tr>
+<tr class="row-odd"><td><p>defaultFile_folder</p></td>
+<td><p>directory of polly default files</p></td>
+<td><p>/home/zhenping/pollyDefaults</p></td>
+</tr>
+<tr class="row-even"><td><p>results_folder</p></td>
+<td><p>directory for exporting processing results</p></td>
+<td><p>/home/zhenping/results</p></td>
+</tr>
+<tr class="row-odd"><td><p>pic_folder</p></td>
+<td><p>directory for exporting figures</p></td>
+<td><p>/home/zhenping/recent_plots</p></td>
+</tr>
+<tr class="row-even"><td><p>pollynet_config_link_file</p></td>
+<td><p>absolute path of Picasso link file, which associated polly data with polly configuration file</p></td>
+<td><p>/home/zhenping/pollynet_processing_chain_link_file.xlsx</p></td>
+</tr>
+<tr class="row-odd"><td><p>printLevel</p></td>
+<td><p>% 0: log file &amp; matlab command line;
+% 1: log file only;
+% 2: matlab command line only;
+% 3: simple message in log file &amp; matlab command line;
+% 4: simple message in log file only;
+% 5: simple message in matlab command line only;</p></td>
+<td><p>0</p></td>
+</tr>
+<tr class="row-even"><td><p>figDPI</p></td>
+<td><p>DPI of figures</p></td>
+<td><p>150</p></td>
+</tr>
+<tr class="row-odd"><td><p>fontname</p></td>
+<td><p>fontname used for figures</p></td>
+<td><p>DejaVu Serif</p></td>
+</tr>
+<tr class="row-even"><td><p>minDataSize</p></td>
+<td><p>minimum data size required for data processing (Byte)</p></td>
+<td><p>500000</p></td>
+</tr>
+<tr class="row-odd"><td><p>institute</p></td>
+<td><p>institute</p></td>
+<td><p>TROPOS</p></td>
+</tr>
+<tr class="row-even"><td><p>homepage</p></td>
+<td><p>homepage of pollynet</p></td>
+<td><p><a class="reference external" href="http://polly.rsd.tropos.de/">http://polly.rsd.tropos.de/</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>contact</p></td>
+<td><p>contact</p></td>
+<td><p>zhenping &lt;<a class="reference external" href="mailto:zhenping&#37;&#52;&#48;tropos&#46;de">zhenping<span>&#64;</span>tropos<span>&#46;</span>de</a>&gt;</p></td>
+</tr>
+<tr class="row-even"><td><p>pyBin</p></td>
+<td><p>path of python.exe</p></td>
+<td><p>/home/zhenping/anaconda3/bin</p></td>
+</tr>
+<tr class="row-odd"><td><p>flagDeleteData</p></td>
+<td><p>whether to delete polly data after being processed.</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>flagDeletePreOutputs</p></td>
+<td><p>whether to delete previous results for the same polly data.</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>flagEnableDataVisualization</p></td>
+<td><p>whether to activate data visualization</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>flagWatermarkOn</p></td>
+<td><p>whether to attach water-mark on each figure</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-odd"><td><p>flagEnableCaliResultsOutput</p></td>
+<td><p>whether to enable calibration results output</p></td>
+<td><p>true</p></td>
+</tr>
+<tr class="row-even"><td><p>flagEnableResultsOutput</p></td>
+<td><p>whether to enable results output</p></td>
+<td><p>true</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="picasso-link-file">
+<h2>Picasso Link File<a class="headerlink" href="#picasso-link-file" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id5">
+<a class="reference internal image-reference" href="../_images/Picasso_Link_File.png"><img alt="../_images/Picasso_Link_File.png" src="../_images/Picasso_Link_File.png" style="width: 500px;" /></a>
+<p class="caption"><span class="caption-text">Picasso Link File.</span><a class="headerlink" href="#id5" title="Permalink to this image">¶</a></p>
+</div>
+<p><strong>Picasso Link File</strong> is the logbook for different campaigns and can be used to search <strong>Polly Configurations</strong> and <strong>Polly Defaults</strong> for different polly data. <a class="reference external" href="https://github.com/PollyNET/Pollynet_Processing_Chain/blob/v3.0/config/template_pollynet_processing_chain_config_links.xlsx">Picasso Link File</a> contains basic information about campaigns and assigns <strong>Polly Configuration</strong> file and <strong>Polly Defaults</strong> file. If a new campaign was ready, the relevant information of this campaign should be added into <strong>Picasso Link File</strong> in case the campaign data can be processed.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If no entry for the polly data can be found, Picasso will jump over the current data.</p>
+</div>
+</div>
+<div class="section" id="polly-configurations">
+<h2>Polly Configurations<a class="headerlink" href="#polly-configurations" title="Permalink to this headline">¶</a></h2>
+<p><strong>Polly Configurations</strong> can be specified for each polly data. They control how data was pre-processed, the thresholds of retrievals and aerosol/cloud classifications, boundaries for data visualization, etc. The <strong>Polly Configurations</strong> can be overridden by setting up a new .json_ file. The details of each keyword can be found below:</p>
+<table class="colwidths-given docutils align-default" id="id6">
+<caption><span class="caption-text">Polly configurations</span><a class="headerlink" href="#id6" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 42%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Example</p></th>
+<th class="head"><p>Reference</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>flagCorrectFalseMShots</p></td>
+<td><p>whether to correct the invalid shots stored in the netcdf files. (I don’t know the reason yet, but it does exist in pollyxt_tropos for a period of time)</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagFilterFalseMShots</p></td>
+<td><p>whether to filter out the profiles with invalid shots. (Since I don’t know whether it’s trustable for these profiles, I will leave this keyword for future development.)</p></td>
+<td><p>false</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagForceMeasTime</p></td>
+<td><p>whether to fix measurement time according to the mshots instead of using the original PC time</p></td>
+<td><p>false</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagDTCor</p></td>
+<td><p>whether to implement deadtime correction</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagWVCalibration</p></td>
+<td><p>whether to implement water vapor calibration</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagLCCalibration</p></td>
+<td><p>whether to enable lidar calibration</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagDepolCali</p></td>
+<td><p>whether to enable lidar depolarization calibration</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagUsePreviousDepolCali</p></td>
+<td><p>whether to take previous lidar depolarization calibration results when no calibration is available</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagUsePreviousWVconst</p></td>
+<td><p>whether to take previous lidar water vapor calibration results when no water vapor calibration is available</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagUsePreviousLC</p></td>
+<td><p>whether to take previous lidar calibration constants when no lidar calibration is available</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagUseSameRefH</p></td>
+<td><p>whether to take the same reference height for aerosol retrievals at all available wavelength</p></td>
+<td><p>false</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagSigTempCor</p></td>
+<td><p>whether to implement signal temperature correction</p></td>
+<td><p>false</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>tempCorFunc</p></td>
+<td><p>temperature correction function for each channel</p></td>
+<td><p>[“1”, “exp(-0.001*T)”, “1”] (Unit: Kelvin)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>flagAutoscaleRCS</p></td>
+<td><p>to control whether to configure the color-range for range corrected signal in an automatic way</p></td>
+<td><p>true</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>flagMolDepolCali</p></td>
+<td><p>to control whether to use molecular depolarization calibration</p></td>
+<td><p>false</p></td>
+<td><ol class="upperalpha simple" start="8">
+<li><p>Baars, PhD thesis, 2012</p></li>
+</ol>
+</td>
+</tr>
+<tr class="row-odd"><td><p>MWRFolder</p></td>
+<td><p>The folder of prw results from MWR. (This is only for LACROS)</p></td>
+<td><p>C:\Users\zhenping\Desktop\Picasso\test\read_IWV_from_MWR</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>dataFileFormat</p></td>
+<td><p>regular expression to extract the data and time info from polly data file. (This is based on the syntax of matlab <strong>regexp</strong>)</p></td>
+<td><p>(?&lt;year&gt;\d{4})_(?&lt;month&gt;\d{2})_(?&lt;day&gt;\d{2})_\w*_(?&lt;hour&gt;\d{2})_(?&lt;minute&gt;\d{2})_(?&lt;second&gt;\d{2})\w*.nc</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>gdas1Site</p></td>
+<td><p>gdas1 site for the current campaign.</p></td>
+<td><p>warsaw</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>max_height_bin</p></td>
+<td><p>the number of bins you want to extract for each profile. (Normally, the high altitude bins only contain noise. If you load too much bins, you will slow down the whole processing process)</p></td>
+<td><p>2500</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>first_range_gate_indx</p></td>
+<td><p>the first bin for each channel. (It’s highly suggested to tune this parameter to compensate the lag among different channels)</p></td>
+<td><p>[261, 261, 261, 261, 261, 261, 261, 261, 262, 262, 262, 262]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>first_range_gate_height</p></td>
+<td><p>The height for the first range bin. [m]. You need to take great care for this parameter, since it will create large bias for extinction coefficient with Raman method. Look for advice from hardware scientist if you are not certain about this|78.75 m <strong>-&gt;(The unit is only for demonstration, don’t set it in the config files)</strong></p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>dtCorMode</p></td>
+<td><p>deadtime correction mode. (1: use the parameters saved in the netcdf files; 2: nonparalyzable correction with user define deadtime; 3: paralyzable correction with user defined parameters; 4: no deadtime correction)</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>dt</p></td>
+<td><p>parameters for deadtime correction. If “dtCorMode” is set to be ‘2’, only the deadtime for each channel need to be set here with unit of ns. If “dtCorMode” is set to be ‘3’, the correction parameters need to be set accordingly. You can take [pollyxt_tropos_config.json](/config/pollyxt_tropos_config.json) as an example</p></td>
+<td><p>[[0.0, 0.972992, 0.00353332, -7.90981e-006, 1.06451e-007, 1.42895e-009], [0, 1.0117, -0.0014, 0.0002, -0.0000, 0.0000], [0, 0.9674, 0.0023, 0.0000, 0.0000, 0.0000], [0, 0.9929, 0.0000, 0.0001, -0.0000, 0.0000], [0, 0.9843, 0.0022, 0.0001, -0.0000, 0.0000], [0, 0.9391, 0.0063, -0.0001, 0.0000, -0.0000], [0, 1.0035, 0.0003, 0.0001, -0.0000, 0.0000], [0, 1.0000, 0, 0, 0, 0], [0, 1.0000, 0.0029, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0028, 0.0000, 0.0000, 0.0000], [0, 1.0000, 0.0025, 0.0000, 0.0000, 0.0000], [0, 1, 0, 0, 0, 0]]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>bgCorRangeIndx</p></td>
+<td><p>the bottom and top index of signal to calculate the background</p></td>
+<td><p>[10, 240]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>mask_SNRmin</p></td>
+<td><p>the SNR threshold to mask noisy bins</p></td>
+<td><p>[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cali_mode</p></td>
+<td><p>depolarization calibration mode: 1: automatic searching based on depolarization calibration angle; 2: fixed calibration time according to input</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>depol_cal_time_fixed_p_start</p></td>
+<td><p>fixed timestamp for the start of depolarization calibration period at positive angle.</p></td>
+<td><p>[“05:30:00”] for the start time of depolarization calibration at 05:30:00 each day, or [“20130101 05:30:00”] for depolarization calibration at  2013-01-01 05:30:00</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cal_time_fixed_p_end</p></td>
+<td><p>fixed timestamp for the stop of depolarization calibration period at positive angle.</p></td>
+<td><p>[“05:35:30”]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>depol_cal_time_fixed_m_start</p></td>
+<td><p>fixed timestamp for the start depolarization calibration period at negative angle.</p></td>
+<td><p>[“05:35:30”]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cal_time_fixed_m_end</p></td>
+<td><p>fixed timestamp for the stop of depolarization calibration period at negative angle.</p></td>
+<td><p>[“05:40:00”]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>init_depAng</p></td>
+<td><p>the initial angle of the polariser withou depo calibration [degree]</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>maskDepCalAng</p></td>
+<td><p>the mask for postive and negative calibration angle. ‘none’ means invalid profiles with different depol_cal_angle</p></td>
+<td><p>[“none”, “none”, “p”, “p”, “p”, “p”, “p”, “p”, “p”, “p”, “none”, “none”, “n”, “n”, “n”, “n”, “n”, “n”, “n”, “n”]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>depol_cal_minbin_{wavelength}</p></td>
+<td><p>the minimum bin used for depolarization calibration</p></td>
+<td><p>40</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cal_maxbin_{wavelength}</p></td>
+<td><p>the maximum bin used for depolarization calibration</p></td>
+<td><p>300</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>depol_cal_SNRmin_{wavelength}</p></td>
+<td><p>Threshold for the minimum SNR used in depol-calibration. There are four signal profiles used in the calibration, total channel at 45 and cross channel at 45. Therefore, an array of four element need to be configured. Namely, [total+45, total?45, cross+45, cross?45]</p></td>
+<td><p>[1, 1, 1, 1]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cal_sigMax_{wavelength}</p></td>
+<td><p>The maximum signal strength could be used for depol-calibration to prevent signal pileup effects|[1500, 1500, 1500, 1500] (photon count)</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>rel_std_dplus_{wavelength}</p></td>
+<td><p>Threshold for maximum relative uncertainty of signal ratio at +45 depol-calibration. If relative uncertainty exceed this value, it states there could be clouds or too weak signal for this calibration period.</p></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>rel_std_dminus_{wavelength}</p></td>
+<td><p>Threshold for maximum relative uncertainty of signal ratio at -45 depol-calibration.</p></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>depol_cal_segmentLen_{wavelength}</p></td>
+<td><p>The small region for evaluating the uncertainty of depol calibration</p></td>
+<td><p>40</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>depol_cal_smoothWin_{wavelength}</p></td>
+<td><p>The smoothing window for depol-calibration</p></td>
+<td><p>8</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>isFR</p></td>
+<td><p>flag of far-range channel</p></td>
+<td><p>[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>isNR</p></td>
+<td><p>flag of near-range channel</p></td>
+<td><p>[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>is532nm</p></td>
+<td><p>flag of 532nm channel</p></td>
+<td><p>[0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>is355nm</p></td>
+<td><p>flag of 355nm channel</p></td>
+<td><p>[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>is1064nm</p></td>
+<td><p>flag of 1064nm channel</p></td>
+<td><p>[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>isTot</p></td>
+<td><p>flag of total channel</p></td>
+<td><p>[1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>isCross</p></td>
+<td><p>flag of cross polarized channel</p></td>
+<td><p>[0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>is387nm</p></td>
+<td><p>flag of 387nm channel</p></td>
+<td><p>[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>is407nm</p></td>
+<td><p>flag of 407nm channel</p></td>
+<td><p>[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>is607nm</p></td>
+<td><p>flag of 607nm channel</p></td>
+<td><p>[0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>channelTag</p></td>
+<td><p>label of each channel</p></td>
+<td><p>[“FR-total-355 nm”, “FR-cross-355 nm”, “FR-387 nm”, “FR-407 nm”, “FR-total-532 nm”, “FR-cross-532 nm”, “FR-607 nm”, “FR-total-1064 nm”, “NR-total-532 nm”, “NR-607 nm”, “NR-total-355 nm”, “NR-387 nm”, “unknown”]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minPC_fog</p></td>
+<td><p>The minimum photon count for non-fog profile. The detected photon count between 40th and 120th bin (above the first bin) for each 30s profile will be accumulated for the fog profile screening.</p></td>
+<td><p>60</p></td>
+<td><p>Baars H. et al, AMT, A1, 2016</p></td>
+</tr>
+<tr class="row-even"><td><p>TR</p></td>
+<td><p>Transmission ratio for different channel.</p></td>
+<td><p>[0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]</p></td>
+<td><p>Engelmann, R., Kanitz, T., Baars, H., Heese, B., Althausen, D., Skupin, A., Wandinger, U., Komppula, M., Stachlewska, I. S., Amiridis, V., Marinou, E., Mattis, I., Linne, H., and Ansmann, A.: The automated multiwavelength Raman polarization and water-vapor lidar PollyXT: the neXT generation, Atmos. Meas. Tech., 9, 1767-1784, 10.5194/amt-9-1767-2016, 2016.</p></td>
+</tr>
+<tr class="row-odd"><td><p>overlapCalMode</p></td>
+<td><p>1:estimate the overlap function based on the near-range signal. 2: calculate the overlap function with Raman method (U. Wandinger, et al, Applied Optics, 2002)</p></td>
+<td><p>1</p></td>
+<td><p>Wandinger, U. and Ansmann, A.: Experimental determination of the lidar overlap profile with Raman lidar, Appl. Opt., 41, 511-514, 2002.</p></td>
+</tr>
+<tr class="row-even"><td><p>overlapCorMode</p></td>
+<td><p>0: no overlap correction; 1:overlap correction with using the default overlap function; 2: overlap correction with using the calculated overlap function; 3: overlap correction with gluing near-range and far-range signal</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>overlapSmoothBins</p></td>
+<td><p>vertical window (bins) for smoothing the noisy overlap function</p></td>
+<td><p>8</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>saturate_thresh</p></td>
+<td><p>the threshold for signal saturation (MHz)</p></td>
+<td><p>100</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>heightFullOverlap</p></td>
+<td><p>height for the base of full overlap</p></td>
+<td><p>[500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minSNR_4_sigNorm</p></td>
+<td><p>The minimum SNR requirement for the signal used for signal normalization both for near- and far- range signal.</p></td>
+<td><p>10</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>cloudScreenMode</p></td>
+<td><p>1: using signal gradient; 2: using Zhao’s algorithm</p></td>
+<td><p>1</p></td>
+<td><p>Zhao, C., Wang, Y., Wang, Q., Li, Z., Wang, Z., and Liu, D.: A new cloud and aerosol layer detection method based on micropulse lidar measurements, Journal of Geophysical Research: Atmospheres, 119, 6788-6802, 10.1002/2014JD021760, 2014.</p></td>
+</tr>
+<tr class="row-even"><td><p>maxSigSlope4FilterCloud</p></td>
+<td><p>The slope threshold for cloud screening. The screening is based on the slope of the Range Corrected Signal(photon count * m^2). In theory, this should be done with the attenuated backscatter. Since the lidar constant is unknown and cloud-screen is highly important for retrieving aerosol profiles, this is the only applicable way to my knowledge. Attention should be paid for the threshold setting, because it’s dependent on the the order of ND filter. But it’s not very sensitive because cloud scattering signal is much more stronger than that from aerosols. You can keep this value if there is no dramatic changes of ND filter(more than 1)</p></td>
+<td><p>3e6</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>maxSigSlope4FilterCloud_NR</p></td>
+<td><p>The slope threshold for cloud screening with using NR signal</p></td>
+<td><p>0.5e6</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>intNProfiles</p></td>
+<td><p>Accumulated profiles for retrieving.</p></td>
+<td><p>120</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minIntNProfiles</p></td>
+<td><p>minimum integral profiles for aerosol retrieving</p></td>
+<td><p>90</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>meteorDataSource</p></td>
+<td><p>the data source for meteorological data. If the current data does not exist. It will turn to standard atmosphere model.</p></td>
+<td><p>gdas1</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>radiosondeSitenum</p></td>
+<td><p>The site number for the nearest radiosonde launching site.</p></td>
+<td><p>14430</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minDecomLogDist{wavelength}</p></td>
+<td></td>
+<td><p>0.2</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>maxDecomHeight{wavelength}</p></td>
+<td></td>
+<td><p>8000</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>maxDecomThickness{wavelength}</p></td>
+<td></td>
+<td><p>700</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>decomSmoothWin{wavelength}</p></td>
+<td><p>The smoothing window for molecular corrected signal used in Douglas-Peucker decomposition algorithm.</p></td>
+<td><p>20</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minRefThickness{wavelength}</p></td>
+<td><p>The minimum thickness for the reference height. There is thickness test in the RayleighFit function which will ensure the minimum thickness of the reference height</p></td>
+<td><p>500 m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minRefDeltaExt{wavelength}</p></td>
+<td><p>The maximum slope difference between measured signal and molecule signal. This threshold is used in RayleighFit slope test which will examine whether $slope_{molecular signal}in[slope_{measured signal} - ksigma_{slope_{measured signal}}, slope_{measured signal} + ksigma_{slope_{measured signal}}]$</p></td>
+<td><p>2</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minRefSNR{wavelength}</p></td>
+<td><p>The minimum SNR for the accumulated signal at the tested reference height.</p></td>
+<td><p>5</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>LR{wavelength}</p></td>
+<td><p>Default lidar ratio for Klett retrieving method</p></td>
+<td><p>50 sr</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>refBeta{wavelength}</p></td>
+<td><p>Reference value for Klett and Raman method</p></td>
+<td><p>2e-8</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>smoothWin_klett_{wavelength}</p></td>
+<td><p>smoothing window for klett method</p></td>
+<td><p>21</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>maxIterConstrainFernald</p></td>
+<td><p>The maximum iterations for searching the best Lidar Ratio with Constrained-AOD fernald method</p></td>
+<td><p>20 sr</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minLRConstrainFernald</p></td>
+<td><p>The minimum lidar ratio used for Constrained-AOD fernald method</p></td>
+<td><p>1 sr</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>maxLRConstrainFernald</p></td>
+<td><p>The maximum lidar ratio used for Constrained-AOD fernald method</p></td>
+<td><p>150 sr</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minDeltaAOD</p></td>
+<td><p>The minimum AOD deviation that is required for Constrained-AOD fernald method</p></td>
+<td><p>0.01</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minRamanRefSNR387</p></td>
+<td><p>The minimum SNR for the signal at the reference height. If SNR at the reference height is smaller than this value, raman method will not implemented.</p></td>
+<td><p>40</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>minRamanRefSNR607</p></td>
+<td><p>The minimum SNR for the signal at the reference height. If SNR at the reference height is smaller than this value, raman method will not implemented.</p></td>
+<td><p>20</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>angstrexp</p></td>
+<td><p>Default angstroem exponent for Raman method</p></td>
+<td><p>0.9</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>smoothWin_raman_{wavelength}</p></td>
+<td><p>smoothing window for raman method</p></td>
+<td><p>61</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>LCMeanWindow</p></td>
+<td><p>The window for calculating the Lidar Constant</p></td>
+<td><p>50</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>LCMeanMinIndx</p></td>
+<td><p>The minimum bin used for lidar constant calculation</p></td>
+<td><p>70</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>LCMeanMaxIndx</p></td>
+<td><p>The maximum bin used for lidar constant calculation</p></td>
+<td><p>1000</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>LCCalibrationStatus</p></td>
+<td><p>The tag for lidar calibration status, which will displayed in the output figures</p></td>
+<td><p>[“none”, “Klett”, “Raman”, “Defaults”, “History”]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>quasi_smooth_h</p></td>
+<td><p>temporal smoothing window for quasi retrieving method. For consistency, this parameter should be set for each channel</p></td>
+<td><p>[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>quasi_smooth_t</p></td>
+<td><p>spatial smoothing window for quasi retrieving method. For consistency, this parameter should be set for each channel</p></td>
+<td><p>[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>IWV_instrument</p></td>
+<td><p>the data source of IWV. (‘mwr’ or ‘aeronet’)</p></td>
+<td><p>AERONET</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>maxIWVTLag</p></td>
+<td><p>The minumum lag required for water vapor calibration between IWV data and lidar water vapor measurement.</p></td>
+<td><p>0.1666</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>tTwilight</p></td>
+<td><p>span of the twilight</p></td>
+<td><p>0.0347</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>hWVCaliBase</p></td>
+<td><p>The minimum height used for calculating the IWV from lidar measurement.</p></td>
+<td><p>120</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>minHWVCaliTop</p></td>
+<td><p>The minimum top height required for calculating the IWV from lidar measurement.</p></td>
+<td><p>2000</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>clear_thres_par_beta_1064</p></td>
+<td><p>The threshold for discriminating clear atmosphere based on particle backscatter at 1064nm</p></td>
+<td><p>1e-8 m^{-1}</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>turbid_thres_par_beta_1064</p></td>
+<td><p>The threshold for discriminating turbid atmosphere based on particle backscatter at 1064nm</p></td>
+<td><p>2e-7 m^{-1}</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>turbid_thres_par_beta_532</p></td>
+<td><p>The threshold for discriminating turbid atmosphere based on particle backscatter at 532nm</p></td>
+<td><p>2e-7 m^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>droplet_thres_par_depol</p></td>
+<td><p>The threshold for discriminating cloud droplets based on particle depolarization ratio at 532nm</p></td>
+<td><p>0.05</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>spheroid_thres_par_depol</p></td>
+<td><p>The threshold for discriminating spheriod paricles based on particle depolarization ratio at 532nm</p></td>
+<td><p>0.07</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>unspheroid_thres_par_depol</p></td>
+<td><p>The threshold for discriminating unspheriod paricles based on particle depolarization ratio at 532nm</p></td>
+<td><p>0.2</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>ice_thres_par_depol</p></td>
+<td><p>The threshold for discriminating ice crystals based on particle depolarization ratio at 532nm</p></td>
+<td><p>0.35</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>ice_thres_vol_depol</p></td>
+<td><p>The threshold for discriminating ice crystals based on volume depolarization ratio at 532nm</p></td>
+<td><p>0.3</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>large_thres_ang</p></td>
+<td><p>The threshold for discriminating large particles based on angstroem exponent</p></td>
+<td><p>0.75</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>small_thres_ang</p></td>
+<td><p>The threshold for discriminating small particles based on angstroem exponent</p></td>
+<td><p>0.5</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>cloud_thres_par_beta_1064</p></td>
+<td><p>The threshold for discriminating cloud layers based on quasi particle backscatter at 1064nm</p></td>
+<td><p>2e-5 m^{-1}</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>min_atten_par_beta_1064</p></td>
+<td><p>The minimum attenuation factor could be expected at the first 250m penatration depth</p></td>
+<td><p>10</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>search_cloud_above</p></td>
+<td><p>The parameter is used in cloud top detection. The cloud top will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and +search_height_above</p></td>
+<td><p>300 m</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-even"><td><p>search_cloud_below</p></td>
+<td><p>The parameter is used in cloud base detection. The cloud base will be searched between the first bin with quasi particle backscatter at 1064nm larger than cloud_thres_par_beta_1064 and -search_height_below</p></td>
+<td><p>100 m</p></td>
+<td><p>Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017.</p></td>
+</tr>
+<tr class="row-odd"><td><p>overlap{wavelength}Color</p></td>
+<td><p>the color settings for the line of overlap</p></td>
+<td><p>[0, 255, 64]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>xLim_Profi_Bsc</p></td>
+<td><p>x-range of the profile of aerosol backscatter</p></td>
+<td><p>[-0.1, 10] Mm^{-1}sr^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>xLim_Profi_NR_Bsc</p></td>
+<td><p>x-range of the profile of aerosol backscatter retrieved with near-range signal</p></td>
+<td><p>[-0.1, 10] Mm^{-1}sr^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>xLim_Profi_Ext</p></td>
+<td><p>x-range of the profile of aerosol extinction coefficient</p></td>
+<td><p>[-1, 300] Mm^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>xLim_Profi_NR_Ext</p></td>
+<td><p>x-range of the profile of aerosol extinction coefficient retrieved with near-range signal</p></td>
+<td><p>[-1, 300] Mm^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>xLim_Profi_WV_RH</p></td>
+<td><p>x-range (<strong>z-range</strong>) of the profile (<strong>time-height plot</strong>) of water vapor mixing ratio</p></td>
+<td><p>[0, 10] g*kg^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>xLim_Profi_RCS</p></td>
+<td><p>x-range of the profile of range corrected signal</p></td>
+<td><p>[0.3, 10] (<a href="#id2"><span class="problematic" id="id3">*</span></a>1e6 a.u.)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>xLim_Profi_LR</p></td>
+<td><p>x-range of the profile of lidar ratio</p></td>
+<td><p>[0, 120] sr</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_LC_{wavelength}</p></td>
+<td><p>y-range of the profile of lidar constant at certain wavelength</p></td>
+<td><p>[0, 1e14]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_LC_ratio_{wavelength1}_{wavelength2}</p></td>
+<td><p>y-range of the scatter plot of the lidar constant ratio at two given wavelength</p></td>
+<td><p>[0, 1]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_WVConst</p></td>
+<td><p>y-range of the profile of water vapor calibration constant</p></td>
+<td><p>[0, 20]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_FR_RCS</p></td>
+<td><p>y-range of the profile of range corrected signal (<strong>time-height plot of signal saturation bits</strong>) from far-range channels</p></td>
+<td><p>[0, 20000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_NR_RCS</p></td>
+<td><p>y-range of the profile of range corrected signal (<strong>time-height plot of signal saturation bits</strong>) from near-range channels</p></td>
+<td><p>[0, 3000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_att_beta</p></td>
+<td><p>y-range of the time-height plot of far-field attenuated backscatter</p></td>
+<td><p>[0, 15000] [m]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_att_beta_NR</p></td>
+<td><p>y-range of the time-height plot of near-field attenuated backscatter</p></td>
+<td><p>[0, 3000] [m]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_Quasi_Params</p></td>
+<td><p>y-range of aerosol optical products retrieved by quasi-retrieving method</p></td>
+<td><p>[0, 12000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_WV_RH</p></td>
+<td><p>y-range of the profile of water vapor mixing ratio (relative humidity)</p></td>
+<td><p>[0, 7000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_Profi_Ext</p></td>
+<td><p>y-range of the profile of extinction coefficient</p></td>
+<td><p>[0, 5000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_Profi_LR</p></td>
+<td><p>y-range of the profile of lidar ratio</p></td>
+<td><p>[0, 5000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_Profi_DR</p></td>
+<td><p>y-range of the profile of volume/particle depolarization ratio</p></td>
+<td><p>[0, 20000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_Profi_Bsc</p></td>
+<td><p>y-range of the profile of aerosol backscatter</p></td>
+<td><p>[0, 20000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>yLim_Profi_WV_RH</p></td>
+<td><p>y-range of the profile of water vapor mixing ratio (relative humidity)</p></td>
+<td><p>[0, 7000] m</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>yLim_depolConst_{wavelength}</p></td>
+<td><p>y-range of the profile of depolarization calibration constant at certain wavelength</p></td>
+<td><p>[0, 0.2]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>zLim_att_beta_{wavelength}</p></td>
+<td><p>z-range of the time-height plot of attenuated backscatter</p></td>
+<td><p>[0, 15] Mm^{-1}sr^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>zLim_quasi_beta_{wavelength}</p></td>
+<td><p>z-range of the time-height plot of quasi aerosol backscatter coefficient</p></td>
+<td><p>[0, 8] Mm^{-1}sr^{-1}</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>zLim_quasi_Par_DR_532</p></td>
+<td><p>z-range of the time-height plot of quasi particle depolarization ratio</p></td>
+<td><p>[0, 0.4]</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>zLim_FR_RCS_{wavelength}</p></td>
+<td><p>z-range of the time-height plot of range corrected signal from far-range channels</p></td>
+<td><p>[1e-2, 30] (1e6 a.u.)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>zLim_NR_RCS_{wavelength}</p></td>
+<td><p>z-range of the time-height plot of range corrected signal from near-range channels</p></td>
+<td><p>[1e-2, 5] (1e6 a.u.)</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>zLim_VolDepol_{wavelength}</p></td>
+<td><p>z-range of volume depolarization ratio</p></td>
+<td><p>[0, 0.3]</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>colormap_basic</p></td>
+<td><p>basic colormap (<cite>chiljet</cite>, <cite>eleni</cite>, <cite>CALIPSO</cite>, <cite>labview</cite>):1. range corrected signal; 2. volume depolarization ratio; 3. attenuated backscatter; 4. quasi particle backscatter; 5. quasi angstroem exponent; 6. quasi particle depolarization ratio</p></td>
+<td><p>chiljet</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>PI</p></td>
+<td><p>project investigator</p></td>
+<td><p>Holger Baars</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>PI_affiliation</p></td>
+<td><p>affiliation of PI</p></td>
+<td><p>Leibniz Institute for Tropospheric Research, Leipzig</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>PI_affiliation_acronym</p></td>
+<td><p>acronym of the affiliation of the PI</p></td>
+<td><p>TROPOS</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>PI_address</p></td>
+<td><p>address of the PI</p></td>
+<td><p>Permoserstrasse 15, 04103 Leipzig, Germany</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>PI_phone</p></td>
+<td><p>phone number of the PI</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>PI_email</p></td>
+<td><p>email of the PI</p></td>
+<td><p><a class="reference external" href="mailto:baars&#37;&#52;&#48;tropos&#46;de">baars<span>&#64;</span>tropos<span>&#46;</span>de</a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Data_Originator</p></td>
+<td><p>data originator</p></td>
+<td><p>Zhenpin Yin</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Data_Originator_affiliation</p></td>
+<td><p>affiliation of the data originator</p></td>
+<td><p>Leibniz Institute for Tropospheric Research, Leipzig</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Data_Originator_affiliation_acronym</p></td>
+<td><p>acronym of the data originator</p></td>
+<td><p>TROPOS</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Data_Originator_address</p></td>
+<td><p>address of the data originator</p></td>
+<td><p>Permoserstrasse 15, 04103 Leipzig, Germany</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>Data_Originator_phone</p></td>
+<td><p>phone number of the data originator</p></td>
+<td></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>Data_Originator_email</p></td>
+<td><p>email of the data originator</p></td>
+<td><p><a class="reference external" href="mailto:zhenping&#37;&#52;&#48;tropos&#46;de">zhenping<span>&#64;</span>tropos<span>&#46;</span>de</a></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>comment</p></td>
+<td><p>comment on the data</p></td>
+<td><p>test measurements</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>calibrationDB</p></td>
+<td><p>database for saving calibration results</p></td>
+<td><p>polly_calibration.db</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>logbookFile</p></td>
+<td><p>path to the logbook file. Only the logfile generated by the pollylog program was accepted.</p></td>
+<td><p>/home/zhenping/logbook.csv</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>radiosondeFolder</p></td>
+<td><p>directory of the radiosonde file.</p></td>
+<td><p>/home/picasso/data/radiosonde</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>imgFormat</p></td>
+<td><p>image format</p></td>
+<td><p>png</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>partnerLabel</p></td>
+<td><p>partner label to be displayed in the figures</p></td>
+<td><p>UMA</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>prodSaveList</p></td>
+<td><p>control the output of nc files. If the product was specified in the product save list (prodSaveList), it will then be saved.</p></td>
+<td><p>[“overlap”, “aerProfFR”, “aerProfNR”, “aerProfOC”, “aerAttBetaFR”, “aerAttBetaOC”, “WVMR_RH”, “volDepol”, “quasiV1”, “quasiV2”, “TC”, “TCV2”]</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="rayleigh-fit-configurations">
+<h3>Rayleigh fit configurations<a class="headerlink" href="#rayleigh-fit-configurations" title="Permalink to this headline">¶</a></h3>
+<p>There are two steps for <a class="reference external" href="../_static/Picasso_Rayleigh_fit_algorithm.pptx">Rayleigh fit algorithm</a> implemented in Picasso:</p>
+<ul class="simple">
+<li><p>Signal de-composition by <a class="reference external" href="https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm">Douglas-Peucker algorithm</a></p></li>
+<li><p>Rayleigh fit on each signal segments (de-composed by step <strong>1</strong>)</p></li>
+</ul>
+<p>To obtain required reference height in terms of reference height width and SNR, there are 7 configurations applied:</p>
+<ol class="arabic simple">
+<li><p>decomSmoothWin{wavelength}</p></li>
+<li><p>maxDecomHeight{wavelength}</p></li>
+<li><p>maxDecomThickness{wavelength}</p></li>
+<li><p>minDecomLogDist{wavelength}</p></li>
+<li><p>minRefThickness{wavelength}</p></li>
+<li><p>minRefSNR{wavelength}</p></li>
+<li><p>minRefDeltaExt{wavelength}</p></li>
+</ol>
+<p>The first 4 parameters are associated with signal de-composition. Before the signal de-composition, range-corrected signal is first divided by Rayleigh signal to correct signal attenuation by molecules and then is smoothed to remove signal spikes caused by signal noise. The smoothing window width is controlled by <cite>decomSmoothWin</cite>. The larger the smoothing window width, the more likely suitable reference height can be found. But it should be noted that signal smoothing would remove weak signal features and make them de-composed wrongly. Therefore, one may need to tune this parameter to get more reliable reference height.</p>
+<p>During the signal de-composition, the signal was decomposed according to the required maximum distance of all points to the line determined by start/end point of each signal segment. It would ensure that every signal segment is close to a line with maximum deviation less than maximum distance, configured by <cite>maxDecomLogDist</cite>. The smaller the maximum distance, the narrower the signal segments. Besides, <cite>maxDecomHeight</cite> and <cite>maxDecomThickness</cite> control the top boundary of signal de-composition and maximum length of signal segments, which would determine the top boundary of Rayleigh fit and final width of reference height.</p>
+<p>After the signal de-composition, the signal segments are fed into Rayleigh fit algorithm. The Rayleigh fit criteria are applied for each signal segment to choose suitable reference height. The criteria includes:</p>
+<ol class="arabic simple">
+<li><p>minimum reference height width (controlled by <cite>minRefThickness</cite>)</p></li>
+<li><p>near- and far-range test</p></li>
+<li><p>White-noise test</p></li>
+<li><p>SNR test (controlled by <cite>minRefSNR</cite>)</p></li>
+<li><p>Slope test (Pure Rayleigh test controlled by <cite>minRefDeltaExt</cite>)</p></li>
+</ol>
+<p><cite>minRefThickness</cite> is the parameter to control the width of reference height. It should be at least larger than 500 m to fulfill criterion <strong>3</strong> of requirement for minimum SNR. <cite>minRefDeltaExt</cite> is a key parameter to control the similarity between lidar signal and Rayleigh signal (Details can be found in <a class="reference external" href="../_static/Picasso_Rayleigh_fit_algorithm.pptx">Picasso_Rayleigh_fit_algorithm.pptx</a>). Usually, this should be fixed to 1.</p>
+</div>
+</div>
+<div class="section" id="polly-defaults">
+<h2>Polly Defaults<a class="headerlink" href="#polly-defaults" title="Permalink to this headline">¶</a></h2>
+<p>Polly defaults are used for configuring the processing program, when the calibration procedure fails. At present stage, there are 3 calibration procedures which are essential for the program: lidar constants, depolarization calibration constant and water vapor calibration constant. Besides, the overlap file is also recommended to be attached to compare with the estimated overlap function through the signal ratio between Near-Range (NR) and Far-Range (FR) channels. In general, different polly systems have their own specific default settings because of their different functionalities. Old polly system has less channels, which in the end would require less calibration procedures and thus less default settings. The most advanced polly system, like the arielle, has been powered with 13 channels, namely <span class="math notranslate nohighlight">\(3\beta+2\alpha+2\delta+WV\)</span>, which needs more efforts for retrieving the products. Details of the default settings can be found below:</p>
+<table class="colwidths-given docutils align-default" id="id7">
+<caption><span class="caption-text">Polly defaults</span><a class="headerlink" href="#id7" title="Permalink to this table">¶</a></caption>
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 42%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Keyword</p></th>
+<th class="head"><p>Meaning</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>polCaliEta532</p></td>
+<td><p>eta at 532. If depol calibration failed because of cloud contamination and there was no available eta within 1 week, the default value will be taken for depol caculations</p></td>
+<td><p>float</p></td>
+<td><p>0.024443</p></td>
+</tr>
+<tr class="row-odd"><td><p>polCaliEtaStd532</p></td>
+<td><p>uncertainty of eta at 532</p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>polCaliEta355</p></td>
+<td><p>eta at 355. If depol calibration failed because of cloud contamination and there was no available eta within 1 week, the default value will be taken for depol caculations</p></td>
+<td><p>float</p></td>
+<td><p>0.024443</p></td>
+</tr>
+<tr class="row-odd"><td><p>polCaliEtaStd355</p></td>
+<td><p>uncertainty of eta at 355</p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>LC</p></td>
+<td><p>lidar constant. If lidar calibration failed and there was no available lidar constants within 1 week, the default values will be taken for calibrate the lidar signal. The order of this variable is the same like the order of the channels</p></td>
+<td><p>array</p></td>
+<td><p>[42545559767070.414000, 1, 6.3e13, 1, 97878575429631.625000, 1, 2.2e14, 389530086877146.060000, 1, 1, 1, 1, 1]</p></td>
+</tr>
+<tr class="row-odd"><td><p>LCStd</p></td>
+<td><p>std of the lidar constants</p></td>
+<td><p>array</p></td>
+<td><p>[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]</p></td>
+</tr>
+<tr class="row-even"><td><p>overlapFile532</p></td>
+<td><p>overlap file for saving the overlap function of 532 channel. This file can only have two columns: one is the height [m] and the other is the overlap function. There should be 1 header to describe the variables. An exemplified one can be found in the folder of ‘/lib/pollyDefaults/’</p></td>
+<td><p>string</p></td>
+<td><p>pollyxt_tjk_overlap_532.txt</p></td>
+</tr>
+<tr class="row-odd"><td><p>overlapFile355</p></td>
+<td><p>overlap file for saving the overlap function of 355 channel. This file can only have two columns: one is the height [m] and the other is the overlap function. There should be 1 header to describe the variables. An exemplified one can be found in the folder of ‘/lib/pollyDefaults/’</p></td>
+<td><p>string</p></td>
+<td><p>pollyxt_tjk_overlap_355.txt</p></td>
+</tr>
+<tr class="row-even"><td><p>molDepol532</p></td>
+<td><p>molecule depolarization ratio at 532 nm. In theory, this value can be calculated based on the filter bandwidth and central wavelength. But due to some system effects from retardation, diattenuation and depolarization, the theoritical value always deviate with the measured molecular background volume depolarization ratio. And this will introduce large error for calculating the particle depolarization ratio of weak aerosol layers. Therefore, we setup this default to cancel out some part of the influences</p></td>
+<td><p>float</p></td>
+<td><p>0.0053</p></td>
+</tr>
+<tr class="row-odd"><td><p>molDepolStd532</p></td>
+<td><p>std of molecule depolarization ratio at 532 nm.</p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>molDepol355</p></td>
+<td><p>molecule depolarization ratio at 355 nm. In theory, this value can be calculated based on the filter bandwidth and central wavelength. But due to some system effects from retardation, diattenuation and depolarization, the theoritical value always deviate with the measured molecular background volume depolarization ratio. And this will introduce large error for calculating the particle depolarization ratio of weak aerosol layers. Therefore, we setup this default to cancel out some part of the influences</p></td>
+<td><p>float</p></td>
+<td><p>0.0239</p></td>
+</tr>
+<tr class="row-odd"><td><p>molDepolStd355</p></td>
+<td><p>std of molecule depolarization ratio at 355 nm.</p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+</tr>
+<tr class="row-even"><td><p>wvconst</p></td>
+<td><p>water vapor calibration constant [g*kg^{-1}]. If the water vapor calibration cannot be done and there was no available calibration constant within 1 week, the default water vapor constant will be used.</p></td>
+<td><p>float</p></td>
+<td><p>15.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>wvconstStd</p></td>
+<td><p>std of water vapor calibration constant [g*kg^{-1}].</p></td>
+<td><p>float</p></td>
+<td><p>0.0</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="pollynet_campaign.html" class="btn btn-neutral float-right" title="PollyNET History" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="../example_Picasso_usage.html" class="btn btn-neutral float-left" title="Usage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2021, TROPOS.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

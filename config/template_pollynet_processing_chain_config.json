@@ -4,21 +4,20 @@
     "polly_config_folder": "/path/to/Pollynet_Processing_Chain/config",
     "log_folder": "/path/to/results/log",
     "gdas1_folder": "/path/to/gdas1",
-    "defaultsFile_folder": "/path/to/Pollynet_Processing_Chain/lib/pollyDefaults",
+    "defaultFile_folder": "/path/to/Pollynet_Processing_Chain/lib/pollyDefaults",
     "results_folder": "/path/to/results", 
     "pic_folder": "/path/to/recent_plots", 
     "pollynet_config_link_file": "/path/to/template_pollynet_processing_chain_config_links.txt",
 
     "figDPI": 150,
     "fontname": "DejaVu Serif",
-    
+
     "minDataSize": 100000,
 
     "institute": "Ground-based Remote Sensing Group (TROPOS)",
     "homepage": "https://polly.tropos.de/",
     "contact": "Holger Baars <baars@tropos.de>",
 
-    "visualizationMode": "python",
     "pyBinDir": "/pollyhome/Picasso/anaconda3/bin",
 
     "flagDeleteData": false,
@@ -26,8 +25,5 @@
     "flagEnableResultsOutput": true,
     "flagEnableCaliResultsOutput": true,
     "flagEnableDataVisualization": true,
-    "flagDebugOutput": false,
-    "flagReduceMATLABToolboxDependence": false,
-    "flagSendNotificationEmail": false,
     "flagWatermarkOn": false
 }
