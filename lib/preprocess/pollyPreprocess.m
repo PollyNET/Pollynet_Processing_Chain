@@ -99,6 +99,8 @@ function data = pollyPreprocess(data, varargin)
 %        flags of channels with CW at 407 nm.
 %    flag532nmRotRaman: logical
 %        flags of rotational Raman channels with CW at 532 nm.
+%    flag1058nmChannel: logical
+%        flags of rotational Raman channels with CW at 1058 nm.
 %
 % OUTPUTS:
 %    data: struct
@@ -187,6 +189,7 @@ addParameter(p, 'flag607nmChannel', false, @islogical);
 addParameter(p, 'flag387nmChannel', false, @islogical);
 addParameter(p, 'flag407nmChannel', false, @islogical);
 addParameter(p, 'flag532nmRotRaman', false, @islogical);
+addParameter(p, 'flag1058nmChannel', false, @islogical);
 
 parse(p, data, varargin{:});
 
@@ -329,6 +332,10 @@ data.fogMask(transpose(squeeze(sum(data.signal(is_channel_532_FR_Tot, 40:120, :)
 %% Mask for PMT on/off status of 607 nm channel
 flagChannel607 = config.flagFarRangeChannel & config.flag607nmChannel;
 data.mask607Off = pollyIs607Off(squeeze(data.signal(flagChannel607, :, :)));
+
+%% mask for PMT1058 off
+flagChannel1058 = config.flagFarRangeChannel & config.flag1058nmChannel;
+data.mask1058Off = pollyIs1058Off(squeeze(data.signal(flagChannel1058, :, :)));
 
 %% Mask for PMT of 387 nm channel
 flagChannel387 = config.flagFarRangeChannel & config.flag387nmChannel;

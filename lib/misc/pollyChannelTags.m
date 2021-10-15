@@ -1,4 +1,4 @@
-function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRotRamanChannelO, flagTotalChannelO, flagCrossChannelO, flagParallelChannelO, flag355nmChannelO, flag387nmChannelO, flag407nmChannelO, flag532nmChannelO, flag607nmChannelO, flag1064nmChannelO] = pollyChannelTags(chTagsI, varargin)
+function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRotRamanChannelO, flagTotalChannelO, flagCrossChannelO, flagParallelChannelO, flag355nmChannelO, flag387nmChannelO, flag407nmChannelO, flag532nmChannelO, flag607nmChannelO, flag1058nmChannelO, flag1064nmChannelO] = pollyChannelTags(chTagsI, varargin)
 % POLLYCHANNELTAGS specify channel tags and labels according to logical settings.
 %
 % USAGE:
@@ -21,6 +21,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %        1025: far-range 607 nm
 %        2057: far-range total 1064 nm
 %        1026: near-range 607 nm
+%        1026: near-range 607 nm
 %        2053: far-range rotational Raman 1064 nm
 %
 % KEYWORDS:
@@ -36,6 +37,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %    flag387nmChannel: logical
 %    flag407nmChannel: logical
 %    flag607nmChannel: logical
+%    flag1058nmChannel: logical
 %
 % OUTPUTS:
 %    chTagsO: numeric array
@@ -54,6 +56,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %    flag387nmChannelO: logical
 %    flag407nmChannelO: logical
 %    flag607nmChannelO: logical
+%    flag1058nmChannelO: logical
 %
 % HISTORY:
 %    - 2021-04-23: first edition by Zhenping
@@ -75,6 +78,7 @@ addParameter(p, 'flag387nmChannel', false, @islogical);
 addParameter(p, 'flag407nmChannel', false, @islogical);
 addParameter(p, 'flag532nmChannel', false, @islogical);
 addParameter(p, 'flag607nmChannel', false, @islogical);
+addParameter(p, 'flag1058nmChannel', false, @islogical);
 addParameter(p, 'flag1064nmChannel', false, @islogical);
 
 parse(p, chTagsI, varargin{:});
@@ -99,15 +103,16 @@ for iCh = 1:nChs
                                       p.Results.flag407nmChannel | ...
                                       p.Results.flag532nmChannel | ...
                                       p.Results.flag607nmChannel | ...
+                                      p.Results.flag1058nmChannel | ...
                                       p.Results.flag1064nmChannel))
         % channel tag from logical variables
-        chTagsO(iCh) = sum(2.^(0:(12 - 1)) .* [p.Results.flagFarRangeChannel(iCh), ...
+        chTagsO(iCh) = sum(2.^(0:(13 - 1)) .* [p.Results.flag1058nmChannel(iCh), ...
+        p.Results.flagFarRangeChannel(iCh), ...
         p.Results.flagNearRangeChannel(iCh), p.Results.flagRotRamanChannel(iCh), ...
         p.Results.flagTotalChannel(iCh), p.Results.flagCrossChannel(iCh), ...
         p.Results.flagParallelChannel(iCh), p.Results.flag355nmChannel(iCh), ...
         p.Results.flag387nmChannel(iCh), p.Results.flag407nmChannel(iCh), ...
-        p.Results.flag532nmChannel(iCh), p.Results.flag607nmChannel(iCh), ...
-        p.Results.flag1064nmChannel(iCh)]);
+        p.Results.flag532nmChannel(iCh), p.Results.flag607nmChannel(iCh), p.Results.flag1064nmChannel(iCh)]);
     else
         error('PICASSO:InvalidInput', 'Incompatile channels in chTags.');
     end
@@ -143,6 +148,8 @@ for iCh = 1:nChs
         chLabels{iCh} = 'far-range rot. Raman 1064 nm';
     case 545   % far-range parallel 532 nm
         chLabels{iCh} = 'far-range parallel 532 nm';
+    case 4608
+        chLabels{iCh} = 'rot. Raman 1058 nm';
     otherwise
         warning('PICASSO:InvalidInput', 'Unknown channel tags (%d) at channel %d', chTagsO(iCh), iCh);
         chLabels{iCh} = 'Unknown';
@@ -162,5 +169,6 @@ flag407nmChannelO = logical(mod(floor(chTagsO / 2^8), 2));
 flag532nmChannelO = logical(mod(floor(chTagsO / 2^9), 2));
 flag607nmChannelO = logical(mod(floor(chTagsO / 2^10), 2));
 flag1064nmChannelO = logical(mod(floor(chTagsO / 2^11), 2));
+flag1058nmChannelO = logical(mod(floor(chTagsO / 2^12), 2));
 
 end

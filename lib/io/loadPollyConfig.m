@@ -55,6 +55,7 @@ pollyGlobalConfig.is407nm = logical(pollyGlobalConfig.is407nm);
 pollyGlobalConfig.is607nm = logical(pollyGlobalConfig.is607nm);
 pollyGlobalConfig.isRR = logical(pollyGlobalConfig.isRR);
 pollyGlobalConfig.isParallel = logical(pollyGlobalConfig.isParallel);
+pollyGlobalConfig.is1058nm = logical(pollyGlobalConfig.is1058nm);
 
 if isfield(pollyConfig, 'isFR')
     pollyConfig.isFR = logical(pollyConfig.isFR);
@@ -115,6 +116,11 @@ if isfield(pollyConfig, 'isParallel')
     pollyConfig.isParallel = logical(pollyConfig.isParallel);
 else
     pollyConfig.isParallel = false(1, length(pollyConfig.is532nm));
+end
+if isfield(pollyConfig, 'is1058nm')
+    pollyConfig.is1058nm = logical(pollyConfig.is1058nm);
+else
+    pollyConfig.is1058nm = false(1, length(pollyConfig.is532nm));
 end
 
 %% overwrite polly global configs
