@@ -1,0 +1,28 @@
+fileinfo_new,"absolute path of fileinfo_new, which stores the information of polly data",/home/zhenping/fileinfo_new.txt
+doneListFile,"absolute path of donefile_list, which stores the information of output figures",/home/zhenping/donefile_list.txt
+polly_config_folder,directory of polly configuration files,/home/zhenping/pollyConfig
+log_folder,directory of log files,/home/zhenping/log
+gdas1_folder,directory of GDAS1 meteorological data,/home/zhenping/gdas1
+defaultFile_folder,directory of polly default files,/home/zhenping/pollyDefaults
+results_folder,directory for exporting processing results,/home/zhenping/results
+pic_folder,directory for exporting figures,/home/zhenping/recent_plots
+pollynet_config_link_file,"absolute path of Picasso link file, which associated polly data with polly configuration file",/home/zhenping/pollynet_processing_chain_link_file.xlsx
+printLevel,"% 0: log file & matlab command line;
+% 1: log file only;
+% 2: matlab command line only;
+% 3: simple message in log file & matlab command line;
+% 4: simple message in log file only;
+% 5: simple message in matlab command line only;",0
+figDPI,DPI of figures,150
+fontname,fontname used for figures,DejaVu Serif
+minDataSize,minimum data size required for data processing (Byte),500000
+institute,institute,TROPOS
+homepage,homepage of pollynet,http://polly.rsd.tropos.de/
+contact,contact,zhenping <zhenping@tropos.de>
+pyBin,path of python.exe,/home/zhenping/anaconda3/bin
+flagDeleteData,whether to delete polly data after being processed.,true
+flagDeletePreOutputs,whether to delete previous results for the same polly data.,true
+flagEnableDataVisualization,whether to activate data visualization,true
+flagWatermarkOn,whether to attach water-mark on each figure,true
+flagEnableCaliResultsOutput,whether to enable calibration results output,true
+flagEnableResultsOutput,whether to enable results output,true
