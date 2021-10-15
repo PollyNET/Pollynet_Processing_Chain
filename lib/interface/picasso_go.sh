@@ -180,7 +180,7 @@ while :; do
   esac
 done
 
-if [ $flagAuto == "true" ]
+if [ $flagAuto == "true" ];
 then
     auto_process
 else
