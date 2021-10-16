@@ -116,11 +116,14 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
         vdr532_raman = mat['vdr532_raman'][:][0]
         pdr355_raman = mat['pdr355_raman'][:][0]
         pdr532_raman = mat['pdr532_raman'][:][0]
-        polCaliEta355 = mat['polCaliEta355'][:][0]
-        polCaliEta532 = mat['polCaliEta532'][:][0]
-        meteorSource = mat['meteorSource'][:][0]
-        temperature = mat['temperature'][:][0]
-        pressure = mat['pressure'][:][0]
+        if mat['polCaliEta355'].size:
+            polCaliEta355 = mat['polCaliEta355'][:][0]
+        else:
+            polCaliEta355 = [np.nan]
+        if mat['polCaliEta532'].size:
+            polCaliEta532 = mat['polCaliEta532'][:][0]
+        else:
+            polCaliEta532 = [np.nan]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]

@@ -16,7 +16,7 @@ function pollyDisplayLTLCali(data, dbFile)
 global CampaignConfig
 
 switch lower(CampaignConfig.name)
-case {'arielle', 'pollyxt_fmi', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tjk', 'pollyxt_tau', 'pollyxt_uw', 'pollyxt_cyp', 'pollyxt_lacros'}
+case {'arielle', 'pollyxt_fmi', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tjk', 'pollyxt_tau', 'pollyxt_uw', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_cpv'}
     pollyxt_displayLTLCali(data, dbFile);
 case {'pollyxt_cge'}
     pollyxt_cge_displayLTLCali(data, dbFile);

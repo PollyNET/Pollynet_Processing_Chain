@@ -15,7 +15,7 @@ function pollyDisplayHousekeeping(data)
 global CampaignConfig
 
 switch lower(CampaignConfig.name)
-case {'arielle', 'pollyxt_fmi', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tjk', 'pollyxt_tau', 'pollyxt_uw', 'pollyxt_cyp', 'pollyxt_lacros'}
+case {'arielle', 'pollyxt_fmi', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tjk', 'pollyxt_tau', 'pollyxt_uw', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_cpv'}
     pollyxt_displayHousekeeping(data);
 case {'pollyxt_cge'}
     pollyxt_cge_displayHousekeeping(data);

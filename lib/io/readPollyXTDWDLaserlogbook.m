@@ -69,7 +69,7 @@ health.rain = [];
 health.shutter = [];
 
 if exist(file, 'file') ~= 2
-    warning('%s laserlogbook file does not exist.\n%s\n', config.pollyType, file);
+    warning('Laserlogbook file does not exist.\n%s\n', file);
     return;
 end
 

@@ -690,7 +690,7 @@ def pollyxt_displayLTLCali(tmpFile, saveFolder):
 
 def main():
     pollyxt_displayLTLCali(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+        'D:\\coding\\matlab\\pollynet_Processing_Chain',
         'C:\\Users\\zpyin\\Desktop'
         )
 
