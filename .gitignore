@@ -4,8 +4,8 @@
 *.log
 
 # Processing outputs
-./results
-./tmp
+results
+tmp
 recent_plots_new
 recent_plots
 results_new
@@ -30,6 +30,5 @@ package-lock.json
 package.json
 
 # untracked folders
-tmp
 config
 data

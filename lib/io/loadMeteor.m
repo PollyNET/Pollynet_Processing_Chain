@@ -32,6 +32,8 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 %        interval. (default: false)
 %    method: char
 %        Interpolation method. (default: 'nearest')
+%    isUseLatestGDAS: logical
+%        whether to search the latest available GDAS profile (default: false).
 %
 % OUTPUTS:
 %    temp: matrix (time * height)
@@ -69,6 +71,7 @@ addParameter(p, 'radiosondeType', 1, @isnumeric);
 addParameter(p, 'flagTemporalInterp', false, @islogical);
 addParameter(p, 'flagReadLess', false, @islogical);
 addParameter(p, 'method', 'nearest', @ischar);
+addParameter(p, 'isUseLatestGDAS', true, @islogical);
 
 parse(p, mTime, asl, varargin{:});
 

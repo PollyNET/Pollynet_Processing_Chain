@@ -25,6 +25,8 @@ function [alt, temp, pres, relh, wins, wind, attri] = readMeteor(measTime, varar
 %        file type of the radiosonde file.
 %        - 1: radiosonde file for MOSAiC (default)
 %        - 2: radiosonde file for MUA
+%    isUseLatestGDAS: logical
+%        whether to search the latest available GDAS profile (default: false).
 %
 % OUTPUTS:
 %    alt: array
@@ -65,6 +67,7 @@ addParameter(p, 'gdas1_folder', '', @ischar);
 addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
 addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);
+addParameter(p, 'isUseLatestGDAS', true, @islogical);
 
 parse(p, measTime, varargin{:});
 
@@ -83,7 +86,8 @@ attri.datetime = [];
 switch lower(p.Results.meteorDataSource)
 case 'gdas1'
     [alt, temp, pres, relh, wins, wind, gdas1File] = readGDAS1(measTime, ...
-    p.Results.gdas1Site, p.Results.gdas1_folder);
+        p.Results.gdas1Site, p.Results.gdas1_folder, ...
+        'isUseLatestGDAS', p.Results.isUseLatestGDAS);
 
     if isempty(alt)
         alt = [];
