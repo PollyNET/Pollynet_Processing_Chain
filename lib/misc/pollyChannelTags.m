@@ -21,6 +21,7 @@ function [chTagsO, chLabels, flagFarRangeChannelO, flagNearRangeChannelO, flagRo
 %        1025: far-range 607 nm
 %        2057: far-range total 1064 nm
 %        1026: near-range 607 nm
+%        1026: near-range 607 nm
 %        2053: far-range rotational Raman 1064 nm
 %
 % KEYWORDS:
@@ -106,8 +107,7 @@ for iCh = 1:nChs
         p.Results.flagTotalChannel(iCh), p.Results.flagCrossChannel(iCh), ...
         p.Results.flagParallelChannel(iCh), p.Results.flag355nmChannel(iCh), ...
         p.Results.flag387nmChannel(iCh), p.Results.flag407nmChannel(iCh), ...
-        p.Results.flag532nmChannel(iCh), p.Results.flag607nmChannel(iCh), ...
-        p.Results.flag1064nmChannel(iCh)]);
+        p.Results.flag532nmChannel(iCh), p.Results.flag607nmChannel(iCh), p.Results.flag1064nmChannel(iCh)]);
     else
         error('PICASSO:InvalidInput', 'Incompatile channels in chTags.');
     end

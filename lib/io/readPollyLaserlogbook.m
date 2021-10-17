@@ -60,7 +60,7 @@ parse(p, laserlogFile, varargin{:});
 laserlogs = struct();
 
 switch lower(p.Results.pollyType)
-case {'arielle', 'pollyxt_tjk', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tau', 'pollyxt_fmi', 'pollyxt_uw'}
+case {'arielle', 'pollyxt_tjk', 'pollyxt_cyp', 'pollyxt_lacros', 'pollyxt_tropos', 'pollyxt_noa', 'pollyxt_tau', 'pollyxt_fmi', 'pollyxt_uw', 'pollyxt_cpv'}
     laserlogs = readPollyXTLaserlogbook(laserlogFile, p.Results.flagDeleteData);
 case {'polly_1st'}
     laserlogs = readPolly1stLaserlogbook(laserlogFile, p.Results.flagDeleteData);

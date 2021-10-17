@@ -1,5 +1,17 @@
 # Pollynet Processing Chain Changelog
 
+## Version 3.0
+
+Main features:
+
+- Compact and flexible program structure
+- New algorithms, including reliable cloud detection, improved quasi-retrievals with Raman signal, etc.
+- More products, including overlap corrected profiles, near-field products, etc.
+- Centralized and modern Sphinx documentation
+- Bugfixes to support very old polly data
+- 
+In this release, all previous issues have been fixed. Nevertheless, we are still open for new issues and we are always ready to make Picasso better.
+
 ## Version 2.0
 
 ### Release date

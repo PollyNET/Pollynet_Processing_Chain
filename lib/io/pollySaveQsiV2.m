@@ -163,25 +163,14 @@ netcdf.putAtt(ncID, varID_quasi_ang_532_1064, 'comment', 'This parameter is retr
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
+netcdf.putAtt(ncID, varID_global, 'Licence', 'Creative Commons Attribution Share Alike 4.0 International (CC BY-SA 4.0)');
+netcdf.putAtt(ncID, varID_global, 'Data Policy', 'Each PollyNET site has Principal Investigator(s) (PI), responsible for deployment, maintenance and data collection. Information on which PI is responsible can be gathered via polly@tropos.de. The PI has priority use of the data collected at the site. The PI is entitled to be informed of any use of that data. Mandatory guidelines for data use and publication: Using PollyNET data or plots (also for presentations/workshops): Please consult with the PI or the PollyNET team (see contact_mail contact) before using data or plots! This will help to avoid misinterpretations of the lidar data and avoid the use of data from periods of malfunction of the instrument. Using PollyNET images/data on external websites: PIs and PollyNET must be asked for agreement and a link directed to polly.tropos.de must be included. Publishing PollyNET data and/or plots data: Offer authorship for the PI(s)! Acknowledge projects which have made the measurements possible according to PI(s) recommendation. PollyNET requests a notification of any published papers or reports or a brief description of other uses (e.g., posters, oral presentations, etc.) of data/plots used from PollyNET. This will help us determine the use of PollyNET data, which is helpful in optimizing product development and acquire new funding for future measurements. It also helps us to keep our product-related references up-to-date.');
 netcdf.putAtt(ncID, varID_global, 'location', CampaignConfig.location);
 netcdf.putAtt(ncID, varID_global, 'institute', PicassoConfig.institute);
 netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
-netcdf.putAtt(ncID, varID_global, 'PI', PollyConfig.PI);
-netcdf.putAtt(ncID, varID_global, 'PI_affiliation', PollyConfig.PI_affiliation);
-netcdf.putAtt(ncID, varID_global, 'PI_affiliation_acronym', PollyConfig.PI_affiliation_acronym);
-netcdf.putAtt(ncID, varID_global, 'PI_address', PollyConfig.PI_address);
-netcdf.putAtt(ncID, varID_global, 'PI_phone', PollyConfig.PI_phone);
-netcdf.putAtt(ncID, varID_global, 'PI_email', PollyConfig.PI_email);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator', PollyConfig.Data_Originator);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator_affiliation', PollyConfig.Data_Originator_affiliation);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator_affiliation_acronym', PollyConfig.Data_Originator_affiliation_acronym);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator_address', PollyConfig.Data_Originator_address);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator_phone', PollyConfig.Data_Originator_phone);
-netcdf.putAtt(ncID, varID_global, 'Data_Originator_email', PollyConfig.Data_Originator_email);
-netcdf.putAtt(ncID, varID_global, 'title', 'quasi-retrieved aerosol optical properties (V2)');
-netcdf.putAtt(ncID, varID_global, 'comment', PollyConfig.comment);
+netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
 cwd = pwd;
 cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();

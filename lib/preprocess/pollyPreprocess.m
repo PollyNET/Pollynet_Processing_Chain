@@ -99,6 +99,8 @@ function data = pollyPreprocess(data, varargin)
 %        flags of channels with CW at 407 nm.
 %    flag532nmRotRaman: logical
 %        flags of rotational Raman channels with CW at 532 nm.
+%    flag1064nmRotRaman: logical
+%        flags of rotational Raman channels with CW at 1064 nm.
 %
 % OUTPUTS:
 %    data: struct
@@ -141,8 +143,12 @@ function data = pollyPreprocess(data, varargin)
 %            mask of PMT on/off status at 387 nm channel.
 %        mask407Off: logical
 %            mask of PMT on/off status at 407 nm channel.
+%        mask355RROff: logical
+%            mask of PMT on/off status at 355 nm rotational Raman channel.
 %        mask532RROff: logical
 %            mask of PMT on/off status at 532 nm rotational Raman channel.
+%        mask1064RROff: logical
+%            mask of PMT on/off status at 1064 nm rotational Raman channel.
 %
 % HISTORY:
 %    - 2018-12-16: First edition by Zhenping.
@@ -186,7 +192,9 @@ addParameter(p, 'flag355nmChannel', false, @islogical);
 addParameter(p, 'flag607nmChannel', false, @islogical);
 addParameter(p, 'flag387nmChannel', false, @islogical);
 addParameter(p, 'flag407nmChannel', false, @islogical);
+addParameter(p, 'flag355nmRotRaman', false, @islogical);
 addParameter(p, 'flag532nmRotRaman', false, @islogical);
+addParameter(p, 'flag1064nmRotRaman', false, @islogical);
 
 parse(p, data, varargin{:});
 
@@ -338,8 +346,16 @@ data.mask387Off = pollyIs387Off(squeeze(data.signal(flagChannel387, :, :)));
 flagChannel407 = config.flagFarRangeChannel & config.flag407nmChannel;
 data.mask407Off = pollyIs407Off(squeeze(data.signal(flagChannel407, :, :)));
 
-%% Mask for PMT of Rotation Raman channel
+%% Mask for PMT of 355 nm rotation Raman channel
+flagChannel355RR = config.flagFarRangeChannel & config.flag355nmRotRaman;
+data.mask355RROff = pollyIs607Off(squeeze(data.signal(flagChannel355RR, :, :)));
+
+%% Mask for PMT of 532 nm rotation Raman channel
 flagChannel532RR = config.flagFarRangeChannel & config.flag532nmRotRaman;
 data.mask532RROff = pollyIs607Off(squeeze(data.signal(flagChannel532RR, :, :)));
+
+%% Mask for 1064 nm rotation Raman channel
+flagChannel1064RR = config.flag1064nmRotRaman;
+data.mask1064RROff = pollyIs607Off(squeeze(data.signal(flagChannel1064RR, :, :)));
 
 end

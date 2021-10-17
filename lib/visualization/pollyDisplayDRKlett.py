@@ -116,11 +116,14 @@ def pollyDisplayDRKlett(tmpFile, saveFolder):
         vdr532_klett = mat['vdr532_klett'][:][0]
         pdr355_klett = mat['pdr355_klett'][:][0]
         pdr532_klett = mat['pdr532_klett'][:][0]
-        polCaliEta355 = mat['polCaliEta355'][:][0]
-        polCaliEta532 = mat['polCaliEta532'][:][0]
-        meteorSource = mat['meteorSource'][:][0]
-        temperature = mat['temperature'][:][0]
-        pressure = mat['pressure'][:][0]
+        if mat['polCaliEta355'].size:
+            polCaliEta355 = mat['polCaliEta355'][:][0]
+        else:
+            polCaliEta355 = [np.nan]
+        if mat['polCaliEta532'].size:
+            polCaliEta532 = mat['polCaliEta532'][:][0]
+        else:
+            polCaliEta532 = [np.nan]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -220,8 +223,8 @@ def pollyDisplayDRKlett(tmpFile, saveFolder):
 
 def main():
     pollyDisplayDRKlett(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
-        'C:\\Users\\zpyin\\Desktop')
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+        'C:\\Users\\zhenping\\Desktop')
 
 
 if __name__ == '__main__':

@@ -12,9 +12,9 @@ display_help() {
   echo
   echo "Process polly history data."
   echo "   -s, --start_date        set the start date for the polly data"
-  echo "                           e.g., 20110101"
+  echo "                           e.g., 20110101 or 20110101-010000"
   echo "   -e, --end_date          set the end date for the polly data"
-  echo "                           e.g., 20150101"
+  echo "                           e.g., 20150101 or 20150101-010000"
   echo "   -p, --polly_type        set the instrument type (case-sensitive)"
   echo "                           - PollyXT_LACROS"
   echo "                           - PollyXT_TROPOS"
@@ -180,7 +180,7 @@ while :; do
   esac
 done
 
-if [ $flagAuto == "true" ]
+if [ "$flagAuto" == "true" ];
 then
     auto_process
 else

@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyDisplayOCDRRaman(tmpFile, saveFolder):
+def pollyDisplayBscRR(tmpFile, saveFolder):
     """
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyDisplayOCDRRaman(tmpFile, saveFolder)
+    pollyDisplayBscRR(tmpFile, saveFolder)
 
     History
     -------
@@ -112,24 +112,19 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
         endInd = mat['endInd'][:][0][0]
         height = mat['height'][:][0]
         time = mat['time'][:][0]
-        vdr355_raman = mat['vdr355_raman'][:][0]
-        vdr532_raman = mat['vdr532_raman'][:][0]
-        pdr355_raman = mat['pdr355_raman'][:][0]
-        pdr532_raman = mat['pdr532_raman'][:][0]
-        if mat['polCaliEta355'].size:
-            polCaliEta355 = mat['polCaliEta355'][:][0]
-        else:
-            polCaliEta355 = [np.nan]
-        if mat['polCaliEta532'].size:
-            polCaliEta532 = mat['polCaliEta532'][:][0]
-        else:
-            polCaliEta532 = [np.nan]
+        aerBsc_355_RR = mat['aerBsc_355_RR'][:][0]
+        aerBsc_532_RR = mat['aerBsc_532_RR'][:][0]
+        aerBsc_1064_RR = mat['aerBsc_1064_RR'][:][0]
+        refHInd355 = mat['refHInd355'][:][0]
+        refHInd532 = mat['refHInd532'][:][0]
+        refHInd1064 = mat['refHInd1064'][:][0]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
         dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
-        yLim_Profi_DR = mat['yLim_Profi_DR'][:][0]
+        yLim_Profi_Bsc = mat['yLim_Profi_Bsc'][:][0]
+        xLim_Profi_Bsc = mat['xLim_Profi_Bsc'][:][0]
         imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
@@ -141,26 +136,24 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
 
-    # display depol ratio with raman method
+    # display backscatter with RR method
     fig = plt.figure(figsize=[5, 8])
     ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
-    p1, = ax.plot(vdr355_raman, height, color='#2492ff',
-                  linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
-    p2, = ax.plot(vdr532_raman, height, color='#80ff00',
-                  linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
-    p3, = ax.plot(pdr355_raman, height, color='#0000ff',
-                  linestyle='--', label='$\delta_{par, 355}$', zorder=3)
-    p4, = ax.plot(pdr532_raman, height, color='#008040',
-                  linestyle='--', label='$\delta_{par, 532}$', zorder=3)
+    p1, = ax.plot(aerBsc_355_RR * 1e6, height, color='#0000ff',
+                  linestyle='-', label='355 nm', zorder=2)
+    p2, = ax.plot(aerBsc_532_RR * 1e6, height, color='#00b300',
+                  linestyle='-', label='532 nm', zorder=2)
+    p3, = ax.plot(aerBsc_1064_RR * 1e6, height, color='#e60000',
+                  linestyle='-', label='1064 nm', zorder=3)
 
-    ax.set_xlabel('Depolarization Ratio', fontsize=15)
+    ax.set_xlabel('Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=13)
 
-    ax.set_ylim(yLim_Profi_DR.tolist())
+    ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
     ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim([-0.01, 0.4])
+    ax.set_xlim(xLim_Profi_Bsc.tolist())
     ax.grid(True)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
@@ -174,8 +167,7 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
             instrument=pollyVersion,
             location=location,
             starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'),
-            endtime=datenum_to_datetime(endtime).strftime('%H:%M')
-            ),
+            endtime=datenum_to_datetime(endtime).strftime('%H:%M')),
         fontsize=15
         )
 
@@ -201,19 +193,41 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
+    if not np.isnan(refHInd355[0]):
+        refHBase355 = height[refHInd355[0] - 1]/1000
+        refHTop355 = height[refHInd355[1] - 1]/1000
+    else:
+        refHBase355 = np.nan
+        refHTop355 = np.nan
+    if not np.isnan(refHInd532[0]):
+        refHBase532 = height[refHInd532[0] - 1]/1000
+        refHTop532 = height[refHInd532[1] - 1]/1000
+    else:
+        refHBase532 = np.nan
+        refHTop532 = np.nan
+    if not np.isnan(refHInd1064[0]):
+        refHBase1064 = height[refHInd1064[0] - 1]/1000
+        refHTop1064 = height[refHInd1064[1] - 1]/1000
+    else:
+        refHBase1064 = np.nan
+        refHTop1064 = np.nan
     fig.text(
-        0.02, 0.01,
-        'Version: {0}\nMethod: {1}\n'.format(version, 'Raman') +
-        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}'.format(
-            polCaliEta355[0], polCaliEta532[0]), fontsize=12)
+        0.23, 0.80,
+        'refH355: {0:4.1f}-{1:4.1f} km\n'.format(refHBase355, refHTop355) +
+        'refH532: {0:4.1f}-{1:4.1f} km\n'.format(refHBase532, refHTop532) +
+        'refH1064: {0:4.1f}-{1:4.1f} km'.format(refHBase1064, refHTop1064),
+        fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.4], alpha=1)
+    fig.text(
+        0.02, 0.01, 'Version: {0}\n'.format(version) +
+        'Method: {0}'.format('RR'), fontsize=12)
 
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFile}_{sTime}_{eTime}_OC_DepRatio_Raman.{imgFmt}'.format(
+            '{dataFile}_{starttime}_{endtime}_Bsc_RR.{imgFmt}'.format(
                 dataFile=rmext(os.path.basename(dataFilename)),
-                sTime=datenum_to_datetime(starttime).strftime('%H%M'),
-                eTime=datenum_to_datetime(endtime).strftime('%H%M'),
+                starttime=datenum_to_datetime(starttime).strftime('%H%M'),
+                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
                 imgFmt=imgFormat)
                 ),
         dpi=figDPI
@@ -222,12 +236,11 @@ def pollyDisplayOCDRRaman(tmpFile, saveFolder):
 
 
 def main():
-    pollyDisplayOCDRRaman(
-        'C:\\Users\\zhenping\\Desktop\\Picasso\\tmp\\tmp.mat',
-        'C:\\Users\\zhenping\\Desktop'
-        )
+    pollyDisplayBscRR(
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
+        'C:\\Users\\zpyin\\Desktop')
 
 
 if __name__ == '__main__':
     # main()
-    pollyDisplayOCDRRaman(sys.argv[1], sys.argv[2])
+    pollyDisplayBscRR(sys.argv[1], sys.argv[2])

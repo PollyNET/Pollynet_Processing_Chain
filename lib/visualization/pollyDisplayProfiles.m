@@ -67,6 +67,9 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 flag407FR = data.flagFarRangeChannel & data.flag407nmChannel;
 flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
+flag355RR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagRotRamanChannel;
+flag532RR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagRotRamanChannel;
+flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
 %% data visualization for each cloud free period
 for iGrp = 1:size(data.clFreGrps, 1)
@@ -235,6 +238,32 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
+    %% backscatter (Rotation Raman method)
+    is355RRRetAvail = ((sum(flag355FR) == 1) && (sum(flag355RR) == 1));
+    is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
+    is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
+    if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        aerBsc_355_RR = data.aerBsc355_RR(iGrp, :);
+        aerBsc_532_RR = data.aerBsc532_RR(iGrp, :);
+        aerBsc_1064_RR = data.aerBsc1064_RR(iGrp, :);
+        pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+        tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+        % create tmp folder by force, if it does not exist.
+        if ~ exist(tmpFolder, 'dir')
+            fprintf('Create the tmp folder to save the temporary results.\n');
+            mkdir(tmpFolder);
+        end
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_355_RR', 'aerBsc_532_RR', 'aerBsc_1064_RR', 'refHInd355', 'refHInd532', 'refHInd1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Bsc', 'xLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayBscRR.py'), tmpFile, saveFolder));
+        if flag ~= 0
+            warning('Error in executing %s', 'pollyDisplayBscRR.py');
+        end
+        delete(tmpFile);
+    end
+
     %% backscatter (Raman method based on near-field signal)
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag387NR) == 1) || (sum(flag607NR) == 1))
         aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGrp, :);
@@ -325,6 +354,32 @@ for iGrp = 1:size(data.clFreGrps, 1)
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayExtRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayExtRaman.py');
+        end
+        delete(tmpFile);
+    end
+
+    %% extinction (rotation Raman method)
+    is355RRRetAvail = ((sum(flag355FR) == 1) && (sum(flag355RR) == 1));
+    is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
+    is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
+    if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        aerExt_355_RR = data.aerExt355_RR(iGrp, :);
+        aerExt_532_RR = data.aerExt532_RR(iGrp, :);
+        aerExt_1064_RR = data.aerExt1064_RR(iGrp, :);
+        pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+        tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+        % create tmp folder by force, if it does not exist.
+        if ~ exist(tmpFolder, 'dir')
+            fprintf('Create the tmp folder to save the temporary results.\n');
+            mkdir(tmpFolder);
+        end
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerExt_355_RR', 'aerExt_532_RR', 'aerExt_1064_RR', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_Ext', 'xLim_Profi_Ext', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayExtRR.py'), tmpFile, saveFolder));
+        if flag ~= 0
+            warning('Error in executing %s', 'pollyDisplayExtRR.py');
         end
         delete(tmpFile);
     end
@@ -420,6 +475,32 @@ for iGrp = 1:size(data.clFreGrps, 1)
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLRRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayLRRaman.py');
+        end
+        delete(tmpFile);
+    end
+
+    %% backscatter (Rotation Raman method)
+    is355RRRetAvail = ((sum(flag355FR) == 1) && (sum(flag355RR) == 1));
+    is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
+    is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
+    if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        LR355_RR = data.LR355_RR(iGrp, :);
+        LR532_RR = data.LR532_RR(iGrp, :);
+        LR1064_RR = data.LR1064_RR(iGrp, :);
+        pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+        tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+        % create tmp folder by force, if it does not exist.
+        if ~ exist(tmpFolder, 'dir')
+            fprintf('Create the tmp folder to save the temporary results.\n');
+            mkdir(tmpFolder);
+        end
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'LR355_RR', 'LR532_RR', 'LR1064_RR', 'refHInd355', 'refHInd532', 'refHInd1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_LR', 'xLim_Profi_LR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLRRR.py'), tmpFile, saveFolder));
+        if flag ~= 0
+            warning('Error in executing %s', 'pollyDisplayLRRR.py');
         end
         delete(tmpFile);
     end
