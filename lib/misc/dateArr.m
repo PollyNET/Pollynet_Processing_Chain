@@ -1,11 +1,11 @@
-function [oDate] = dateArr(startDate, endDate, varargin)
-% DATEARR create an array between startDate and endDate with a specified interval.
+function [oDate] = dateArr(startDate, stopDate, varargin)
+% DATEARR create an array between startDate and stopDate with a specified interval.
 % USAGE:
-%    [oDate] = dateArr(startDate, endDate, 'Interval', 'year')
+%    [oDate] = dateArr(startDate, stopDate, 'Interval', 'year')
 % INPUTS:
 %    startDate: datenum
 %        start date.
-%    endDate: datenum
+%    stopDate: datenum
 %        stop date.
 % KEYWORDS:
 %    Interval: char
@@ -25,23 +25,35 @@ p = inputParser;
 defaultInterval = 'year';
 
 addRequired(p, 'startDate', @isnumeric);
-addRequired(p, 'endDate', @isnumeric);
+addRequired(p, 'stopDate', @isnumeric);
 addParameter(p, 'Interval', defaultInterval);
 addParameter(p, 'int_num', 1, @isnumeric);
 
-parse(p, startDate, endDate, varargin{:});
+parse(p, startDate, stopDate, varargin{:});
 
 [startY, startM, startD, startH, startMin, startS] = datevec(startDate);
+[stopY, stopM, stopD, ~, ~, ~] = datevec(stopDate);
 
 switch lower(p.Results.Interval)
+
 case 'year'
-    nYears = floor(yearfrac(startDate, endDate, 1));
+
+    nYears = ceil(stopY - startY);
 
     oDate = datenum(startY + (0:p.Results.int_num:nYears), startM, startD, startH, startMin, startS);
+    isOverflow = (oDate > stopDate) | (oDate < startDate);
+
+    oDate = oDate(~ isOverflow);
+
 case 'month'
-    nMonths = floor(months(startDate, endDate));
+
+    nMonths = ((stopY - startY) * 12 + stopM - startM + 2);
 
     oDate = datenum(startY, startM + (0:p.Results.int_num:nMonths), startD, startH, startMin, startS);
+    isOverflow = (oDate > stopDate) | (oDate < startDate);
+
+    oDate = oDate(~ isOverflow);
+
 end
 
 end
