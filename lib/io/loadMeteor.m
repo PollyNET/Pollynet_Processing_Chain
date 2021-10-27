@@ -79,6 +79,15 @@ meteorAttri.dataSource = cell(0);
 meteorAttri.URL = cell(0);
 meteorAttri.datetime = [];
 
+temp = [];
+pres = [];
+relh = [];
+wins = [];
+wind = [];
+if isnan(mTime)
+    return;
+end
+
 if p.Results.flagReadLess
     % Reading meteorological data is very time consuming, which would decrease
     % data processing efficiency substantially if it was done for each measurement
