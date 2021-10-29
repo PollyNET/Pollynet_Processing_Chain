@@ -32,7 +32,7 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        absolute path of Picasso configuration file.
 %
 % KEYWORDS:
-%    defaultPiassoConfigFile: char
+%    defaultPicassoConfigFile: char
 %        absolute path of default Picasso configuration file.
 %    pollyGlobalConfigFile:
 %        polly global configuration file.
@@ -70,7 +70,7 @@ p.KeepUnmatched = true;
 addRequired(p, 'pollyDataFile', @ischar);
 addRequired(p, 'pollyType', @ischar);
 addRequired(p, 'PicassoConfigFile', @ischar);
-addParameter(p, 'defaultPiassoConfigFile', fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json'), @ischar);
+addParameter(p, 'defaultPicassoConfigFile', fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json'), @ischar);
 addParameter(p, 'pollyGlobalConfigFile', fullfile(PicassoDir, 'lib', 'config', 'polly_global_config.json'), @ischar);
 addParameter(p, 'pollyZipFile', '', @ischar);
 addParameter(p, 'pollyZipFileSize', 0, @isnumeric);
@@ -80,13 +80,13 @@ addParameter(p, 'flagDonefileList', false, @islogical);
 parse(p, pollyDataFile, pollyType, PicassoConfigFile, varargin{:});
 
 %% Parameter initialization
-defaultPiassoConfigFile = p.Results.defaultPiassoConfigFile;
+defaultPicassoConfigFile = p.Results.defaultPicassoConfigFile;
 pollyGlobalConfigFile = p.Results.pollyGlobalConfigFile;
 report = cell(0);
 
 %% Input check
 if ~ exist('PicassoConfigFile', 'var')
-    PicassoConfigFile = defaultPiassoConfigFile;
+    PicassoConfigFile = defaultPicassoConfigFile;
 end
 
 %% Set PollyDataInfo
@@ -111,7 +111,7 @@ PollyDataInfo.pollyLaserlogbook = p.Results.pollyLaserlogbook;
 PicassoVersion = getPicassoVersion();
 
 %% Load Picasso configurations
-PicassoConfig = loadConfig(PicassoConfigFile, defaultPiassoConfigFile);
+PicassoConfig = loadConfig(PicassoConfigFile, defaultPicassoConfigFile);
 PicassoConfig.PicassoVersion = PicassoVersion;
 PicassoConfig.PicassoRootDir = PicassoDir;
 

@@ -32,5 +32,6 @@
     "flagDebugOutput": true,
     "flagReduceMATLABToolboxDependence": false,
     "flagSendNotificationEmail": false,
-    "flagWatermarkOn": true
+    "flagWatermarkOn": true,
+    "flagDeleteTodofile": false
 }
