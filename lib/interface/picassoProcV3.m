@@ -1229,9 +1229,9 @@ for iGrp = 1:size(clFreGrps, 1)
         thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
         thisAerExtStd355_NR_klett = PollyConfig.LR_NR_355 * thisAerBscStd355_NR_klett;
 
-        aerBsc355_klett(iGrp, :) = thisAerBsc355_NR_klett;
+        aerBsc355_NR_klett(iGrp, :) = thisAerBsc355_NR_klett;
         aerBscStd355_NR_klett(iGrp, :) = thisAerBscStd355_NR_klett;
-        aerExt355_klett(iGrp, :) = thisAerExt355_NR_klett;
+        aerExt355_NR_klett(iGrp, :) = thisAerExt355_NR_klett;
         aerExtStd355_NR_klett(iGrp, :) = thisAerExtStd355_NR_klett;
         refBeta_NR_355_klett(iGrp) = refBeta355;
     end
@@ -1281,9 +1281,9 @@ for iGrp = 1:size(clFreGrps, 1)
         thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
         thisAerExtStd532_NR_klett = PollyConfig.LR_NR_532 * thisAerBscStd532_NR_klett;
 
-        aerBsc532_klett(iGrp, :) = thisAerBsc532_NR_klett;
+        aerBsc532_NR_klett(iGrp, :) = thisAerBsc532_NR_klett;
         aerBscStd532_NR_klett(iGrp, :) = thisAerBscStd532_NR_klett;
-        aerExt532_klett(iGrp, :) = thisAerExt532_NR_klett;
+        aerExt532_NR_klett(iGrp, :) = thisAerExt532_NR_klett;
         aerExtStd532_NR_klett(iGrp, :) = thisAerExtStd532_NR_klett;
         refBeta_NR_532_klett(iGrp) = refBeta532;
     end
