@@ -44,8 +44,8 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 %
 % .. Authors: - zhenping@tropos.de
 
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-set(conn, 'AutoCommit', 'off');
+conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile),'AutoCommit', 'off');
+%set(conn, 'AutoCommit', 'off');
 commit(conn);
 
 %% create table
