@@ -49,8 +49,8 @@ if (exist(dbFile, 'file') ~= 2)
     return;
 end
 
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-set(conn, 'AutoCommit', 'off');
+conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile),'AutoCommit', 'off');
+%set(conn, 'AutoCommit', 'off');
 commit(conn);
 
 %% get table names
