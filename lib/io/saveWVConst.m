@@ -45,7 +45,7 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 % .. Authors: - zhenping@tropos.de
 
 %% check matlab version to set correct database connection parameters
-release = split(version, "(");
+release = strsplit(version, '(');
 release = regexp(release{2},'[0-9]{4}','match');
 release = release{1};
 release = uint16(str2num(release));
