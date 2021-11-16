@@ -34,6 +34,7 @@ varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
 varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
 varID_att_bsc_355 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_att_bsc_532 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
@@ -54,6 +55,7 @@ netcdf.putVar(ncID, varID_longitude, single(data.lon));
 netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_att_bsc_355, single(fillmissing(data.att_beta_NR_355, missing_value)));
 netcdf.putVar(ncID, varID_att_bsc_532, single(fillmissing(data.att_beta_NR_532, missing_value)));
 
@@ -91,6 +93,11 @@ netcdf.putAtt(ncID, varID_height, 'unit', 'm');
 netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
+
+% tilt_angle
+netcdf.putAtt(ncID, varID_tilt_angle, 'unit', 'degrees');
+netcdf.putAtt(ncID, varID_tilt_angle, 'long_name', 'Tilt angle of lidar device');
+netcdf.putAtt(ncID, varID_tilt_angle, 'standard_name', 'tilt_angle');
 
 % att_bsc_355
 netcdf.putAtt(ncID, varID_att_bsc_355, 'unit', 'sr^-1 m^-1');
