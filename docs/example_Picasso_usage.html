@@ -1,77 +1,37 @@
-
-
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" />
-  
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  
   <title>Usage &mdash; Picasso  documentation</title>
-  
-
-  
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-
-  
-  
-
-  
-  
-
-  
-
-  
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/my_theme.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-    
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
         <script src="_static/doctools.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
-
-    
+    <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Picasso Configurations" href="modules/config.html" />
     <link rel="prev" title="Download and Installation" href="installation/installation.html" /> 
 </head>
 
-<body class="wy-body-for-nav">
-
-   
+<body class="wy-body-for-nav"> 
   <div class="wy-grid-for-nav">
-    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-          
-
-          
             <a href="index.html" class="icon icon-home"> Picasso
-          
-
-          
           </a>
-
-          
-            
-            
               <div class="version">
                 3.0
               </div>
-            
-          
-
-          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -79,18 +39,7 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation/installation.html">Download and Installation</a></li>
@@ -107,76 +56,35 @@
 <li class="toctree-l1"><a class="reference internal" href="lib.html">Picasso Functions</a></li>
 </ul>
 
-            
-          
         </div>
-        
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="index.html">Picasso</a>
-        
       </nav>
 
-
       <div class="wy-nav-content">
-        
         <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
+          <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-    
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
       <li>Usage</li>
-    
-    
       <li class="wy-breadcrumbs-aside">
-        
-          
             <a href="_sources/example_Picasso_usage.rst.txt" rel="nofollow"> View page source</a>
-          
-        
       </li>
-    
   </ul>
-
-  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-            
-  <div class="section" id="usage">
-<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+             
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline"></a></h1>
 <p>Picasso can be applied in processing Polly data for individual Polly Data file (offline) or in an full automatic way (online). These two different applications are described in the sections below.</p>
-<div class="section" id="offline-mode">
-<h2>Offline Mode<a class="headerlink" href="#offline-mode" title="Permalink to this headline">¶</a></h2>
+<section id="offline-mode">
+<h2>Offline Mode<a class="headerlink" href="#offline-mode" title="Permalink to this headline"></a></h2>
 <p>After Picasso was downloaded and all relevant configurations had been added, it’s time to process the data with Picasso.</p>
 <div class="highlight-matlab notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="o">/</span><span class="nb">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">Picasso</span><span class="w"></span>
 <span class="n">initPicassoToolbox</span><span class="w">    </span><span class="s">%</span><span class="w"> </span><span class="s">add</span><span class="w"> </span><span class="s">Picasso</span><span class="w"> </span><span class="s">into</span><span class="w"> </span><span class="s">Matlab</span><span class="w"> </span><span class="s">search</span><span class="w"> </span><span class="s">path</span><span class="w"></span>
@@ -185,67 +93,52 @@
 </pre></div>
 </div>
 <p>After running Picasso, the figure and products will be created under the respective paths that were specified in <strong>Picasso Configuration</strong> file.</p>
-</div>
-<div class="section" id="online-mode">
-<h2>Online Mode<a class="headerlink" href="#online-mode" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="online-mode">
+<h2>Online Mode<a class="headerlink" href="#online-mode" title="Permalink to this headline"></a></h2>
 <p><strong>Online Mode</strong> is used for processing <a class="reference external" href="https://polly.tropos.de/">PollyNET</a> data automatically. It needs dedicated <strong>PollyNET DB</strong> for data querying and saving.</p>
-<div class="figure align-center" id="id1">
+<figure class="align-center" id="id1">
 <a class="reference internal image-reference" href="_images/Online_Mode_Picasso.png"><img alt="_images/Online_Mode_Picasso.png" src="_images/Online_Mode_Picasso.png" style="width: 500px;" /></a>
-<p class="caption"><span class="caption-text">Online Mode of Picasso</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
-</div>
+<figcaption>
+<p><span class="caption-text">Online Mode of Picasso</span><a class="headerlink" href="#id1" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Online Mode is only applicable under the help of core developers!!! For anyone needs to process batched polly data, you can follow the instructions in <a class="reference internal" href="#offline-mode">Offline Mode</a> mode.</p>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
-           
           </div>
-          <footer>
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-        <a href="modules/config.html" class="btn btn-neutral float-right" title="Picasso Configurations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="installation/installation.html" class="btn btn-neutral float-left" title="Download and Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules/config.html" class="btn btn-neutral float-right" title="Picasso Configurations" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>
 
   <div role="contentinfo">
-    <p>
-        &#169; Copyright 2021, TROPOS.
-
-    </p>
+    <p>&#169; Copyright 2021, TROPOS.</p>
   </div>
-    
-    
-    
-    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
     <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    
-    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
 
 </footer>
         </div>
       </div>
-
     </section>
-
   </div>
-  
-
-  <script type="text/javascript">
+  <script>
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script>
-
-  
-  
-    
-   
+  </script> 
 
 </body>
 </html>

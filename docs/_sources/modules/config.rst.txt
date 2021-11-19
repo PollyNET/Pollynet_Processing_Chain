@@ -124,6 +124,18 @@ Polly Defaults
 
 Polly defaults are used for configuring the processing program, when the calibration procedure fails. At present stage, there are 3 calibration procedures which are essential for the program: lidar constants, depolarization calibration constant and water vapor calibration constant. Besides, the overlap file is also recommended to be attached to compare with the estimated overlap function through the signal ratio between Near-Range (NR) and Far-Range (FR) channels. In general, different polly systems have their own specific default settings because of their different functionalities. Old polly system has less channels, which in the end would require less calibration procedures and thus less default settings. The most advanced polly system, like the arielle, has been powered with 13 channels, namely :math:`3\beta+2\alpha+2\delta+WV`, which needs more efforts for retrieving the products. Details of the default settings can be found below:
 
+
++-----------------+------------------------------------------------------------------------------+----------+-----------------------+
+| Keyword         | Meaning                                                                      | Type     | Example               |
++=================+==============================================================================+==========+=======================+
+|polCaliEta532    |eta at 532. If depol calibration failed because of cloud contamination and    | float    | 0.024443              |
+|                 |                                                                              |          |                       |
+|                 |there was no available eta within 1 week, the default value will be taken for |          |                       |
+|                 |                                                                              |          |                       |
+|                 |depol caculations                                                             |          |                       |
++-----------------+------------------------------------------------------------------------------+----------+-----------------------+
+
+
 .. csv-table:: Polly defaults
     :widths: 15 40 20 20
     :header: "Keyword", "Meaning", "Type", "Example"
