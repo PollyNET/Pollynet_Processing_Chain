@@ -74,15 +74,10 @@ netcdf.putVar(ncID, varID_height, single(data.height));
 netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_att_bsc_355, single(fillmissing(data.att_beta_NR_355, missing_value)));
 netcdf.putVar(ncID, varID_att_bsc_532, single(fillmissing(data.att_beta_NR_532, missing_value)));
-<<<<<<< HEAD
 %netcdf.putVar(ncID, varID_quality_mask_355, int8(fillmissing(data.quality_mask_NR_355, 1)));
 %netcdf.putVar(ncID, varID_quality_mask_532, int8(fillmissing(data.quality_mask_NR_532, 1)));
-if sum(flag355) == 1
-    netcdf.putVar(ncID, varID_SNR_355, single(fillmissing(squeeze(data.SNR(flag355, :, :)), missing_value)));
-=======
 if sum(flag355_NR) == 1
     netcdf.putVar(ncID, varID_SNR_355, single(fillmissing(squeeze(data.SNR(flag355_NR, :, :)), missing_value)));
->>>>>>> 521029e9a9812badc28145d26abce91538b8a6fc
 else
     netcdf.putVar(ncID, varID_SNR_355, single(missing_value * ones(length(data.height), length(data.mTime))));
 end
@@ -158,7 +153,6 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'Lidar_calibration_constant_used', data.L
 % netcdf.putAtt(ncID, varID_att_bsc_532, 'bias_variable', 'att_beta_532_bias');
 netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter.');
 
-<<<<<<< HEAD
 % % quality_mask_355
 % netcdf.putAtt(ncID, varID_quality_mask_355, 'unit', '');
 % netcdf.putAtt(ncID, varID_quality_mask_355, 'long_name', 'near-field quality mask for attenuated backscatter at 355 nm');
@@ -172,7 +166,7 @@ netcdf.putAtt(ncID, varID_att_bsc_532, 'comment', 'This parameter is calculated 
 % netcdf.putAtt(ncID, varID_quality_mask_532, 'standard_name', 'quality_mask_532');
 % netcdf.putAtt(ncID, varID_quality_mask_532, 'source', CampaignConfig.name);
 % netcdf.putAtt(ncID, varID_quality_mask_532, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 532 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
-=======
+
 % quality_mask_355
 netcdf.putAtt(ncID, varID_quality_mask_355, 'unit', '');
 netcdf.putAtt(ncID, varID_quality_mask_355, 'long_name', 'near-field quality mask for attenuated backscatter at 355 nm');
@@ -186,7 +180,6 @@ netcdf.putAtt(ncID, varID_quality_mask_532, 'long_name', 'near-field quality mas
 netcdf.putAtt(ncID, varID_quality_mask_532, 'standard_name', 'quality_mask_532');
 netcdf.putAtt(ncID, varID_quality_mask_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quality_mask_532, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 532 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
->>>>>>> 521029e9a9812badc28145d26abce91538b8a6fc
 
 % SNR 355 nm 
 netcdf.putAtt(ncID, varID_SNR_355, 'unit', '');
