@@ -23,9 +23,12 @@ ___tempCorFunc,temperature correction function for each channel,"| [""1"", ""exp
 ___flagAutoscaleRCS,"| to control whether to configure the color-range for range corrected
 | signal in an automatic way",true,---
 ___flagMolDepolCali,to control whether to use molecular depolarization calibration,false,"| H. Baars, PhD thesis, 2012"
-___MWRFolder,The folder of prw results from MWR. (This is only for LACROS),C:\\Users\\zhenping\\Desktop\\Picasso\\test\\read_IWV_from_MWR,---
+___MWRFolder,The folder of prw results from MWR. (This is only for LACROS),"| C:\\Users\\zhenping\\Desktop\\Picasso\\test\\
+| read_IWV_from_MWR",---
 ___dataFileFormat,"| regular expression to extract the data and time info from polly data file.
-| (This is based on the syntax of matlab **regexp**)",(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc,---
+| (This is based on the syntax of matlab **regexp**)","| (?<year>\\d{4})_(?<month>\\d{2})
+| _(?<day>\\d{2})_\\w*_(?<hour>\\d{2})
+| _(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",---
 ___gdas1Site,gdas1 site for the current campaign.,warsaw,---
 ___max_height_bin,"| the number of bins you want to extract for each profile. (Normally,
 | the high altitude bins only contain noise. If you load too much bins, you
@@ -36,8 +39,8 @@ ___first_range_gate_indx,"| the first bin for each channel. (It's highly suggest
 ___first_range_gate_height,"| The height for the first range bin. [m]. You need to
 | take great care for this parameter, since it will create large bias for extinction
 | coefficient with Raman method. Look for advice from hardware scientist if you
-| are not certain about this. 78.75 m **->(The unit is only for demonstration,
-| don't set it in the config files)**",,---
+| are not certain about this. 78.75 m
+| **->(The unit is only for demonstration, don't set it in the config files)**",,---
 ___dtCorMode,"| deadtime correction mode.
 | 1: use the parameters saved in the netcdf files
 | 2: nonparalyzable correction with user define deadtime
@@ -47,7 +50,8 @@ ___dt,"| parameters for deadtime correction. If ""dtCorMode"" is set to be '2', 
 | deadtime for each channel need to be set here with unit of ns.
 | If ""dtCorMode"" is set to be '3', the correction parameters
 | need to be set accordingly. You can take [pollyxt_tropos_config.json]
-| (/config/pollyxt_tropos_config.json) as an example","| [[0.0, 0.972992, 0.00353332, -7.90981e-006, 1.06451e-007, 1.42895e-009],
+| (/config/pollyxt_tropos_config.json) as an example","| [[0.0, 0.972992, 0.00353332, -7.90981e-006,
+| 1.06451e-007, 1.42895e-009],
 | [0, 1.0117, -0.0014, 0.0002, -0.0000, 0.0000],
 | [0, 0.9674, 0.0023, 0.0000, 0.0000, 0.0000],
 | [0, 0.9929, 0.0000, 0.0001, -0.0000, 0.0000],
@@ -116,7 +120,14 @@ ___channelTag,label of each channel,"| [""FR-total-355 nm"", ""FR-cross-355 nm""
 ___minPC_fog,"| The minimum photon count for non-fog profile. The detected photon
 | count between 40th and 120th bin (above the first bin) for each 30s profile
 | will be accumulated for the fog profile screening.",60,"| Baars H. et al, AMT, A1, 2016"
-___TR,Transmission ratio for different channel.,"| [0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]","| Engelmann, R., Kanitz, T., Baars, H., Heese, B., Althausen, D., Skupin, A., Wandinger, U., Komppula, M., Stachlewska, I. S., Amiridis, V., Marinou, E., Mattis, I., Linne, H., and Ansmann, A.: The automated multiwavelength Raman polarization and water-vapor lidar PollyXT: the neXT generation, Atmos. Meas. Tech., 9, 1767-1784, 10.5194/amt-9-1767-2016, 2016."
+___TR,Transmission ratio for different channel.,"| [0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]","| Engelmann, R., Kanitz, T., Baars, H., Heese, B.,
+| Althausen, D., Skupin, A., Wandinger, U.,
+| Komppula, M., Stachlewska, I. S., Amiridis, V.,
+| Marinou, E., Mattis, I., Linne, H., and Ansmann, A.:
+| The automated multiwavelength Raman polarization
+| and water-vapor lidar PollyXT: the neXT generation,
+| Atmos. Meas. Tech., 9, 1767-1784,
+| 10.5194/amt-9-1767-2016, 2016."
 ___overlapCalMode,"| 1:estimate the overlap function based on the near-range signal.
 | 2: calculate the overlap function with Raman method
 | (U. Wandinger, et al, Applied Optics, 2002)",1,"| Wandinger, U. and Ansmann, A.: Experimental determination
@@ -127,10 +138,15 @@ ___overlapCorMode,"| 0: no overlap correction
 | 3: overlap correction with gluing near-range and far-range signal",1,---
 ___overlapSmoothBins,vertical window (bins) for smoothing the noisy overlap function,8,---
 ___saturate_thresh,the threshold for signal saturation (MHz),100,---
-___heightFullOverlap,height for the base of full overlap,"| [500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150]",---
+___heightFullOverlap,height for the base of full overlap,"| [500, 500, 500, 500, 500, 500, 500,
+| 500, 150, 150, 150, 150, 150]",---
 ___minSNR_4_sigNorm,"| The minimum SNR requirement for the signal used for signal
 | normalization both for near- and far- range signal.",10,---
-___cloudScreenMode,1: using signal gradient; 2: using Zhao's algorithm,1,"| Zhao, C., Wang, Y., Wang, Q., Li, Z., Wang, Z., and Liu, D.: A new cloud and aerosol layer detection method based on micropulse lidar measurements, Journal of Geophysical Research: Atmospheres, 119, 6788-6802, 10.1002/2014JD021760, 2014."
+___cloudScreenMode,1: using signal gradient; 2: using Zhao's algorithm,1,"| Zhao, C., Wang, Y., Wang, Q., Li, Z., Wang, Z., 
+| and Liu, D.: A new cloud and aerosol layer
+| detection method based on micropulse lidar
+| measurements, Journal of Geophysical Research:
+| Atmospheres, 119, 6788-6802, 10.1002/2014JD021760, 2014."
 ___maxSigSlope4FilterCloud,"| The slope threshold for cloud screening. The screening is based
 | on the slope of the Range Corrected Signal(photon count * m^2).
 | In theory, this should be done with the attenuated backscatter.
@@ -167,10 +183,12 @@ ___minRefSNR{wavelength},"| The minimum SNR for the accumulated signal at the te
 ___LR{wavelength},Default lidar ratio for Klett retrieving method,50 sr,---
 ___refBeta{wavelength},Reference value for Klett and Raman method,2e-8,---
 ___smoothWin_klett_{wavelength},smoothing window for klett method,21,---
-___maxIterConstrainFernald,The maximum iterations for searching the best Lidar Ratio with Constrained-AOD fernald method,20 sr,---
+___maxIterConstrainFernald,"| The maximum iterations for searching the best Lidar Ratio with
+| Constrained-AOD fernald method",20 sr,---
 ___minLRConstrainFernald,The minimum lidar ratio used for Constrained-AOD fernald method,1 sr,---
 ___maxLRConstrainFernald,The maximum lidar ratio used for Constrained-AOD fernald method,150 sr,---
-___minDeltaAOD,The minimum AOD deviation that is required for Constrained-AOD fernald method,0.01,---
+___minDeltaAOD,"| The minimum AOD deviation that is required for Constrained-AOD
+| fernald method",0.01,---
 ___minRamanRefSNR387,"| The minimum SNR for the signal at the reference height.
 | If SNR at the reference height is smaller than this value,
 | raman method will not implemented.",40,---
@@ -195,42 +213,110 @@ ___tTwilight,span of the twilight,0.0347,---
 ___hWVCaliBase,The minimum height used for calculating the IWV from lidar measurement.,120,---
 ___minHWVCaliTop,The minimum top height required for calculating the IWV from lidar measurement.,2000,---
 ___clear_thres_par_beta_1064,"| The threshold for discriminating clear atmosphere based on particle
-| backscatter at 1064nm,1e-8 m^{-1}","| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+| backscatter at 1064nm",1e-8 m^{-1},"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
 ___turbid_thres_par_beta_1064,"| The threshold for discriminating turbid atmosphere based on
-| particle backscatter at 1064nm,2e-7 m^{-1}","| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+| particle backscatter at 1064nm",2e-7 m^{-1},"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
 ___turbid_thres_par_beta_532,"| The threshold for discriminating turbid atmosphere based on particle
 | backscatter at 532nm",2e-7 m^{-1},---
 ___droplet_thres_par_depol,"| The threshold for discriminating cloud droplets based on particle
 | depolarization ratio at 532nm",0.05,---
-___spheroid_thres_par_depol,The threshold for discriminating spheriod paricles based on particle depolarization ratio at 532nm,0.07,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___unspheroid_thres_par_depol,The threshold for discriminating unspheriod paricles based on particle depolarization ratio at 532nm,0.2,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___ice_thres_par_depol,The threshold for discriminating ice crystals based on particle depolarization ratio at 532nm,0.35,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___ice_thres_vol_depol,The threshold for discriminating ice crystals based on volume depolarization ratio at 532nm,0.3,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___large_thres_ang,The threshold for discriminating large particles based on angstroem exponent,0.75,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___small_thres_ang,The threshold for discriminating small particles based on angstroem exponent,0.5,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___cloud_thres_par_beta_1064,The threshold for discriminating cloud layers based on quasi particle backscatter at 1064nm,2e-5 m^{-1},"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
-___min_atten_par_beta_1064,The minimum attenuation factor could be expected at the first 250m penatration depth,10,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___spheroid_thres_par_depol,"| The threshold for discriminating spheriod paricles based on particle
+| depolarization ratio at 532nm",0.07,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___unspheroid_thres_par_depol,"| The threshold for discriminating unspheriod paricles based on particle
+| depolarization ratio at 532nm",0.2,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___ice_thres_par_depol,"| The threshold for discriminating ice crystals based on particle
+| depolarization ratio at 532nm",0.35,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___ice_thres_vol_depol,"| The threshold for discriminating ice crystals based on volume
+| depolarization ratio at 532nm",0.3,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___large_thres_ang,The threshold for discriminating large particles based on angstroem exponent,0.75,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___small_thres_ang,The threshold for discriminating small particles based on angstroem exponent,0.5,"| Baars, H., Seifert, P., Engelmann, R., 
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___cloud_thres_par_beta_1064,"| The threshold for discriminating cloud layers based on quasi particle
+| backscatter at 1064nm",2e-5 m^{-1},"| Baars, H., Seifert, P., Engelmann, R.,
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+___min_atten_par_beta_1064,"| The minimum attenuation factor could be expected at the first 250m
+| penatration depth",10,"| Baars, H., Seifert, P., Engelmann, R.,
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
 ___search_cloud_above,"| The parameter is used in cloud top detection. The cloud top will be searched
 | between the first bin with quasi particle backscatter at 1064nm larger than
-| cloud_thres_par_beta_1064 and +search_height_above",300 m,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+| cloud_thres_par_beta_1064 and +search_height_above",300 m,"| Baars, H., Seifert, P., Engelmann, R.,
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
 ___search_cloud_below,"| The parameter is used in cloud base detection. The cloud base will be searched
 | between the first bin with quasi particle backscatter at 1064nm larger than
-| cloud_thres_par_beta_1064 and -search_height_below",100 m,"| Baars, H., Seifert, P., Engelmann, R., and Wandinger, U.: Target categorization of aerosol and clouds by continuous multiwavelength-polarization lidar measurements, Atmospheric Measurement Techniques, 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
+| cloud_thres_par_beta_1064 and -search_height_below",100 m,"| Baars, H., Seifert, P., Engelmann, R.,
+| and Wandinger, U.: Target categorization of
+| aerosol and clouds by continuous
+| multiwavelength-polarization lidar measurements,
+| Atmospheric Measurement Techniques,
+| 10, 3175-3201, 10.5194/amt-10-3175-2017, 2017."
 ___overlap{wavelength}Color,the color settings for the line of overlap,"| [0, 255, 64]",---
 ___xLim_Profi_Bsc,x-range of the profile of aerosol backscatter,"| [-0.1, 10] Mm^{-1}sr^{-1}",---
 ___xLim_Profi_NR_Bsc,x-range of the profile of aerosol backscatter retrieved with near-range signal,"| [-0.1, 10] Mm^{-1}sr^{-1}",---
 ___xLim_Profi_Ext,x-range of the profile of aerosol extinction coefficient,"| [-1, 300] Mm^{-1}",---
-___xLim_Profi_NR_Ext,x-range of the profile of aerosol extinction coefficient retrieved with near-range signal,"| [-1, 300] Mm^{-1}",---
+___xLim_Profi_NR_Ext,"| x-range of the profile of aerosol extinction coefficient retrieved
+| with near-range signal","| [-1, 300] Mm^{-1}",---
 ___xLim_Profi_WV_RH,x-range (**z-range**) of the profile (**time-height plot**) of water vapor mixing ratio,"| [0, 10] g*kg^{-1}",---
 ___xLim_Profi_RCS,x-range of the profile of range corrected signal,"| [0.3, 10] (*1e6 a.u.)",---
 ___xLim_Profi_LR,x-range of the profile of lidar ratio,"| [0, 120] sr",---
 ___yLim_LC_{wavelength},y-range of the profile of lidar constant at certain wavelength,"| [0, 1e14]",---
-___"| yLim_LC_ratio_{wavelength1}
-| _{wavelength2}",y-range of the scatter plot of the lidar constant ratio at two given wavelength,"| [0, 1]",---
+"yLim_LC_ratio_{wavelength1}_{wavelength2}",y-range of the scatter plot of the lidar constant ratio at two given wavelength,"| [0, 1]",---
 ___yLim_WVConst,y-range of the profile of water vapor calibration constant,"| [0, 20]",---
-___yLim_FR_RCS,"| y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**)
+___yLim_FR_RCS,"| y-range of the profile of range corrected signal
+| (**time-height plot of signal saturation bits**)
 | from far-range channels","| [0, 20000] m",---
-___yLim_NR_RCS,"| y-range of the profile of range corrected signal (**time-height plot of signal saturation bits**)
+___yLim_NR_RCS,"| y-range of the profile of range corrected signal
+| (**time-height plot of signal saturation bits**)
 | from near-range channels","| [0, 3000] m",---
 ___yLim_att_beta,y-range of the time-height plot of far-field attenuated backscatter,"| [0, 15000] [m]",---
 ___yLim_att_beta_NR,y-range of the time-height plot of near-field attenuated backscatter,"| [0, 3000] [m]",---
@@ -269,9 +355,13 @@ ___Data_Originator_phone,phone number of the data originator,,---
 ___Data_Originator_email,email of the data originator,zhenping@tropos.de,---
 ___comment,comment on the data,test measurements,---
 ___calibrationDB,database for saving calibration results,polly_calibration.db,---
-___logbookFile,path to the logbook file. Only the logfile generated by the pollylog program was accepted.,/home/zhenping/logbook.csv,---
+___logbookFile,"| path to the logbook file. Only the logfile generated by the
+| pollylog program was accepted.",/home/zhenping/logbook.csv,---
 ___radiosondeFolder,directory of the radiosonde file.,/home/picasso/data/radiosonde,---
 ___imgFormat,image format,png,---
 ___partnerLabel,partner label to be displayed in the figures,UMA,---
 ___prodSaveList,"| control the output of nc files. If the product was specified in the product
-| save list (prodSaveList), it will then be saved.","| [""overlap"", ""aerProfFR"", ""aerProfNR"", ""aerProfOC"", ""aerAttBetaFR"", ""aerAttBetaOC"", ""WVMR_RH"", ""volDepol"", ""quasiV1"", ""quasiV2"", ""TC"", ""TCV2""]",---
+| save list (prodSaveList), it will then be saved.","| [""overlap"", ""aerProfFR"", ""aerProfNR"",
+| ""aerProfOC"", ""aerAttBetaFR"", ""aerAttBetaOC"",
+| ""WVMR_RH"", ""volDepol"", ""quasiV1"",
+| ""quasiV2"", ""TC"", ""TCV2""]",---
