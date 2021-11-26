@@ -6,13 +6,14 @@ gdas1_folder,directory of GDAS1 meteorological data,/home/zhenping/gdas1
 defaultFile_folder,directory of polly default files,/home/zhenping/pollyDefaults
 results_folder,directory for exporting processing results,/home/zhenping/results
 pic_folder,directory for exporting figures,/home/zhenping/recent_plots
-pollynet_config_link_file,"absolute path of Picasso link file, which associated polly data with polly configuration file",/home/zhenping/pollynet_processing_chain_link_file.xlsx
-printLevel,"% 0: log file & matlab command line;
-% 1: log file only;
-% 2: matlab command line only;
-% 3: simple message in log file & matlab command line;
-% 4: simple message in log file only;
-% 5: simple message in matlab command line only;",0
+pollynet_config_link_file,"| absolute path of Picasso link file, which
+| associated polly data with polly configuration file",/home/zhenping/pollynet_processing_chain_link_file.xlsx
+printLevel,"| % 0: log file & matlab command line;
+| % 1: log file only;
+| % 2: matlab command line only;
+| % 3: simple message in log file & matlab command line;
+| % 4: simple message in log file only;
+| % 5: simple message in matlab command line only;",0
 figDPI,DPI of figures,150
 fontname,fontname used for figures,DejaVu Serif
 minDataSize,minimum data size required for data processing (Byte),500000

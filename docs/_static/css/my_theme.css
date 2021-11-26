@@ -1,0 +1,9 @@
+@import url("theme.css");
+
+.wy-nav-content {
+    max-width: 90%;
+}
+
+table.docutils div.line-block {
+    margin-left: 0;
+}
