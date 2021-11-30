@@ -2703,7 +2703,7 @@ if (sum(flag355T) == 1)
     quality_mask_355(:, data.fogMask) = 4;
 end
 if (sum(flag355_NR) == 1)
-    quality_mask_NR_355(squeeze(SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355_NR)) = 1;
+    quality_mask_NR_355(squeeze(SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
     quality_mask_NR_355(:, data.depCalMask) = 2;
     quality_mask_NR_355(:, data.shutterOnMask) = 3;
     quality_mask_NR_355(:, data.fogMask) = 4;
@@ -2715,7 +2715,7 @@ if (sum(flag532T) == 1)
     quality_mask_532(:, data.fogMask) = 4;
 end
 if (sum(flag532_NR) == 1)
-    quality_mask_NR_532(squeeze(SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532_NR)) = 1;
+    quality_mask_NR_532(squeeze(SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
     quality_mask_NR_532(:, data.depCalMask) = 2;
     quality_mask_NR_532(:, data.shutterOnMask) = 3;
     quality_mask_NR_532(:, data.fogMask) = 4;
