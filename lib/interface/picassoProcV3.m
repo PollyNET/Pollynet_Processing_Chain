@@ -2683,7 +2683,9 @@ flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalCha
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 quality_mask_355 = zeros(length(data.height), length(data.mTime));
+quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
 quality_mask_532 = zeros(length(data.height), length(data.mTime));
+quality_mask_NR_532 = zeros(length(data.height), length(data.mTime));
 quality_mask_1064 = zeros(length(data.height), length(data.mTime));
 quality_mask_vdr_532 = zeros(length(data.height), length(data.mTime));
 % quality_mask_vdr_355 = zeros(length(data.height), length(data.mTime));
@@ -2700,11 +2702,23 @@ if (sum(flag355T) == 1)
     quality_mask_355(:, data.shutterOnMask) = 3;
     quality_mask_355(:, data.fogMask) = 4;
 end
+if (sum(flag355_NR) == 1)
+    quality_mask_NR_355(squeeze(SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355_NR)) = 1;
+    quality_mask_NR_355(:, data.depCalMask) = 2;
+    quality_mask_NR_355(:, data.shutterOnMask) = 3;
+    quality_mask_NR_355(:, data.fogMask) = 4;
+end
 if (sum(flag532T) == 1)
     quality_mask_532(squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
     quality_mask_532(:, data.depCalMask) = 2;
     quality_mask_532(:, data.shutterOnMask) = 3;
     quality_mask_532(:, data.fogMask) = 4;
+end
+if (sum(flag532_NR) == 1)
+    quality_mask_NR_532(squeeze(SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532_NR)) = 1;
+    quality_mask_NR_532(:, data.depCalMask) = 2;
+    quality_mask_NR_532(:, data.shutterOnMask) = 3;
+    quality_mask_NR_532(:, data.fogMask) = 4;
 end
 if (sum(flag1064) == 1)
     quality_mask_1064(squeeze(SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
@@ -4374,7 +4388,9 @@ data.att_beta_355 = att_beta_355;
 data.att_beta_532 = att_beta_532;
 data.att_beta_1064 = att_beta_1064;
 data.quality_mask_355 = quality_mask_355;
+data.quality_mask_NR_355 = quality_mask_NR_355;
 data.quality_mask_532 = quality_mask_532;
+data.quality_mask_NR_532 = quality_mask_NR_532;
 data.quality_mask_1064 = quality_mask_1064;
 data.quality_mask_387 = quality_mask_387;
 data.quality_mask_607 = quality_mask_607;
