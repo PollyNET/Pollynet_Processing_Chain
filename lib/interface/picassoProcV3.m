@@ -366,7 +366,7 @@ data.monitorStatus = monitorStatus;
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Pre-processing
-print_msg('Start lidar data pre-processing.\n', 'flagTimestamp', true); 
+print_msg('Start lidar data pre-processing.\n', 'flagTimestamp', true);
 data = pollyPreprocess(data, 'flagForceMeasTime', PollyConfig.flagForceMeasTime, ...
             'maxHeightBin', PollyConfig.max_height_bin, ...
             'firstBinIndex', PollyConfig.first_range_gate_indx, ...
@@ -619,7 +619,7 @@ sigOLCor355 = [];
 bgOLCor355 = [];
 olFuncDeft355 = NaN(length(data.height), 1);
 % flagOLDeft355 = false;
-if (sum(flag355FR) == 1) 
+if (sum(flag355FR) == 1)
     sig355FR = squeeze(data.signal(flag355FR, :, :));
     bg355FR = squeeze(data.bg(flag355FR, :, :));
     sig355NR = squeeze(data.signal(flag355NR, :, :));
@@ -1223,7 +1223,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta355 = mean(aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2); 
+        refBeta355 = mean(aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2);
 
         [thisAerBsc355_NR_klett, thisAerBscStd355_NR_klett] = pollyFernald(data.distance0, sig355, bg355, PollyConfig.LR_NR_355, refH355, refBeta355, mBsc355, PollyConfig.smoothWin_klett_NR_355);
         thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
@@ -1275,7 +1275,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta532 = mean(aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2); 
+        refBeta532 = mean(aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2);
 
         [thisAerBsc532_NR_klett, thisAerBscStd532_NR_klett] = pollyFernald(data.distance0, sig532, bg532, PollyConfig.LR_NR_532, refH532, refBeta532, mBsc532, PollyConfig.smoothWin_klett_NR_532);
         thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
@@ -2702,7 +2702,7 @@ if (sum(flag355T) == 1)
     quality_mask_355(:, data.shutterOnMask) = 3;
     quality_mask_355(:, data.fogMask) = 4;
 end
-if (sum(flag355_NR) == 1)
+if (sum(flag355NR) == 1)
     quality_mask_NR_355(squeeze(SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
     quality_mask_NR_355(:, data.depCalMask) = 2;
     quality_mask_NR_355(:, data.shutterOnMask) = 3;
@@ -2714,7 +2714,7 @@ if (sum(flag532T) == 1)
     quality_mask_532(:, data.shutterOnMask) = 3;
     quality_mask_532(:, data.fogMask) = 4;
 end
-if (sum(flag532_NR) == 1)
+if (sum(flag532NR) == 1)
     quality_mask_NR_532(squeeze(SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
     quality_mask_NR_532(:, data.depCalMask) = 2;
     quality_mask_NR_532(:, data.shutterOnMask) = 3;
@@ -3022,27 +3022,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc355_klett(iGrp, 80))
 
             [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt355 = aerExt355_klett(iGrp, :);
             aExt355(1:hIndBase) = aerExt355_klett(hIndBase);
             aBsc355 = aerBsc355_klett(iGrp, :);
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans355 = exp(-2 * (aOT355 + mOT355));
             bsc355 = mBsc355 + aBsc355;
-    
+
             % lidar calibration
             LC_klett_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
             [LC_klett_355, ~, lcStd] = mean_stable(LC_klett_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_klett_355 = LC_klett_355 * lcStd;
-    
+
             LC.LC_klett_355(iGrp) = LC_klett_355;
             LC.LCStd_klett_355(iGrp) = LCStd_klett_355;
         end
@@ -3061,27 +3061,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc532_klett(iGrp, 80))
 
             [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt532 = aerExt532_klett(iGrp, :);
             aExt532(1:hIndBase) = aerExt532_klett(hIndBase);
             aBsc532 = aerBsc532_klett(iGrp, :);
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans532 = exp(-2 * (aOT532 + mOT532));
             bsc532 = mBsc532 + aBsc532;
-    
+
             % lidar calibration
             LC_klett_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
             [LC_klett_532, ~, lcStd] = mean_stable(LC_klett_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_klett_532 = LC_klett_532 * lcStd;
-    
+
             LC.LC_klett_532(iGrp) = LC_klett_532;
             LC.LCStd_klett_532(iGrp) = LCStd_klett_532;
         end
@@ -3100,27 +3100,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc1064_klett(iGrp, 80))
 
             [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt1064 = aerExt1064_klett(iGrp, :);
             aExt1064(1:hIndBase) = aerExt1064_klett(hIndBase);
             aBsc1064 = aerBsc1064_klett(iGrp, :);
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans1064 = exp(-2 * (aOT1064 + mOT1064));
             bsc1064 = mBsc1064 + aBsc1064;
-    
+
             % lidar calibration
             LC_klett_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
             [LC_klett_1064, ~, lcStd] = mean_stable(LC_klett_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_klett_1064 = LC_klett_1064 * lcStd;
-    
+
             LC.LC_klett_1064(iGrp) = LC_klett_1064;
             LC.LCStd_klett_1064(iGrp) = LCStd_klett_1064;
         end
@@ -3132,31 +3132,31 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc355_raman(iGrp, 80))
 
             [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask387Off);
             nPrf = sum(flagClFre);
             sig355 = squeeze(sum(data.signal(flag355, :, flagClFre), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aBsc355 = aerBsc355_raman(iGrp, :);
             aBsc355(aBsc355 <= 0) = NaN;
             aExt355 = aBsc355 * PollyConfig.LR355;
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans355 = exp(-2 * (aOT355 + mOT355));
             bsc355 = mBsc355 + aBsc355;
-    
+
             % lidar calibration
             LC_raman_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
             LC_raman_355(LC_raman_355 <= 0) = NaN;
             [LC_raman_355, ~, lcStd] = mean_stable(LC_raman_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_raman_355 = LC_raman_355 * lcStd;
-    
+
             LC.LC_raman_355(iGrp) = LC_raman_355;
             LC.LCStd_raman_355(iGrp) = LCStd_raman_355;
         end
@@ -3168,31 +3168,31 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc532_raman(iGrp, 80))
 
             [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
             sig532 = squeeze(sum(data.signal(flag532, :, flagClFre), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aBsc532 = aerBsc532_raman(iGrp, :);
             aBsc532(aBsc532 <= 0) = NaN;
             aExt532 = aBsc532 * PollyConfig.LR532;
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans532 = exp(-2 * (aOT532 + mOT532));
             bsc532 = mBsc532 + aBsc532;
-    
+
             % lidar calibration
             LC_raman_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
             LC_raman_532(LC_raman_532 <= 0) = NaN;
             [LC_raman_532, ~, lcStd] = mean_stable(LC_raman_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_raman_532 = LC_raman_532 * lcStd;
-    
+
             LC.LC_raman_532(iGrp) = LC_raman_532;
             LC.LCStd_raman_532(iGrp) = LCStd_raman_532;
         end
@@ -3204,31 +3204,31 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc1064_raman(iGrp, 80))
 
             [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
             sig1064 = squeeze(sum(data.signal(flag1064, :, flagClFre), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aBsc1064 = aerBsc1064_raman(iGrp, :);
             aBsc1064(aBsc1064 <= 0) = NaN;
             aExt1064 = aBsc1064 * PollyConfig.LR1064;
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans1064 = exp(-2 * (aOT1064 + mOT1064));
             bsc1064 = mBsc1064 + aBsc1064;
-    
+
             % lidar calibration
             LC_raman_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
             LC_raman_1064(LC_raman_1064 <= 0) = NaN;
             [LC_raman_1064, ~, lcStd] = mean_stable(LC_raman_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_raman_1064 = LC_raman_1064 * lcStd;
-    
+
             LC.LC_raman_1064(iGrp) = LC_raman_1064;
             LC.LCStd_raman_1064(iGrp) = LCStd_raman_1064;
         end
@@ -3241,14 +3241,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
             [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
             [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask387Off);
             nPrf = sum(flagClFre);
             sig387 = squeeze(sum(data.signal(flag387, :, flagClFre), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aBsc355 = aerBsc355_raman(iGrp, :);
             aBsc355(aBsc355 <= 0) = NaN;
@@ -3258,17 +3258,17 @@ for iGrp = 1:size(clFreGrps, 1)
             aOT387 = nancumsum(aExt387 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT387 = nancumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans_355_387 = exp(- (aOT355 + mOT355 + aOT387 + mOT387));
             bsc355 = mBsc355;
-    
+
             % lidar calibration
             LC_raman_387 = transpose(smooth(sig387 .* data.distance0.^2, PollyConfig.smoothWin_raman_355)) ./ bsc355 ./ trans_355_387;
             LC_raman_387(LC_raman_387 <= 0) = NaN;
             [LC_raman_387, ~, lcStd] = mean_stable(LC_raman_387, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_raman_387 = LC_raman_387 * lcStd;
-    
+
             LC.LC_raman_387(iGrp) = LC_raman_387;
             LC.LCStd_raman_387(iGrp) = LCStd_raman_387;
         end
@@ -3281,14 +3281,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
             [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
             [~, mExt607] = rayleigh_scattering(607, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
             sig607 = squeeze(sum(data.signal(flag607, :, flagClFre), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aBsc532 = aerBsc532_raman(iGrp, :);
             aBsc532(aBsc532 <= 0) = NaN;
@@ -3298,17 +3298,17 @@ for iGrp = 1:size(clFreGrps, 1)
             aOT607 = nancumsum(aExt607 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT607 = nancumsum(mExt607 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans_532_607 = exp(- (aOT532 + mOT532 + aOT607 + mOT607));
             bsc532 = mBsc532;
-    
+
             % lidar calibration
             LC_raman_607 = transpose(smooth(sig607 .* data.distance0.^2, PollyConfig.smoothWin_raman_532)) ./ bsc532 ./ trans_532_607;
             LC_raman_607(LC_raman_607 <= 0) = NaN;
             [LC_raman_607, ~, lcStd] = mean_stable(LC_raman_607, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_raman_607 = LC_raman_607 * lcStd;
-    
+
             LC.LC_raman_607(iGrp) = LC_raman_607;
             LC.LCStd_raman_607(iGrp) = LCStd_raman_607;
         end
@@ -3327,27 +3327,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc355_aeronet(iGrp, 80))
 
             [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt355 = aerExt355_aeronet(iGrp, :);
             aExt355(1:hIndBase) = aerExt355_aeronet(hIndBase);
             aBsc355 = aerBsc355_aeronet(iGrp, :);
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans355 = exp(-2 * (aOT355 + mOT355));
             bsc355 = mBsc355 + aBsc355;
-    
+
             % lidar calibration
             LC_aeronet_355 = sig355 .* data.distance0.^2 ./ bsc355 ./ trans355;
             [LC_aeronet_355, ~, lcStd] = mean_stable(LC_aeronet_355, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_aeronet_355 = LC_aeronet_355 * lcStd;
-    
+
             LC.LC_aeronet_355(iGrp) = LC_aeronet_355;
             LC.LCStd_aeronet_355(iGrp) = LCStd_aeronet_355;
         end
@@ -3366,27 +3366,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc532_aeronet(iGrp, 80))
 
             [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt532 = aerExt532_aeronet(iGrp, :);
             aExt532(1:hIndBase) = aerExt532_aeronet(hIndBase);
             aBsc532 = aerBsc532_aeronet(iGrp, :);
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans532 = exp(-2 * (aOT532 + mOT532));
             bsc532 = mBsc532 + aBsc532;
-    
+
             % lidar calibration
             LC_aeronet_532 = sig532 .* data.distance0.^2 ./ bsc532 ./ trans532;
             [LC_aeronet_532, ~, lcStd] = mean_stable(LC_aeronet_532, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_aeronet_532 = LC_aeronet_532 * lcStd;
-    
+
             LC.LC_aeronet_532(iGrp) = LC_aeronet_532;
             LC.LCStd_aeronet_532(iGrp) = LCStd_aeronet_532;
         end
@@ -3405,27 +3405,27 @@ for iGrp = 1:size(clFreGrps, 1)
         if ~ isnan(aerBsc1064_aeronet(iGrp, 80))
 
             [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    
+
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
-    
+
             % optical thickness (OT)
             aExt1064 = aerExt1064_aeronet(iGrp, :);
             aExt1064(1:hIndBase) = aerExt1064_aeronet(hIndBase);
             aBsc1064 = aerBsc1064_aeronet(iGrp, :);
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
-    
+
             % round-trip transmission
             trans1064 = exp(-2 * (aOT1064 + mOT1064));
             bsc1064 = mBsc1064 + aBsc1064;
-    
+
             % lidar calibration
             LC_aeronet_1064 = sig1064 .* data.distance0.^2 ./ bsc1064 ./ trans1064;
             [LC_aeronet_1064, ~, lcStd] = mean_stable(LC_aeronet_1064, PollyConfig.LCMeanWindow, PollyConfig.LCMeanMinIndx, PollyConfig.LCMeanMaxIndx);
             LCStd_aeronet_1064 = LC_aeronet_1064 * lcStd;
-    
+
             LC.LC_aeronet_1064(iGrp) = LC_aeronet_1064;
             LC.LCStd_aeronet_1064(iGrp) = LCStd_aeronet_1064;
         end
@@ -4436,8 +4436,8 @@ data.clPhProb = clPhProb;
 if PicassoConfig.flagEnableCaliResultsOutput
 
     % delete the previous outputs
-    % This is only necessary when you run the code on the server, 
-    % where the polly data was updated in time. If the 
+    % This is only necessary when you run the code on the server,
+    % where the polly data was updated in time. If the
     % previous outputs were not cleared, it will piled up to a huge amount.
     if PicassoConfig.flagDeletePreOutputs
         print_msg('Start deleting previous netCDF files.\n', 'flagTimestamp', true);
@@ -4560,8 +4560,8 @@ end
 if PicassoConfig.flagEnableDataVisualization
 
     % delete the previous outputs
-    % This is only necessary when you run the code on the server, 
-    % where the polly data was updated in time. If the 
+    % This is only necessary when you run the code on the server,
+    % where the polly data was updated in time. If the
     % previous outputs were not cleared, it will piled up to a huge amount.
     if PicassoConfig.flagDeletePreOutputs
         print_msg('Start deleting previous figures.\n', 'flagTimestamp', true);
