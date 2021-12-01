@@ -9,7 +9,7 @@ function pollySaveNRAttnBeta(data)
 %
 % HISTORY:
 %    - 2021-06-09: first edition by Zhenping
-%   
+%
 % .. Authors: - zhenping@tropos.de
 
 missing_value = -999;
@@ -181,7 +181,7 @@ netcdf.putAtt(ncID, varID_quality_mask_532, 'standard_name', 'quality_mask_532')
 netcdf.putAtt(ncID, varID_quality_mask_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quality_mask_532, 'comment', 'This variable can be used to filter noisy pixels of attenuated backscatter at 532 nm. (0: good data; 1: low SNR; 2: depolarization calibration periods; 3: shutter on; 4: fog)');
 
-% SNR 355 nm 
+% SNR 355 nm
 netcdf.putAtt(ncID, varID_SNR_355, 'unit', '');
 netcdf.putAtt(ncID, varID_SNR_355, 'long_name', 'SNR at 355 nm');
 netcdf.putAtt(ncID, varID_SNR_355, 'standard_name', 'near-field signal-noise-ratio 355 nm');
