@@ -291,7 +291,7 @@
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p>___flagCorrectFalseMShots</p></td>
+<tr class="row-even"><td><p>flagCorrectFalseMShots</p></td>
 <td><div class="line-block">
 <div class="line">whether to correct the invalid shots stored in the netcdf files. </div>
 <div class="line">(I don’t know the reason yet, but it does exist in pollyxt_tropos</div>
@@ -301,7 +301,7 @@
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagFilterFalseMShots</p></td>
+<tr class="row-odd"><td><p>flagFilterFalseMShots</p></td>
 <td><div class="line-block">
 <div class="line">whether to filter out the profiles with invalid shots. (Since I </div>
 <div class="line">don’t know whether it’s trustable for these profiles, I will</div>
@@ -311,7 +311,7 @@
 <td><p>false</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagForceMeasTime</p></td>
+<tr class="row-even"><td><p>flagForceMeasTime</p></td>
 <td><div class="line-block">
 <div class="line">whether to fix measurement time according to the mshots instead</div>
 <div class="line">of using the original PC time</div>
@@ -320,27 +320,27 @@
 <td><p>false</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagDTCor</p></td>
+<tr class="row-odd"><td><p>flagDTCor</p></td>
 <td><p>whether to implement deadtime correction</p></td>
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagWVCalibration</p></td>
+<tr class="row-even"><td><p>flagWVCalibration</p></td>
 <td><p>whether to implement water vapor calibration</p></td>
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagLCCalibration</p></td>
+<tr class="row-odd"><td><p>flagLCCalibration</p></td>
 <td><p>whether to enable lidar calibration</p></td>
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagDepolCali</p></td>
+<tr class="row-even"><td><p>flagDepolCali</p></td>
 <td><p>whether to enable lidar depolarization calibration</p></td>
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagUsePreviousDepolCali</p></td>
+<tr class="row-odd"><td><p>flagUsePreviousDepolCali</p></td>
 <td><div class="line-block">
 <div class="line">whether to take previous lidar depolarization calibration results</div>
 <div class="line">when no calibration is available</div>
@@ -349,7 +349,7 @@
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagUsePreviousWVconst</p></td>
+<tr class="row-even"><td><p>flagUsePreviousWVconst</p></td>
 <td><div class="line-block">
 <div class="line">whether to take previous lidar water vapor calibration results when</div>
 <div class="line">no water vapor calibration is available</div>
@@ -358,7 +358,7 @@
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagUsePreviousLC</p></td>
+<tr class="row-odd"><td><p>flagUsePreviousLC</p></td>
 <td><div class="line-block">
 <div class="line">whether to take previous lidar calibration constants when no lidar</div>
 <div class="line">calibration is available</div>
@@ -367,7 +367,7 @@
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagUseSameRefH</p></td>
+<tr class="row-even"><td><p>flagUseSameRefH</p></td>
 <td><div class="line-block">
 <div class="line">whether to take the same reference height for aerosol retrievals at all</div>
 <div class="line">available wavelength</div>
@@ -376,12 +376,12 @@
 <td><p>false</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagSigTempCor</p></td>
+<tr class="row-odd"><td><p>flagSigTempCor</p></td>
 <td><p>whether to implement signal temperature correction</p></td>
 <td><p>false</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___tempCorFunc</p></td>
+<tr class="row-even"><td><p>tempCorFunc</p></td>
 <td><p>temperature correction function for each channel</p></td>
 <td><div class="line-block">
 <div class="line">[“1”, “exp(-0.001*T)”, “1”] (Unit: Kelvin)</div>
@@ -389,7 +389,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___flagAutoscaleRCS</p></td>
+<tr class="row-odd"><td><p>flagAutoscaleRCS</p></td>
 <td><div class="line-block">
 <div class="line">to control whether to configure the color-range for range corrected</div>
 <div class="line">signal in an automatic way</div>
@@ -398,7 +398,7 @@
 <td><p>true</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___flagMolDepolCali</p></td>
+<tr class="row-even"><td><p>flagMolDepolCali</p></td>
 <td><p>to control whether to use molecular depolarization calibration</p></td>
 <td><p>false</p></td>
 <td><div class="line-block">
@@ -406,7 +406,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___MWRFolder</p></td>
+<tr class="row-odd"><td><p>MWRFolder</p></td>
 <td><p>The folder of prw results from MWR. (This is only for LACROS)</p></td>
 <td><div class="line-block">
 <div class="line">C:\Users\zhenping\Desktop\Picasso\test\</div>
@@ -415,7 +415,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___dataFileFormat</p></td>
+<tr class="row-even"><td><p>dataFileFormat</p></td>
 <td><div class="line-block">
 <div class="line">regular expression to extract the data and time info from polly data file.</div>
 <div class="line">(This is based on the syntax of matlab <strong>regexp</strong>)</div>
@@ -429,12 +429,12 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___gdas1Site</p></td>
+<tr class="row-odd"><td><p>gdas1Site</p></td>
 <td><p>gdas1 site for the current campaign.</p></td>
 <td><p>warsaw</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___max_height_bin</p></td>
+<tr class="row-even"><td><p>max_height_bin</p></td>
 <td><div class="line-block">
 <div class="line">the number of bins you want to extract for each profile. (Normally,</div>
 <div class="line">the high altitude bins only contain noise. If you load too much bins, you</div>
@@ -444,7 +444,7 @@
 <td><p>2500</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___first_range_gate_indx</p></td>
+<tr class="row-odd"><td><p>first_range_gate_indx</p></td>
 <td><div class="line-block">
 <div class="line">the first bin for each channel. (It’s highly suggested to</div>
 <div class="line">tune this parameter to compensate the lag among different channels)</div>
@@ -457,7 +457,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___first_range_gate_height</p></td>
+<tr class="row-even"><td><p>first_range_gate_height</p></td>
 <td><div class="line-block">
 <div class="line">The height for the first range bin. [m]. You need to</div>
 <div class="line">take great care for this parameter, since it will create large bias for extinction</div>
@@ -469,7 +469,7 @@
 <td></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___dtCorMode</p></td>
+<tr class="row-odd"><td><p>dtCorMode</p></td>
 <td><div class="line-block">
 <div class="line">deadtime correction mode.</div>
 <div class="line">1: use the parameters saved in the netcdf files</div>
@@ -481,7 +481,7 @@
 <td><p>1</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___dt</p></td>
+<tr class="row-even"><td><p>dt</p></td>
 <td><div class="line-block">
 <div class="line">parameters for deadtime correction. If “dtCorMode” is set to be ‘2’, only the</div>
 <div class="line">deadtime for each channel need to be set here with unit of ns.</div>
@@ -509,7 +509,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___bgCorRangeIndx</p></td>
+<tr class="row-odd"><td><p>bgCorRangeIndx</p></td>
 <td><p>the bottom and top index of signal to calculate the background</p></td>
 <td><div class="line-block">
 <div class="line">[10, 240]</div>
@@ -517,7 +517,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___mask_SNRmin</p></td>
+<tr class="row-even"><td><p>mask_SNRmin</p></td>
 <td><p>the SNR threshold to mask noisy bins</p></td>
 <td><div class="line-block">
 <div class="line">[1.6, 1, 1, 1, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1]</div>
@@ -525,7 +525,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cali_mode</p></td>
+<tr class="row-odd"><td><p>depol_cali_mode</p></td>
 <td><div class="line-block">
 <div class="line">depolarization calibration mode:</div>
 <div class="line">1: automatic searching based on depolarization calibration angle</div>
@@ -535,7 +535,7 @@
 <td><p>1</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___depol_cal_time_fixed_p_start</p></td>
+<tr class="row-even"><td><p>depol_cal_time_fixed_p_start</p></td>
 <td><p>fixed timestamp for the start of depolarization calibration period at positive angle.</p></td>
 <td><div class="line-block">
 <div class="line">[“05:30:00”] for the start time of</div>
@@ -546,7 +546,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cal_time_fixed_p_end</p></td>
+<tr class="row-odd"><td><p>depol_cal_time_fixed_p_end</p></td>
 <td><p>fixed timestamp for the stop of depolarization calibration period at positive angle.</p></td>
 <td><div class="line-block">
 <div class="line">[“05:35:30”]</div>
@@ -554,7 +554,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___depol_cal_time_fixed_m_start</p></td>
+<tr class="row-even"><td><p>depol_cal_time_fixed_m_start</p></td>
 <td><p>fixed timestamp for the start depolarization calibration period at negative angle.</p></td>
 <td><div class="line-block">
 <div class="line">[“05:35:30”]</div>
@@ -562,7 +562,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cal_time_fixed_m_end</p></td>
+<tr class="row-odd"><td><p>depol_cal_time_fixed_m_end</p></td>
 <td><p>fixed timestamp for the stop of depolarization calibration period at negative angle.</p></td>
 <td><div class="line-block">
 <div class="line">[“05:40:00”]</div>
@@ -570,12 +570,12 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___init_depAng</p></td>
+<tr class="row-even"><td><p>init_depAng</p></td>
 <td><p>the initial angle of the polariser withou depo calibration [degree]</p></td>
 <td><p>0</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___maskDepCalAng</p></td>
+<tr class="row-odd"><td><p>maskDepCalAng</p></td>
 <td><div class="line-block">
 <div class="line">the mask for postive and negative calibration angle.</div>
 <div class="line">‘none’ means invalid profiles with different depol_cal_angle</div>
@@ -591,17 +591,17 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___depol_cal_minbin_{wavelength}</p></td>
+<tr class="row-even"><td><p>depol_cal_minbin_{wavelength}</p></td>
 <td><p>the minimum bin used for depolarization calibration</p></td>
 <td><p>40</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cal_maxbin_{wavelength}</p></td>
+<tr class="row-odd"><td><p>depol_cal_maxbin_{wavelength}</p></td>
 <td><p>the maximum bin used for depolarization calibration</p></td>
 <td><p>300</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___depol_cal_SNRmin_{wavelength}</p></td>
+<tr class="row-even"><td><p>depol_cal_SNRmin_{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">Threshold for the minimum SNR used in depol-calibration.</div>
 <div class="line">There are four signal profiles used in the calibration, total channel at 45</div>
@@ -615,7 +615,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cal_sigMax_{wavelength}</p></td>
+<tr class="row-odd"><td><p>depol_cal_sigMax_{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">The maximum signal strength could be used for</div>
 <div class="line">depol-calibration to prevent signal pileup effects</div>
@@ -625,7 +625,7 @@
 <td></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___rel_std_dplus_{wavelength}</p></td>
+<tr class="row-even"><td><p>rel_std_dplus_{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">Threshold for maximum relative uncertainty of signal ratio</div>
 <div class="line">at +45 depol-calibration. If relative uncertainty exceed this value,</div>
@@ -636,7 +636,7 @@
 <td><p>0.2</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___rel_std_dminus_{wavelength}</p></td>
+<tr class="row-odd"><td><p>rel_std_dminus_{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">Threshold for maximum relative uncertainty of signal ratio</div>
 <div class="line">at -45 depol-calibration.</div>
@@ -645,17 +645,17 @@
 <td><p>0.2</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___depol_cal_segmentLen_{wavelength}</p></td>
+<tr class="row-even"><td><p>depol_cal_segmentLen_{wavelength}</p></td>
 <td><p>The small region for evaluating the uncertainty of depol calibration</p></td>
 <td><p>40</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___depol_cal_smoothWin_{wavelength}</p></td>
+<tr class="row-odd"><td><p>depol_cal_smoothWin_{wavelength}</p></td>
 <td><p>The smoothing window for depol-calibration</p></td>
 <td><p>8</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___isFR</p></td>
+<tr class="row-even"><td><p>isFR</p></td>
 <td><p>flag of far-range channel</p></td>
 <td><div class="line-block">
 <div class="line">[1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0]</div>
@@ -663,7 +663,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___isNR</p></td>
+<tr class="row-odd"><td><p>isNR</p></td>
 <td><p>flag of near-range channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0]</div>
@@ -671,7 +671,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___is532nm</p></td>
+<tr class="row-even"><td><p>is532nm</p></td>
 <td><p>flag of 532nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0]</div>
@@ -679,7 +679,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___is355nm</p></td>
+<tr class="row-odd"><td><p>is355nm</p></td>
 <td><p>flag of 355nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0]</div>
@@ -687,7 +687,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___is1064nm</p></td>
+<tr class="row-even"><td><p>is1064nm</p></td>
 <td><p>flag of 1064nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0]</div>
@@ -695,7 +695,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___isTot</p></td>
+<tr class="row-odd"><td><p>isTot</p></td>
 <td><p>flag of total channel</p></td>
 <td><div class="line-block">
 <div class="line">[1, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 0, 0]</div>
@@ -703,7 +703,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___isCross</p></td>
+<tr class="row-even"><td><p>isCross</p></td>
 <td><p>flag of cross polarized channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0]</div>
@@ -711,7 +711,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___is387nm</p></td>
+<tr class="row-odd"><td><p>is387nm</p></td>
 <td><p>flag of 387nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0]</div>
@@ -719,7 +719,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___is407nm</p></td>
+<tr class="row-even"><td><p>is407nm</p></td>
 <td><p>flag of 407nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]</div>
@@ -727,7 +727,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___is607nm</p></td>
+<tr class="row-odd"><td><p>is607nm</p></td>
 <td><p>flag of 607nm channel</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0]</div>
@@ -735,7 +735,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___channelTag</p></td>
+<tr class="row-even"><td><p>channelTag</p></td>
 <td><p>label of each channel</p></td>
 <td><div class="line-block">
 <div class="line">[“FR-total-355 nm”, “FR-cross-355 nm”,</div>
@@ -749,7 +749,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minPC_fog</p></td>
+<tr class="row-odd"><td><p>minPC_fog</p></td>
 <td><div class="line-block">
 <div class="line">The minimum photon count for non-fog profile. The detected photon</div>
 <div class="line">count between 40th and 120th bin (above the first bin) for each 30s profile</div>
@@ -762,7 +762,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___TR</p></td>
+<tr class="row-even"><td><p>TR</p></td>
 <td><p>Transmission ratio for different channel.</p></td>
 <td><div class="line-block">
 <div class="line">[0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1]</div>
@@ -780,7 +780,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___overlapCalMode</p></td>
+<tr class="row-odd"><td><p>overlapCalMode</p></td>
 <td><div class="line-block">
 <div class="line">1:estimate the overlap function based on the near-range signal.</div>
 <div class="line">2: calculate the overlap function with Raman method</div>
@@ -794,7 +794,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___overlapCorMode</p></td>
+<tr class="row-even"><td><p>overlapCorMode</p></td>
 <td><div class="line-block">
 <div class="line">0: no overlap correction</div>
 <div class="line">1:overlap correction with using the default overlap function</div>
@@ -805,17 +805,17 @@
 <td><p>1</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___overlapSmoothBins</p></td>
+<tr class="row-odd"><td><p>overlapSmoothBins</p></td>
 <td><p>vertical window (bins) for smoothing the noisy overlap function</p></td>
 <td><p>8</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___saturate_thresh</p></td>
+<tr class="row-even"><td><p>saturate_thresh</p></td>
 <td><p>the threshold for signal saturation (MHz)</p></td>
 <td><p>100</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___heightFullOverlap</p></td>
+<tr class="row-odd"><td><p>heightFullOverlap</p></td>
 <td><p>height for the base of full overlap</p></td>
 <td><div class="line-block">
 <div class="line">[500, 500, 500, 500, 500, 500, 500,</div>
@@ -824,7 +824,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minSNR_4_sigNorm</p></td>
+<tr class="row-even"><td><p>minSNR_4_sigNorm</p></td>
 <td><div class="line-block">
 <div class="line">The minimum SNR requirement for the signal used for signal</div>
 <div class="line">normalization both for near- and far- range signal.</div>
@@ -833,7 +833,7 @@
 <td><p>10</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___cloudScreenMode</p></td>
+<tr class="row-odd"><td><p>cloudScreenMode</p></td>
 <td><p>1: using signal gradient; 2: using Zhao’s algorithm</p></td>
 <td><p>1</p></td>
 <td><div class="line-block">
@@ -845,7 +845,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___maxSigSlope4FilterCloud</p></td>
+<tr class="row-even"><td><p>maxSigSlope4FilterCloud</p></td>
 <td><div class="line-block">
 <div class="line">The slope threshold for cloud screening. The screening is based</div>
 <div class="line">on the slope of the Range Corrected Signal(photon count * m^2).</div>
@@ -863,22 +863,22 @@
 <td><p>3e6</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___maxSigSlope4FilterCloud_NR</p></td>
+<tr class="row-odd"><td><p>maxSigSlope4FilterCloud_NR</p></td>
 <td><p>The slope threshold for cloud screening with using NR signal</p></td>
 <td><p>0.5e6</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___intNProfiles</p></td>
+<tr class="row-even"><td><p>intNProfiles</p></td>
 <td><p>Accumulated profiles for retrieving.</p></td>
 <td><p>120</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minIntNProfiles</p></td>
+<tr class="row-odd"><td><p>minIntNProfiles</p></td>
 <td><p>minimum integral profiles for aerosol retrieving</p></td>
 <td><p>90</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___meteorDataSource</p></td>
+<tr class="row-even"><td><p>meteorDataSource</p></td>
 <td><div class="line-block">
 <div class="line">the data source for meteorological data. If the current data does</div>
 <div class="line">not exist. It will turn to standard atmosphere model.</div>
@@ -887,27 +887,27 @@
 <td><p>gdas1</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___radiosondeSitenum</p></td>
+<tr class="row-odd"><td><p>radiosondeSitenum</p></td>
 <td><p>The site number for the nearest radiosonde launching site.</p></td>
 <td><p>14430</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minDecomLogDist{wavelength}</p></td>
+<tr class="row-even"><td><p>minDecomLogDist{wavelength}</p></td>
 <td></td>
 <td><p>0.2</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___maxDecomHeight{wavelength}</p></td>
+<tr class="row-odd"><td><p>maxDecomHeight{wavelength}</p></td>
 <td></td>
 <td><p>8000</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___maxDecomThickness{wavelength}</p></td>
+<tr class="row-even"><td><p>maxDecomThickness{wavelength}</p></td>
 <td></td>
 <td><p>700</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___decomSmoothWin{wavelength}</p></td>
+<tr class="row-odd"><td><p>decomSmoothWin{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">The smoothing window for molecular corrected signal</div>
 <div class="line">used in Douglas-Peucker decomposition algorithm.</div>
@@ -916,7 +916,7 @@
 <td><p>20</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minRefThickness{wavelength}</p></td>
+<tr class="row-even"><td><p>minRefThickness{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">The minimum thickness for the reference height.</div>
 <div class="line">There is thickness test in the RayleighFit function which</div>
@@ -926,7 +926,7 @@
 <td><p>500 m</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minRefDeltaExt{wavelength}</p></td>
+<tr class="row-odd"><td><p>minRefDeltaExt{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">The maximum slope difference between measured signal</div>
 <div class="line">and molecule signal. This threshold is used in RayleighFit</div>
@@ -939,7 +939,7 @@
 <td><p>2</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minRefSNR{wavelength}</p></td>
+<tr class="row-even"><td><p>minRefSNR{wavelength}</p></td>
 <td><div class="line-block">
 <div class="line">The minimum SNR for the accumulated signal at the tested</div>
 <div class="line">reference height.</div>
@@ -948,22 +948,22 @@
 <td><p>5</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___LR{wavelength}</p></td>
+<tr class="row-odd"><td><p>LR{wavelength}</p></td>
 <td><p>Default lidar ratio for Klett retrieving method</p></td>
 <td><p>50 sr</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___refBeta{wavelength}</p></td>
+<tr class="row-even"><td><p>refBeta{wavelength}</p></td>
 <td><p>Reference value for Klett and Raman method</p></td>
 <td><p>2e-8</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___smoothWin_klett_{wavelength}</p></td>
+<tr class="row-odd"><td><p>smoothWin_klett_{wavelength}</p></td>
 <td><p>smoothing window for klett method</p></td>
 <td><p>21</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___maxIterConstrainFernald</p></td>
+<tr class="row-even"><td><p>maxIterConstrainFernald</p></td>
 <td><div class="line-block">
 <div class="line">The maximum iterations for searching the best Lidar Ratio with</div>
 <div class="line">Constrained-AOD fernald method</div>
@@ -972,17 +972,17 @@
 <td><p>20 sr</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minLRConstrainFernald</p></td>
+<tr class="row-odd"><td><p>minLRConstrainFernald</p></td>
 <td><p>The minimum lidar ratio used for Constrained-AOD fernald method</p></td>
 <td><p>1 sr</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___maxLRConstrainFernald</p></td>
+<tr class="row-even"><td><p>maxLRConstrainFernald</p></td>
 <td><p>The maximum lidar ratio used for Constrained-AOD fernald method</p></td>
 <td><p>150 sr</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minDeltaAOD</p></td>
+<tr class="row-odd"><td><p>minDeltaAOD</p></td>
 <td><div class="line-block">
 <div class="line">The minimum AOD deviation that is required for Constrained-AOD</div>
 <div class="line">fernald method</div>
@@ -991,7 +991,7 @@
 <td><p>0.01</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minRamanRefSNR387</p></td>
+<tr class="row-even"><td><p>minRamanRefSNR387</p></td>
 <td><div class="line-block">
 <div class="line">The minimum SNR for the signal at the reference height.</div>
 <div class="line">If SNR at the reference height is smaller than this value,</div>
@@ -1001,7 +1001,7 @@
 <td><p>40</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___minRamanRefSNR607</p></td>
+<tr class="row-odd"><td><p>minRamanRefSNR607</p></td>
 <td><div class="line-block">
 <div class="line">The minimum SNR for the signal at the reference height.</div>
 <div class="line">If SNR at the reference height is smaller than this value,</div>
@@ -1011,32 +1011,32 @@
 <td><p>20</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___angstrexp</p></td>
+<tr class="row-even"><td><p>angstrexp</p></td>
 <td><p>Default angstroem exponent for Raman method</p></td>
 <td><p>0.9</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___smoothWin_raman_{wavelength}</p></td>
+<tr class="row-odd"><td><p>smoothWin_raman_{wavelength}</p></td>
 <td><p>smoothing window for raman method</p></td>
 <td><p>61</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___LCMeanWindow</p></td>
+<tr class="row-even"><td><p>LCMeanWindow</p></td>
 <td><p>The window for calculating the Lidar Constant</p></td>
 <td><p>50</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___LCMeanMinIndx</p></td>
+<tr class="row-odd"><td><p>LCMeanMinIndx</p></td>
 <td><p>The minimum bin used for lidar constant calculation</p></td>
 <td><p>70</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___LCMeanMaxIndx</p></td>
+<tr class="row-even"><td><p>LCMeanMaxIndx</p></td>
 <td><p>The maximum bin used for lidar constant calculation</p></td>
 <td><p>1000</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___LCCalibrationStatus</p></td>
+<tr class="row-odd"><td><p>LCCalibrationStatus</p></td>
 <td><div class="line-block">
 <div class="line">The tag for lidar calibration status, which will displayed</div>
 <div class="line">in the output figures</div>
@@ -1048,7 +1048,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___quasi_smooth_h</p></td>
+<tr class="row-even"><td><p>quasi_smooth_h</p></td>
 <td><div class="line-block">
 <div class="line">temporal smoothing window for quasi retrieving method.</div>
 <div class="line">For consistency, this parameter should be set for each channel</div>
@@ -1060,7 +1060,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___quasi_smooth_t</p></td>
+<tr class="row-odd"><td><p>quasi_smooth_t</p></td>
 <td><div class="line-block">
 <div class="line">spatial smoothing window for quasi retrieving method.</div>
 <div class="line">For consistency, this parameter should be set for each channel</div>
@@ -1072,12 +1072,12 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___IWV_instrument</p></td>
+<tr class="row-even"><td><p>IWV_instrument</p></td>
 <td><p>the data source of IWV. (‘mwr’ or ‘aeronet’)</p></td>
 <td><p>AERONET</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___maxIWVTLag</p></td>
+<tr class="row-odd"><td><p>maxIWVTLag</p></td>
 <td><div class="line-block">
 <div class="line">The minumum lag required for water vapor calibration between</div>
 <div class="line">IWV data and lidar water vapor measurement.</div>
@@ -1086,22 +1086,22 @@
 <td><p>0.1666</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___tTwilight</p></td>
+<tr class="row-even"><td><p>tTwilight</p></td>
 <td><p>span of the twilight</p></td>
 <td><p>0.0347</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___hWVCaliBase</p></td>
+<tr class="row-odd"><td><p>hWVCaliBase</p></td>
 <td><p>The minimum height used for calculating the IWV from lidar measurement.</p></td>
 <td><p>120</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___minHWVCaliTop</p></td>
+<tr class="row-even"><td><p>minHWVCaliTop</p></td>
 <td><p>The minimum top height required for calculating the IWV from lidar measurement.</p></td>
 <td><p>2000</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___clear_thres_par_beta_1064</p></td>
+<tr class="row-odd"><td><p>clear_thres_par_beta_1064</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating clear atmosphere based on particle</div>
 <div class="line">backscatter at 1064nm</div>
@@ -1118,7 +1118,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___turbid_thres_par_beta_1064</p></td>
+<tr class="row-even"><td><p>turbid_thres_par_beta_1064</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating turbid atmosphere based on</div>
 <div class="line">particle backscatter at 1064nm</div>
@@ -1135,7 +1135,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___turbid_thres_par_beta_532</p></td>
+<tr class="row-odd"><td><p>turbid_thres_par_beta_532</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating turbid atmosphere based on particle</div>
 <div class="line">backscatter at 532nm</div>
@@ -1144,7 +1144,7 @@
 <td><p>2e-7 m^{-1}</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___droplet_thres_par_depol</p></td>
+<tr class="row-even"><td><p>droplet_thres_par_depol</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating cloud droplets based on particle</div>
 <div class="line">depolarization ratio at 532nm</div>
@@ -1153,7 +1153,7 @@
 <td><p>0.05</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___spheroid_thres_par_depol</p></td>
+<tr class="row-odd"><td><p>spheroid_thres_par_depol</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating spheriod paricles based on particle</div>
 <div class="line">depolarization ratio at 532nm</div>
@@ -1170,7 +1170,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___unspheroid_thres_par_depol</p></td>
+<tr class="row-even"><td><p>unspheroid_thres_par_depol</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating unspheriod paricles based on particle</div>
 <div class="line">depolarization ratio at 532nm</div>
@@ -1187,7 +1187,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___ice_thres_par_depol</p></td>
+<tr class="row-odd"><td><p>ice_thres_par_depol</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating ice crystals based on particle</div>
 <div class="line">depolarization ratio at 532nm</div>
@@ -1204,7 +1204,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___ice_thres_vol_depol</p></td>
+<tr class="row-even"><td><p>ice_thres_vol_depol</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating ice crystals based on volume</div>
 <div class="line">depolarization ratio at 532nm</div>
@@ -1221,7 +1221,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___large_thres_ang</p></td>
+<tr class="row-odd"><td><p>large_thres_ang</p></td>
 <td><p>The threshold for discriminating large particles based on angstroem exponent</p></td>
 <td><p>0.75</p></td>
 <td><div class="line-block">
@@ -1234,7 +1234,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___small_thres_ang</p></td>
+<tr class="row-even"><td><p>small_thres_ang</p></td>
 <td><p>The threshold for discriminating small particles based on angstroem exponent</p></td>
 <td><p>0.5</p></td>
 <td><div class="line-block">
@@ -1247,7 +1247,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___cloud_thres_par_beta_1064</p></td>
+<tr class="row-odd"><td><p>cloud_thres_par_beta_1064</p></td>
 <td><div class="line-block">
 <div class="line">The threshold for discriminating cloud layers based on quasi particle</div>
 <div class="line">backscatter at 1064nm</div>
@@ -1264,7 +1264,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___min_atten_par_beta_1064</p></td>
+<tr class="row-even"><td><p>min_atten_par_beta_1064</p></td>
 <td><div class="line-block">
 <div class="line">The minimum attenuation factor could be expected at the first 250m</div>
 <div class="line">penatration depth</div>
@@ -1281,7 +1281,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___search_cloud_above</p></td>
+<tr class="row-odd"><td><p>search_cloud_above</p></td>
 <td><div class="line-block">
 <div class="line">The parameter is used in cloud top detection. The cloud top will be searched</div>
 <div class="line">between the first bin with quasi particle backscatter at 1064nm larger than</div>
@@ -1299,7 +1299,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-even"><td><p>___search_cloud_below</p></td>
+<tr class="row-even"><td><p>search_cloud_below</p></td>
 <td><div class="line-block">
 <div class="line">The parameter is used in cloud base detection. The cloud base will be searched</div>
 <div class="line">between the first bin with quasi particle backscatter at 1064nm larger than</div>
@@ -1317,7 +1317,7 @@
 </div>
 </td>
 </tr>
-<tr class="row-odd"><td><p>___overlap{wavelength}Color</p></td>
+<tr class="row-odd"><td><p>overlap{wavelength}Color</p></td>
 <td><p>the color settings for the line of overlap</p></td>
 <td><div class="line-block">
 <div class="line">[0, 255, 64]</div>
@@ -1325,7 +1325,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___xLim_Profi_Bsc</p></td>
+<tr class="row-even"><td><p>xLim_Profi_Bsc</p></td>
 <td><p>x-range of the profile of aerosol backscatter</p></td>
 <td><div class="line-block">
 <div class="line">[-0.1, 10] Mm^{-1}sr^{-1}</div>
@@ -1333,7 +1333,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___xLim_Profi_NR_Bsc</p></td>
+<tr class="row-odd"><td><p>xLim_Profi_NR_Bsc</p></td>
 <td><p>x-range of the profile of aerosol backscatter retrieved with near-range signal</p></td>
 <td><div class="line-block">
 <div class="line">[-0.1, 10] Mm^{-1}sr^{-1}</div>
@@ -1341,7 +1341,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___xLim_Profi_Ext</p></td>
+<tr class="row-even"><td><p>xLim_Profi_Ext</p></td>
 <td><p>x-range of the profile of aerosol extinction coefficient</p></td>
 <td><div class="line-block">
 <div class="line">[-1, 300] Mm^{-1}</div>
@@ -1349,7 +1349,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___xLim_Profi_NR_Ext</p></td>
+<tr class="row-odd"><td><p>xLim_Profi_NR_Ext</p></td>
 <td><div class="line-block">
 <div class="line">x-range of the profile of aerosol extinction coefficient retrieved</div>
 <div class="line">with near-range signal</div>
@@ -1361,7 +1361,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___xLim_Profi_WV_RH</p></td>
+<tr class="row-even"><td><p>xLim_Profi_WV_RH</p></td>
 <td><p>x-range (<strong>z-range</strong>) of the profile (<strong>time-height plot</strong>) of water vapor mixing ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 10] g*kg^{-1}</div>
@@ -1369,7 +1369,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___xLim_Profi_RCS</p></td>
+<tr class="row-odd"><td><p>xLim_Profi_RCS</p></td>
 <td><p>x-range of the profile of range corrected signal</p></td>
 <td><div class="line-block">
 <div class="line">[0.3, 10] (<a href="#id2"><span class="problematic" id="id3">*</span></a>1e6 a.u.)</div>
@@ -1377,7 +1377,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___xLim_Profi_LR</p></td>
+<tr class="row-even"><td><p>xLim_Profi_LR</p></td>
 <td><p>x-range of the profile of lidar ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 120] sr</div>
@@ -1385,7 +1385,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_LC_{wavelength}</p></td>
+<tr class="row-odd"><td><p>yLim_LC_{wavelength}</p></td>
 <td><p>y-range of the profile of lidar constant at certain wavelength</p></td>
 <td><div class="line-block">
 <div class="line">[0, 1e14]</div>
@@ -1401,7 +1401,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_WVConst</p></td>
+<tr class="row-odd"><td><p>yLim_WVConst</p></td>
 <td><p>y-range of the profile of water vapor calibration constant</p></td>
 <td><div class="line-block">
 <div class="line">[0, 20]</div>
@@ -1409,7 +1409,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_FR_RCS</p></td>
+<tr class="row-even"><td><p>yLim_FR_RCS</p></td>
 <td><div class="line-block">
 <div class="line">y-range of the profile of range corrected signal</div>
 <div class="line">(<strong>time-height plot of signal saturation bits</strong>)</div>
@@ -1422,7 +1422,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_NR_RCS</p></td>
+<tr class="row-odd"><td><p>yLim_NR_RCS</p></td>
 <td><div class="line-block">
 <div class="line">y-range of the profile of range corrected signal</div>
 <div class="line">(<strong>time-height plot of signal saturation bits</strong>)</div>
@@ -1435,7 +1435,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_att_beta</p></td>
+<tr class="row-even"><td><p>yLim_att_beta</p></td>
 <td><p>y-range of the time-height plot of far-field attenuated backscatter</p></td>
 <td><div class="line-block">
 <div class="line">[0, 15000] [m]</div>
@@ -1443,7 +1443,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_att_beta_NR</p></td>
+<tr class="row-odd"><td><p>yLim_att_beta_NR</p></td>
 <td><p>y-range of the time-height plot of near-field attenuated backscatter</p></td>
 <td><div class="line-block">
 <div class="line">[0, 3000] [m]</div>
@@ -1451,7 +1451,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_Quasi_Params</p></td>
+<tr class="row-even"><td><p>yLim_Quasi_Params</p></td>
 <td><p>y-range of aerosol optical products retrieved by quasi-retrieving method</p></td>
 <td><div class="line-block">
 <div class="line">[0, 12000] m</div>
@@ -1459,7 +1459,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_WV_RH</p></td>
+<tr class="row-odd"><td><p>yLim_WV_RH</p></td>
 <td><p>y-range of the profile of water vapor mixing ratio (relative humidity)</p></td>
 <td><div class="line-block">
 <div class="line">[0, 7000] m</div>
@@ -1467,7 +1467,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_Profi_Ext</p></td>
+<tr class="row-even"><td><p>yLim_Profi_Ext</p></td>
 <td><p>y-range of the profile of extinction coefficient</p></td>
 <td><div class="line-block">
 <div class="line">[0, 5000] m</div>
@@ -1475,7 +1475,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_Profi_LR</p></td>
+<tr class="row-odd"><td><p>yLim_Profi_LR</p></td>
 <td><p>y-range of the profile of lidar ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 5000] m</div>
@@ -1483,7 +1483,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_Profi_DR</p></td>
+<tr class="row-even"><td><p>yLim_Profi_DR</p></td>
 <td><p>y-range of the profile of volume/particle depolarization ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 20000] m</div>
@@ -1491,7 +1491,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_Profi_Bsc</p></td>
+<tr class="row-odd"><td><p>yLim_Profi_Bsc</p></td>
 <td><p>y-range of the profile of aerosol backscatter</p></td>
 <td><div class="line-block">
 <div class="line">[0, 20000] m</div>
@@ -1499,7 +1499,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___yLim_Profi_WV_RH</p></td>
+<tr class="row-even"><td><p>yLim_Profi_WV_RH</p></td>
 <td><p>y-range of the profile of water vapor mixing ratio (relative humidity)</p></td>
 <td><div class="line-block">
 <div class="line">[0, 7000] m</div>
@@ -1507,7 +1507,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___yLim_depolConst_{wavelength}</p></td>
+<tr class="row-odd"><td><p>yLim_depolConst_{wavelength}</p></td>
 <td><p>y-range of the profile of depolarization calibration constant at certain wavelength</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0.2]</div>
@@ -1515,7 +1515,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___zLim_att_beta_{wavelength}</p></td>
+<tr class="row-even"><td><p>zLim_att_beta_{wavelength}</p></td>
 <td><p>z-range of the time-height plot of attenuated backscatter</p></td>
 <td><div class="line-block">
 <div class="line">[0, 15] Mm^{-1}sr^{-1}</div>
@@ -1523,7 +1523,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___zLim_quasi_beta_{wavelength}</p></td>
+<tr class="row-odd"><td><p>zLim_quasi_beta_{wavelength}</p></td>
 <td><p>z-range of the time-height plot of quasi aerosol backscatter coefficient</p></td>
 <td><div class="line-block">
 <div class="line">[0, 8] Mm^{-1}sr^{-1}</div>
@@ -1531,7 +1531,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___zLim_quasi_Par_DR_532</p></td>
+<tr class="row-even"><td><p>zLim_quasi_Par_DR_532</p></td>
 <td><p>z-range of the time-height plot of quasi particle depolarization ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0.4]</div>
@@ -1539,7 +1539,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___zLim_FR_RCS_{wavelength}</p></td>
+<tr class="row-odd"><td><p>zLim_FR_RCS_{wavelength}</p></td>
 <td><p>z-range of the time-height plot of range corrected signal from far-range channels</p></td>
 <td><div class="line-block">
 <div class="line">[1e-2, 30] (1e6 a.u.)</div>
@@ -1547,7 +1547,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___zLim_NR_RCS_{wavelength}</p></td>
+<tr class="row-even"><td><p>zLim_NR_RCS_{wavelength}</p></td>
 <td><p>z-range of the time-height plot of range corrected signal from near-range channels</p></td>
 <td><div class="line-block">
 <div class="line">[1e-2, 5] (1e6 a.u.)</div>
@@ -1555,7 +1555,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___zLim_VolDepol_{wavelength}</p></td>
+<tr class="row-odd"><td><p>zLim_VolDepol_{wavelength}</p></td>
 <td><p>z-range of volume depolarization ratio</p></td>
 <td><div class="line-block">
 <div class="line">[0, 0.3]</div>
@@ -1563,7 +1563,7 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___colormap_basic</p></td>
+<tr class="row-even"><td><p>colormap_basic</p></td>
 <td><div class="line-block">
 <div class="line">basic colormap (<cite>chiljet</cite>, <cite>eleni</cite>, <cite>CALIPSO</cite>, <cite>labview</cite>):</div>
 <div class="line">1. range corrected signal</div>
@@ -1577,12 +1577,12 @@
 <td><p>chiljet</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___PI</p></td>
+<tr class="row-odd"><td><p>PI</p></td>
 <td><p>project investigator</p></td>
 <td><p>Holger Baars</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___PI_affiliation</p></td>
+<tr class="row-even"><td><p>PI_affiliation</p></td>
 <td><p>affiliation of PI</p></td>
 <td><div class="line-block">
 <div class="line">Leibniz Institute for Tropospheric Research, Leipzig</div>
@@ -1590,12 +1590,12 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___PI_affiliation_acronym</p></td>
+<tr class="row-odd"><td><p>PI_affiliation_acronym</p></td>
 <td><p>acronym of the affiliation of the PI</p></td>
 <td><p>TROPOS</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___PI_address</p></td>
+<tr class="row-even"><td><p>PI_address</p></td>
 <td><p>address of the PI</p></td>
 <td><div class="line-block">
 <div class="line">Permoserstrasse 15, 04103 Leipzig, Germany</div>
@@ -1603,22 +1603,22 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___PI_phone</p></td>
+<tr class="row-odd"><td><p>PI_phone</p></td>
 <td><p>phone number of the PI</p></td>
 <td></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___PI_email</p></td>
+<tr class="row-even"><td><p>PI_email</p></td>
 <td><p>email of the PI</p></td>
 <td><p><a class="reference external" href="mailto:baars&#37;&#52;&#48;tropos&#46;de">baars<span>&#64;</span>tropos<span>&#46;</span>de</a></p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___Data_Originator</p></td>
+<tr class="row-odd"><td><p>Data_Originator</p></td>
 <td><p>data originator</p></td>
 <td><p>Zhenpin Yin</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___Data_Originator_affiliation</p></td>
+<tr class="row-even"><td><p>Data_Originator_affiliation</p></td>
 <td><p>affiliation of the data originator</p></td>
 <td><div class="line-block">
 <div class="line">Leibniz Institute for Tropospheric Research, Leipzig</div>
@@ -1626,12 +1626,12 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___Data_Originator_affiliation_acronym</p></td>
+<tr class="row-odd"><td><p>Data_Originator_affiliation_acronym</p></td>
 <td><p>acronym of the data originator</p></td>
 <td><p>TROPOS</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___Data_Originator_address</p></td>
+<tr class="row-even"><td><p>Data_Originator_address</p></td>
 <td><p>address of the data originator</p></td>
 <td><div class="line-block">
 <div class="line">Permoserstrasse 15, 04103 Leipzig, Germany</div>
@@ -1639,27 +1639,27 @@
 </td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___Data_Originator_phone</p></td>
+<tr class="row-odd"><td><p>Data_Originator_phone</p></td>
 <td><p>phone number of the data originator</p></td>
 <td></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___Data_Originator_email</p></td>
+<tr class="row-even"><td><p>Data_Originator_email</p></td>
 <td><p>email of the data originator</p></td>
 <td><p><a class="reference external" href="mailto:zhenping&#37;&#52;&#48;tropos&#46;de">zhenping<span>&#64;</span>tropos<span>&#46;</span>de</a></p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___comment</p></td>
+<tr class="row-odd"><td><p>comment</p></td>
 <td><p>comment on the data</p></td>
 <td><p>test measurements</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___calibrationDB</p></td>
+<tr class="row-even"><td><p>calibrationDB</p></td>
 <td><p>database for saving calibration results</p></td>
 <td><p>polly_calibration.db</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___logbookFile</p></td>
+<tr class="row-odd"><td><p>logbookFile</p></td>
 <td><div class="line-block">
 <div class="line">path to the logbook file. Only the logfile generated by the</div>
 <div class="line">pollylog program was accepted.</div>
@@ -1668,22 +1668,22 @@
 <td><p>/home/zhenping/logbook.csv</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___radiosondeFolder</p></td>
+<tr class="row-even"><td><p>radiosondeFolder</p></td>
 <td><p>directory of the radiosonde file.</p></td>
 <td><p>/home/picasso/data/radiosonde</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___imgFormat</p></td>
+<tr class="row-odd"><td><p>imgFormat</p></td>
 <td><p>image format</p></td>
 <td><p>png</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-even"><td><p>___partnerLabel</p></td>
+<tr class="row-even"><td><p>partnerLabel</p></td>
 <td><p>partner label to be displayed in the figures</p></td>
 <td><p>UMA</p></td>
 <td><p>—</p></td>
 </tr>
-<tr class="row-odd"><td><p>___prodSaveList</p></td>
+<tr class="row-odd"><td><p>prodSaveList</p></td>
 <td><div class="line-block">
 <div class="line">control the output of nc files. If the product was specified in the product</div>
 <div class="line">save list (prodSaveList), it will then be saved.</div>
