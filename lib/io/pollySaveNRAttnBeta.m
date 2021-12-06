@@ -35,8 +35,8 @@ varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
 varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
-varID_att_bsc_355 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
-varID_att_bsc_532 = netcdf.defVar(ncID, 'NR_attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_355 = netcdf.defVar(ncID, 'attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_att_bsc_355, false, missing_value);
