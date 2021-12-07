@@ -124,10 +124,61 @@ Polly Defaults
 
 Polly defaults are used for configuring the processing program, when the calibration procedure fails. At present stage, there are 3 calibration procedures which are essential for the program: lidar constants, depolarization calibration constant and water vapor calibration constant. Besides, the overlap file is also recommended to be attached to compare with the estimated overlap function through the signal ratio between Near-Range (NR) and Far-Range (FR) channels. In general, different polly systems have their own specific default settings because of their different functionalities. Old polly system has less channels, which in the end would require less calibration procedures and thus less default settings. The most advanced polly system, like the arielle, has been powered with 13 channels, namely :math:`3\beta+2\alpha+2\delta+WV`, which needs more efforts for retrieving the products. Details of the default settings can be found below:
 
-.. csv-table:: Polly defaults
-    :widths: 15 40 20 20
-    :header: "Keyword", "Meaning", "Type", "Example"
-    :file: ../_static/polly_defaults.csv
+
+=================  ===============================================================================  ==========  ========================
+Keyword            Meaning                                                                          Type        Example            
+=================  ===============================================================================  ==========  ========================
+polCaliEta532      | eta at 532. If depol calibration failed because of cloud contamination and     float       0.024443         
+                   | there was no available eta within 1 week, the default value will be taken for
+                   | depol caculations
+polCaliEtaStd532   | uncertainty of eta at 532                                                      float       0.0
+polCaliEta355      | eta at 355. If depol calibration failed because of cloud contamination and
+                   | there was no available eta within 1 week, the default value will be taken for
+                   | depol caculations                                                              float       0.024443
+polCaliEtaStd355   | uncertainty of eta at 355                                                      float       0.0
+LC                 | lidar constant. If lidar calibration failed and there was no available lidar   array       | [42545559767070.414000,  
+                   | constants within 1 week, the default values will be taken for calibrate the                | 1, 6.3e13, 1, 
+                   | lidar signal. The order of this variable is the same like the order of the                 | 97878575429631.625000, 
+                   | channels                                                                                   | 1, 2.2e14, 
+                                                                                                                | 389530086877146.060000,
+                                                                                                                | 1, 1, 1, 1, 1]
+LCStd              | std of the lidar constants                                                     array       | [0, 0, 0, 0, 0, 0, 0, 
+                                                                                                                | 0, 0, 0, 0, 0, 0]
+overlapFile532     | overlap file for saving the overlap function of 532 channel. This file can
+                   | only have two columns: one is the height [m] and the other is the overlap 
+                   | function. There should be 1 header to describe the variables. An
+                   | exemplified one can be found in the folder of '/lib/pollyDefaults/'            string      pollyxt_tjk_overlap_532.txt
+overlapFile355     | overlap file for saving the overlap function of 355 channel. This file can
+                   | only have two columns: one is the height [m] and the other is the overlap
+                   | function. There should be 1 header to describe the variables. An 
+                   | exemplified one can be found in the folder of '/lib/pollyDefaults/'            string      pollyxt_tjk_overlap_355.txt
+molDepol532        | molecule depolarization ratio at 532 nm. In theory, this value can be
+                   | calculated based on the filter bandwidth and central wavelength. But due
+                   | to some system effects from retardation, diattenuation and depolarization,
+                   | the theoritical value always deviate with the measured molecular background
+                   | volume depolarization ratio. And this will introduce large error for 
+                   | calculating the particle depolarization ratio of weak aerosol layers. 
+                   | Therefore, we setup this default to cancel out some part of the influences     float       0.0053
+molDepolStd532     | std of molecule depolarization ratio at 532 nm.                                float       0.0
+molDepol355        | molecule depolarization ratio at 355 nm. In theory, this value can be 
+                   | calculated based on the filter bandwidth and central wavelength. But due
+                   | to some system effects from retardation, diattenuation and depolarization,
+                   | the theoritical value always deviate with the measured molecular background
+                   | volume depolarization ratio. And this will introduce large error for 
+                   | calculating the particle depolarization ratio of weak aerosol layers.
+                   | Therefore, we setup this default to cancel out some part of the influences      float      0.0239
+molDepolStd355     | std of molecule depolarization ratio at 355 nm.                                 float      0.0
+wvconst            | water vapor calibration constant [g*kg^{-1}]. If the water vapor 
+                   | calibration cannot be done and there was no available calibration constant 
+                   | within 1 week, the default water vapor constant will be used.                   float      15.0
+wvconstStd         | std of water vapor calibration constant [g*kg^{-1}].                            float      0.0
+=================  ===============================================================================  ==========  ========================
+
+..
+   .. csv-table:: Polly defaults
+       :widths: 15 40 20 20
+       :header: "Keyword", "Meaning", "Type", "Example"
+       :file: ../_static/polly_defaults.csv
 
 .. _json: https://www.json.org/json-en.html
 .. _Douglas-Peucker algorithm: https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm

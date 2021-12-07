@@ -44,7 +44,7 @@ display_help() {
 
 # Process history data
 process_history() {
-  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\PICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$STARTDATE\nEND_DATE=$ENDDATE\n\n"
+  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$STARTDATE\nEND_DATE=$ENDDATE\n\n"
 
   matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 PICASSO_DIR = fileparts(fileparts('$cwd'));
@@ -96,6 +96,7 @@ PICASSO_CONFIG_FILE=""
 STARTDATE="20190101"
 ENDDATE="20190103"
 flagCheckGDAS="false"
+flagAuto="false"
 POLLYAPP_CONFIG_FILE="/pollyhome/Bildermacher2/pollyAPP/config/config.private"
 POLLYAPP_PATH="/pollyhome/Bildermacher2/pollyAPP"
 ADDNEW_SCRIPT="/pollyhome/Bildermacher2/pollyAPP/src/util/add_new_data2pollydb.pl"
@@ -157,6 +158,7 @@ while :; do
 
   --check_gdas)
     flagCheckGDAS="true"
+    flagAuto="true"
     shift 1
     ;;
 
