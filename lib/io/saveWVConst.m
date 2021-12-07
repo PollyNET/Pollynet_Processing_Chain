@@ -44,8 +44,19 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 %
 % .. Authors: - zhenping@tropos.de
 
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-set(conn, 'AutoCommit', 'off');
+%% check matlab version to set correct database connection parameters
+release = strsplit(version, '(');
+release = regexp(release{2},'[0-9]{4}','match');
+release = release{1};
+release = uint16(str2num(release));
+
+if release < 2018
+    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
+    set(conn, 'AutoCommit', 'off');
+else
+    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile),'AutoCommit', 'off');
+end
+
 commit(conn);
 
 %% create table

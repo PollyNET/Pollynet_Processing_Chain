@@ -57,6 +57,7 @@ varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_constant);
 varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
 varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_FLOAT', dimID_height);
 varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_FLOAT', dimID_height);
 varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_FLOAT', dimID_height);
@@ -85,6 +86,7 @@ netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_overlap532, single(overlap532));
 netcdf.putVar(ncID, varID_overlap355, single(overlap355));
 netcdf.putVar(ncID, varID_overlap532Defaults, single(overlap532Defaults));
@@ -130,6 +132,11 @@ netcdf.putAtt(ncID, varID_height, 'unit', 'm');
 netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
+
+% tilt_angle
+netcdf.putAtt(ncID, varID_tilt_angle, 'unit', 'degrees');
+netcdf.putAtt(ncID, varID_tilt_angle, 'long_name', 'Tilt angle of lidar device');
+netcdf.putAtt(ncID, varID_tilt_angle, 'standard_name', 'tilt_angle');
 
 % overlap 532
 netcdf.putAtt(ncID, varID_overlap532, 'unit', '');

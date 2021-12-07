@@ -82,6 +82,7 @@ data.deadtime = [];
 data.lat = [];
 data.lon = [];
 data.alt0 = [];
+data.angle = [];
 
 if exist(file, 'file') ~= 2
     warning('polly data file does not exist.\n%s\n', file);
@@ -174,5 +175,6 @@ else
     data.lat = coordinates(1, 1);
 end
 data.alt0 = alt;
+data.angle = zenithAng;
 
 end
