@@ -1,3 +1,4 @@
+
 function pollyDisplayQsiV1(data)
 % POLLYDISPLAYQSIV1 display quasi-retrieved prodcuts (V1)
 %
@@ -134,9 +135,9 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
 end
 
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
+flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 if (sum(flag532) == 1) && (sum(flag1064) == 1)
-    % save quasi-retrieved particle depolarization ratio at 532 nm
+    % save quasi-retrieved Angstroem exponent between 532-1064 nm
     quasi_ang_532_1064 = data.qsiAE_532_1064_V1;
     quality_mask_532 = data.quality_mask_532;
     quality_mask_1064 = data.quality_mask_1064;
@@ -153,7 +154,7 @@ if (sum(flag532) == 1) && (sum(flag1064) == 1)
 
     %% display quasi results
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'quasi_ang_532_1064', 'quality_mask_532', 'quality_mask_1064', 'yLim_Quasi_Params', 'quas', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'quasi_ang_532_1064', 'quality_mask_532', 'quality_mask_1064', 'yLim_Quasi_Params', 'height', 'time', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'colormap_basic', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayQsiAE_532_1064V1.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayQsiAE_532_1064V1.py');
