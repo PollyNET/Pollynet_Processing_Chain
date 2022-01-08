@@ -40,12 +40,12 @@ wins        = [];
 [filepath,~,~] = fileparts(filename);
 filenameList = dir(filename);
 if numel(filenameList) == 0
-    fprintf('gdas File (%s) does not exist.\n', filename);
+    fprintf('GDAS1 File (%s) does not exist.\n', filename);
     return;
 end
 % filename = [filepath filenameList(1).name];
 filename = fullfile(filepath, filenameList(1).name);
-fid = fopen(filename);
+fid = fopen(filename, 'r');
 
 % if file does not exist or cannot be opened
 if fid == -1
@@ -57,13 +57,14 @@ end
 for k = 1:9
     fgetl(fid);
 end
+
 % preallocate
-pressure    = NaN(23,1);
-altitude    = NaN(23,1);
-temperature = NaN(23,1);
-relh        = NaN(23,1);
-wind        = NaN(23,1);
-wins        = NaN(23,1);
+pressure    = NaN(23, 1);
+altitude    = NaN(23, 1);
+temperature = NaN(23, 1);
+relh        = NaN(23, 1);
+wind        = NaN(23, 1);
+wins        = NaN(23, 1);
 
 % read relevant lines
 for k = 1:23
@@ -79,12 +80,12 @@ for k = 1:23
         fprintf('gdas sonde is defective.\n');
         return;
     end
-    pressure(k)    = str2double ( line (1:6) );
-    altitude(k)    = str2double ( line (7:12) );
-    temperature(k) = str2double ( line(13:18) );
-    relh(k)        = str2double ( line(37:42) );
-    wind(k)        = str2double ( line(52:57) );
-    wins(k)        = str2double ( line(58:63) );
+    pressure(k)    = str2double(line (1:6));
+    altitude(k)    = str2double(line (7:12));
+    temperature(k) = str2double(line(13:18));
+    relh(k)        = str2double(line(37:42));
+    wind(k)        = str2double(line(52:57));
+    wins(k)        = str2double(line(58:63));
 end
 fclose(fid);
 
