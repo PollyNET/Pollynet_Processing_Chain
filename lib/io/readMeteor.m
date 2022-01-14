@@ -176,8 +176,8 @@ otherwise
           p.Results.meteorDataSource)
 end
 
-% if predefined data source is not available, choose standard atmosphere.
-if isempty(alt) || (~ any(isnan(alt))) || (length(unique(alt)) < 2)
+% if predefined data source is not available (empty, NaN, or only 1 height level), choose standard atmosphere.
+if isempty(alt) || (~ all(isnan(alt))) || (length(unique(alt)) < 2)
     fprintf(['The meteorological data of %s is not ready.\n' ...
              'Use standard_atmosphere data as a replacement.\n'], ...
              p.Results.meteorDataSource);
