@@ -211,8 +211,61 @@ case '532nm'
         polCaliTime = [polCaliStartTime532, polCaliStopTime532];
         polCaliAttri = polCalAttri532;
     end
+    case '1064nm'
+% polarization calibration at 1064 nm
+    flagTot1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+    flagCro1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
+
+    if (~ any(flagTot1064)) || (~ any(flagCro1064))
+        warning('Cross or total channel at 1064 nm does not exist.');
+        return;
+    end
+
+    sigTot1064 = squeeze(data.signal(flagTot1064, :, :));
+    bgTot1064 = squeeze(data.bg(flagTot1064, :, :));
+    sigCro1064 = squeeze(data.signal(flagCro1064, :, :));
+    bgCro1064 = squeeze(data.bg(flagCro1064, :, :));
+
+    [polCaliEta1064, polCaliEtaStd1064, polCaliFac1064, polCaliFacStd1064, polCaliStartTime1064, polCaliStopTime1064, polCalAttri1064] = depolCali(...
+        sigTot1064, bgTot1064, sigCro1064, bgCro1064, time, ...
+        data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
+        data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
+        transRatio(flagTot1064), transRatio(flagCro1064), ...
+        [p.Results.depolCaliMinBin, p.Results.depolCaliMaxBin], ...
+        p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
+        p.Results.relStdDPlus, p.Results.relStdDMinus, ...
+        p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
+    polCalAttri1064.polCaliEta = polCaliEta1064;
+    polCalAttri1064.polCaliEtaStd = polCaliEtaStd1064;
+    polCalAttri1064.polCaliFac = polCaliFac1064;
+    polCalAttri1064.polCaliFacStd = polCaliFacStd1064;
+    polCalAttri1064.polCaliStartTime = polCaliStartTime1064;
+    polCalAttri1064.polCaliStopTime = polCaliStopTime1064;
+
+    if exist(p.Results.dbFile, 'file') == 2
+        [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
+            polCaliEta1064, polCaliEtaStd1064, ...
+            polCaliStartTime1064, polCaliStopTime1064, ...
+            mean(time), p.Results.dbFile, p.Results.pollyType, '1064', ...
+            'flagUsePrevDepolConst', p.Results.flagUsePrevDepolConst, ...
+            'flagDepolCali', p.Results.flagDepolCali, ...
+            'deltaTime', datenum(0, 1, 7), ...
+            'default_polCaliEta', p.Results.default_polCaliEta, ...
+            'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
+        polCaliFac = (1 + transRatio(flagTot1064)) ./ (1 + transRatio(flagCro1064)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot1064)) ./ (1 + transRatio(flagCro1064)) * polCaliEtaStd;
+        polCaliTime = [polCaliStartTime, polCaliStopTime];
+        polCaliAttri = polCalAttri1064;
+    else
+        polCaliEta = p.Results.default_polCaliEta;
+        polCaliEtaStd = p.Results.default_polCaliEtaStd;
+        polCaliFac = (1 + transRatio(flagTot1064)) ./ (1 + transRatio(flagCro1064)) * polCaliEta;
+        polCaliFacStd = (1 + transRatio(flagTot1064)) ./ (1 + transRatio(flagCro1064)) * polCaliEtaStd;
+        polCaliTime = [polCaliStartTime1064, polCaliStopTime1064];
+        polCaliAttri = polCalAttri1064;
+    end
 otherwise
-    error('Unknown wavelgnth %s for polarization calibration.', p.Results.wavelength);
+    error('Unknown wavelength %s for polarization calibration.', p.Results.wavelength);
 end
 
 end
