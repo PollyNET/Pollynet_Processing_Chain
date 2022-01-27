@@ -4369,6 +4369,7 @@ end
 
 data.polCali355Attri = polCali355Attri;
 data.polCali532Attri = polCali532Attri;
+data.polCali1064Attri = polCali1064Attri;
 data.olFunc355 = olFunc355;
 data.olAttri355 = olAttri355;
 data.olFuncDeft355 = olFuncDeft355;
@@ -4476,14 +4477,14 @@ data.pdrStd532_klett = pdrStd532_klett;
 data.pdrStd355_raman = pdrStd355_raman;
 data.pdrStd532_raman = pdrStd532_raman;
 
+data.vdr1064_klett = vdr1064_klett;
+data.vdrStd1064_klett = vdrStd1064_klett;
 data.vdr1064_raman = vdr1064_raman;
 data.vdrStd1064_raman = vdrStd1064_raman;
 data.pdr1064_klett = pdr1064_klett;
 data.pdr1064_raman = pdr1064_raman;
 data.pdrStd1064_klett = pdrStd1064_klett;
 data.pdrStd1064_raman = pdrStd1064_raman;
-
-
 data.wvmr = wvmr;
 data.rh = rh;
 data.wvconstUsed = wvconstUsed;
@@ -4506,6 +4507,7 @@ data.deltaAOD532 = deltaAOD532;
 data.deltaAOD1064 = deltaAOD1064;
 data.mdr355 = mdr355;
 data.mdr532 = mdr532;
+data.mdr1064 = mdr1064;
 data.IWVAttri = IWVAttri;
 data.meteorAttri = meteorAttri;
 data.refBeta_NR_355_klett = refBeta_NR_355_klett;
@@ -4578,6 +4580,7 @@ data.LR532_OC_raman = LR532_OC_raman;
 data.LRStd532_OC_raman = LRStd532_OC_raman;
 data.LR1064_OC_raman = LR1064_OC_raman;
 data.LRStd1064_OC_raman = LRStd1064_OC_raman;
+
 data.pdr355_OC_klett = pdr355_OC_klett;
 data.pdrStd355_OC_klett = pdrStd355_OC_klett;
 data.pdr532_OC_klett = pdr532_OC_klett;
@@ -4606,6 +4609,7 @@ data.att_beta_OC_532 = att_beta_OC_532;
 data.att_beta_OC_1064 = att_beta_OC_1064;
 data.vdr355 = vdr355;
 data.vdr532 = vdr532;
+data.vdr1064 = vdr1064;
 data.WVMR = WVMR;
 data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
@@ -4617,6 +4621,7 @@ data.qsiBsc1064V1 = qsiBsc1064V1;
 data.qsiPDR532V1 = qsiPDR532V1;
 data.qsiAE_532_1064_V1 = qsiAE_532_1064_V1;
 data.quality_mask_vdr_532 = quality_mask_vdr_532;
+data.quality_mask_vdr_1064 = quality_mask_vdr_1064;
 data.qsiBsc355V2 = qsiBsc355V2;
 data.qsiBsc532V2 = qsiBsc532V2;
 data.qsiBsc1064V2 = qsiBsc1064V2;
