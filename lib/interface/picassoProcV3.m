@@ -2928,6 +2928,12 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     quality_mask_vdr_532(:, data.shutterOnMask) = 3;
     quality_mask_vdr_532(:, data.fogMask) = 4;
 end
+if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
+    quality_mask_vdr_1064((squeeze(SNR(flag1064C, :, :)) < PollyConfig.mask_SNRmin(flag1064C)) | (squeeze(SNR(flag1064T, :, :)) < PollyConfig.mask_SNRmin(flag1064T))) = 1;
+    quality_mask_vdr_1064(:, data.depCalMask) = 2;
+    quality_mask_vdr_1064(:, data.shutterOnMask) = 3;
+    quality_mask_vdr_1064(:, data.fogMask) = 4;
+end
 
 %% Water vapor calibration
 print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
@@ -3748,8 +3754,8 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 print_msg('Finish\n', 'flagTimestamp', true);
 
-%% Attnuated backscatter
-print_msg('Start calculating attnuated backscatter.\n', 'flagTimestamp', true);
+%% attenuated backscatter
+print_msg('Start calculating attenuated backscatter.\n', 'flagTimestamp', true);
 
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 att_beta_355 = NaN(length(data.height), length(data.mTime));
@@ -3862,6 +3868,18 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
                        PollyConfig.TR(flag532T), ...
                        PollyConfig.TR(flag532C), polCaliFac532);
     vdr532(:, data.depCalMask) = NaN;
+end
+
+% 1064 nm
+flag1064T = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
+flag1064C = data.flagFarRangeChannel & data.flagCrossChannel & data.flag1064nmChannel;
+vdr1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
+    vdr1064 = pollyVDR2(squeeze(data.signal(flag1064T, :, :)), ...
+                       squeeze(data.signal(flag1064C, :, :)), ...
+                       PollyConfig.TR(flag1064T), ...
+                       PollyConfig.TR(flag1064C), polCaliFac1064);
+    vdr1064(:, data.depCalMask) = NaN;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4641,7 +4659,7 @@ data.clPh = clPh;
 data.clPhProb = clPhProb;
 
 %% Saving products
-if PicassoConfig.flagEnableCaliResultsOutput
+if PicassoConfig.flagEnableResultsOutput
 
     % delete the previous outputs
     % This is only necessary when you run the code on the server,
