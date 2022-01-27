@@ -114,8 +114,10 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
         time = mat['time'][:][0]
         vdr355_raman = mat['vdr355_raman'][:][0]
         vdr532_raman = mat['vdr532_raman'][:][0]
+        vdr1064_raman = mat['vdr1064_raman'][:][0]
         pdr355_raman = mat['pdr355_raman'][:][0]
         pdr532_raman = mat['pdr532_raman'][:][0]
+        pdr1064_raman = mat['pdr1064_raman'][:][0]
         if mat['polCaliEta355'].size:
             polCaliEta355 = mat['polCaliEta355'][:][0]
         else:
@@ -124,6 +126,10 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
             polCaliEta532 = mat['polCaliEta532'][:][0]
         else:
             polCaliEta532 = [np.nan]
+        if mat['polCaliEta1064'].size:
+            polCaliEta1064 = mat['polCaliEta1064'][:][0]
+        else:
+            polCaliEta1064 = [np.nan]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -152,10 +158,15 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
                   linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pdr532_raman, height, color='#008040',
                   linestyle='--', label='$\delta_{par, 532}$', zorder=3)
+    p5, = ax.plot(vdr1064_raman, height, color='#80ff00',
+                  linestyle='-', label='$\delta_{vol, 1064}$', zorder=2)
+    p6, = ax.plot(pdr1064_raman, height, color='#008040',
+                  linestyle='--', label='$\delta_{par, 1064}$', zorder=3)
+   
 
     ax.set_xlabel('Depolarization Ratio', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3, p4], loc='upper right', fontsize=15)
+    ax.legend(handles=[p1, p2, p3, p4, p5, p6], loc='upper right', fontsize=15)
 
     ax.set_ylim(yLim_Profi_DR.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(2500))
@@ -204,8 +215,8 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
     fig.text(
         0.02, 0.01,
         'Version: {0}\nMethod: {1}\n'.format(version, 'Raman') +
-        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}'.format(
-            polCaliEta355[0], polCaliEta532[0]), fontsize=12)
+        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}\n$\eta 1064$: {1:6.4f}'.format(
+            polCaliEta355[0], polCaliEta532[0], polCaliEta1064[0]), fontsize=12)
 
     fig.savefig(
         os.path.join(

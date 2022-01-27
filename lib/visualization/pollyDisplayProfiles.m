@@ -65,6 +65,7 @@ flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 flag407FR = data.flagFarRangeChannel & data.flag407nmChannel;
+flag1064C = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
 flag355RR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagRotRamanChannel;
@@ -529,7 +530,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Klett method based on far-field signal)
+    %% Angstroem exponent (Klett method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
         AE_Bsc_355_532_klett = data.AE_Bsc_355_532_klett(iGrp, :);
         AE_Bsc_532_1064_klett = data.AE_Bsc_532_1064_klett(iGrp, :);
@@ -551,7 +552,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Raman method based on far-field signal)
+    %% Angstroem exponent (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
         AE_Bsc_355_532_raman = data.AE_Bsc_355_532_raman(iGrp, :);
         AE_Bsc_532_1064_raman = data.AE_Bsc_532_1064_raman(iGrp, :);
@@ -574,7 +575,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Raman method based on near-field signal)
+    %% Angstroem exponent (Raman method based on near-field signal)
     if (sum(flag355NR) == 1) && (sum(flag532NR))
         AE_Bsc_355_532_NR_raman = data.AE_Bsc_355_532_NR_raman(iGrp, :);
         AE_Ext_355_532_NR_raman = data.AE_Ext_355_532_NR_raman(iGrp, :);
@@ -597,13 +598,17 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% Volume/particle depolarization ratio (Klett method based on far-field signal)
-    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
+    fprintf('Plot Raman depol.\n');
+    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))|| ((sum(flag1064FR) == 1) && (sum(flag1064C) == 1))
         vdr355_klett = data.vdr355_klett(iGrp, :);
         vdr532_klett = data.vdr532_klett(iGrp, :);
+        vdr1064_klett = data.vdr1064_klett(iGrp, :);
         pdr355_klett = data.pdr355_klett(iGrp, :);
         pdr532_klett = data.pdr532_klett(iGrp, :);
+        pdr1064_klett = data.pdr1064_klett(iGrp, :);
         pdrStd355_klett = data.pdrStd355_klett(iGrp, :);
         pdrStd532_klett = data.pdrStd532_klett(iGrp, :);
+        pdrStd1064_klett = data.pdrStd1064_klett(iGrp, :);
         flag_pdr355_klett = (abs(pdrStd355_klett ./ pdr355_klett) > 0.6) | ...
                                  (pdrStd355_klett > 0.5) | ...
                                  (vdr355_klett < data.mdr355(iGrp)) | ...
@@ -614,8 +619,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_klett < data.mdr532(iGrp)) | ...
                                  (pdr532_klett <= 0);
         pdr532_klett(flag_pdr532_klett) = NaN;
+        flag_pdr1064_klett = (abs(pdrStd1064_klett ./ pdr1064_klett) > 0.6) | ...
+                                 (pdrStd1064_klett > 0.5) | ...
+                                 (vdr1064_klett < data.mdr1064(iGrp)) | ...
+                                 (pdr1064_klett <= 0);
+        pdr1064_klett(flag_pdr1064_klett) = NaN;
         polCaliEta355 = data.polCaliEta355;
         polCaliEta532 = data.polCaliEta532;
+        polCaliEta1064 = data.polCaliEta1064;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -626,22 +637,27 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett', 'pdr355_klett', 'pdr532_klett', 'polCaliEta355', 'polCaliEta532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett','vdr1064_klett', 'pdr355_klett', 'pdr532_klett','pdr1064_klett', 'polCaliEta355', 'polCaliEta532','polCaliEta1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayDRKlett.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayDRKlett.py');
         end
         delete(tmpFile);
     end
-
+    
+    
     %% Volume/particle depolarization ratio (Raman method based on far-field signal)
-    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
+    fprintf('Plot Raman depol.\n');
+    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))|| ((sum(flag1064FR) == 1) && (sum(flag1064C) == 1))
         vdr355_raman = data.vdr355_raman(iGrp, :);
         vdr532_raman = data.vdr532_raman(iGrp, :);
+        vdr1064_raman = data.vdr1064_raman(iGrp, :);
         pdr355_raman = data.pdr355_raman(iGrp, :);
         pdr532_raman = data.pdr532_raman(iGrp, :);
+        pdr1064_raman = data.pdr1064_raman(iGrp, :);
         pdrStd355_raman = data.pdrStd355_raman(iGrp, :);
         pdrStd532_raman = data.pdrStd532_raman(iGrp, :);
+        pdrStd1064_raman = data.pdrStd1064_raman(iGrp, :);
         flag_pdr355_raman = (abs(pdrStd355_raman ./ pdr355_raman) > 0.6) | ...
                                  (pdrStd355_raman > 0.5) | ...
                                  (vdr355_raman < data.mdr355(iGrp)) | ...
@@ -652,8 +668,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_raman < data.mdr532(iGrp)) | ...
                                  (pdr532_raman <= 0);
         pdr532_raman(flag_pdr532_raman) = NaN;
+        flag_pdr1064_raman = (abs(pdrStd1064_raman ./ pdr1064_raman) > 0.6) | ...
+                                 (pdrStd1064_raman > 0.5) | ...
+                                 (vdr1064_raman < data.mdr1064(iGrp)) | ...
+                                 (pdr1064_raman <= 0);
+        pdr1064_raman(flag_pdr1064_raman) = NaN;
         polCaliEta355 = data.polCaliEta355;
         polCaliEta532 = data.polCaliEta532;
+        polCaliEta1064 = data.polCaliEta1064;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -664,7 +686,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman', 'pdr355_raman', 'pdr532_raman', 'polCaliEta355', 'polCaliEta532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman','vdr1064_raman', 'pdr355_raman', 'pdr532_raman','pdr1064_raman', 'polCaliEta355', 'polCaliEta532','polCaliEta1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayDRRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayDRRaman.py');

@@ -109,5 +109,44 @@ if (sum(flag355C) == 1) && (sum(flag355T) == 1) && (~ PollyConfig.flagMolDepolCa
         delete(tmpFile);
     end
 end
+% 1064 nm
+flag1064C = data.flagCrossChannel & data.flag1064nmChannel & data.flagFarRangeChannel;
+flag1064T = data.flagTotalChannel & data.flag1064nmChannel & data.flagFarRangeChannel;
 
+if (sum(flag1064C) == 1) && (sum(flag1064T) == 1) && (~ PollyConfig.flagMolDepolCali)
+    for iCali = 1:length(data.polCali1064Attri.caliTime)  
+        wavelength = 1064; 
+        time = data.mTime;
+        height = data.height;
+        figDPI = PicassoConfig.figDPI;
+        sig_t_p = data.polCali1064Attri.sig_t_p{iCali};
+        sig_t_m = data.polCali1064Attri.sig_t_m{iCali};
+        sig_x_p = data.polCali1064Attri.sig_x_p{iCali};
+        sig_x_m = data.polCali1064Attri.sig_x_m{iCali};
+        caliHIndxRange = data.polCali1064Attri.caliHIndxRange{iCali};
+        indx_45m = data.polCali1064Attri.indx_45m{iCali};
+        indx_45p = data.polCali1064Attri.indx_45p{iCali};
+        dplus = data.polCali1064Attri.dplus{iCali};
+        dminus = data.polCali1064Attri.dminus{iCali};
+        segmentLen = data.polCali1064Attri.segmentLen{iCali};
+        indx = data.polCali1064Attri.indx{iCali};
+        mean_dplus_tmp = data.polCali1064Attri.mean_dplus_tmp{iCali};
+        std_dplus_tmp = data.polCali1064Attri.std_dplus_tmp{iCali};
+        mean_dminus_tmp = data.polCali1064Attri.mean_dminus_tmp{iCali};
+        std_dminus_tmp = data.polCali1064Attri.std_dminus_tmp{iCali};
+        TR_t = data.polCali1064Attri.TR_t{iCali};
+        TR_x = data.polCali1064Attri.TR_x{iCali};
+        segIndx = data.polCali1064Attri.segIndx{iCali};
+        caliTime = data.polCali1064Attri.caliTime{iCali};
+
+        %% display depol-cali results
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'wavelength', 'time', 'height', 'sig_t_p', 'sig_t_m', 'sig_x_p', 'sig_x_m', 'caliHIndxRange', 'indx_45m', 'indx_45p', 'dplus', 'dminus', 'segmentLen', 'indx', 'mean_dplus_tmp', 'std_dplus_tmp', 'mean_dminus_tmp', 'std_dminus_tmp', 'TR_t', 'TR_x', 'segIndx', 'caliTime', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayPolCali.py'), tmpFile, saveFolder));
+        if flag ~= 0
+            warning('Error in executing %s', 'pollyDisplayPolCali.py');
+        end
+        delete(tmpFile);
+    end
+end
 end
