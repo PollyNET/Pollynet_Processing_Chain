@@ -83,6 +83,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     pressure = data.pressure(iGrp, :);
 
     %% signal profile
+    print_msg('--> signal profile.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     if sum(flag355FR) == 1
         sig355 = squeeze(mean(data.signal(flag355FR, :, startInd:endInd), 3)) / mean(data.mShots(flag355FR, startInd:endInd), 2) * 150 / data.hRes;
     else
@@ -104,7 +105,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
     rcs1064 = sig1064 .* data.height.^2;
     rcs1064 = transpose(smooth(rcs1064, smoothWin_1064));
-
+print_msg('--> molecule signal.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     % molecule signal
     [molBsc355, molExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [molBsc532, molExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -112,7 +113,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     molRCS355 = molBsc355 .* exp(- 2 * cumsum(molExt355 .* [data.distance0(1), diff(data.distance0)]));
     molRCS532 = molBsc532 .* exp(- 2 * cumsum(molExt532 .* [data.distance0(1), diff(data.distance0)]));
     molRCS1064 = molBsc1064 .* exp(- 2 * cumsum(molExt1064 .* [data.distance0(1), diff(data.distance0)]));
-
+print_msg('--> normalize the range-corrected signal to molecular signal.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     % normalize the range-corrected signal to molecular signal
     if (~ isnan(data.refHInd355(iGrp, 1))) && (sum(flag355FR) == 1)
         % according to the ratio at the reference height
@@ -149,7 +150,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     refHInd355 = [data.refHInd355(iGrp, 1), data.refHInd355(iGrp, 2)];
     refHInd532 = [data.refHInd532(iGrp, 1), data.refHInd532(iGrp, 2)];
     refHInd1064 = [data.refHInd1064(iGrp, 1), data.refHInd1064(iGrp, 2)];
-
+print_msg('--> display range corrected signa.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     % display range corrected signal
     pyFolder = fileparts(mfilename('fullpath'));   % folder of python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -169,6 +170,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     delete(tmpFile);
 
     %% backscatter (Klett method based on far-field signal)
+    print_msg('--> backscatter (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
         aerBsc_355_klett = data.aerBsc355_klett(iGrp, :);
         aerBsc_532_klett = data.aerBsc532_klett(iGrp, :);
@@ -192,6 +194,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% backscatter (Klett method based on near-field signal)
+    print_msg('--> backscatter (Klett method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1))
         aerBsc_355_klett = data.aerBsc355_klett(iGrp, :);
         aerBsc_532_klett = data.aerBsc532_klett(iGrp, :);
@@ -217,6 +220,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% backscatter (Raman method based on far-field signal)
+    print_msg('--> backscatter (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+   
     if ((sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)) && ((sum(flag387FR) == 1) || (sum(flag607FR) == 1))
         aerBsc_355_raman = data.aerBsc355_raman(iGrp, :);
         aerBsc_532_raman = data.aerBsc532_raman(iGrp, :);
@@ -240,6 +245,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% backscatter (Rotation Raman method)
+    print_msg('--> backscatter (Rotation Raman method).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+   
     is355RRRetAvail = ((sum(flag355FR) == 1) && (sum(flag355RR) == 1));
     is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
     is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
@@ -266,6 +273,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% backscatter (Raman method based on near-field signal)
+    print_msg('--> backscatter (Roaman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+   
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag387NR) == 1) || (sum(flag607NR) == 1))
         aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGrp, :);
         aerBsc532_NR_raman = data.aerBsc532_NR_raman(iGrp, :);
@@ -291,6 +300,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% backscatter (AOD-constrained method based on far-field signal)
+    print_msg('--> backscatter (AOD-constrained method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+   
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
         aerBsc_355_aeronet = data.aerBsc355_aeronet(iGrp, :);
         aerBsc_532_aeronet = data.aerBsc532_aeronet(iGrp, :);
@@ -314,6 +325,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% extinction (Klett method based on far-field signal)
+    print_msg('--> extinction.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+   
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
         aerExt_355_klett = data.aerExt355_klett(iGrp, :);
         aerExt_532_klett = data.aerExt532_klett(iGrp, :);
@@ -598,7 +611,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% Volume/particle depolarization ratio (Klett method based on far-field signal)
-    fprintf('Plot Raman depol.\n');
+    fprintf('Plot Klett depol.\n');
     if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))|| ((sum(flag1064FR) == 1) && (sum(flag1064C) == 1))
         vdr355_klett = data.vdr355_klett(iGrp, :);
         vdr532_klett = data.vdr532_klett(iGrp, :);
