@@ -449,7 +449,6 @@ if ~ PollyConfig.flagMolDepolCali
         'flagDepolCali', PollyConfig.flagDepolCali, ...
         'default_polCaliEta', PollyDefaults.polCaliEta532, ...
         'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
-    print_msg('Finish.\n', 'flagTimestamp', true);
     [polCaliEta1064, polCaliEtaStd1064, polCaliFac1064, polCaliFacStd1064, ~, polCali1064Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '1064nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_1064, ...
@@ -1173,6 +1172,31 @@ else
     bgEl532 = [];
 end
 
+%% Transmission correction at 1064 nm
+flag1064 = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flag1064X = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+
+if (sum(flag1064) == 1) && (sum(flag1064X) == 1) && PollyConfig.flagTransCor
+    % transmission correction
+    [el1064, bgEl1064] = transCor(squeeze(data.signal(flag1064, :, :)), ...
+        squeeze(data.bg(flag1064, :, :)), ...
+        squeeze(data.signal(flag1064X, :, :)), ...
+        squeeze(data.bg(flag1064X, :, :)), ...
+        'transRatioTotal', PollyConfig.TR(flag1064), ...
+        'transRatioTotalStd', 0, ...
+        'transRatioCross', PollyConfig.TR(flag1064X), ...
+        'transRatioCrossStd', 0, ...
+        'polCaliFactor', polCaliFac1064, ...
+        'polCaliFacStd', polCaliFacStd1064);
+elseif (sum(flag1064) == 1) && (sum(flag1064X ~= 1))
+    % disable transmission correction
+    el1064 = squeeze(data.signal(flag1064, :, :));
+    bgEl1064 = squeeze(data.bg(flag1064, :, :));
+else
+    el1064 = [];
+    bgEl1064 = [];
+end
+
 %% Klett method at 355 nm
 flag355 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
 
@@ -1247,8 +1271,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = squeeze(sum(data.signal(flag1064, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg1064 = squeeze(sum(data.bg(flag1064, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
+    sig1064 = transpose(squeeze(sum(el1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    bg1064 = transpose(squeeze(sum(bgEl1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -1551,8 +1575,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = squeeze(sum(data.signal(flag1064FR, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg1064 = squeeze(sum(data.bg(flag1064FR, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
+    sig1064 = squeeze(sum(el1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
+    bg1064 = squeeze(sum(bgEl1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR1064 = pollySNR(sig1064, bg1064);
     refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
@@ -1743,8 +1767,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = squeeze(sum(data.signal(flag1064FR, :, flagClFre), 3));
-    bg1064 = squeeze(sum(data.bg(flag1064FR, :, flagClFre), 3));
+    sig1064 = transpose(squeeze(sum(el1064(:, flagClFre), 2)));
+    bg1064 = transpose(squeeze(sum(bgEl1064(:, flagClFre), 2)));
     sig607 = squeeze(sum(data.signal(flag607FR, :, flagClFre), 3));
     bg607 = squeeze(sum(data.bg(flag607FR, :, flagClFre), 3));
 
@@ -1815,8 +1839,9 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = squeeze(sum(data.signal(flag355FR, :, flagClFre), 3));
-    bg355 = squeeze(sum(data.bg(flag355FR, :, flagClFre), 3));
+
+    sig355 = transpose(squeeze(sum(el355(:, flagClFre), 2)));
+    bg355 = transpose(squeeze(sum(bgEl355(:, flagClFre), 2)));
     sig355RR = squeeze(sum(data.signal(flag355RR, :, flagClFre), 3));
     bg355RR = squeeze(sum(data.bg(flag355RR, :, flagClFre), 3));
 
@@ -1886,8 +1911,9 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = squeeze(sum(data.signal(flag532FR, :, flagClFre), 3));
-    bg532 = squeeze(sum(data.bg(flag532FR, :, flagClFre), 3));
+
+    sig532 = transpose(squeeze(sum(el532(:, flagClFre), 2)));
+    bg532 = transpose(squeeze(sum(bgEl532(:, flagClFre), 2)));
     sig532RR = squeeze(sum(data.signal(flag532RR, :, flagClFre), 3));
     bg532RR = squeeze(sum(data.bg(flag532RR, :, flagClFre), 3));
 
@@ -1957,8 +1983,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = squeeze(sum(data.signal(flag1064FR, :, flagClFre), 3));
-    bg1064 = squeeze(sum(data.bg(flag1064FR, :, flagClFre), 3));
+    sig1064 = transpose(squeeze(sum(el1064(:, flagClFre), 2)));
+    bg1064 = transpose(squeeze(sum(bgEl1064(:, flagClFre), 2)));
     sig1064RR = squeeze(sum(data.signal(flag1064RR, :, flagClFre), 3));
     bg1064RR = squeeze(sum(data.bg(flag1064RR, :, flagClFre), 3));
 
@@ -2023,7 +2049,7 @@ flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 for iGrp = 1:size(clFreGrps, 1)
 
     if (sum(flag355NR) ~= 1) || (sum(flag387NR) ~= 1)
-        continue;
+        continue;        
     end
 
     % search index for reference height
@@ -2707,8 +2733,6 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 end
 
-
-
 % (Near-field) Angstroem exponent (Klett/Fernald/Raman method retrieved parameters)
 AE_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 AEStd_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2726,7 +2750,7 @@ for iGrp = 1:size(clFreGrps, 1)
         AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
     end
 
-    % Ãngstroem exponent 355-532 (based on parameters by Raman method)
+    % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(aerExt355_NR_raman(iGrp, 80))) && (~ isnan(aerExt532_NR_raman(iGrp, 80)))
         [thisAE_Ext_355_532_NR_raman, thisAEStd_Ext_355_532_NR_raman] = pollyAE(aerExt355_NR_raman(iGrp, :), zeros(size(data.height)), aerExt532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
         AE_Ext_355_532_NR_raman(iGrp, :) = thisAE_Ext_355_532_NR_raman;
@@ -4494,7 +4518,6 @@ data.pdrStd355_klett = pdrStd355_klett;
 data.pdrStd532_klett = pdrStd532_klett;
 data.pdrStd355_raman = pdrStd355_raman;
 data.pdrStd532_raman = pdrStd532_raman;
-
 data.vdr1064_klett = vdr1064_klett;
 data.vdrStd1064_klett = vdrStd1064_klett;
 data.vdr1064_raman = vdr1064_raman;
@@ -4598,7 +4621,6 @@ data.LR532_OC_raman = LR532_OC_raman;
 data.LRStd532_OC_raman = LRStd532_OC_raman;
 data.LR1064_OC_raman = LR1064_OC_raman;
 data.LRStd1064_OC_raman = LRStd1064_OC_raman;
-
 data.pdr355_OC_klett = pdr355_OC_klett;
 data.pdrStd355_OC_klett = pdrStd355_OC_klett;
 data.pdr532_OC_klett = pdr532_OC_klett;

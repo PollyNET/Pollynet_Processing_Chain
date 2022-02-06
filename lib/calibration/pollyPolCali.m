@@ -134,7 +134,7 @@ case '355nm'
     polCalAttri355.polCaliFacStd = polCaliFacStd355;
     polCalAttri355.polCaliStartTime = polCaliStartTime355;
     polCalAttri355.polCaliStopTime = polCaliStopTime355;
-%%%% in future here it musb be one more if, if db exist then, elsi if see
+%%%% in future here it must be one more if, if db exist then, elsi if see
 %%%% if cali was succesful, if not then default
     if exist(p.Results.dbFile, 'file') == 2
         [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
@@ -212,8 +212,9 @@ case '532nm'
         polCaliTime = [polCaliStartTime532, polCaliStopTime532];
         polCaliAttri = polCalAttri532;
     end
-    case '1064nm'
-% polarization calibration at 1064 nm
+
+case '1064nm'
+    % polarization calibration at 1064 nm
     flagTot1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
     flagCro1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 
@@ -265,6 +266,7 @@ case '532nm'
         polCaliTime = [polCaliStartTime1064, polCaliStopTime1064];
         polCaliAttri = polCalAttri1064;
     end
+
 otherwise
     error('Unknown wavelength %s for polarization calibration.', p.Results.wavelength);
 end

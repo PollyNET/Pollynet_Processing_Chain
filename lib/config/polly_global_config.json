@@ -16,7 +16,6 @@
     "flagMolDepolCali": false,
     "flagTransCor": true,
 
-
     "MWRFolder": "",
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
@@ -124,6 +123,9 @@
     "minRefDeltaExt355": 1,
     "minRefDeltaExt532": 1,
     "minRefDeltaExt1064": 1,
+    "refH_FR_355": [],
+    "refH_FR_532": [],
+    "refH_FR_1064": [],
     "refH_NR_355": [2500, 3000],
     "refH_NR_532": [2500, 3000],
     "minRefSNR355": 10,
@@ -225,6 +227,7 @@
     "yLim_LC_ratio_532_607": [0, 1],
     "yLim_depolConst_355": [0, 0.2],
     "yLim_depolConst_532": [0, 0.2],
+    "yLim_depolConst_1064": [0, 0.2],
     "zLim_att_beta_355": [0, 15],
     "zLim_att_beta_532": [0, 5],
     "zLim_att_beta_1064": [0, 2],
@@ -242,10 +245,24 @@
     "zLim_VolDepol_1064": [0, 0.3],
     "colormap_basic": "labview",
 
+    "PI": "",
+    "PI_affiliation": "",
+    "PI_affiliation_acronym": "",
+    "PI_address": "",
+    "PI_phone": "",
+    "PI_email": "",
+    "Data_Originator": "",
+    "Data_Originator_affiliation": "",
+    "Data_Originator_affiliation_acronym": "",
+    "Data_Originator_address": "",
+    "Data_Originator_phone": "",
+    "Data_Originator_email": "",
+    "comment": "",
+
     "logbookFile": "",
     "radiosondeFolder": "",
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
 }

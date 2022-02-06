@@ -136,7 +136,6 @@ netcdf.putAtt(ncID, varID_voldepol_1064, 'error_variable', 'voldepol_1064_error'
 netcdf.putAtt(ncID, varID_voldepol_1064, 'bias_variable', 'voldepol_1064_bias');
 netcdf.putAtt(ncID, varID_voldepol_1064, 'comment', sprintf('The depolarization ratio was calibrated with \\Delta 90\\circ method. (eta: %f)', data.polCaliEta1064));
 
-
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
 netcdf.putAtt(ncID, varID_global, 'Licence', 'Creative Commons Attribution Share Alike 4.0 International (CC BY-SA 4.0)');

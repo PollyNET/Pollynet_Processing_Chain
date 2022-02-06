@@ -109,6 +109,7 @@ if (sum(flag355C) == 1) && (sum(flag355T) == 1) && (~ PollyConfig.flagMolDepolCa
         delete(tmpFile);
     end
 end
+
 % 1064 nm
 flag1064C = data.flagCrossChannel & data.flag1064nmChannel & data.flagFarRangeChannel;
 flag1064T = data.flagTotalChannel & data.flag1064nmChannel & data.flagFarRangeChannel;

@@ -162,7 +162,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     varID_pdrStd_klett_355 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_355', 'NC_FLOAT', dimID_height);
     varID_pdrStd_raman_532 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_532', 'NC_FLOAT', dimID_height);
     varID_pdrStd_raman_355 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_355', 'NC_FLOAT', dimID_height);
-    
     varID_vdr_klett_1064 = netcdf.defVar(ncID, 'volDepol_klett_1064', 'NC_FLOAT', dimID_height);
     varID_vdrStd_klett_1064 = netcdf.defVar(ncID, 'uncertainty_volDepol_klett_1064', 'NC_FLOAT', dimID_height);
     varID_vdr_raman_1064 = netcdf.defVar(ncID, 'volDepol_raman_1064', 'NC_FLOAT', dimID_height);
@@ -248,7 +247,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarFill(ncID, varID_pdrStd_raman_532, false, missing_value);
     netcdf.defVarFill(ncID, varID_pdr_raman_355, false, missing_value);
     netcdf.defVarFill(ncID, varID_pdrStd_raman_355, false, missing_value);
-    
     netcdf.defVarFill(ncID, varID_vdr_klett_1064, false, missing_value);
     netcdf.defVarFill(ncID, varID_vdrStd_klett_1064, false, missing_value);
     netcdf.defVarFill(ncID, varID_vdr_raman_1064, false, missing_value);
@@ -334,7 +332,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarDeflate(ncID, varID_pdrStd_raman_532, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pdr_raman_355, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pdrStd_raman_355, true, true, 5);
-    
     netcdf.defVarDeflate(ncID, varID_vdr_klett_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_vdrStd_klett_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_vdr_raman_1064, true, true, 5);
@@ -433,7 +430,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putVar(ncID, varID_pdrStd_raman_532, single(fillmissing(data.pdrStd532_raman(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pdr_raman_355, single(fillmissing(data.pdr355_raman(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pdrStd_raman_355, single(fillmissing(data.pdrStd355_raman(iGrp, :), missing_value)));
-    
     netcdf.putVar(ncID, varID_vdr_klett_1064, single(fillmissing(data.vdr1064_klett(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_vdrStd_klett_1064, single(fillmissing(data.vdrStd1064_klett(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_vdr_raman_1064, single(fillmissing(data.vdr1064_raman(iGrp, :), missing_value)));
@@ -1035,7 +1031,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_vdrStd_klett_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_1064 * data.hRes, data.polCaliEta1064));
     netcdf.putAtt(ncID, varID_vdrStd_klett_1064, 'comment', sprintf('Depolarization channel was calibrated with +- 45 \\degree method. You can find more information in Freudenthaler, V., et al. (2009). \"Depolarization ratio profiling at several wavelengths in pure Saharan dust during SAMUM 2006.\" Tellus B 61(1): 165-179.'));
 
-    
     % vdr_raman_532
     netcdf.putAtt(ncID, varID_vdr_raman_532, 'unit', '');
     netcdf.putAtt(ncID, varID_vdr_raman_532, 'long_name', 'volume linear depolarization ratio at 532 nm with the same smoothing as Raman method');
@@ -1160,8 +1155,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_pdrStd_klett_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_klett_1064 * data.hRes, data.polCaliEta1064));
     netcdf.putAtt(ncID, varID_pdrStd_klett_1064, 'comment', sprintf('The aerosol backscatter profile was retrieved by Klett method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
-    
-    
     % pdr_raman_532
     netcdf.putAtt(ncID, varID_pdr_raman_532, 'unit', '');
     netcdf.putAtt(ncID, varID_pdr_raman_532, 'long_name', 'particle linear depolarization ratio at 532 nm with Raman backscatter');
@@ -1228,7 +1221,6 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_pdrStd_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_1064 * data.hRes, data.polCaliEta1064));
     netcdf.putAtt(ncID, varID_pdrStd_raman_1064, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
-    
     % WVMR
     netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
     netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');

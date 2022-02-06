@@ -162,7 +162,6 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
                   linestyle='-', label='$\delta_{vol, 1064}$', zorder=2)
     p6, = ax.plot(pdr1064_raman, height, color='#008040',
                   linestyle='--', label='$\delta_{par, 1064}$', zorder=3)
-   
 
     ax.set_xlabel('Depolarization Ratio', fontsize=15)
     ax.set_ylabel('Height (m)', fontsize=15)
@@ -215,8 +214,9 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
     fig.text(
         0.02, 0.01,
         'Version: {0}\nMethod: {1}\n'.format(version, 'Raman') +
-        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}\n$\eta 1064$: {1:6.4f}'.format(
-            polCaliEta355[0], polCaliEta532[0], polCaliEta1064[0]), fontsize=12)
+        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}\n$\eta 1064$: {2:6.4f}'.format(
+            polCaliEta355[0], 
+            polCaliEta532[0], polCaliEta1064[0]), fontsize=12)
 
     fig.savefig(
         os.path.join(
