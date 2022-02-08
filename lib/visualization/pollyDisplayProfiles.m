@@ -65,6 +65,7 @@ flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 flag407FR = data.flagFarRangeChannel & data.flag407nmChannel;
+flag1064C = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
 flag355RR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagRotRamanChannel;
@@ -150,6 +151,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     refHInd1064 = [data.refHInd1064(iGrp, 1), data.refHInd1064(iGrp, 2)];
 
     % display range corrected signal
+    print_msg('--> range corrected signal.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pyFolder = fileparts(mfilename('fullpath'));   % folder of python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -169,6 +171,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (Klett method based on far-field signal)
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
+        print_msg('--> backscatter (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc_355_klett = data.aerBsc355_klett(iGrp, :);
         aerBsc_532_klett = data.aerBsc532_klett(iGrp, :);
         aerBsc_1064_klett = data.aerBsc1064_klett(iGrp, :);
@@ -192,6 +195,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (Klett method based on near-field signal)
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1))
+        print_msg('--> backscatter (Klett method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc_355_klett = data.aerBsc355_klett(iGrp, :);
         aerBsc_532_klett = data.aerBsc532_klett(iGrp, :);
         aerBsc_1064_klett = data.aerBsc1064_klett(iGrp, :);
@@ -217,6 +221,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)) && ((sum(flag387FR) == 1) || (sum(flag607FR) == 1))
+        print_msg('--> backscatter (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc_355_raman = data.aerBsc355_raman(iGrp, :);
         aerBsc_532_raman = data.aerBsc532_raman(iGrp, :);
         aerBsc_1064_raman = data.aerBsc1064_raman(iGrp, :);
@@ -243,6 +248,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
     is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
     if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        print_msg('--> backscatter (Rotation Raman method).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc_355_RR = data.aerBsc355_RR(iGrp, :);
         aerBsc_532_RR = data.aerBsc532_RR(iGrp, :);
         aerBsc_1064_RR = data.aerBsc1064_RR(iGrp, :);
@@ -266,6 +272,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (Raman method based on near-field signal)
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag387NR) == 1) || (sum(flag607NR) == 1))
+        print_msg('--> backscatter (Roaman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGrp, :);
         aerBsc532_NR_raman = data.aerBsc532_NR_raman(iGrp, :);
         aerBsc_355_raman = data.aerBsc355_raman(iGrp, :);
@@ -291,6 +298,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (AOD-constrained method based on far-field signal)
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
+        print_msg('--> backscatter (AOD-constrained method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc_355_aeronet = data.aerBsc355_aeronet(iGrp, :);
         aerBsc_532_aeronet = data.aerBsc532_aeronet(iGrp, :);
         aerBsc_1064_aeronet = data.aerBsc1064_aeronet(iGrp, :);
@@ -314,6 +322,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% extinction (Klett method based on far-field signal)
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
+        print_msg('--> extinction (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt_355_klett = data.aerExt355_klett(iGrp, :);
         aerExt_532_klett = data.aerExt532_klett(iGrp, :);
         aerExt_1064_klett = data.aerExt1064_klett(iGrp, :);
@@ -337,6 +346,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% extinction (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)) && ((sum(flag387FR) == 1) || (sum(flag607FR) == 1))
+        print_msg('--> extinction (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt_355_raman = data.aerExt355_raman(iGrp, :);
         aerExt_532_raman = data.aerExt532_raman(iGrp, :);
         aerExt_1064_raman = data.aerExt1064_raman(iGrp, :);
@@ -363,6 +373,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
     is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
     if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        print_msg('--> extinction (RR method).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt_355_RR = data.aerExt355_RR(iGrp, :);
         aerExt_532_RR = data.aerExt532_RR(iGrp, :);
         aerExt_1064_RR = data.aerExt1064_RR(iGrp, :);
@@ -386,6 +397,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% extinction (AOD-constrained method based on far-field signal)
     if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
+        print_msg('--> extinction (AOD-constrained method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt_355_aeronet = data.aerExt355_aeronet(iGrp, :);
         aerExt_532_aeronet = data.aerExt532_aeronet(iGrp, :);
         aerExt_1064_aeronet = data.aerExt1064_aeronet(iGrp, :);
@@ -409,6 +421,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% extinction (Klett method based on near-field signal)
     if (sum(flag355NR) == 1) || (sum(flag532NR) == 1)
+        print_msg('--> extinction (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt355_NR_klett = data.aerExt355_NR_klett(iGrp, :);
         aerExt532_NR_klett = data.aerExt532_NR_klett(iGrp, :);
         aerExt_355_klett = data.aerExt355_klett(iGrp, :);
@@ -434,6 +447,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% extinction (Raman method based on near-field signal)
     if (sum(flag355NR) == 1) || (sum(flag532NR) == 1)
+        print_msg('--> extinction (Raman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerExt355_NR_raman = data.aerExt355_NR_raman(iGrp, :);
         aerExt532_NR_raman = data.aerExt532_NR_raman(iGrp, :);
         aerExt_355_raman = data.aerExt355_raman(iGrp, :);
@@ -459,6 +473,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% lidar ratio (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) || (sum(flag532FR) == 1)) && ((sum(flag387FR) == 1) || (sum(flag607FR) == 1))
+        print_msg('--> lidar ratio (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         LR355_raman = data.LR355_raman(iGrp, :);
         LR532_raman = data.LR532_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -479,11 +494,12 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% backscatter (Rotation Raman method)
+    %% lidar ratio (Rotation Raman method)
     is355RRRetAvail = ((sum(flag355FR) == 1) && (sum(flag355RR) == 1));
     is532RRRetAvail = ((sum(flag532FR) == 1) && (sum(flag532RR) == 1));
     is1064RRRetAvail = ((sum(flag1064FR) == 1) && (sum(flag1064RR) == 1));
     if is355RRRetAvail || is532RRRetAvail || is1064RRRetAvail
+        print_msg('--> lidar ratio (RR method).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         LR355_RR = data.LR355_RR(iGrp, :);
         LR532_RR = data.LR532_RR(iGrp, :);
         LR1064_RR = data.LR1064_RR(iGrp, :);
@@ -507,6 +523,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% lidar ratio (Raman method based on near-field signal)
     if (sum(flag355NR) == 1) || (sum(flag532NR) == 1)
+        print_msg('--> lidar ratio (RR method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         LR355_raman = data.LR355_raman(iGrp, :);
         LR532_raman = data.LR532_raman(iGrp, :);
         LR355_NR_raman = data.LR355_NR_raman(iGrp, :);
@@ -529,8 +546,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Klett method based on far-field signal)
+    %% Angstroem exponent (Klett method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
+        print_msg('--> Angstroem exponent (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         AE_Bsc_355_532_klett = data.AE_Bsc_355_532_klett(iGrp, :);
         AE_Bsc_532_1064_klett = data.AE_Bsc_532_1064_klett(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -551,8 +569,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Raman method based on far-field signal)
+    %% Angstroem exponent (Raman method based on far-field signal)
     if ((sum(flag355FR) == 1) + (sum(flag532FR) == 1) + sum(flag1064FR)) >= 2
+        print_msg('--> Angstroem exponent (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         AE_Bsc_355_532_raman = data.AE_Bsc_355_532_raman(iGrp, :);
         AE_Bsc_532_1064_raman = data.AE_Bsc_532_1064_raman(iGrp, :);
         AE_Ext_355_532_raman = data.AE_Ext_355_532_raman(iGrp, :);
@@ -574,8 +593,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
         delete(tmpFile);
     end
 
-    %% Ångström exponent (Raman method based on near-field signal)
+    %% Angstroem exponent (Raman method based on near-field signal)
     if (sum(flag355NR) == 1) && (sum(flag532NR))
+        print_msg('--> Angstroem exponent (Raman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         AE_Bsc_355_532_NR_raman = data.AE_Bsc_355_532_NR_raman(iGrp, :);
         AE_Ext_355_532_NR_raman = data.AE_Ext_355_532_NR_raman(iGrp, :);
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
@@ -597,13 +617,17 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% Volume/particle depolarization ratio (Klett method based on far-field signal)
-    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
+    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))|| ((sum(flag1064FR) == 1) && (sum(flag1064C) == 1))
+        print_msg('--> Vol/par. depolarization ratio (Klett method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         vdr355_klett = data.vdr355_klett(iGrp, :);
         vdr532_klett = data.vdr532_klett(iGrp, :);
+        vdr1064_klett = data.vdr1064_klett(iGrp, :);
         pdr355_klett = data.pdr355_klett(iGrp, :);
         pdr532_klett = data.pdr532_klett(iGrp, :);
+        pdr1064_klett = data.pdr1064_klett(iGrp, :);
         pdrStd355_klett = data.pdrStd355_klett(iGrp, :);
         pdrStd532_klett = data.pdrStd532_klett(iGrp, :);
+        pdrStd1064_klett = data.pdrStd1064_klett(iGrp, :);
         flag_pdr355_klett = (abs(pdrStd355_klett ./ pdr355_klett) > 0.6) | ...
                                  (pdrStd355_klett > 0.5) | ...
                                  (vdr355_klett < data.mdr355(iGrp)) | ...
@@ -614,8 +638,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_klett < data.mdr532(iGrp)) | ...
                                  (pdr532_klett <= 0);
         pdr532_klett(flag_pdr532_klett) = NaN;
+        flag_pdr1064_klett = (abs(pdrStd1064_klett ./ pdr1064_klett) > 0.6) | ...
+                                 (pdrStd1064_klett > 0.5) | ...
+                                 (vdr1064_klett < data.mdr1064(iGrp)) | ...
+                                 (pdr1064_klett <= 0);
+        pdr1064_klett(flag_pdr1064_klett) = NaN;
         polCaliEta355 = data.polCaliEta355;
         polCaliEta532 = data.polCaliEta532;
+        polCaliEta1064 = data.polCaliEta1064;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -626,7 +656,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett', 'pdr355_klett', 'pdr532_klett', 'polCaliEta355', 'polCaliEta532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_klett', 'vdr532_klett', 'vdr1064_klett', 'pdr355_klett', 'pdr532_klett', 'pdr1064_klett', 'polCaliEta355', 'polCaliEta532', 'polCaliEta1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayDRKlett.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayDRKlett.py');
@@ -635,13 +665,17 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% Volume/particle depolarization ratio (Raman method based on far-field signal)
-    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))
+    if ((sum(flag355FR) == 1) && (sum(flag355C) == 1)) || ((sum(flag532FR) == 1) && (sum(flag532C) == 1))|| ((sum(flag1064FR) == 1) && (sum(flag1064C) == 1))
+        print_msg('--> Vol/par. depolarization ratio (Raman method based on far-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         vdr355_raman = data.vdr355_raman(iGrp, :);
         vdr532_raman = data.vdr532_raman(iGrp, :);
+        vdr1064_raman = data.vdr1064_raman(iGrp, :);
         pdr355_raman = data.pdr355_raman(iGrp, :);
         pdr532_raman = data.pdr532_raman(iGrp, :);
+        pdr1064_raman = data.pdr1064_raman(iGrp, :);
         pdrStd355_raman = data.pdrStd355_raman(iGrp, :);
         pdrStd532_raman = data.pdrStd532_raman(iGrp, :);
+        pdrStd1064_raman = data.pdrStd1064_raman(iGrp, :);
         flag_pdr355_raman = (abs(pdrStd355_raman ./ pdr355_raman) > 0.6) | ...
                                  (pdrStd355_raman > 0.5) | ...
                                  (vdr355_raman < data.mdr355(iGrp)) | ...
@@ -652,8 +686,14 @@ for iGrp = 1:size(data.clFreGrps, 1)
                                  (vdr532_raman < data.mdr532(iGrp)) | ...
                                  (pdr532_raman <= 0);
         pdr532_raman(flag_pdr532_raman) = NaN;
+        flag_pdr1064_raman = (abs(pdrStd1064_raman ./ pdr1064_raman) > 0.6) | ...
+                                 (pdrStd1064_raman > 0.5) | ...
+                                 (vdr1064_raman < data.mdr1064(iGrp)) | ...
+                                 (pdr1064_raman <= 0);
+        pdr1064_raman(flag_pdr1064_raman) = NaN;
         polCaliEta355 = data.polCaliEta355;
         polCaliEta532 = data.polCaliEta532;
+        polCaliEta1064 = data.polCaliEta1064;
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
         saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -664,7 +704,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman', 'pdr355_raman', 'pdr532_raman', 'polCaliEta355', 'polCaliEta532', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'vdr355_raman', 'vdr532_raman', 'vdr1064_raman', 'pdr355_raman', 'pdr532_raman', 'pdr1064_raman', 'polCaliEta355', 'polCaliEta532', 'polCaliEta1064', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'yLim_Profi_DR', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
         flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayDRRaman.py'), tmpFile, saveFolder));
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayDRRaman.py');
@@ -674,6 +714,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% water vapor mixing ratio
     if (sum(flag407FR) == 1) && (sum(flag387FR) == 1)
+        print_msg('--> Water vapor mixing ratio.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         wvmr = data.wvmr(iGrp, :);
         flagWVCalibration = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
         flagWVCalibration = flagWVCalibration{1};
@@ -698,6 +739,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% relative humidity
     if (sum(flag407FR) == 1) && (sum(flag387FR) == 1)
+        print_msg('--> Relative humidity.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         rh = data.rh(iGrp, :);
         rh_meteor = data.relh(iGrp, :);
         flagWVCalibration = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
@@ -722,6 +764,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     end
 
     %% temperature
+    print_msg('--> temperature.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -740,6 +783,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     delete(tmpFile);
 
     %% pressure
+    print_msg('--> pressure.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));

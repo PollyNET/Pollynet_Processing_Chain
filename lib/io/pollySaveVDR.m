@@ -37,14 +37,17 @@ varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant)
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_voldepol_355 = netcdf.defVar(ncID, 'volume_depolarization_ratio_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_voldepol_532 = netcdf.defVar(ncID, 'volume_depolarization_ratio_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_voldepol_1064 = netcdf.defVar(ncID, 'volume_depolarization_ratio_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_voldepol_355, false, -999);
 netcdf.defVarFill(ncID, varID_voldepol_532, false, -999);
+netcdf.defVarFill(ncID, varID_voldepol_1064, false, -999);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_voldepol_355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_voldepol_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_voldepol_1064, true, true, 5);
 
 % leave define mode
 netcdf.endDef(ncID);
@@ -58,6 +61,7 @@ netcdf.putVar(ncID, varID_height, single(data.height));
 netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_voldepol_355, single(data.vdr355));
 netcdf.putVar(ncID, varID_voldepol_532, single(data.vdr532));
+netcdf.putVar(ncID, varID_voldepol_1064, single(data.vdr1064));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -119,7 +123,18 @@ netcdf.putAtt(ncID, varID_voldepol_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_voldepol_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_voldepol_532, 'error_variable', 'voldepol_532_error');
 netcdf.putAtt(ncID, varID_voldepol_532, 'bias_variable', 'voldepol_532_bias');
-netcdf.putAtt(ncID, varID_voldepol_532, 'comment', sprintf('The depolarization ratio was calibrated with \\Delta 90\\circ method. (eta: %f)', data.polCaliEta355));
+netcdf.putAtt(ncID, varID_voldepol_532, 'comment', sprintf('The depolarization ratio was calibrated with \\Delta 90\\circ method. (eta: %f)', data.polCaliEta532));
+
+% voldepol_1064
+netcdf.putAtt(ncID, varID_voldepol_1064, 'unit', '');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'long_name', 'volume depolarization ratio at 1064 nm');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'standard_name', 'voldepol_1064');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'plot_range', [0, 0.3]);
+netcdf.putAtt(ncID, varID_voldepol_1064, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_voldepol_1064, 'error_variable', 'voldepol_1064_error');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'bias_variable', 'voldepol_1064_bias');
+netcdf.putAtt(ncID, varID_voldepol_1064, 'comment', sprintf('The depolarization ratio was calibrated with \\Delta 90\\circ method. (eta: %f)', data.polCaliEta1064));
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');
