@@ -342,7 +342,7 @@ def polly_1v2_displayLTLCali(tmpFile, saveFolder):
     for elseTime in else_time:
         ax3.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
 
-    ax3.set_ylabel('$\eta_{532}$')
+    ax3.set_ylabel(r'$\eta_{532}$')
     ax3.set_xlabel('Date (mm-dd)')
     ax3.set_ylim(depolConstLim532.tolist())
     ax3.xaxis.set_major_formatter(DateFormatter('%m-%d'))
