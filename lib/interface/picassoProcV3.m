@@ -2957,6 +2957,8 @@ if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
     quality_mask_vdr_1064(:, data.depCalMask) = 2;
     quality_mask_vdr_1064(:, data.shutterOnMask) = 3;
     quality_mask_vdr_1064(:, data.fogMask) = 4;
+else
+  quality_mask_vdr_1064=NaN;  
 end
 
 %% Water vapor calibration
