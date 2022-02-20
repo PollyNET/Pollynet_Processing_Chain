@@ -2890,8 +2890,7 @@ quality_mask_532 = zeros(length(data.height), length(data.mTime));
 quality_mask_NR_532 = zeros(length(data.height), length(data.mTime));
 quality_mask_1064 = zeros(length(data.height), length(data.mTime));
 quality_mask_vdr_532 = zeros(length(data.height), length(data.mTime));
-quality_mask_vdr_355 = zeros(length(data.height), length(data.mTime));
-quality_mask_vdr_1064 = zeros(length(data.height), length(data.mTime));
+% quality_mask_vdr_355 = zeros(length(data.height), length(data.mTime));
 quality_mask_387 = zeros(length(data.height), length(data.mTime));
 quality_mask_607 = zeros(length(data.height), length(data.mTime));
 % 0 in quality_mask means good data
@@ -2958,6 +2957,8 @@ if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
     quality_mask_vdr_1064(:, data.depCalMask) = 2;
     quality_mask_vdr_1064(:, data.shutterOnMask) = 3;
     quality_mask_vdr_1064(:, data.fogMask) = 4;
+else
+  quality_mask_vdr_1064=NaN;  
 end
 
 %% Water vapor calibration
