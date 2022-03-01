@@ -31,7 +31,7 @@ case {'polly_1st'}
 case {'pollyxt_cpv'}
     pollyxt_cpv_displayLTLCali(data, dbFile);
 otherwise
-    error('Unknown polly: %s', CampaignConfig.name);
+    warning('Unknown polly: %s', CampaignConfig.name);
 end
 
 end

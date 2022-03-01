@@ -74,7 +74,6 @@ addParameter(p, 'method', 'nearest', @ischar);
 addParameter(p, 'isUseLatestGDAS', true, @islogical);
 
 parse(p, mTime, asl, varargin{:});
-
 meteorAttri.dataSource = cell(0);
 meteorAttri.URL = cell(0);
 meteorAttri.datetime = [];
