@@ -158,9 +158,9 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
                   linestyle='--', label='$\delta_{par, 355}$', zorder=3)
     p4, = ax.plot(pdr532_raman, height, color='#008040',
                   linestyle='--', label='$\delta_{par, 532}$', zorder=3)
-    p5, = ax.plot(vdr1064_raman, height, color='#80ff00',
+    p5, = ax.plot(vdr1064_raman, height, color='#ff5733',
                   linestyle='-', label='$\delta_{vol, 1064}$', zorder=2)
-    p6, = ax.plot(pdr1064_raman, height, color='#008040',
+    p6, = ax.plot(pdr1064_raman, height, color='#e60000',
                   linestyle='--', label='$\delta_{par, 1064}$', zorder=3)
 
     ax.set_xlabel('Depolarization Ratio', fontsize=15)
