@@ -64,8 +64,10 @@ if p.Results.isUseLatestGDAS
         gdasSubDir = fullfile(folder, gdas1site, ...
             datestr(dateList(iDate), 'yyyy'), ...
             datestr(dateList(iDate), 'mm'));
+        %disp(gdasSubDir)
         if exist(gdasSubDir, 'dir')
             thisFiles = listfile(gdasSubDir, '.*.gdas1');
+            %disp(thisFiles)
         else
             thisFiles = {};
         end
