@@ -103,9 +103,11 @@ if wavelength == 1064
 
     hIndx = false(1, length(height));
     hIndx(HRefIndx(1):HRefIndx(end)) = true;
-    elMean = sigElastic(hIndx) .* height(hIndx).^2 ./ ...
+
+    % calculate the signal ratio at the reference height
+    elMean = sigElastic(hIndx) ./ ...
              (beta_mol(hIndx) + betaRef);
-    vrMean = sigVRN2(hIndx) .* height(hIndx).^2 ./ (beta_mol(hIndx));
+    vrMean = sigVRN2(hIndx) ./ (beta_mol(hIndx));
 
     % calculate the aerosol backscatter coefficient.
     if ~ flagSmoothBefore
@@ -133,14 +135,12 @@ elseif wavelength == 532
                 nancumsum(ext_aer_raman) * dH;
 
     hIndx = false(1, length(height));
-    hIndx(HRefIndx(1):HRefIndx(end)) = ...
-                (sigElastic(HRefIndx(1):HRefIndx(end)) >= 0) & ...
-                (sigVRN2(HRefIndx(1):HRefIndx(end)) >= 0);
+    hIndx(HRefIndx(1):HRefIndx(end)) = true;
 
     % calculate the signal ratio at the reference height
-    elMean = sigElastic(hIndx) .* height(hIndx).^2 ./ ...
+    elMean = sigElastic(hIndx) ./ ...
              (beta_mol(hIndx) + betaRef);
-    vrMean = sigVRN2(hIndx) .* height(hIndx).^2 ./ (beta_mol(hIndx));
+    vrMean = sigVRN2(hIndx) ./ (beta_mol(hIndx));
 
     % calculate the aerosol backscatter coefficient.
     if ~ flagSmoothBefore
@@ -167,14 +167,12 @@ elseif wavelength == 355
                 nancumsum(ext_aer_raman) * dH;
 
     hIndx = false(1, length(height));
-    hIndx(HRefIndx(1):HRefIndx(end)) = ...
-            (sigElastic(HRefIndx(1):HRefIndx(end)) >= 0) & ...
-            (sigVRN2(HRefIndx(1):HRefIndx(end)) >= 0);
+    hIndx(HRefIndx(1):HRefIndx(end)) = true;
 
     % calculate the signal ratio at the reference height
-    elMean = sigElastic(hIndx) .* height(hIndx).^2 ./ ...
+    elMean = sigElastic(hIndx) ./ ...
             (beta_mol(hIndx) + betaRef);
-    vrMean = sigVRN2(hIndx) .* height(hIndx).^2 ./ (beta_mol(hIndx));
+    vrMean = sigVRN2(hIndx) ./ (beta_mol(hIndx));
 
     % calculate the aerosol backscatter coefficient.
     if ~ flagSmoothBefore
