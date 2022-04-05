@@ -28,7 +28,7 @@ case {'polly_1v2'}
 case {'polly_1st'}
     polly_1st_displayHousekeeping(data);
 otherwise
-    error('Unknown polly: %s', CampaignConfig.name);
+    warning('Unknown polly: %s', CampaignConfig.name);
 end
 
 end

@@ -6,6 +6,7 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
 % USAGE:
 %    saveDepolConst(dbFile, depolconst, depolconstStd, dcStartTime, 
 %                   dcStopTime, pollyDataFilename, pollyType, wavelength)
+%
 % INPUTS:
 %    dbFile: char
 %        absolute path of the database.
@@ -22,7 +23,7 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
 %    pollyType: char
 %        polly type. (case-sensitive)
 %    wavelength: char
-%        wavelength. ('355' or '532')
+%        wavelength. ('355', '532' or '1064')
 %
 % HISTORY:
 %    - 2021-06-08: first edition by Zhenping
