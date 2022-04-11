@@ -296,7 +296,7 @@ if config.flagSigTempCor
     
     syms T
     for iCh = 1:size(data.signal, 1)
-	 corFunc = sym(config.tempCorFunc{iCh});
+	corFunc = sym(config.tempCorFunc{iCh});
         corFac = double(subs(corFunc, T, absTemp));
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
