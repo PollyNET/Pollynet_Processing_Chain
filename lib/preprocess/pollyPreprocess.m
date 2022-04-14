@@ -195,6 +195,7 @@ addParameter(p, 'flag407nmChannel', false, @islogical);
 addParameter(p, 'flag355nmRotRaman', false, @islogical);
 addParameter(p, 'flag532nmRotRaman', false, @islogical);
 addParameter(p, 'flag1064nmRotRaman', false, @islogical);
+addParameter(p, 'flagUseLatestGDAS', false, @islogical);
 
 parse(p, data, varargin{:});
 
@@ -295,7 +296,7 @@ if config.flagSigTempCor
     
     syms T
     for iCh = 1:size(data.signal, 1)
-        corFunc = sym(config.tempCorFunc{iCh});
+	corFunc = sym(config.tempCorFunc{iCh});
         corFac = double(subs(corFunc, T, absTemp));
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
