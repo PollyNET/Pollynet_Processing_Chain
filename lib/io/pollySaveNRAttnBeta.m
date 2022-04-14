@@ -16,7 +16,7 @@ missing_value = -999;
 
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 
-ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_NR_att_bsc_2.nc', rmext(PollyDataInfo.pollyDataFile)));
+ncfile = fullfile(PicassoConfig.results_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_NR_att_bsc.nc', rmext(PollyDataInfo.pollyDataFile)));
 
 mode = netcdf.getConstant('NETCDF4');
 mode = bitor(mode, netcdf.getConstant('CLASSIC_MODEL'));
