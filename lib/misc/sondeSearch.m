@@ -42,7 +42,10 @@ switch fileType
 case 1   % standard file for MOSAiC
 
     %% list all the files
-    sondeFileList = listfile(sondeFolder, 'radiosonde_\w{8}_\w{6}.nc');
+    %sondeFileList = listfile(sondeFolder, 'radiosonde_\w{8}_\w{6}.nc');
+    sondeFileList = listfile(sondeFolder,'.txt');  % Changed by Cristofer
+    
+       
     if isempty(sondeFileList)
         warning(['No required radiosonde files was found in the sonde folder. ' ...
                 'Please go to the folder below to have a look.\n%s'], sondeFolder);
@@ -53,10 +56,12 @@ case 1   % standard file for MOSAiC
     sondeTime = NaN(size(sondeFileList));
     for iFile = 1:length(sondeFileList)
         filenameISondeFile = basename(sondeFileList{iFile});
-        sondeTime(iFile) = datenum(filenameISondeFile(12:26), 'yyyymmdd_HHMMSS');
+        %sondeTime(iFile) = datenum(filenameISondeFile(12:26), 'yyyymmdd_HHMMSS');
+        sondeTime(iFile) = datenum(filenameISondeFile(11:20), 'yyyymmddHH'); %Changed by Cristofer
+
     end
 
-    %% search the sonding file which is closest to the measurement time
+    %% search the sounding file which is closest to the measurement time
     deltaTime = abs(sondeTime - measurementTime);
     [minDeltaTime, indxSondeFile] = min(deltaTime);
     % determine whether the time lapse is out of range (max T diff: 1 day)

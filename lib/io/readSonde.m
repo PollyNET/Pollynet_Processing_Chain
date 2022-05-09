@@ -94,14 +94,27 @@ switch fileType
 case 1   % MOSAiC
 
     thisFilename = basename(file);
-    datetime = datenum(thisFilename(12:26), 'yyyymmdd_HHMMSS');
+    %datetime = datenum(thisFilename(12:26), 'yyyymmdd_HHMMSS');
+    datetime = datenum(thisFilename(11:20), 'yyyymmddHH'); %Added by Cristofer, might be removed if can get the name automatically
 
-    alt = ncread(file, 'altitude'); 
-    temp = ncread(file, 'temperature');
-    pres = ncread(file, 'pressure'); 
-    relh = ncread(file, 'RH');
-    wins = ncread(file, 'wind_speed');
-    wind = ncread(file, 'wind_direction');
+    %Added by Cristofer
+    
+    fid = fopen(strcat(file));
+    strData = textscan(fid,'%s %s %s %s %s %s %s');
+    fclose(fid);
+    alt = str2num(char(strData{1,1}(22:end)));
+    pres = str2num(char(strData{1,3}(22:end)));
+    temp = str2num(char(strData{1,4}(22:end)));
+    relh = str2num(char(strData{1,5}(22:end)));
+    wind = str2num(char(strData{1,6}(22:end)));
+    wins = str2num(char(strData{1,7}(22:end)));
+    
+%     alt = ncread(file, 'altitude'); 
+%     temp = ncread(file, 'temperature');
+%     pres = ncread(file, 'pressure'); 
+%     relh = ncread(file, 'RH');
+%     wins = ncread(file, 'wind_speed');
+%     wind = ncread(file, 'wind_direction');
 
     % replace missing value with NaN
     temp(abs(temp - missingValue) < 1e-5) = NaN;
