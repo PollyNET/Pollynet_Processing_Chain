@@ -92,6 +92,7 @@ case 'mwr'
          datestr(clFreTime(1), 'yymm'), ...
          sprintf('*_mwr00_l2_prw_v00_%s*.nc', ...
             datestr(clFreTime(1), 'yyyymmdd'))));
+	 disp(mwrResFileSearch);
     if isempty(mwrResFileSearch)
         mwrResFile = '';
     elseif length(mwrResFileSearch) >= 2
