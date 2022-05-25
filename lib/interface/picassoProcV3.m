@@ -797,7 +797,7 @@ for iGrp = 1:size(clFreGrps, 1)
     pressure = data.pressure(iGrp, :);
 
     % 532 nm
-    if sum(flag532FR) == 1
+    if (sum(flag532FR) == 1) && (~ PollyConfig.flagUseManualRefH)
         sig532 = squeeze(sum(data.signal(flag532FR, :, tInd), 3));   % photon count
         bg532 = squeeze(sum(data.bg(flag532FR, :, tInd), 3));
         nShots532 = nansum(data.mShots(flag532FR, tInd), 2);
@@ -822,8 +822,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'defaultRefH', [NaN, NaN], 'defaultDPInd', []);
     elseif PollyConfig.flagUseManualRefH
         % use pre-defined reference height
-        if length(PollyConfig.flagUseManualRefH) == 2
-            thisRefH532 = PollyConfig.refH_FR_532;
+        if length(PollyConfig.refH_FR_532) == 2
+            refBaseIdx = find(data.height >= PollyConfig.refH_FR_532(1), 1);
+            refTopIdx = find(data.height >= PollyConfig.refH_FR_532(2), 1);
+
+            if (isempty(refBaseIdx) || isempty(refTopIdx))
+                warning('refH_FR_532 is out of range.');
+                thisRefH532 = [NaN, NaN];
+            else
+                thisRefH532 = [refBaseIdx, refTopIdx];
+            end
             thisDPInd532 = [];
         else
             warning('refH_FR_532 should be 2-element array');
@@ -836,7 +844,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 355 nm
-    if sum(flag355FR) == 1
+    if (sum(flag355FR) == 1) && (~ PollyConfig.flagUseManualRefH)
         sig355 = squeeze(sum(data.signal(flag355FR, :, tInd), 3));   % photon count
         bg355 = squeeze(sum(data.bg(flag355FR, :, tInd), 3));
         nShots355 = nansum(data.mShots(flag355FR, tInd), 2);
@@ -861,8 +869,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
     elseif PollyConfig.flagUseManualRefH
         % use pre-defined reference height
-        if length(PollyConfig.flagUseManualRefH) == 2
-            thisRefH355 = PollyConfig.refH_FR_355;
+        if length(PollyConfig.refH_FR_355) == 2
+            refBaseIdx = find(data.height >= PollyConfig.refH_FR_355(1), 1);
+            refTopIdx = find(data.height >= PollyConfig.refH_FR_355(2), 1);
+
+            if (isempty(refBaseIdx) || isempty(refTopIdx))
+                warning('refH_FR_355 is out of range.');
+                thisRefH355 = [NaN, NaN];
+            else
+                thisRefH355 = [refBaseIdx, refTopIdx];
+            end
             thisDPInd355 = [];
         else
             warning('refH_FR_355 should be 2-element array');
@@ -875,7 +891,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 1064 nm
-    if sum(flag1064FR) == 1
+    if (sum(flag1064FR) == 1) && (~ PollyConfig.flagUseManualRefH)
         sig1064 = squeeze(sum(data.signal(flag1064FR, :, tInd), 3));   % photon count
         bg1064 = squeeze(sum(data.bg(flag1064FR, :, tInd), 3));
         nShots1064 = nansum(data.mShots(flag1064FR, tInd), 2);
@@ -900,8 +916,16 @@ for iGrp = 1:size(clFreGrps, 1)
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
     elseif PollyConfig.flagUseManualRefH
         % use pre-defined reference height
-        if length(PollyConfig.flagUseManualRefH) == 2
-            thisRefH1064 = PollyConfig.refH_FR_1064;
+        if length(PollyConfig.refH_FR_1064) == 2
+            refBaseIdx = find(data.height >= PollyConfig.refH_FR_1064(1), 1);
+            refTopIdx = find(data.height >= PollyConfig.refH_FR_1064(2), 1);
+
+            if (isempty(refBaseIdx) || isempty(refTopIdx))
+                warning('refH_FR_1064 is out of range.');
+                thisRefH1064 = [NaN, NaN];
+            else
+                thisRefH1064 = [refBaseIdx, refTopIdx];
+            end
             thisDPInd1064 = [];
         else
             warning('refH_FR_1064 should be 2-element array');
