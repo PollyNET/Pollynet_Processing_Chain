@@ -31,6 +31,12 @@ global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 [LC607History, LCStd607History, startTime607, stopTime607] = ...
     loadLiConst(PollyDataInfo.dataTime, dbFile, CampaignConfig.name, '607', ...
         'Raman_Method', 'far_range', 'flagBeforeQuery', true);
+[LC355History_NF, LCStd355History_NF, startTime355_NF, stopTime355_NF] = ...
+    loadLiConst(PollyDataInfo.dataTime, dbFile, CampaignConfig.name, '355', ...
+        'Raman_Method', 'near_range', 'flagBeforeQuery', true);
+[LC532History_NF, LCStd532History_NF, startTime532_NF, stopTime532_NF] = ...
+    loadLiConst(PollyDataInfo.dataTime, dbFile, CampaignConfig.name, '532', ...
+        'Raman_Method', 'near_range', 'flagBeforeQuery', true);
 
 if (length(startTime355) ~= length(startTime387))
     [~, indTime355, indTime387] = intersect(startTime355, startTime387);
@@ -86,6 +92,19 @@ else
     LCTime607 = [];
 end
 LC607Status = 2 * ones(size(startTime607));
+%%NF new
+if ~ isempty(startTime355_NF)
+    LCTime355_NF = mean([startTime355_NF; stopTime355_NF], 1);
+else
+    LCTime355_NF = [];
+end
+LC355Status_NF = 2 * ones(size(startTime355_NF));
+if ~ isempty(startTime532_NF)
+    LCTime532_NF = mean([startTime532_NF; stopTime532_NF], 1);
+else
+    LCTime532_NF = [];
+end
+LC532Status_NF = 2 * ones(size(startTime532_NF));
 
 %% read wv calibration constant
 [WVConst, ~, WVCaliStartTime, WVCaliStopTime] = ...
@@ -184,6 +203,9 @@ end
 tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
 save(tmpFile, 'figDPI', 'LCTime355', 'LCTime532', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'flagCH1064FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'depolCaliTime1064', 'depolCaliConst1064', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'depolConstLim1064', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
 flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_cpv_displayLTLCali.py'), tmpFile, saveFolder));
+%% here easy way to make long term cali for nf needed
+%save(tmpFile, 'figDPI', 'LCTime355_NF', 'LCTime532_NF', 'LCTime1064', 'LCTime387', 'LCTime607', 'LC355Status', 'LC532Status', 'LC1064Status', 'LC387Status', 'LC607Status', 'LC355History', 'LCStd355History', 'LC532History', 'LCStd532History', 'LC1064History', 'LCStd1064History', 'LC387History', 'LCStd387History', 'LC607History', 'LCStd607History', 'logbookTime', 'flagOverlap', 'flagWindowwipe', 'flagFlashlamps', 'flagPulsepower', 'flagRestart', 'flag_CH_NDChange', 'flagCH355FR', 'flagCH532FR', 'flagCH1064FR', 'flagCH387FR', 'flagCH607FR', 'flagCH407FR', 'flagCH355FR_X', 'flagCH532FR_X', 'flagCH1064FR_X', 'else_time', 'else_label', 'WVCaliTime', 'WVConst', 'depolCaliTime355', 'depolCaliConst355', 'depolCaliTime532', 'depolCaliConst532', 'depolCaliTime1064', 'depolCaliConst1064', 'yLim355', 'yLim532', 'yLim1064', 'yLim_LC_ratio_355_387', 'yLim_LC_ratio_532_607', 'wvLim', 'depolConstLim355', 'depolConstLim532', 'depolConstLim1064', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+%flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyxt_cpv_displayLTLCali.py'), tmpFile, saveFolder));
 if flag ~= 0
     warning('Error in executing %s', 'pollyxt_cpv_displayLTLCali.py');
 end
