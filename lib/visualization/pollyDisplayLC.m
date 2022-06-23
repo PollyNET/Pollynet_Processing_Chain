@@ -170,8 +170,8 @@ end
 flag355_NR  = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 if (sum(flag355_NR) == 1)
     LC355_raman_NR = data.LC.LC_raman_355_NR;
-    LC355_klett_NR = data.LC.LC_klett_355_NR;
-    LC355_aeronet_NR = data.LC.LC_aeronet_355_NR;
+    LC355_klett_NR = NaN;
+    LC355_aeronet_NR = NaN;
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
     saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
@@ -196,8 +196,8 @@ end
 flag532_NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 if (sum(flag532_NR) == 1)
     LC532_raman_NR = data.LC.LC_raman_532_NR;
-    LC532_klett_NR = data.LC.LC_klett_532_NR;
-    LC532_aeronet_NR = data.LC.LC_aeronet_532_NR;
+    LC532_klett_NR = NaN;
+    LC532_aeronet_NR = NaN;
 
     pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
     tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
