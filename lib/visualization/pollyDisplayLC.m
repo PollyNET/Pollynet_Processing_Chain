@@ -50,7 +50,7 @@ if (sum(flag355) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 355 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett', 'LC355_raman', 'LC355_aeronet', 'yLim355', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC355FR.py'), tmpFile, saveFolder));
@@ -77,7 +77,7 @@ if (sum(flag532) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 532
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett', 'LC532_raman', 'LC532_aeronet', 'yLim532', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC532FR.py'), tmpFile, saveFolder));
@@ -104,7 +104,7 @@ if (sum(flag1064) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 1064
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC1064_klett', 'LC1064_raman', 'LC1064_aeronet', 'yLim1064', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC1064FR.py'), tmpFile, saveFolder));
@@ -130,7 +130,7 @@ if (sum(flag387) == 1) && (sum(flag355) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 387
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC387_raman', 'yLim387', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC387FR.py'), tmpFile, saveFolder));
@@ -156,7 +156,7 @@ if (sum(flag607) == 1) && (sum(flag532) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 607 
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC607_raman', 'yLim607', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC607FR.py'), tmpFile, saveFolder));
@@ -182,7 +182,7 @@ if (sum(flag355_NR) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 355_NR
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett_NR', 'LC355_raman_NR', 'LC355_aeronet_NR', 'yLim355', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC355NR.py'), tmpFile, saveFolder));
@@ -209,7 +209,7 @@ if (sum(flag532_NR) == 1)
         mkdir(tmpFolder);
     end
 
-    %% display rcs 
+    %% display LC 532_NR
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
     save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett_NR', 'LC532_raman_NR', 'LC532_aeronet_NR', 'yLim532', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC532NR.py'), tmpFile, saveFolder));
