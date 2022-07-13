@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyDisplayLC532FR(tmpFile, saveFolder):
+def pollyDisplayLC532NR(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -88,7 +88,7 @@ def pollyDisplayLC532FR(tmpFile, saveFolder):
 
     Usage
     -----
-    pollyDisplayLC532FR(tmpFile)
+    pollyDisplayLC532NR(tmpFile)
 
     History
     -------
@@ -113,7 +113,7 @@ def pollyDisplayLC532FR(tmpFile, saveFolder):
         LC532_klett = mat['LC532_klett_NR'][:]
         LC532_raman = mat['LC532_raman_NR'][:]
         LC532_aeronet = mat['LC532_aeronet_NR'][:]
-        yLim532 = mat['yLim532'][0][:]
+        yLim532 = mat['yLim532_NR'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -224,7 +224,7 @@ def pollyDisplayLC532FR(tmpFile, saveFolder):
 
 
 def main():
-    pollyDisplayLC532FR(
+    pollyDisplayLC532NR(
         'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
         'C:\\Users\\zpyin\\Desktop'
         )
@@ -232,4 +232,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyDisplayLC532FR(sys.argv[1], sys.argv[2])
+    pollyDisplayLC532NR(sys.argv[1], sys.argv[2])

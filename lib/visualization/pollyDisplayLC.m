@@ -23,8 +23,10 @@ time = data.mTime;
 figDPI = PicassoConfig.figDPI;
 partnerLabel = PollyConfig.partnerLabel;
 flagWatermarkOn = PicassoConfig.flagWatermarkOn;
-yLim355 = PollyConfig.yLim_LC_355;
-yLim532 = PollyConfig.yLim_LC_532;
+yLim355 = PollyConfig.yLim_LC_355_NR;
+yLim532 = PollyConfig.yLim_LC_532_NR;
+yLim355_NR = PollyConfig.yLim_LC_355;
+yLim532_NR = PollyConfig.yLim_LC_532;
 yLim1064 = PollyConfig.yLim_LC_1064;
 yLim387 = PollyConfig.yLim_LC_387;
 yLim607 = PollyConfig.yLim_LC_607;
@@ -184,7 +186,7 @@ if (sum(flag355_NR) == 1)
 
     %% display LC 355_NR
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett_NR', 'LC355_raman_NR', 'LC355_aeronet_NR', 'yLim355', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett_NR', 'LC355_raman_NR', 'LC355_aeronet_NR', 'yLim355_NR', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC355NR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayLC355FR.py');
@@ -211,7 +213,7 @@ if (sum(flag532_NR) == 1)
 
     %% display LC 532_NR
     tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett_NR', 'LC532_raman_NR', 'LC532_aeronet_NR', 'yLim532', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett_NR', 'LC532_raman_NR', 'LC532_aeronet_NR', 'yLim532_NR', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
     flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC532NR.py'), tmpFile, saveFolder));
     if flag ~= 0
         warning('Error in executing %s', 'pollyDisplayLC532FR.py');

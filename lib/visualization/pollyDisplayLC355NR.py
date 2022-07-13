@@ -73,7 +73,7 @@ def rmext(filename):
     return file
 
 
-def pollyDisplayLC355FR(tmpFile, saveFolder):
+def pollyDisplayLC355NR(tmpFile, saveFolder):
     '''
     Description
     -----------
@@ -113,7 +113,7 @@ def pollyDisplayLC355FR(tmpFile, saveFolder):
         LC355_klett = mat['LC355_klett_NR'][:]
         LC355_raman = mat['LC355_raman_NR'][:]
         LC355_aeronet = mat['LC355_aeronet_NR'][:]
-        yLim355 = mat['yLim355'][0][:]
+        yLim355 = mat['yLim355_NR'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
@@ -224,7 +224,7 @@ def pollyDisplayLC355FR(tmpFile, saveFolder):
 
 
 def main():
-    pollyDisplayLC355FR(
+    pollyDisplayLC355NR(
         'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
         'C:\\Users\\zpyin\\Desktop'
         )
@@ -232,4 +232,4 @@ def main():
 
 if __name__ == '__main__':
     # main()
-    pollyDisplayLC355FR(sys.argv[1], sys.argv[2])
+    pollyDisplayLC355NR(sys.argv[1], sys.argv[2])
