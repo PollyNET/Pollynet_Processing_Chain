@@ -62,7 +62,6 @@ global PollyDefaults
 global LogConfig
 
 PicassoDir = fileparts((fileparts(fileparts(mfilename('fullpath')))));
-system('C:\Users\baars\Anaconda3\Scripts\activate Picasso30') %added by Holger for python
 %% Input parser
 p = inputParser;
 p.KeepUnmatched = true;
