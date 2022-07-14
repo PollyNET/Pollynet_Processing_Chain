@@ -111,10 +111,18 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
             thisLCTime355 = mat['LCTime355'][0][:]
         else:
             thisLCTime355 = np.array([])
+        if mat['LCTime355_NF'].size:
+            thisLCTime355_NF = mat['LCTime355_NF'][0][:]
+        else:
+            thisLCTime355_NF = np.array([])
         if mat['LCTime532'].size:
             thisLCTime532 = mat['LCTime532'][0][:]
         else:
             thisLCTime532 = np.array([])
+        if mat['LCTime532_NF'].size:
+            thisLCTime532_NF = mat['LCTime532_NF'][0][:]
+        else:
+            thisLCTime532_NF = np.array([])
         if mat['LCTime1064'].size:
             thisLCTime1064 = mat['LCTime1064'][0][:]
         else:
@@ -131,10 +139,18 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
             LC355Status = mat['LC355Status'][0][:]
         else:
             LC355Status = np.array([])
+        if mat['LC355Status_NF'].size:
+            LC355Status_NF = mat['LC355Status_NF'][0][:]
+        else:
+            LC355Status_NF = np.array([])
         if mat['LC532Status'].size:
             LC532Status = mat['LC532Status'][0][:]
         else:
             LC532Status = np.array([])
+        if mat['LC532Status_NF'].size:
+            LC532Status_NF = mat['LC532Status_NF'][0][:]
+        else:
+            LC532Status_NF = np.array([])
         if mat['LC1064Status'].size:
             LC1064Status = mat['LC1064Status'][0][:]
         else:
@@ -151,10 +167,18 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
             LC355History = mat['LC355History'][0][:]
         else:
             LC355History = np.array([])
+        if mat['LC355History_NF'].size:
+            LC355History_NF = mat['LC355History_NF'][0][:]
+        else:
+            LC355History_NF = np.array([])
         if mat['LC532History'].size:
             LC532History = mat['LC532History'][0][:]
         else:
             LC532History = np.array([])
+        if mat['LC532History_NF'].size:
+            LC532History_NF = mat['LC532History_NF'][0][:]
+        else:
+            LC532History_NF = np.array([])
         if mat['LC1064History'].size:
             LC1064History = mat['LC1064History'][0][:]
         else:
@@ -322,6 +346,8 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
     dataTime = datenum_to_datetime(float(dataTime[0]))
     LCTime355 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime355]
     LCTime532 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime532]
+    LCTime355_NF = [datenum_to_datetime(thisTime) for thisTime in thisLCTime355_NF]
+    LCTime532_NF = [datenum_to_datetime(thisTime) for thisTime in thisLCTime532_NF]
     LCTime1064 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime1064]
     LCTime387 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime387]
     LCTime607 = [datenum_to_datetime(thisTime) for thisTime in thisLCTime607]
@@ -348,11 +374,11 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
         }
 
     # display lidar constants at 355mn
-    fig, (ax1, ax2, ax3, ax4, ax5, ax6, ax7, ax8, ax9) = plt.subplots(
-        9,
+    fig, (ax1, ax1b, ax2, ax2b, ax3, ax4, ax5, ax6, ax7, ax8, ax9) = plt.subplots(
+        11,
         figsize=(10, 20),
         sharex=True,
-        gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1, 1],
+        gridspec_kw={'height_ratios': [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
                      'hspace': 0.1}
         )
     plt.subplots_adjust(top=0.96, bottom=0.05, left=0.07, right=0.98)
@@ -417,6 +443,44 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
     ax1.set_ylim(yLim355.tolist())
     ax1.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
+    # lidar constants at 355_NF nm
+    LCTime355_NF = [LCTime355_NF[indx]
+                 for indx in np.arange(0, len(LCTime355_NF))
+                 if LC355Status_NF[indx] == 2]
+    p1 = ax1b.scatter(
+        LCTime355_NF, LC355History_NF[LC355Status_NF == 2],
+        s=7, c='#0000ff', marker='o'
+        )
+
+    for iLogbookInfo in np.arange(0, len(logbookTime)):
+        if flagOverlap[iLogbookInfo]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
+        if flagPulsepower[iLogbookInfo]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
+        if flagWindowwipe[iLogbookInfo]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
+        if flagRestart[iLogbookInfo]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
+        if flagFlashlamps[iLogbookInfo]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH355NR == 1]:
+            ax1b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
+    for elseTime in else_time:
+        ax1b.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
+
+    ax1b.set_ylabel('LC @ 355nm_NF')
+    ax1b.grid(False)
+    ax1b.set_ylim(yLim355.tolist())
+    ax1b.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
+    
+    
     # lidar constant at 532 nm
     LCTime532 = [LCTime532[indx]
                  for indx in np.arange(0, len(LCTime532))
@@ -453,6 +517,43 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
     ax2.grid(False)
     ax2.set_ylim(yLim532.tolist())
     ax2.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
+
+    # lidar constant at 532 nm_NF
+    LCTime532_NF = [LCTime532_NF[indx]
+                 for indx in np.arange(0, len(LCTime532_NF))
+                 if LC532Status_NF[indx] == 2]
+    p1 = ax2b.scatter(
+        LCTime532_NF, LC532History_NF[LC532Status_NF == 2],
+        s=7, c='#0000ff', marker='o'
+        )
+
+    for iLogbookInfo in np.arange(0, len(logbookTime)):
+        if flagOverlap[iLogbookInfo]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['overlap'])
+        if flagPulsepower[iLogbookInfo]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['pulsepower'])
+        if flagWindowwipe[iLogbookInfo]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['windowwipe'])
+        if flagRestart[iLogbookInfo]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['restart'])
+        if flagFlashlamps[iLogbookInfo]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['flashlamps'])
+        if flag_CH_NDChange[iLogbookInfo, flagCH532NR == 1]:
+            ax2b.axvline(x=logbookTime[iLogbookInfo],
+                        linestyle='--', color=lineColor['NDChange'])
+
+    for elseTime in else_time:
+        ax2b.axvline(x=elseTime, linestyle='--', color=lineColor['else'])
+
+    ax2b.set_ylabel('LC @ 532nm_NF')
+    ax2b.grid(False)
+    ax2b.set_ylim(yLim532.tolist())
+    ax2b.set_xlim([startTime - timedelta(days=2), dataTime + timedelta(days=2)])
 
     # lidar constant at 1064 nm
     LCTime1064 = [LCTime1064[indx]

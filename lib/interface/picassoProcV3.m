@@ -62,7 +62,6 @@ global PollyDefaults
 global LogConfig
 
 PicassoDir = fileparts((fileparts(fileparts(mfilename('fullpath')))));
-
 %% Input parser
 p = inputParser;
 p.KeepUnmatched = true;
