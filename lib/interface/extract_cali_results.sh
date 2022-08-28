@@ -16,6 +16,9 @@ display_help() {
     echo "                         - lidar_calibration_constant"
     echo "                         - depol_calibration_constant"
     echo "                         - wvconst_calibration_constant"
+    echo "  -d, --sqlite_driver    sqlite driver"
+    echo "                         - database_toolbox"
+    echo "                         - java4sqlite"
     echo "  -o, --output           output directory"
     echo "  -p, --prefix           ASCII filename prefix"
     echo "  -h, --help             show help message"
@@ -33,7 +36,7 @@ addpath(fullfile(PROJECTDIR, 'lib'));
 
 clc;
 
-extract_cali_results('$DBFILE', '$OUTPUT_DIR', 'tablename', '$TABLENAME', 'prefix', '$PREFIX');
+extract_cali_results('$DBFILE', '$OUTPUT_DIR', 'tablename', '$TABLENAME', 'prefix', '$PREFIX', 'SQLiteReadMode', '$SQLITE_DRIVER');
 
 exit;
 ENDMATLAB
@@ -44,6 +47,7 @@ DBFILE=""
 OUTPUT_DIR=""
 TABLENAME=""
 PREFIX=""
+SQLITE_DRIVER=""
 
 ################################
 # Check if parameters options  #
@@ -72,6 +76,13 @@ while :; do
     shift 2
     ;;
 
+  -d | --sqlite_driver)
+    if [ $# -ne 0 ]; then
+      SQLITE_DRIVER="$2"
+    fi
+    shift 2
+    ;;
+
   -h | --help)
     display_help # Call your function
     exit 0
@@ -92,4 +103,4 @@ while :; do
   esac
 done
 
-run_matlab "$DBFILE" "$OUTPUT_DIR" "$TABLENAME"
+run_matlab "$DBFILE" "$OUTPUT_DIR" "$TABLENAME" "$SQLITE_DRIVER"

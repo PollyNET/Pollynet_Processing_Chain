@@ -32,9 +32,3 @@ package.json
 # untracked folders
 config
 data
-lib/misc/pollyChannelTags.m.bak
-lib/visualization/pollyDisplayDRRaman.py.bak
-PollyXT_CPV/data_zip/2021_07_23_Fri_CPV_09_20_32.nc
-*.nc
-*.txt
-lib/visualization/python_colormap.pyc

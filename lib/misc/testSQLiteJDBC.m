@@ -13,16 +13,12 @@ function [flagSQLDriverValid] = testSQLiteJDBC()
 %
 % .. Authors: - zhenping@tropos.de
 
-dbFile = sprintf('%s.db', tempname);
+flagSQLDriverValid = true;
 
-% try to use the SQLite JDBC
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-
-if strcmpi(conn.Message, 'Unable to find JDBC driver.') || ...
-   ~ isempty(regexp(char(conn.Message), 'No suitable \w*', 'once'))
+try
+    org.sqlite.JDBC;
+catch ME
     flagSQLDriverValid = false;
-else
-    flagSQLDriverValid = true;
 end
 
 end

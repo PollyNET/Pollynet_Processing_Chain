@@ -70,8 +70,10 @@ if exist(dbFile, 'file') ~= 2
     return;
 end
 
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', ...
-                sprintf('jdbc:sqlite:%s', dbFile));
+jdbc = org.sqlite.JDBC;
+props = java.util.Properties;
+conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
+stmt = conn.createStatement;
 
 %% setup SQL query command
 
@@ -95,9 +97,7 @@ end
 % main command
 if p.Results.flagClosest
     % without constrain from deltaTime and return the closest calibration result
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT lc.cali_start_time, lc.cali_stop_time, ', ...
+        sqlStr = [sprintf(['SELECT lc.cali_start_time, lc.cali_stop_time, ', ...
                 'lc.liconst, lc.uncertainty_liconst, lc.nc_zip_file, ', ...
                 'lc.polly_type, lc.wavelength FROM lidar_calibration_constant lc ', ...
                 'WHERE (lc.polly_type = ''%s'') AND (lc.wavelength = ''%s'') ', ...
@@ -107,40 +107,40 @@ if p.Results.flagClosest
             sprintf(['ORDER BY ', ...
                 'ABS((strftime(''%%s'', lc.cali_start_time) + ', ...
                 'strftime(''%%s'', lc.cali_stop_time))/2 - strftime(''%%s'', ''%s'')) ASC LIMIT 1;'], ...
-                datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
-    catch ME
-        warning(ME.message);
-        data = [];
-    end
+                datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))];
 else
     % without constrain from deltaTime and return all qualified results
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT lc.cali_start_time, lc.cali_stop_time, ', ...
+    sqlStr = [sprintf(['SELECT lc.cali_start_time, lc.cali_stop_time, ', ...
                     'lc.liconst, lc.uncertainty_liconst, lc.nc_zip_file, ', ...
                     'lc.polly_type, lc.wavelength FROM lidar_calibration_constant lc ', ...
                     'WHERE (lc.polly_type = ''%s'') AND (lc.wavelength = ''%s'') AND ', ...
                     '(lc.cali_method = ''%s'') AND (lc.telescope = ''%s'')'], ...
                     pollyType, wavelength, caliMethod, telescope), ...
             condWithinDT, condBeforeQuery, ...
-            sprintf('ORDER BY (strftime(''%%s'', lc.cali_start_time) + strftime(''%%s'', lc.cali_stop_time))/2 ASC;')]);
-    catch ME
-        warning(ME.message);
-        data = [];
+            sprintf('ORDER BY (strftime(''%%s'', lc.cali_start_time) + strftime(''%%s'', lc.cali_stop_time))/2 ASC;')];
+end
+
+try
+    rs = stmt.executeQuery(sqlStr);
+
+    while rs.next
+        thisStartTime = char(rs.getString('cali_start_time'));
+        thisStopTime = char(rs.getString('cali_stop_time'));
+        thisLiconst = double(rs.getDouble('liconst'));
+        thisLiconstStd = double(rs.getDouble('uncertainty_liconst'));
+
+        caliStartTime = cat(2, caliStartTime, datenum(thisStartTime, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(thisStopTime, 'yyyy-mm-dd HH:MM:SS'));
+        liconst = cat(2, liconst, thisLiconst);
+        liconstStd = cat(2, liconstStd, thisLiconstStd);
     end
+catch ME
+    warning(ME.message);
 end
 
 %% close connection
-close(conn);
-
-if ~ isempty(data)
-    % when records were found
-    for iRow = 1:size(data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        liconst = cat(2, liconst, data{iRow, 3});
-        liconstStd = cat(2, liconstStd, data{iRow, 4});
-    end
-end
+rs.close;
+stmt.close;
+conn.close;
 
 end
