@@ -23,7 +23,7 @@ function [csvFilenames, csvFileID] = extract_cali_results(dbFile, csvFilepath, v
 %    prefix: char
 %        prefix for the ASCII filename.
 %    SQLiteReadMode: char
-%        'database_toolbox' (default) or 'java4sqlite'
+%        'database_toolbox' (default) or 'jdbc'
 %
 % OUTPUTS:
 %    csvFilenames: cell
@@ -53,7 +53,7 @@ if (exist(dbFile, 'file') ~= 2)
 end
 
 switch lower(p.Results.SQLiteReadMode)
-case 'java4sqlite'
+case 'jdbc'
     jdbc = org.sqlite.JDBC;
     props = java.util.Properties;
     conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
@@ -82,10 +82,14 @@ case 'java4sqlite'
             end
             rs2.close;
 
+            rs4 = stmt.executeQuery(sprintf('SELECT COUNT(*) FROM %s', tableNames{iTable}));
+            nCounts = int32(rs4.getLong('COUNT(*)'));
+            rs4.close;
+
             %% load data
             rs3 = stmt.executeQuery(sprintf('SELECT * from %s;', tableNames{iTable}));
-            %nCounts = rs3.getC
-            data = cell(0, length(tableColNames));
+            data = cell(nCounts, length(tableColNames));
+            iCount = 1;
             while rs3.next
                 record = cell(1, length(tableColNames));
 
@@ -104,7 +108,8 @@ case 'java4sqlite'
                     end
                 end
 
-                data = cat(1, data, record);
+                data(iCount, :) = record;
+                iCount = iCount + 1;
             end
             rs3.close;
 

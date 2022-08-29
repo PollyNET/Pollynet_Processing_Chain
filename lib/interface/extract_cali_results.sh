@@ -18,7 +18,7 @@ display_help() {
     echo "                         - wvconst_calibration_constant"
     echo "  -d, --sqlite_driver    sqlite driver"
     echo "                         - database_toolbox"
-    echo "                         - java4sqlite"
+    echo "                         - jdbc"
     echo "  -o, --output           output directory"
     echo "  -p, --prefix           ASCII filename prefix"
     echo "  -h, --help             show help message"
