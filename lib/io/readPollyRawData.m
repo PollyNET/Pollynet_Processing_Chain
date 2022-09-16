@@ -154,6 +154,8 @@ elseif p.Results.flagCorrectFalseMShots
     mTime(2, :) = thisHour * 3600 + ...
                  thisMinute * 60 + ...
                  thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+
+    mTime = ncread(file, 'measurement_time');
 end
 
 data.filenameStartTime = pollyParseFiletime(file, p.Results.dataFileFormat);
