@@ -134,12 +134,13 @@ try
         liconst = cat(2, liconst, thisLiconst);
         liconstStd = cat(2, liconstStd, thisLiconstStd);
     end
+
+    rs.close;
 catch ME
     warning(ME.message);
 end
 
 %% close connection
-rs.close;
 stmt.close;
 conn.close;
 

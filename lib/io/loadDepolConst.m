@@ -121,12 +121,13 @@ try
         depolconst = cat(2, depolconst, thisDepolconst);
         depolconstStd = cat(2, depolconstStd, thisDepolconstStd);
     end
+
+    rs.close;
 catch ME
     warning(ME.message);
 end
 
 %% close connection
-rs.close;
 stmt.close;
 conn.close;
 

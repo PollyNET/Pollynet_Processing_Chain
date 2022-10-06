@@ -132,13 +132,14 @@ try
         instrumentMeasTime = cat(2, instrumentMeasTime, datenum(thisInstrumentMeasTime, 'yyyy-mm-dd HH:MM:SS'));
         wvconst = cat(2, wvconst, thisWvconst);
         wvconstStd = cat(2, wvconstStd, thisWvconstStd);
-    end
+    end 
+
+    rs.close;
 catch ME
     warning(ME.message);
 end
 
 %% close connection
-rs.close;
 stmt.close;
 conn.close;
 
