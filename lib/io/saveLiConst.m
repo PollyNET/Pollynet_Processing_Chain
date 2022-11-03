@@ -55,7 +55,7 @@ stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq1_index ON ', ...
 %% insert data
 for iLC = 1:length(liconst)
 
-    if isnan(liconst(iLC))
+    if isnan(liconst(iLC)) || isnan(liconstStd(iLC))
         continue;
     end
 

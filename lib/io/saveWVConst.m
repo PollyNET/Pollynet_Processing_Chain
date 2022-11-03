@@ -62,7 +62,7 @@ stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq2_index ON ', ...
 %% insert data
 for iWVCali = 1:length(wvconst)
 
-    if isnan(wvconst(iWVCali))
+    if isnan(wvconst(iWVCali)) || isnan(wvconstStd(iWVCali))
         continue;
     end
 
