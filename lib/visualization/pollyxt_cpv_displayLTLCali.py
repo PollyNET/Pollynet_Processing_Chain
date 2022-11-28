@@ -227,6 +227,14 @@ def pollyxt_cpv_displayLTLCali(tmpFile, saveFolder):
             flagCH532FR = mat['flagCH532FR'][0][:]
         else:
             flagCH532FR = np.array([])
+        if mat['flagCH355NR'].size:
+                flagCH355NR = mat['flagCH355NR'][0][:]
+        else:
+                flagCH355NR = np.array([])
+        if mat['flagCH532NR'].size:
+            flagCH532NR = mat['flagCH532NR'][0][:]
+        else:
+            flagCH532NR = np.array([])
         if mat['flagCH1064FR'].size:
             flagCH1064FR = mat['flagCH1064FR'][0][:]
         else:
