@@ -30,7 +30,5 @@ package-lock.json
 package.json
 
 # untracked folders
-#config
+config
 data
-lib/misc/pollyChannelTags.m.bak
-lib/visualization/pollyDisplayDRRaman.py.bak

@@ -17,7 +17,7 @@ function [files, filesize] = listfile(inPath, exppat, depth)
 %
 % OUTPUTS:
 %    files: cell array
-%        the searched items.
+%        absolute paths of the matched items.
 %    filesize: cell array
 %        the size the searched items. [bytes]
 %

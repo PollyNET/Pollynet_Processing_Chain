@@ -98,6 +98,39 @@ case 2   % MUA radiosonde standard file
                 datestr(measurementTime, 'yyyymmdd HH:MM:SS'), ...
                 datestr(sondeTime(indxSondeFile), 'yyyymmdd HH:MM:SS'));
     end
+    
+    case 3 %Mosaic new
+        
+    sondeFileList = listfile(sondeFolder,'.txt');  % Changed by Cristofer
+    
+       
+    if isempty(sondeFileList)
+        warning(['No required radiosonde files was found in the sonde folder. ' ...
+                'Please go to the folder below to have a look.\n%s'], sondeFolder);
+        return;
+    end
+
+    %% parse the radiosonde time
+    sondeTime = NaN(size(sondeFileList));
+    for iFile = 1:length(sondeFileList)
+        filenameISondeFile = basename(sondeFileList{iFile});
+        sondeTime(iFile) = datenum(filenameISondeFile(11:20), 'yyyymmddHH');
+
+    end
+
+    %% search the sounding file which is closest to the measurement time
+    deltaTime = abs(sondeTime - measurementTime);
+    [minDeltaTime, indxSondeFile] = min(deltaTime);
+    % determine whether the time lapse is out of range (max T diff: 1 day)
+    if minDeltaTime < datenum(0, 1, 1, 0, 0, 0)
+        sondeFile = sondeFileList{indxSondeFile};
+    else
+        warning(['There was no sonde launching within 1 day.\n' ...
+                'The measurement time: %s\nThe closest time of sonding: %s'], ...
+                datestr(measurementTime, 'yyyymmdd HH:MM:SS'), ...
+                datestr(sondeTime(indxSondeFile), 'yyyymmdd HH:MM:SS'));
+    end
+        
 
 otherwise
     error('Unknown fileType %d', fileType);

@@ -272,7 +272,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     %% backscatter (Raman method based on near-field signal)
     if ((sum(flag355NR) == 1) || (sum(flag532NR) == 1)) && ((sum(flag387NR) == 1) || (sum(flag607NR) == 1))
-        print_msg('--> backscatter (Roaman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        print_msg('--> backscatter (Raman method based on near-field signal).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
         aerBsc355_NR_raman = data.aerBsc355_NR_raman(iGrp, :);
         aerBsc532_NR_raman = data.aerBsc532_NR_raman(iGrp, :);
         aerBsc_355_raman = data.aerBsc355_raman(iGrp, :);

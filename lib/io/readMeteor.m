@@ -176,9 +176,19 @@ otherwise
           p.Results.meteorDataSource)
 end
 
-% if predefined data source is not available (empty, NaN, or only 1 height level), choose standard atmosphere.
+% check if derivation of height values in alt is always positiv
+alt_diff_is_pos=1;
+for h = 1:length(alt)-1
+    alt_diff = alt(h+1) - alt(h);
+    if alt_diff <= 0
+        alt_diff_is_pos=0;
+        break
+    end
+end
+
 %disp(alt)
-if isempty(alt) || (all(isnan(alt))) || (length(unique(alt)) < 2)
+% if predefined data source is not available (empty, NaN, only 1 height level or derivation of alt is negativ), choose standard atmosphere.
+if isempty(alt) || (all(isnan(alt))) || (length(unique(alt)) < 2 || alt_diff_is_pos == 0)
     fprintf(['The meteorological data of %s is not ready.\n' ...
              'Use standard_atmosphere data as a replacement.\n'], ...
              p.Results.meteorDataSource);

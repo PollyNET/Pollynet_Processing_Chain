@@ -116,6 +116,8 @@ catch
     return;
 end
 
+
+
 if p.Results.flagDeleteData
     delete(file);
 end
@@ -143,17 +145,30 @@ if p.Results.flagFilterFalseMShots
             depCalAng = depCalAng(~ flagFalseShots);
         end
     end
-
 elseif p.Results.flagCorrectFalseMShots
-    mShots(:, flagFalseShots) = mShotsPer30s;
+    % check measurement time
     mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
-                       datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
+                           datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
     [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
-                       datevec(mTimeStart);
-    mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
-    mTime(2, :) = thisHour * 3600 + ...
-                 thisMinute * 60 + ...
-                 thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+                           datevec(mTimeStart);
+    mTime_file(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
+
+    if mTime_file(1, :) == mTime(1, :)
+        fprintf('Measurement time will be read from within nc-file.\n%s\n', file);
+        mTime = ncread(file, 'measurement_time');
+    else
+        warning('Measurement time will be read from filename (not from within nc-file).\n%s\n', file);
+        
+        mShots(:, flagFalseShots) = mShotsPer30s;
+%         mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
+%                            datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
+%         [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
+%                            datevec(mTimeStart);
+        mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
+        mTime(2, :) = thisHour * 3600 + ...
+                     thisMinute * 60 + ...
+                     thisSecond + 30 .* (0:(size(mTime, 2) - 1));
+    end
 end
 
 data.filenameStartTime = pollyParseFiletime(file, p.Results.dataFileFormat);
@@ -162,6 +177,8 @@ data.hRes = hRes;
 data.mSite = mSite;
 data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + ...
              datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
+
+
 data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;

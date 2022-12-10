@@ -66,8 +66,10 @@ if exist(p.Results.dbFile, 'file') ~= 2
     return;
 end
 
-conn = database(p.Results.dbFile, '', '', 'org:sqlite:JDBC', ...
-                sprintf('jdbc:sqlite:%s', p.Results.dbFile));
+jdbc = org.sqlite.JDBC;
+props = java.util.Properties;
+conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
+stmt = conn.createStatement;
 
 %% setup SQL query command
 
@@ -91,10 +93,7 @@ end
 % main command
 if p.Results.flagClosest
 
-    % return the closest calibration result
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT wv.cali_start_time, wv.cali_stop_time, ', ...
+     sqlStr = [sprintf(['SELECT wv.cali_start_time, wv.cali_stop_time, ', ...
                 'wv.standard_instrument, wv.standard_instrument_meas_time, ', ...
                 'wv.wv_const, wv.uncertainty_wv_const, wv.nc_zip_file, ', ...
                 'wv.polly_type FROM wv_calibration_constant wv ', ...
@@ -104,42 +103,44 @@ if p.Results.flagClosest
             sprintf(['ORDER BY ABS((strftime(''%%s'', wv.cali_start_time) + ', ...
                 'strftime(''%%s'', wv.cali_stop_time))/2 - ', ...
                 'strftime(''%%s'', ''%s'')) ASC LIMIT 1;'], ...
-            datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
-    catch ME
-        warning(ME.message);
-        data = [];
-    end
+            datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))];
 else
-    % return all qualified results
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT wv.cali_start_time, wv.cali_stop_time, ', ...
+    sqlStr = [sprintf(['SELECT wv.cali_start_time, wv.cali_stop_time, ', ...
                     'wv.standard_instrument, wv.standard_instrument_meas_time, ', ...
                     'wv.wv_const, wv.uncertainty_wv_const, wv.nc_zip_file, ', ...
                     'wv.polly_type FROM wv_calibration_constant wv ', ...
                     'WHERE (wv.polly_type = ''%s'') '], pollyType), ...
                     condWithinDeltaT, ...
                     condBeforeQuery, ...
-                    sprintf('ORDER BY (strftime(''%%s'', wv.cali_start_time) + strftime(''%%s'', wv.cali_stop_time))/2 ASC;')]);
-    catch ME
-        warning(ME.message);
-        data = [];
-    end
+                    sprintf('ORDER BY (strftime(''%%s'', wv.cali_start_time) + strftime(''%%s'', wv.cali_stop_time))/2 ASC;')];
+end
+
+try
+    rs = stmt.executeQuery(sqlStr);
+
+    while rs.next
+        thisStartTime = char(rs.getString('cali_start_time'));
+        thisStopTime = char(rs.getString('cali_stop_time'));
+        thisCaliInstrument = char(rs.getString('standard_instrument'));
+        thisInstrumentMeasTime = char(rs.getString('standard_instrument_meas_time'));
+        thisWvconst = double(rs.getDouble('wv_const'));
+        thisWvconstStd = double(rs.getDouble('uncertainty_wv_const'));
+
+        caliStartTime = cat(2, caliStartTime, datenum(thisStartTime, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(thisStopTime, 'yyyy-mm-dd HH:MM:SS'));
+        caliInstrument = cat(2, caliInstrument, thisCaliInstrument);
+        instrumentMeasTime = cat(2, instrumentMeasTime, datenum(thisInstrumentMeasTime, 'yyyy-mm-dd HH:MM:SS'));
+        wvconst = cat(2, wvconst, thisWvconst);
+        wvconstStd = cat(2, wvconstStd, thisWvconstStd);
+    end 
+
+    rs.close;
+catch ME
+    warning(ME.message);
 end
 
 %% close connection
-close(conn);
-
-if ~ isempty(data)
-    % when records were found
-    for iRow = 1:size(data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        caliInstrument = cat(2, caliInstrument, data(iRow, 3));
-        instrumentMeasTime = cat(2, instrumentMeasTime, datenum(data{iRow, 4}, 'yyyy-mm-dd HH:MM:SS'));
-        wvconst = cat(2, wvconst, data{iRow, 5});
-        wvconstStd = cat(2, wvconstStd, data{iRow, 6});
-    end
-end
+stmt.close;
+conn.close;
 
 end

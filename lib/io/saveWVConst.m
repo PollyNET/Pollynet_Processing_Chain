@@ -44,40 +44,29 @@ function saveWVConst(dbFile, wvconst, wvconstStd, WVCaliInfo, IWVAttri, ...
 %
 % .. Authors: - zhenping@tropos.de
 
-%% check matlab version to set correct database connection parameters
-release = strsplit(version, '(');
-release = regexp(release{2},'[0-9]{4}','match');
-release = release{1};
-release = uint16(str2num(release));
-
-if release < 2018
-    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-    set(conn, 'AutoCommit', 'off');
-else
-    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile),'AutoCommit', 'off');
-end
-
-commit(conn);
+jdbc = org.sqlite.JDBC;
+props = java.util.Properties;
+conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
+stmt = conn.createStatement;
 
 %% create table
-exec(conn, ['CREATE TABLE IF NOT EXISTS wv_calibration_constant ', ...
+stmt.executeUpdate(['CREATE TABLE IF NOT EXISTS wv_calibration_constant ', ...
             '(id INTEGER PRIMARY KEY AUTOINCREMENT, cali_start_time TEXT, ', ...
             'cali_stop_time TEXT, standard_instrument TEXT, ', ...
             'standard_instrument_meas_time TEXT, wv_const REAL, ', ...
-            'uncertainty_wv_const REAL, nc_zip_file TEXT, polly_type TEXT);'], 3);
-exec(conn, ['CREATE UNIQUE INDEX IF NOT EXISTS uniq2_index ON ', ...
+            'uncertainty_wv_const REAL, nc_zip_file TEXT, polly_type TEXT);']);
+stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq2_index ON ', ...
             'wv_calibration_constant(cali_start_time, cali_stop_time, ', ...
-            'standard_instrument, polly_type);'], 3);
-commit(conn);
+            'standard_instrument, polly_type);']);
 
 %% insert data
 for iWVCali = 1:length(wvconst)
 
-    if isnan(wvconst(iWVCali))
+    if isnan(wvconst(iWVCali)) || isnan(wvconstStd(iWVCali))
         continue;
     end
 
-    exec(conn, sprintf(['INSERT OR REPLACE INTO wv_calibration_constant', ...
+    stmt.executeUpdate(sprintf(['INSERT OR REPLACE INTO wv_calibration_constant', ...
         '(cali_start_time, cali_stop_time, standard_instrument, ', ...
         'standard_instrument_meas_time, wv_const, uncertainty_wv_const, ', ...
         'nc_zip_file, polly_type) VALUES(''%s'', ''%s'', ''%s'', ', ...
@@ -89,11 +78,11 @@ for iWVCali = 1:length(wvconst)
     double(wvconst(iWVCali)), ...
     double(wvconstStd(iWVCali)), ...
     pollyDataFilename, ...
-    pollyType), 3);
+    pollyType));
 end
-commit(conn);
 
-%% close
-close(conn);
+%% close connection
+stmt.close;
+conn.close;
 
 end

@@ -30,40 +30,29 @@ function saveDepolConst(dbFile, depolconst, depolconstStd, ...
 %
 % .. Authors: - zhenping@tropos.de
 
-%% check matlab version to set correct database connection parameters
-release = strsplit(version, '(');
-release = regexp(release{2},'[0-9]{4}','match');
-release = release{1};
-release = uint16(str2num(release));
-
-if release < 2018
-    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile));
-    set(conn, 'AutoCommit', 'off');
-else
-    conn = database(dbFile, '', '', 'org:sqlite:JDBC', sprintf('jdbc:sqlite:%s', dbFile),'AutoCommit', 'off');
-end
-
-commit(conn);
+jdbc = org.sqlite.JDBC;
+props = java.util.Properties;
+conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
+stmt = conn.createStatement;
 
 %% create table
-exec(conn, ['CREATE TABLE IF NOT EXISTS depol_calibration_constant ', ...
+stmt.executeUpdate(['CREATE TABLE IF NOT EXISTS depol_calibration_constant ', ...
             '(id INTEGER PRIMARY KEY AUTOINCREMENT, ', ...
             'cali_start_time TEXT, cali_stop_time TEXT, ', ...
             'depol_const REAL, uncertainty_depol_const REAL, ', ...
-            'wavelength TEXT, nc_zip_file TEXT, polly_type TEXT);'], 3);
-exec(conn, ['CREATE UNIQUE INDEX IF NOT EXISTS uniq_index ON ', ...
+            'wavelength TEXT, nc_zip_file TEXT, polly_type TEXT);']);
+stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq_index ON ', ...
             'depol_calibration_constant(cali_start_time, cali_stop_time, ', ...
-            'wavelength, polly_type);'], 3);
-commit(conn);
+            'wavelength, polly_type);']);
 
 %% insert data
 for iDC = 1:length(depolconst)
 
-    if isnan(depolconst(iDC))
+    if isnan(depolconst(iDC)) || isnan(depolconstStd(iDC))
         continue;
     end
 
-    exec(conn, sprintf(['INSERT OR REPLACE INTO depol_calibration_constant', ...
+    stmt.executeUpdate(sprintf(['INSERT OR REPLACE INTO depol_calibration_constant', ...
         '(cali_start_time, cali_stop_time,', ...
         'depol_const, uncertainty_depol_const, ', ...
         'wavelength, nc_zip_file, polly_type) VALUES(''%s'', ''%s'', ', ...
@@ -74,11 +63,11 @@ for iDC = 1:length(depolconst)
     double(depolconstStd(iDC)), ...
     wavelength, ...
     pollyDataFilename, ...
-    pollyType), 3);
+    pollyType));
 end
-commit(conn);
 
-%% close
-close(conn);
+%% close connection
+stmt.close;
+conn.close;
 
 end

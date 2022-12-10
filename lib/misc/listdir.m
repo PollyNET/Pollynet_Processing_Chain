@@ -14,7 +14,7 @@ function [dirs] = listdir(path, exppat, depth)
 %
 % OUTPUTS:
 %    dirs: cell array
-%        the searched items.
+%        absolute paths of the matched directories.
 %
 % HISTORY:
 %    - 2018-05-18: First edition by Zhenping.
