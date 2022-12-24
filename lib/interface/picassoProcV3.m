@@ -522,6 +522,7 @@ olAttri355.sigFR = [];
 olAttri355.sigNR = [];
 olAttri355.sigRatio = [];
 olAttri355.normRange = [];
+olAttri355.time = NaN;
 olFunc355 = NaN(length(data.height), 1);
 % olStd355 = NaN(length(data.height), 1);
 if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
@@ -536,6 +537,7 @@ if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
         'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
         'overlapCalMode', PollyConfig.overlapCalMode, ...
         'PC2PCR', PC2PCR);
+    olAttri355.time = nanmean(data.mTime);
 end
 
 % 387 nm
@@ -546,6 +548,7 @@ olAttri387.sigFR = [];
 olAttri387.sigNR = [];
 olAttri387.sigRatio = [];
 olAttri387.normRange = [];
+olAttri387.time = NaN;
 olFunc387 = NaN(length(data.height), 1);
 % olStd387 = NaN(length(data.height), 1);
 if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
@@ -560,6 +563,7 @@ if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
         'hFullOverlap', PollyConfig.heightFullOverlap(flag387FR), ...
         'overlapCalMode', PollyConfig.overlapCalMode, ...
         'PC2PCR', PC2PCR);
+    olAttri387.time = nanmean(data.mTime);
 end
 
 % 532 nm
@@ -570,6 +574,7 @@ olAttri532.sigFR = [];
 olAttri532.sigNR = [];
 olAttri532.sigRatio = [];
 olAttri532.normRange = [];
+olAttri532.time = NaN;
 olFunc532 = NaN(length(data.height), 1);
 % olStd532 = NaN(length(data.height), 1);
 if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
@@ -584,6 +589,7 @@ if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
         'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
         'overlapCalMode', PollyConfig.overlapCalMode, ...
         'PC2PCR', PC2PCR);
+    olAttri532.time = nanmean(data.mTime);
 end
 
 % 607 nm
@@ -594,6 +600,7 @@ olAttri607.sigFR = [];
 olAttri607.sigNR = [];
 olAttri607.sigRatio = [];
 olAttri607.normRange = [];
+olAttri607.time = [];
 olFunc607 = NaN(length(data.height), 1);
 % olStd607 = NaN(length(data.height), 1);
 if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
@@ -608,6 +615,7 @@ if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
         'hFullOverlap', PollyConfig.heightFullOverlap(flag607FR), ...
         'overlapCalMode', PollyConfig.overlapCalMode, ...
         'PC2PCR', PC2PCR);
+    olAttri607.time = nanmean(data.mTime);
 end
 
 % 1064 nm
@@ -617,6 +625,7 @@ olAttri1064.sigFR = [];
 olAttri1064.sigNR = [];
 olAttri1064.sigRatio = [];
 olAttri1064.normRange = [];
+olAttri1064.time = NaN;
 olFunc1064 = NaN(length(data.height), 1);
 % olStd1064 = NaN(length(data.height), 1);
 if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
