@@ -25,6 +25,8 @@ function data = pollyPreprocess(data, varargin)
 %            measurement site.
 %
 % KEYWORDS:
+%    deltaT: numeric
+%        integration time (in seconds) for single profile. (default: 30)
 %    flagForceMeasTime: logical
 %        flag to control whether to align measurement time with file creation
 %        time, instead of taking the measurement time in the data file.
@@ -163,6 +165,7 @@ p = inputParser;
 p.KeepUnmatched = true;
 
 addRequired(p, 'data', @isstruct);
+addParameter(p, 'deltaT', 30, @isnumeric);
 addParameter(p, 'flagForceMeasTime', false, @islogical);
 addParameter(p, 'maxHeightBin', 3000, @isnumeric);
 addParameter(p, 'firstBinIndex', 1, @isnumeric);
@@ -213,15 +216,15 @@ if (max(config.maxHeightBin + config.firstBinIndex - 1) > size(data.rawSignal, 2
     config.firstBinIndex = 251;
 end
 
-%% Re-sample the temporal grid to 30 s, if it's not in 30s.
-mShotsPer30s = 30 * data.repRate;
-nInt = round(mShotsPer30s / nanmean(data.mShots(1, :), 2));   % number of profiles to be
+%% Re-sample the temporal grid to defined temporal grid with interval of deltaT
+mShotsPerPrf = p.Results.deltaT * data.repRate;
+nInt = round(mShotsPerPrf / nanmean(data.mShots(1, :), 2));   % number of profiles to be
                                                               % integrated. Usually, 600
                                                               % shots per 30 s
 
 if nInt > 1
-    % if shots of single profile is less than mShotsPer30s
-    warning('MShots for single profile is not %4.0f... Please check!!!', mShotsPer30s);
+    % if shots of single profile is less than mShotsPerPrf
+    warning('MShots for single profile is not %4.0f... Please check!!!', mShotsPerPrf);
 
     nProfInt = floor(size(data.mShots, 2) / nInt);
     mShotsInt = NaN(size(data.mShots, 1), nProfInt);
@@ -232,7 +235,7 @@ if nInt > 1
     for iProfInt = 1:nProfInt
         profIndx = ((iProfInt - 1) * nInt + 1):(iProfInt * nInt);
         mShotsInt(:, iProfInt) = nansum(data.mShots(:, profIndx), 2);
-        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(mShotsPer30s / data.repRate * (iProfInt - 1)));
+        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(mShotsPerPrf / data.repRate * (iProfInt - 1)));
         rawSignalInt(:, :, iProfInt) = repmat(nansum(data.rawSignal(:, :, profIndx), 3), 1, 1, 1);
         if ~ isempty(data.depCalAng)
             depCalAngInt(iProfInt) = data.depCalAng(profIndx(1));
@@ -255,7 +258,7 @@ end
 %% Re-locate measurement time forcefully.
 if config.flagForceMeasTime
     data.mTime = data.filenameStartTime + ...
-                 datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
+                 datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * p.Results.deltaT);
 end
 
 %% Deadtime correction

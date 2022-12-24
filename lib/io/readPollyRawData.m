@@ -18,6 +18,8 @@ function [ data ] = readPollyRawData(file, varargin)
 %        the data.
 %    dataFileFormat: char
 %        parsing rules for polly data filename.
+%    deltaT: numeric
+%        integration time (in seconds) for single profile. (default: 30)
 %
 % OUTPUTS:
 %    data: struct
@@ -65,6 +67,7 @@ addParameter(p, 'flagFilterFalseMShots', false, @islogical);
 addParameter(p, 'flagCorrectFalseMShots', false, @islogical);
 addParameter(p, 'flagDeleteData', false, @islogical);
 addParameter(p, 'dataFileFormat', '', @ischar);
+addParameter(p, 'deltaT', 30, @isnumeric);
 
 parse(p, file, varargin{:});
 
@@ -116,21 +119,19 @@ catch
     return;
 end
 
-
-
 if p.Results.flagDeleteData
     delete(file);
 end
 
 % search the profiles with invalid mshots
-mShotsPer30s = 30 * repRate;
+mShotsPerPrf = p.Results.deltaT * repRate;
 flagFalseShots = false(1, size(mShots, 2));
 for iChannel = 1:size(mShots, 1)
-    tmp = (mShots(iChannel, :) > mShotsPer30s * 1.1) | (mShots(iChannel, :) <= 0);
+    tmp = (mShots(iChannel, :) > mShotsPerPrf * 1.1) | (mShots(iChannel, :) <= 0);
     flagFalseShots = flagFalseShots | tmp;
 end
 
-% filter non 30s profiles
+% wipe out profiles without required number of integrated laser shots.
 if p.Results.flagFilterFalseMShots
 
     if sum(~ flagFalseShots) == 0
@@ -145,10 +146,11 @@ if p.Results.flagFilterFalseMShots
             depCalAng = depCalAng(~ flagFalseShots);
         end
     end
+
 elseif p.Results.flagCorrectFalseMShots
     % check measurement time
     mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
-                           datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
+                           datenum(0, 1, 0, 0, 0, p.Results.deltaT)) * datenum(0, 1, 0, 0, 0, p.Results.deltaT);
     [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
                            datevec(mTimeStart);
     mTime_file(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
@@ -159,11 +161,7 @@ elseif p.Results.flagCorrectFalseMShots
     else
         warning('Measurement time will be read from filename (not from within nc-file).\n%s\n', file);
         
-        mShots(:, flagFalseShots) = mShotsPer30s;
-%         mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
-%                            datenum(0,1,0,0,0,30)) * datenum(0,1,0,0,0,30);
-%         [thisYear, thisMonth, thisDay, thisHour, thisMinute, thisSecond] = ...
-%                            datevec(mTimeStart);
+        mShots(:, flagFalseShots) = mShotsPerPrf;
         mTime(1, :) = thisYear * 1e4 + thisMonth * 1e2 + thisDay;
         mTime(2, :) = thisHour * 3600 + ...
                      thisMinute * 60 + ...
@@ -177,7 +175,6 @@ data.hRes = hRes;
 data.mSite = mSite;
 data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + ...
              datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
-
 
 data.mShots = double(mShots);
 data.depCalAng = depCalAng;
