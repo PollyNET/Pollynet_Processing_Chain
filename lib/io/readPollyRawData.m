@@ -157,7 +157,7 @@ elseif p.Results.flagCorrectFalseMShots
 
     if mTime_file(1, :) == mTime(1, :)
         fprintf('Measurement time will be read from within nc-file.\n%s\n', file);
-        mTime = ncread(file, 'measurement_time');
+        % mTime = ncread(file, 'measurement_time'); %cause problems when deleting files flag was on
     else
         warning('Measurement time will be read from filename (not from within nc-file).\n%s\n', file);
         
