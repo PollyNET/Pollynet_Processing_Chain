@@ -3159,11 +3159,11 @@ end
 
 %% retrieve high resolution WVMR and RH
 WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
-WMVR_error = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
 RH = NaN(size(data.signal, 2), size(data.signal, 3));
 quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
-
+ones_WV=  ones(size(data.signal, 2), size(data.signal, 3));
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 
@@ -3225,7 +3225,11 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
-    WVMR_error = ((SNR(flag387, :, :)).^(-2)+(SNR(flag407, :, :)).^(-2)+(wvconstUsedStd).^2./(wvconstUsed).^2).* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    ztt=(squeeze(SNR(flag387, :, :))).^(-2);
+    zzz=(squeeze(SNR(flag407, :, :))).^(-2);
+    ztz=(ones_WV*(wvconstUsedStd).^2./(wvconstUsed)).^2;
+    ziio=WVMR;
+    WVMR_error = ((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*(wvconstUsedStd).^2./(wvconstUsed)).^2).* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
