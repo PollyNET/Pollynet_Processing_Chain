@@ -3143,7 +3143,7 @@ for iGrp = 1:size(clFreGrps, 1)
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
     
-    wvmr_error(iGrp, :) = (SNR387)^(-2)+(SNR407)^(-2)+(wvconstUsedStd)^2./(wvconstUsed)^2)* wvmr(iGrp, :);
+    wvmr_error(iGrp, :) = (SNR387)^(-2)+(SNR407)^(-2)+(wvconstUsedStd)^2./((wvconstUsed)^2).*wvmr(iGrp, :);
     rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
