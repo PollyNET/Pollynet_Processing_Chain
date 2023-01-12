@@ -3144,7 +3144,7 @@ for iGrp = 1:size(clFreGrps, 1)
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
     
-    wvmr_rel_error(iGrp, :) = (SNR387).^(-2)+(SNR407).^(-2)+(wvconstUsedStd).^2./((wvconstUsed).^2);
+    wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
     rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
@@ -3226,7 +3226,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
-    WVMR_error = ((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*(wvconstUsedStd).^2./(wvconstUsed)).^2).* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2)).* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
@@ -4584,6 +4584,7 @@ data.pdr1064_raman = pdr1064_raman;
 data.pdrStd1064_klett = pdrStd1064_klett;
 data.pdrStd1064_raman = pdrStd1064_raman;
 data.wvmr = wvmr;
+data.wvmr_error = wvmr_error;
 data.rh = rh;
 data.wvconstUsed = wvconstUsed;
 data.wvconstUsedStd = wvconstUsedStd;
@@ -4708,6 +4709,7 @@ data.vdr355 = vdr355;
 data.vdr532 = vdr532;
 data.vdr1064 = vdr1064;
 data.WVMR = WVMR;
+data.WVMR_error = WVMR_error;
 data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
 data.quality_mask_RH = quality_mask_RH;
