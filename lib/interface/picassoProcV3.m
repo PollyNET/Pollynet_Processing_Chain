@@ -3095,6 +3095,7 @@ end
 % obtain averaged water vapor profiles
 wvmr = NaN(size(clFreGrps, 1), length(data.height));
 wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
+wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
 rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
@@ -3143,7 +3144,7 @@ for iGrp = 1:size(clFreGrps, 1)
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
     
-    wvmr_error(iGrp, :) = (SNR387).^(-2)+(SNR407).^(-2)+(wvconstUsedStd).^2./((wvconstUsed).^2).*wvmr(iGrp, :);
+    wvmr_rel_error(iGrp, :) = (SNR387).^(-2)+(SNR407).^(-2)+(wvconstUsedStd).^2./((wvconstUsed).^2);
     rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
@@ -3156,7 +3157,7 @@ for iGrp = 1:size(clFreGrps, 1)
     wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
 
 end
-
+wvmr_error=wvmr_rel_error.*wvmr;
 %% retrieve high resolution WVMR and RH
 WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));

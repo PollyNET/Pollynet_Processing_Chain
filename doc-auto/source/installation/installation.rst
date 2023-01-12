@@ -72,6 +72,8 @@ It's recommended to use `Anaconda`_ for managing Python. Meanwhile, `matplotlib`
 
 SQLite is necessary for saving lidar calibration results. The `Java`_ connector has been provided in the folder of **./include**. But it needs to restart Matlab to activate this `Java`_ connector.
 
+NOTE: one has to run **addSQLiteJDBC('path_to\sqlite-jdbc-3.30.1.jar')** once!
+
 
 .. _Java: https://www.sqlitetutorial.net/sqlite-java/sqlite-jdbc-driver/
 .. _Anaconda: https://www.anaconda.com/products/individual
