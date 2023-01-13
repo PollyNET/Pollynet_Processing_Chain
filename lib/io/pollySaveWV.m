@@ -38,7 +38,9 @@ varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
 varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_FLOAT', [dimID_height, dimID_time]);
-varID_WVMR_error = netcdf.defVar(ncID, 'WVMR_error', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_WVMR_no_QC = netcdf.defVar(ncID, 'WVMR_no_QC', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_uncertainty_WVMR = netcdf.defVar(ncID, 'uncertainty_WVMR', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_WVMR_rel_error = netcdf.defVar(ncID, 'WVMR_rel_error', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_SNR_387 = netcdf.defVar(ncID, 'SNR_387nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_SNR_407 = netcdf.defVar(ncID, 'SNR_407nm', 'NC_FLOAT', [dimID_height, dimID_time]);
@@ -50,14 +52,17 @@ if isfield(data, 'quality_mask_RH')
 end
 % define the filling value
 netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
-netcdf.defVarFill(ncID, varID_WVMR_error, false, missing_value);
+netcdf.defVarFill(ncID, varID_WVMR_no_QC, false, missing_value);
+netcdf.defVarFill(ncID, varID_uncertainty_WVMR, false, missing_value);
+netcdf.defVarFill(ncID, varID_WVMR_rel_error, false, missing_value);
 netcdf.defVarFill(ncID, varID_RH, false, missing_value);
 netcdf.defVarFill(ncID, varID_SNR_387, false, missing_value);
 netcdf.defVarFill(ncID, varID_SNR_407, false, missing_value);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_WVMR_error, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_uncertainty_WVMR, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_WVMR_rel_error, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_SNR_387, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_SNR_407, true, true, 5);
@@ -74,8 +79,9 @@ netcdf.putVar(ncID, varID_height, single(data.height));
 netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.WVMR, missing_value)));	
-netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.WVMR_rel_error, missing_value)));	%temporarily stored relative error for validation
-
+netcdf.putVar(ncID, varID_WVMR_no_QC, single(fillmissing(data.WVMR_no_QC, missing_value)));	
+netcdf.putVar(ncID, varID_uncertainty_WVMR, single(fillmissing(data.WVMR_error, missing_value)));	%temporarily stored relative error for validation
+netcdf.putVar(ncID, varID_WVMR_rel_error, single(fillmissing(data.WVMR_rel_error, missing_value)));
 netcdf.putVar(ncID, varID_RH, single(fillmissing(data.RH, missing_value)));
 
 if sum(flag387) == 1
@@ -138,30 +144,58 @@ netcdf.putAtt(ncID, varID_tilt_angle, 'standard_name', 'tilt_angle');
 % WVMR
 netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
 netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
-netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio');
+netcdf.putAtt(ncID, varID_WVMR, 'long_name', 'water vapor mixing ratio with Quality mask applied');
 netcdf.putAtt(ncID, varID_WVMR, 'standard_name', 'WVMR');
 netcdf.putAtt(ncID, varID_WVMR, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
 netcdf.putAtt(ncID, varID_WVMR, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_WVMR, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
-% netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
+% netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'uncertainty_WVMR');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
 thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
 netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
+% WVMR_no_QC
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'unit', 'g kg^-1');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'unit_html', 'g kg<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'long_name', 'water vapor mixing ratio without Quality Checks');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'standard_name', 'WVMR_no_QC');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'plot_range', PollyConfig.xLim_Profi_WVMR);
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'wv_calibration_constant_used', data.wvconstUsed);
+% netcdf.putAtt(ncID, varID_WVMR_no_QC, 'error_variable', 'uncertainty_WVMR_no_QC');
+% netcdf.putAtt(ncID, varID_WVMR_no_QC, 'bias_variable', 'WVMR_no_QC_bias');
+thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+netcdf.putAtt(ncID, varID_WVMR_no_QC, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+
 % WVMR_error
-netcdf.putAtt(ncID, varID_WVMR_error, 'unit', 'g kg^-1');
-netcdf.putAtt(ncID, varID_WVMR_error, 'unit_html', 'g kg<sup>-1</sup>');
-netcdf.putAtt(ncID, varID_WVMR_error, 'long_name', 'water vapor mixing ratio');
-netcdf.putAtt(ncID, varID_WVMR_error, 'standard_name', 'WVMR_error');
-netcdf.putAtt(ncID, varID_WVMR_error, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
-netcdf.putAtt(ncID, varID_WVMR_error, 'plot_scale', 'linear');
-netcdf.putAtt(ncID, varID_WVMR_error, 'source', CampaignConfig.name);
-netcdf.putAtt(ncID, varID_WVMR_error, 'wv_calibration_constant_used', data.wvconstUsed);
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'unit', 'g kg^-1');
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'long_name', 'absolute error of the water vapor mixing ratio');
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'standard_name', 'uncertainty_WVMR');
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'plot_range', PollyConfig.xLim_Profi_WV_RH/10);
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
 % netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
 thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
-netcdf.putAtt(ncID, varID_WVMR_error, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+netcdf.putAtt(ncID, varID_uncertainty_WVMR, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+
+% WVMR_rel_error
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'unit', '1');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'unit_html', '1');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'long_name', 'relative error of the water vapor mixing ratio');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'standard_name', 'WVMR_rel_error');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'plot_range', [0, 1]);
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'wv_calibration_constant_used', data.wvconstUsed);
+% netcdf.putAtt(ncID, varID_WVMR, 'error_variable', 'WVMR_error');
+% netcdf.putAtt(ncID, varID_WVMR, 'bias_variable', 'WVMR_bias');
+thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+netcdf.putAtt(ncID, varID_WVMR_rel_error, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
 
 % RH
