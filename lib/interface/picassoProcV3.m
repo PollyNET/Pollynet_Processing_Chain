@@ -3161,6 +3161,7 @@ wvmr_error=wvmr_rel_error.*wvmr;
 %% retrieve high resolution WVMR and RH
 WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_rel_error = NaN(size(data.signal, 2), size(data.signal, 3));
 RH = NaN(size(data.signal, 2), size(data.signal, 3));
 quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
@@ -3226,7 +3227,8 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
-    WVMR_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2)).* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_error = WVMR_rel_error.* WVMR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
@@ -4585,6 +4587,7 @@ data.pdrStd1064_klett = pdrStd1064_klett;
 data.pdrStd1064_raman = pdrStd1064_raman;
 data.wvmr = wvmr;
 data.wvmr_error = wvmr_error;
+data.wvmr_rel_error = wvmr__rel_error;
 data.rh = rh;
 data.wvconstUsed = wvconstUsed;
 data.wvconstUsedStd = wvconstUsedStd;
@@ -4710,6 +4713,7 @@ data.vdr532 = vdr532;
 data.vdr1064 = vdr1064;
 data.WVMR = WVMR;
 data.WVMR_error = WVMR_error;
+data.WVMR_rel_error = WVMR_rel_error;
 data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
 data.quality_mask_RH = quality_mask_RH;

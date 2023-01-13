@@ -74,7 +74,7 @@ netcdf.putVar(ncID, varID_height, single(data.height));
 netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.WVMR, missing_value)));	
-netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.WVMR_error, missing_value)));	
+netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.WVMR_rel_error, missing_value)));	%temporarily stored relative error for validation
 
 netcdf.putVar(ncID, varID_RH, single(fillmissing(data.RH, missing_value)));
 

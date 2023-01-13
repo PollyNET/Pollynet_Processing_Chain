@@ -443,7 +443,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putVar(ncID, varID_pdrStd_raman_1064, single(fillmissing(data.pdrStd1064_raman(iGrp, :), missing_value)));
     
     netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.wvmr(iGrp, :), missing_value)));
-    netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.wvmr_error(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.wvmr_rel_error(iGrp, :), missing_value)));%temporarily stored relative error for validation
     netcdf.putVar(ncID, varID_RH, single(fillmissing(data.rh(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_temperature, single(fillmissing(data.temperature(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pressure, single(fillmissing(data.pressure(iGrp, :), missing_value)));
