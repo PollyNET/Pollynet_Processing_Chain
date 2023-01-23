@@ -296,11 +296,10 @@ if config.flagSigTempCor
         'method', 'linear', ...
         'isUseLatestGDAS', config.flagUseLatestGDAS);
     absTemp = temperature + 273.17;
-    
-    syms T
+
     for iCh = 1:size(data.signal, 1)
-	corFunc = sym(config.tempCorFunc{iCh});
-        corFac = double(subs(corFunc, T, absTemp));
+        corFunc = str2func(config.tempCorFunc{iCh});
+        corFac = corFunc(absTemp);
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
 end
