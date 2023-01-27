@@ -218,9 +218,13 @@ end
 
 %% Re-sample the temporal grid to defined temporal grid with interval of deltaT
 mShotsPerPrf = p.Results.deltaT * data.repRate;
-nInt = round(p.Results.deltaT / (nanmean(diff(data.mTime))*24*3600));   % number of profiles to be
-                                                                        % integrated. Usually, 600
-                                                                        % shots per 30 s
+if (length(data.mTime) > 1)
+    nInt = round(p.Results.deltaT / (nanmean(diff(data.mTime)) * 24 * 3600));   % number of profiles to be
+                                                                            % integrated. Usually, 600
+                                                                            % shots per 30 s
+else
+    nInt = round(mShotsPerPrf / nanmean(data.mShots(1, :), 2));
+end
 
 if nInt > 1
     % if shots of single profile is less than mShotsPerPrf
