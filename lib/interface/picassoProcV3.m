@@ -3161,6 +3161,7 @@ end
 wvmr_error=wvmr_rel_error.*wvmr;
 %% retrieve high resolution WVMR and RH
 WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
 WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
 WVMR_rel_error = NaN(size(data.signal, 2), size(data.signal, 3));
 RH = NaN(size(data.signal, 2), size(data.signal, 3));
