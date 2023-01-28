@@ -302,7 +302,16 @@ if config.flagSigTempCor
     absTemp = temperature + 273.17;
 
     for iCh = 1:size(data.signal, 1)
-        corFunc = str2func(config.tempCorFunc{iCh});
+        leadingChar = config.tempCorFunc{iCh}(1);
+        if (leadingChar == '@')
+            % valid matlab anonymous function
+            tempCorFunc = config.tempCorFunc{iCh};
+        else
+            tempCorFunc = vectorize(['@(T) ', '(', config.tempCorFunc{iCh}, ') .* ones(size(T))']);
+            % fprintf('%s is not a valid matlab anonymous function. Redefine it as %s\n', config.tempCorFunc{iCh}, tempCorFunc);
+        end
+
+        corFunc = str2func(tempCorFunc);
         corFac = corFunc(absTemp);
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
