@@ -2475,40 +2475,21 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 
-%% Volume depolarization ratio at 355 nm
-vdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-
-for iGrp = 1:size(clFreGrps, 1)
-
-    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1)
-        continue;
-    end
-
-    sig355T = squeeze(sum(data.signal(flag355T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg355T = squeeze(sum(data.bg(flag355T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    sig355C = squeeze(sum(data.signal(flag355C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg355C = squeeze(sum(data.bg(flag355C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-
-    [thisVdr355_klett, thisVdrStd355_klett] = pollyVDR(sig355T, bg355T, sig355C, bg355C, ...
-        PollyConfig.TR(flag355T), 0, ...
-        PollyConfig.TR(flag355C), 0, ...
-        polCaliFac355, polCaliFacStd355, PollyConfig.smoothWin_klett_355);
-    [thisVdr355_raman, thisVdrStd355_raman] = pollyVDR(sig355T, bg355T, sig355C, bg355C, ...
-        PollyConfig.TR(flag355T), 0, ...
-        PollyConfig.TR(flag355C), 0, ...
-        polCaliFac355, polCaliFacStd355, PollyConfig.smoothWin_raman_355);
-
-    vdr355_klett(iGrp, :) = thisVdr355_klett;
-    vdrStd355_klett(iGrp, :) = thisVdrStd355_klett;
-    vdr355_raman(iGrp, :) = thisVdr355_raman;
-    vdrStd355_raman(iGrp, :) = thisVdrStd355_raman;
-end
+%% Volume depolarization ratio at 355 nm new impelemntation 
+%%Klett
+flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+polCaliFac=polCaliFac355;
+polCaliFacStd= polCaliFacStd355;
+smoothWin=PollyConfig.smoothWin_klett_355;
+[vdr355_klett,vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig)
+%Raman
+flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+polCaliFac=polCaliFac355;
+polCaliFacStd= polCaliFacStd355;
+smoothWin=PollyConfig.smoothWin_raman_355;
+[vdr355_raman,vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig)
 
 %% Volume depolarization ratio at 532 nm
 vdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2581,6 +2562,8 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Particle depolarization ratio at 355 nm
+flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
 pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -3094,7 +3077,9 @@ end
 
 % obtain averaged water vapor profiles
 wvmr = NaN(size(clFreGrps, 1), length(data.height));
+wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
 wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
+wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
 rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
@@ -3129,8 +3114,7 @@ for iGrp = 1:size(clFreGrps, 1)
     % calculate wvmr and rh
     wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
     
-    
-    el387 = squeeze(data.signal(flag387, :, :));
+     el387 = squeeze(data.signal(flag387, :, :));
     bgEl387 = squeeze(data.bg(flag387, :, :));
     sig387 = squeeze(sum(el387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg387 = squeeze(sum(bgEl387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
@@ -3142,8 +3126,9 @@ for iGrp = 1:size(clFreGrps, 1)
     SNR407  = pollySNR(sig407, bg407);
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
-    
-    wvmr_error(iGrp, :) = (SNR387)^(-2)+(SNR407)^(-2)+(wvconstUsedStd)^2./(wvconstUsed)^2)* wvmr(iGrp, :);
+    wvmr_no_QC(iGrp, :)=wvmr(iGrp, :);
+    wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
+    wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
     rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
@@ -3156,14 +3141,16 @@ for iGrp = 1:size(clFreGrps, 1)
     wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
 
 end
-
+wvmr_error=wvmr_rel_error.*wvmr;
 %% retrieve high resolution WVMR and RH
 WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
-WMVR_error = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
+WVMR_rel_error = NaN(size(data.signal, 2), size(data.signal, 3));
 RH = NaN(size(data.signal, 2), size(data.signal, 3));
 quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
-
+ones_WV=  ones(size(data.signal, 2), size(data.signal, 3));
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 
@@ -3225,7 +3212,10 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
-    WMVR_error = ((SNR(flag387, :, :))^(-2)+(SNR(flag407, :, :))^(-2)+(wvconstUsedStd)^2./(wvconstUsed)^2)* WMVR;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_no_QC = WVMR;
+    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR (quality_mask_WVMR>0)=NaN;
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
@@ -4583,6 +4573,9 @@ data.pdr1064_raman = pdr1064_raman;
 data.pdrStd1064_klett = pdrStd1064_klett;
 data.pdrStd1064_raman = pdrStd1064_raman;
 data.wvmr = wvmr;
+data.wvmr_no_QC = wvmr_no_QC;
+data.wvmr_error = wvmr_error;
+data.wvmr_rel_error = wvmr_rel_error;
 data.rh = rh;
 data.wvconstUsed = wvconstUsed;
 data.wvconstUsedStd = wvconstUsedStd;
@@ -4707,6 +4700,9 @@ data.vdr355 = vdr355;
 data.vdr532 = vdr532;
 data.vdr1064 = vdr1064;
 data.WVMR = WVMR;
+data.WVMR_no_QC = WVMR_no_QC;
+data.WVMR_error = WVMR_error;
+data.WVMR_rel_error = WVMR_rel_error;
 data.RH = RH;
 data.quality_mask_WVMR = quality_mask_WVMR;
 data.quality_mask_RH = quality_mask_RH;
