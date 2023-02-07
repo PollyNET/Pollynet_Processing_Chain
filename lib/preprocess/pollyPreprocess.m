@@ -218,9 +218,13 @@ end
 
 %% Re-sample the temporal grid to defined temporal grid with interval of deltaT
 mShotsPerPrf = p.Results.deltaT * data.repRate;
-nInt = round(mShotsPerPrf / nanmean(data.mShots(1, :), 2));   % number of profiles to be
-                                                              % integrated. Usually, 600
-                                                              % shots per 30 s
+if (length(data.mTime) > 1)
+    nInt = round(p.Results.deltaT / (nanmean(diff(data.mTime)) * 24 * 3600));   % number of profiles to be
+                                                                            % integrated. Usually, 600
+                                                                            % shots per 30 s
+else
+    nInt = round(mShotsPerPrf / nanmean(data.mShots(1, :), 2));
+end
 
 if nInt > 1
     % if shots of single profile is less than mShotsPerPrf
@@ -296,11 +300,19 @@ if config.flagSigTempCor
         'method', 'linear', ...
         'isUseLatestGDAS', config.flagUseLatestGDAS);
     absTemp = temperature + 273.17;
-    
-    syms T
+
     for iCh = 1:size(data.signal, 1)
-	corFunc = sym(config.tempCorFunc{iCh});
-        corFac = double(subs(corFunc, T, absTemp));
+        leadingChar = config.tempCorFunc{iCh}(1);
+        if (leadingChar == '@')
+            % valid matlab anonymous function
+            tempCorFunc = config.tempCorFunc{iCh};
+        else
+            tempCorFunc = vectorize(['@(T) ', '(', config.tempCorFunc{iCh}, ') .* ones(size(T))']);
+            % fprintf('%s is not a valid matlab anonymous function. Redefine it as %s\n', config.tempCorFunc{iCh}, tempCorFunc);
+        end
+
+        corFunc = str2func(tempCorFunc);
+        corFac = corFunc(absTemp);
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
 end
