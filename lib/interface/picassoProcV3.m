@@ -2475,112 +2475,46 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 
-%% Volume depolarization ratio at 355 nm
-vdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
+%% Volume depolarization ratio at 355 nm new implemantation 
+%%Klett
+flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+polCaliFac=polCaliFac355;
+polCaliFacStd= polCaliFacStd355;
+smoothWin=PollyConfig.smoothWin_klett_355;
+[vdr355_klett,vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+%Raman
+smoothWin=PollyConfig.smoothWin_raman_355;
+[vdr355_raman,vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
-flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+%% Volume depolarization ratio at 532 nm new implemantation 
+%%Klett
+flagT = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flagC = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+polCaliFac=polCaliFac532;
+polCaliFacStd= polCaliFacStd532;
+smoothWin=PollyConfig.smoothWin_klett_532;
+[vdr532_klett,vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+%Raman
+smoothWin=PollyConfig.smoothWin_raman_532;
+[vdr532_raman,vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
-for iGrp = 1:size(clFreGrps, 1)
+%% Volume depolarization ratio at 1064 nm new implemantation 
+%%Klett
+flagT = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
+flagC = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+polCaliFac=polCaliFac1064;
+polCaliFacStd= polCaliFacStd1064;
+smoothWin=PollyConfig.smoothWin_klett_1064;
+[vdr1064_klett,vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+%Raman
+smoothWin=PollyConfig.smoothWin_raman_1064;
+[vdr1064_raman,vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
-    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1)
-        continue;
-    end
-
-    sig355T = squeeze(sum(data.signal(flag355T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg355T = squeeze(sum(data.bg(flag355T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    sig355C = squeeze(sum(data.signal(flag355C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg355C = squeeze(sum(data.bg(flag355C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-
-    [thisVdr355_klett, thisVdrStd355_klett] = pollyVDR(sig355T, bg355T, sig355C, bg355C, ...
-        PollyConfig.TR(flag355T), 0, ...
-        PollyConfig.TR(flag355C), 0, ...
-        polCaliFac355, polCaliFacStd355, PollyConfig.smoothWin_klett_355);
-    [thisVdr355_raman, thisVdrStd355_raman] = pollyVDR(sig355T, bg355T, sig355C, bg355C, ...
-        PollyConfig.TR(flag355T), 0, ...
-        PollyConfig.TR(flag355C), 0, ...
-        polCaliFac355, polCaliFacStd355, PollyConfig.smoothWin_raman_355);
-
-    vdr355_klett(iGrp, :) = thisVdr355_klett;
-    vdrStd355_klett(iGrp, :) = thisVdrStd355_klett;
-    vdr355_raman(iGrp, :) = thisVdr355_raman;
-    vdrStd355_raman(iGrp, :) = thisVdrStd355_raman;
-end
-
-%% Volume depolarization ratio at 532 nm
-vdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag532T = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-flag532C = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-
-for iGrp = 1:size(clFreGrps, 1)
-
-    if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1)
-        continue;
-    end
-
-    sig532T = squeeze(sum(data.signal(flag532T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg532T = squeeze(sum(data.bg(flag532T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    sig532C = squeeze(sum(data.signal(flag532C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg532C = squeeze(sum(data.bg(flag532C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-
-    [thisVdr532_klett, thisVdrStd532_klett] = pollyVDR(sig532T, bg532T, sig532C, bg532C, ...
-        PollyConfig.TR(flag532T), 0, ...
-        PollyConfig.TR(flag532C), 0, ...
-        polCaliFac532, polCaliFacStd532, PollyConfig.smoothWin_klett_532);
-    [thisVdr532_raman, thisVdrStd532_raman] = pollyVDR(sig532T, bg532T, sig532C, bg532C, ...
-        PollyConfig.TR(flag532T), 0, ...
-        PollyConfig.TR(flag532C), 0, ...
-        polCaliFac532, polCaliFacStd532, PollyConfig.smoothWin_raman_532);
-
-    vdr532_klett(iGrp, :) = thisVdr532_klett;
-    vdrStd532_klett(iGrp, :) = thisVdrStd532_klett;
-    vdr532_raman(iGrp, :) = thisVdr532_raman;
-    vdrStd532_raman(iGrp, :) = thisVdrStd532_raman;
-end
-
-%% Volume depolarization ratio at 1064 nm
-vdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-vdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-vdrStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag1064T = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-flag1064C = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-
-for iGrp = 1:size(clFreGrps, 1)
-
-    if (sum(flag1064T) ~= 1) || (sum(flag1064C) ~= 1)
-        continue;
-    end
-
-    sig1064T = squeeze(sum(data.signal(flag1064T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg1064T = squeeze(sum(data.bg(flag1064T, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    sig1064C = squeeze(sum(data.signal(flag1064C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-    bg1064C = squeeze(sum(data.bg(flag1064C, :, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 3));
-
-    [thisVdr1064_klett, thisVdrStd1064_klett] = pollyVDR(sig1064T, bg1064T, sig1064C, bg1064C, ...
-        PollyConfig.TR(flag1064T), 0, ...
-        PollyConfig.TR(flag1064C), 0, ...
-        polCaliFac1064, polCaliFacStd1064, PollyConfig.smoothWin_klett_1064);
-    [thisVdr1064_raman, thisVdrStd1064_raman] = pollyVDR(sig1064T, bg1064T, sig1064C, bg1064C, ...
-        PollyConfig.TR(flag1064T), 0, ...
-        PollyConfig.TR(flag1064C), 0, ...
-        polCaliFac1064, polCaliFacStd1064, PollyConfig.smoothWin_raman_1064);
-
-    vdr1064_klett(iGrp, :) = thisVdr1064_klett;
-    vdrStd1064_klett(iGrp, :) = thisVdrStd1064_klett;
-    vdr1064_raman(iGrp, :) = thisVdr1064_raman;
-    vdrStd1064_raman(iGrp, :) = thisVdrStd1064_raman;
-end
 
 %% Particle depolarization ratio at 355 nm
+flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
+flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
 pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2644,6 +2578,8 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Particle depolarization ratio at 532 nm
+flag532T = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
+flag532C = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
 pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2707,6 +2643,8 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Particle depolarization ratio at 1064 nm
+flag1064T = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
+flag1064C = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
 pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
