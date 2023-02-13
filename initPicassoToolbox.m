@@ -1,4 +1,4 @@
-function initPicassoToolbox(updateToolbox)
+function initPicassoToolbox(varargin)
 %           ____  _                               _____  ____
 %          / __ \(_)________ _______________     |__  / / __ \
 %         / /_/ / / ___/ __ `/ ___/ ___/ __ \     /_ < / / / /
@@ -10,6 +10,13 @@ function initPicassoToolbox(updateToolbox)
 % HISTORY:
 %   2021-06-22: first edition.
 %
+
+p = inputParser;
+p.KeepUnmatched = true;
+
+addParameter(p, 'updateToolbox', false, @islogical);
+
+parse(p, varargin{:});
 
 % define GLOBAL variables
 global PicassoConfig
@@ -27,9 +34,7 @@ if ~ isfield(ENV_VARS, 'printLevel') || ENV_VARS.printLevel
     ENV_VARS.printLevel = true;
 end
 
-if ~ exist('updateToolbox', 'var')
-    updateToolbox = false;
-end
+updateToolbox = p.Results.updateToolbox;
 
 %% add search paths
 % retrieve the current directory
@@ -42,6 +47,17 @@ cd(PicassoDir);
 
 addpath(genpath(fullfile(PicassoDir, 'lib')));
 addpath(genpath(fullfile(PicassoDir, 'include')));
+
+%% check if required Matlab Toolboxes were installed
+[isToolboxAvail, missedToolboxes] = checkRequiredToolbox();
+if ~ isToolboxAvail
+    warning('Required Matlab Toolboxes are missing or disabled...');
+    for iToolbox = 1:length(missedToolboxes)
+        fprintf('%s\n', missedToolboxes{iToolbox});
+    end
+
+    return;
+end
 
 %% add SQLite driver
 pathJDBC = fullfile(PicassoDir, 'include', 'sqlite-jdbc-3.30.1.jar');
@@ -124,7 +140,7 @@ end
 [status_curl, result_curl] = checkCurlAndRemote(false);
 
 if ENV_VARS.printLevel
-    fprintf(' > Adding all the files of Picasso Toolbox ... \n')
+    fprintf(' > Adding all the functions files for Picasso Toolbox ... \n')
 end
 
 % check if a new update exists

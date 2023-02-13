@@ -121,7 +121,22 @@ case 2   % MUA radiosonde standard file
     relh = ncread(file, 'relative_humidity');
     wind = ncread(file, 'wind_direction');
     wins = ncread(file, 'wind_speed');
-
+case 3 %Mosaic new
+        
+        thisFilename = basename(file);
+        datetime = datenum(thisFilename(11:20), 'yyyymmddHH');
+        
+        fid = fopen(strcat(file));
+        strData = textscan(fid,'%s %s %s %s %s %s %s');
+        fclose(fid);
+        alt = str2num(char(strData{1,1}(22:end)));
+        pres = str2num(char(strData{1,3}(22:end)));
+        temp = str2num(char(strData{1,4}(22:end)));
+        relh = str2num(char(strData{1,5}(22:end)));
+        wind = str2num(char(strData{1,6}(22:end)));
+        wins = str2num(char(strData{1,7}(22:end)));
+    
+    
 otherwise
     error('Unknown fileType %d', fileType);
 end

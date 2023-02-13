@@ -39,6 +39,8 @@ varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant)
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_RH = netcdf.defVar(ncID, 'RH', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_SNR_387 = netcdf.defVar(ncID, 'SNR_387nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_SNR_407 = netcdf.defVar(ncID, 'SNR_407nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 if isfield(data, 'quality_mask_WVMR')
     varID_QM_WVMR = netcdf.defVar(ncID, 'QM_WVMR', 'NC_BYTE', [dimID_height, dimID_time]);
 end
@@ -48,14 +50,19 @@ end
 % define the filling value
 netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
 netcdf.defVarFill(ncID, varID_RH, false, missing_value);
+netcdf.defVarFill(ncID, varID_SNR_387, false, missing_value);
+netcdf.defVarFill(ncID, varID_SNR_407, false, missing_value);
 
 % define the data compression
 netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
-
+netcdf.defVarDeflate(ncID, varID_SNR_387, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_SNR_407, true, true, 5);
 % leave define mode
 netcdf.endDef(ncID);
 
+flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 % write data to .nc file
 netcdf.putVar(ncID, varID_altitude, single(data.alt0));
 netcdf.putVar(ncID, varID_latitude, single(data.lat));
@@ -65,6 +72,18 @@ netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.WVMR, missing_value)));	
 netcdf.putVar(ncID, varID_RH, single(fillmissing(data.RH, missing_value)));
+
+if sum(flag387) == 1
+    netcdf.putVar(ncID, varID_SNR_387, single(fillmissing(squeeze(data.SNR(flag387, :, :)), missing_value)));
+else
+    netcdf.putVar(ncID, varID_SNR_387, single(missing_value * ones(length(data.height), length(data.mTime))));
+end
+if sum(flag407) == 1
+    netcdf.putVar(ncID, varID_SNR_407, single(fillmissing(squeeze(data.SNR(flag407, :, :)), missing_value)));
+else
+    netcdf.putVar(ncID, varID_SNR_407, single(missing_value * ones(length(data.height), length(data.mTime))));
+end
+
 
 % Quality_mask_WVMR
 netcdf.putVar(ncID, varID_QM_WVMR, int8(fillmissing(data.quality_mask_WVMR, missing_value)));
@@ -137,6 +156,19 @@ netcdf.putAtt(ncID, varID_RH, 'wv_calibration_constant_used', data.wvconstUsed);
 % netcdf.putAtt(ncID, varID_RH, 'bias_variable', 'RH_bias');
 netcdf.putAtt(ncID, varID_RH, 'retrieving_info', sprintf('flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 
+% SNR 387 nm
+netcdf.putAtt(ncID, varID_SNR_387, 'unit', '');
+netcdf.putAtt(ncID, varID_SNR_387, 'long_name', 'SNR at 387 nm');
+netcdf.putAtt(ncID, varID_SNR_387, 'standard_name', 'signal-noise-ratio 387 nm');
+netcdf.putAtt(ncID, varID_SNR_387, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_SNR_387, 'comment', '');
+
+% SNR 407 nm
+netcdf.putAtt(ncID, varID_SNR_407, 'unit', '');
+netcdf.putAtt(ncID, varID_SNR_407, 'long_name', 'SNR at 407 nm');
+netcdf.putAtt(ncID, varID_SNR_407, 'standard_name', 'signal-noise-ratio 407 nm');
+netcdf.putAtt(ncID, varID_SNR_407, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_SNR_407, 'comment', '');
 
 % Quality_mask_WVMR
 netcdf.putAtt(ncID, varID_QM_WVMR, 'unit', 'flag');
@@ -166,6 +198,11 @@ netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
+netcdf.putAtt(ncID, varID_global, 'wv_calibration_constant_used', data.wvconstUsed);
+netcdf.putAtt(ncID, varID_global, 'wv_calibration_constant_std', data.wvconstUsedStd);
+thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+netcdf.putAtt(ncID, varID_global, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+netcdf.putAtt(ncID, varID_global, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
 cwd = pwd;
 cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();

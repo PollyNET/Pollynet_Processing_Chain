@@ -73,27 +73,27 @@ def rmext(filename):
     return file
 
 
-def pollyDisplayDRRaman(tmpFile, saveFolder):
-    """
+def pollyDisplayLC532NR(tmpFile, saveFolder):
+    '''
     Description
     -----------
-    Display the profiles of aerosol optical properties and meteorological data.
+    Display the housekeeping data from laserlogbook file.
 
     Parameters
     ----------
     tmpFile: str
-    the .mat file which stores the data.
+    the .mat file which stores the housekeeping data.
 
     saveFolder: str
 
     Usage
     -----
-    pollyDisplayDRRaman(tmpFile, saveFolder)
+    pollyDisplayLC532NR(tmpFile)
 
     History
     -------
     2019-01-10. First edition by Zhenping
-    """
+    '''
 
     if not os.path.exists(tmpFile):
         print('{filename} does not exists.'.format(filename=tmpFile))
@@ -108,36 +108,20 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
             partnerLabel = mat['partnerLabel'][0]
         else:
             partnerLabel = ''
-        startInd = mat['startInd'][:][0][0]
-        endInd = mat['endInd'][:][0][0]
-        height = mat['height'][:][0]
-        time = mat['time'][:][0]
-        vdr355_raman = mat['vdr355_raman'][:][0]
-        vdr532_raman = mat['vdr532_raman'][:][0]
-        vdr1064_raman = mat['vdr1064_raman'][:][0]
-        pdr355_raman = mat['pdr355_raman'][:][0]
-        pdr532_raman = mat['pdr532_raman'][:][0]
-        pdr1064_raman = mat['pdr1064_raman'][:][0]
-        if mat['polCaliEta355'].size:
-            polCaliEta355 = mat['polCaliEta355'][:][0]
-        else:
-            polCaliEta355 = [np.nan]
-        if mat['polCaliEta532'].size:
-            polCaliEta532 = mat['polCaliEta532'][:][0]
-        else:
-            polCaliEta532 = [np.nan]
-        if mat['polCaliEta1064'].size:
-            polCaliEta1064 = mat['polCaliEta1064'][:][0]
-        else:
-            polCaliEta1064 = [np.nan]
+        thisTime = np.concatenate(mat['thisTime'][:])
+        time = mat['time'][0][:]
+        LC532_klett = mat['LC532_klett_NR'][:]
+        LC532_raman = mat['LC532_raman_NR'][:]
+        LC532_aeronet = mat['LC532_aeronet_NR'][:]
+        yLim532 = mat['yLim532_NR'][0][:]
         pollyVersion = mat['CampaignConfig']['name'][0][0][0]
         location = mat['CampaignConfig']['location'][0][0][0]
         version = mat['PicassoConfig']['PicassoVersion'][0][0][0]
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
         dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
-        yLim_Profi_DR = mat['yLim_Profi_DR'][:][0]
+        xtick = mat['xtick'][0][:]
+        xticklabel = mat['xtickstr']
         imgFormat = mat['imgFormat'][:][0]
-
     except Exception as e:
         print(e)
         print('Failed reading %s' % (tmpFile))
@@ -147,46 +131,60 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
 
-    # display depol ratio with raman method
-    fig = plt.figure(figsize=[5, 8])
-    ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
-    p1, = ax.plot(vdr355_raman, height, color='#2492ff',
-                  linestyle='-', label='$\delta_{vol, 355}$', zorder=2)
-    p2, = ax.plot(vdr532_raman, height, color='#80ff00',
-                  linestyle='-', label='$\delta_{vol, 532}$', zorder=2)
-    p3, = ax.plot(pdr355_raman, height, color='#0000ff',
-                  linestyle='--', label='$\delta_{par, 355}$', zorder=3)
-    p4, = ax.plot(pdr532_raman, height, color='#008040',
-                  linestyle='--', label='$\delta_{par, 532}$', zorder=3)
-    p5, = ax.plot(vdr1064_raman, height, color='#ff5733',
-                  linestyle='-', label='$\delta_{vol, 1064}$', zorder=2)
-    p6, = ax.plot(pdr1064_raman, height, color='#e60000',
-                  linestyle='--', label='$\delta_{par, 1064}$', zorder=3)
+    # display lidar constants at 532mn
+    fig = plt.figure(figsize=[9, 5])
+    ax = fig.add_axes([0.1, 0.15, 0.85, 0.72])
+    p1, = ax.plot(
+        thisTime, LC532_klett,
+        color='#008040', linestyle='--', marker='^',
+        markersize=10, mfc='#008040', mec='#000000', label='Klett Method'
+        )
+    p2, = ax.plot(
+        thisTime, LC532_raman,
+        color='#400080', linestyle='--', marker='o',
+        markersize=10, mfc='#400080', mec='#000000', label='Raman Method'
+        )
+    p3, = ax.plot(
+        thisTime, LC532_aeronet,
+        color='#804000', linestyle='--', marker='*',
+        markersize=10, mfc='#800040', mec='#000000',
+        label='Constrained-AOD Method'
+        )
+    ax.set_xlabel('UTC', fontsize=15)
+    ax.set_ylabel('C', fontsize=15)
+    ax.legend(handles=[p1, p2, p3], loc='upper right', fontsize=12)
 
-    ax.set_xlabel('Depolarization Ratio', fontsize=15)
-    ax.set_ylabel('Height (m)', fontsize=15)
-    ax.legend(handles=[p1, p2, p3, p4, p5, p6], loc='upper right', fontsize=15)
+    ax.set_ylim(yLim532.tolist())
+    minYLim532 = np.nanmin(np.concatenate((
+                LC532_raman.reshape(-1),
+                LC532_klett.reshape(-1),
+                LC532_aeronet.reshape(-1),
+                np.array(yLim532[0]).reshape(-1)), axis=0))
+    maxYLim532 = np.nanmax(np.concatenate((
+                LC532_raman.reshape(-1),
+                LC532_klett.reshape(-1),
+                LC532_aeronet.reshape(-1),
+                np.array(yLim532[1]).reshape(-1)), axis=0))
+    ax.set_yticks([0.8 * minYLim532, 1.2 * maxYLim532])
+    ax.yaxis.set_major_locator(plt.MaxNLocator(prune='lower'))
 
-    ax.set_ylim(yLim_Profi_DR.tolist())
-    ax.yaxis.set_major_locator(MultipleLocator(2500))
-    ax.yaxis.set_minor_locator(MultipleLocator(500))
-    ax.set_xlim([-0.01, 0.4])
-    ax.grid(True)
+    ax.set_xticks(xtick.tolist())
+    ax.set_xlim([time[0], time[-1]])
+    ax.set_xticklabels(celltolist(xticklabel))
+    ax.grid(False)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
     ax.tick_params(axis='both', which='minor', width=1.5,
                    length=3.5, right=True, top=True)
 
-    starttime = time[startInd - 1]
-    endtime = time[endInd - 1]
     ax.set_title(
-        '{instrument} at {location}\n[Averaged] {starttime}-{endtime}'.format(
+        'Lidar constants {wave}nm '.format(wave=532) +
+        'Far-Range for {instrument} at {location}'.format(
             instrument=pollyVersion,
-            location=location,
-            starttime=datenum_to_datetime(starttime).strftime('%Y%m%d %H:%M'),
-            endtime=datenum_to_datetime(endtime).strftime('%H:%M')
+            location=location
             ),
-        fontsize=15
+        fontsize=15,
+        position=[0.5, 1.05]
         )
 
     # add watermark
@@ -196,48 +194,42 @@ def pollyDisplayDRRaman(tmpFile, saveFolder):
         im_license = matplotlib.image.imread(
             os.path.join(rootDir, 'img', 'by-sa.png'))
 
-        newax_license = fig.add_axes([0.3, 0.002, 0.14, 0.07], zorder=10)
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
         newax_license.imshow(im_license, alpha=0.8, aspect='equal')
         newax_license.axis('off')
 
-        fig.text(0.46, 0.012, 'Preliminary\nResults.',
+        fig.text(0.71, 0.003, 'Preliminary\nResults.',
                  fontweight='bold', fontsize=12, color='red',
                  ha='left', va='bottom', alpha=0.8, zorder=10)
 
         fig.text(
-            0.69, 0.003,
+            0.84, 0.003,
             u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
-    fig.text(
-        0.02, 0.01,
-        'Version: {0}\nMethod: {1}\n'.format(version, 'Raman') +
-        '$\eta 355$: {0:6.2f}\n$\eta 532$: {1:6.4f}\n$\eta 1064$: {2:6.4f}'.format(
-            polCaliEta355[0], 
-            polCaliEta532[0], polCaliEta1064[0]), fontsize=12)
+    fig.text(0.05, 0.06, datenum_to_datetime(
+        time[0]).strftime("%Y-%m-%d"), fontsize=12)
+    fig.text(0.05, 0.02, 'Version: {version}'.format(
+        version=version), fontsize=12)
 
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFile}_{starttime}_{endtime}_DepRatio_Raman.{imgFmt}'.format(
-                dataFile=rmext(os.path.basename(dataFilename)),
-                starttime=datenum_to_datetime(starttime).strftime('%H%M'),
-                endtime=datenum_to_datetime(endtime).strftime('%H%M'),
-                imgFmt=imgFormat)
-                ),
-        dpi=figDPI
-        )
+            '{dataFilename}_LC_532_NR.{imgFmt}'.format(
+                dataFilename=rmext(os.path.basename(dataFilename)),
+                imgFmt=imgFormat)), dpi=figDPI)
     plt.close()
 
 
 def main():
-    pollyDisplayDRRaman(
-        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp\\',
-        'C:\\Users\\zpyin\\Desktop')
+    pollyDisplayLC532NR(
+        'D:\\coding\\matlab\\pollynet_Processing_Chain\\tmp',
+        'C:\\Users\\zpyin\\Desktop'
+        )
 
 
 if __name__ == '__main__':
     # main()
-    pollyDisplayDRRaman(sys.argv[1], sys.argv[2])
+    pollyDisplayLC532NR(sys.argv[1], sys.argv[2])

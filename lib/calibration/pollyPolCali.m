@@ -126,15 +126,16 @@ case '355nm'
         p.Results.depolCaliMinSNR, p.Results.depolCaliMaxSig, ...
         p.Results.relStdDPlus, p.Results.relStdDMinus, ...
         p.Results.depolCaliSegLen, p.Results.depolCaliSmWin);
-        polCalAttri355.polCaliEta355 = polCaliEta355;
-        polCalAttri355.polCaliEtaStd355 = polCaliEtaStd355;
+    polCalAttri355.polCaliEta355 = polCaliEta355;
+    polCalAttri355.polCaliEtaStd355 = polCaliEtaStd355;
     polCalAttri355.polCaliEta = polCaliEta355;
     polCalAttri355.polCaliEtaStd = polCaliEtaStd355;
     polCalAttri355.polCaliFac = polCaliFac355;
     polCalAttri355.polCaliFacStd = polCaliFacStd355;
     polCalAttri355.polCaliStartTime = polCaliStartTime355;
     polCalAttri355.polCaliStopTime = polCaliStopTime355;
-
+%%%% in future here it must be one more if, if db exist then, elsi if see
+%%%% if cali was succesful, if not then default
     if exist(p.Results.dbFile, 'file') == 2
         [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime] = selectDepolConst(...
             polCaliEta355, polCaliEtaStd355, ...
@@ -211,8 +212,9 @@ case '532nm'
         polCaliTime = [polCaliStartTime532, polCaliStopTime532];
         polCaliAttri = polCalAttri532;
     end
-    case '1064nm'
-% polarization calibration at 1064 nm
+
+case '1064nm'
+    % polarization calibration at 1064 nm
     flagTot1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
     flagCro1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 

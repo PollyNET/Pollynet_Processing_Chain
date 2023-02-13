@@ -10,26 +10,17 @@ PATH=${PATH}:$cwd
 display_help() {
   echo "Usage: $0 [option...] " >&2
   echo
-  echo "Process polly history data."
+  echo "Process Polly/PollyXT data."
   echo "   -s, --start_date        set the start date for the polly data"
   echo "                           e.g., 20110101 or 20110101-010000"
   echo "   -e, --end_date          set the end date for the polly data"
   echo "                           e.g., 20150101 or 20150101-010000"
   echo "   -p, --polly_type        set the instrument type (case-sensitive)"
-  echo "                           - PollyXT_LACROS"
-  echo "                           - PollyXT_TROPOS"
-  echo "                           - PollyXT_NOA"
-  echo "                           - PollyXT_FMI"
-  echo "                           - PollyXT_UW"
-  echo "                           - PollyXT_DWD"
-  echo "                           - PollyXT_TJK"
-  echo "                           - PollyXT_TAU"
-  echo "                           - PollyXT_CYP"
-  echo "                           - PollyXT_IfT"
-  echo "                           - PollyXT_CGE"
-  echo "                           - Polly_1st"
-  echo "                           - arielle"
-  echo "                           - Polly_1v2"
+  echo "                           PollyXT_LACROS, PollyXT_TROPOS, PollyXT_NOA, "
+  echo "                           PollyXT_FMI, PollyXT_UW, PollyXT_DWD, "
+  echo "                           PollyXT_TJK, PollyXT_TAU, PollyXT_CYP, "
+  echo "                           PollyXT_IfT, PollyXT_CGE, Polly_1st, "
+  echo "                           arielle, Polly_1v2"
   echo "   -f, --polly_folder      specify the polly data folder"
   echo "                           e.g., '/pollyhome/pollyxt_lacros'"
   echo "   -c, --config_file       specify Picasso configuration file"
@@ -38,7 +29,14 @@ display_help() {
   echo "   --check_gdas            reprocess polly data when GDAS1 data is ready"
   echo "   --pollyapp_config       specify the path of 'config.private' for the pollyAPP"
   echo "   -h, --help              show help message"
-  echo
+  echo ""
+  echo "Usecase 1: automatic running (on rsd server)"
+  echo "   $0 --auto -c {Picasso_configuration_file}"
+  echo "Usecase 2: reprocessing with GDAS1 meteorological dataset"
+  echo "   $0 --check_gdas -c {Picasso_configuration_file}"
+  echo "Usecase 3: reprocessing old data"
+  echo "   $0 -s {20220301-000000} -e {20220304-120000} -c {Picasso_configuration_file}"
+  echo ""
   exit 1
 }
 

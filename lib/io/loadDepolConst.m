@@ -64,8 +64,10 @@ if exist(dbFile, 'file') ~= 2
     return;
 end
 
-conn = database(dbFile, '', '', 'org:sqlite:JDBC', ...
-                sprintf('jdbc:sqlite:%s', dbFile));
+jdbc = org.sqlite.JDBC;
+props = java.util.Properties;
+conn = jdbc.createConnection(['jdbc:sqlite:', dbFile], props);
+stmt = conn.createStatement;
 
 %% setup SQL query command
 % subcommand for filtering records within deltaTime
@@ -87,47 +89,46 @@ end
 
 if p.Results.flagClosest
     % without constrain from deltaTime and return the closest calibration result
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT dc.cali_start_time, dc.cali_stop_time, ', ...
-                    'dc.depol_const, dc.uncertainty_depol_const, dc.nc_zip_file, ', ...
-                    'dc.polly_type, dc.wavelength FROM depol_calibration_constant dc ', ...
-                    'WHERE (dc.polly_type = ''%s'') AND (dc.wavelength = ''%s'') '], ...
-                    pollyType, wavelength), ...
-            condWithinDT, condBeforeQuery, ...
-            sprintf('ORDER BY ABS((strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 - strftime(''%%s'', ''%s'')) ASC LIMIT 1;', datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))]);
-    catch ME
-        warning(ME.message);
-        data = [];
-    end
+    sqlStr = [sprintf(['SELECT dc.cali_start_time, dc.cali_stop_time, ', ...
+                'dc.depol_const, dc.uncertainty_depol_const, dc.nc_zip_file, ', ...
+                'dc.polly_type, dc.wavelength FROM depol_calibration_constant dc ', ...
+                'WHERE (dc.polly_type = ''%s'') AND (dc.wavelength = ''%s'') '], ...
+                pollyType, wavelength), ...
+                condWithinDT, condBeforeQuery, ...
+        sprintf('ORDER BY ABS((strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 - strftime(''%%s'', ''%s'')) ASC LIMIT 1;', datestr(queryTime, 'yyyy-mm-dd HH:MM:SS'))];
 else
     % without constrain from deltaTime and return all qualified results
-    try
-        data = fetch(conn, ...
-            [sprintf(['SELECT dc.cali_start_time, dc.cali_stop_time, ', ...
-                    'dc.depol_const, dc.uncertainty_depol_const, dc.nc_zip_file, ', ...
-                    'dc.polly_type, dc.wavelength FROM depol_calibration_constant dc ', ...
-                    'WHERE (dc.polly_type = ''%s'') AND (dc.wavelength = ''%s'') '], ...
-                    pollyType, wavelength), ...
-            condWithinDT, condBeforeQuery, ...
-            sprintf('ORDER BY (strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 ASC;' )]);
-    catch ME
-        warning(ME.message);
-        data = [];
+    sqlStr = [sprintf(['SELECT dc.cali_start_time, dc.cali_stop_time, ', ...
+                'dc.depol_const, dc.uncertainty_depol_const, dc.nc_zip_file, ', ...
+                'dc.polly_type, dc.wavelength FROM depol_calibration_constant dc ', ...
+                'WHERE (dc.polly_type = ''%s'') AND (dc.wavelength = ''%s'') '], ...
+                pollyType, wavelength), ...
+        condWithinDT, condBeforeQuery, ...
+        sprintf('ORDER BY (strftime(''%%s'', dc.cali_start_time) + strftime(''%%s'', dc.cali_stop_time))/2 ASC;' )];
+end
+
+try
+    rs = stmt.executeQuery(sqlStr);
+
+    while rs.next
+        thisStartTime = char(rs.getString('cali_start_time'));
+        thisStopTime = char(rs.getString('cali_stop_time'));
+        thisDepolconst = double(rs.getDouble('depol_const'));
+        thisDepolconstStd = double(rs.getDouble('uncertainty_depol_const'));
+
+        caliStartTime = cat(2, caliStartTime, datenum(thisStartTime, 'yyyy-mm-dd HH:MM:SS'));
+        caliStopTime = cat(2, caliStopTime, datenum(thisStopTime, 'yyyy-mm-dd HH:MM:SS'));
+        depolconst = cat(2, depolconst, thisDepolconst);
+        depolconstStd = cat(2, depolconstStd, thisDepolconstStd);
     end
+
+    rs.close;
+catch ME
+    warning(ME.message);
 end
 
 %% close connection
-close(conn);
-
-if ~ isempty(data)
-    % when records were found
-    for iRow = 1:size(data, 1)
-        caliStartTime = cat(2, caliStartTime, datenum(data{iRow, 1}, 'yyyy-mm-dd HH:MM:SS'));
-        caliStopTime = cat(2, caliStopTime, datenum(data{iRow, 2}, 'yyyy-mm-dd HH:MM:SS'));
-        depolconst = cat(2, depolconst, data{iRow, 3});
-        depolconstStd = cat(2, depolconstStd, data{iRow, 4});
-    end
-end
+stmt.close;
+conn.close;
 
 end

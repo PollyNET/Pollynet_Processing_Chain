@@ -143,6 +143,8 @@ for iCh = 1:nChs
         chLabels{iCh} = 'far-range rot. Raman 1064 nm';
     case 545   % far-range parallel 532 nm
         chLabels{iCh} = 'far-range parallel 532 nm';
+    case 2065   % far-range cross 1064 nm
+        chLabels{iCh} = 'far-range cross 1064 nm';
     otherwise
         warning('PICASSO:InvalidInput', 'Unknown channel tags (%d) at channel %d', chTagsO(iCh), iCh);
         chLabels{iCh} = 'Unknown';
