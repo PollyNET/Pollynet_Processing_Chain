@@ -65,10 +65,17 @@ PicassoDir = fileparts((fileparts(fileparts(mfilename('fullpath')))));
 %% Input parser
 p = inputParser;
 p.KeepUnmatched = true;
+pollyDataFile = 'C:\Alles\Messdaten\Cabo_Verde\2021_10_04_Mon_CPV_00_00_01.nc';
+pollyType = 'PollyXT_CPV';
+PicassoConfigFile = 'C:\Alles\Software\Pollynet_Processing_Chain\config\pollyNETconfig-share\pollyConfigs\pollyxt_cpv_config_20210910.json';
 
 addRequired(p, 'pollyDataFile', @ischar);
 addRequired(p, 'pollyType', @ischar);
 addRequired(p, 'PicassoConfigFile', @ischar);
+
+%addRequired(p, 'pollyDataFile', @ischar);
+%addRequired(p, 'pollyType', @ischar);
+%addRequired(p, 'PicassoConfigFile', @ischar);
 addParameter(p, 'defaultPicassoConfigFile', fullfile(PicassoDir, 'lib', 'config', 'pollynet_processing_chain_config.json'), @ischar);
 addParameter(p, 'pollyGlobalConfigFile', fullfile(PicassoDir, 'lib', 'config', 'polly_global_config.json'), @ischar);
 addParameter(p, 'pollyZipFile', '', @ischar);
