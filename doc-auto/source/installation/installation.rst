@@ -70,6 +70,8 @@ It's recommended to use `Anaconda`_ for managing Python. Meanwhile, `matplotlib`
   urllib3==1.26.6
   wincertstore==0.2
 
+To get all packages ready at once you can also import the python environment via the 'picasso.yaml' file.
+
 SQLite is necessary for saving lidar calibration results. The `Java`_ connector has been provided in the folder of **./include**. But it needs to restart Matlab to activate this `Java`_ connector.
 
 NOTE: one has to run **addSQLiteJDBC('path_to\sqlite-jdbc-3.30.1.jar')** once!

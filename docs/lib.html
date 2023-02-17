@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" >
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Picasso Functions &mdash; Picasso  documentation</title>
@@ -14,7 +14,9 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -26,14 +28,18 @@
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
-            <a href="index.html" class="icon icon-home"> Picasso
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Picasso
           </a>
               <div class="version">
                 3.0
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
   </form>
@@ -75,8 +81,8 @@
         <div class="rst-content">
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-      <li>Picasso Functions</li>
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Picasso Functions</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/lib.rst.txt" rel="nofollow"> View page source</a>
       </li>
@@ -87,12 +93,12 @@
            <div itemprop="articleBody">
              
   <section id="picasso-functions">
-<h1>Picasso Functions<a class="headerlink" href="#picasso-functions" title="Permalink to this headline"></a></h1>
+<h1>Picasso Functions<a class="headerlink" href="#picasso-functions" title="Permalink to this heading"></a></h1>
 <section id="module-lib">
-<span id="picasso-main-module"></span><h2>Picasso main module<a class="headerlink" href="#module-lib" title="Permalink to this headline"></a></h2>
+<span id="picasso-main-module"></span><h2>Picasso main module<a class="headerlink" href="#module-lib" title="Permalink to this heading"></a></h2>
 </section>
 <section id="module-lib.calibration">
-<span id="picasso-calibration"></span><h2>Picasso calibration<a class="headerlink" href="#module-lib.calibration" title="Permalink to this headline"></a></h2>
+<span id="picasso-calibration"></span><h2>Picasso calibration<a class="headerlink" href="#module-lib.calibration" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.calibration.DouglasPeucker">
 <span class="sig-prename descclassname"><span class="pre">lib.calibration.</span></span><span class="sig-name descname"><span class="pre">DouglasPeucker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal</span></em>, <em class="sig-param"><span class="pre">height</span></em>, <em class="sig-param"><span class="pre">epsilon</span></em>, <em class="sig-param"><span class="pre">heightBase</span></em>, <em class="sig-param"><span class="pre">heightTop</span></em>, <em class="sig-param"><span class="pre">maxHThick</span></em>, <em class="sig-param"><span class="pre">window_size</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.calibration.DouglasPeucker" title="Permalink to this definition"></a></dt>
@@ -635,7 +641,7 @@ NaN will be returned.</p>
 
 </section>
 <section id="module-lib.classification">
-<span id="picasso-classification"></span><h2>Picasso classification<a class="headerlink" href="#module-lib.classification" title="Permalink to this headline"></a></h2>
+<span id="picasso-classification"></span><h2>Picasso classification<a class="headerlink" href="#module-lib.classification" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.classification.VDE_cld">
 <span class="sig-prename descclassname"><span class="pre">lib.classification.</span></span><span class="sig-name descname"><span class="pre">VDE_cld</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">signal</span></em>, <em class="sig-param"><span class="pre">height</span></em>, <em class="sig-param"><span class="pre">BG</span></em>, <em class="sig-param"><span class="pre">minLayerDepth</span></em>, <em class="sig-param"><span class="pre">minHeight</span></em>, <em class="sig-param"><span class="pre">smoothWin</span></em>, <em class="sig-param"><span class="pre">minSNR</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.classification.VDE_cld" title="Permalink to this definition"></a></dt>
@@ -799,7 +805,7 @@ hFullOL: numeric</p>
 
 </section>
 <section id="module-lib.cloudmask">
-<span id="picasso-cloud-mask"></span><h2>Picasso cloud-mask<a class="headerlink" href="#module-lib.cloudmask" title="Permalink to this headline"></a></h2>
+<span id="picasso-cloud-mask"></span><h2>Picasso cloud-mask<a class="headerlink" href="#module-lib.cloudmask" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.cloudmask.cloudDetect_Zhao">
 <span class="sig-prename descclassname"><span class="pre">lib.cloudmask.</span></span><span class="sig-name descname"><span class="pre">cloudDetect_Zhao</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">time</span></em>, <em class="sig-param"><span class="pre">height</span></em>, <em class="sig-param"><span class="pre">signal</span></em>, <em class="sig-param"><span class="pre">bg</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.cloudmask.cloudDetect_Zhao" title="Permalink to this definition"></a></dt>
@@ -953,7 +959,7 @@ strong backscatter signal. [MHz*m]</p>
 
 </section>
 <section id="module-lib.io">
-<span id="picasso-io"></span><h2>Picasso io<a class="headerlink" href="#module-lib.io" title="Permalink to this headline"></a></h2>
+<span id="picasso-io"></span><h2>Picasso io<a class="headerlink" href="#module-lib.io" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.io.decompressPollyData">
 <span class="sig-prename descclassname"><span class="pre">lib.io.</span></span><span class="sig-name descname"><span class="pre">decompressPollyData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">startDate</span></em>, <em class="sig-param"><span class="pre">endDate</span></em>, <em class="sig-param"><span class="pre">saveFolder</span></em>, <em class="sig-param"><span class="pre">PicassoConfigFile</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.io.decompressPollyData" title="Permalink to this definition"></a></dt>
@@ -1012,6 +1018,8 @@ extract_cali_results(‘/path/to/dbFile’, ‘/path/to/csvFile’, ‘prefix’
 <dt>tablename: char</dt><dd><p>table name that needs to be extracted (regular expression is supported). (defaults: ‘.*’)</p>
 </dd>
 <dt>prefix: char</dt><dd><p>prefix for the ASCII filename.</p>
+</dd>
+<dt>SQLiteReadMode: char</dt><dd><p>‘database_toolbox’ (default) or ‘jdbc’</p>
 </dd>
 </dl>
 </dd>
@@ -2252,6 +2260,8 @@ the data.</p>
 </dd>
 <dt>dataFileFormat: char</dt><dd><p>parsing rules for polly data filename.</p>
 </dd>
+<dt>deltaT: numeric</dt><dd><p>integration time (in seconds) for single profile. (default: 30)</p>
+</dd>
 </dl>
 </dd>
 <dt>OUTPUTS:</dt><dd><dl class="simple">
@@ -2784,7 +2794,7 @@ volume_depolarization_ratio_532nm</p>
 </dd>
 <dt>pollyType: char</dt><dd><p>polly type. (case-sensitive)</p>
 </dd>
-<dt>wavelength: char</dt><dd><p>wavelength. (‘355’ or ‘532’)</p>
+<dt>wavelength: char</dt><dd><p>wavelength. (‘355’, ‘532’ or ‘1064’)</p>
 </dd>
 </dl>
 </dd>
@@ -3222,7 +3232,7 @@ found in /config/pollynet_processing_chain_link.txt</p>
 
 </section>
 <section id="module-lib.preprocess">
-<span id="picasso-pre-process"></span><h2>Picasso pre-process<a class="headerlink" href="#module-lib.preprocess" title="Permalink to this headline"></a></h2>
+<span id="picasso-pre-process"></span><h2>Picasso pre-process<a class="headerlink" href="#module-lib.preprocess" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.preprocess.pollyDTCor">
 <span class="sig-prename descclassname"><span class="pre">lib.preprocess.</span></span><span class="sig-name descname"><span class="pre">pollyDTCor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">sigI</span></em>, <em class="sig-param"><span class="pre">mShots</span></em>, <em class="sig-param"><span class="pre">hRes</span></em>, <em class="sig-param"><span class="pre">varargin</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.preprocess.pollyDTCor" title="Permalink to this definition"></a></dt>
@@ -3299,6 +3309,8 @@ calibration process starts)</p>
 </dl>
 </dd>
 <dt>KEYWORDS:</dt><dd><dl class="simple">
+<dt>deltaT: numeric</dt><dd><p>integration time (in seconds) for single profile. (default: 30)</p>
+</dd>
 <dt>flagForceMeasTime: logical</dt><dd><p>flag to control whether to align measurement time with file creation
 time, instead of taking the measurement time in the data file.
 (default: false)</p>
@@ -3477,7 +3489,7 @@ fogMask will be set true. Otherwise, false</p>
 
 </section>
 <section id="module-lib.qc">
-<span id="picasso-quality-control-qc"></span><h2>Picasso quality control (QC)<a class="headerlink" href="#module-lib.qc" title="Permalink to this headline"></a></h2>
+<span id="picasso-quality-control-qc"></span><h2>Picasso quality control (QC)<a class="headerlink" href="#module-lib.qc" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.qc.olCor">
 <span class="sig-prename descclassname"><span class="pre">lib.qc.</span></span><span class="sig-name descname"><span class="pre">olCor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">sigFR</span></em>, <em class="sig-param"><span class="pre">overlap</span></em>, <em class="sig-param"><span class="pre">height</span></em>, <em class="sig-param"><span class="pre">normRange</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.qc.olCor" title="Permalink to this definition"></a></dt>
@@ -3797,7 +3809,7 @@ parallel componnet in total channel.</p>
 
 </section>
 <section id="module-lib.retrievals">
-<span id="picasso-retrievals"></span><h2>Picasso retrievals<a class="headerlink" href="#module-lib.retrievals" title="Permalink to this headline"></a></h2>
+<span id="picasso-retrievals"></span><h2>Picasso retrievals<a class="headerlink" href="#module-lib.retrievals" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.retrievals.pollyAE">
 <span class="sig-prename descclassname"><span class="pre">lib.retrievals.</span></span><span class="sig-name descname"><span class="pre">pollyAE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">param1</span></em>, <em class="sig-param"><span class="pre">param1_std</span></em>, <em class="sig-param"><span class="pre">param2</span></em>, <em class="sig-param"><span class="pre">param2_std</span></em>, <em class="sig-param"><span class="pre">wavelength1</span></em>, <em class="sig-param"><span class="pre">wavelength2</span></em>, <em class="sig-param"><span class="pre">smoothWindow</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.retrievals.pollyAE" title="Permalink to this definition"></a></dt>
@@ -4544,7 +4556,7 @@ dependent of the height.</p>
 
 </section>
 <section id="module-lib.visualization">
-<span id="picasso-visualization"></span><h2>Picasso visualization<a class="headerlink" href="#module-lib.visualization" title="Permalink to this headline"></a></h2>
+<span id="picasso-visualization"></span><h2>Picasso visualization<a class="headerlink" href="#module-lib.visualization" title="Permalink to this heading"></a></h2>
 <dl class="mat function">
 <dt class="sig sig-object mat" id="lib.visualization.pollyDisplayAttnBsc">
 <span class="sig-prename descclassname"><span class="pre">lib.visualization.</span></span><span class="sig-name descname"><span class="pre">pollyDisplayAttnBsc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.visualization.pollyDisplayAttnBsc" title="Permalink to this definition"></a></dt>
@@ -4890,6 +4902,23 @@ dbFile: char</p>
 <dd><p>POLLYXT_CGE_DISPLAYLTLCALI display long-term lidar calibration results.</p>
 <dl class="simple">
 <dt>USAGE:</dt><dd><p>pollyxt_cge_displayLTLCali(data, dbFile)</p>
+</dd>
+<dt>INPUTS:</dt><dd><p>data: struct
+dbFile: char</p>
+</dd>
+<dt>HISTORY:</dt><dd><ul class="simple">
+<li><p>2021-06-11: first edition by Zhenping</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="mat function">
+<dt class="sig sig-object mat" id="lib.visualization.pollyxt_cpv_displayLTLCali">
+<span class="sig-prename descclassname"><span class="pre">lib.visualization.</span></span><span class="sig-name descname"><span class="pre">pollyxt_cpv_displayLTLCali</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="pre">data</span></em>, <em class="sig-param"><span class="pre">dbFile</span></em><span class="sig-paren">)</span><a class="headerlink" href="#lib.visualization.pollyxt_cpv_displayLTLCali" title="Permalink to this definition"></a></dt>
+<dd><p>POLLYXT_CPV_DISPLAYLTLCALI display lidar calibration results.</p>
+<dl class="simple">
+<dt>USAGE:</dt><dd><p>pollyxt_cpv_displayLTLCali(data)</p>
 </dd>
 <dt>INPUTS:</dt><dd><p>data: struct
 dbFile: char</p>
