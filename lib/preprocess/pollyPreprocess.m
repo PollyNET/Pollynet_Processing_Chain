@@ -235,6 +235,7 @@ if nInt > 1
     mTimeInt = NaN(1, nProfInt);
     rawSignalInt = NaN(size(data.rawSignal, 1), size(data.rawSignal, 2), nProfInt);
     depCalAngInt = NaN(nProfInt, 1);
+    flagValidProfile = true(1, nProfInt);
 
     for iProfInt = 1:nProfInt
         profIndx = ((iProfInt - 1) * nInt + 1):(iProfInt * nInt);
@@ -244,12 +245,14 @@ if nInt > 1
         if ~ isempty(data.depCalAng)
             depCalAngInt(iProfInt) = data.depCalAng(profIndx(1));
         end
+        flagValidProfile(iProfInt) = all(data.flagValidProfile(profIndx));
     end
 
     data.rawSignal = rawSignalInt;
     data.mTime = mTimeInt;
     data.mShots = mShotsInt;
     data.depCalAng = depCalAngInt;
+    data.flagValidProfile = flagValidProfile;
 end
 
 %% Modify mShots
@@ -263,6 +266,13 @@ end
 if config.flagForceMeasTime
     data.mTime = data.filenameStartTime + ...
                  datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * p.Results.deltaT);
+else
+    %% Filter profiles with negative timestamp (which is an indication of power failure for the lidar system)
+    data.mTime = data.mTime(data.flagValidProfile);
+    data.mShots = data.mShots(:, data.flagValidProfile);
+    data.depCalAng = data.depCalAng(data.flagValidProfile);
+    data.rawSignal = data.rawSignal(:, :, data.flagValidProfile);
+    data = rmfield(data, 'flagValidProfile');
 end
 
 %% Deadtime correction

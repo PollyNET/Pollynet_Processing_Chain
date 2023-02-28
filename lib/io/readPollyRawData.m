@@ -23,10 +23,12 @@ function [ data ] = readPollyRawData(file, varargin)
 %
 % OUTPUTS:
 %    data: struct
-%        rawSignal: array
-%            signal. [Photon Count]
+%        rawSignal: matrix (channel x height x time)
+%            backscatter signal. [Photon Count]
 %        mShots: array
 %            number of the laser shots for each profile.
+%        flagValidProfile: array
+%            flag to represent the validity of each signal profile.
 %        mTime: array
 %            datetime array for the measurement time of each profile.
 %        depCalAng: array
@@ -173,9 +175,9 @@ data.filenameStartTime = pollyParseFiletime(file, p.Results.dataFileFormat);
 data.zenithAng = zenithAng;
 data.hRes = hRes;
 data.mSite = mSite;
+data.flagValidProfile = (mTime(1, :) > 0);
 data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + ...
              datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
-
 data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;

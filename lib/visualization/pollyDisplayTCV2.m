@@ -14,22 +14,23 @@ function pollyDisplayTCV2(data)
 
 global PicassoConfig CampaignConfig PollyConfig PollyDataInfo
 
-flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
+try
+    flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+    flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
+    flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+    flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 
-if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(flag607) == 1)
-    %% read data
-    TC_mask = data.tcMaskV2;
-    height = data.height;
-    time = data.mTime;
-    yLim_Quasi_Params = PollyConfig.yLim_Quasi_Params;
-    figDPI = PicassoConfig.figDPI;
-    partnerLabel = PollyConfig.partnerLabel;
-    flagWatermarkOn = PicassoConfig.flagWatermarkOn;
-    [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
-    imgFormat = PollyConfig.imgFormat;
+    if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(flag607) == 1)
+        %% read data
+        TC_mask = data.tcMaskV2;
+        height = data.height;
+        time = data.mTime;
+        yLim_Quasi_Params = PollyConfig.yLim_Quasi_Params;
+        figDPI = PicassoConfig.figDPI;
+        partnerLabel = PollyConfig.partnerLabel;
+        flagWatermarkOn = PicassoConfig.flagWatermarkOn;
+        [xtick, xtickstr] = timelabellayout(data.mTime, 'HH:MM');
+        imgFormat = PollyConfig.imgFormat;
 
         pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
         tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
@@ -49,6 +50,10 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(
             warning('Error in executing %s', 'pollyDisplayTCV2.py');
         end
         delete(tmpFile);
+    end
+
+catch
+    warning('Failure in producing taget classification v2 plot.');
 end
 
 
