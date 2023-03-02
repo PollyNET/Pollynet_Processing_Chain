@@ -37,3 +37,9 @@ config_T15/pollyDefaults/template_polly_defaults.json
 config_T15/template_pollynet_processing_chain_config.json
 config_T15/pollynet_processing_chain_config_links.xlsx
 config_T15/template_pollynet_processing_chain_config_links.xlsx
+
+# untracked polly_global_config
+lib/config/polly_global_config.json
+
+# but track template_polly_global_config
+!lib/config/template_polly_global_config.json
