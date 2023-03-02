@@ -30,6 +30,7 @@ package-lock.json
 package.json
 
 # untracked folders
+lib/config
 config
 data
 config_T15/pollyConfigs/polly_global_config.json
