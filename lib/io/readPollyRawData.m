@@ -121,6 +121,8 @@ catch
     return;
 end
 
+
+
 if p.Results.flagDeleteData
     delete(file);
 end
@@ -148,7 +150,6 @@ if p.Results.flagFilterFalseMShots
             depCalAng = depCalAng(~ flagFalseShots);
         end
     end
-
 elseif p.Results.flagCorrectFalseMShots
     % check measurement time
     mTimeStart = floor(pollyParseFiletime(file, p.Results.dataFileFormat) / ...
@@ -178,6 +179,8 @@ data.mSite = mSite;
 data.flagValidProfile = (mTime(1, :) > 0);
 data.mTime = datenum(num2str(mTime(1, :)), 'yyyymmdd') + ...
              datenum(0, 1, 0, 0, 0, double(mTime(2, :)));
+
+
 data.mShots = double(mShots);
 data.depCalAng = depCalAng;
 data.rawSignal = rawSignal;

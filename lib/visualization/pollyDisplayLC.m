@@ -226,4 +226,57 @@ catch
     warning('Failure in producing lidar constant plot.');
 end
 
+%% 355_NR nm
+flag355_NR  = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+if (sum(flag355_NR) == 1)
+    LC355_raman_NR = data.LC.LC_raman_355_NR;
+    LC355_klett_NR = NaN(size(data.LC.LC_raman_355_NR));
+    LC355_aeronet_NR = NaN(size(data.LC.LC_raman_355_NR));
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+    tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+    saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+    % create tmp folder by force, if it does not exist.
+    if ~ exist(tmpFolder, 'dir')
+        fprintf('Create the tmp folder to save the temporary results.\n');
+        mkdir(tmpFolder);
+    end
+
+    %% display LC 355_NR
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC355_klett_NR', 'LC355_raman_NR', 'LC355_aeronet_NR', 'yLim355_NR', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC355NR.py'), tmpFile, saveFolder));
+    if flag ~= 0
+        warning('Error in executing %s', 'pollyDisplayLC355FR.py');
+    end
+    delete(tmpFile);
+end
+
+%% 532_NR  nm
+flag532_NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+if (sum(flag532_NR) == 1)
+    LC532_raman_NR = data.LC.LC_raman_532_NR;
+    LC532_klett_NR = NaN(size(data.LC.LC_raman_532_NR));
+    LC532_aeronet_NR = NaN(size(data.LC.LC_raman_532_NR));
+
+    pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+    tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+    saveFolder = fullfile(PicassoConfig.pic_folder, CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+    % create tmp folder by force, if it does not exist.
+    if ~ exist(tmpFolder, 'dir')
+        fprintf('Create the tmp folder to save the temporary results.\n');
+        mkdir(tmpFolder);
+    end
+
+    %% display LC 532_NR
+    tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+    save(tmpFile, 'figDPI', 'time', 'thisTime', 'LC532_klett_NR', 'LC532_raman_NR', 'LC532_aeronet_NR', 'yLim532_NR', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xtick', 'xtickstr', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+    flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayLC532NR.py'), tmpFile, saveFolder));
+    if flag ~= 0
+        warning('Error in executing %s', 'pollyDisplayLC532FR.py');
+    end
+    delete(tmpFile);
+end
+
 end
