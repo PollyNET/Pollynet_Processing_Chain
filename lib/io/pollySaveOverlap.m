@@ -47,6 +47,7 @@ ncID = netcdf.create(file, mode);
 
 % define dimensions
 dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
+dimID_time = netcdf.defDim(ncID, 'time', length(data.olAttri355.time));
 dimID_method = netcdf.defDim(ncID, 'method', 1);
 dimID_constant = netcdf.defDim(ncID, 'constant', 1);
 
@@ -57,9 +58,10 @@ varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_constant);
 varID_endTime = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_constant);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_time = netcdf.defVar(ncID, 'time', 'NC_FLOAT', dimID_time);
 varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
-varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_FLOAT', dimID_height);
-varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_FLOAT', dimID_height);
+varID_overlap532 = netcdf.defVar(ncID, 'overlap532', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_overlap355 = netcdf.defVar(ncID, 'overlap355', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_FLOAT', dimID_height);
 varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_FLOAT', dimID_height);
 varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
@@ -86,6 +88,7 @@ netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
 netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.olAttri355.time));
 netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_overlap532, single(overlap532));
 netcdf.putVar(ncID, varID_overlap355, single(overlap355));
@@ -132,6 +135,13 @@ netcdf.putAtt(ncID, varID_height, 'unit', 'm');
 netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
+
+% time
+netcdf.putAtt(ncID, varID_time, 'unit', 'seconds since 1970-01-01 00:00:00 UTC');
+netcdf.putAtt(ncID, varID_time, 'long_name', 'Time UTC');
+netcdf.putAtt(ncID, varID_time, 'standard_name', 'time');
+netcdf.putAtt(ncID, varID_time, 'axis', 'T');
+netcdf.putAtt(ncID, varID_time, 'calendar', 'julian');
 
 % tilt_angle
 netcdf.putAtt(ncID, varID_tilt_angle, 'unit', 'degrees');
