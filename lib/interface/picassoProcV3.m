@@ -4729,21 +4729,31 @@ if PicassoConfig.flagEnableResultsOutput
         case 'aerproffr'
             print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
-            pollySaveProfiles(data);
+            try
+	    pollySaveProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerprofnr'
+	    catch
+	    print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+	    end
+    try
+	case 'aerprofnr'
             print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
-            pollySaveNRProfiles(data);
+            try
+	    pollySaveNRProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+	    catch
+	    print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+	    end
         case 'aerprofoc'
             print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
+            try
             pollySaveOCProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+            catch
+	    print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+	    end
         case 'aerattbetafr'
             print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter from far-field signal
@@ -4802,7 +4812,9 @@ if PicassoConfig.flagEnableResultsOutput
             print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             pollySaveCloudInfo(data);
             print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+     catch
+	print_msg('--> Error storing data as netcdf');
+     end
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
         end
