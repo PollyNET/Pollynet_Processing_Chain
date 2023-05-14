@@ -13,11 +13,11 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 % KEYWORDS:
 %    meteorDataSource: str
 %        meteorological data type.
-%        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
+%        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde', 'nc_cloudnet'
 %    gdas1Site: str
 %        the GDAS1 site for the current campaign.
 %    gdas1_folder: str
-%        the main folder of the GDAS1 profiles.
+%        the main folder of the GDAS1 profiles (or the cloudnet profiles).
 %    radiosondeSitenum: integer
 %        site number, which can be found in 
 %        doc/radiosonde-station-list.txt.
