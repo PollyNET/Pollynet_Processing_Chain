@@ -22,7 +22,7 @@ pyparsing==2.4.7
 python-dateutil==2.8.1
 pytz==2021.1
 recommonmark==0.7.1
-requests==2.26.0
+requests==2.31.0
 rstcheck==3.3.1
 scipy==1.5.4
 six==1.16.0
