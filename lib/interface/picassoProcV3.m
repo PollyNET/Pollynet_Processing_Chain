@@ -4714,98 +4714,98 @@ if PicassoConfig.flagEnableResultsOutput
 
     for iProd = 1:length(PollyConfig.prodSaveList)
         switch lower(PollyConfig.prodSaveList{iProd})
-
-        case 'overlap'
-            print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save overlap function
-            saveFile = fullfile(PicassoConfig.results_folder, ...
-                                CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), ...
-                                datestr(data.mTime(1), 'mm'), ...
-                                datestr(data.mTime(1), 'dd'), ...
-                                sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
-            pollySaveOverlap(data, saveFile);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerproffr'
-            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-            pollySaveProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerprofnr'
-            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-            pollySaveNRProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerprofoc'
-            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-            pollySaveOCProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerattbetafr'
-            print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save attenuated backscatter from far-field signal
-            pollySaveAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerattbetaoc'
-            print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save attenuated backscatter from overlap-corrected signal
-            pollySaveOCAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'aerattbetanr'
-            print_msg('--> start saving attenuated backscatter (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save attenuated backscatter from near-field signal
-            pollySaveNRAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'wvmr_rh'
-            print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save water vapor mixing ratio and relative humidity
-            pollySaveWV(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'voldepol'
-            print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save volume depolarization ratio
-            pollySaveVDR(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'quasiv1'
-            print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save quasi results (V1)
-            pollySaveQsiV1(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'quasiv2'
-            print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save quasi results (V2)
-            pollySaveQsiV2(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'tc'
-            print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save target classification results (V1)
-            pollySaveTCV1(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'tcv2'
-            print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save target classification results (V2)
-            pollySaveTCV2(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        case 'cloudinfo'
-            print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            pollySaveCloudInfo(data);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
-        otherwise
-            warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
-        end
+%
+%        case 'overlap'
+%            print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save overlap function
+%            saveFile = fullfile(PicassoConfig.results_folder, ...
+%                                CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), ...
+%                                datestr(data.mTime(1), 'mm'), ...
+%                                datestr(data.mTime(1), 'dd'), ...
+%                                sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
+%            pollySaveOverlap(data, saveFile);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerproffr'
+%            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save aerosol optical results
+%            pollySaveProfiles(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerprofnr'
+%            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save aerosol optical results
+%            pollySaveNRProfiles(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerprofoc'
+%            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save aerosol optical results
+%            pollySaveOCProfiles(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerattbetafr'
+%            print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save attenuated backscatter from far-field signal
+%            pollySaveAttnBeta(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerattbetaoc'
+%            print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save attenuated backscatter from overlap-corrected signal
+%            pollySaveOCAttnBeta(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'aerattbetanr'
+%            print_msg('--> start saving attenuated backscatter (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save attenuated backscatter from near-field signal
+%            pollySaveNRAttnBeta(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'wvmr_rh'
+%            print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save water vapor mixing ratio and relative humidity
+%            pollySaveWV(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'voldepol'
+%            print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save volume depolarization ratio
+%            pollySaveVDR(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'quasiv1'
+%            print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save quasi results (V1)
+%            pollySaveQsiV1(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'quasiv2'
+%            print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save quasi results (V2)
+%            pollySaveQsiV2(data);
+%            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'tc'
+%            print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save target classification results (V1)
+%            pollySaveTCV1(data);
+%            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'tcv2'
+%            print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            %% save target classification results (V2)
+%            pollySaveTCV2(data);
+%            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        case 'cloudinfo'
+%            print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%            pollySaveCloudInfo(data);
+%            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%
+%        otherwise
+%            warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
+%        end
     end
 
     print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4859,11 +4859,6 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayPolCali(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-    %% display signal status
-    print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    pollyDisplaySigStatus(data);
-    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
     %% display overlap function
     print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayOL(data);
@@ -4873,36 +4868,6 @@ if PicassoConfig.flagEnableDataVisualization
     print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayProfiles(data);
     pollyDisplayOCProfiles(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display attenuated backscatter
-    print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayAttnBsc(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display water vapor products
-    print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayWV(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display quasi-retrieved products (V1)
-    print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayQsiV1(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display quasi-retrieved products (V2)
-    print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayQsiV2(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display aerosol/cloud target classification mask (V1)
-    print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayTCV1(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display aerosol/cloud target classification mask (V2)
-    print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayTCV2(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display lidar calibration constants
@@ -4915,8 +4880,51 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayLTLCali(data, dbFile);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
+    %% if flag flagEnableDataVisualization24h exists and is true ... do not plot 3d-plots from here
+    if PicassoConfig.flagEnableDataVisualization24h
+        disp('Flag PicassoConfig.flagEnableDataVisualization24h is true');
+    else
+        disp('Flag PicassoConfig.flagEnableDataVisualization24h does not exist or is set to false!');
+%        %% display signal status
+%        print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%        pollyDisplaySigStatus(data);
+%        print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%    
+%        %% display attenuated backscatter
+%        print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayAttnBsc(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%    
+%        %% display water vapor products
+%        print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayWV(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%    
+%        %% display quasi-retrieved products (V1)
+%        print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayQsiV1(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%    
+%        %% display quasi-retrieved products (V2)
+%        print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayQsiV2(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%    
+%        %% display aerosol/cloud target classification mask (V1)
+%        print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayTCV1(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%    
+%        %% display aerosol/cloud target classification mask (V2)
+%        print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%        pollyDisplayTCV2(data);
+%        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    end
+
+
     print_msg('Finish!\n', 'flagTimestamp', true);
 end
+
 
 %% Done filelist
 if p.Results.flagDonefileList
