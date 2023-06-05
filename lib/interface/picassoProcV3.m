@@ -4713,11 +4713,14 @@ if PicassoConfig.flagEnableResultsOutput
     print_msg('Start saving products.\n', 'flagTimestamp', true);
 
     for iProd = 1:length(PollyConfig.prodSaveList)
+        %try
+        
         switch lower(PollyConfig.prodSaveList{iProd})
 
         case 'overlap'
             print_msg('--> start saving overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save overlap function
+            try
             saveFile = fullfile(PicassoConfig.results_folder, ...
                                 CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), ...
                                 datestr(data.mTime(1), 'mm'), ...
@@ -4725,87 +4728,145 @@ if PicassoConfig.flagEnableResultsOutput
                                 sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
             pollySaveOverlap(data, saveFile);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'aerproffr'
             print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
-            pollySaveProfiles(data);
+            try
+	    pollySaveProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+	    catch
+	    print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+	    end
+    %try
         case 'aerprofnr'
             print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
+          try
             pollySaveNRProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+          catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+          end
         case 'aerprofoc'
             print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save aerosol optical results
+            try
             pollySaveOCProfiles(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
+            
         case 'aerattbetafr'
             print_msg('--> start saving attenuated backscatter (far-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter from far-field signal
+            try
             pollySaveAttnBeta(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true)
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end;
 
         case 'aerattbetaoc'
             print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter from overlap-corrected signal
+            try
             pollySaveOCAttnBeta(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'aerattbetanr'
             print_msg('--> start saving attenuated backscatter (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save attenuated backscatter from near-field signal
+            try
             pollySaveNRAttnBeta(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'wvmr_rh'
             print_msg('--> start saving water vapor products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save water vapor mixing ratio and relative humidity
+            try
             pollySaveWV(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'voldepol'
             print_msg('--> start saving volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save volume depolarization ratio
+            try
             pollySaveVDR(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'quasiv1'
             print_msg('--> start saving quasi-retrieved products (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save quasi results (V1)
+            try
             pollySaveQsiV1(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'quasiv2'
             print_msg('--> start saving quasi-retrieved products (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save quasi results (V2)
+            try
             pollySaveQsiV2(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'tc'
             print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save target classification results (V1)
+            try
             pollySaveTCV1(data);
             print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'tcv2'
             print_msg('--> start saving aerosol/cloud target classification mask (V2).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save target classification results (V2)
+            try
             pollySaveTCV2(data);
             print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
 
         case 'cloudinfo'
             print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            try
             pollySaveCloudInfo(data);
             print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
+        
+        
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
         end
+        %catch
+        %    print_msg('--> Error storing data as netcdf');
+        %end
     end
 
     print_msg('Finish.\n', 'flagTimestamp', true);
