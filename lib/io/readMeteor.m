@@ -171,6 +171,24 @@ case 'radiosonde'
         end
     end
 
+case 'nc_cloudnet'
+    [alt, temp, pres, relh, wins, wind, gdas1File] = readMETnccloudnet(measTime, ...
+        p.Results.gdas1Site, p.Results.gdas1_folder, ...
+        'isUseLatestGDAS', p.Results.isUseLatestGDAS);
+
+    if isempty(alt)
+        alt = [];
+        temp = [];
+        pres = [];
+        relh = [];
+        wins = [];
+        wind = [];
+    else
+        attri.dataSource = p.Results.meteorDataSource;
+        attri.URL = gdas1File;
+        attri.datetime = measTime;
+    end
+
 otherwise
     error('Unknown meteorological data source.\n%s\n', ...
           p.Results.meteorDataSource)
