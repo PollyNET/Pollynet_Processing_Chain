@@ -20,6 +20,7 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "",
+    "meteo_folder": "/data/level1a/model/gdas1/profiles",
     "AERONETSite": "",
 
     "max_height_bin": 3000,
