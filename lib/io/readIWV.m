@@ -51,6 +51,7 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 %    - 2018-12-26: First Edition by Zhenping
 %    - 2019-05-19: Fix the bug of returning empty IWV when more than 2 MWR files were found.
 %    - 2023-07-12: Addded MWR_cloudnet source
+%    - 2023-07-13: Added correct location subdir for MWR_cloudnet
 %
 % .. Authors: - zhenping@tropos.de, klamt@tropos.de
 
@@ -125,8 +126,23 @@ case 'mwr_cloudnet'
 %         %sprintf('*_mwr00_l2_prw_v00_%s*.nc', ...
 %         sprintf('*%s_hatpro_proc*.nc', ...
 %            datestr(clFreTime(1), 'yyyymmdd'))));
+    
+    % looking for the correct location subfolder:
+    % Get a list of folders in the MWRFolder directory
+    folders = dir(p.Results.MWRFolder);
+    folders = folders([folders.isdir]);  % Filter out non-folders
+    
+    % Find the subdirectory with a case-insensitive search
+    locationsubDir = [];
+    for i = 1:numel(folders)
+        if strcmpi(folders(i).name, p.Results.MWRSite)
+            locationsubDir = folders(i).name;
+            break;
+        end
+    end
+   
      mwrResFilename = fullfile(p.Results.MWRFolder, ...
-         sprintf('*'), ... % location directory
+         sprintf('%s', locationsubDir), ... % location directory from p.Results.MWRSite
          sprintf('%s', datestr(clFreTime(1), 'yyyy')), ...
          sprintf('%s', datestr(clFreTime(1), 'mm')), ...
          sprintf('%s', datestr(clFreTime(1), 'dd')), ...
