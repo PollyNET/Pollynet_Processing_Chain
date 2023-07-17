@@ -53,7 +53,14 @@ for iFile = 1:length(files)
     %% read data
     thisIWV = ncread(thisFile, 'iwv');
     thisTSec = ncread(thisFile, 'time');
-    thistIWV = unix_timestamp_2_datenum(thisTSec);
+%    thistIWV = unix_timestamp_2_datenum(thisTSec);
+%%  time from cloudnetpy product is now at the units of hours of the current day.
+    unitsStr = ncreadatt(thisFile, 'time', 'units');
+    startCharPos = strfind(unitsStr, 'hours since ') + length('hours since ');
+    mDate = datenum(unitsStr(startCharPos:(startCharPos + 9)), 'yyyy-mm-dd');
+    hoursOfDay = ncread(thisFile, 'time');
+    thistIWV = mDate + datenum(0, 1, 0, hoursOfDay, 0, 0);
+
     IWVAttri.instrument_pid = ncreadatt(thisFile, '/', 'instrument_pid');
     IWVAttri.source = ncreadatt(thisFile, '/', 'source');
     IWVAttri.site = ncreadatt(thisFile, '/', 'location');
