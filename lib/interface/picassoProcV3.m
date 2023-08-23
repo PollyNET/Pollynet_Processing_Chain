@@ -1,6 +1,6 @@
 function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, varargin)
 % PICASSOPROCV3 Picasso processing main program (Version 3.0).
-%
+% 
 % USAGE:
 %    % Usecase 1: process polly data
 %    [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile)
@@ -28,6 +28,7 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        - PollyXT_TJK
 %        - PollyXT_TAU
 %        - PollyXT_CYP
+%        - PollyXT_CPV
 %    PicassoConfigFile: char
 %        absolute path of Picasso configuration file.
 %
@@ -2841,6 +2842,17 @@ end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% POLIPHON (1-step)
+print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
+
+[POLIPHON1] = poliphon_one ...
+          (aerBsc355_klett, pdr355_klett, ...
+          aerBsc532_klett, pdr532_klett, ...
+          aerBsc1064_klett, pdr1064_klett, ...
+          aerBsc355_raman, pdr355_raman, ...
+          aerBsc532_raman, pdr532_raman, ...
+          aerBsc1064_raman, pdr1064_raman);
+print_msg('Finish.\n', 'flagTimestamp', true);
 %% Signal status
 SNR = NaN(size(data.signal));
 for iCh = 1:size(data.signal, 1)
@@ -3164,12 +3176,12 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.17);
     % RHOAIR = repmat(rhoAir, 1, length(data.mTime));
     % DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
-
+    
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
     WVMR_no_QC = WVMR;
-    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
-    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     WVMR (quality_mask_WVMR>0)=NaN;
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
@@ -4785,7 +4797,7 @@ if PicassoConfig.flagEnableResultsOutput
             %% save quasi results (V2)
             pollySaveQsiV2(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+ 
         case 'tc'
             print_msg('--> start saving aerosol/cloud target classification mask (V1).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %% save target classification results (V1)
@@ -4802,7 +4814,13 @@ if PicassoConfig.flagEnableResultsOutput
             print_msg('--> start saving cloud mask.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             pollySaveCloudInfo(data);
             print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-
+            
+        case 'poliphon_one'
+            print_msg('--> start saving 1-step Poliphon products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            %% save Poliphon_one
+            pollySavePOLIPHON(data, POLIPHON1);
+            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);            
+           
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
         end
