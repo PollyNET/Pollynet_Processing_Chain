@@ -2841,6 +2841,19 @@ end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% POLIPHON (1-step)
+print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
+
+[POLIPHON1] = poliphon_one ...
+    (aerBsc355_klett, pdr355_klett, ...
+    aerBsc532_klett, pdr532_klett, ...
+    aerBsc1064_klett, pdr1064_klett, ...
+    aerBsc355_raman, pdr355_raman, ...
+    aerBsc532_raman, pdr532_raman, ...
+    aerBsc1064_raman, pdr1064_raman);
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
 %% Signal status
 SNR = NaN(size(data.signal));
 for iCh = 1:size(data.signal, 1)
@@ -3168,8 +3181,8 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % calculate wvmr and rh
     WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
     WVMR_no_QC = WVMR;
-    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
-    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits für smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     WVMR (quality_mask_WVMR>0)=NaN;
     RH = wvmr_2_rh(WVMR, ES, pressure);
     % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
@@ -4859,7 +4872,15 @@ if PicassoConfig.flagEnableResultsOutput
             catch
             print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
             end
-        
+            
+        case 'poliphon_one'
+            print_msg('--> start saving 1-step POLIPHON products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            try
+            pollySavePOLIPHON(data, POLIPHON1);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end        
         
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
