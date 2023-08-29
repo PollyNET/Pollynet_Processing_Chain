@@ -273,5 +273,5 @@
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
 }

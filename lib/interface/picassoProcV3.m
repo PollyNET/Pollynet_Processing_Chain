@@ -2842,7 +2842,7 @@ end
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% POLIPHON (1-step)
-print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
+% % print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
 
 [POLIPHON1] = poliphon_one ...
     (aerBsc355_klett, pdr355_klett, ...
