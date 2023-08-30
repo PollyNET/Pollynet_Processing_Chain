@@ -21,6 +21,32 @@ function [POLIPHON1] = poliphon_one(aerBsc355_klett, pdr355_klett, ...
 %
 % .. Authors: - floutsi@tropos.de
 
+% pre-allocated variables
+aerBsc355_klett_d1       = NaN(size(aerBsc355_klett));
+aerBsc355_klett_nd1      = NaN(size(aerBsc355_klett));
+err_aerBsc355_klett_d1   = NaN(size(aerBsc355_klett));
+err_aerBsc355_klett_nd1  = NaN(size(aerBsc355_klett));
+aerBsc532_klett_d1       = NaN(size(aerBsc532_klett));
+aerBsc532_klett_nd1      = NaN(size(aerBsc532_klett));
+err_aerBsc532_klett_d1   = NaN(size(aerBsc532_klett));
+err_aerBsc532_klett_nd1  = NaN(size(aerBsc532_klett));
+aerBsc1064_klett_d1      = NaN(size(aerBsc1064_klett));
+aerBsc1064_klett_nd1     = NaN(size(aerBsc1064_klett));
+err_aerBsc1064_klett_d1  = NaN(size(aerBsc1064_klett));
+err_aerBsc1064_klett_nd1 = NaN(size(aerBsc1064_klett));
+aerBsc355_raman_d1       = NaN(size(aerBsc355_raman));
+aerBsc355_raman_nd1      = NaN(size(aerBsc355_raman));
+err_aerBsc355_raman_d1   = NaN(size(aerBsc355_raman));
+err_aerBsc355_raman_nd1  = NaN(size(aerBsc355_raman));
+aerBsc532_raman_d1       = NaN(size(aerBsc532_raman));
+aerBsc532_raman_nd1      = NaN(size(aerBsc532_raman));
+err_aerBsc532_raman_d1   = NaN(size(aerBsc532_raman));
+err_aerBsc532_raman_nd1  = NaN(size(aerBsc532_raman));
+aerBsc1064_raman_d1      = NaN(size(aerBsc1064_raman));
+aerBsc1064_raman_nd1     = NaN(size(aerBsc1064_raman));
+err_aerBsc1064_raman_d1  = NaN(size(aerBsc1064_raman));
+err_aerBsc1064_raman_nd1 = NaN(size(aerBsc1064_raman));
+
 Dd = [0.23, 0.31, 0.25];
 Dnd = [0.05, 0.05, 0.05];
 
@@ -55,10 +81,10 @@ end
 for k = 1:size(aerBsc532_klett,1)
     for i = 1:size(aerBsc532_klett,2)
         if isnan(aerBsc532_klett(k,i)) || isnan(pdr532_klett(k,i)) || (isnan(aerBsc532_klett(k,i)) && isnan(pdr532_klett(k,i)))
-            aerBsc355_klett_d1(k,i) = NaN;
-            aerBsc355_klett_nd1(k,i) = NaN;
-            err_aerBsc355_klett_d1(k,i) = NaN;
-            err_aerBsc355_klett_nd1(k,i) = NaN;
+            aerBsc532_klett_d1(k,i) = NaN;
+            aerBsc532_klett_nd1(k,i) = NaN;
+            err_aerBsc532_klett_d1(k,i) = NaN;
+            err_aerBsc532_klett_nd1(k,i) = NaN;
         else
             if pdr532_klett(k,i) < Dnd(2)
                 aerBsc532_klett_d1(k,i) = 0;
