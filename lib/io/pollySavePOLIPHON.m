@@ -51,30 +51,30 @@ varID_aerBsc_raman_1064    = netcdf.defVar(ncID, 'aerBsc_raman_1064', 'NC_FLOAT'
 varID_aerBscStd_raman_1064 = netcdf.defVar(ncID, 'uncertainty_aerBsc_raman_1064', 'NC_FLOAT', dimID_height);
 
 varID_aerBsc355_klett_d1       = netcdf.defVar(ncID, 'aerBsc355_klett_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc355_klett_d1   = netcdf.defVar(ncID, 'err_aerBsc355_klett_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc355_klett_d1   = netcdf.defVar(ncID, 'uncertainty_aerBsc355_klett_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc355_klett_nd1      = netcdf.defVar(ncID, 'aerBsc355_klett_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc355_klett_nd1  = netcdf.defVar(ncID, 'err_aerBsc355_klett_nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc355_klett_nd1  = netcdf.defVar(ncID, 'uncertainty_aerBsc355_klett_nd1', 'NC_FLOAT', dimID_height);
 varID_aerBsc532_klett_d1       = netcdf.defVar(ncID, 'aerBsc532_klett_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc532_klett_d1   = netcdf.defVar(ncID, 'err_aerBsc532_klett_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc532_klett_d1   = netcdf.defVar(ncID, 'uncertainty_aerBsc532_klett_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc532_klett_nd1      = netcdf.defVar(ncID, 'aerBsc532_klett_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc532_klett_nd1  = netcdf.defVar(ncID, 'err_aerBsc532_klett_nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc532_klett_nd1  = netcdf.defVar(ncID, 'uncertainty_aerBsc532_klett_nd1', 'NC_FLOAT', dimID_height);
 varID_aerBsc1064_klett_d1      = netcdf.defVar(ncID, 'aerBsc1064_klett_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc1064_klett_d1  = netcdf.defVar(ncID, 'err_aerBsc1064_klett_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc1064_klett_d1  = netcdf.defVar(ncID, 'uncertainty_aerBsc1064_klett_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc1064_klett_nd1     = netcdf.defVar(ncID, 'aerBsc1064_klett_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc1064_klett_nd1 = netcdf.defVar(ncID, 'err_aerBsc1064__nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc1064_klett_nd1 = netcdf.defVar(ncID, 'uncertainty_aerBsc1064__nd1', 'NC_FLOAT', dimID_height);
 
 varID_aerBsc355_raman_d1       = netcdf.defVar(ncID, 'aerBsc355_raman_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc355_raman_d1   = netcdf.defVar(ncID, 'err_aerBsc355_raman_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc355_raman_d1   = netcdf.defVar(ncID, 'uncertainty_aerBsc355_raman_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc355_raman_nd1      = netcdf.defVar(ncID, 'aerBsc355_raman_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc355_raman_nd1  = netcdf.defVar(ncID, 'err_aerBsc355_raman_nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc355_raman_nd1  = netcdf.defVar(ncID, 'uncertainty_aerBsc355_raman_nd1', 'NC_FLOAT', dimID_height);
 varID_aerBsc532_raman_d1       = netcdf.defVar(ncID, 'aerBsc532_raman_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc532_raman_d1   = netcdf.defVar(ncID, 'err_aerBsc532_raman_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc532_raman_d1   = netcdf.defVar(ncID, 'uncertainty_aerBsc532_raman_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc532_raman_nd1      = netcdf.defVar(ncID, 'aerBsc532_raman_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc532_raman_nd1  = netcdf.defVar(ncID, 'err_aerBsc532_raman_nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc532_raman_nd1  = netcdf.defVar(ncID, 'uncertainty_aerBsc532_raman_nd1', 'NC_FLOAT', dimID_height);
 varID_aerBsc1064_raman_d1      = netcdf.defVar(ncID, 'aerBsc1064_raman_d1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc1064_raman_d1  = netcdf.defVar(ncID, 'err_aerBsc1064_raman_d1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc1064_raman_d1  = netcdf.defVar(ncID, 'uncertainty_aerBsc1064_raman_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc1064_raman_nd1     = netcdf.defVar(ncID, 'aerBsc1064_raman_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc1064_raman_nd1 = netcdf.defVar(ncID, 'err_aerBsc1064_raman_nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc1064_raman_nd1 = netcdf.defVar(ncID, 'uncertainty_aerBsc1064_raman_nd1', 'NC_FLOAT', dimID_height);
 
 % define the filling value
 netcdf.defVarFill(ncID, varID_aerBsc_klett_355, false, missing_value);
@@ -127,29 +127,29 @@ netcdf.defVarDeflate(ncID, varID_aerBsc_raman_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_aerBscStd_raman_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_aerBsc_raman_1064, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_aerBscStd_raman_1064, true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc355_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc355_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc355_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc355_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc532_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc532_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc532_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc532_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc1064_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_klett_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc1064_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_klett_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc355_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc355_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc355_raman_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc355_raman_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc532_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc532_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc532_raman_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc532_raman_nd1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc1064_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_raman_d1 , true, true, 5);
-netcdf.defVarDeflate(ncID, varID_aerBsc1064_raman_nd1 , true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc355_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc355_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc355_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc355_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc532_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc532_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc532_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc532_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc1064_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_klett_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc1064_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_klett_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc355_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc355_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc355_raman_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc355_raman_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc532_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc532_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc532_raman_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc532_raman_nd1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc1064_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_raman_d1, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_aerBsc1064_raman_nd1, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_err_aerBsc1064_raman_nd1, true, true, 5);
 
 % leave define mode
@@ -201,17 +201,6 @@ netcdf.putVar(ncID, varID_aerBsc1064_raman_d1, single(fillmissing(POLIPHON1.aerB
 netcdf.putVar(ncID, varID_err_aerBsc1064_raman_d1, single(fillmissing(POLIPHON1.err_aerBsc1064_raman_d1(iGrp, :), missing_value)));  
 netcdf.putVar(ncID, varID_aerBsc1064_raman_nd1, single(fillmissing(POLIPHON1.aerBsc1064_raman_nd1(iGrp, :), missing_value)));  
 netcdf.putVar(ncID, varID_err_aerBsc1064_raman_nd1, single(fillmissing(POLIPHON1.err_aerBsc1064_raman_nd1(iGrp, :), missing_value)));  
-
-% % netcdf.putVar(ncID, varID_voldepol_355, single(data.vdr355));
-% % netcdf.putVar(ncID, varID_voldepol_532, single(data.vdr532));
-% % netcdf.putVar(ncID, varID_voldepol_1064, single(data.vdr1064));
-
-% % netcdf.putVar(ncID, varID_aerBsc_raman_355, single(fillmissing(POLIPHON1.aerBsc355_raman(iGrp, :), missing_value)));
-% %     netcdf.putVar(ncID, varID_aerBscStd_raman_355, single(fillmissing(data.aerBscStd355_raman(iGrp, :), missing_value)));
-% %     netcdf.putVar(ncID, varID_aerBsc_raman_532, single(fillmissing(data.aerBsc532_raman(iGrp, :), missing_value)));
-% %     netcdf.putVar(ncID, varID_aerBscStd_raman_532, single(fillmissing(data.aerBscStd532_raman(iGrp, :), missing_value)));
-% %     netcdf.putVar(ncID, varID_aerBsc_raman_1064, single(fillmissing(data.aerBsc1064_raman(iGrp, :), missing_value)));
-% %     netcdf.putVar(ncID, varID_aerBscStd_raman_1064, single(fillmissing(data.aerBscStd1064_raman(iGrp, :), missing_value)));
    
 % re enter define mode
 netcdf.reDef(ncID);
