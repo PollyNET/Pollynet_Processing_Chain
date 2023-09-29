@@ -29,10 +29,15 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %        1:overlap correction with using the default overlap function;
 %        2: overlap correction with using the calculated overlap function;
 %        3: overlap correction with gluing near-range and far-range signal
+%        4: overlap correction with calculated ovelap based on Raman
+%        method.
+
 %    overlapSmWin: numeric
 %        smoothing window for overlap function (in bins)
 %    overlap: array
 %        overlap function.
+%    overlap_Raman: array
+%        overlap function Raman method.
 %
 % OUTPUTS:
 %    sigOLCor: array
@@ -46,6 +51,7 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %
 % HISTORY:
 %    - 2021-05-22: first edition by Zhenping
+%    - 2023-09-29: editon by Cristofer. Case 4 added (Raman method)
 %
 % .. Authors: - zhenping@tropos.de
 
@@ -63,6 +69,7 @@ addParameter(p, 'defaultOLFile', '', @ischar);
 addParameter(p, 'overlapCorMode', 0, @isnumeric);
 addParameter(p, 'overlapSmWin', 3, @isnumeric);
 addParameter(p, 'overlap', [], @isnumeric);
+addParameter(p, 'overlap_Raman', [], @isnumeric);
 
 parse(p, height, sigFR, bgFR, varargin{:});
 
@@ -86,42 +93,51 @@ sigOLCor = sigFR;
 bgOLCor = bgFR;
 
 switch p.Results.overlapCorMode
-case 0
-    % no overlap correction
-    sigOLCor = sigFR;
-    bgOLCor = bgFR;
-
-case 1
-    % overlap correction with default overlap function
-    olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
-    sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
-    bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
-
-    flagOLDeft = true;
-
-case 2
-    % overlap correction with the realtime calculated overlap function
-    if isempty(p.Results.overlap)
+    case 0
+        % no overlap correction
+        sigOLCor = sigFR;
+        bgOLCor = bgFR;
+        
+    case 1
+        % overlap correction with default overlap function
         olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
+        sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
+        bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
+        
         flagOLDeft = true;
-    else
-        olSm = smooth(p.Results.overlap, p.Results.overlapSmWin, 'sgolay', 2);
-        flagOLDeft = false;
-    end 
-
-    sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
-    bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
-
-case 3
-    % signal glue
-    if (~ isempty(p.Results.signalNR)) && (length(p.Results.signalNR) == length(sigFR))
-        sigOLCor = sigGlue(sigFR, p.Results.signalNR, p.Results.signalRatio, ...
-            height, height(p.Results.normRange));
-        bgOLCor = sigGlue(bgFR, p.Results.bgNR, p.Results.signalRatio, height, height(p.Results.normRange));
-    end
-
-otherwise
-    error('Unknown overlap correction mode %d', p.Results.overlapCorMode);
+        
+    case 2
+        % overlap correction with the realtime calculated overlap function
+        if isempty(p.Results.overlap)
+            olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
+            flagOLDeft = true;
+        else
+            olSm = smooth(p.Results.overlap, p.Results.overlapSmWin, 'sgolay', 2);
+            flagOLDeft = false;
+        end
+        
+        sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
+        bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
+        
+    case 3
+        % signal glue
+        if (~ isempty(p.Results.signalNR)) && (length(p.Results.signalNR) == length(sigFR))
+            sigOLCor = sigGlue(sigFR, p.Results.signalNR, p.Results.signalRatio, ...
+                height, height(p.Results.normRange));
+            bgOLCor = sigGlue(bgFR, p.Results.bgNR, p.Results.signalRatio, height, height(p.Results.normRange));
+        end
+        
+    case 4
+        % Raman method
+        flagOLDeft = true;
+        ovl_for_correction=repmat(p.Results.overlap_Raman,[1,size(sigFR,2)]);
+        sigOLCor = sigFR ./ ovl_for_correction;
+        bgOLCor = bgFR./ ovl_for_correction;
+        
+        
+        
+    otherwise
+        error('Unknown overlap correction mode %d', p.Results.overlapCorMode);
 end
 
 end

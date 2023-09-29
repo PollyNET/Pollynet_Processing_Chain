@@ -51,7 +51,7 @@ addRequired(p, 'sigNR', @isnumeric);
 addRequired(p, 'bgNR', @isnumeric);
 addRequired(p, 'height', @isnumeric);
 addParameter(p, 'hFullOverlap', 600, @isnumeric);
-addParameter(p, 'overlapCalMode', 1, @isnumeric);
+%addParameter(p, 'overlapCalMode', 1, @isnumeric);
 
 parse(p, height, sigFR, bgFR, sigNR, bgNR, varargin{:});
 
@@ -61,9 +61,9 @@ overlapStd = [];
 sigRatio = [];
 normRange = [];
 
-switch p.Results.overlapCalMode
-
-case 1   % ratio of near and far range signal
+% switch p.Results.overlapCalMode
+% 
+% case 1   % ratio of near and far range signal
 
     if (~ isempty(sigNR)) && (~ isempty(sigFR))
 
@@ -88,8 +88,8 @@ case 1   % ratio of near and far range signal
         end
     end
 
-case 2   % raman method
-    % TODO
-end
+% case 2   % raman method
+%     % Done in a separate module
+% end
 
 end

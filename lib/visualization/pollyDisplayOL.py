@@ -131,6 +131,8 @@ def pollyDisplayOL(tmpFile, saveFolder):
             partnerLabel = ''
         overlap355 = mat['overlap355'].reshape(-1)
         overlap532 = mat['overlap532'].reshape(-1)
+        overlap355Raman = mat['overlap355Raman'].reshape(-1)
+        overlap532Raman = mat['overlap532Raman'].reshape(-1)
         overlap355Defaults = mat['overlap355Defaults'].reshape(-1)
         overlap532Defaults = mat['overlap532Defaults'].reshape(-1)
         sig355FR = mat['sig355FR'].reshape(-1)
@@ -177,6 +179,10 @@ def pollyDisplayOL(tmpFile, saveFolder):
                    linestyle='--', label=r'default overlap 355 FR')
     p4, = ax1.plot(overlap532Defaults, height, color='#58B13F',
                    linestyle='--', label=r'default overlap 532 FR')
+    p5, = ax1.plot(overlap355Raman, height, color='#00FFFF',
+                   linestyle='-', label=r'overlap 355 FR (Raman)')
+    p6, = ax1.plot(overlap532Raman, height, color='#CCCC00',
+                   linestyle='-', label=r'overlap 532 FR (Raman)')
     ax1.set_ylim([0, 3000])
     ax1.set_xlim([-0.05, 1.1])
     ax1.set_ylabel('Height (m)', fontsize=15)
@@ -199,7 +205,7 @@ def pollyDisplayOL(tmpFile, saveFolder):
         horizontalalignment='center',
         fontsize=15
         )
-    ax1.legend(handles=[p1, p2, p3, p4], loc='upper left', fontsize=15)
+    ax1.legend(handles=[p1, p2, p3, p4, p5, p6], loc='upper left', fontsize=15)
 
     sig355FR = np.ma.masked_where(sig355FR <= 0, sig355FR)
     sig355NR = np.ma.masked_where(sig355NR <= 0, sig355NR)
