@@ -514,230 +514,7 @@ else
 end
 print_msg('Finish.\n', 'flagTimestamp', true);
 
-%% Overlap estimation
-print_msg('Start overlap estimation.\n', 'flagTimestamp', true);
 
-% 355 nm
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-olAttri355 = struct();
-olAttri355.sigFR = [];
-olAttri355.sigNR = [];
-olAttri355.sigRatio = [];
-olAttri355.normRange = [];
-olAttri355.time = NaN;
-olFunc355 = NaN(length(data.height), 1);
-% olStd355 = NaN(length(data.height), 1);
-if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
-
-    sig355NR = squeeze(sum(data.signal(flag355NR, :, flagCloudFree_NR), 3));
-    bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
-    sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
-    bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_NR), 3));
-    [olFunc355, ~, olAttri355] = pollyOVLCalc(data.height, ...
-        sig355FR, sig355NR, bg355FR, bg355NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode, ...
-        'PC2PCR', PC2PCR);
-    olAttri355.time = nanmean(data.mTime);
-end
-
-% 387 nm
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
-flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
-olAttri387 = struct();
-olAttri387.sigFR = [];
-olAttri387.sigNR = [];
-olAttri387.sigRatio = [];
-olAttri387.normRange = [];
-olAttri387.time = NaN;
-olFunc387 = NaN(length(data.height), 1);
-% olStd387 = NaN(length(data.height), 1);
-if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
-
-    sig387NR = squeeze(sum(data.signal(flag387NR, :, flagCloudFree_NR), 3));
-    bg387NR = squeeze(sum(data.bg(flag387NR, :, flagCloudFree_NR), 3));
-    sig387FR = squeeze(sum(data.signal(flag387FR, :, flagCloudFree_NR), 3));
-    bg387FR = squeeze(sum(data.bg(flag387FR, :, flagCloudFree_NR), 3));
-    [olFunc387, ~, olAttri387] = pollyOVLCalc(data.height, ...
-        sig387FR, sig387NR, bg387FR, bg387NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag387FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode, ...
-        'PC2PCR', PC2PCR);
-    olAttri387.time = nanmean(data.mTime);
-end
-
-% 532 nm
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-olAttri532 = struct();
-olAttri532.sigFR = [];
-olAttri532.sigNR = [];
-olAttri532.sigRatio = [];
-olAttri532.normRange = [];
-olAttri532.time = NaN;
-olFunc532 = NaN(length(data.height), 1);
-% olStd532 = NaN(length(data.height), 1);
-if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
-
-    sig532NR = squeeze(sum(data.signal(flag532NR, :, flagCloudFree_NR), 3));
-    bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
-    sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
-    bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_NR), 3));
-    [olFunc532, ~, olAttri532] = pollyOVLCalc(data.height, ...
-        sig532FR, sig532NR, bg532FR, bg532NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode, ...
-        'PC2PCR', PC2PCR);
-    olAttri532.time = nanmean(data.mTime);
-end
-
-% 607 nm
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
-flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
-olAttri607 = struct();
-olAttri607.sigFR = [];
-olAttri607.sigNR = [];
-olAttri607.sigRatio = [];
-olAttri607.normRange = [];
-olAttri607.time = [];
-olFunc607 = NaN(length(data.height), 1);
-% olStd607 = NaN(length(data.height), 1);
-if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
-
-    sig607NR = squeeze(sum(data.signal(flag607NR, :, flagCloudFree_NR), 3));
-    bg607NR = squeeze(sum(data.bg(flag607NR, :, flagCloudFree_NR), 3));
-    sig607FR = squeeze(sum(data.signal(flag607FR, :, flagCloudFree_NR), 3));
-    bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_NR), 3));
-    [olFunc607, ~, olAttri607] = pollyOVLCalc(data.height, ...
-        sig607FR, sig607NR, bg607FR, bg607NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag607FR), ...
-        'overlapCalMode', PollyConfig.overlapCalMode, ...
-        'PC2PCR', PC2PCR);
-    olAttri607.time = nanmean(data.mTime);
-end
-
-% 1064 nm
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
-olAttri1064 = struct();
-olAttri1064.sigFR = [];
-olAttri1064.sigNR = [];
-olAttri1064.sigRatio = [];
-olAttri1064.normRange = [];
-olAttri1064.time = NaN;
-olFunc1064 = NaN(length(data.height), 1);
-% olStd1064 = NaN(length(data.height), 1);
-if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
-    olFunc1064 = olFunc532;
-    % olStd1064 = olStd532;
-    olAttri1064 = olAttri532;
-end
-
-print_msg('Finish.\n', 'flagTimestamp', true);
-
-%% Overlap correction
-print_msg('Start overlap correction.\n', 'flagTimestamp', true);
-
-% 355 nm
-sigOLCor355 = [];
-bgOLCor355 = [];
-olFuncDeft355 = NaN(length(data.height), 1);
-% flagOLDeft355 = false;
-if (sum(flag355FR) == 1)
-    sig355FR = squeeze(data.signal(flag355FR, :, :));
-    bg355FR = squeeze(data.bg(flag355FR, :, :));
-    sig355NR = squeeze(data.signal(flag355NR, :, :));
-    bg355NR = squeeze(data.bg(flag355NR, :, :));
-    [sigOLCor355, bgOLCor355, olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
-        'signalNR', sig355NR, 'bgNR', bg355NR, ...
-        'signalRatio', olAttri355.sigRatio, 'normRange', olAttri355.normRange, ...
-        'overlap', olFunc355, ...
-        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
-        'overlapCorMode', PollyConfig.overlapCorMode, ...
-        'overlapSmWin', PollyConfig.overlapSmoothBins);
-end
-
-% 387 nm
-sigOLCor387 = [];
-bgOLCor387 = [];
-% olFuncDeft387 = NaN(length(data.height), 1);
-% flagOLDeft387 = false;
-if (sum(flag387FR) == 1)
-    sig387FR = squeeze(data.signal(flag387FR, :, :));
-    bg387FR = squeeze(data.bg(flag387FR, :, :));
-    sig387NR = squeeze(data.signal(flag387NR, :, :));
-    bg387NR = squeeze(data.bg(flag387NR, :, :));
-    [sigOLCor387, bgOLCor387, ~, ~] = pollyOLCor(data.height, sig387FR, bg387FR, ...
-        'signalNR', sig387NR, 'bgNR', bg387NR, ...
-        'signalRatio', olAttri387.sigRatio, 'normRange', olAttri387.normRange, ...
-        'overlap', olFunc387, ...
-        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
-        'overlapCorMode', PollyConfig.overlapCorMode, ...
-        'overlapSmWin', PollyConfig.overlapSmoothBins);
-end
-
-% 532 nm
-sigOLCor532 = [];
-bgOLCor532 = [];
-olFuncDeft532 = NaN(length(data.height), 1);
-% flagOLDeft532 = false;
-if (sum(flag532FR) == 1)
-    sig532FR = squeeze(data.signal(flag532FR, :, :));
-    bg532FR = squeeze(data.bg(flag532FR, :, :));
-    sig532NR = squeeze(data.signal(flag532NR, :, :));
-    bg532NR = squeeze(data.bg(flag532NR, :, :));
-    [sigOLCor532, bgOLCor532, olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
-        'signalNR', sig532NR, 'bgNR', bg532NR, ...
-        'signalRatio', olAttri532.sigRatio, 'normRange', olAttri532.normRange, ...
-        'overlap', olFunc532, ...
-        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
-        'overlapCorMode', PollyConfig.overlapCorMode, ...
-        'overlapSmWin', PollyConfig.overlapSmoothBins);
-end
-
-% 607 nm
-sigOLCor607 = [];
-bgOLCor607 = [];
-% olFuncDeft607 = NaN(length(data.height), 1);
-% flagOLDeft607 = false;
-if (sum(flag607FR) == 1)
-    sig607FR = squeeze(data.signal(flag607FR, :, :));
-    bg607FR = squeeze(data.bg(flag607FR, :, :));
-    sig607NR = squeeze(data.signal(flag607NR, :, :));
-    bg607NR = squeeze(data.bg(flag607NR, :, :));
-    [sigOLCor607, bgOLCor607, ~, ~] = pollyOLCor(data.height, sig607FR, bg607FR, ...
-        'signalNR', sig607NR, 'bgNR', bg607NR, ...
-        'signalRatio', olAttri607.sigRatio, 'normRange', olAttri607.normRange, ...
-        'overlap', olFunc607, ...
-        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
-        'overlapCorMode', PollyConfig.overlapCorMode, ...
-        'overlapSmWin', PollyConfig.overlapSmoothBins);
-end
-
-% 1064 nm
-sigOLCor1064 = [];
-bgOLCor1064 = [];
-% olFuncDeft1064 = NaN(length(data.height), 1);
-% flagOLDeft1064 = false;
-if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1)
-    sig1064FR = squeeze(data.signal(flag1064FR, :, :));
-    bg1064FR = squeeze(data.bg(flag1064FR, :, :));
-    sig1064NR = [];
-    bg1064NR = [];
-    [sigOLCor1064, bgOLCor1064, ~, ~] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
-        'signalNR', sig1064NR, 'bgNR', bg1064NR, ...
-        'signalRatio', olAttri1064.sigRatio, 'normRange', olAttri1064.normRange, ...
-        'overlap', olFunc1064, ...
-        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
-        'overlapCorMode', PollyConfig.overlapCorMode, ...
-        'overlapSmWin', PollyConfig.overlapSmoothBins);
-end
-
-print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Cloud-free profiles segmentation
 print_msg('Start cloud-free profiles segmentation.\n', 'flagTimestamp', true);
@@ -2258,6 +2035,241 @@ for iGrp = 1:size(clFreGrps, 1)
     refBeta_NR_532_raman(iGrp) = refBeta532;
 
 end
+
+
+
+
+
+%% Overlap estimation
+print_msg('Start overlap estimation.\n', 'flagTimestamp', true);
+
+% 355 nm
+flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+olAttri355 = struct();
+olAttri355.sigFR = [];
+olAttri355.sigNR = [];
+olAttri355.sigRatio = [];
+olAttri355.normRange = [];
+olAttri355.time = NaN;
+olFunc355 = NaN(length(data.height), 1);
+% olStd355 = NaN(length(data.height), 1);
+if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
+    sig355NR = squeeze(sum(data.signal(flag355NR, :, flagCloudFree_NR), 3));
+    bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
+    sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
+    bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_NR), 3));
+    [olFunc355, ~, olAttri355] = pollyOVLCalc(data.height, ...
+        sig355FR, sig355NR, bg355FR, bg355NR, ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
+    olAttri355.time = nanmean(data.mTime);
+end
+
+% 387 nm
+flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
+flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
+olAttri387 = struct();
+olAttri387.sigFR = [];
+olAttri387.sigNR = [];
+olAttri387.sigRatio = [];
+olAttri387.normRange = [];
+olAttri387.time = NaN;
+olFunc387 = NaN(length(data.height), 1);
+% olStd387 = NaN(length(data.height), 1);
+if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
+    sig387NR = squeeze(sum(data.signal(flag387NR, :, flagCloudFree_NR), 3));
+    bg387NR = squeeze(sum(data.bg(flag387NR, :, flagCloudFree_NR), 3));
+    sig387FR = squeeze(sum(data.signal(flag387FR, :, flagCloudFree_NR), 3));
+    bg387FR = squeeze(sum(data.bg(flag387FR, :, flagCloudFree_NR), 3));
+    [olFunc387, ~, olAttri387] = pollyOVLCalc(data.height, ...
+        sig387FR, sig387NR, bg387FR, bg387NR, ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag387FR), ...
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
+    olAttri387.time = nanmean(data.mTime);
+end
+
+% 532 nm
+flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+olAttri532 = struct();
+olAttri532.sigFR = [];
+olAttri532.sigNR = [];
+olAttri532.sigRatio = [];
+olAttri532.normRange = [];
+olAttri532.time = NaN;
+olFunc532 = NaN(length(data.height), 1);
+% olStd532 = NaN(length(data.height), 1);
+if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
+    sig532NR = squeeze(sum(data.signal(flag532NR, :, flagCloudFree_NR), 3));
+    bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
+    bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_NR), 3));
+    [olFunc532, ~, olAttri532] = pollyOVLCalc(data.height, ...
+        sig532FR, sig532NR, bg532FR, bg532NR, ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
+    olAttri532.time = nanmean(data.mTime);
+end
+
+% 607 nm
+flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
+flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
+olAttri607 = struct();
+olAttri607.sigFR = [];
+olAttri607.sigNR = [];
+olAttri607.sigRatio = [];
+olAttri607.normRange = [];
+olAttri607.time = [];
+olFunc607 = NaN(length(data.height), 1);
+% olStd607 = NaN(length(data.height), 1);
+if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flagCloudFree_NR)) / 150;
+
+    sig607NR = squeeze(sum(data.signal(flag607NR, :, flagCloudFree_NR), 3));
+    bg607NR = squeeze(sum(data.bg(flag607NR, :, flagCloudFree_NR), 3));
+    sig607FR = squeeze(sum(data.signal(flag607FR, :, flagCloudFree_NR), 3));
+    bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_NR), 3));
+    [olFunc607, ~, olAttri607] = pollyOVLCalc(data.height, ...
+        sig607FR, sig607NR, bg607FR, bg607NR, ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag607FR), ...
+        'overlapCalMode', PollyConfig.overlapCalMode, ...
+        'PC2PCR', PC2PCR);
+    olAttri607.time = nanmean(data.mTime);
+end
+
+% 1064 nm
+flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+olAttri1064 = struct();
+olAttri1064.sigFR = [];
+olAttri1064.sigNR = [];
+olAttri1064.sigRatio = [];
+olAttri1064.normRange = [];
+olAttri1064.time = NaN;
+olFunc1064 = NaN(length(data.height), 1);
+% olStd1064 = NaN(length(data.height), 1);
+if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
+    olFunc1064 = olFunc532;
+    % olStd1064 = olStd532;
+    olAttri1064 = olAttri532;
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% Overlap correction
+print_msg('Start overlap correction.\n', 'flagTimestamp', true);
+
+% 355 nm
+sigOLCor355 = [];
+bgOLCor355 = [];
+olFuncDeft355 = NaN(length(data.height), 1);
+% flagOLDeft355 = false;
+if (sum(flag355FR) == 1)
+    sig355FR = squeeze(data.signal(flag355FR, :, :));
+    bg355FR = squeeze(data.bg(flag355FR, :, :));
+    sig355NR = squeeze(data.signal(flag355NR, :, :));
+    bg355NR = squeeze(data.bg(flag355NR, :, :));
+    [sigOLCor355, bgOLCor355, olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
+        'signalNR', sig355NR, 'bgNR', bg355NR, ...
+        'signalRatio', olAttri355.sigRatio, 'normRange', olAttri355.normRange, ...
+        'overlap', olFunc355, ...
+        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
+        'overlapCorMode', PollyConfig.overlapCorMode, ...
+        'overlapSmWin', PollyConfig.overlapSmoothBins);
+end
+
+% 387 nm
+sigOLCor387 = [];
+bgOLCor387 = [];
+% olFuncDeft387 = NaN(length(data.height), 1);
+% flagOLDeft387 = false;
+if (sum(flag387FR) == 1)
+    sig387FR = squeeze(data.signal(flag387FR, :, :));
+    bg387FR = squeeze(data.bg(flag387FR, :, :));
+    sig387NR = squeeze(data.signal(flag387NR, :, :));
+    bg387NR = squeeze(data.bg(flag387NR, :, :));
+    [sigOLCor387, bgOLCor387, ~, ~] = pollyOLCor(data.height, sig387FR, bg387FR, ...
+        'signalNR', sig387NR, 'bgNR', bg387NR, ...
+        'signalRatio', olAttri387.sigRatio, 'normRange', olAttri387.normRange, ...
+        'overlap', olFunc387, ...
+        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
+        'overlapCorMode', PollyConfig.overlapCorMode, ...
+        'overlapSmWin', PollyConfig.overlapSmoothBins);
+end
+
+% 532 nm
+sigOLCor532 = [];
+bgOLCor532 = [];
+olFuncDeft532 = NaN(length(data.height), 1);
+% flagOLDeft532 = false;
+if (sum(flag532FR) == 1)
+    sig532FR = squeeze(data.signal(flag532FR, :, :));
+    bg532FR = squeeze(data.bg(flag532FR, :, :));
+    sig532NR = squeeze(data.signal(flag532NR, :, :));
+    bg532NR = squeeze(data.bg(flag532NR, :, :));
+    [sigOLCor532, bgOLCor532, olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
+        'signalNR', sig532NR, 'bgNR', bg532NR, ...
+        'signalRatio', olAttri532.sigRatio, 'normRange', olAttri532.normRange, ...
+        'overlap', olFunc532, ...
+        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
+        'overlapCorMode', PollyConfig.overlapCorMode, ...
+        'overlapSmWin', PollyConfig.overlapSmoothBins);
+end
+
+% 607 nm
+sigOLCor607 = [];
+bgOLCor607 = [];
+% olFuncDeft607 = NaN(length(data.height), 1);
+% flagOLDeft607 = false;
+if (sum(flag607FR) == 1)
+    sig607FR = squeeze(data.signal(flag607FR, :, :));
+    bg607FR = squeeze(data.bg(flag607FR, :, :));
+    sig607NR = squeeze(data.signal(flag607NR, :, :));
+    bg607NR = squeeze(data.bg(flag607NR, :, :));
+    [sigOLCor607, bgOLCor607, ~, ~] = pollyOLCor(data.height, sig607FR, bg607FR, ...
+        'signalNR', sig607NR, 'bgNR', bg607NR, ...
+        'signalRatio', olAttri607.sigRatio, 'normRange', olAttri607.normRange, ...
+        'overlap', olFunc607, ...
+        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
+        'overlapCorMode', PollyConfig.overlapCorMode, ...
+        'overlapSmWin', PollyConfig.overlapSmoothBins);
+end
+
+% 1064 nm
+sigOLCor1064 = [];
+bgOLCor1064 = [];
+% olFuncDeft1064 = NaN(length(data.height), 1);
+% flagOLDeft1064 = false;
+if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1)
+    sig1064FR = squeeze(data.signal(flag1064FR, :, :));
+    bg1064FR = squeeze(data.bg(flag1064FR, :, :));
+    sig1064NR = [];
+    bg1064NR = [];
+    [sigOLCor1064, bgOLCor1064, ~, ~] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
+        'signalNR', sig1064NR, 'bgNR', bg1064NR, ...
+        'signalRatio', olAttri1064.sigRatio, 'normRange', olAttri1064.normRange, ...
+        'overlap', olFunc1064, ...
+        'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
+        'overlapCorMode', PollyConfig.overlapCorMode, ...
+        'overlapSmWin', PollyConfig.overlapSmoothBins);
+end
+
+print_msg('Finish.\n', 'flagTimestamp', true);
+
+
+
+
+
+
 
 %% Raman method (overlap corrected at 355 nm)
 aerBsc355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
