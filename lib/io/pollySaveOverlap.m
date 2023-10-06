@@ -95,7 +95,7 @@ varID_LR_derived355 = netcdf.defVar(ncID, 'LRderived355', 'NC_FLOAT', dimID_time
 varID_overlap532Defaults = netcdf.defVar(ncID, 'overlap532Defaults', 'NC_FLOAT', dimID_height);
 varID_overlap355Defaults = netcdf.defVar(ncID, 'overlap355Defaults', 'NC_FLOAT', dimID_height);
 varID_overlapCorMode = netcdf.defVar(ncID, 'correction_used', 'NC_SHORT', dimID_method);
-
+varID_overlapCalMethod = netcdf.defVar(ncID, 'method', 'NC_SHORT', dimID_method);
 
 
 
@@ -146,6 +146,7 @@ netcdf.putVar(ncID, varID_LR_derived355, single(LR_derived355));
 netcdf.putVar(ncID, varID_overlap532Defaults, single(overlap532Defaults));
 netcdf.putVar(ncID, varID_overlap355Defaults, single(overlap355Defaults));
 netcdf.putVar(ncID, varID_overlapCorMode, int16(PollyConfig.overlapCorMode));
+netcdf.putVar(ncID, varID_overlapCalMethod, int16(PollyConfig.overlapCalMode));
 
 % re enter define mode
 netcdf.reDef(ncID);
@@ -304,9 +305,12 @@ netcdf.putAtt(ncID, varID_overlap355Defaults, 'comment', 'This is the theoretica
 % overlap correction mode
 netcdf.putAtt(ncID, varID_overlapCorMode, 'unit', '');
 netcdf.putAtt(ncID, varID_overlapCorMode, 'long_name', 'Overlap correction mode');
-netcdf.putAtt(ncID, varID_overlapCorMode, 'definition', '0: no overlap correction, 1:overlap correction with using the default overlap function, 2: overlap correction with using the calculated overlap function (NR/FR), 3: overlap correction with gluing near-range and far-range signal,   4: overlap correction with calculated ovelap function based on Raman method');
+netcdf.putAtt(ncID, varID_overlapCorMode, 'definition', '0: no overlap correction, 1:overlap correction with using the default overlap function, 2: overlap correction with using the calculated overlap function (NR/FR), 3: overlap correction with gluing near-range and far-range signal');
 
-
+% overlap calibration method
+netcdf.putAtt(ncID, varID_overlapCalMethod, 'unit', '');
+netcdf.putAtt(ncID, varID_overlapCalMethod, 'long_name', 'Overlap calibration method');
+netcdf.putAtt(ncID, varID_overlapCalMethod, 'definition', '1: signal ratio of near and far range signal; 2: Raman method (Wandinger and Ansmann 2002)');
 
 varID_global = netcdf.getConstant('GLOBAL');
 netcdf.putAtt(ncID, varID_global, 'Conventions', 'CF-1.0');

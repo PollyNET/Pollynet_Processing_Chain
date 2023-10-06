@@ -120,7 +120,7 @@ if size(p.Results.aerBsc,1)>0
         
         
         
-    LR0=[30:2:80]; %LR array to search best LR.
+    LR0=30:2:80; %LR array to search best LR.
     
     for ii=1:length(LR0)+1
         

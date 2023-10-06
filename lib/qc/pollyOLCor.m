@@ -26,11 +26,13 @@ function [sigOLCor, bgOLCor, olFuncDeft, flagOLDeft] = pollyOLCor(height, sigFR,
 %    overlapCorMode: numeric
 %        overlap correction mode.
 %        0: no overlap correction;
-%        1:overlap correction with using the default overlap function;
-%        2: overlap correction with using the calculated overlap function;
-%        3: overlap correction with gluing near-range and far-range signal
-%        4: overlap correction with calculated ovelap based on Raman
-%        method.
+%        1:overlap correction with using the default overlap function.
+%        2: overlap correction with using the calculated overlap function.
+%        3: overlap correction with gluing near-range and far-range signal.
+%    overlapCalMode: numeric
+%        overlap calculation method.
+%       1: signal ratio of near and far range signal.
+%       2: Raman method (Wandinger and Ansmann 2002)'.
 
 %    overlapSmWin: numeric
 %        smoothing window for overlap function (in bins)
@@ -67,6 +69,7 @@ addParameter(p, 'signalRatio', [], @isnumeric);
 addParameter(p, 'normRange', [], @isnumeric);
 addParameter(p, 'defaultOLFile', '', @ischar);
 addParameter(p, 'overlapCorMode', 0, @isnumeric);
+addParameter(p, 'overlapCalMode', 0, @isnumeric);
 addParameter(p, 'overlapSmWin', 3, @isnumeric);
 addParameter(p, 'overlap', [], @isnumeric);
 addParameter(p, 'overlap_Raman', [], @isnumeric);
@@ -107,17 +110,38 @@ switch p.Results.overlapCorMode
         flagOLDeft = true;
         
     case 2
+        
         % overlap correction with the realtime calculated overlap function
-        if isempty(p.Results.overlap)
-            olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
-            flagOLDeft = true;
-        else
-            olSm = smooth(p.Results.overlap, p.Results.overlapSmWin, 'sgolay', 2);
-            flagOLDeft = false;
+        if p.Results.overlapCalMode==1
+            %NF/FR method
+            if isempty(p.Results.overlap)
+                olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
+                flagOLDeft = true;
+            else
+                olSm = smooth(p.Results.overlap, p.Results.overlapSmWin, 'sgolay', 2);
+                flagOLDeft = false;
+            end
+            
+            sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
+            bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
+            
+        elseif p.Results.overlapCalMode==2
+            % Raman method
+            
+            if isempty(p.Results.overlap_Raman)
+                olSm = smooth(olFuncDeft, p.Results.overlapSmWin, 'sgolay', 2);
+                flagOLDeft = true;
+                sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
+                bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
+            else
+                flagOLDeft = false;
+                ovl_for_correction=repmat(p.Results.overlap_Raman,[1,size(sigFR,2)]);
+                sigOLCor = sigFR ./ ovl_for_correction;
+                bgOLCor = bgFR./ ovl_for_correction;
+            end
         end
         
-        sigOLCor = olCor(sigFR, transpose(olSm), height, height(p.Results.normRange));
-        bgOLCor = olCor(bgFR, transpose(olSm), height, height(p.Results.normRange));
+        
         
     case 3
         % signal glue
@@ -126,14 +150,6 @@ switch p.Results.overlapCorMode
                 height, height(p.Results.normRange));
             bgOLCor = sigGlue(bgFR, p.Results.bgNR, p.Results.signalRatio, height, height(p.Results.normRange));
         end
-        
-    case 4
-        % Raman method
-        flagOLDeft = true;
-        ovl_for_correction=repmat(p.Results.overlap_Raman,[1,size(sigFR,2)]);
-        sigOLCor = sigFR ./ ovl_for_correction;
-        bgOLCor = bgFR./ ovl_for_correction;
-        
         
         
     otherwise
