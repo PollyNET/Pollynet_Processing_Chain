@@ -209,7 +209,7 @@ if size(p.Results.aerBsc,1)>0
         
         %smoothing before full overlap to avoid oscilations on that part.
         for i=1:6
-            olFunc(half_ovl_indx:full_ovl_indx+10)=smooth(olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2)),5)';
+            olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2))=smooth(olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2)),5)';
             
         end
         
