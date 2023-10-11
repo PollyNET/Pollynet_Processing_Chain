@@ -22,21 +22,23 @@ function [olFunc, olStd, olFunc0, olAttri] = pollyOVLCalcRaman(Lambda_el, Lambda
 %        minimum height with complete overlap (default: 600). (m)
 %    PC2PCR: numeric
 %        conversion factor from photon count to photon count rate (default: 1).
-%   aerBsC: array
+%    aerBsC: array
 %        particle basckcattering derived with the Raman method (m-1).
-%   pressure: array
+%    pressure: array
 %        atmospheric pressure profiles (hPa)
-%   temperature: array
+%    temperature: array
 %        atmospheric temperature profiles (K)
-%   AE: numeric
+%    AE: numeric
 %        Angström exponent
 %    smoothbins: numeric
 %        number of bins for smoothing
-%   refH: array
+%    hres: numeric
+%        instrument height resolution
+%    refH: array
 %        reference heigh index array (m)
-%   refbeta: numeric
+%    refbeta: numeric
 %       value of particle baskcattering at reference height
-%smoothklett: numeric
+%    smoothklett: numeric
 %        Bins of the smoothing window for the signal in Klett_fernald retrieval
 
 % OUTPUTS:
@@ -74,6 +76,7 @@ addParameter(p, 'pressure', 1, @isnumeric);
 addParameter(p, 'temperature', 1, @isnumeric);
 addParameter(p, 'AE', 1, @isnumeric);
 addParameter(p, 'smoothbins', 1, @isnumeric);
+addParameter(p, 'hres', 1, @isnumeric);
 %for iterative version
 addParameter(p, 'refH', 1, @isnumeric);
 addParameter(p, 'refbeta', 1, @isnumeric);
@@ -88,24 +91,23 @@ olAttri = struct();
 if size(p.Results.aerBsc,1)>0
     
     [mBscRa, mExtRa] = rayleigh_scattering(Lambda_Ra, p.Results.pressure, p.Results.temperature + 273.17, 380, 70);
-    [mBscel, mExtel] = rayleigh_scattering(Lambda_el, p.Results.pressure, p.Results.temperature + 273.17, 380, 70);
+    [~, mExtel] = rayleigh_scattering(Lambda_el, p.Results.pressure, p.Results.temperature + 273.17, 380, 70); % mBscel
     
     mExtRa=mean(mExtRa,1);
     mBscRa=mean(mBscRa,1);
     
     mExtel=mean(mExtel,1);
-    mBscel=mean(mBscel,1);
+ %   mBscel=mean(mBscel,1);
     
     sigFRRa0=sigFRRa;
-    sigFRel0=sigFRel;
-    
+
     for i=1:5
         sigFRRa=smooth(sigFRRa,p.Results.smoothbins)';
         sigFRel=smooth(sigFRel,p.Results.smoothbins)';
     end
     
     
-    
+
      aerBsc_mean=nanmean(p.Results.aerBsc,1);
     
         
@@ -167,8 +169,6 @@ if size(p.Results.aerBsc,1)>0
             end
         end
         
-
-        
         olFunc=sigFRRa.*height.*height./mBscRa./transel./transRa;
         olFunc0=sigFRRa0.*height.*height./mBscRa./transel0./transRa0;
 
@@ -176,37 +176,42 @@ if size(p.Results.aerBsc,1)>0
             olFunc=smooth(olFunc,3)';
         end
         
-        [ovl_norm, ~, ~] = mean_stable(olFunc, 40, fullOverlapIndx-5, fullOverlapIndx+300, 0.1);
-        [ovl_norm0, ~, ~] = mean_stable(olFunc0, 40, fullOverlapIndx-5, fullOverlapIndx+300, 0.1);
+        [ovl_norm, ~, ~] = mean_stable(olFunc, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
+        [ovl_norm0, ~, ~] = mean_stable(olFunc0, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
         
         olFunc=olFunc/ovl_norm;
         olFunc0=olFunc0/ovl_norm0;
-
-        full_ovl_indx=find(diff(olFunc(20:end))<=0,1,'first')+20-1;%-1+1  % estimated full overlap height.
+        
+        bin_ini=round(150/p.Results.hres); %first bin to start searching full overlap height. 
+ 
+        full_ovl_indx=find(diff(olFunc(bin_ini:end))<=0,1,'first')+bin_ini-1;%-1+1  % estimated full overlap height.
             
         if isempty(full_ovl_indx)
             full_ovl_indx=fullOverlapIndx;
         end
-        %olFunc0=olFunc0/olFunc(full_ovl_indx); %normalize raw version to this estimated fullk_ovl_indx.
+        
+        %olFunc0=olFunc0/olFunc(full_ovl_indx); %normalize raw version to this estimated full_ovl_indx.
               
-        diff_norm(ii)=nansum(abs(1-olFunc(full_ovl_indx:full_ovl_indx+200)));
+        diff_norm(ii)=nansum(abs(1-olFunc(full_ovl_indx:full_ovl_indx+round(1500/p.Results.hres))));
         
         olFunc(full_ovl_indx:end)=olFunc(full_ovl_indx);
         olFunc=olFunc/olFunc(full_ovl_indx); %renormalization
         
+        if (full_ovl_indx-bin_ini)<1
+            full_ovl_indx=bin_ini+1;
+        end
+            
+        [~, norm_index0]=max(olFunc(full_ovl_indx-bin_ini:full_ovl_indx+bin_ini*3));
+        norm_index=norm_index0+full_ovl_indx-bin_ini-1;
+        olFunc=olFunc./mean(olFunc(norm_index-1:norm_index+1));
         
         half_ovl_indx=find(olFunc>=0.95,1,'first');%-1+1
         
-        [~, norm_index]=max(olFunc(full_ovl_indx-20:full_ovl_indx+60));
-        norm_index=norm_index+full_ovl_indx-20-1;
-        olFunc=olFunc./mean(olFunc(norm_index-1:norm_index+1));
-        
         %smoothing before full overlap to avoid oscilations on that part.
         for i=1:6
-            olFunc(half_ovl_indx:full_ovl_indx+10)=smooth(olFunc(half_ovl_indx:full_ovl_indx+10),5)';
+            olFunc(half_ovl_indx:full_ovl_indx+10)=smooth(olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2)),5)';
             
         end
-        
         
         olFunc(olFunc<1e-5)=1e-5; %set a minimum possible value, avoid zeros and negative
 
