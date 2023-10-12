@@ -208,7 +208,7 @@ if size(p.Results.aerBsc,1)>0
         half_ovl_indx=find(olFunc>=0.95,1,'first');%-1+1
         
         
-        if ~isepmty(half_ovl_indx) && (half_ovl_indx<norm_index) 
+        if ~isempty(half_ovl_indx) && (half_ovl_indx<norm_index) 
         for i=1:6
             %smoothing before full overlap to avoid S-shape near to the
             %full overlap.
