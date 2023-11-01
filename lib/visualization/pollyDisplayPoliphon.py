@@ -212,7 +212,7 @@ def pollyDisplayPoliphon(tmpFile, saveFolder):
     fig.savefig(
         os.path.join(
             saveFolder,
-            '{dataFile}_{starttime}_{endtime}_POLIPHON.{imgFmt}'.format(
+            '{dataFile}_{starttime}_{endtime}_POLIPHON_step1_Raman.{imgFmt}'.format(
                 dataFile=rmext(os.path.basename(dataFilename)),
                 starttime=datenum_to_datetime(starttime).strftime('%H%M'),
                 endtime=datenum_to_datetime(endtime).strftime('%H%M'),
