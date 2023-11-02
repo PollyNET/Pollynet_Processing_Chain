@@ -179,8 +179,17 @@ if size(p.Results.aerBsc,1)>0
         [ovl_norm, ~, ~] = mean_stable(olFunc, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
         [ovl_norm0, ~, ~] = mean_stable(olFunc0, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
         
-        olFunc=olFunc/ovl_norm;
-        olFunc0=olFunc0/ovl_norm0;
+        if (~isempty(ovl_norm) && length(ovl_norm)==1)
+            olFunc=olFunc/ovl_norm;
+        else
+            olFunc= olFunc/nanmean(olFunc(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
+        end
+        
+        if (~isempty(ovl_norm0) && length(ovl_norm0)==1)
+            olFunc0=olFunc0/ovl_norm0;
+        else
+            olFunc0= olFunc0/nanmean(olFunc0(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
+        end
         
         bin_ini=round(150/p.Results.hres); %first bin to start searching full overlap height. 
  
