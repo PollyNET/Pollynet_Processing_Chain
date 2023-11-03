@@ -191,7 +191,7 @@ if size(p.Results.aerBsc,1)>0
             olFunc0= olFunc0/nanmean(olFunc0(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
         end
         
-        bin_ini=round(150/p.Results.hres); %first bin to start searching full overlap height. 
+        bin_ini=ceil(180/p.Results.hres); %first bin to start searching full overlap height.
  
         full_ovl_indx=find(diff(olFunc(bin_ini:end))<=0,1,'first')+bin_ini-1;%-1+1  % estimated full overlap height.
             
@@ -216,6 +216,9 @@ if size(p.Results.aerBsc,1)>0
         
         half_ovl_indx=find(olFunc>=0.95,1,'first');%-1+1
         
+        if isempty(half_ovl_indx)
+            half_ovl_indx=full_ovl_indx-floor(150/p.Results.hres);
+        end
         %smoothing before full overlap to avoid oscilations on that part.
         for i=1:6
             olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2))=smooth(olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2)),5)';
