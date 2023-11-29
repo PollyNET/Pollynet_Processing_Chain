@@ -29,7 +29,7 @@ function [olFunc, olStd, olFunc0, olAttri] = pollyOVLCalcRaman(Lambda_el, Lambda
 %    temperature: array
 %        atmospheric temperature profiles (K)
 %    AE: numeric
-%        Angström exponent
+%        AngstrÃ¶m exponent
 %    smoothbins: numeric
 %        number of bins for smoothing
 %    hres: numeric
@@ -191,7 +191,7 @@ if size(p.Results.aerBsc,1)>0
             olFunc0= olFunc0/nanmean(olFunc0(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
         end
         
-        bin_ini=ceil(180/p.Results.hres); %first bin to start searching full overlap height.
+        bin_ini=ceil(180/p.Results.hres); %first bin to start searching full overlap height. % Please replace the 180 by a paramter in future.
  
         full_ovl_indx=find(diff(olFunc(bin_ini:end))<=0,1,'first')+bin_ini-1;%-1+1  % estimated full overlap height.
             
@@ -217,12 +217,15 @@ if size(p.Results.aerBsc,1)>0
         half_ovl_indx=find(olFunc>=0.95,1,'first');%-1+1
         
         if isempty(half_ovl_indx)
-            half_ovl_indx=full_ovl_indx-floor(150/p.Results.hres);
+            half_ovl_indx=full_ovl_indx-floor(150/p.Results.hres); % I guess it must be 180 as well. Please replace by paramter
         end
         %smoothing before full overlap to avoid oscilations on that part.
         for i=1:6
-            olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2))=smooth(olFunc(half_ovl_indx:full_ovl_indx+round(bin_ini/2)),5)';
+            %smoothing before full overlap to avoid S-shape near to the
+            %full overlap.
+            olFunc(half_ovl_indx:norm_index+round(bin_ini/2))=smooth(olFunc(half_ovl_indx:norm_index+round(bin_ini/2)),5)';
             
+        end
         end
         
         olFunc(olFunc<1e-5)=1e-5; %set a minimum possible value, avoid zeros and negative
