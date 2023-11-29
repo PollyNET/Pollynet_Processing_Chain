@@ -26,6 +26,7 @@ yLim_Profi_Ext = PollyConfig.yLim_Profi_Ext;
 yLim_Profi_LR = PollyConfig.yLim_Profi_LR;
 yLim_Profi_DR = PollyConfig.yLim_Profi_DR;
 yLim_Profi_Bsc = PollyConfig.yLim_Profi_Bsc;
+zLim_att_beta_355 = PollyConfig.zLim_att_beta_355;
 yLim_Profi_WV_RH = PollyConfig.yLim_Profi_WV_RH;
 yLim_FR_RCS = PollyConfig.yLim_FR_RCS;
 yLim_NR_RCS = PollyConfig.yLim_NR_RCS;
@@ -76,6 +77,11 @@ flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 for iGrp = 1:size(data.clFreGrps, 1)
     startInd = data.clFreGrps(iGrp, 1);
     endInd = data.clFreGrps(iGrp, 2);
+
+    starttime = datestr(data.mTime(startInd),'HHMM');
+    endtime = datestr(data.mTime(endInd),'HHMM');
+    fprintf('profile-slice Nr.: %d:\n',iGrp)
+    fprintf('from time: %s to: %s.\n',starttime,endtime)
 
     % meteor data
     meteorSource = data.meteorAttri.dataSource{iGrp};
@@ -760,7 +766,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayRH.py');
         end
-        delete(tmpFile);
+        %delete(tmpFile);
     end
 
     %% temperature
@@ -800,6 +806,37 @@ for iGrp = 1:size(data.clFreGrps, 1)
         warning('Error in executing %s', 'pollyDisplayPressure.py');
     end
     delete(tmpFile);
+
+    %% POLIPHON
+    if (sum(flag355FR) == 1) || (sum(flag532FR) == 1) || (sum(flag1064FR) == 1)
+        print_msg('--> POLIPHON.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        %poliphon =  data.POLIPHON1(iGrp, :);
+        aerBsc_532_raman = data.aerBsc532_raman(iGrp, :);
+        poliphon_aerBsc532_raman_d1 =  data.POLIPHON1.aerBsc532_raman_d1(iGrp,:);
+        poliphon_aerBsc532_raman_nd1 =  data.POLIPHON1.aerBsc532_raman_nd1(iGrp,:);
+        err_poliphon_aerBsc532_raman_d1 = data.POLIPHON1.err_aerBsc532_raman_d1(iGrp,:);
+        err_poliphon_aerBsc532_raman_nd1 = data.POLIPHON1.err_aerBsc532_raman_nd1(iGrp,:);
+
+        pyFolder = fileparts(mfilename('fullpath'));   % folder of the python scripts for data visualization
+        tmpFolder = fullfile(parentFolder(mfilename('fullpath'), 3), 'tmp');
+        saveFolder = fullfile(PicassoConfig.pic_folder, PollyDataInfo.pollyType, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'));
+
+        % create tmp folder by force, if it does not exist.
+        if ~ exist(tmpFolder, 'dir')
+            fprintf('Create the tmp folder to save the temporary results.\n');
+            mkdir(tmpFolder);
+        end
+        tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_532_raman', 'poliphon_aerBsc532_raman_d1','poliphon_aerBsc532_raman_nd1', 'err_poliphon_aerBsc532_raman_d1', 'err_poliphon_aerBsc532_raman_nd1', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'zLim_att_beta_355','yLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+%        loaded_data=load(tmpFile)
+%        disp(loaded_data.poliphon)
+%        error('Execution halted!');
+        flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayPoliphon.py'), tmpFile, saveFolder));
+        if flag ~= 0
+            warning('Error in executing %s', 'pollyDisplayPoliphon.py');
+        end
+        delete(tmpFile);
+    end
 
 end
 

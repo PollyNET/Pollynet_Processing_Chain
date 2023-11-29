@@ -4783,6 +4783,7 @@ data.clBaseH = clBaseH;
 data.clTopH = clTopH;
 data.clPh = clPh;
 data.clPhProb = clPhProb;
+data.POLIPHON1 = POLIPHON1;
 
 %% Saving products
 if PicassoConfig.flagEnableResultsOutput
