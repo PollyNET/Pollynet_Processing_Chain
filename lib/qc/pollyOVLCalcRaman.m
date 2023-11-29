@@ -29,7 +29,7 @@ function [olFunc, olStd, olFunc0, olAttri] = pollyOVLCalcRaman(Lambda_el, Lambda
 %    temperature: array
 %        atmospheric temperature profiles (K)
 %    AE: numeric
-%        Angström exponent
+%        AngstrÃ¶m exponent
 %    smoothbins: numeric
 %        number of bins for smoothing
 %    hres: numeric
@@ -179,10 +179,19 @@ if size(p.Results.aerBsc,1)>0
         [ovl_norm, ~, ~] = mean_stable(olFunc, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
         [ovl_norm0, ~, ~] = mean_stable(olFunc0, 40, fullOverlapIndx-round(37.5/p.Results.hres), fullOverlapIndx+round(2250/p.Results.hres), 0.1);
         
-        olFunc=olFunc/ovl_norm;
-        olFunc0=olFunc0/ovl_norm0;
+        if (~isempty(ovl_norm) && length(ovl_norm)==1)
+            olFunc=olFunc/ovl_norm;
+        else
+            olFunc= olFunc/nanmean(olFunc(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
+        end
         
-        bin_ini=ceil(150/p.Results.hres); %first bin to start searching full overlap height. 
+        if (~isempty(ovl_norm0) && length(ovl_norm0)==1)
+            olFunc0=olFunc0/ovl_norm0;
+        else
+            olFunc0= olFunc0/nanmean(olFunc0(fullOverlapIndx+round(150/p.Results.hres):fullOverlapIndx+round(1500/p.Results.hres)));
+        end
+        
+        bin_ini=ceil(180/p.Results.hres); %first bin to start searching full overlap height. % Please replace the 180 by a paramter in future.
  
         full_ovl_indx=find(diff(olFunc(bin_ini:end))<=0,1,'first')+bin_ini-1;%-1+1  % estimated full overlap height.
             
@@ -207,8 +216,10 @@ if size(p.Results.aerBsc,1)>0
         
         half_ovl_indx=find(olFunc>=0.95,1,'first');%-1+1
         
-        
-        if ~isempty(half_ovl_indx) && (half_ovl_indx<norm_index) 
+        if isempty(half_ovl_indx)
+            half_ovl_indx=full_ovl_indx-floor(180/p.Results.hres); % I guess it must be 180 as well. Please replace by paramter
+        end
+        %smoothing before full overlap to avoid oscilations on that part.
         for i=1:6
             %smoothing before full overlap to avoid S-shape near to the
             %full overlap.
