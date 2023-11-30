@@ -126,7 +126,7 @@ def pollyDisplayPoliphon(tmpFile, saveFolder):
         fontname = mat['PicassoConfig']['fontname'][0][0][0]
         dataFilename = mat['PollyDataInfo']['pollyDataFile'][0][0][0]
         yLim_Profi_Bsc = mat['yLim_Profi_Bsc'][:][0]/1000
-        zLim_att_beta_355 = mat['zLim_att_beta_355'][:][0]
+        zLim_att_beta_532 = mat['zLim_att_beta_532'][:][0]
         imgFormat = mat['imgFormat'][:][0]
 
     except Exception as e:
@@ -159,7 +159,7 @@ def pollyDisplayPoliphon(tmpFile, saveFolder):
     ax.legend(handles=[p0, p1, p2], loc='upper right', fontsize=13)
 
 #    ax.set_xlim([0, 100])
-    ax.set_xlim(zLim_att_beta_355.tolist())
+    ax.set_xlim(zLim_att_beta_532.tolist())
     ax.set_ylim(yLim_Profi_Bsc.tolist())
     ax.yaxis.set_major_locator(MultipleLocator(5))
     ax.yaxis.set_minor_locator(MultipleLocator(1))
