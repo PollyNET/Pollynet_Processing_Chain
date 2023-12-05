@@ -827,7 +827,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_532_raman', 'poliphon_aerBsc532_raman_d1','poliphon_aerBsc532_raman_nd1', 'err_poliphon_aerBsc532_raman_d1', 'err_poliphon_aerBsc532_raman_nd1', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'zLim_att_beta_355','yLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_532_raman', 'poliphon_aerBsc532_raman_d1','poliphon_aerBsc532_raman_nd1', 'err_poliphon_aerBsc532_raman_d1', 'err_poliphon_aerBsc532_raman_nd1', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xLim_beta_532_Poliphon','yLim_beta_532_Poliphon', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
 %        loaded_data=load(tmpFile)
 %        disp(loaded_data.poliphon)
 %        error('Execution halted!');
