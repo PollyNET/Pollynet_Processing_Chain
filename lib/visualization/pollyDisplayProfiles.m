@@ -26,6 +26,7 @@ yLim_Profi_Ext = PollyConfig.yLim_Profi_Ext;
 yLim_Profi_LR = PollyConfig.yLim_Profi_LR;
 yLim_Profi_DR = PollyConfig.yLim_Profi_DR;
 yLim_Profi_Bsc = PollyConfig.yLim_Profi_Bsc;
+yLim_beta_532_Poliphon =PollyConfig.yLim_beta_532_Poliphon;
 zLim_att_beta_355 = PollyConfig.zLim_att_beta_355;
 yLim_Profi_WV_RH = PollyConfig.yLim_Profi_WV_RH;
 yLim_FR_RCS = PollyConfig.yLim_FR_RCS;
@@ -37,6 +38,7 @@ xLim_Profi_NR_Ext = PollyConfig.xLim_Profi_NR_Ext;
 xLim_Profi_WV_RH = PollyConfig.xLim_Profi_WV_RH;
 xLim_Profi_RCS = PollyConfig.xLim_Profi_RCS;
 xLim_Profi_LR = PollyConfig.xLim_Profi_LR;
+xLim_beta_532_Poliphon =PollyConfig.xLim_beta_532_Poliphon;
 flagWatermarkOn = PicassoConfig.flagWatermarkOn;
 figDPI = PicassoConfig.figDPI;
 if length(PollyConfig.refH_NR_355) == 2
@@ -827,7 +829,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
             mkdir(tmpFolder);
         end
         tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_532_raman', 'poliphon_aerBsc532_raman_d1','poliphon_aerBsc532_raman_nd1', 'err_poliphon_aerBsc532_raman_d1', 'err_poliphon_aerBsc532_raman_nd1', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'zLim_att_beta_355','yLim_Profi_Bsc', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+        save(tmpFile, 'figDPI', 'startInd', 'endInd', 'height', 'time', 'aerBsc_532_raman', 'poliphon_aerBsc532_raman_d1','poliphon_aerBsc532_raman_nd1', 'err_poliphon_aerBsc532_raman_d1', 'err_poliphon_aerBsc532_raman_nd1', 'meteorSource', 'temperature', 'pressure', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'xLim_beta_532_Poliphon','yLim_beta_532_Poliphon', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
 %        loaded_data=load(tmpFile)
 %        disp(loaded_data.poliphon)
 %        error('Execution halted!');
