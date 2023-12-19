@@ -5011,25 +5011,25 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayHousekeeping(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-    %% display range corrected signal
-    print_msg('--> start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    pollyDisplayRCS(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display volume depolarization ratio
-    print_msg('--> start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    pollyDisplayVDR(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    %% display range corrected signal
+%%    print_msg('--> start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%%    pollyDisplayRCS(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display volume depolarization ratio
+%%    print_msg('--> start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%%    pollyDisplayVDR(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display polarization calibration results
     print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayPolCali(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-    %% display signal status
-    print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    pollyDisplaySigStatus(data);
-    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%%    %% display signal status
+%%    print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+%%    pollyDisplaySigStatus(data);
+%%    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display overlap function
     print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
@@ -5042,35 +5042,35 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayOCProfiles(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-    %% display attenuated backscatter
-    print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayAttnBsc(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display water vapor products
-    print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayWV(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display quasi-retrieved products (V1)
-    print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayQsiV1(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display quasi-retrieved products (V2)
-    print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayQsiV2(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display aerosol/cloud target classification mask (V1)
-    print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayTCV1(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-    %% display aerosol/cloud target classification mask (V2)
-    print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-    pollyDisplayTCV2(data);
-    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    %% display attenuated backscatter
+%%    print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayAttnBsc(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display water vapor products
+%%    print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayWV(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display quasi-retrieved products (V1)
+%%    print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayQsiV1(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display quasi-retrieved products (V2)
+%%    print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayQsiV2(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display aerosol/cloud target classification mask (V1)
+%%    print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayTCV1(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%
+%%    %% display aerosol/cloud target classification mask (V2)
+%%    print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+%%    pollyDisplayTCV2(data);
+%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display lidar calibration constants
     print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
@@ -5081,6 +5081,70 @@ if PicassoConfig.flagEnableDataVisualization
     print_msg('--> start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayLTLCali(data, dbFile);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+
+    %% if flag flagEnableDataVisualization24h exists and is true ... do not plot 3d-plots from here, but use the imshow-method from level1-data
+    if PicassoConfig.flagEnableDataVisualization24h
+        disp('Flag PicassoConfig.flagEnableDataVisualization24h is true');
+        %% call pypolly_display_all.py script
+        pyFolder = PicassoConfig.pyBinDir;   % folder of the python scripts for data visualization
+        pythonPath = fullfile(pyFolder, 'python3');
+        %pythonPath = '/lacroshome/cloudnetpy/cloudnetpy-env/bin/python3';
+        %pythonScript = '/pollyhome/Bildermacher2/src/pypolly/pypolly_display_all.py';
+        pythonScript = fullfile(PicassoDir, 'lib', 'visualization', 'pypolly_display_all.py');
+        measurement_date = [datestr(PollyDataInfo.dataTime, 'yyyy'), datestr(PollyDataInfo.dataTime, 'mm'), datestr(PollyDataInfo.dataTime, 'dd')];
+        pypolly_command = sprintf('%s %s --date %s --device %s --picasso_config_file %s --polly_config_file %s --outdir %s --retrieval all', pythonPath, pythonScript, measurement_date, pollyType, PicassoConfigFile, PollyConfig.pollyConfigFile, PicassoConfig.pic_folder);
+        disp(pypolly_command);
+%        [status, output] = system(pypolly_command);
+        system(pypolly_command);
+    %% if flag flagEnableDataVisualization24h is false ... plot 3d-plots the old way with pcolormesh
+    else
+        disp('Flag PicassoConfig.flagEnableDataVisualization24h does not exist or is set to false!');
+        %% display signal status
+        print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+        pollyDisplaySigStatus(data);
+        print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    
+        %% display attenuated backscatter
+        print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayAttnBsc(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display range corrected signal
+        print_msg('--> start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+        pollyDisplayRCS(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display volume depolarization ratio
+        print_msg('--> start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+        pollyDisplayVDR(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+        %% display water vapor products
+        print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayWV(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display quasi-retrieved products (V1)
+        print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayQsiV1(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display quasi-retrieved products (V2)
+        print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayQsiV2(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display aerosol/cloud target classification mask (V1)
+        print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayTCV1(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    
+        %% display aerosol/cloud target classification mask (V2)
+        print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+        pollyDisplayTCV2(data);
+        print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    end 
 
     print_msg('Finish!\n', 'flagTimestamp', true);
 end
