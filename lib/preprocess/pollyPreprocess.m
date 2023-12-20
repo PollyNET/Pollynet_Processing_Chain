@@ -58,7 +58,7 @@ function data = pollyPreprocess(data, varargin)
 %        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
 %    gdas1Site: str
 %        the GDAS1 site for the current campaign.
-%    gdas1_folder: str
+%    meteo_folder: str
 %        the main folder of the GDAS1 profiles.
 %    radiosondeSitenum: integer
 %        site number, which can be found in 
@@ -178,7 +178,7 @@ addParameter(p, 'flagSigTempCor', false, @islogical);
 addParameter(p, 'tempCorFunc', '', @iscell);
 addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
 addParameter(p, 'gdas1Site', '', @ischar);
-addParameter(p, 'gdas1_folder', '', @ischar);
+addParameter(p, 'meteo_folder', '', @ischar);
 addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
 addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);
@@ -303,7 +303,7 @@ if config.flagSigTempCor
     temperature = loadMeteor(mean(data.mTime), data.alt, ...
         'meteorDataSource', config.meteorDataSource, ...
         'gdas1Site', config.gdas1Site, ...
-        'gdas1_folder', config.gdas1_folder, ...
+        'meteo_folder', config.meteo_folder, ...
         'radiosondeSitenum', config.radiosondeSitenum, ...
         'radiosondeFolder', config.radiosondeFolder, ...
         'radiosondeType', config.radiosondeType, ...

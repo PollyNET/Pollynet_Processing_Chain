@@ -16,7 +16,7 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 %        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde', 'nc_cloudnet'
 %    gdas1Site: str
 %        the GDAS1 site for the current campaign.
-%    gdas1_folder: str
+%    meteo_folder: str
 %        the main folder of the GDAS1 profiles (or the cloudnet profiles).
 %    radiosondeSitenum: integer
 %        site number, which can be found in 
@@ -64,7 +64,7 @@ addRequired(p, 'mTime', @isnumeric);
 addRequired(p, 'asl', @isnumeric);
 addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
 addParameter(p, 'gdas1Site', 'leipzig', @ischar);
-addParameter(p, 'gdas1_folder', '', @ischar);
+addParameter(p, 'meteo_folder', '', @ischar);
 addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
 addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);

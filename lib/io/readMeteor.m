@@ -14,7 +14,7 @@ function [alt, temp, pres, relh, wins, wind, attri] = readMeteor(measTime, varar
 %        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
 %    gdas1Site: str
 %        the GDAS1 site for the current campaign.
-%    gdas1_folder: str
+%    meteo_folder: str
 %        the main folder of the GDAS1 profiles.
 %    radiosondeSitenum: integer
 %        site number, which can be found in 
@@ -63,7 +63,7 @@ p.KeepUnmatched = true;
 addRequired(p, 'measTime', @isnumeric);
 addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
 addParameter(p, 'gdas1Site', 'leipzig', @ischar);
-addParameter(p, 'gdas1_folder', '', @ischar);
+addParameter(p, 'meteo_folder', '', @ischar);
 addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
 addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);
@@ -86,7 +86,7 @@ attri.datetime = [];
 switch lower(p.Results.meteorDataSource)
 case 'gdas1'
     [alt, temp, pres, relh, wins, wind, gdas1File] = readGDAS1(measTime, ...
-        p.Results.gdas1Site, p.Results.gdas1_folder, ...
+        p.Results.gdas1Site, p.Results.meteo_folder, ...
         'isUseLatestGDAS', p.Results.isUseLatestGDAS);
 
     if isempty(alt)
@@ -173,7 +173,7 @@ case 'radiosonde'
 
 case 'nc_cloudnet'
     [alt, temp, pres, relh, wins, wind, gdas1File] = readMETnccloudnet(measTime, ...
-        p.Results.gdas1Site, p.Results.gdas1_folder, ...
+        p.Results.gdas1Site, p.Results.meteo_folder, ...
         'isUseLatestGDAS', p.Results.isUseLatestGDAS);
 
     if isempty(alt)

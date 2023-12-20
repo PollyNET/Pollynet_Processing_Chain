@@ -20,6 +20,7 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "",
+    "meteo_folder": "",
     "AERONETSite": "",
 
     "max_height_bin": 3000,
@@ -209,6 +210,8 @@
     "xLim_Profi_WVMR": [0, 50],
     "xLim_Profi_RCS": [0.3, 1000],
     "xLim_Profi_LR": [0, 120],
+    "xLim_beta_532_Poliphon": [0, 10],
+    "yLim_beta_532_Poliphon": [0, 8000],
     "yLim_LC_355": [0, 1e14],
     "yLim_LC_532": [0, 2e14],
     "yLim_LC_1064": [0, 6e14],

@@ -1,5 +1,5 @@
 function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR, varargin)
-% POLLYOVLCALC calculate overlap function from polly measurements.
+% POLLYOVLCALC calculate overlap function from polly measurements using the signal ratio of near and far range signals.
 %
 % USAGE:
 %    [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgNR)
@@ -19,12 +19,7 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 % KEYWORDS:
 %    hFullOverlap: numeric
 %        minimum height with complete overlap (default: 600). (m)
-%    overlapCalMode: numeric
-%        overlap calculation mode. (default: 1)
-%        0: no overlap correction
-%        1:overlap correction with using the default overlap function
-%        2: overlap correction with using the calculated overlap function
-%        3: overlap correction with gluing near-range and far-range signal
+
 %    PC2PCR: numeric
 %        conversion factor from photon count to photon count rate (default: 1).
 %
@@ -45,6 +40,7 @@ function [olFunc, olStd, olAttri] = pollyOVLCalc(height, sigFR, sigNR, bgFR, bgN
 %
 % HISTORY:
 %    - 2021-05-20: first edition by Zhenping
+%    - 2023-06-06: edited by Cristofer J.
 %
 % .. Authors: - zhenping@tropos.de
 
@@ -57,8 +53,10 @@ addRequired(p, 'sigNR', @isnumeric);
 addRequired(p, 'bgFR', @isnumeric);
 addRequired(p, 'bgNR', @isnumeric);
 addParameter(p, 'hFullOverlap', 600, @isnumeric);
-addParameter(p, 'overlapCalMode', 1, @isnumeric);
+%addParameter(p, 'overlapCalMode', 1, @isnumeric);
 addParameter(p, 'PC2PCR', 1, @isnumeric);
+addParameter(p, 'PC2PCRNR', 1, @isnumeric);
+
 
 parse(p, height, sigFR, sigNR, bgFR, bgNR, varargin{:});
 
@@ -68,7 +66,7 @@ olAttri = struct();
 if (~ isempty(sigFR)) && (~ isempty(sigNR))
     % if both near- and far-field channels exist
     olAttri.sigFR = sigFR * p.Results.PC2PCR;
-    olAttri.sigNR = sigNR * p.Results.PC2PCR;
+    olAttri.sigNR = sigNR * p.Results.PC2PCRNR;
     olAttri.sigRatio = sigRatio;
     olAttri.normRange = normRange;
 end

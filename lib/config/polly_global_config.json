@@ -20,6 +20,8 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "",
+    "meteorDataSource": "gdas1",
+    "meteo_folder": "/data/level1a/model/gdas1/profiles",
     "AERONETSite": "",
 
     "max_height_bin": 3000,
@@ -45,8 +47,8 @@
             [0, 1, 0, 0, 0, 0],
             [0, 1, 0, 0, 0, 0]],
     "bgCorRangeIndx": [10, 240],
-    "mask_SNRmin": [1.6, 1, 1, 0.01, 1.5, 1, 1, 1.5, 1, 1, 1, 1, 1],
-     "tempCorFunc": ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
+    "mask_SNRmin": [0.5, 0.5, 0.5, 0.01, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5],
+    "tempCorFunc": ["1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1", "1"],
     "init_depAng": 999,
     "depol_cali_mode": 2,
     "depol_cal_time_fixed_p_start": [""],
@@ -209,6 +211,8 @@
     "xLim_Profi_WVMR": [0, 50],
     "xLim_Profi_RCS": [0.3, 1000],
     "xLim_Profi_LR": [0, 120],
+    "xLim_beta_532_Poliphon": [0, 10],
+    "yLim_beta_532_Poliphon": [0, 8000],
     "yLim_LC_355": [0, 1e14],
     "yLim_LC_532": [0, 2e14],
     "yLim_LC_1064": [0, 6e14],
@@ -271,5 +275,5 @@
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
 }

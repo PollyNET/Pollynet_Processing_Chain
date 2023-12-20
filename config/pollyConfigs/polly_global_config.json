@@ -27,6 +27,7 @@
     "radiosondeType": 1,
     "IWV_instrument": "AERONET",
     "maxIWVTLag": 0.0833,
+    "meteo_folder": "/data/level1a/model/gdas1/profiles",
 
     "max_height_bin": 3000,
     "first_range_gate_indx": [251, 251, 251, 251, 251, 251, 251, 251, 252, 252, 252, 252, 252, 252, 252, 252],
@@ -231,8 +232,6 @@
     "yLim_Profi_WV_RH": [0, 8000],
     "yLim_LC_ratio_355_387": [0, 5],
     "yLim_LC_ratio_532_607": [0, 5],
-    "yLim_depolConst_355": [0, 50],
-    "yLim_depolConst_532": [0, 50],
     "yLim_depolConst_1064": [0, 50],
     "zLim_att_beta_355": [0, 20],
     "zLim_att_beta_532": [0, 10],
@@ -270,5 +269,5 @@
     
     "imgFormat": "png",
     "partnerLabel": "TROPOS",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
 }
