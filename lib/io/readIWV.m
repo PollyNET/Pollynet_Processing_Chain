@@ -7,7 +7,7 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 % INPUTS:
 %    instrument: char
 %        instrument for providing integral water vapor (IWV) measurements.
-%        'AERONET' or 'MWR'
+%        'AERONET', 'MWR' (which means MWR_pro) or 'MWR_cloudnet'
 %    clFreTime: matrix
 %        start and stop time of cloud free segments.
 %        [[startTime1, stopTime1]; [startTime2, stopTime2], ...]
@@ -21,6 +21,7 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 %        measurement time for IWV measurements (default: []).
 %    MWRFolder: char
 %        folder of microwave radiometer (MWR) results (default: '').
+%        for mwr_cloudnet it should be: "/data/level1b/cloudnetpy/products"
 %    MWRSite: char
 %        microwave radiometer deployed site (default: 'leipzig').
 %    maxIWVTLag: numeric
@@ -49,8 +50,14 @@ function [IWV, globalAttri] = readIWV(instrument, clFreTime, varargin)
 % HISTORY:
 %    - 2018-12-26: First Edition by Zhenping
 %    - 2019-05-19: Fix the bug of returning empty IWV when more than 2 MWR files were found.
+%    - 2023-07-12: Addded MWR_cloudnet source
+%    - 2023-07-13: Added correct location subdir for MWR_cloudnet
+%    - 2023-07-13-2: Removed correct location subdir for MWR_cloudnet. One
+%    has to write the location name for every site directly in the polly-config-file,
+%    because of the discrepancies between cloudnet and pollynet station
+%    naming
 %
-% .. Authors: - zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de, klamt@tropos.de
 
 p = inputParser;
 p.KeepUnmatched = true;
@@ -117,6 +124,59 @@ case 'mwr'
         globalAttri.PI = contactInfo.PI;
         globalAttri.contact = contactInfo.contact;
     end
+case 'mwr_cloudnet'
+%    mwrResFileSearch = dir(fullfile(p.Results.MWRFolder, ...
+%         datestr(clFreTime(1), 'yymm'), ...
+%         %sprintf('*_mwr00_l2_prw_v00_%s*.nc', ...
+%         sprintf('*%s_hatpro_proc*.nc', ...
+%            datestr(clFreTime(1), 'yyyymmdd'))));
+    
+%     % looking for the correct location subfolder:
+%     % Get a list of folders in the MWRFolder directory
+%     folders = dir(p.Results.MWRFolder);
+%     folders = folders([folders.isdir]);  % Filter out non-folders
+%     
+%     % Find the subdirectory with a case-insensitive search
+%     locationsubDir = [];
+%     for i = 1:numel(folders)
+%         if strcmpi(folders(i).name, p.Results.MWRSite)
+%             locationsubDir = folders(i).name;
+%             break;
+%         end
+%     end
+%    
+     mwrResFilename = fullfile(p.Results.MWRFolder, ...
+         sprintf('%s', datestr(clFreTime(1), 'yyyy')), ...
+         sprintf('%s', datestr(clFreTime(1), 'mm')), ...
+         sprintf('%s', datestr(clFreTime(1), 'dd')), ...
+         sprintf('%s_*_hatpro*.nc', datestr(clFreTime(1), 'yyyymmdd')))
+     mwrResFileSearch = dir(mwrResFilename)
+%	 disp(mwrResFileSearch);
+    if isempty(mwrResFileSearch)
+        mwrResFile = '';
+    else
+        disp(['If more than one mwr product was found for one day. ' ...
+                 'E.g. different cloudnet-versions. ' ...
+                 'Only choose the last one for the calibration. '...
+                 'This should be the latest cloudnet-version']);
+        mwrResFile = fullfile(p.Results.MWRFolder, ...
+        sprintf('%s', datestr(clFreTime(1), 'yyyy')), ...
+        sprintf('%s', datestr(clFreTime(1), 'mm')), ...
+        sprintf('%s', datestr(clFreTime(1), 'dd')), ...
+        mwrResFileSearch(end).name);
+        disp(mwrResFile)
+    end
+
+    [tIWV_mwr, IWV_mwr, attri_mwr] = readMWR_cloudnet(mwrResFile);
+
+    globalAttri.source = attri_mwr.source;
+    globalAttri.site = attri_mwr.site;
+%     if ~ isempty(attri_mwr.contact)
+%         contactInfo = regexp(attri_mwr.contact, ...
+%             '(?<PI>.*) \((?<contact>.*)\)', 'names');
+%         globalAttri.PI = contactInfo.PI;
+%         globalAttri.contact = contactInfo.contact;
+%     end
 end
 
 %% retrieve data
@@ -144,7 +204,7 @@ for iGrp = 1:size(clFreTime, 1)
                 thisDatetime = p.Results.AERONETTime(IWVIndx);
             end
         end
-    case 'mwr'        
+    case {'mwr', 'mwr_cloudnet'}
         if isempty(tIWV_mwr)
             fprintf('No IWV measurement for HATPRO at %s, %s.\n', ...
                 datestr(clFreTime(1), 'yyyy-mm-dd'), p.Results.MWRSite);
