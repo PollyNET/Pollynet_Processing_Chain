@@ -198,20 +198,22 @@ def checking_vars():
     print('\n')
     print('checking differences in selected variables ...')
     for ds in range(0,len(polly_file_ds_ls)-1):
-        print('\n')
-        print(polly_files_list[ds] + '   vs.   ' + polly_files_list[ds+1])
+#        print('\n')
+#        print(polly_files_list[ds] + '   vs.   ' + polly_files_list[ds+1])
         for var in vars_of_interest:
-#            print('PM_VOLTAGE')
-#            print(polly_file_ds_ls[ds].variables['pm_voltage'][0][:])
+##            print('PM_VOLTAGE')
+##            print(polly_file_ds_ls[ds].variables['pm_voltage'][0][:])
             var_value_1=str(polly_file_ds_ls[ds].variables[var][:])
             var_value_2=str(polly_file_ds_ls[ds+1].variables[var][:])
-            print(var + ": " + var_value_1)
-            print(var + ": " + var_value_2)
+#            print(var + ": " + var_value_1)
+#            print(var + ": " + var_value_2)
             if var_value_1 == var_value_2 and diff_var==0:
                 # print('no difference found ...')
                 add_to_list(ds,polly_files_list,selected_var_nc_ls)
             elif var_value_1 != var_value_2 and diff_var==0:
                 print('difference found!')
+                print(var + ": " + var_value_1)
+                print(var + ": " + var_value_2)
                 diff_var=1
                 add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
             elif var_value_1 == var_value_2 and diff_var!=0:
@@ -249,19 +251,22 @@ def checking_attr():
     print('checking differences in attributes ...')
     for ds in range(0,len(polly_file_ds_ls)-1):
         ## get global attributes as a list of strings
-        print(selected_var_nc_ls[ds] + '   vs.   ' + selected_var_nc_ls[ds+1])
-        print('\nglobal attributes:')
+#        print(selected_var_nc_ls[ds] + '   vs.   ' + selected_var_nc_ls[ds+1])
+#        print('\nglobal attributes:')
         for nc_attr in polly_file_ds_ls[0].ncattrs():
             # att_value=repr(input_nc_file.getncattr(nc_attr))
             att_value_1=polly_file_ds_ls[ds].getncattr(nc_attr)
             att_value_2=polly_file_ds_ls[ds+1].getncattr(nc_attr)
-            print(nc_attr)
-            print("   " + att_value_1)
-            print("   " + att_value_2)
+#            print(nc_attr)
+#            print("   " + att_value_1)
+#            print("   " + att_value_2)
             if att_value_1 == att_value_2 and diff_att==0:
                 add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls)
             elif att_value_1 != att_value_2 and diff_att==0:
                 print('difference found!')
+                print(nc_attr)
+                print("   " + att_value_1)
+                print("   " + att_value_2)
                 diff_att=1
                 add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
             elif att_value_1 == att_value_2 and diff_att!=0:
@@ -270,19 +275,22 @@ def checking_attr():
                 print('difference found!')
                 add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
         
-        print("\nvariable attributes:")
+#        print("\nvariable attributes:")
         for var in polly_file_ds_ls[0].variables.keys():
-            print(var)
+#            print(var)
             for var_att in polly_file_ds_ls[0].variables[var].ncattrs():
                 var_att_value_1 = polly_file_ds_ls[ds].variables[var].getncattr(var_att)
                 var_att_value_2 = polly_file_ds_ls[ds+1].variables[var].getncattr(var_att)
-                print("   " + var_att)
-                print("      " + var_att_value_1)
-                print("      " + var_att_value_2)
+#                print("   " + var_att)
+#                print("      " + var_att_value_1)
+#                print("      " + var_att_value_2)
                 if var_att_value_1 == var_att_value_2 and diff_var_att==0:
                     pass
                 elif var_att_value_1 != var_att_value_2 and diff_var_att==0:
                     print('difference found!')
+                    print("   " + var_att)
+                    print("      " + var_att_value_1)
+                    print("      " + var_att_value_2)
                     diff_var_att=1
                 elif var_att_value_1 == var_att_value_2 and diff_var_att!=0:
                     pass
@@ -315,7 +323,10 @@ def checking_timestamp():
     for elementNR,ds in enumerate(polly_file_ds_ls):
     #    print(selected_timestamp_nc_ls[elementNR])
         timestamp_ds = ds.variables['measurement_time'][:]
+#        print(timestamp_ds[0])
 #        print(timestamp_ds[0][0])
+#        print(timestamp_ds[0][1])
+#        print(timestamp_ds.T[0])
 #        print(timestamp_ds.shape)
         if 19700101 in timestamp_ds.T[0]:
             print(f'The file: {selected_timestamp_nc_ls[elementNR]} contains incorrect timestamps!')
@@ -337,13 +348,13 @@ def checking_timestamp():
                 print('length of measurement_shots_nonzero equals 0. file will be removed from merging list.')
             else:
                 measurement_shots_average = sum(measurement_shots_nonzero) / len(measurement_shots_nonzero)
-    #            print(measurement_shots_average)
+#                print(measurement_shots_average)
                 deltaT = measurement_shots_average / laser_rep_rate
                 deltaT = int(round(deltaT,0)) ## unit in seconds
-    #            print(deltaT)
+#                print(deltaT)
                 ## calc. the correct seconds of day for this dataset
                 start_seconds = int(timestamp_filename[0])*3600 + int(timestamp_filename[1])*60 + int(timestamp_filename[2])
-    #            print(start_seconds)
+#                print(start_seconds)
                 ## length of measurement_list
                 len_measurement_list = len(timestamp_ds)
                 ## create new measurement_time list
@@ -354,7 +365,8 @@ def checking_timestamp():
                     t = t + deltaT
                 ## check if seconds_ls does not contain seonds of day larger than 86400 ## TODO
                 ## if so, remove file from list and del. file ## TODO
-                t_check = any(value > 86400 for value in seconds_ls) 
+                t_check = any(value > 86400 for value in seconds_ls)
+                t_check = False
                 if t_check == True:
                     print('seconds of day exceeds 86400. file will be removed from merging list.')
                 else:
@@ -438,7 +450,7 @@ def concat_files():
         coords='minimal'
         
         ds = xarray.open_mfdataset(sel_polly_files_list,combine = 'nested', data_vars="minimal", concat_dim="time", compat=compat, coords=coords)
-        print(ds)
+#        print(ds)
         ## save to a single nc-file
         print(f"\nmerged nc-file '{filestring}' will be stored to '{output_path}'")
         print("\nwriting merged file ...")

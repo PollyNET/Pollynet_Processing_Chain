@@ -24,7 +24,6 @@ display_help() {
 ## initialize parameters
 FORCE_MERGING="no"
 PICASSO_CONFIG_FILE=""
-#PICASSO_DIR="/pollyhome/Bildermacher2/experimental/Pollynet_Processing_Chain"
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
 #PICASSO_DIR="$(dirname "$(dirname "$( cd "$(dirname "$0")" ; pwd -P )")")"
@@ -169,6 +168,8 @@ main() {
 	    done
 	done
 
+        check_todo_list_inconsistency
+
 	## OPTION 2: process after everything is written into todo_list???
 	process_merged ## process all merged files with picasso written in todo_list (inlcuding plotting with new 24h-plotting-method)
 	for DEVICE in ${DEVICE_LS[@]}; do
@@ -245,6 +246,34 @@ write_job_into_todo_list() {
         echo "no files to add to todo_list"
     fi
 }
+
+check_todo_list_inconsistency() {
+## check for invalid nomenclature in todo_list_file
+    # Check if the file exists
+    if [ ! -e "$PICASSO_TODO_FILE" ]; then
+        echo "File not found: $PICASSO_TODO_FILE"
+        exit 1
+    fi
+
+    temp_file="${PICASSO_TODO_FILE}_temp"
+    touch $temp_file
+
+    # Count the occurrences using grep and wc
+    # Pattern to count
+    pattern=", "
+    # Read the file line by line
+    while IFS= read -r line; do
+        # Process each line here
+        count=$(echo "$line" | grep -o "$pattern" | wc -l)
+        if [ "$count" -eq 5 ]; then
+            echo $line >> $temp_file
+        fi
+    done < "$PICASSO_TODO_FILE"
+    cp $temp_file $PICASSO_TODO_FILE
+    rm $temp_file
+    
+}
+
 
 process_merged() {
 ## define function of processing 24h-merged data using picasso
