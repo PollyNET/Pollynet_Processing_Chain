@@ -168,7 +168,8 @@ main() {
 	    done
 	done
 
-        check_todo_list_inconsistency
+        check_todo_list_consistency
+#exit 1
 
 	## OPTION 2: process after everything is written into todo_list???
 	process_merged ## process all merged files with picasso written in todo_list (inlcuding plotting with new 24h-plotting-method)
@@ -176,6 +177,7 @@ main() {
 	    for DATE in ${DATE_LS[@]}; do
 		 delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
 		 delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+                 ### TODO: delete laserlogbook-file
 	    done
 	done
 }
@@ -197,6 +199,7 @@ get_polly_filename() {
 	if [ ${#polly_files} -gt 1 ]; then
 	    local filename=${polly_files##*/}
 	    local filename=`echo ${filename} | cut -d _ -f 1,2,3,4,5`
+#	    local filename=$(echo ${filename}) #| cut -d _ -f 1,2,3,4,5`
 	    echo $filename
 	else
 	    :
@@ -225,6 +228,7 @@ write_job_into_todo_list() {
     DATE=$2
     local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
     local filename=$(get_polly_filename $DEVICE $DATE)
+#    echo $filename
     already_in_list=0
     if grep -q "$filename" $PICASSO_TODO_FILE
 	then
@@ -233,7 +237,8 @@ write_job_into_todo_list() {
     elif [ -n "$filename" ] && [ "$already_in_list" -eq 0 ] ## check if variable string of $filename is greater than 0 and not already in list
         then
     		echo "add $filename to todo_list"
-		local filename2=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
+		#local filename2=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
+                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
 	        local filesize=`stat -c %s $OUTPUT_FOLDER/$filename2`
 	    	echo -n "$TODO_FOLDER, " >> $PICASSO_TODO_FILE
 	    	echo -n "${DEVICE}/data_zip/${DATE:0:6}, " >> $PICASSO_TODO_FILE
@@ -247,7 +252,7 @@ write_job_into_todo_list() {
     fi
 }
 
-check_todo_list_inconsistency() {
+check_todo_list_consistency() {
 ## check for invalid nomenclature in todo_list_file
     # Check if the file exists
     if [ ! -e "$PICASSO_TODO_FILE" ]; then

@@ -64,8 +64,11 @@ def main():
 #    checking_attr()
 #    get_pollyxt_files()
 #    checking_timestamp()
+
     concat_files()
- 
+
+    get_pollyxt_logbook_files()
+
     return ()
 ### end of main function
 
@@ -156,6 +159,107 @@ def get_pollyxt_files():
         sys.exit()
     
     return polly_files_list
+
+def get_pollyxt_logbook_files():
+    '''
+        This function locates multiple pollyxt logbook-zip files from one day measurements,
+        unzipps the files to output_path
+        and  merge them to one file
+    '''
+    input_path = get_input_path(timestamp,device) 
+    path_exist = Path(input_path)
+    
+    if path_exist.exists() == True:
+        
+        ## set the searchpattern for the zipped-nc-files:
+        YYYY=timestamp[0:4]
+        MM=timestamp[4:6]
+        DD=timestamp[6:8]
+        
+        zip_searchpattern = str(YYYY)+'_'+str(MM)+'_'+str(DD)+'*_*laserlogbook*.zip'
+        
+        polly_laserlog_files       = Path(r'{}'.format(input_path)).glob('{}'.format(zip_searchpattern))
+        polly_laserlog_zip_files_list0 = [x for x in polly_laserlog_files if x.is_file()]
+        
+        
+        ## convert type path to type string
+        polly_laserlog_zip_files_list = []
+        for file in polly_laserlog_zip_files_list0:
+            polly_laserlog_zip_files_list.append(str(file))
+        
+        if len(polly_laserlog_zip_files_list) < 1:
+            print('no files found!')
+            sys.exit()
+
+        polly_laserlog_files_list = []
+        to_unzip_list = []
+        for zip_file in polly_laserlog_zip_files_list:
+#            ## check for size of zip-files to ensure to exclude bad measurement files with wrong timestamp e.g. 19700101
+#            f_size = os.path.getsize(zip_file)
+#            if f_size > 500000:
+#                print(f_size)
+#                print("filesize passes")
+#            else:
+#                print(f_size)
+#                print("filesize too small, file will be skipped!")
+#                continue ## go to next file
+#
+            unzipped_logtxt = re.split(r'/', zip_file)[-1]
+            unzipped_logtxt = re.split(r'.zip', unzipped_logtxt)[0]
+            unzipped_logtxt = output_path+'/'+unzipped_logtxt
+            polly_laserlog_files_list.append(unzipped_logtxt)
+            path = Path(unzipped_logtxt)
+
+            to_unzip_list.append(zip_file)
+
+#            ## check if unzipped files already exists in outputfolder
+#            if path.is_file() == False:
+#                to_unzip_list.append(zip_file)
+#            if path.is_file() == True:
+#                os.remove(unzipped_nc)
+#                to_unzip_list.append(zip_file)
+        
+        ## unzipping
+        if len(to_unzip_list) > 0:
+            for zip_file in to_unzip_list:
+                with ZipFile(zip_file, 'r') as zip_ref:
+                    print("unzipping "+zip_file)
+                    zip_ref.extractall(output_path)
+    
+        ## sort lists
+        polly_laserlog_files_list.sort()
+
+        print("\n"+str(len(polly_laserlog_files_list))+" laserlogfiles found:\n")
+        print(polly_laserlog_files_list)
+        print("\n")
+
+        ## concat the txt files
+        with open(f"{output_path}/result.txt", "wb") as outfile:
+            for logf in polly_laserlog_files_list:
+                with open(logf, "rb") as infile:
+                    outfile.write(infile.read())
+                ## delete every single logbook-file from unzipped-folder
+                os.remove(logf)
+
+        laserlog_filename = polly_laserlog_files_list[0]
+        laserlog_filename = re.split(r'\/',laserlog_filename)[-1]
+        laserlog_filename_left = re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]\.nc',laserlog_filename)[0]
+        laserlog_filename = f'{laserlog_filename_left}_00_00_01.nc.laserlogbook.txt'
+        destination_file = f'{output_path}/{laserlog_filename}'
+        
+        # Open the source file in binary mode and read its content
+        with open(f"{output_path}/result.txt", 'rb') as source:
+            # Open the destination file in binary mode and write the content
+            with open(destination_file, 'wb') as destination:
+                destination.write(source.read())
+
+        os.remove(f"{output_path}/result.txt")
+    else:
+        print("\nNo laserlogbook was found in {}. Correct path?\n".format(input_path))
+       # sys.exit()
+    
+    return ()
+
 
 def add_to_list(element, from_list, to_list):
     if from_list[element] in to_list:
