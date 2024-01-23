@@ -162,24 +162,25 @@ main() {
 		merging $DEVICE $DATE ## merging of level0 files and put into todo-list
 	        write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
 		## OPTION 1: process every single task???
-	#	process_merged ## process actual merged file with picasso - written in todo_list (inlcuding plotting with new 24h-plotting-method)
-	#	delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
-	#	delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+		process_merged ## process actual merged file with picasso - written in todo_list (inlcuding plotting with new 24h-plotting-method)
+		delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
+		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+                delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
 	    done
 	done
 
         check_todo_list_consistency
 #exit 1
 
-	## OPTION 2: process after everything is written into todo_list???
-	process_merged ## process all merged files with picasso written in todo_list (inlcuding plotting with new 24h-plotting-method)
-	for DEVICE in ${DEVICE_LS[@]}; do
-	    for DATE in ${DATE_LS[@]}; do
-		 delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
-		 delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
-                 ### TODO: delete laserlogbook-file
-	    done
-	done
+#	## OPTION 2: process after everything is written into todo_list???
+#	process_merged ## process all merged files with picasso written in todo_list (inlcuding plotting with new 24h-plotting-method)
+#	for DEVICE in ${DEVICE_LS[@]}; do
+#	    for DATE in ${DATE_LS[@]}; do
+#		 delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
+#		 delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+#                delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
+#	    done
+#	done
 }
 
 
@@ -300,9 +301,9 @@ delete_level0_merged_file() {
 	DEVICE=$1
 	DATE=$2
 	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
-	local merged_level0_file=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
-	echo "deleting merged level0 file: ${OUTPUT_FOLDER}/${merged_level0_file} ..."
-	rm $OUTPUT_FOLDER/$merged_level0_file
+	local merged_level0_file=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*.nc)
+	echo "deleting merged level0 file: ${merged_level0_file} ..."
+	rm $merged_level0_file
 	echo "done."
 }
 
@@ -317,6 +318,19 @@ delete_entry_from_todo_list() {
     sed -i "/, , .zip/d" $PICASSO_TODO_FILE ## just to be sure, that wrong/empty entries are deleted from list
     echo "done."
 }
+
+delete_laserlogbookfile() {
+## deleting merged 24h-laserlogfile
+	DEVICE=$1
+	DATE=$2
+	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+	#local laserlog_file=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
+	local laserlog_file=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*laserlogbook.txt)
+	echo "deleting merged laserlogbook file: ${laserlog_file} ..."
+	rm $laserlog_file
+	echo "done."
+}
+
 
 ## execute main function
 main

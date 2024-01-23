@@ -470,7 +470,7 @@ def checking_timestamp():
                 ## check if seconds_ls does not contain seonds of day larger than 86400 ## TODO
                 ## if so, remove file from list and del. file ## TODO
                 t_check = any(value > 86400 for value in seconds_ls)
-                t_check = False
+                #t_check = False ## do not skip files which are longer than 24h, seconds_ls > 86400
                 if t_check == True:
                     print('seconds of day exceeds 86400. file will be removed from merging list.')
                 else:
@@ -544,8 +544,10 @@ def concat_files():
         filestring_right = str(re.split(filestring_left, polly_files_no_path)[1])
         filestring_right = str(re.split(r'\.nc', filestring_right)[0])
 #        filestring = filestring_left + "con"  + filestring_right
-        filestring_dummy = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}_dummy.nc"       
-        filestring = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}.nc"       
+#        filestring_dummy = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}_dummy.nc"       
+#        filestring = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}.nc"       
+        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
+        filestring = f"{filestring_left}_00_00_01.nc"       
         #new_file_title = filestring + f"_lvl0_{concat}.nc"
 #        new_file_title = filestring_dummy
 
