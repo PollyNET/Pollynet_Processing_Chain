@@ -307,25 +307,26 @@ def checking_vars():
         for var in vars_of_interest:
 ##            print('PM_VOLTAGE')
 ##            print(polly_file_ds_ls[ds].variables['pm_voltage'][0][:])
-            var_value_1=str(polly_file_ds_ls[ds].variables[var][:])
-            var_value_2=str(polly_file_ds_ls[ds+1].variables[var][:])
-#            print(var + ": " + var_value_1)
-#            print(var + ": " + var_value_2)
-            if var_value_1 == var_value_2 and diff_var==0:
-                # print('no difference found ...')
-                add_to_list(ds,polly_files_list,selected_var_nc_ls)
-            elif var_value_1 != var_value_2 and diff_var==0:
-                print('difference found!')
-                print(var + ": " + var_value_1)
-                print(var + ": " + var_value_2)
-                diff_var=1
-                add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
-            elif var_value_1 == var_value_2 and diff_var!=0:
-                add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes'else None 
-            elif var_value_1 != var_value_2 and diff_var!=0:
-                diff_var=diff_var+1
-                print('difference found!')
-                add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
+            if var in polly_file_ds_ls[ds].variables.keys(): ## check if var is available within the polly-datastructure (depending on polly-system)
+                var_value_1=str(polly_file_ds_ls[ds].variables[var][:])
+                var_value_2=str(polly_file_ds_ls[ds+1].variables[var][:])
+    #            print(var + ": " + var_value_1)
+    #            print(var + ": " + var_value_2)
+                if var_value_1 == var_value_2 and diff_var==0:
+                    # print('no difference found ...')
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls)
+                elif var_value_1 != var_value_2 and diff_var==0:
+                    print('difference found!')
+                    print(var + ": " + var_value_1)
+                    print(var + ": " + var_value_2)
+                    diff_var=1
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
+                elif var_value_1 == var_value_2 and diff_var!=0:
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes'else None 
+                elif var_value_1 != var_value_2 and diff_var!=0:
+                    diff_var=diff_var+1
+                    print('difference found!')
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
                 
     if diff_var==0:
         add_to_list(-1,polly_files_list,selected_var_nc_ls)
