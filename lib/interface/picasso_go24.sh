@@ -311,10 +311,8 @@ delete_entry_from_todo_list() {
 ## delete entry from todo_list file
     DEVICE=$1
     DATE=$2
-    local filename=$(get_polly_filename $DEVICE $DATE)
-    echo "deleting entry ${filename} from todo_list... "
-#    echo "deleting entry containing ${DEVICE} and ${DATE} from todo_list... "
-    sed -i "/${filename}/d" $PICASSO_TODO_FILE
+    echo "deleting entry ${DEVICE} ${DATE} from todo_list... "
+    sed -i "/${DEVICE}.*${DATE:0:4}_${DATE:4:2}_${DATE:6:2}/d" $PICASSO_TODO_FILE 
     sed -i "/, , .zip/d" $PICASSO_TODO_FILE ## just to be sure, that wrong/empty entries are deleted from list
     echo "done."
 }
