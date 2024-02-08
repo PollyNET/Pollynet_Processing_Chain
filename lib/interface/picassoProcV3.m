@@ -4373,7 +4373,7 @@ flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmCha
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 
 if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
-    [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(data.mTime, data.height, tcMaskV1, ...
+    [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(data.mTime, data.height, tcMaskV2, ...
         'minCloudDepth', 100, ...
         'liquidCloudBit', 8, ...
         'iceCloudBit', 9, ...
@@ -4442,6 +4442,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
 
     %% save lidar calibration results
     print_msg('--> start saving lidar calibration constants.\n', 'flagTimestamp', true);
+    try
     saveLiConst(dbFile, LC.LC_klett_355, LC.LCStd_klett_355, ...
                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                 CampaignConfig.name, '355', 'Klett_Method', 'far_range');
@@ -4488,7 +4489,9 @@ if PicassoConfig.flagEnableCaliResultsOutput
                 LC.LC_start_time, LC.LC_stop_time, PollyDataInfo.pollyDataFile, ...
                 CampaignConfig.name, '607', 'Raman_Method', 'near_range');
     print_msg('--> finish.\n', 'flagTimestamp', true);
-
+    catch
+    print_msg('--> ERROR saving lidar calibration constants.\n', 'flagTimestamp', true);
+    end
     %% save water vapor calibration results
     if (sum(flag407) == 1) && (sum(flag387) == 1)
         print_msg('--> start saving water vapor calibration results...\n', 'flagTimestamp', true);
