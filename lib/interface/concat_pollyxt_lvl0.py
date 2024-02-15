@@ -276,7 +276,7 @@ def checking_vars():
 #                        'laser_flashlamp',
                         'location_height',
                         'neutral_density_filter',
-                        'location_coordinates',
+#                        'location_coordinates',
                         'pm_voltage',
                         'pinhole',
                         'polstate',
@@ -519,17 +519,25 @@ def concat_files():
     # print(concated_file)
     
     sel_polly_files_list = checking_timestamp()
-    if len(sel_polly_files_list) == 1:
-        print('only one file for this day. no merging.')
+
+    if len(sel_polly_files_list) == 0:
+        print('no files found for this day. no merging.')
         return ()
-    start_time_filename = re.split(r'.nc',sel_polly_files_list[0])[0]
-    start_time_sec = re.split(r'_',start_time_filename)[-1]
-    start_time_min = re.split(r'_',start_time_filename)[-2]
-    start_time_hour = re.split(r'_',start_time_filename)[-3]
+#    start_time_filename = re.split(r'.nc',sel_polly_files_list[0])[0]
+#    start_time_sec = re.split(r'_',start_time_filename)[-1]
+#    start_time_min = re.split(r'_',start_time_filename)[-2]
+#    start_time_hour = re.split(r'_',start_time_filename)[-3]
+
+    polly_files_no_path = re.split(r'/', sel_polly_files_list[0])[-1]
+    filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
+    filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
+    filestring = f"{filestring_left}_00_00_01.nc"       
 
     if len(sel_polly_files_list) == 1:
         print("\nOnly one file found. Nothing to merge!\n")
-        sys.exit()
+        os.rename(sel_polly_files_list[0],f"{output_path}/{filestring}")
+#        os.rename(sel_polly_files_list[0], new_file_name)
+        return ()
     else:
 #        print('\nthe following files will be merged:')
 #        print(sel_polly_files_list)
@@ -540,15 +548,17 @@ def concat_files():
 #                os.remove(sel_polly_files_list[0])
 #                sel_polly_files_list[0]
 
-        polly_files_no_path = re.split(r'/', sel_polly_files_list[0])[-1]
-        filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
-        filestring_right = str(re.split(filestring_left, polly_files_no_path)[1])
-        filestring_right = str(re.split(r'\.nc', filestring_right)[0])
+#        polly_files_no_path = re.split(r'/', sel_polly_files_list[0])[-1]
+#        filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
+#        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
+#        filestring = f"{filestring_left}_00_00_01.nc"       
+#        filestring_right = str(re.split(filestring_left, polly_files_no_path)[1])
+#        filestring_right = str(re.split(r'\.nc', filestring_right)[0])
 #        filestring = filestring_left + "con"  + filestring_right
 #        filestring_dummy = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}_dummy.nc"       
 #        filestring = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}.nc"       
-        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
-        filestring = f"{filestring_left}_00_00_01.nc"       
+#        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
+#        filestring = f"{filestring_left}_00_00_01.nc"       
         #new_file_title = filestring + f"_lvl0_{concat}.nc"
 #        new_file_title = filestring_dummy
 

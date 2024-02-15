@@ -93,6 +93,8 @@ PollyDataInfo.pollyType = pollyType;
 PollyDataInfo.pollyDataFile = pollyDataFile;
 PollyDataInfo.zipFile = p.Results.pollyZipFile;
 PollyDataInfo.dataSize = p.Results.pollyZipFileSize;
+disp(pollyDataFile)
+disp(basename(pollyDataFile))
 try
     PollyDataInfo.dataTime = pollyParseFiletime(basename(pollyDataFile), ...
         ['(?<year>\d{4})_(?<month>\d{2})_(?<day>\d{2})', ...

@@ -132,12 +132,15 @@ def main():
     picasso_config_file = args.picasso_config_file
     config_dict = read_config(picasso_config_file)
     excel_config_file = config_dict['pollynet_config_link_file']
+    polly_config_folder = config_dict['polly_config_folder']
     if args.polly_config_file:
         polly_local_config = args.polly_config_file
     else:
         polly_local_config = read_excel_config_file(excel_config_file, timestamp=args.timestamp, device=args.device)
 
-    polly_local_config = f'/pollyhome/Bildermacher2/Pollynet_Processing_Chain/config/pollyConfigs/{polly_local_config}'
+    polly_local_config = f'{polly_config_folder}/{polly_local_config}'
+
+#    polly_local_config = f'/pollyhome/Bildermacher2/Pollynet_Processing_Chain/config/pollyConfigs/{polly_local_config}'
 #    configfile, pollyglobal, polly_local_config  = display_config(display_configfile)
     pollyglobal = config_dict['polly_global_config']
 #    pollyglobal = '/pollyhome/Bildermacher2/Pollynet_Processing_Chain/lib/config/polly_global_config.json'
