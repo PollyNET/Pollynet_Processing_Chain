@@ -188,7 +188,7 @@ def get_pollyxt_logbook_files():
             polly_laserlog_zip_files_list.append(str(file))
         
         if len(polly_laserlog_zip_files_list) < 1:
-            print('no files found!')
+            print('no laserlogbook-files found!')
             sys.exit()
 
         polly_laserlog_files_list = []
