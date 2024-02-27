@@ -309,6 +309,12 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     % figure of pressure
     write_2_donelist(PicassoConfig.doneListFile, 'a', CampaignConfig.name, CampaignConfig.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(PollyDataInfo.dataTime, 'yyyymmdd HH:MM:SS'), '355', fullfile(basedir(PicassoConfig.pic_folder), CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_Meteor_P.png', rmext(basename(PollyDataInfo.pollyDataFile)), datestr(data.mTime(startInd), 'HHMM'), datestr(data.mTime(endInd), 'HHMM'))), '0', sprintf('%s.', meteorStr), PollyDataInfo.zipFile, num2str(PollyDataInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGrp), 'yyyymmdd HH:MM:SS'), '50', PicassoConfig.PicassoVersion, 'Meteor_P', datestr(data.mTime(startInd), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endInd), 'yyyymmdd HH:MM:SS'));
+
+
+    % figure of POLIPHON
+    write_2_donelist(PicassoConfig.doneListFile, 'a', CampaignConfig.name, CampaignConfig.location, datestr(data.mTime(1), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(end), 'yyyymmdd HH:MM:SS'), datestr(PollyDataInfo.dataTime, 'yyyymmdd HH:MM:SS'), '532', fullfile(basedir(PicassoConfig.pic_folder), CampaignConfig.name, datestr(data.mTime(1), 'yyyy'), datestr(data.mTime(1), 'mm'), datestr(data.mTime(1), 'dd'), sprintf('%s_%s_%s_POLIPHON_step1_Raman.png', rmext(basename(PollyDataInfo.pollyDataFile)), datestr(data.mTime(startInd), 'HHMM'), datestr(data.mTime(endInd), 'HHMM'))), '0', sprintf('%s.', meteorStr), PollyDataInfo.zipFile, num2str(PollyDataInfo.dataSize), num2str(active), num2str(data.quasiAttri.flagGDAS1), datestr_convert_0(data.meteorAttri.datetime(iGrp), 'yyyymmdd HH:MM:SS'), '50', PicassoConfig.PicassoVersion, 'POLIPHON_step1_Raman', datestr(data.mTime(startInd), 'yyyymmdd HH:MM:SS'), datestr(data.mTime(endInd), 'yyyymmdd HH:MM:SS'));
+
+
 end
 
 % height-time figure of attenuated backscatter at 355 nm

@@ -25,10 +25,13 @@ flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalCha
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 
 overlap355 = data.olFunc355;
+overlap355Raman = data.olFunc355Raman;
 
 if isempty(overlap355)
     overlap355 = NaN(size(height));
 end
+
+
 
 if isfield(data.olAttri355, 'sigFR')
     sig355FR = data.olAttri355.sigFR;
@@ -38,10 +41,19 @@ if isfield(data.olAttri355, 'sigFR')
 end
 
 overlap532 = data.olFunc532;
+overlap532Raman = data.olFunc532Raman;
 
 if isempty(overlap532)
     overlap532 = NaN(size(height));
 end
+
+if isempty(overlap355Raman)
+    overlap355Raman = NaN(size(height));
+end
+if isempty(overlap532Raman)
+    overlap532Raman = NaN(size(height));
+end
+
 if isfield(data.olAttri532, 'sigFR')
     sig532FR = data.olAttri532.sigFR;
     sig532NR = data.olAttri532.sigNR;
@@ -93,7 +105,7 @@ if ~ exist(tmpFolder, 'dir')
 end
 
 tmpFile = fullfile(tmpFolder, [basename(tempname), '.mat']);
-save(tmpFile, 'figDPI', 'overlap355', 'overlap532', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
+save(tmpFile, 'figDPI', 'overlap355', 'overlap532','overlap355Raman', 'overlap532Raman', 'overlap355Defaults', 'overlap532Defaults', 'sig355FR', 'sig355NR', 'sig532FR', 'sig532NR', 'sig355Gl', 'sig532Gl', 'sigRatio355', 'sigRatio532', 'normRange355', 'normRange532', 'height', 'PicassoConfig', 'CampaignConfig', 'PollyDataInfo', 'imgFormat', 'flagWatermarkOn', 'partnerLabel', '-v6');
 flag = system(sprintf('%s %s %s %s', fullfile(PicassoConfig.pyBinDir, 'python'), fullfile(pyFolder, 'pollyDisplayOL.py'), tmpFile, saveFolder));
 if flag ~= 0
     warning('Error in executing %s', 'pollyDisplayOL.py');

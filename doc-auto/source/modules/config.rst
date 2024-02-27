@@ -3,17 +3,17 @@ Picasso Configurations
 
 There are many features in Picasso and they can be switched on/off according to the configurations. These configurations can be divided into four parts: 
 
-- **Global Configurations**: valid for all processing tasks.
+- **Picasso Configurations**: valid for all processing tasks.
 - **Picasso Link File**: entries for **Polly Configurations** and **Polly Defaults**.
 - **Polly Configurations**: valid for single Polly or campaign.
 - **Polly Defaults**: valid for single Polly and campaign.
 
 These three configurations are the basics for using Picasso properly.
 
-Global Configurations
+Picasso Configurations
 ---------------------
 
-**Global Configurations** are mainly associated with paths, folders and figure qualities. Below is the default settings for **Global Configurations**:
+**Picasso Configurations** are mainly associated with paths, folders and figure qualities. Below is the default settings for **Picasso Configurations**:
 
 .. code-block:: json
 
@@ -53,7 +53,7 @@ Global Configurations
     "flagWatermarkOn": true
     }
 
-The **Global Configurations** can be overridden by setting up a new .json_ file or just editing the `template` file in **config**. The details of each keyword can be found below:
+The **Picasso Configurations** can be overridden by setting up a new .json_ file or just editing the `template` file in **config**. The details of each keyword can be found below:
 
 .. csv-table:: Picasso global configurations
    :widths: 15 40 20
@@ -78,6 +78,8 @@ Picasso Link File
 
 Polly Configurations
 --------------------
+
+The **Global Configurations** can be overridden by setting up a new .json_ file or just editing the `template` file in **config**. The details of each keyword can be found below:
 
 **Polly Configurations** can be specified for each polly data. They control how data was pre-processed, the thresholds of retrievals and aerosol/cloud classifications, boundaries for data visualization, etc. The **Polly Configurations** can be overridden by setting up a new .json_ file. The details of each keyword can be found below:
 

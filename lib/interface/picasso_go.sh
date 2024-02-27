@@ -44,7 +44,7 @@ display_help() {
 process_history() {
   echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$STARTDATE\nEND_DATE=$ENDDATE\n\n"
 
-  matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+  /usr/local/bin/matlab/R2022a/bin/matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
 PICASSO_DIR = fileparts(fileparts('$cwd'));
 cd(PICASSO_DIR);
 initPicassoToolbox;
@@ -60,7 +60,7 @@ ENDMATLAB
 
 # Automatic data processing
 auto_process() {
-matlab -nodesktop -nosplash << ENDMATLAB
+/usr/local/bin/matlab/R2022a/bin/matlab -nodesktop -nosplash << ENDMATLAB
 PICASSO_PATH = fileparts(fileparts('$cwd'));
 cd(PICASSO_PATH);
 

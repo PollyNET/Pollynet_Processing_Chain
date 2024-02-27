@@ -172,6 +172,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     varID_pdrStd_raman_1064 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_1064', 'NC_FLOAT', dimID_height);
     
     varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_FLOAT', dimID_height);
+    varID_WVMR_no_QC = netcdf.defVar(ncID, 'WVMR_no_QC', 'NC_FLOAT', dimID_height);
+    varID_WVMR_error = netcdf.defVar(ncID, 'uncertainty_WVMR', 'NC_FLOAT', dimID_height);
+    varID_WVMR_rel_error = netcdf.defVar(ncID, 'WVMR_rel_error', 'NC_FLOAT', dimID_height);
     varID_RH = netcdf.defVar(ncID, 'RH', 'NC_FLOAT', dimID_height);
     varID_temperature = netcdf.defVar(ncID, 'temperature', 'NC_FLOAT', dimID_height);
     varID_pressure = netcdf.defVar(ncID, 'pressure', 'NC_FLOAT', dimID_height);
@@ -257,6 +260,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarFill(ncID, varID_pdrStd_raman_1064, false, missing_value);
    
     netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
+    netcdf.defVarFill(ncID, varID_WVMR_no_QC, false, missing_value);
+    netcdf.defVarFill(ncID, varID_WVMR_error, false, missing_value);
+    netcdf.defVarFill(ncID, varID_WVMR_rel_error, false, missing_value);
     netcdf.defVarFill(ncID, varID_RH, false, missing_value);
     netcdf.defVarFill(ncID, varID_temperature, false, missing_value);
     netcdf.defVarFill(ncID, varID_pressure, false, missing_value);
@@ -342,6 +348,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarDeflate(ncID, varID_pdrStd_raman_1064, true, true, 5);
     
     netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_WVMR_error, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_WVMR_no_QC, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_WVMR_rel_error, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_RH, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_temperature, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pressure, true, true, 5);
@@ -440,6 +449,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putVar(ncID, varID_pdrStd_raman_1064, single(fillmissing(data.pdrStd1064_raman(iGrp, :), missing_value)));
     
     netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.wvmr(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_WVMR_no_QC, single(fillmissing(data.wvmr_no_QC(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_WVMR_error, single(fillmissing(data.wvmr_error(iGrp, :), missing_value)));%temporarily stored relative error for validation
+    netcdf.putVar(ncID, varID_WVMR_rel_error, single(fillmissing(data.wvmr_rel_error(iGrp, :), missing_value)));%temporarily stored relative error for validation
     netcdf.putVar(ncID, varID_RH, single(fillmissing(data.rh(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_temperature, single(fillmissing(data.temperature(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pressure, single(fillmissing(data.pressure(iGrp, :), missing_value)));
@@ -1233,6 +1245,46 @@ for iGrp = 1:size(data.clFreGrps, 1)
     thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
     netcdf.putAtt(ncID, varID_WVMR, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
     netcdf.putAtt(ncID, varID_WVMR, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
+
+     % WVMR_no_QC
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'unit', 'g kg^-1');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'unit_html', 'g kg<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'long_name', 'water vapor mixing ratio without Quality control');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'standard_name', 'WVMR_no_QC');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'plot_range', PollyConfig.xLim_Profi_WVMR);
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'source', CampaignConfig.name);
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'wv_calibration_constant_used', data.wvconstUsed);
+    thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+    netcdf.putAtt(ncID, varID_WVMR_no_QC, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
+
+    
+    % WVMR_error
+    netcdf.putAtt(ncID, varID_WVMR_error, 'unit', 'g kg^-1');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'unit_html', 'g kg<sup>-1</sup>');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'long_name', 'absolute water vapor mixing ratio uncertainty');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'standard_name', 'uncertainty_WVMR');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'plot_range', PollyConfig.xLim_Profi_WV_RH);
+    netcdf.putAtt(ncID, varID_WVMR_error, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'source', CampaignConfig.name);
+    netcdf.putAtt(ncID, varID_WVMR_error, 'wv_calibration_constant_used', data.wvconstUsed);
+    thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+    netcdf.putAtt(ncID, varID_WVMR_error, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+    netcdf.putAtt(ncID, varID_WVMR_error, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
+
+    % WVMR_rel_error
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'unit', '1');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'unit_html', '1');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'long_name', 'relative error of the water vapor mixing ratio');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'standard_name', 'WVMR_rel_error');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'plot_range', [0, 1]);
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'source', CampaignConfig.name);
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'wv_calibration_constant_used', data.wvconstUsed);
+    thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
+    netcdf.putAtt(ncID, varID_WVMR_rel_error, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
 
     % RH
     netcdf.putAtt(ncID, varID_RH, 'unit', '%');

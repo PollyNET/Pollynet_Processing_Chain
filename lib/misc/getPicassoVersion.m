@@ -13,6 +13,6 @@ function [PicassoVersion] = getPicassoVersion()
 %
 % .. Authors: - zhenping@tropos.de
 
-PicassoVersion = '3.5';
+PicassoVersion = '3.6';
 
 end

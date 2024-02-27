@@ -25,6 +25,8 @@ function data = pollyPreprocess(data, varargin)
 %            measurement site.
 %
 % KEYWORDS:
+%    deltaT: numeric
+%        integration time (in seconds) for single profile. (default: 30)
 %    flagForceMeasTime: logical
 %        flag to control whether to align measurement time with file creation
 %        time, instead of taking the measurement time in the data file.
@@ -56,7 +58,7 @@ function data = pollyPreprocess(data, varargin)
 %        e.g., 'gdas1'(default), 'standard_atmosphere', 'websonde', 'radiosonde'
 %    gdas1Site: str
 %        the GDAS1 site for the current campaign.
-%    gdas1_folder: str
+%    meteo_folder: str
 %        the main folder of the GDAS1 profiles.
 %    radiosondeSitenum: integer
 %        site number, which can be found in 
@@ -163,6 +165,7 @@ p = inputParser;
 p.KeepUnmatched = true;
 
 addRequired(p, 'data', @isstruct);
+addParameter(p, 'deltaT', 30, @isnumeric);
 addParameter(p, 'flagForceMeasTime', false, @islogical);
 addParameter(p, 'maxHeightBin', 3000, @isnumeric);
 addParameter(p, 'firstBinIndex', 1, @isnumeric);
@@ -175,7 +178,7 @@ addParameter(p, 'flagSigTempCor', false, @islogical);
 addParameter(p, 'tempCorFunc', '', @iscell);
 addParameter(p, 'meteorDataSource', 'gdas1', @ischar);
 addParameter(p, 'gdas1Site', '', @ischar);
-addParameter(p, 'gdas1_folder', '', @ischar);
+addParameter(p, 'meteo_folder', '', @ischar);
 addParameter(p, 'radiosondeSitenum', 0, @isnumeric);
 addParameter(p, 'radiosondeFolder', '', @ischar);
 addParameter(p, 'radiosondeType', 1, @isnumeric);
@@ -213,36 +216,43 @@ if (max(config.maxHeightBin + config.firstBinIndex - 1) > size(data.rawSignal, 2
     config.firstBinIndex = 251;
 end
 
-%% Re-sample the temporal grid to 30 s, if it's not in 30s.
-mShotsPer30s = 30 * data.repRate;
-nInt = round(mShotsPer30s / nanmean(data.mShots(1, :), 2));   % number of profiles to be
-                                                              % integrated. Usually, 600
-                                                              % shots per 30 s
+%% Re-sample the temporal grid to defined temporal grid with interval of deltaT
+mShotsPerPrf = p.Results.deltaT * data.repRate;
+if (length(data.mTime) > 1)
+    nInt = round(p.Results.deltaT / (nanmean(diff(data.mTime)) * 24 * 3600));   % number of profiles to be
+                                                                            % integrated. Usually, 600
+                                                                            % shots per 30 s
+else
+    nInt = round(mShotsPerPrf / nanmean(data.mShots(1, :), 2));
+end
 
 if nInt > 1
-    % if shots of single profile is less than mShotsPer30s
-    warning('MShots for single profile is not %4.0f... Please check!!!', mShotsPer30s);
+    % if shots of single profile is less than mShotsPerPrf
+    warning('MShots for single profile is not %4.0f... Please check!!!', mShotsPerPrf);
 
     nProfInt = floor(size(data.mShots, 2) / nInt);
     mShotsInt = NaN(size(data.mShots, 1), nProfInt);
     mTimeInt = NaN(1, nProfInt);
     rawSignalInt = NaN(size(data.rawSignal, 1), size(data.rawSignal, 2), nProfInt);
     depCalAngInt = NaN(nProfInt, 1);
+    flagValidProfile = true(1, nProfInt);
 
     for iProfInt = 1:nProfInt
         profIndx = ((iProfInt - 1) * nInt + 1):(iProfInt * nInt);
         mShotsInt(:, iProfInt) = nansum(data.mShots(:, profIndx), 2);
-        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(mShotsPer30s / data.repRate * (iProfInt - 1)));
+        mTimeInt(iProfInt) = data.mTime(1) + datenum(0, 1, 0, 0, 0, double(mShotsPerPrf / data.repRate * (iProfInt - 1)));
         rawSignalInt(:, :, iProfInt) = repmat(nansum(data.rawSignal(:, :, profIndx), 3), 1, 1, 1);
         if ~ isempty(data.depCalAng)
             depCalAngInt(iProfInt) = data.depCalAng(profIndx(1));
         end
+        flagValidProfile(iProfInt) = all(data.flagValidProfile(profIndx));
     end
 
     data.rawSignal = rawSignalInt;
     data.mTime = mTimeInt;
     data.mShots = mShotsInt;
     data.depCalAng = depCalAngInt;
+    data.flagValidProfile = flagValidProfile;
 end
 
 %% Modify mShots
@@ -255,7 +265,14 @@ end
 %% Re-locate measurement time forcefully.
 if config.flagForceMeasTime
     data.mTime = data.filenameStartTime + ...
-                 datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * 30);
+                 datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * p.Results.deltaT);
+else
+    %% Filter profiles with negative timestamp (which is an indication of power failure for the lidar system)
+    data.mTime = data.mTime(data.flagValidProfile);
+    data.mShots = data.mShots(:, data.flagValidProfile);
+    data.depCalAng = data.depCalAng(data.flagValidProfile);
+    data.rawSignal = data.rawSignal(:, :, data.flagValidProfile);
+    data = rmfield(data, 'flagValidProfile');
 end
 
 %% Deadtime correction
@@ -286,18 +303,26 @@ if config.flagSigTempCor
     temperature = loadMeteor(mean(data.mTime), data.alt, ...
         'meteorDataSource', config.meteorDataSource, ...
         'gdas1Site', config.gdas1Site, ...
-        'gdas1_folder', config.gdas1_folder, ...
+        'meteo_folder', config.meteo_folder, ...
         'radiosondeSitenum', config.radiosondeSitenum, ...
         'radiosondeFolder', config.radiosondeFolder, ...
         'radiosondeType', config.radiosondeType, ...
         'method', 'linear', ...
         'isUseLatestGDAS', config.flagUseLatestGDAS);
     absTemp = temperature + 273.17;
-    
-    syms T
+
     for iCh = 1:size(data.signal, 1)
-	corFunc = sym(config.tempCorFunc{iCh});
-        corFac = double(subs(corFunc, T, absTemp));
+        leadingChar = config.tempCorFunc{iCh}(1);
+        if (leadingChar == '@')
+            % valid matlab anonymous function
+            tempCorFunc = config.tempCorFunc{iCh};
+        else
+            tempCorFunc = vectorize(['@(T) ', '(', config.tempCorFunc{iCh}, ') .* ones(size(T))']);
+            % fprintf('%s is not a valid matlab anonymous function. Redefine it as %s\n', config.tempCorFunc{iCh}, tempCorFunc);
+        end
+
+        corFunc = str2func(tempCorFunc);
+        corFac = corFunc(absTemp);
         data.signal(iCh, :, :) = data.signal(iCh, :, :) ./ repmat(reshape(corFac, 1, [], 1), 1, 1, size(data.signal, 3));
     end
 end

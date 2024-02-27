@@ -13,6 +13,7 @@ todo_filelist
 test
 netcdf4
 log
+analysis
 done_filelist
 
 # Sphinx build
@@ -32,3 +33,14 @@ package.json
 # untracked folders
 config
 data
+config_T15/pollyConfigs/polly_global_config.json
+config_T15/pollyDefaults/template_polly_defaults.json
+config_T15/template_pollynet_processing_chain_config.json
+config_T15/pollynet_processing_chain_config_links.xlsx
+config_T15/template_pollynet_processing_chain_config_links.xlsx
+
+# untrack lib/config folder, except template configs
+!lib/config
+lib/config/*
+!lib/config/template_polly_global_config.json
+!lib/config/template_polly_global_defaults.json
