@@ -218,7 +218,6 @@ merging() {
     local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
     mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
     echo "start merging... "
-    #/lacroshome/cloudnetpy/venv/cloudnetpy-env/bin/python3 /pollyhome/Bildermacher2/src/concat_pollyxt_lvl0/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f $FORCE_MERGING
     
     "$PY_FOLDER"python3 "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f $FORCE_MERGING
 }

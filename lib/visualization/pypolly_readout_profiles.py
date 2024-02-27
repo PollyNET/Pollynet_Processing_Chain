@@ -44,19 +44,6 @@ def read_nc_profile(nc_filename):
         att_value = nc_file_ds.getncattr(nc_attr)
         global_attr[nc_attr] = att_value
 
-#    ## get variable attributes from nc-file
-#    var_attr_WVMR = {}
-#    var_attr_WVMR_rel_error = {}
-#    var = ["WVMR", "WVMR_rel_error"]
-#    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-#        var_attr_WVMR[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-#        var_attr_WVMR_rel_error[var_att] = var_att_value
-
-#    WVMR = nc_file_ds[var[0]][:]
-#    WVMR_rel_error = nc_file_ds[var[1]][:]
 
     var_ls = []
     for var in nc_file_ds.variables:

@@ -140,12 +140,8 @@ def main():
 
     polly_local_config = f'{polly_config_folder}/{polly_local_config}'
 
-#    polly_local_config = f'/pollyhome/Bildermacher2/Pollynet_Processing_Chain/config/pollyConfigs/{polly_local_config}'
-#    configfile, pollyglobal, polly_local_config  = display_config(display_configfile)
     pollyglobal = config_dict['polly_global_config']
-#    pollyglobal = '/pollyhome/Bildermacher2/Pollynet_Processing_Chain/lib/config/polly_global_config.json'
     
-#    config_dict = read_config(configfile)
     
     globalconf_dict = read_global_conf(pollyglobal)
     localconf_dict = read_local_conf(polly_local_config)
@@ -156,18 +152,15 @@ def main():
         if key in localconf_dict:
             polly_conf_dict[key] = localconf_dict[key]
 
-#    exit(0) # Successful exit
 
     date = args.timestamp
     device = args.device
 
 ### be careful to choose correct input/output folders !!!
-### be careful to choose correct input/output folders !!!
     inputfolder = config_dict['results_folder']
-#    inputfolder = '/pollyhome/Bildermacher2/experimental'
     outputfolder = args.outdir
     if outputfolder == 'none':
-        outputfolder = '/pollyhome/Bildermacher2/src/pypolly/plots'
+        outputfolder = './'
     else:
         YYYY = date[0:4]
         MM = date[4:6]
@@ -176,7 +169,6 @@ def main():
         #creating a new directory if not existing
         Path(outputfolder).mkdir(parents=True, exist_ok=True)
         #outputfolder = config_dict['pic_folder']
-### be careful to choose correct input/output folders !!!
 ### be careful to choose correct input/output folders !!!
 
     print('retrievals to plot: '+ str(args.retrieval))

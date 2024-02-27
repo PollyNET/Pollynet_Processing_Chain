@@ -5092,7 +5092,6 @@ if PicassoConfig.flagEnableDataVisualization
         pyFolder = PicassoConfig.pyBinDir;   % folder of the python scripts for data visualization
         pythonPath = fullfile(pyFolder, 'python3');
         %pythonPath = '/lacroshome/cloudnetpy/cloudnetpy-env/bin/python3';
-        %pythonScript = '/pollyhome/Bildermacher2/src/pypolly/pypolly_display_all.py';
         pythonScript = fullfile(PicassoDir, 'lib', 'visualization', 'pypolly_display_all.py');
         measurement_date = [datestr(PollyDataInfo.dataTime, 'yyyy'), datestr(PollyDataInfo.dataTime, 'mm'), datestr(PollyDataInfo.dataTime, 'dd')];
         pypolly_command = sprintf('%s %s --date %s --device %s --picasso_config_file %s --polly_config_file %s --outdir %s --retrieval all', pythonPath, pythonScript, measurement_date, pollyType, PicassoConfigFile, PollyConfig.pollyConfigFile, PicassoConfig.pic_folder);
