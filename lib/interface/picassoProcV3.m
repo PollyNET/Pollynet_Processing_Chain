@@ -5016,25 +5016,10 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayHousekeeping(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-%%    %% display range corrected signal
-%%    print_msg('--> start displaying range corrected signal.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%%    pollyDisplayRCS(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display volume depolarization ratio
-%%    print_msg('--> start displaying volume depolarization ratio.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%%    pollyDisplayVDR(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
     %% display polarization calibration results
     print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     pollyDisplayPolCali(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-%%    %% display signal status
-%%    print_msg('--> start displaying signal status.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%%    pollyDisplaySigStatus(data);
-%%    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
 
     %% display overlap function
     print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
@@ -5046,36 +5031,6 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayProfiles(data);
     pollyDisplayOCProfiles(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-%%    %% display attenuated backscatter
-%%    print_msg('--> start displaying attenuated backscatter.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayAttnBsc(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display water vapor products
-%%    print_msg('--> start displaying water vapor products.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayWV(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display quasi-retrieved products (V1)
-%%    print_msg('--> start displaying quasi-retrieved products (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayQsiV1(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display quasi-retrieved products (V2)
-%%    print_msg('--> start displaying quasi-retrieved products (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayQsiV2(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display aerosol/cloud target classification mask (V1)
-%%    print_msg('--> start displaying aerosol/cloud target classification mask (V1).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayTCV1(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%
-%%    %% display aerosol/cloud target classification mask (V2)
-%%    print_msg('--> start displaying aerosol/cloud target classification mask (V2).\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%%    pollyDisplayTCV2(data);
-%%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
     %% display lidar calibration constants
     print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);

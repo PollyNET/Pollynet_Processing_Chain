@@ -282,6 +282,13 @@ check_todo_list_consistency() {
 
 process_merged() {
 ## define function of processing 24h-merged data using picasso
+
+## check if TODO-List is empty
+todolist_lines=$(wc -l ${PICASSO_TODO_FILE} | cut -d' ' -f1)
+if [ "$todolist_lines" -eq 0 ]; then
+    echo "TODO-list is empty"
+else
+
 echo -e "\nSettings:\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\n\n"
 
 matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
@@ -293,6 +300,7 @@ exit;
 ENDMATLAB
 
 echo "Finished processing."
+fi
 }
 
 delete_level0_merged_file() {
@@ -300,20 +308,29 @@ delete_level0_merged_file() {
 	DEVICE=$1
 	DATE=$2
 	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
-	local merged_level0_file=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*.nc)
-	echo "deleting merged level0 file: ${merged_level0_file} ..."
-	rm $merged_level0_file
-	echo "done."
+	local merged_level0_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*.nc"
+        if ls ${merged_level0_file} 1> /dev/null 2>&1; then
+    	    echo "deleting merged level0 file: ${merged_level0_file} ..."
+    	    rm $merged_level0_file
+            echo "done."
+        else
+            :  # Do nothing  
+        fi
 }
 
 delete_entry_from_todo_list() {
 ## delete entry from todo_list file
     DEVICE=$1
     DATE=$2
-    echo "deleting entry ${DEVICE} ${DATE} from todo_list... "
-    sed -i "/${DEVICE}.*${DATE:0:4}_${DATE:4:2}_${DATE:6:2}/d" $PICASSO_TODO_FILE 
-    sed -i "/, , .zip/d" $PICASSO_TODO_FILE ## just to be sure, that wrong/empty entries are deleted from list
-    echo "done."
+    entry_exists=$(grep -c "${DEVICE}.*${DATE:0:4}_${DATE:4:2}_${DATE:6:2}" $PICASSO_TODO_FILE)
+    if [ "$entry_exists" -eq 0 ]; then
+        : # Do nothing
+    else
+        echo "deleting entry ${DEVICE} ${DATE} from todo_list... "
+        sed -i "/${DEVICE}.*${DATE:0:4}_${DATE:4:2}_${DATE:6:2}/d" $PICASSO_TODO_FILE 
+        sed -i "/, , .zip/d" $PICASSO_TODO_FILE ## just to be sure, that wrong/empty entries are deleted from list
+        echo "done."
+    fi
 }
 
 delete_laserlogbookfile() {
@@ -321,11 +338,15 @@ delete_laserlogbookfile() {
 	DEVICE=$1
 	DATE=$2
 	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
-	#local laserlog_file=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
-	local laserlog_file=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*laserlogbook.txt)
-	echo "deleting merged laserlogbook file: ${laserlog_file} ..."
-	rm $laserlog_file
-	echo "done."
+	local laserlog_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*laserlogbook.txt"
+        if ls ${laserlog_file} 1> /dev/null 2>&1; then
+   	    echo "deleting merged laserlogbook file: ${laserlog_file} ..."
+	    rm $laserlog_file
+	    echo "done."
+        else
+            : # Do nothing
+        fi
+
 }
 
 
