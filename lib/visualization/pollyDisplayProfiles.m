@@ -76,7 +76,27 @@ flag532RR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagRotRaman
 flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
 %% data visualization for each cloud free period
-for iGrp = 1:size(data.clFreGrps, 1)
+
+Grp_length = size(data.clFreGrps, 1);
+Grp_past = 2;
+
+if PicassoConfig.flagPlotLastProfilesOnly
+    Grp_past_str = Grp_past + 1;
+    str = sprintf('plotting only last %d profiles', Grp_past_str);
+    disp(str);
+    if Grp_length > Grp_past
+        Grp_length_start = Grp_length - Grp_past;
+    else
+        Grp_length_start = 1;
+    end
+else
+    disp('plotting all profiles');
+    Grp_length_start = 1;
+end
+
+
+for iGrp  = Grp_length_start:Grp_length
+%for iGrp = 1:size(data.clFreGrps, 1)
     startInd = data.clFreGrps(iGrp, 1);
     endInd = data.clFreGrps(iGrp, 2);
 

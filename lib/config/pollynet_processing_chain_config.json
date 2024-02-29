@@ -29,6 +29,7 @@
     "flagEnableResultsOutput": true,
     "flagEnableDataVisualization": true,	
     "flagEnableDataVisualization24h": false,	
+    "flagPlotLastProfilesOnly": true,
     "flagDebugOutput": true,
     "flagReduceMATLABToolboxDependence": false,
     "flagSendNotificationEmail": false,
