@@ -160,6 +160,7 @@ main() {
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE	
 		merging $DEVICE $DATE ## merging of level0 files and put into todo-list
+        	check_todo_list_consistency
 	        write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
 		## OPTION 1: process every single task???
 		process_merged ## process actual merged file with picasso - written in todo_list (inlcuding plotting with new 24h-plotting-method)
@@ -169,7 +170,6 @@ main() {
 	    done
 	done
 
-        check_todo_list_consistency
 #exit 1
 
 #	## OPTION 2: process after everything is written into todo_list???
@@ -263,15 +263,29 @@ check_todo_list_consistency() {
     temp_file="${PICASSO_TODO_FILE}_temp"
     touch $temp_file
 
-    # Count the occurrences using grep and wc
-    # Pattern to count
-    pattern=", "
-    # Read the file line by line
+    ## check the number occurancy of $delimiter_pattern and the length of each string-section inbetween the $delimiter_pattern 
+    delimiter_pattern=", "
+    number_of_sections=5
+    min_section_length=4
+    ## Read the file line by line
     while IFS= read -r line; do
-        # Process each line here
-        count=$(echo "$line" | grep -o "$pattern" | wc -l)
-        if [ "$count" -eq 5 ]; then
-            echo $line >> $temp_file
+        ## Process each line here
+        count=$(echo "$line" | grep -o "$delimiter_pattern" | wc -l)
+        ## check if the line has exactly $number_of_sections; if not, this line will be skipped
+        if [ "$count" -eq "$number_of_sections" ]; then
+                ## intersect line with delimiter $delimiter_pattern and put it into sections-list
+		IFS="${delimiter_pattern}" read -r -a sections <<< "$line"
+		all_sections_long_enough=true
+                ## cycle through each section and check if the strings are longer than $min_section_length; if not, this line will be skipped
+		for section in "${sections[@]}"; do
+		    if [ "${#section}" -lt "$min_section_length" ]; then
+		        all_sections_long_enough=false
+		        break
+		    fi
+		done
+            if [ "$all_sections_long_enough" = true ]; then
+                echo $line >> $temp_file
+            fi
         fi
     done < "$PICASSO_TODO_FILE"
     cp $temp_file $PICASSO_TODO_FILE
