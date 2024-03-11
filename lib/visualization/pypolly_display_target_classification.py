@@ -120,7 +120,7 @@ def pollyDisplayTargetClass(nc_dict,config_dict, polly_conf_dict, saveFolder, c_
     extent = [ x_lims[0], x_lims[-1], max_height[0], max_height[-1] ]
 
     ## mask matrix
-    matrix = np.ma.masked_where(quality_mask > 0, matrix)
+    matrix = np.ma.masked_where(quality_mask < 0, matrix)
     
     ## slice matrix to max_height
     matrix = matrix[:,0:len(max_height)]

@@ -5011,36 +5011,36 @@ if PicassoConfig.flagEnableDataVisualization
 
     print_msg('Start data visualization\n', 'flagTimestamp', true);
 
-%    %% diaplay monitor status
-%    print_msg('--> start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%    pollyDisplayHousekeeping(data);
-%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%
-%    %% display polarization calibration results
-%    print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%    pollyDisplayPolCali(data);
-%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%
-%    %% display overlap function
-%    print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%    pollyDisplayOL(data);
-%    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-%
-%    %% display aerosol vertical profiles
-%    print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%    pollyDisplayProfiles(data);
-%    pollyDisplayOCProfiles(data);
-%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%
-%    %% display lidar calibration constants
-%    print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%    pollyDisplayLC(data);
-%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%
-%    %% display long-term lidar calibration results
-%    print_msg('--> start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-%    pollyDisplayLTLCali(data, dbFile);
-%    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    %% diaplay monitor status
+    print_msg('--> start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayHousekeeping(data);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display polarization calibration results
+    print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayPolCali(data);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display overlap function
+    print_msg('--> start displaying overlap function.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    pollyDisplayOL(data);
+    print_msg('--> finish.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+
+    %% display aerosol vertical profiles
+    print_msg('--> start displaying vertical profiles.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayProfiles(data);
+    pollyDisplayOCProfiles(data);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display lidar calibration constants
+    print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayLC(data);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+
+    %% display long-term lidar calibration results
+    print_msg('--> start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
+    pollyDisplayLTLCali(data, dbFile);
+    print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
 
     %% if flag flagEnableDataVisualization24h exists and is true ... do not plot 3d-plots from here, but use the imshow-method from level1-data

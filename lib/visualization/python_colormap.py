@@ -770,7 +770,7 @@ def load_colormap(name='chiljet'):
         colormap name.
         - 'chiljet'
         - 'eleni'
-        - 'CALIPSO'
+        - 'calipso'
     Return
     ------
     cmap: matplotlib colormap
@@ -780,8 +780,8 @@ def load_colormap(name='chiljet'):
         cmap = chiljet_colormap()
     elif name == 'eleni':
         cmap = eleni_colormap()
-    elif name == 'CALIPSO':
-        cmap = CALIPSO_colormap()
+    elif name == 'calipso':
+        cmap = calipso_colormap()
     elif name == 'labview':
         cmap = labivew_colormap()
     else:

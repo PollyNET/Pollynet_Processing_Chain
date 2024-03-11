@@ -254,7 +254,7 @@
     "zLim_VolDepol_355": [0, 0.2],
     "zLim_VolDepol_532": [0, 0.3],
     "zLim_VolDepol_1064": [0, 0.3],
-    "colormap_basic": "labview",
+    "colormap_basic": "calipso",
 
     "PI": "",
     "PI_affiliation": "",
