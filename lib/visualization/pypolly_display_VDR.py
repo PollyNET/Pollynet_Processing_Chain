@@ -103,7 +103,7 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength):
     extent = [ x_lims[0], x_lims[-1], max_height[0], max_height[-1] ]
 
     ## mask matrix
-    VDR = np.ma.masked_where(quality_mask> 0, VDR)
+    VDR = np.ma.masked_where(quality_mask < 0, VDR)
     
     ## slice matrix to max_height
     VDR = VDR[:,0:len(max_height)]
@@ -113,12 +113,12 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength):
     VDR= np.flip(VDR,0)
 
     # define the colormap
-    #cmap = load_colormap(name=colormap_basic)
-    colormap_basic = "turbo"
-    import copy
-    cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
+    cmap = load_colormap(name=colormap_basic)
+    #colormap_basic = "turbo"
+    #import copy
+    #cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
     ## set color of nan-values
-    cmap.set_bad(color='black')
+    cmap.set_bad(color='white')
 
     print(f"plotting {plotfile} ... ")
     # display attenuate backscatter

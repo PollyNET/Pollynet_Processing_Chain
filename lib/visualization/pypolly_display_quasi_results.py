@@ -139,7 +139,7 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
     extent = [ x_lims[0], x_lims[-1], max_height[0], max_height[-1] ]
 
     ## mask matrix
-    matrix = np.ma.masked_where(quality_mask > 0, matrix)
+    matrix = np.ma.masked_where(quality_mask < 0, matrix)
     
     ## slice matrix to max_height
     matrix = matrix[:,0:len(max_height)]
@@ -149,12 +149,12 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
     matrix = np.flip(matrix,0)
 
     # define the colormap
-    #cmap = load_colormap(name=colormap_basic)
-    colormap_basic = "turbo"
-    import copy
-    cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
+    cmap = load_colormap(name=colormap_basic)
+    #colormap_basic = "turbo"
+    #import copy
+    #cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
     ## set color of nan-values
-    cmap.set_bad(color='black')
+    cmap.set_bad(color='white')
 
     print(f"plotting {plotfile} ... ")
     # display attenuate backscatter

@@ -98,7 +98,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder):
     extent = [ x_lims[0], x_lims[-1], max_height[0], max_height[-1] ]
 
     ## mask matrix
-    WVMR = np.ma.masked_where(quality_mask> 0, WVMR)
+    WVMR = np.ma.masked_where(quality_mask< 0, WVMR)
     
     ## slice matrix to max_height
     WVMR = WVMR[:,0:len(max_height)]
@@ -108,12 +108,12 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder):
     WVMR= np.flip(WVMR,0)
 
     # define the colormap
-    #cmap = load_colormap(name=colormap_basic)
-    colormap_basic = "turbo"
-    import copy
-    cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
+    cmap = load_colormap(name=colormap_basic)
+    #colormap_basic = "turbo"
+    #import copy
+    #cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
     ## set color of nan-values
-    cmap.set_bad(color='black')
+    cmap.set_bad(color='white')
 
     print(f"plotting {plotfile} ... ")
     # display attenuate backscatter
@@ -270,7 +270,7 @@ def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder):
     extent = [ x_lims[0], x_lims[-1], max_height[0], max_height[-1] ]
 
     ## mask matrix
-    RH = np.ma.masked_where(quality_mask> 0, RH)
+    RH = np.ma.masked_where(quality_mask< 0, RH)
     
     ## slice matrix to max_height
     RH = RH[:,0:len(max_height)]
@@ -280,12 +280,12 @@ def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder):
     RH = np.flip(RH,0)
 
     # define the colormap
-    #cmap = load_colormap(name=colormap_basic)
-    colormap_basic = "turbo"
-    import copy
-    cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
+    cmap = load_colormap(name=colormap_basic)
+    #colormap_basic = "turbo"
+    #import copy
+    #cmap =copy.copy(plt.cm.get_cmap(colormap_basic))
     ## set color of nan-values
-    cmap.set_bad(color='black')
+    cmap.set_bad(color='white')
 
     print(f"plotting {plotfile} ... ")
     # display attenuate backscatter

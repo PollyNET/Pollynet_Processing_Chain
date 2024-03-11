@@ -8,7 +8,7 @@ import re
 import sys
 import scipy.io as spio
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import matplotlib
 from netCDF4 import Dataset
 import json
@@ -103,6 +103,9 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
     fill_size = 0
     fill_size_all = 0
     fill_value = ATT_BETA.fill_value
+
+    ## Set masked values (bad signal) to 0, to differntiate between bad signals and measurement-gaps
+    ATT_BETA = np.ma.masked_where(ATT_BETA.mask, ATT_BETA, 0)
     
     for gap in gap_finder[0]:
         fill_size_all = fill_size_all + fill_size
@@ -122,21 +125,17 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
 
     ## get date and convert to datetime object
     date_00 = datetime.fromtimestamp(int(time[0])).strftime('%Y%m%d') # convert Unix-timestamp to datestring
-    date_00 = datetime.strptime(str(date_00), '%Y%m%d') # convert to datetime object
-    date_00 = date_00.timestamp()
+    date_00 = datetime.strptime(str(date_00), '%Y%m%d').replace(tzinfo=timezone.utc) # convert to datetime object of UTC-time 
+    date_00 = date_00.timestamp() # convert to unix-timestamp-object
 
     ## check start unix-time
     start_diff = abs(time[0]-date_00)
     if start_diff < (profile_length * 2):
-#        print('OK')
         fill_size_start = 0
     else:
-#        print('NOT OK')
         fill_size_start = int(np.round(start_diff/profile_length))
-#        print(fill_size_start)
         ATT_BETA = np.pad(ATT_BETA,((fill_size_start,0),(0,0)), 'constant', constant_values=fill_value)
         quality_mask = np.pad(quality_mask,((fill_size_start,0),(0,0)), 'constant', constant_values=-1)
-
     ## check end unix-time
     end_diff = abs(time[-1] - (date_00+24*60*60))
     if end_diff < (profile_length * 2):
