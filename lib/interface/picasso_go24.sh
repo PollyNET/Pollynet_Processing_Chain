@@ -219,7 +219,7 @@ merging() {
     mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
     echo "start merging... "
     
-    "$PY_FOLDER"python3 "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f $FORCE_MERGING
+    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f $FORCE_MERGING
 }
 
 write_job_into_todo_list() {
