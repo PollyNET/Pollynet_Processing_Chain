@@ -138,7 +138,8 @@ def main():
     else:
         polly_local_config = read_excel_config_file(excel_config_file, timestamp=args.timestamp, device=args.device)
 
-    polly_local_config = f'{polly_config_folder}/{polly_local_config}'
+    #polly_local_config = f'{polly_config_folder}/{polly_local_config}'
+    polly_local_config = Path(polly_config_folder,polly_local_config)
 
     pollyglobal = config_dict['polly_global_config']
     
@@ -160,12 +161,13 @@ def main():
     inputfolder = config_dict['results_folder']
     outputfolder = args.outdir
     if outputfolder == 'none':
-        outputfolder = './'
+        outputfolder = '.'
     else:
         YYYY = date[0:4]
         MM = date[4:6]
         DD = date[6:8]
-        outputfolder = f"{args.outdir}/{device}/{YYYY}/{MM}/{DD}"
+#        outputfolder = f"{args.outdir}/{device}/{YYYY}/{MM}/{DD}"
+        outputfolder = Path(args.outdir,device,YYYY,MM,DD)
         #creating a new directory if not existing
         Path(outputfolder).mkdir(parents=True, exist_ok=True)
         #outputfolder = config_dict['pic_folder']

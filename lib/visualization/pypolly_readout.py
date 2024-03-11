@@ -44,7 +44,8 @@ def get_nc_filename(date, device, inputfolder, param=""):
     YYYY = date[0:4]
     MM = date[4:6]
     DD = date[6:8]
-    inputfolder = f"{inputfolder}/{device}/{YYYY}/{MM}/{DD}"
+    #inputfolder = f"{inputfolder}/{device}/{YYYY}/{MM}/{DD}"
+    inputfolder = Path(inputfolder,device,YYYY,MM,DD)
 
     path_exist = Path(inputfolder)
 
@@ -101,6 +102,7 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
     gap_finder = np.where(np.array(diff_time) > 2*profile_length)
     fill_size = 0
     fill_size_all = 0
+    fill_value = ATT_BETA.fill_value
     
     for gap in gap_finder[0]:
         fill_size_all = fill_size_all + fill_size
@@ -112,8 +114,8 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
         matrix_left_mask = quality_mask[:gap+1]
         matrix_right_mask = quality_mask[gap:]
         fill_size =  profiles_num
-        matrix_left_att = np.pad(matrix_left_att,((0,fill_size),(0,0)), 'constant', constant_values=(np.NaN))
-        matrix_left_mask = np.pad(matrix_left_mask,((0,fill_size),(0,0)), 'constant', constant_values=(np.NaN))
+        matrix_left_att = np.pad(matrix_left_att,((0,fill_size),(0,0)), 'constant', constant_values=fill_value)
+        matrix_left_mask = np.pad(matrix_left_mask,((0,fill_size),(0,0)), 'constant', constant_values=-1)
         
         ATT_BETA = np.append(matrix_left_att, matrix_right_att,axis=0)
         quality_mask = np.append(matrix_left_mask, matrix_right_mask,axis=0)
@@ -132,8 +134,8 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
 #        print('NOT OK')
         fill_size_start = int(np.round(start_diff/profile_length))
 #        print(fill_size_start)
-        ATT_BETA = np.pad(ATT_BETA,((fill_size_start,0),(0,0)), 'constant', constant_values=(np.NaN))
-        quality_mask = np.pad(quality_mask,((fill_size_start,0),(0,0)), 'constant', constant_values=(np.NaN))
+        ATT_BETA = np.pad(ATT_BETA,((fill_size_start,0),(0,0)), 'constant', constant_values=fill_value)
+        quality_mask = np.pad(quality_mask,((fill_size_start,0),(0,0)), 'constant', constant_values=-1)
 
     ## check end unix-time
     end_diff = abs(time[-1] - (date_00+24*60*60))
@@ -141,8 +143,8 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
         fill_size_end = 0
     else:
         fill_size_end =  int(np.round(end_diff/profile_length))
-        ATT_BETA = np.pad(ATT_BETA,((0,fill_size_end),(0,0)), 'constant', constant_values=(np.NaN))
-        quality_mask = np.pad(quality_mask,((0,fill_size_end),(0,0)), 'constant', constant_values=(np.NaN))
+        ATT_BETA = np.pad(ATT_BETA,((0,fill_size_end),(0,0)), 'constant', constant_values=fill_value)
+        quality_mask = np.pad(quality_mask,((0,fill_size_end),(0,0)), 'constant', constant_values=-1)
 
     return ATT_BETA, quality_mask
 
@@ -191,9 +193,11 @@ def read_nc_file(nc_filename,):
     nc_dict['PollyVersion'] = global_attr['source']
     nc_dict['location'] = global_attr['location']
     nc_dict['PicassoVersion'] = global_attr['version']
-    nc_dict['m_date'] = datetime.fromtimestamp(nc_file_ds['time'][0]).strftime("%Y-%m-%d")
     nc_dict['PollyDataFileFolder'] = nc_filename
-    nc_dict['PollyDataFile'] = re.split(r'\/',nc_filename)[-1]
+    nc_dict['PollyDataFile'] = Path(nc_filename).parts[-1]
+    m_date = re.split(r'_',nc_dict['PollyDataFile'])
+    nc_dict['m_date'] = f'{m_date[0]}-{m_date[1]}-{m_date[2]}'
+#    nc_dict['m_date'] = datetime.fromtimestamp(nc_file_ds['time'][0]).strftime("%Y-%m-%d")
 
     return nc_dict
 
