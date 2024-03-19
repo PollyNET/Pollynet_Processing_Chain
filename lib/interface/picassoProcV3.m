@@ -5124,6 +5124,7 @@ print_msg('Finish pollynet processing chain\n', 'flagTimestamp', true);
 print_msg('%%------------------------------------------------------%%\n');
 
 %% Clean
+print_msg('Memory at end:\n',memory, 'flagTimestamp', true, 'flagSimpleMsg', true);
 fclose(LogConfig.logFid);
 
 %% Enable the usage of matlab toolbox
@@ -5132,5 +5133,6 @@ if PicassoConfig.flagReduceMATLABToolboxDependence
     print_msg('Enable the usage of matlab statistics_toolbox\n', ...
               'flagSimpleMsg', true);
 end
-
+%% Clean
+clear;
 end

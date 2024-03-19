@@ -788,7 +788,7 @@ for iGrp  = Grp_length_start:Grp_length
         if flag ~= 0
             warning('Error in executing %s', 'pollyDisplayRH.py');
         end
-        %delete(tmpFile);
+        delete(tmpFile);
     end
 
     %% temperature
