@@ -658,7 +658,7 @@ def calipso_colormap_gray_inv():
 #        (0.2745098, 0.2745098, 0.2745098)
     ]
 
-    nbins = 255
+    nbins = 1024
     CALIPSO_CMAP = LinearSegmentedColormap.from_list(
         'calipso', CALIPSO_RGB, N=nbins)
 
@@ -846,13 +846,23 @@ def Test():
 #    Z = np.exp(-2*(X**2 + Y**2))
 
 #    plt.contourf(Z, level=255, cmap=calipso_colormap())
-    image_data = np.random.rand(42,42)
-    plt.imshow(image_data, cmap=calipso_colormap())
+#    image_data = np.random.rand(42,42)
+#    plt.imshow(image_data, cmap=calipso_colormap_gray_inv())
+
+    # Define the dimensions of the grid
+    n = 1024
+    x = np.linspace(-2, 2, n)
+    y = np.linspace(-2, 2, n)
+
+    # Create a meshgrid
+    X, Y = np.meshgrid(x, y)
+
+    # Create a smooth gradient using a function, for example, a Gaussian
+    sigma = 1.0
+    Z = np.exp(-X**2/(2*sigma**2)) * np.exp(-Y**2/(2*sigma**2))
+    plt.imshow(Z, cmap=calipso_colormap_gray_inv())
     plt.colorbar()
-    plt.savefig('c:\_data\calipso_colormap.png')
-    plt.imshow(image_data, cmap=calipso_colormap_gray_inv())
-    plt.colorbar()
-    plt.savefig('c:\_data\calipso_colormap_gray_inv.png')
+    plt.savefig('c:\_data\calipso_colormap_gray_inv.png', dpi=300)
     plt.show()
 
     # fig = plt.figure(figsize=[15, 5])
