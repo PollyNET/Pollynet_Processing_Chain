@@ -300,15 +300,22 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
         plotfile_SNR = f'{dataFilename}_ATT_BETA_OC_{wavelength}_SNR.{imgFormat}'
 
     ## fill time gaps in att_bsc matrix
-    ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
+    #ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
+    quality_mask_ATT = quality_mask
     
 
     ## get date and convert to datetime object
     date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     date_00 = date_00.timestamp()
-
+    # Convert Unix timestamp string to a datetime object
+    mtime_end = datetime.utcfromtimestamp(int(nc_dict['time'][-1]))
+    mtime_end = mtime_end.timestamp()
+#    mtime_end = datetime.strptime(nc_dict['time'], '%Y-%m-%d')
     ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+#    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    x_lims = list(map(datetime.fromtimestamp, [date_00, mtime_end]))
+
+    ## set x_lims from 0 to end of mtime (of file)
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
