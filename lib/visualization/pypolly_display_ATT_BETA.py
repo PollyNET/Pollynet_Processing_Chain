@@ -300,8 +300,7 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
         plotfile_SNR = f'{dataFilename}_ATT_BETA_OC_{wavelength}_SNR.{imgFormat}'
 
     ## fill time gaps in att_bsc matrix
-    #ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
-    quality_mask_ATT = quality_mask
+    ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
     
 
     ## get date and convert to datetime object
@@ -332,6 +331,9 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
     
     ## slice matrix to max_height
     ATT_BETA = ATT_BETA[:,0:len(max_height)]
+    last_hours = (date_00+24*60*60 - mtime_end)/3600
+    n = int(3600/30*last_hours)
+    ATT_BETA = ATT_BETA[:-n] ## trimm last n=(3600s/30s*last_hours) time-slices to correctly fit to imshow-plot (30s, equals the time for one profile = mshots/laser_rep_rate = mostly 30s).
 
     ## transpose and flip for correct plotting
     ATT_BETA= np.ma.transpose(ATT_BETA)  ## matrix has to be transposed for usage with pcolormesh!
