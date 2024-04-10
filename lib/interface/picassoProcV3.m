@@ -4836,32 +4836,37 @@ if PicassoConfig.flagEnableResultsOutput
             end
 
         case 'aerproffr'
-            print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-            try
-	    pollySaveProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-	    catch
-	    print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-	    end
-    %try
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save aerosol optical results
+                try
+    	            pollySaveProfiles(data);
+                     print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        catch
+    	         print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	         end
+            end
         case 'aerprofnr'
-            print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-          try
-            pollySaveNRProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-          catch
-            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-          end
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save aerosol optical results
+              try
+                pollySaveNRProfiles(data);
+                print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+              catch
+                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+              end
+            end
         case 'aerprofoc'
-            print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            %% save aerosol optical results
-            try
-            pollySaveOCProfiles(data);
-            print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            catch
-            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save aerosol optical results
+                try
+                pollySaveOCProfiles(data);
+                print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                catch
+                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                end
             end
             
         case 'aerattbetafr'
@@ -4964,13 +4969,15 @@ if PicassoConfig.flagEnableResultsOutput
             end
             
         case 'poliphon_one'
-            print_msg('--> start saving 1-step POLIPHON products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            try
-            pollySavePOLIPHON(data, POLIPHON1);
-            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            catch
-            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            end        
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving 1-step POLIPHON products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                try
+                pollySavePOLIPHON(data, POLIPHON1);
+                print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                catch
+                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                end
+            end
         
         otherwise
             warning('Unknow product %s', PollyConfig.prodSaveList{iProd});
