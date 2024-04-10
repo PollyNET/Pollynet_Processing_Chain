@@ -88,8 +88,8 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength):
     date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     date_00 = date_00.timestamp()
 
-    ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    ## set x-lim to 24h or only to last available timestamp
+    x_lims = readout.set_x_lims(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -107,6 +107,9 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength):
     
     ## slice matrix to max_height
     VDR = VDR[:,0:len(max_height)]
+
+    ## trimm matrix to last available timestamp if neccessary
+    VDR = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=VDR,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
 
     ## transpose and flip for correct plotting
     VDR= np.ma.transpose(VDR)  ## matrix has to be transposed for usage with pcolormesh!

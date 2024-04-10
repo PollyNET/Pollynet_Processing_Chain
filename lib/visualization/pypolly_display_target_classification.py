@@ -106,8 +106,8 @@ def pollyDisplayTargetClass(nc_dict,config_dict, polly_conf_dict, saveFolder, c_
     date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     date_00 = date_00.timestamp()
 
-    ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    ## set x-lim to 24h or only to last available timestamp
+    x_lims = readout.set_x_lims(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -125,6 +125,8 @@ def pollyDisplayTargetClass(nc_dict,config_dict, polly_conf_dict, saveFolder, c_
     ## slice matrix to max_height
     matrix = matrix[:,0:len(max_height)]
 
+    ## trimm matrix to last available timestamp if neccessary
+    matrix = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=matrix,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
     ## transpose and flip for correct plotting
     matrix = np.ma.transpose(matrix)  ## matrix has to be transposed for usage with pcolormesh!
     matrix = np.flip(matrix,0)
