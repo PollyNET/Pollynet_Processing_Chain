@@ -85,7 +85,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder):
     date_00 = date_00.timestamp()
 
     ## set x-lim to 24h or only to last available timestamp
-    x_lims = readout.set_x_lims(reproc=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
+    x_lims = readout.set_x_lims(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -104,7 +104,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder):
     WVMR = WVMR[:,0:len(max_height)]
 
     ## trimm matrix to last available timestamp if neccessary
-    WVMR = readout.trimm_matrix_to_last_timestamp(reproc=config_dict['flagPlotLastProfilesOnly'],matrix=WVMR,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
+    WVMR = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=WVMR,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
 
     ## transpose and flip for correct plotting
     WVMR= np.ma.transpose(WVMR)  ## matrix has to be transposed for usage with pcolormesh!
@@ -260,7 +260,7 @@ def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder):
     date_00 = date_00.timestamp()
 
     ## set x-lim to 24h or only to last available timestamp
-    x_lims = readout.set_x_lims(reproc=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
+    x_lims = readout.set_x_lims(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -279,7 +279,7 @@ def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder):
     RH = RH[:,0:len(max_height)]
 
     ## trimm matrix to last available timestamp if neccessary
-    RH = readout.trimm_matrix_to_last_timestamp(reproc=config_dict['flagPlotLastProfilesOnly'],matrix=RH,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
+    RH = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=RH,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
 
     ## transpose and flip for correct plotting
     RH = np.ma.transpose(RH)  ## matrix has to be transposed for usage with pcolormesh!

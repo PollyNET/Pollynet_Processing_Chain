@@ -153,9 +153,9 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
 ####
 ####
 
-def set_x_lims(reproc,mdate,last_timestamp)->list:
+def set_x_lims(flagPlotLastProfilesOnly,mdate,last_timestamp)->list:
     ## set x-lim to 24h or only to last available timestamp
-    if reproc == False:
+    if flagPlotLastProfilesOnly == True:
         ## Convert Unix timestamp string to a datetime object
         mtime_end = datetime.utcfromtimestamp(int(last_timestamp))
         mtime_end = mtime_end.timestamp()
@@ -167,9 +167,9 @@ def set_x_lims(reproc,mdate,last_timestamp)->list:
     return x_lims
 
 
-def trimm_matrix_to_last_timestamp(reproc,matrix,mdate,profile_length,last_timestamp):
+def trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly,matrix,mdate,profile_length,last_timestamp):
     ## trimm matrix to last available timestamp if neccessary
-    if reproc == False:
+    if flagPlotLastProfilesOnly == True:
         ## Convert Unix timestamp string to a datetime object
         mtime_end = datetime.utcfromtimestamp(int(last_timestamp))
         mtime_end = mtime_end.timestamp()
