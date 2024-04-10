@@ -571,7 +571,28 @@ def concat_files():
         ## save to a single nc-file
         print(f"\nmerged nc-file '{filestring}' will be stored to '{output_path}'")
         print("\nwriting merged file ...")
-        ds.to_netcdf(output_path + '/' + filestring_dummy)
+#        ds.to_netcdf(output_path + '/' + filestring_dummy)
+
+        ## adding compression-level encoding
+        def write_netcdf(ds: xarray.Dataset, out_file: Path) -> None:
+            enc = {}
+
+            for k in ds.data_vars:
+                if ds[k].ndim < 2:
+                    continue
+
+                enc[k] = {
+                    "zlib": True,
+                    "complevel": 1,
+#                    "fletcher32": True,
+#                    "chunksizes": tuple(map(lambda x: x//2, ds[k].shape))
+                }
+
+            ds.to_netcdf(out_file, format="NETCDF4", engine="netcdf4", encoding=enc)
+
+        write_netcdf(ds=ds,out_file=f'{output_path}/{filestring_dummy}')
+
+
 
         ## zipping concated file
 #        with ZipFile(new_file_title+".zip", "w", ZIP_DEFLATED) as archive:
