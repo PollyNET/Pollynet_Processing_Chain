@@ -56,7 +56,6 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
     fontname = config_dict['fontname']
-    flagPlotLastProfilesOnly = config_dict['flagPlotLastProfilesOnly']
 
     ## read from global config file
     if param == 'FR':
@@ -81,7 +80,6 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
 
     height = nc_dict['height']
     time = nc_dict['time']
-    profile_length = int(np.nanmean(np.diff(time)))
     LCUsed = np.array([nc_dict[f'attenuated_backscatter_{wavelength}nm___Lidar_calibration_constant_used']])
     pollyVersion = nc_dict['PollyVersion']
     location = nc_dict['location']
@@ -116,17 +114,7 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
     date_00 = date_00.timestamp()
     
     ## set x-lim to 24h or only to last available timestamp
-    if flagPlotLastProfilesOnly == False:
-        ## Convert Unix timestamp string to a datetime object
-        mtime_end = datetime.utcfromtimestamp(int(nc_dict['time'][-1]))
-        mtime_end = mtime_end.timestamp()
-        ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-        x_lims = list(map(datetime.fromtimestamp, [date_00, mtime_end]))
-    else:
-        ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-        x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
-
-    ## set x_lims from 0 to end of mtime (of file)
+    x_lims = readout.set_x_lims(reproc=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -145,14 +133,7 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
     ATT_BETA = ATT_BETA[:,0:len(max_height)]
 
     ## trimm matrix to last available timestamp if neccessary
-    if flagPlotLastProfilesOnly == False:
-        last_hours = (date_00+24*60*60 - mtime_end)/3600
-        n = int(3600/profile_length*last_hours) - 1 ## '-1' to be sure not to cut last profile
-        ATT_BETA = ATT_BETA[:-n] ## trimm last n=(3600s/profile_length*last_hours)
-                                 ## time-slices to correctly fit to imshow-plot
-                                 ## profile_length = mshots/laser_rep_rate = mostly 30s
-    else:
-        pass
+    ATT_BETA = readout.trimm_matrix_to_last_timestamp(reproc=config_dict['flagPlotLastProfilesOnly'],matrix=ATT_BETA,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
 
     ## transpose and flip for correct plotting
     ATT_BETA= np.ma.transpose(ATT_BETA)  ## matrix has to be transposed for usage with pcolormesh!
@@ -271,6 +252,9 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
         ## slice matrix to max_height
         SNR = SNR[:,0:len(max_height)]
 
+        ## trimm matrix to last available timestamp if neccessary
+        SNR = readout.trimm_matrix_to_last_timestamp(reproc=config_dict['flagPlotLastProfilesOnly'],matrix=SNR,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
+	
         zLim = [np.nanmin(SNR), np.nanmax(SNR)]
     
         ## transpose and flip for correct plotting
@@ -393,6 +377,7 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
     fontname = config_dict['fontname']
+    flagPlotLastProfilesOnly = config_dict['flagPlotLastProfilesOnly']
 
     ## read from global config file
     yLim = polly_conf_dict['yLim_att_beta']
@@ -446,8 +431,8 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     date_00 = date_00.timestamp()
 
-    ## set x_lims for 24hours by creating a list of datetime.datetime objects using map.
-    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    ## set x-lim to 24h or only to last available timestamp
+    x_lims = readout.set_x_lims(reproc=config_dict['flagPlotLastProfilesOnly'],mdate=date_00,last_timestamp=nc_dict['time'][-1])
 
     ## convert these datetime.datetime objects to the correct format for matplotlib to work with.
     x_lims = date2num(x_lims)
@@ -464,6 +449,9 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     
     ## slice matrix to max_height
     ATT_BETA = ATT_BETA[:,0:len(max_height)]
+
+    ## trimm matrix to last available timestamp if neccessary
+    ATT_BETA = readout.trimm_matrix_to_last_timestamp(reproc=config_dict['flagPlotLastProfilesOnly'],matrix=ATT_BETA,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
 
     ## transpose and flip for correct plotting
     ATT_BETA= np.ma.transpose(ATT_BETA)  ## matrix has to be transposed for usage with pcolormesh!
