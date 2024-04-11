@@ -138,9 +138,13 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder):
     ax.set_ylabel('Height [km]', fontsize=15)
 
     ax.xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
-    ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+    if config_dict['flagPlotLastProfilesOnly'] == True:
+        ax.xaxis.set_major_locator(HourLocator(interval=2))
+    else:
+        ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
     ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
-#    
+
     ax.tick_params(
         axis='both', which='major', labelsize=15, right=True,
         top=True, width=2, length=5)
@@ -313,9 +317,14 @@ def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder):
     ax.set_ylabel('Height [km]', fontsize=15)
 
     ax.xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
-    ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+    if config_dict['flagPlotLastProfilesOnly'] == True:
+        ax.xaxis.set_major_locator(HourLocator(interval=2))
+    else:
+        ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
     ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
-#    
+
+
     ax.tick_params(
         axis='both', which='major', labelsize=15, right=True,
         top=True, width=2, length=5)
