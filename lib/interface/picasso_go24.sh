@@ -12,26 +12,29 @@ display_help() {
   echo "   -d, --device         specify device, e.g. pollyxt_lacros"
   echo "   -c, --config_file    specify Picasso configuration file, e.g.: ~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config_rsd2_andi.json"
 #  echo "   -o, --output         specify folder where to put merged nc-file, e.g.: ~/todo_filelist"
-  echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; values: yes/no"
-  echo "   --proc 	        execute picasso-processing-chain"
-  echo "   --fproc 	        force to execute picasso-processing-chain even if job was already processed (entry in done-list exists)"
-  echo "   --plot_only 	        plot files, which were already processed and already stored in the results-folder (without processing again)"
+  echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; default: false"
+  echo "   --todolist       write merged level0-file into todo-list (set to true or false); default: true"
+  echo "   --proc 	        execute picasso-processing-chain (set to true or false); default: true"
+  echo "   --delmerged      deleting merged files in the end (set to true or false); default: true"
+#  echo "   --fproc 	        force to execute picasso-processing-chain even if job was already processed (entry in done-list exists)"
+#  echo "   --plot_only 	        plot files, which were already processed and already stored in the results-folder (without processing again)"
   echo "   -h, --help           show help message"
   echo
   exit 1
 }
 
 ## initialize parameters
-FORCE_MERGING="no"
+FORCE_MERGING="false"
 PICASSO_CONFIG_FILE=""
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
 #PICASSO_DIR="$(dirname "$(dirname "$( cd "$(dirname "$0")" ; pwd -P )")")"
 echo $PICASSO_DIR_interface
 echo $PICASSO_DIR
-flagProc="false"
+flagWriteIntoTodoList="true"
+flagProc="true"
 flagFProc="false"
-flagProcessed="false"
+flagDeleteMergedFiles="true"
 flagPlotonly="false"
 filename=""
 filesize=""
@@ -77,14 +80,23 @@ while :; do
     shift 2
     ;;
 
+  --todolist)
+    flagWriteIntoTodoList="$2"
+    shift 2
+    ;;
+
   --proc)
-    flagProc="true"
-    shift 1
+    flagProc="$2"
+    shift 2
     ;;
 
   --fproc)
     flagFProc="true"
     shift 1
+    ;;
+  --delmerged)
+    flagDeleteMergedFiles="$2"
+    shift 2
     ;;
 
   --plot_only)
@@ -159,14 +171,20 @@ main() {
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE	
-		merging $DEVICE $DATE ## merging of level0 files and put into todo-list
-        	check_todo_list_consistency
-	        write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
-		## OPTION 1: process every single task???
-		process_merged ## process actual merged file with picasso - written in todo_list (inlcuding plotting with new 24h-plotting-method)
-		delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
-		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+            merging $DEVICE $DATE ## merging of level0 files and put into todo-list
+            if [[ "$flagWriteIntoTodoList" == "true" ]];then
+            	check_todo_list_consistency
+	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
+            fi
+		    ## OPTION 1: process every single task???
+            if [[ "$flagProc" == "true" ]];then
+		        process_merged ## process actual merged file with picasso - written in todo_list
+            fi
+            if [[ "$flagDeleteMergedFiles" == "true" ]];then
+		        delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
                 delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
+		        delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+            fi
 	    done
 	done
 
@@ -177,8 +195,8 @@ main() {
 #	for DEVICE in ${DEVICE_LS[@]}; do
 #	    for DATE in ${DATE_LS[@]}; do
 #		 delete_level0_merged_file $DEVICE $DATE ## delete level0 24h-file
+#        delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
 #		 delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
-#                delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
 #	    done
 #	done
 }
@@ -219,7 +237,7 @@ merging() {
     mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
     echo "start merging... "
     
-    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f $FORCE_MERGING
+    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
 }
 
 write_job_into_todo_list() {
@@ -256,8 +274,9 @@ check_todo_list_consistency() {
 ## check for invalid nomenclature in todo_list_file
     # Check if the file exists
     if [ ! -e "$PICASSO_TODO_FILE" ]; then
-        echo "File not found: $PICASSO_TODO_FILE"
-        exit 1
+        touch $PICASSO_TODO_FILE
+        #echo "File not found: $PICASSO_TODO_FILE"
+        #exit 1
     fi
 
     temp_file="${PICASSO_TODO_FILE}_temp"

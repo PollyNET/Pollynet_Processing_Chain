@@ -43,8 +43,8 @@ pollyxt_parser.add_argument('-o', '--output_path', dest='output_path', metavar='
 
 pollyxt_parser.add_argument('-f', '--force', dest='force', metavar='force_merging',
                        type=str,
-                       default='no',
-                       choices=['yes', 'no'],
+                       default = False,
+#                       choices=[True, False],
                        help='force merging, independent of differences found in attributes')
 
 ## Execute the parse_args() method
@@ -57,6 +57,10 @@ device=args.device
 output_path = args.output_path
 force = args.force
 
+if force.lower() == "true":
+    force = True
+elif force.lower() == "false":
+    force = False
 
 ### start of main function to call subfunctions
 def main():
@@ -320,20 +324,20 @@ def checking_vars():
                     print(var + ": " + var_value_1)
                     print(var + ": " + var_value_2)
                     diff_var=1
-                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None
                 elif var_value_1 == var_value_2 and diff_var!=0:
-                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes'else None 
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None 
                 elif var_value_1 != var_value_2 and diff_var!=0:
                     diff_var=diff_var+1
                     print('difference found!')
-                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force=='yes' else None
+                    add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None
                 
     if diff_var==0:
         add_to_list(-1,polly_files_list,selected_var_nc_ls)
         print('\nno differences found in selected variables!\n')
     elif diff_var!=0:
         print('\ndifferences found in selected variables!\n')
-        add_to_list(-1,polly_files_list,selected_var_nc_ls) if force=='yes' else None
+        add_to_list(-1,polly_files_list,selected_var_nc_ls) if force == True else None
  
     return selected_var_nc_ls
         
@@ -373,12 +377,12 @@ def checking_attr():
                 print("   " + att_value_1)
                 print("   " + att_value_2)
                 diff_att=1
-                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
+                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
             elif att_value_1 == att_value_2 and diff_att!=0:
-                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
+                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
             elif att_value_1 != att_value_2 and diff_att!=0:
                 print('difference found!')
-                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
+                add_to_list(ds,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
         
 #        print("\nvariable attributes:")
         for var in polly_file_ds_ls[0].variables.keys():
@@ -406,7 +410,7 @@ def checking_attr():
         add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
         print('\nno differences found in global attributes!\n')
     elif diff_att!=0:
-        add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls) if force=='yes' else None
+        add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
 
     if diff_var_att==0:
         print('\nno differences found in variable attributes!\n')
