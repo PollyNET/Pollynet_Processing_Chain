@@ -5142,5 +5142,5 @@ if PicassoConfig.flagReduceMATLABToolboxDependence
               'flagSimpleMsg', true);
 end
 %% Clean
-clear;
+ clear;
 end
