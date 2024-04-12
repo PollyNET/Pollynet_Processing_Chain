@@ -116,6 +116,7 @@ PicassoConfig = loadConfig(PicassoConfigFile, defaultPicassoConfigFile);
 PicassoConfig.PicassoVersion = PicassoVersion;
 PicassoConfig.PicassoRootDir = PicassoDir;
 
+pollyGlobalConfigFile = PicassoConfig.polly_global_config;
 %% Create log file
 if ~ exist(PicassoConfig.log_folder, 'dir')
     fprintf('Create log folder: %s.\n', PicassoConfig.log_folder);
@@ -5141,5 +5142,5 @@ if PicassoConfig.flagReduceMATLABToolboxDependence
               'flagSimpleMsg', true);
 end
 %% Clean
-clear;
+ clear;
 end
