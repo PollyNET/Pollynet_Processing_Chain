@@ -63,16 +63,15 @@ if endTime < startTime
     error('end time must be larger than start time.');
 end
 
-% %% Decompress polly data
-% decompressPollyData(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:});
+
 
 if p.Results.flag24hdata
     %% Look for polly data
     lookforPollyData24h(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:});
-
 else
+   %% Decompress polly data
+    decompressPollyData(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:}); 
+end
     %% Process polly data
     picassoProcTodolist(PicassoConfigFile);
-end
-
 end
