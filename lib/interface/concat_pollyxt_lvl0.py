@@ -507,7 +507,7 @@ def concat_files():
         os.rename(sel_polly_files_list[0],Path(output_path,filestring))
         return ()
     else:
-
+#        sel_polly_files_list = [ str(el) for el in sel_polly_files_list]
         ## parameters for controlling the merging process
         compat='override' ## Values of variable "laser_flashlamp" often changes, but those files will be merged anyway. This option picks the value from first dataset.
         coords='minimal'
@@ -536,7 +536,7 @@ def concat_files():
 
         write_netcdf(ds=ds,out_file=Path(output_path,filestring_dummy))
 
-
+        ds.close()
 
     print("\ndeleting individual .nc files ...")
     for el in sel_polly_files_list:
