@@ -71,6 +71,8 @@ $config_dir = Join-Path -Path $lib_dir -ChildPath "config"
 $picasso_default_config_file = Join-Path -Path $config_dir -ChildPath "pollynet_processing_chain_config.json"
 $PICASSO_DIR_interface = Join-Path -Path $lib_dir  -ChildPath "interface" 
 
+
+
 # Print the values of the parameters
 Write-Host "Start Date: $startdate"
 Write-Host "End Date: $enddate"
@@ -96,6 +98,9 @@ $PY_FOLDER = $PicassoConfigContentObject.pyBinDir
 Write-Host "Todolist-file: $PICASSO_TODO_FILE"
 Write-Host "Python folder: $PY_FOLDER"
 
+$OUTPUT_FOLDER= Join-Path -Path $TODO_FOLDER -ChildPath "$device"
+$OUTPUT_FOLDER= Join-Path -Path $OUTPUT_FOLDER -ChildPath "data_zip"
+
 $filename = ""
 $filesize = ""
 
@@ -113,7 +118,7 @@ function main {
                 Write-Host "Device: $dev"
     
                 # Call the merging function
-                #merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+#                merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
 
                 if ($todolist -eq $true) {
                     # write job into todo-list
@@ -133,8 +138,8 @@ function outputfolderpath {
     )
 
     $date_sub = $date.Substring(0,6)
-    $OUTPUT_FOLDER= Join-Path -Path $TODO_FOLDER -ChildPath $device
-    $OUTPUT_FOLDER= Join-Path -Path $OUTPUT_FOLDER -ChildPath "data_zip"
+#    $OUTPUT_FOLDER= Join-Path -Path $TODO_FOLDER -ChildPath $device
+#    $OUTPUT_FOLDER= Join-Path -Path $OUTPUT_FOLDER -ChildPath "data_zip"
     $outputFolderPath = Join-Path -Path $OUTPUT_FOLDER -ChildPath $date_sub
     # Create the output folder if it doesn't exist
     if (-not (Test-Path -Path $outputFolderPath -PathType Container)) {
@@ -175,8 +180,18 @@ function write_job_into_todo_list {
     # Search for files matching the patterns in the output folder
     $file = Get-ChildItem -Path $outputFolderPath -Filter "*$dateformat*.nc"
     $filesize = $file.Length
+    $fileNameOnly = Split-Path -Path $file -Leaf
     $filename = $file.FullName
-    Write-Host $filename $filesize
+    $subfolder = $device+"\data_zip\"+$YYYY+$MM
+    $zipfile = $fileNameOnly+".zip"
+
+    # Concatenate the strings into a single string
+    # /pollyhome/Bildermacher2/experimental, pollyxt_cpv/data_zip/202109, 2021_09_17_Fri_CPV_00_00_01.nc, 2021_09_17_Fri_CPV_00_00_01.nc.zip, 153959378, pollyxt_cpv
+    # /pollyhome/Bildermacher2/todo_filelist, pollyxt_cge/data_zip, 2022_10_10_Monday_06_00_14.nc, 202210/2022_10_10_Monday_06_00_14.nc.zip, 5491769, POLLYXT_CGE
+    $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
+
+    # Write the combined string to the file
+    Set-Content -Path $PICASSO_TODO_FILE -Value $combinedString
 }
 
 ## call function main
