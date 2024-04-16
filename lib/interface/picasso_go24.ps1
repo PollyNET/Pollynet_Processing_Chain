@@ -33,7 +33,9 @@
 Delete the merged level0 file in the end  (e.g. after processing) (optional switch, default: true).
 
 .EXAMPLE
-   .\lib\interface\picasso_go24.ps1  -startdate "2024-03-08" -enddate "2024-03-08" -device "arielle","pollyxt_cpv" -config_file "H:\Pollynet_Processing_Chain\config\pollynet_processing_chain_config_rsd2_24h_exp.json" -force_merging:$true -delmerged:$false
+   .\lib\interface\picasso_go24.ps1  -startdate "20240308" -enddate "20240308" -device "arielle","pollyxt_cpv"
+   -config_file "H:\Pollynet_Processing_Chain\config\pollynet_processing_chain_config_rsd2_24h_exp.json"
+   -force_merging:$true -delmerged:$false -level0_folder "C:\_data\Picasso_IO\input"
 #>
 
 
@@ -98,6 +100,28 @@ Write-Host "Python folder: $PY_FOLDER"
 $filename = ""
 $filesize = ""
 
+function main {
+    # Parse start and end dates
+    $startDateTime = [DateTime]::ParseExact($startdate, "yyyyMMdd", $null)
+    $endDateTime = [DateTime]::ParseExact($enddate, "yyyyMMdd", $null)
+    
+    # Loop through dates
+    $currentDate = $startDateTime
+    while ($currentDate -le $endDateTime) {
+        Write-Host "Date: $($currentDate.ToString('yyyyMMdd'))"
+            # Loop through devices
+            foreach ($dev in $device) {
+                Write-Host "Device: $dev"
+    
+                # Call the merging function
+                merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+            }
+        $currentDate = $currentDate.AddDays(1)
+}
+
+}
+
+
 function merging {
     param(
         [string]$date,
@@ -120,25 +144,8 @@ function merging {
     & $PYTHON $PYTHON_SCRIPT -t $date -d $device -o $OUTPUT_FOLDER -f $force_merging -r $level0_folder
 }
 
-# Parse start and end dates
-$startDateTime = [DateTime]::ParseExact($startdate, "yyyyMMdd", $null)
-$endDateTime = [DateTime]::ParseExact($enddate, "yyyyMMdd", $null)
-
-# Loop through dates
-$currentDate = $startDateTime
-while ($currentDate -le $endDateTime) {
-    Write-Host "Date: $($currentDate.ToString('yyyyMMdd'))"
-    # Loop through devices
-        foreach ($dev in $device) {
-            Write-Host "Device: $dev"
-
-                # Call the merging function
-                merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
-
-        }
-    $currentDate = $currentDate.AddDays(1)
-}
-
+## call function main
+main
 
 #
 #main() {

@@ -426,7 +426,7 @@ def checking_timestamp():
             timestamp_filename = timestamp_filename.stem
             timestamp_filename = re.split(r'_',str(timestamp_filename))[-3:]
             ## del. nc-file
-            os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
+            #os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
             ## calc. the deltaT between measurementdatapoints
             laser_rep_rate = float(ds.variables['laser_rep_rate'][0])
             measurement_shots = ds.variables['measurement_shots'][:]
@@ -459,7 +459,8 @@ def checking_timestamp():
                     new_measurement_time_list = [[int(timestamp), next(seconds_iter)] for i in range(1, len_measurement_list+1)]
         
                     ## create a new netCDF4 file to write the dataset
-                    new_dataset = Dataset(selected_timestamp_nc_ls[elementNR], mode='w')
+                    new_dataset = Dataset(f'{selected_timestamp_nc_ls[elementNR]}_dummy', mode='w')
+                    print(f'{selected_timestamp_nc_ls[elementNR]}_dummy')
         
                     ## copy the entire dataset to the new file
                     new_dataset.setncatts(ds.__dict__)
@@ -476,6 +477,8 @@ def checking_timestamp():
         
                     ds.close()
                     new_dataset.close()
+                    os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
+                    os.rename(f'{selected_timestamp_nc_ls[elementNR]}_dummy',selected_timestamp_nc_ls[elementNR])
                     print('timestamps corrected.')
                     selected_cor_timestamp_nc_ls.append(selected_timestamp_nc_ls[elementNR])
         else:
@@ -542,7 +545,10 @@ def concat_files():
     for el in sel_polly_files_list:
         print(el)
         os.remove(el)
-    os.rename(Path(output_path,filestring_dummy),Path(output_path,filestring))
+    destination_file = Path(output_path,filestring)
+    if os.path.exists(destination_file):
+        os.remove(destination_file)  # Remove the existing destination file
+    os.rename(Path(output_path,filestring_dummy),destination_file)
     print('done!')
     return ()
 
