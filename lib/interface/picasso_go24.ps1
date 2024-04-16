@@ -67,6 +67,7 @@ param(
 
 $PICASSO_DIR_interface = $PSScriptRoot
 $lib_dir = Split-Path -Path $PICASSO_DIR_interface -Parent
+$PICASSO_DIR = Split-Path -Path $lib_dir -Parent
 $config_dir = Join-Path -Path $lib_dir -ChildPath "config"
 $picasso_default_config_file = Join-Path -Path $config_dir -ChildPath "pollynet_processing_chain_config.json"
 $PICASSO_DIR_interface = Join-Path -Path $lib_dir  -ChildPath "interface" 
@@ -88,7 +89,8 @@ Write-Host "Deleting merged file: $delmerged"
 
 
 # reading picasso-config file
-$PicassoConfigContent = Get-Content -Path $config_file -Raw
+$PICASSO_CONFIG_FILE = $config_file
+$PicassoConfigContent = Get-Content -Path $PICASSO_CONFIG_FILE -Raw
 $PicassoConfigContentObject = $PicassoConfigContent | ConvertFrom-Json
 
 $PICASSO_TODO_FILE = $PicassoConfigContentObject.fileinfo_new
@@ -123,6 +125,10 @@ function main {
                 if ($todolist -eq $true) {
                     # write job into todo-list
                     write_job_into_todo_list -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                }
+                if ($proc -eq $true) {
+                    # processing by using the PollynetProcessingChain
+                    process_merged
                 }
             }
         $currentDate = $currentDate.AddDays(1)
@@ -187,11 +193,23 @@ function write_job_into_todo_list {
 
     # Concatenate the strings into a single string
     # /pollyhome/Bildermacher2/experimental, pollyxt_cpv/data_zip/202109, 2021_09_17_Fri_CPV_00_00_01.nc, 2021_09_17_Fri_CPV_00_00_01.nc.zip, 153959378, pollyxt_cpv
-    # /pollyhome/Bildermacher2/todo_filelist, pollyxt_cge/data_zip, 2022_10_10_Monday_06_00_14.nc, 202210/2022_10_10_Monday_06_00_14.nc.zip, 5491769, POLLYXT_CGE
     $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
 
     # Write the combined string to the file
     Set-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+}
+
+
+function process_merged {
+
+$batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;picassoProcTodolist('$PICASSO_CONFIG_FILE');exit"
+& 'C:\Program Files\MATLAB\R2018a\bin\matlab.exe' -nosplash -nodesktop -r $batch_script
+#cd $PICASSO_DIR;
+#initPicassoToolbox;
+#clc;
+#picassoProcTodolist('$PICASSO_CONFIG_FILE');
+#exit;
+
 }
 
 ## call function main
