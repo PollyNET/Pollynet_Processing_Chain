@@ -53,7 +53,6 @@ param(
     [Parameter(Mandatory=$false)]
     [string]$config_file = "",
 
-
     [Parameter(Mandatory=$false)]
     [string]$level0_folder = "H:\picasso_io",
 
@@ -114,7 +113,12 @@ function main {
                 Write-Host "Device: $dev"
     
                 # Call the merging function
-                merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                #merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+
+                if ($todolist -eq $true) {
+                    # write job into todo-list
+                    write_job_into_todo_list -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                }
             }
         $currentDate = $currentDate.AddDays(1)
 }
@@ -122,13 +126,12 @@ function main {
 }
 
 
-function merging {
+function outputfolderpath {
     param(
         [string]$date,
         [string]$device
     )
 
-    # Call Python script with arguments
     $date_sub = $date.Substring(0,6)
     $OUTPUT_FOLDER= Join-Path -Path $TODO_FOLDER -ChildPath $device
     $OUTPUT_FOLDER= Join-Path -Path $OUTPUT_FOLDER -ChildPath "data_zip"
@@ -137,11 +140,43 @@ function merging {
     if (-not (Test-Path -Path $outputFolderPath -PathType Container)) {
         New-Item -Path $outputFolderPath -ItemType Directory | Out-Null
     }
+    return $outputFolderPath
+}
 
+function merging {
+    param(
+        [string]$date,
+        [string]$device
+    )
+
+    $outputFolderPath = outputfolderpath -date $date -device $device
+    # Call Python script with arguments
     $PYTHON = Join-Path -Path $PY_FOLDER -ChildPath "python"
     $PYTHON_SCRIPT = Join-Path -Path $PICASSO_DIR_interface "concat_pollyxt_lvl0.py"
     Write-Host "$PYTHON_SCRIPT"
-    & $PYTHON $PYTHON_SCRIPT -t $date -d $device -o $OUTPUT_FOLDER -f $force_merging -r $level0_folder
+    & $PYTHON $PYTHON_SCRIPT -t $date -d $device -o $outputFolderPath -f $force_merging -r $level0_folder
+}
+
+
+function write_job_into_todo_list {
+    param(
+        [string]$date,
+        [string]$device
+    )
+
+    $outputFolderPath = outputfolderpath -date $date -device $device
+    Write-Host "Write job into Todolist-file: $PICASSO_TODO_FILE"
+
+    $YYYY = $date.Substring(0,4)
+    $MM = $date.Substring(4,2)
+    $DD = $date.Substring(6,2)
+    $dateformat = $YYYY + "_" + $MM + "_" + $DD
+
+    # Search for files matching the patterns in the output folder
+    $file = Get-ChildItem -Path $outputFolderPath -Filter "*$dateformat*.nc"
+    $filesize = $file.Length
+    $filename = $file.FullName
+    Write-Host $filename $filesize
 }
 
 ## call function main
