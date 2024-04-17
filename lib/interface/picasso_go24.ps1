@@ -20,6 +20,12 @@
 .PARAMETER level0_folder
    The path to the level0 polly files
 
+.PARAMETER matlab_path
+   The path to the metlab executable (e.g.: C:\Program Files\MATLAB\R2014b\bin)
+
+.PARAMETER merging
+   Enable merging of level0 files found for one day (optional switch, default: true).
+
 .PARAMETER force_merging
    Enable force merging (optional switch, default: false).
 
@@ -55,6 +61,11 @@ param(
 
     [Parameter(Mandatory=$false)]
     [string]$level0_folder = "H:\picasso_io",
+
+    [Parameter(Mandatory=$false)]
+    [string]$matlab_path = "C:\Program Files\MATLAB\R2014b\bin",
+
+    [switch]$merging = $true,
 
     [switch]$todolist = $true,
 
@@ -119,8 +130,10 @@ function main {
             foreach ($dev in $device) {
                 Write-Host "Device: $dev"
     
-                # Call the merging function
-#                merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                if ($merging -eq $true) {
+                    # Call the merging function
+                    merging -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                }
 
                 if ($todolist -eq $true) {
                     # write job into todo-list
@@ -129,6 +142,14 @@ function main {
                 if ($proc -eq $true) {
                     # processing by using the PollynetProcessingChain
                     process_merged
+                }
+
+                if ($delmerged -eq $true) {
+                    # deleting merged level0 file
+                    delete_level0_merged_file -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+                    # deleting entry from todo-list
+                    delete_entry_from_todo_list -date $($currentDate.ToString('yyyyMMdd')) -device $dev
+
                 }
             }
         $currentDate = $currentDate.AddDays(1)
@@ -152,6 +173,17 @@ function outputfolderpath {
         New-Item -Path $outputFolderPath -ItemType Directory | Out-Null
     }
     return $outputFolderPath
+}
+
+function dateconverter {
+    param(
+        [string]$date
+    )
+    $YYYY = $date.Substring(0,4)
+    $MM = $date.Substring(4,2)
+    $DD = $date.Substring(6,2)
+    $converted_date = $YYYY + "_" + $MM + "_" + $DD
+    return $converted_date
 }
 
 function merging {
@@ -178,10 +210,9 @@ function write_job_into_todo_list {
     $outputFolderPath = outputfolderpath -date $date -device $device
     Write-Host "Write job into Todolist-file: $PICASSO_TODO_FILE"
 
+    $dateformat = dateconverter -date $date
     $YYYY = $date.Substring(0,4)
     $MM = $date.Substring(4,2)
-    $DD = $date.Substring(6,2)
-    $dateformat = $YYYY + "_" + $MM + "_" + $DD
 
     # Search for files matching the patterns in the output folder
     $file = Get-ChildItem -Path $outputFolderPath -Filter "*$dateformat*.nc"
@@ -201,9 +232,10 @@ function write_job_into_todo_list {
 
 
 function process_merged {
-
-$batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;picassoProcTodolist('$PICASSO_CONFIG_FILE');exit"
-& 'C:\Program Files\MATLAB\R2018a\bin\matlab.exe' -nosplash -nodesktop -r $batch_script
+$matlab_call=$matlab_path+"\matlab.exe"
+$java_add="javaaddpath('$PICASSO_DIR\include\sqlite-jdbc-3.30.1.jar')"
+$batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;$java_add;picassoProcTodolist('$PICASSO_CONFIG_FILE');quit"
+& $matlab_call -nosplash -nodesktop -r $batch_script
 #cd $PICASSO_DIR;
 #initPicassoToolbox;
 #clc;
@@ -212,10 +244,81 @@ $batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;picassoProcTodolist('$PICA
 
 }
 
-## call function main
+function delete_level0_merged_file() {
+    param(
+        [string]$date,
+        [string]$device
+    )
+    ### deleting merged level0 24h-file
+    $outputFolderPath = outputfolderpath -date $date -device $device
+    $dateformat = dateconverter -date $date
+    $filesToDelete = Get-ChildItem -Path $outputFolderPath | Where-Object {
+        $_.Name -notmatch "\.zip$" -and $_.Name -match $dateformat
+    }
+
+    # Delete each file
+    foreach ($file in $filesToDelete) {
+        Write-Host "Deleting file: $file"
+        Remove-Item -Path $file.FullName -Force
+    }
+}
+
+
+function delete_entry_from_todo_list() {
+## delete entry from todo_list file
+    param(
+        [string]$date,
+        [string]$device
+    )
+
+    $outputFolderPath = outputfolderpath -date $date -device $device
+    $dateformat = dateconverter -date $date
+    Write-Host "Deleting job from Todolist-file: $PICASSO_TODO_FILE"
+
+
+
+# Read the content of the file
+$content = Get-Content $PICASSO_TODO_FILE
+
+# Check if the content matches both patterns
+if ($content -match $dateformat -and $content -match $device) {
+    # If there's only one line in the file and it matches both patterns
+    if ($content.Count -eq 1) {
+        # Clear the content of the file
+        $null | Set-Content $PICASSO_TODO_FILE
+    }
+    else {
+        # Create an empty array to store lines with both patterns
+        $newContent = @()
+
+        # Loop through each line in the content
+        foreach ($line in $content) {
+            # Check if the line does not contain both patterns
+            if ($line -notmatch $dateformat -or $line -notmatch $device) {
+                # Add the line to the new content
+                $newContent += $line
+            }
+        }
+
+        # Write the modified content back to the file
+        $newContent | Set-Content $PICASSO_TODO_FILE
+    }
+}
+
+
+}
+
+## call of function main
 main
 
-#
+
+########
+########
+########
+
+
+
+
 #main() {
 #
 #	create_date_ls
