@@ -12,7 +12,7 @@ function picassoProcHistoryData(startTime, endTime, saveFolder, varargin)
 %    saveFolder: char
 %        polly data folder. 
 %        e.g., /oceanethome/pollyxt
-%
+%     flag24data: if 24h nc data is existent (=true) or if data needs to be unzipped 
 % KEYWORDS:
 %    pollyType: char
 %        polly instrument. 
@@ -36,6 +36,7 @@ addRequired(p, 'endTime', @ischar);
 addRequired(p, 'saveFolder', @ischar);
 addParameter(p, 'pollyType', '', @ischar);
 addParameter(p, 'PicassoConfigFile', '', @ischar);
+addParameter(p, 'flag24hdata', false, @islogical);
 
 parse(p, startTime, endTime, saveFolder, varargin{:});
 
@@ -62,10 +63,15 @@ if endTime < startTime
     error('end time must be larger than start time.');
 end
 
-%% Decompress polly data
-decompressPollyData(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:});
 
-%% Process polly data
-picassoProcTodolist(PicassoConfigFile);
 
+if p.Results.flag24hdata
+    %% Look for polly data
+    lookforPollyData24h(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:});
+else
+   %% Decompress polly data
+    decompressPollyData(startTime, endTime, saveFolder, PicassoConfigFile, varargin{:}); 
+end
+    %% Process polly data
+    picassoProcTodolist(PicassoConfigFile);
 end

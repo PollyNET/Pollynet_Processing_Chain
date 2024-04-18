@@ -20,6 +20,7 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "",
+    "meteorDataSource": "gdas1",
     "meteo_folder": "",
     "AERONETSite": "",
 
@@ -151,6 +152,11 @@
     "smoothWin_klett_1064": 21,
     "smoothWin_klett_NR_355": 21,
     "smoothWin_klett_NR_532": 21,
+    "smoothWin_raman_355": 99,
+    "smoothWin_raman_532": 99,
+    "smoothWin_raman_1064": 99,
+    "smoothWin_raman_NR_355": 25,
+    "smoothWin_raman_NR_532": 25,
     "maxIterConstrainFernald": 20,
     "minLRConstrainFernald": 1,
     "maxLRConstrainFernald": 150,
@@ -167,11 +173,6 @@
     "min_RR_RefSNR1058": 0,
     "angstrexp": 0.9,
     "angstrexp_NR": 0.9,
-    "smoothWin_raman_355": 61,
-    "smoothWin_raman_532": 61,
-    "smoothWin_raman_1064": 61,
-    "smoothWin_raman_NR_355": 31,
-    "smoothWin_raman_NR_532": 31,
     "LCMeanWindow": 50,
     "LCMeanMinIndx": 70,
     "LCMeanMaxIndx": 1000,
@@ -270,9 +271,11 @@
     "comment": "",
 
     "logbookFile": "",
+    "logbookPath": "",
+    "logbookFileName": "",
     "radiosondeFolder": "",
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
 }
