@@ -191,12 +191,15 @@ function merging {
         [string]$date,
         [string]$device
     )
+    Write-Host "Start merging process..."
+    Write-Host "Looking for previously merged files to delete."
+    # check if merged file already exists, if yes, delete it
+    delete_level0_merged_file -date $date -device $device
 
     $outputFolderPath = outputfolderpath -date $date -device $device
     # Call Python script with arguments
     $PYTHON = Join-Path -Path $PY_FOLDER -ChildPath "python"
     $PYTHON_SCRIPT = Join-Path -Path $PICASSO_DIR_interface "concat_pollyxt_lvl0.py"
-    Write-Host "$PYTHON_SCRIPT"
     & $PYTHON $PYTHON_SCRIPT -t $date -d $device -o $outputFolderPath -f $force_merging -r $level0_folder
 }
 
@@ -232,15 +235,30 @@ function write_job_into_todo_list {
 
 
 function process_merged {
-$matlab_call=$matlab_path+"\matlab.exe"
-$java_add="javaaddpath('$PICASSO_DIR\include\sqlite-jdbc-3.30.1.jar')"
-$batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;$java_add;picassoProcTodolist('$PICASSO_CONFIG_FILE');quit"
-& $matlab_call -nosplash -nodesktop -r $batch_script
-#cd $PICASSO_DIR;
-#initPicassoToolbox;
-#clc;
-#picassoProcTodolist('$PICASSO_CONFIG_FILE');
-#exit;
+    Write-Host "Start processing..."
+    $matlab_call=$matlab_path+"\matlab.exe"
+    $java_add="javaaddpath('$PICASSO_DIR\include\sqlite-jdbc-3.30.1.jar')"
+    $batch_script="cd $PICASSO_DIR;initPicassoToolbox;clc;$java_add;picassoProcTodolist('$PICASSO_CONFIG_FILE');close all"
+    
+# Define the batch script content
+$batchScript = @"
+@echo off
+cd $matlab_path
+matlab.exe -nosplash -nodesktop -r "$batch_script" 
+"@
+    
+    # Save the batch script content to a temporary file
+    $batchScriptPath = [System.IO.Path]::GetTempFileName() + ".bat"
+    $batchScript | Out-File -FilePath $batchScriptPath -Encoding ASCII
+    Write-Host $batchScriptPath
+    Write-Host "$batchScript"
+    # Call the batch script using Start-Process with -Wait
+    Start-Process -FilePath $batchScriptPath -Wait
+    
+    # Clean up the temporary batch script file
+    Remove-Item -Path $batchScriptPath -Force
+    
+    Write-Host "Processing finished."
 
 }
 
@@ -257,9 +275,14 @@ function delete_level0_merged_file() {
     }
 
     # Delete each file
-    foreach ($file in $filesToDelete) {
-        Write-Host "Deleting file: $file"
-        Remove-Item -Path $file.FullName -Force
+    if ($filesToDelete.Count -eq 0) {
+        Write-Host "No merged files to delete"
+    }
+    else {
+        foreach ($file in $filesToDelete) {
+            Write-Host "Deleting file: $file"
+            Remove-Item -Path $file.FullName -Force
+        }
     }
 }
 
