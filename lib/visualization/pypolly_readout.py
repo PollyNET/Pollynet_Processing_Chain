@@ -496,7 +496,8 @@ def read_nc_VDR(nc_filename):
     time = nc_file_ds['time'][:]
     m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
 
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = str(Path(nc_filename).name)
 
     ## fill dictionary for output
     nc_dict['PollyVersion'] = PollyVersion
@@ -559,7 +560,8 @@ def read_nc_WVMR_RH(nc_filename):
     height = nc_file_ds['height'][:]
     time = nc_file_ds['time'][:]
     m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = str(Path(nc_filename).name)
 
     ## fill dictionary for output
     nc_dict['m_date'] = m_date
@@ -631,7 +633,8 @@ def read_nc_quasi_results(nc_filename,q_version):
     if q_version == 'V1':
         QR_Bsc_532_CUsed = var_attr_quasi_bsc_532['Lidar_calibration_constant_used']
         QR_Bsc_1064_CUsed = var_attr_quasi_bsc_1064['Lidar_calibration_constant_used']
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = str(Path(nc_filename).name)
    
 
     ## fill dictionary for output
@@ -698,7 +701,8 @@ def read_nc_target_classification(nc_filename):
 
     TC_cRange = var_attr_class['plot_range']
 
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = str(Path(nc_filename).name)
 
     ## fill dictionary for output
     nc_dict['m_date'] = m_date
@@ -775,7 +779,8 @@ def read_nc_overlap(nc_filename):
     time = nc_file_ds['time'][:]
     m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
 
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = str(Path(nc_filename).name)
 
     ## fill dictionary for output
     nc_dict['PollyVersion'] = PollyVersion

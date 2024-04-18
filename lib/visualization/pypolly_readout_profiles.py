@@ -72,7 +72,8 @@ def read_nc_profile(nc_filename):
     height = nc_file_ds['height'][:]
 #    time = nc_file_ds['time'][:]
     m_date = datetime.fromtimestamp(start_time[0]).strftime("%Y-%m-%d")
-    dataFilename = re.split(r'\/',nc_filename)[-1]
+    #dataFilename = re.split(r'\/',nc_filename)[-1]
+    dataFilename = Path(nc_filename).name
    
     ## fill dictionary for output
     nc_dict['m_date'] = m_date
