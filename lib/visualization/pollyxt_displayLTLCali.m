@@ -123,7 +123,7 @@ end
 
 if isfield(PollyConfig, 'logbookPath')
     [USER, HOME, OS] = getsysinfo();
-    if strcmp(OS,"win")
+    if strcmp(OS,'win')
         PollyConfig.logbookFile = fullfile('K:\\',PollyConfig.logbookPath, PollyConfig.logbookFileName)
     else
         PollyConfig.logbookFile = fullfile(PollyConfig.logbookPath, PollyConfig.logbookFileName)   
