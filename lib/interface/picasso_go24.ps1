@@ -122,7 +122,7 @@ function main {
     $startDateTime = [DateTime]::ParseExact($startdate, "yyyyMMdd", $null)
     $endDateTime = [DateTime]::ParseExact($enddate, "yyyyMMdd", $null)
     
-    # Loop through dates
+    # Loop through dates for merging and or writing job into todo-list
     $currentDate = $startDateTime
     while ($currentDate -le $endDateTime) {
         Write-Host "Date: $($currentDate.ToString('yyyyMMdd'))"
@@ -139,10 +139,23 @@ function main {
                     # write job into todo-list
                     write_job_into_todo_list -date $($currentDate.ToString('yyyyMMdd')) -device $dev
                 }
-                if ($proc -eq $true) {
-                    # processing by using the PollynetProcessingChain
-                    process_merged
-                }
+
+            }
+        $currentDate = $currentDate.AddDays(1)
+    }
+
+
+    # processing by using the PollynetProcessingChain
+    if ($proc -eq $true) {
+        process_merged
+    }
+
+
+    # Loop through dates for deleting
+    $currentDate = $startDateTime
+    while ($currentDate -le $endDateTime) {
+            # Loop through devices
+            foreach ($dev in $device) {
 
                 if ($delmerged -eq $true) {
                     # deleting merged level0 file
@@ -153,7 +166,7 @@ function main {
                 }
             }
         $currentDate = $currentDate.AddDays(1)
-}
+    }
 
 }
 
@@ -230,7 +243,8 @@ function write_job_into_todo_list {
     $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
 
     # Write the combined string to the file
-    Set-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+#    Set-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+    Add-Content -Path $PICASSO_TODO_FILE -Value $combinedString
 }
 
 
