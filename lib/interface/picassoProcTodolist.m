@@ -68,4 +68,8 @@ for iTask = 1:length(pollyDataTasks.dataFilename)
     report{end + 1} = reportTmp;
 end
 
+fclose('all');
+clear all;
+quit;
+
 end
