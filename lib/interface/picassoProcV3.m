@@ -5132,7 +5132,12 @@ print_msg('Finish pollynet processing chain\n', 'flagTimestamp', true);
 print_msg('%%------------------------------------------------------%%\n');
 
 %% Clean
-print_msg('Memory at end:\n',memory, 'flagTimestamp', true, 'flagSimpleMsg', true);
+if strcmpi(OS, 'linux')
+    % Do nothing
+else
+    print_msg('Memory at end:\n',memory, 'flagTimestamp', true, 'flagSimpleMsg', true);
+end
+
 fclose(LogConfig.logFid);
 
 %% Enable the usage of matlab toolbox
