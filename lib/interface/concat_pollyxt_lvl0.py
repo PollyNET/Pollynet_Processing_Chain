@@ -17,7 +17,7 @@ import xarray
 #import zipfile
 from zipfile import ZipFile, ZIP_DEFLATED
 import argparse
-
+import platform
 
 ### start arg parsing
 
@@ -32,9 +32,10 @@ pollyxt_parser.add_argument('-d', '--device', dest='device', metavar='device',
                        type=str,
                        help='set the pollyxt device')
 
-#pollyxt_parser.add_argument('-i', '--input_path', dest='input_path', metavar='input_path', 
-#                       type=str,
-#                       help='set the absolute input path to the zipped polly dataset')
+pollyxt_parser.add_argument('-r', '--raw_folder', dest='raw_folder', metavar='level0_folder',
+                       type=str,
+                       default='/data/level0/polly',
+                       help='the level0 folder of the polly data. default is set to /data/level0/polly')
 
 pollyxt_parser.add_argument('-o', '--output_path', dest='output_path', metavar='output_path',
                        type=str,
@@ -44,7 +45,6 @@ pollyxt_parser.add_argument('-o', '--output_path', dest='output_path', metavar='
 pollyxt_parser.add_argument('-f', '--force', dest='force', metavar='force_merging',
                        type=str,
                        default = False,
-#                       choices=[True, False],
                        help='force merging, independent of differences found in attributes')
 
 ## Execute the parse_args() method
@@ -56,11 +56,16 @@ timestamp=args.timestamp
 device=args.device
 output_path = args.output_path
 force = args.force
+raw_folder = args.raw_folder
 
 if force.lower() == "true":
     force = True
 elif force.lower() == "false":
     force = False
+
+# Get the operating system name
+os_name = platform.system()
+print(f'Operating System: {os_name}')
 
 ### start of main function to call subfunctions
 def main():
@@ -76,11 +81,10 @@ def main():
     return ()
 ### end of main function
 
-def get_input_path(timestamp,device):
-    # /data/level0/polly/pollyxt_lacros/data_zip/201907
+def get_input_path(timestamp,device,raw_folder):
     YYYY=timestamp[0:4]
     MM=timestamp[4:6]
-    input_path = "/data/level0/polly/"+str(device)+"/data_zip/"+str(YYYY)+str(MM)+"/"
+    input_path = Path(raw_folder,device,"data_zip",f"{YYYY}{MM}")
     print(input_path)
     return input_path
 
@@ -92,7 +96,7 @@ def get_pollyxt_files():
         and returns a list of files to be merged
         and the title of the new merged nc-file
     '''
-    input_path = get_input_path(timestamp,device) 
+    input_path = get_input_path(timestamp,device,raw_folder) 
     path_exist = Path(input_path)
     
     if path_exist.exists() == True:
@@ -131,9 +135,9 @@ def get_pollyxt_files():
                 print("filesize too small, file will be skipped!")
                 continue ## go to next file
 
-            unzipped_nc = re.split(r'/', zip_file)[-1]
-            unzipped_nc = re.split(r'.zip', unzipped_nc)[0]
-            unzipped_nc = output_path+'/'+unzipped_nc
+            unzipped_nc = Path(zip_file).name
+            unzipped_nc = Path(unzipped_nc).stem
+            unzipped_nc = Path(output_path,unzipped_nc)
             polly_files_list.append(unzipped_nc)
             path = Path(unzipped_nc)
 
@@ -170,7 +174,7 @@ def get_pollyxt_logbook_files():
         unzipps the files to output_path
         and  merge them to one file
     '''
-    input_path = get_input_path(timestamp,device) 
+    input_path = get_input_path(timestamp,device,raw_folder) 
     path_exist = Path(input_path)
     
     if path_exist.exists() == True:
@@ -198,30 +202,14 @@ def get_pollyxt_logbook_files():
         polly_laserlog_files_list = []
         to_unzip_list = []
         for zip_file in polly_laserlog_zip_files_list:
-#            ## check for size of zip-files to ensure to exclude bad measurement files with wrong timestamp e.g. 19700101
-#            f_size = os.path.getsize(zip_file)
-#            if f_size > 500000:
-#                print(f_size)
-#                print("filesize passes")
-#            else:
-#                print(f_size)
-#                print("filesize too small, file will be skipped!")
-#                continue ## go to next file
-#
-            unzipped_logtxt = re.split(r'/', zip_file)[-1]
-            unzipped_logtxt = re.split(r'.zip', unzipped_logtxt)[0]
-            unzipped_logtxt = output_path+'/'+unzipped_logtxt
+            unzipped_logtxt = Path(zip_file).name
+            unzipped_logtxt = Path(unzipped_logtxt).stem
+            unzipped_logtxt = Path(output_path,unzipped_logtxt)
             polly_laserlog_files_list.append(unzipped_logtxt)
             path = Path(unzipped_logtxt)
 
             to_unzip_list.append(zip_file)
 
-#            ## check if unzipped files already exists in outputfolder
-#            if path.is_file() == False:
-#                to_unzip_list.append(zip_file)
-#            if path.is_file() == True:
-#                os.remove(unzipped_nc)
-#                to_unzip_list.append(zip_file)
         
         ## unzipping
         if len(to_unzip_list) > 0:
@@ -238,7 +226,8 @@ def get_pollyxt_logbook_files():
         print("\n")
 
         ## concat the txt files
-        with open(f"{output_path}/result.txt", "wb") as outfile:
+        result_file = Path(output_path,"result.txt")
+        with open(result_file, "wb") as outfile:
             for logf in polly_laserlog_files_list:
                 with open(logf, "rb") as infile:
                     outfile.write(infile.read())
@@ -246,21 +235,20 @@ def get_pollyxt_logbook_files():
                 os.remove(logf)
 
         laserlog_filename = polly_laserlog_files_list[0]
-        laserlog_filename = re.split(r'\/',laserlog_filename)[-1]
+        laserlog_filename = Path(laserlog_filename).name
         laserlog_filename_left = re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]\.nc',laserlog_filename)[0]
         laserlog_filename = f'{laserlog_filename_left}_00_00_01.nc.laserlogbook.txt'
-        destination_file = f'{output_path}/{laserlog_filename}'
+        destination_file = Path(output_path,laserlog_filename)
         
         # Open the source file in binary mode and read its content
-        with open(f"{output_path}/result.txt", 'rb') as source:
+        with open(result_file, 'rb') as source:
             # Open the destination file in binary mode and write the content
             with open(destination_file, 'wb') as destination:
                 destination.write(source.read())
 
-        os.remove(f"{output_path}/result.txt")
+        os.remove(result_file)
     else:
         print("\nNo laserlogbook was found in {}. Correct path?\n".format(input_path))
-       # sys.exit()
     
     return ()
 
@@ -309,8 +297,6 @@ def checking_vars():
 #        print('\n')
 #        print(polly_files_list[ds] + '   vs.   ' + polly_files_list[ds+1])
         for var in vars_of_interest:
-##            print('PM_VOLTAGE')
-##            print(polly_file_ds_ls[ds].variables['pm_voltage'][0][:])
             if var in polly_file_ds_ls[ds].variables.keys(): ## check if var is available within the polly-datastructure (depending on polly-system)
                 var_value_1=str(polly_file_ds_ls[ds].variables[var][:])
                 var_value_2=str(polly_file_ds_ls[ds+1].variables[var][:])
@@ -432,38 +418,28 @@ def checking_timestamp():
     for elementNR,ds in enumerate(polly_file_ds_ls):
     #    print(selected_timestamp_nc_ls[elementNR])
         timestamp_ds = ds.variables['measurement_time'][:]
-#        print(timestamp_ds[0])
-#        print(timestamp_ds[0][0])
-#        print(timestamp_ds[0][1])
-#        print(timestamp_ds.T[0])
-#        print(timestamp_ds.shape)
         if 19700101 in timestamp_ds.T[0]:
             print(f'The file: {selected_timestamp_nc_ls[elementNR]} contains incorrect timestamps!')
             print('Trying to correct timestamps...')
             ## get correct timestamp_ds from filename
             timestamp_filename = selected_timestamp_nc_ls[elementNR]
-            timestamp_filename = re.split(r'\.nc',timestamp_filename)[0]
-            timestamp_filename = re.split(r'_',timestamp_filename)[-3:]
+            timestamp_filename = timestamp_filename.stem
+            timestamp_filename = re.split(r'_',str(timestamp_filename))[-3:]
             ## del. nc-file
-            os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
-#            print(timestamp_filename)
+            #os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
             ## calc. the deltaT between measurementdatapoints
             laser_rep_rate = float(ds.variables['laser_rep_rate'][0])
             measurement_shots = ds.variables['measurement_shots'][:]
-#            print(measurement_shots)
             measurement_shots_nonzero = [elem for row in measurement_shots for elem in row if elem > 0]
             exit
             if len(measurement_shots_nonzero) == 0:
                 print('length of measurement_shots_nonzero equals 0. file will be removed from merging list.')
             else:
                 measurement_shots_average = sum(measurement_shots_nonzero) / len(measurement_shots_nonzero)
-#                print(measurement_shots_average)
                 deltaT = measurement_shots_average / laser_rep_rate
                 deltaT = int(round(deltaT,0)) ## unit in seconds
-#                print(deltaT)
                 ## calc. the correct seconds of day for this dataset
                 start_seconds = int(timestamp_filename[0])*3600 + int(timestamp_filename[1])*60 + int(timestamp_filename[2])
-#                print(start_seconds)
                 ## length of measurement_list
                 len_measurement_list = len(timestamp_ds)
                 ## create new measurement_time list
@@ -483,7 +459,8 @@ def checking_timestamp():
                     new_measurement_time_list = [[int(timestamp), next(seconds_iter)] for i in range(1, len_measurement_list+1)]
         
                     ## create a new netCDF4 file to write the dataset
-                    new_dataset = Dataset(selected_timestamp_nc_ls[elementNR], mode='w')
+                    new_dataset = Dataset(f'{selected_timestamp_nc_ls[elementNR]}_dummy', mode='w')
+                    print(f'{selected_timestamp_nc_ls[elementNR]}_dummy')
         
                     ## copy the entire dataset to the new file
                     new_dataset.setncatts(ds.__dict__)
@@ -500,6 +477,8 @@ def checking_timestamp():
         
                     ds.close()
                     new_dataset.close()
+                    os.remove(selected_timestamp_nc_ls[elementNR]) ### remove unzipped nc-file with incorrect timestamps
+                    os.rename(f'{selected_timestamp_nc_ls[elementNR]}_dummy',selected_timestamp_nc_ls[elementNR])
                     print('timestamps corrected.')
                     selected_cor_timestamp_nc_ls.append(selected_timestamp_nc_ls[elementNR])
         else:
@@ -515,67 +494,31 @@ def concat_files():
     ## merge selected files
     
     concat='concat'
-    # ## check if concated file already exists
-    # searchpattern_con = f'[2]*{concat}*.nc'
-    # concated_file = Path(r'{}'.format(ouput_path)).glob('{}'.format(searchpattern_con))
-    # concated_file = [x for x in concated_file if x.is_file()]
-    # concated_file = [str(i) for i in concated_file]
-    # print(concated_file)
     
     sel_polly_files_list = checking_timestamp()
 
     if len(sel_polly_files_list) == 0:
         print('no files found for this day. no merging.')
         return ()
-#    start_time_filename = re.split(r'.nc',sel_polly_files_list[0])[0]
-#    start_time_sec = re.split(r'_',start_time_filename)[-1]
-#    start_time_min = re.split(r'_',start_time_filename)[-2]
-#    start_time_hour = re.split(r'_',start_time_filename)[-3]
-
-    polly_files_no_path = re.split(r'/', sel_polly_files_list[0])[-1]
+    polly_files_no_path = Path(sel_polly_files_list[0]).name
     filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
     filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
     filestring = f"{filestring_left}_00_00_01.nc"       
 
     if len(sel_polly_files_list) == 1:
         print("\nOnly one file found. Nothing to merge!\n")
-        os.rename(sel_polly_files_list[0],f"{output_path}/{filestring}")
-#        os.rename(sel_polly_files_list[0], new_file_name)
+        os.rename(sel_polly_files_list[0],Path(output_path,filestring))
         return ()
     else:
-#        print('\nthe following files will be merged:')
-#        print(sel_polly_files_list)
-        ## generate new nc-file title
-        
-#        path = Path(sel_polly_files_list[0])
-#            if path.is_file() == True:
-#                os.remove(sel_polly_files_list[0])
-#                sel_polly_files_list[0]
-
-#        polly_files_no_path = re.split(r'/', sel_polly_files_list[0])[-1]
-#        filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
-#        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
-#        filestring = f"{filestring_left}_00_00_01.nc"       
-#        filestring_right = str(re.split(filestring_left, polly_files_no_path)[1])
-#        filestring_right = str(re.split(r'\.nc', filestring_right)[0])
-#        filestring = filestring_left + "con"  + filestring_right
-#        filestring_dummy = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}_dummy.nc"       
-#        filestring = f"{filestring_left}_{start_time_hour}_{start_time_min}_{start_time_sec}.nc"       
-#        filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
-#        filestring = f"{filestring_left}_00_00_01.nc"       
-        #new_file_title = filestring + f"_lvl0_{concat}.nc"
-#        new_file_title = filestring_dummy
-
+#        sel_polly_files_list = [ str(el) for el in sel_polly_files_list]
         ## parameters for controlling the merging process
         compat='override' ## Values of variable "laser_flashlamp" often changes, but those files will be merged anyway. This option picks the value from first dataset.
         coords='minimal'
         
         ds = xarray.open_mfdataset(sel_polly_files_list,combine = 'nested', data_vars="minimal", concat_dim="time", compat=compat, coords=coords)
-#        print(ds)
         ## save to a single nc-file
         print(f"\nmerged nc-file '{filestring}' will be stored to '{output_path}'")
         print("\nwriting merged file ...")
-#        ds.to_netcdf(output_path + '/' + filestring_dummy)
 
         ## adding compression-level encoding
         def write_netcdf(ds: xarray.Dataset, out_file: Path) -> None:
@@ -594,24 +537,18 @@ def concat_files():
 
             ds.to_netcdf(out_file, format="NETCDF4", engine="netcdf4", encoding=enc)
 
-        write_netcdf(ds=ds,out_file=f'{output_path}/{filestring_dummy}')
+        write_netcdf(ds=ds,out_file=Path(output_path,filestring_dummy))
 
+        ds.close()
 
-
-        ## zipping concated file
-#        with ZipFile(new_file_title+".zip", "w", ZIP_DEFLATED) as archive:
-#            print("\nNew nc-zip file '{}' will be generated and stored to '{}'".format(output_path + '/' + new_file_title + ".zip", output_path))
-#            print("\nzipping merged file ...")
-#            archive.write(output_path + '/' + new_file_title)
-#        ## removing concated.nc file
-#        sel_polly_files_list
-#        print("\ndeleting concated .nc file ...")
-#        os.remove(output_path + '/' + new_file_title)
     print("\ndeleting individual .nc files ...")
     for el in sel_polly_files_list:
         print(el)
         os.remove(el)
-    os.rename(f"{output_path}/{filestring_dummy}",f"{output_path}/{filestring}")
+    destination_file = Path(output_path,filestring)
+    if os.path.exists(destination_file):
+        os.remove(destination_file)  # Remove the existing destination file
+    os.rename(Path(output_path,filestring_dummy),destination_file)
     print('done!')
     return ()
 
