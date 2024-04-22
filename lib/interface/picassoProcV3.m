@@ -53,7 +53,6 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %    - 2021-06-25: first edition by Zhenping
 %
 % .. Authors: - zhenping@tropos.de
-
 global PicassoConfig
 global CampaignConfig
 global PollyConfig
@@ -5040,7 +5039,7 @@ if PicassoConfig.flagEnableDataVisualization
     pollyDisplayOCProfiles(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
 
-    %% display lidar calibration constants
+    % display lidar calibration constants
     print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
     pollyDisplayLC(data);
     print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
@@ -5142,5 +5141,5 @@ if PicassoConfig.flagReduceMATLABToolboxDependence
               'flagSimpleMsg', true);
 end
 %% Clean
- clear;
+% clear;
 end

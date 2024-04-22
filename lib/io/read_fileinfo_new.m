@@ -55,7 +55,7 @@ try
         fileinfo_new.dataSize = [fileinfo_new.dataSize, ...
                                  int32(str2double(data{5}{iTask}))];
     end
-
+    fclose(fid);
 catch
     warning('Failure in reading fileinfo_new.\n%s\n', file);
     return;

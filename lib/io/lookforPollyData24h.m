@@ -22,6 +22,7 @@ function lookforPollyData24h(startDate, endDate, saveFolder, PicassoConfigFile, 
 %    mode: char
 %        If mode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
 %
+%    
 % HISTORY:
 %    - 2019-07-21: First Edition by Zhenping
 %    - 2019-10-16: Add warnings when no polly data files were found.
