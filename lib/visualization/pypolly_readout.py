@@ -99,8 +99,8 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
     occurence_count = mode(diff_time) ## get most frequently element
     profile_length = int(np.round(occurence_count))
     
-    ## get gaps, if time-gap is bigger than 5 x profile_length
-    gap_finder = np.where(np.array(diff_time) > 5*profile_length)
+    ## get gaps, if time-gap is bigger than 2 x profile_length
+    gap_finder = np.where(np.array(diff_time) > 2*profile_length)
     fill_size = 0
     fill_size_all = 0
     fill_value = ATT_BETA.fill_value
