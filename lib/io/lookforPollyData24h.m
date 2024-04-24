@@ -1,8 +1,8 @@
 function lookforPollyData24h(startDate, endDate, saveFolder, PicassoConfigFile, varargin)
-% DECOMPRESSPOLLYDATA Unzip the polly data and write data info to the todolist file for pollynet processing chain.
+% looks for pollydat already merged to one netcdf.
 %
 % USAGE:
-%    decompressPollyData(startDate, endDate, saveFolder, PicassoConfigFile)
+%    lookforPollyData24h(startDate, endDate, saveFolder, PicassoConfigFile, varargin)
 %
 % INPUTS:
 %    startDate: numeric
@@ -23,10 +23,9 @@ function lookforPollyData24h(startDate, endDate, saveFolder, PicassoConfigFile, 
 %        If mode was 'a', the polly data info will be appended. If 'w', a new todofile will be created.
 %
 % HISTORY:
-%    - 2019-07-21: First Edition by Zhenping
-%    - 2019-10-16: Add warnings when no polly data files were found.
-%
-% .. Authors: - zhenping@tropos.de
+%    - 2014-04-xx: Modified from decomp_polly_data
+%  %
+% .. Authors: - baars@tropos.de
 
 p = inputParser;
 p.KeepUnmatched = true;
