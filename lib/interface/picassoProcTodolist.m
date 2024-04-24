@@ -70,6 +70,7 @@ end
 
 fclose('all');
 
+[USER, HOME, OS] = getsysinfo();
 %% Clean
 if strcmpi(OS, 'linux')
    clear all;
