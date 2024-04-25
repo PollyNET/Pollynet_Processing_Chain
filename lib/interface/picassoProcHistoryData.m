@@ -63,7 +63,7 @@ if endTime < startTime
     error('end time must be larger than start time.');
 end
 
-
+[USER, HOME, OS] = getsysinfo();
 
 if p.Results.flag24hdata
     %% Look for polly data

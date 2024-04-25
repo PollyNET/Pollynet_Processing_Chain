@@ -5135,7 +5135,7 @@ print_msg('%%------------------------------------------------------%%\n');
 if strcmpi(OS, 'linux')
     % Do nothing
 else
-    print_msg('Memory at end:\n',memory, 'flagTimestamp', true, 'flagSimpleMsg', true);
+    % Do nothing
 end
 
 fclose(LogConfig.logFid);

@@ -69,7 +69,15 @@ for iTask = 1:length(pollyDataTasks.dataFilename)
 end
 
 fclose('all');
-clear all;
-quit;
+
+[USER, HOME, OS] = getsysinfo();
+%% Clean
+if strcmpi(OS, 'linux')
+   clear all;
+   quit;
+else
+    % Do nothing
+end
+
 
 end
