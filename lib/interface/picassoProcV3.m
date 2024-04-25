@@ -4143,11 +4143,11 @@ end
 % quasi-retrieved Angstroem exponents 532-1064
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-data.qsiAE_532_1064_V1R532V1 = NaN(length(data.height), length(data.mTime));
+data.qsiAE_532_1064_V1 = NaN(length(data.height), length(data.mTime));
 if (sum(flag1064) == 1) && (sum(flag532) == 1)
     ratio_par_bsc_532_1064 = data.qsiBsc1064V1 ./ data.qsiBsc532V1;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
-    data.qsiAE_532_1064_V1R532V1 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
+    data.qsiAE_532_1064_V1 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4160,7 +4160,7 @@ flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChan
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
-    tcMaskV1 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V1, data.qsiBsc532V1, data.qsiPDR532V1, vdr532Sm, data.qsiAE_532_1064_V1R532V1, ...
+    tcMaskV1 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V1, data.qsiBsc532V1, data.qsiPDR532V1, vdr532Sm, data.qsiAE_532_1064_V1, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
     'turbidThresBsc532', PollyConfig.turbid_thres_par_beta_532, ...
