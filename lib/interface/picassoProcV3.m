@@ -4845,7 +4845,7 @@ if PicassoConfig.flagEnableResultsOutput
                      print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        catch
     	         print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    	         end
+    	        end
             end
         case 'aerprofnr'
             if PicassoConfig.flagSaveProfiles
@@ -4878,7 +4878,7 @@ if PicassoConfig.flagEnableResultsOutput
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true)
             catch
             print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-            end;
+            end
 
         case 'aerattbetaoc'
             print_msg('--> start saving attenuated backscatter (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
