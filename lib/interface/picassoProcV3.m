@@ -2923,7 +2923,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% POLIPHON (1-step)
 % % print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
 
-[POLIPHON1] = poliphon_one ...
+[data.POLIPHON1] = poliphon_one ...
     (aerBsc355_klett, pdr355_klett, ...
     aerBsc532_klett, pdr532_klett, ...
     aerBsc1064_klett, pdr1064_klett, ...
@@ -4155,12 +4155,12 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Target classification (V1)
 print_msg('Start aerosol/cloud target classification (v1).\n', 'flagTimestamp', true);
 
-tcMaskV1 = zeros(length(data.height), length(data.mTime));
+data.tcMaskV1 = zeros(length(data.height), length(data.mTime));
 flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
-    tcMaskV1 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V1, data.qsiBsc532V1, data.qsiPDR532V1, vdr532Sm, data.qsiAE_532_1064_V1, ...
+    data.tcMaskV1 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V1, data.qsiBsc532V1, data.qsiPDR532V1, vdr532Sm, data.qsiAE_532_1064_V1, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
     'turbidThresBsc532', PollyConfig.turbid_thres_par_beta_532, ...
@@ -4178,10 +4178,10 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
     'hFullOL', max(PollyConfig.heightFullOverlap(flag532T), PollyConfig.heightFullOverlap(flag1064)));
 
     %% set the value during the depolarization calibration period or in fog conditions to 0
-    tcMaskV1(:, data.depCalMask | data.fogMask) = 0;
+    data.tcMaskV1(:, data.depCalMask | data.fogMask) = 0;
 
     %% set the value with low SNR to 0
-    tcMaskV1((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0)) = 0;
+    data.tcMaskV1((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0)) = 0;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4217,7 +4217,7 @@ end
 % quasi-retrieved backscatter at 532 nm (V2)
 flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-qsiBsc532V2 = NaN(length(data.height), length(data.mTime));
+data.qsiBsc532V2 = NaN(length(data.height), length(data.mTime));
 att_beta_532_qsi = data.att_beta_532;
 att_beta_607_qsi = att_beta_607;
 if (sum(flag532) == 1) && (sum(flag607) == 1)
@@ -4236,14 +4236,14 @@ if (sum(flag532) == 1) && (sum(flag607) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    [qsiBsc532V2, ~] = quasiRetrieval2(data.height, att_beta_532_qsi, att_beta_607_qsi, 532, mExt532, mBsc532, mExt607, 0.5, PollyConfig.LR532, 'nIters', 3);
-    qsiBsc532V2 = smooth2(qsiBsc532V2, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
+    [data.qsiBsc532V2, ~] = quasiRetrieval2(data.height, att_beta_532_qsi, att_beta_607_qsi, 532, mExt532, mBsc532, mExt607, 0.5, PollyConfig.LR532, 'nIters', 3);
+    data.qsiBsc532V2 = smooth2(data.qsiBsc532V2, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
 end
 
 % quasi-retrieved backscatter at 1064 nm (V2)
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-qsiBsc1064V2 = NaN(length(data.height), length(data.mTime));
+data.qsiBsc1064V2 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
 att_beta_607_qsi = att_beta_607;
 if (sum(flag1064) == 1) && (sum(flag607) == 1)
@@ -4262,14 +4262,14 @@ if (sum(flag1064) == 1) && (sum(flag607) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    [qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
-    qsiBsc1064V2 = smooth2(qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+    [data.qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
+    data.qsiBsc1064V2 = smooth2(data.qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
 end
 
 % quasi-retrieved particle depolarization ratio at 532 nm (V2)
 flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-qsiPDR532V2 = NaN(length(data.height), length(data.mTime));
+data.qsiPDR532V2 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     sig532T = squeeze(data.signal(flag532T, :, :));
     sig532C = squeeze(data.signal(flag532C, :, :));
@@ -4286,8 +4286,8 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
-    qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
-    qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
+    data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+    data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 end
 
 % % quasi-retrieved Angstroem exponents 355-532 (V2)
@@ -4297,7 +4297,7 @@ end
 % flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % qsiAE_355_532_V2 = NaN(length(data.height), length(data.mTime));
 % if (sum(flag532) == 1) && (sum(flag355) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
-%     ratio_par_bsc_355_532 = qsiBsc532V2 ./ data.qsiBsc355V2;
+%     ratio_par_bsc_355_532 = data.qsiBsc532V2 ./ data.qsiBsc355V2;
 %     ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
 %     qsiAE_355_532_V2 = log(ratio_par_bsc_355_532) ./ log(355/532);
 % end
@@ -4309,7 +4309,7 @@ end
 % flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % qsiAE_355_1064_V2 = NaN(length(data.height), length(data.mTime));
 % if (sum(flag1064) == 1) && (sum(flag355) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
-%     ratio_par_bsc_355_1064 = qsiBsc1064V2 ./ data.qsiBsc355V2;
+%     ratio_par_bsc_355_1064 = data.qsiBsc1064V2 ./ data.qsiBsc355V2;
 %     ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 %     qsiAE_355_1064_V2 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
 % end
@@ -4318,11 +4318,11 @@ end
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-qsiAE_532_1064_V2 = NaN(length(data.height), length(data.mTime));
+data.qsiAE_532_1064_V2 = NaN(length(data.height), length(data.mTime));
 if (sum(flag1064) == 1) && (sum(flag532) == 1) && (sum(flag607) == 1)
-    ratio_par_bsc_532_1064 = qsiBsc1064V2 ./ qsiBsc532V2;
+    ratio_par_bsc_532_1064 = data.qsiBsc1064V2 ./ data.qsiBsc532V2;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
-    qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
+    data.qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4330,14 +4330,14 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Target classification (V2)
 print_msg('Start aerosol/cloud target classification (v2).\n', 'flagTimestamp', true);
 
-tcMaskV2 = zeros(length(data.height), length(data.mTime));
+data.tcMaskV2 = zeros(length(data.height), length(data.mTime));
 flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
-    tcMaskV2 = targetClassify(data.height, data.att_beta_532, qsiBsc1064V2, qsiBsc532V2, qsiPDR532V2, vdr532Sm, qsiAE_532_1064_V2, ...
+    data.tcMaskV2 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V2, data.qsiBsc532V2, data.qsiPDR532V2, vdr532Sm, data.qsiAE_532_1064_V2, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
     'turbidThresBsc532', PollyConfig.turbid_thres_par_beta_532, ...
@@ -4355,10 +4355,10 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(
     'hFullOL', 0);
 
     %% set the value during the depolarization calibration period or in fog conditions to 0
-    tcMaskV2(:, data.depCalMask | data.fogMask) = 0;
+    data.tcMaskV2(:, data.depCalMask | data.fogMask) = 0;
 
     %% set the value with low SNR to 0
-    tcMaskV2((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (quality_mask_607 ~= 0)) = 0;
+    data.tcMaskV2((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (quality_mask_607 ~= 0)) = 0;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4366,29 +4366,29 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Cloud detection
 print_msg('Start extracting cloud heights.\n', 'flagTimestamp', true);
 MAXCLLAYERS = 10;
-clBaseH = NaN(MAXCLLAYERS, length(data.mTime));
-clTopH = NaN(MAXCLLAYERS, length(data.mTime));
-clPh = zeros(MAXCLLAYERS, length(data.mTime));
-clPhProb = zeros(MAXCLLAYERS, length(data.mTime));
+data.clBaseH = NaN(MAXCLLAYERS, length(data.mTime));
+data.clTopH = NaN(MAXCLLAYERS, length(data.mTime));
+data.clPh = zeros(MAXCLLAYERS, length(data.mTime));
+data.clPhProb = zeros(MAXCLLAYERS, length(data.mTime));
 
 flag532T = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 flag532C = data.flagCrossChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 
 if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
-    [clBaseH, clTopH, clPh, clPhProb] = cloudGeoExtract(data.mTime, data.height, tcMaskV2, ...
+    [data.clBaseH, data.clTopH, data.clPh, data.clPhProb] = cloudGeoExtract(data.mTime, data.height, data.tcMaskV2, ...
         'minCloudDepth', 100, ...
         'liquidCloudBit', 8, ...
         'iceCloudBit', 9, ...
         'cloudBits', [7, 8, 9, 10, 11]);
 elseif PollyConfig.cloudScreenMode == 2
-    [clBaseH, clTopH, ~, ~] = cloudGeoExtract(data.mTime, data.height, cloudMask, ...
+    [data.clBaseH, data.clTopH, ~, ~] = cloudGeoExtract(data.mTime, data.height, cloudMask, ...
         'minCloudDepth', 100, ...
         'liquidCloudBit', 1, ...
         'iceCloudBit', 1, ...
         'cloudBits', 1);
-    clPh = zeros(size(clBaseH));
-    clPhProb = zeros(size(clBaseH));
+    data.clPh = zeros(size(data.clBaseH));
+    data.clPhProb = zeros(size(data.clBaseH));
 else
     warning('No cloud geometrical properties available.');
 end
@@ -4773,23 +4773,23 @@ data.LCUsed = LCUsed;
 %data.quality_mask_vdr_532 = quality_mask_vdr_532;
 %data.quality_mask_vdr_1064 = quality_mask_vdr_1064;
 %data.qsiBsc355V2 = qsiBsc355V2;
-data.qsiBsc532V2 = qsiBsc532V2;
-data.qsiBsc1064V2 = qsiBsc1064V2;
-data.qsiPDR532V2 = qsiPDR532V2;
-data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
-quality_mask_532_V2 = quality_mask_532;
-quality_mask_532_V2((quality_mask_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
-data.quality_mask_532_V2 = quality_mask_532_V2;
-quality_mask_1064_V2 = quality_mask_1064;
-quality_mask_1064_V2((quality_mask_1064_V2 == 0) & ((quality_mask_607 == 1) | (quality_mask_532 == 1))) = 1;
-data.quality_mask_1064_V2 = quality_mask_1064_V2;
-data.tcMaskV1 = tcMaskV1;
-data.tcMaskV2 = tcMaskV2;
-data.clBaseH = clBaseH;
-data.clTopH = clTopH;
-data.clPh = clPh;
-data.clPhProb = clPhProb;
-data.POLIPHON1 = POLIPHON1;
+%data.qsiBsc532V2 = qsiBsc532V2;
+%data.qsiBsc1064V2 = qsiBsc1064V2;
+%data.qsiPDR532V2 = qsiPDR532V2;
+%data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
+data.quality_mask_532_V2 = quality_mask_532;
+data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
+%data.quality_mask_532_V2 = quality_mask_532_V2;
+data.quality_mask_1064_V2 = quality_mask_1064;
+data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((quality_mask_607 == 1) | (quality_mask_532 == 1))) = 1;
+%data.quality_mask_1064_V2 = quality_mask_1064_V2;
+%data.tcMaskV1 = tcMaskV1;
+%data.tcMaskV2 = tcMaskV2;
+%data.clBaseH = clBaseH;
+%data.clTopH = clTopH;
+%data.clPh = clPh;
+%data.clPhProb = clPhProb;
+%data.POLIPHON1 = POLIPHON1;
 
 %% Saving products
 if PicassoConfig.flagEnableResultsOutput
@@ -4973,7 +4973,7 @@ if PicassoConfig.flagEnableResultsOutput
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving 1-step POLIPHON products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 try
-                pollySavePOLIPHON(data, POLIPHON1);
+                pollySavePOLIPHON(data, data.POLIPHON1);
                 print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 catch
                 print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
