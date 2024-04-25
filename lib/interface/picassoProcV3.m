@@ -3190,13 +3190,13 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 wvmr_error=wvmr_rel_error.*wvmr;
 %% retrieve high resolution WVMR and RH
-WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
-WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
-WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
-WVMR_rel_error = NaN(size(data.signal, 2), size(data.signal, 3));
-RH = NaN(size(data.signal, 2), size(data.signal, 3));
-quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
-quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
+data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
+data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
+data.WVMR_error = NaN(size(data.signal, 2), size(data.signal, 3));
+data.WVMR_rel_error = NaN(size(data.signal, 2), size(data.signal, 3));
+data.RH = NaN(size(data.signal, 2), size(data.signal, 3));
+data.quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
+data.quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 ones_WV=  ones(size(data.signal, 2), size(data.signal, 3));
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
@@ -3209,13 +3209,13 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     sig407(:, data.depCalMask) = NaN;
 
     % quality mask to filter low SNR bits
-    quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
-    quality_mask_WVMR((squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
-    quality_mask_WVMR(:, data.depCalMask) = 2;
-    quality_mask_RH = quality_mask_WVMR;
+    data.quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
+    data.quality_mask_WVMR((squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
+    data.quality_mask_WVMR(:, data.depCalMask) = 2;
+    data.quality_mask_RH = data.quality_mask_WVMR;
 
     % mask the signal
-    quality_mask_WVMR(:, data.mask407Off) = 3;
+    data.quality_mask_WVMR(:, data.mask407Off) = 3;
     sig407_QC = sig407;
     sig407_QC(:, data.depCalMask) = NaN;
     sig407_QC(:, data.mask407Off) = NaN;
@@ -3258,13 +3258,13 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
 
     % calculate wvmr and rh
-    WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
-    WVMR_no_QC = WVMR;
-    WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
-    WVMR_error = WVMR_rel_error.* WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
-    WVMR (quality_mask_WVMR>0)=NaN;
-    RH = wvmr_2_rh(WVMR, ES, pressure);
-    % IWV = sum(WVMR .* RHOAIR .* DIFFHeight .* (quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
+    data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
+    data.WVMR_no_QC = data.WVMR;
+    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR_error = data.WVMR_rel_error.* data.WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR (data.quality_mask_WVMR>0)=NaN;
+    data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
+    % IWV = sum(data.WVMR .* RHOAIR .* DIFFHeight .* (data.quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
 
 print_msg('Start\n', 'flagTimestamp', true);
@@ -4757,13 +4757,13 @@ data.LCUsed = LCUsed;
 %data.vdr355 = vdr355;
 %data.vdr532 = vdr532;
 %data.vdr1064 = vdr1064;
-data.WVMR = WVMR;
-data.WVMR_no_QC = WVMR_no_QC;
-data.WVMR_error = WVMR_error;
-data.WVMR_rel_error = WVMR_rel_error;
-data.RH = RH;
-data.quality_mask_WVMR = quality_mask_WVMR;
-data.quality_mask_RH = quality_mask_RH;
+%data.WVMR = WVMR;
+%data.WVMR_no_QC = WVMR_no_QC;
+%data.WVMR_error = WVMR_error;
+%data.WVMR_rel_error = WVMR_rel_error;
+%data.RH = RH;
+%data.quality_mask_WVMR = quality_mask_WVMR;
+%data.quality_mask_RH = quality_mask_RH;
 data.quasiAttri = quasiAttri;
 data.qsiBsc355V1 = qsiBsc355V1;
 data.qsiBsc532V1 = qsiBsc532V1;
