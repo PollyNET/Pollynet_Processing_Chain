@@ -239,12 +239,21 @@ function write_job_into_todo_list {
     $zipfile = $fileNameOnly+".zip"
 
     # Concatenate the strings into a single string
-    # /pollyhome/Bildermacher2/experimental, pollyxt_cpv/data_zip/202109, 2021_09_17_Fri_CPV_00_00_01.nc, 2021_09_17_Fri_CPV_00_00_01.nc.zip, 153959378, pollyxt_cpv
     $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
 
-    # Write the combined string to the file
-#    Set-Content -Path $PICASSO_TODO_FILE -Value $combinedString
-    Add-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+	## Check if entry is already in todolist-file
+	$content = Get-Content $PICASSO_TODO_FILE
+
+	# Check if the content matches both patterns
+	if ($content -match $dateformat -and $content -match $device) {
+		Write-Host "entry is already in todolist"
+	}
+	else {
+    	# Write the combined string to the file
+    	Add-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+	}
+
+
 }
 
 
@@ -313,34 +322,33 @@ function delete_entry_from_todo_list() {
     Write-Host "Deleting job from Todolist-file: $PICASSO_TODO_FILE"
 
 
-
-# Read the content of the file
-$content = Get-Content $PICASSO_TODO_FILE
-
-# Check if the content matches both patterns
-if ($content -match $dateformat -and $content -match $device) {
-    # If there's only one line in the file and it matches both patterns
-    if ($content.Count -eq 1) {
-        # Clear the content of the file
-        $null | Set-Content $PICASSO_TODO_FILE
-    }
-    else {
-        # Create an empty array to store lines with both patterns
-        $newContent = @()
-
-        # Loop through each line in the content
-        foreach ($line in $content) {
-            # Check if the line does not contain both patterns
-            if ($line -notmatch $dateformat -or $line -notmatch $device) {
-                # Add the line to the new content
-                $newContent += $line
-            }
+    # Read the content of the file
+    $content = Get-Content $PICASSO_TODO_FILE
+    
+    # Check if the content matches both patterns
+    if ($content -match $dateformat -and $content -match $device) {
+        # If there's only one line in the file and it matches both patterns
+        if ($content.Count -eq 1) {
+            # Clear the content of the file
+            $null | Set-Content $PICASSO_TODO_FILE
         }
-
-        # Write the modified content back to the file
-        $newContent | Set-Content $PICASSO_TODO_FILE
+        else {
+            # Create an empty array to store lines with both patterns
+            $newContent = @()
+    
+            # Loop through each line in the content
+            foreach ($line in $content) {
+                # Check if the line does not contain both patterns
+                if ($line -notmatch $dateformat -or $line -notmatch $device) {
+                    # Add the line to the new content
+                    $newContent += $line
+                }
+            }
+    
+            # Write the modified content back to the file
+            $newContent | Set-Content $PICASSO_TODO_FILE
+        }
     }
-}
 
 
 }
