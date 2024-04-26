@@ -232,14 +232,21 @@ function write_job_into_todo_list {
 
     # Search for files matching the patterns in the output folder
     $file = Get-ChildItem -Path $outputFolderPath -Filter "*$dateformat*.nc"
-    $filesize = $file.Length
-    $fileNameOnly = Split-Path -Path $file -Leaf
-    $filename = $file.FullName
-    $subfolder = $device+"\data_zip\"+$YYYY+$MM
-    $zipfile = $fileNameOnly+".zip"
+    #if (Test-Path -Path $file -PathType Leaf) {
+    if ($file.Length -gt 0) {
+        $filesize = $file.Length
+        $fileNameOnly = Split-Path -Path $file -Leaf
+        $filename = $file.FullName
+        $subfolder = $device+"\data_zip\"+$YYYY+$MM
+        $zipfile = $fileNameOnly+".zip"
 
-    # Concatenate the strings into a single string
-    $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
+        # Concatenate the strings into a single string
+        $combinedString = "$TODO_FOLDER, $subfolder, $fileNameOnly, $zipfile, $filesize, $device"
+    }
+    else {
+        $fileNameOnly = ""
+    }
+
 
 	## Check if entry is already in todolist-file
 	$content = Get-Content $PICASSO_TODO_FILE
@@ -249,8 +256,13 @@ function write_job_into_todo_list {
 		Write-Host "entry is already in todolist"
 	}
 	else {
-    	# Write the combined string to the file
-    	Add-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+        if ($fileNameOnly.Length -gt 0) {
+            # Write the combined string to the file
+            Add-Content -Path $PICASSO_TODO_FILE -Value $combinedString
+        }
+        else {
+            Write-Host "no file found"
+        }
 	}
 
 
