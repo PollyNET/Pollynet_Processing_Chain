@@ -224,6 +224,15 @@ function write_job_into_todo_list {
     )
 
     $outputFolderPath = outputfolderpath -date $date -device $device
+
+	## check if TODOFILE exists
+	if (Test-Path $PICASSO_TODO_FILE -PathType Leaf) {
+		# The file exists, do nothing
+	}
+	else {
+		New-Item -Path $PICASSO_TODO_FILE -ItemType File
+    	Write-Host "New TodoListFile created: $PICASSO_TODO_FILE"
+	}
     Write-Host "Write job into Todolist-file: $PICASSO_TODO_FILE"
 
     $dateformat = dateconverter -date $date
@@ -232,7 +241,6 @@ function write_job_into_todo_list {
 
     # Search for files matching the patterns in the output folder
     $file = Get-ChildItem -Path $outputFolderPath -Filter "*$dateformat*.nc"
-    #if (Test-Path -Path $file -PathType Leaf) {
     if ($file.Length -gt 0) {
         $filesize = $file.Length
         $fileNameOnly = Split-Path -Path $file -Leaf
