@@ -127,6 +127,7 @@ def get_pollyxt_files():
         for zip_file in polly_zip_files_list:
             ## check for size of zip-files to ensure to exclude bad measurement files with wrong timestamp e.g. 19700101
             f_size = os.path.getsize(zip_file)
+            print(zip_file)
             if f_size > 500000:
                 print(f_size)
                 print("filesize passes")
@@ -150,6 +151,7 @@ def get_pollyxt_files():
         
         ## unzipping
         if len(to_unzip_list) > 0:
+            print("\nUnzipping...")
             for zip_file in to_unzip_list:
                 with ZipFile(zip_file, 'r') as zip_ref:
                     print("unzipping "+zip_file)
@@ -306,9 +308,10 @@ def checking_vars():
                     # print('no difference found ...')
                     add_to_list(ds,polly_files_list,selected_var_nc_ls)
                 elif var_value_1 != var_value_2 and diff_var==0:
-                    print('difference found!')
-                    print(var + ": " + var_value_1)
-                    print(var + ": " + var_value_2)
+                    print('difference found in var:')
+                    print(var)
+                    #print(var + ": " + var_value_1)
+                    #print(var + ": " + var_value_2)
                     diff_var=1
                     add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None
                 elif var_value_1 == var_value_2 and diff_var!=0:
@@ -317,7 +320,7 @@ def checking_vars():
                     diff_var=diff_var+1
                     print('difference found!')
                     add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None
-		polly_file_ds_ls[ds].close()
+        polly_file_ds_ls[ds].close()
                 
     if diff_var==0:
         add_to_list(-1,polly_files_list,selected_var_nc_ls)
@@ -327,12 +330,12 @@ def checking_vars():
         ## if force==true, merge, but if force==false: the whole day will not be in list anymore
         if force == True:
             add_to_list(-1,polly_files_list,selected_var_nc_ls)
-        	print('\ndifferences found in selected variables! But will be force-merged.\n')
+            print('\ndifferences found in selected variables! But will be force-merged.\n')
         else:
-        	print('\ndifferences found in selected variables! Selected Date will be skipped.\n')
-			for el in polly_files_list:
-    	    	os.remove(el)
-	        sys.exit()
+            print('\ndifferences found in selected variables! Selected Date will be skipped.\n')
+            for el in polly_files_list:
+                os.remove(el)
+            sys.exit()
 
     return selected_var_nc_ls
         
@@ -345,9 +348,10 @@ def checking_attr():
 
     polly_file_ds_ls = []
     for files in selected_var_nc_ls:
+        print(files)
         polly_file_ds = Dataset(files,"r")
         polly_file_ds_ls.append(polly_file_ds)
-        
+    
     selected_att_nc_ls = []
     diff_att=0
     diff_var_att=0
@@ -401,6 +405,7 @@ def checking_attr():
                 elif var_att_value_1 != var_att_value_2 and diff_var_att!=0:
                     print('difference found!')
 
+    for ds in range(0,len(polly_file_ds_ls)-1):
         polly_file_ds_ls[ds].close()
 
                 
@@ -413,12 +418,12 @@ def checking_attr():
         ## if force==true, merge, but if force==false: the whole day will not be in list anymore
         if force == True:
             add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
-        	print('\ndifferences found in global attributes! But will be force-merged.\n')
+            print('\ndifferences found in global attributes! But will be force-merged.\n')
         else:
-        	print('\ndifferences found in global attributes! Selected Date will be skipped.\n')
-			for el in polly_files_list:
-    	    	os.remove(el)
-	        sys.exit()
+            print('\ndifferences found in global attributes! Selected Date will be skipped.\n')
+            for el in polly_files_list:
+                os.remove(el)
+            sys.exit()
 
     if diff_var_att==0:
         print('\nno differences found in variable attributes!\n')
@@ -465,8 +470,8 @@ def checking_timestamp():
             exit
             if len(measurement_shots_nonzero) == 0:
                 print('length of measurement_shots_nonzero equals 0. file will be removed from merging list.')
-				ds.close()
-				continue
+                ds.close()
+                continue
             else:
                 measurement_shots_average = sum(measurement_shots_nonzero) / len(measurement_shots_nonzero)
                 deltaT = measurement_shots_average / laser_rep_rate
@@ -487,8 +492,8 @@ def checking_timestamp():
                 #t_check = False ## do not skip files which are longer than 24h, seconds_ls > 86400
                 if t_check == True:
                     print('seconds of day exceeds 86400. file will be removed from merging list.')
-					ds.close()
-					continue
+                    ds.close()
+                    continue
                 else:
                     seconds_iter = iter(seconds_ls)
                     new_measurement_time_list = [[int(timestamp), next(seconds_iter)] for i in range(1, len_measurement_list+1)]
