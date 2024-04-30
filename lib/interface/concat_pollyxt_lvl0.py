@@ -317,14 +317,23 @@ def checking_vars():
                     diff_var=diff_var+1
                     print('difference found!')
                     add_to_list(ds,polly_files_list,selected_var_nc_ls) if force == True else None
+		polly_file_ds_ls[ds].close()
                 
     if diff_var==0:
         add_to_list(-1,polly_files_list,selected_var_nc_ls)
         print('\nno differences found in selected variables!\n')
     elif diff_var!=0:
-        print('\ndifferences found in selected variables!\n')
-        add_to_list(-1,polly_files_list,selected_var_nc_ls) if force == True else None
- 
+#        add_to_list(-1,polly_files_list,selected_var_nc_ls) if force == True else None
+        ## if force==true, merge, but if force==false: the whole day will not be in list anymore
+        if force == True:
+            add_to_list(-1,polly_files_list,selected_var_nc_ls)
+        	print('\ndifferences found in selected variables! But will be force-merged.\n')
+        else:
+        	print('\ndifferences found in selected variables! Selected Date will be skipped.\n')
+			for el in polly_files_list:
+    	    	os.remove(el)
+	        sys.exit()
+
     return selected_var_nc_ls
         
     
@@ -391,15 +400,37 @@ def checking_attr():
                     pass
                 elif var_att_value_1 != var_att_value_2 and diff_var_att!=0:
                     print('difference found!')
+
+        polly_file_ds_ls[ds].close()
+
                 
     if diff_att==0:
         add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
         print('\nno differences found in global attributes!\n')
     elif diff_att!=0:
-        add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
+#        add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls) if force == True else None
+
+        ## if force==true, merge, but if force==false: the whole day will not be in list anymore
+        if force == True:
+            add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
+        	print('\ndifferences found in global attributes! But will be force-merged.\n')
+        else:
+        	print('\ndifferences found in global attributes! Selected Date will be skipped.\n')
+			for el in polly_files_list:
+    	    	os.remove(el)
+	        sys.exit()
 
     if diff_var_att==0:
         print('\nno differences found in variable attributes!\n')
+#	elif diff_var_att != 0:
+#        ## if force==true, merge, but if force==false: the whole day will not be in list anymore
+#        if force == True:
+#            add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
+#        	print('\ndifferences found in variable attributes! But will be force-merged.\n')
+#        else:
+#        	print('\ndifferences found in variable attributes! Selected Date will be skipped.\n')
+#	        sys.exit()
+		
 
     print(selected_att_nc_ls)
     return selected_att_nc_ls
@@ -434,6 +465,8 @@ def checking_timestamp():
             exit
             if len(measurement_shots_nonzero) == 0:
                 print('length of measurement_shots_nonzero equals 0. file will be removed from merging list.')
+				ds.close()
+				continue
             else:
                 measurement_shots_average = sum(measurement_shots_nonzero) / len(measurement_shots_nonzero)
                 deltaT = measurement_shots_average / laser_rep_rate
@@ -454,6 +487,8 @@ def checking_timestamp():
                 #t_check = False ## do not skip files which are longer than 24h, seconds_ls > 86400
                 if t_check == True:
                     print('seconds of day exceeds 86400. file will be removed from merging list.')
+					ds.close()
+					continue
                 else:
                     seconds_iter = iter(seconds_ls)
                     new_measurement_time_list = [[int(timestamp), next(seconds_iter)] for i in range(1, len_measurement_list+1)]
@@ -485,6 +520,9 @@ def checking_timestamp():
             print(f'The file: {selected_timestamp_nc_ls[elementNR]} passes timestamp check.')
             selected_cor_timestamp_nc_ls.append(selected_timestamp_nc_ls[elementNR])
 
+        ds.close()
+
+
     print('\nthe following '+str(len(selected_cor_timestamp_nc_ls))+' files can be merged:')
     print(selected_cor_timestamp_nc_ls)
     return selected_cor_timestamp_nc_ls
@@ -493,7 +531,7 @@ def checking_timestamp():
 def concat_files():
     ## merge selected files
     
-    concat='concat'
+#    concat='concat'
     
     sel_polly_files_list = checking_timestamp()
 
