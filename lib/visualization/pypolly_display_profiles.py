@@ -58,8 +58,15 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     fontname = config_dict['fontname']
 
     ## read from global config file
-    xLim = polly_conf_dict[profile_translator[profilename]['xlim_name']]
-    yLim = polly_conf_dict[profile_translator[profilename]['ylim_name']]
+    if profile_translator[profilename]['xlim_name'] != None:
+        xLim = polly_conf_dict[profile_translator[profilename]['xlim_name']]
+    else:
+        xLim = None
+    if profile_translator[profilename]['ylim_name'] != None:
+        yLim = polly_conf_dict[profile_translator[profilename]['ylim_name']]
+    else:
+        yLim = None
+
     partnerLabel = polly_conf_dict['partnerLabel']
     imgFormat = polly_conf_dict['imgFormat']
 
@@ -75,7 +82,12 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     pollyVersion = nc_dict_profile['PollyVersion']
     location = nc_dict_profile['location']
     version = nc_dict_profile['PicassoVersion']
-    dataFilename = re.split(r'_profiles',nc_dict_profile['PollyDataFile'])[0]
+    if '_NR' in profilename:
+        dataFilename = re.split(r'_NR_profiles',nc_dict_profile['PollyDataFile'])[0]
+    elif '_OC' in profilename:
+        dataFilename = re.split(r'_OC_profiles',nc_dict_profile['PollyDataFile'])[0]
+    else:
+        dataFilename = re.split(r'_profiles',nc_dict_profile['PollyDataFile'])[0]
     # set the default font
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
@@ -100,11 +112,13 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     ax.set_xlabel(profile_translator[profilename]['x_label'], fontsize=15)
     ax.set_ylabel('Height [km]', fontsize=15)
 
-    ax.set_ylim(yLim[0]/1000,yLim[1]/1000)
+    if xLim != None:
+        ax.set_xlim(xLim)
+    if yLim != None:
+        ax.set_ylim(yLim[0]/1000,yLim[1]/1000)
     #ax.yaxis.set_major_locator(MultipleLocator(1500))
     #ax.yaxis.set_minor_locator(MultipleLocator(500))
 #    ax.set_xlim(xLim_Profi_WV_RH.tolist())
-    ax.set_xlim(xLim)
     ax.grid(True)
     ax.tick_params(axis='both', which='major', labelsize=15,
                    right=True, top=True, width=2, length=5)
@@ -144,7 +158,7 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
                  ha='left', va='bottom', alpha=0.8, zorder=10)
 
         fig.text(
-            0.78, 0.01,
+            0.75, 0.01,
             u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',

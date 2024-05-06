@@ -208,6 +208,7 @@
     "xLim_Profi_Ext": [-1, 300],
     "xLim_Profi_NR_Ext": [-1, 500],
     "xLim_Profi_WV_RH": [0, 50],
+    "xLim_Profi_RH": [0, 100],
     "xLim_Profi_WVMR": [0, 50],
     "xLim_Profi_RCS": [0.3, 1000],
     "xLim_Profi_LR": [0, 120],
