@@ -304,12 +304,115 @@ def main():
     
     if 'profiles' in args.retrieval:
         ## plotting profiles
+        ## profile_translator
+        profile_translator = {}
+        profilename_ls = ['Bsc_Klett','Bsc_Raman','DepRatio_Klett','DepRatio_Raman','WVMR']
+#        profile_dict_key_ls = ['method','misc', 'var_name_ls','var_err_name_ls','scaling_factor','xlim_name','ylim_name','x_label','plot_filename']
+
+        profile_dict_value = {}
+#        profile_dict_value['WVMR'] = [['WVMR'], 'WVMR', 'WVMR_rel_error', 'xLim_Profi_WVMR', 'yLim_Profi_WV_RH', 'Water Vapor Mixing Ratio [$g*kg^{-1}$]', 'WVMR']
+#        profile_dict_value['aerBsc_klett_355'] = ['aerBsc_klett_355', 'uncertainty_aerBsc_klett_355','xLim_Profi_Bsc','yLim_Profi_Bsc','Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]','Bsc_Klett']
+#        profile_dict_value['aerBsc_klett_1064'] = ['aerBsc_klett_1064', 'uncertainty_aerBsc_klett_1064','xLim_Profi_Bsc','yLim_Profi_Bsc','Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]','Bsc_Klett']
+
+        for profilename in profilename_ls:
+            profile_translator[profilename] = {}
+            #for n,key in enumerate(profile_dict_key_ls):
+            #    profile_translator[profilename][key] = profile_dict_value[profilename][n]
+
+        ## Bsc_Klett
+        profile_translator['Bsc_Klett']['method'] = 'Klett'
+        profile_translator['Bsc_Klett']['misc'] = ''
+        profile_translator['Bsc_Klett']['var_name_ls'] = ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064']                        
+        profile_translator['Bsc_Klett']['var_err_name_ls'] = ['uncertainty_aerBsc_klett_355','uncertainty_aerBsc_klett_532','uncertainty_aerBsc_klett_1064']
+        profile_translator['Bsc_Klett']['var_color_ls'] = ['blue','green','red']
+        profile_translator['Bsc_Klett']['var_style_ls'] = ['-','-','-']
+        profile_translator['Bsc_Klett']['scaling_factor'] = 10**6
+        profile_translator['Bsc_Klett']['xlim_name'] = 'xLim_Profi_Bsc'
+        profile_translator['Bsc_Klett']['ylim_name'] = 'yLim_Profi_Bsc'
+        profile_translator['Bsc_Klett']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+        profile_translator['Bsc_Klett']['plot_filename'] = 'Bsc_Klett'
+
+        ## Bsc_Raman
+        profile_translator['Bsc_Raman']['method'] = 'Raman'
+        profile_translator['Bsc_Raman']['misc'] = ''
+        profile_translator['Bsc_Raman']['var_name_ls'] = ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064']                        
+        profile_translator['Bsc_Raman']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_355','uncertainty_aerBsc_raman_532','uncertainty_aerBsc_raman_1064']
+        profile_translator['Bsc_Raman']['var_color_ls'] = ['blue','green','red']
+        profile_translator['Bsc_Raman']['var_style_ls'] = ['-','-','-']
+        profile_translator['Bsc_Raman']['scaling_factor'] = 10**6
+        profile_translator['Bsc_Raman']['xlim_name'] = 'xLim_Profi_Bsc'
+        profile_translator['Bsc_Raman']['ylim_name'] = 'yLim_Profi_Bsc'
+        profile_translator['Bsc_Raman']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+        profile_translator['Bsc_Raman']['plot_filename'] = 'Bsc_Raman'
+
+        ## DepRatio_Klett
+        profile_translator['DepRatio_Klett']['method'] = 'Klett'
+        profile_translator['DepRatio_Klett']['misc'] = ''
+        profile_translator['DepRatio_Klett']['var_name_ls'] = ['volDepol_klett_355','volDepol_klett_532','volDepol_klett_1064',\
+                                                               'parDepol_klett_355','parDepol_klett_532','parDepol_klett_1064']                        
+        profile_translator['DepRatio_Klett']['var_err_name_ls'] = ['']
+        profile_translator['DepRatio_Klett']['var_color_ls'] = ['blue','green','red','blue','green','red']
+        profile_translator['DepRatio_Klett']['var_style_ls'] = ['-','-','-','--','--','--']
+        profile_translator['DepRatio_Klett']['scaling_factor'] = 1
+        profile_translator['DepRatio_Klett']['xlim_name'] = 'zLim_VolDepol_1064'
+        profile_translator['DepRatio_Klett']['ylim_name'] = 'yLim_Profi_DR'
+        profile_translator['DepRatio_Klett']['x_label'] = 'Depolarization Ratio'
+        profile_translator['DepRatio_Klett']['plot_filename'] = 'DepRatio_Klett'
+
+        ## DepRatio_Raman
+        profile_translator['DepRatio_Raman']['method'] = 'Raman'
+        profile_translator['DepRatio_Raman']['misc'] = ''
+        profile_translator['DepRatio_Raman']['var_name_ls'] = ['volDepol_raman_355','volDepol_raman_532','volDepol_raman_1064',\
+                                                               'parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064']
+        profile_translator['DepRatio_Raman']['var_err_name_ls'] = ['']
+        profile_translator['DepRatio_Raman']['var_color_ls'] = ['blue','green','red','blue','green','red']
+        profile_translator['DepRatio_Raman']['var_style_ls'] = ['-','-','-','--','--','--']
+        profile_translator['DepRatio_Raman']['scaling_factor'] = 1
+        profile_translator['DepRatio_Raman']['xlim_name'] = 'zLim_VolDepol_1064'
+        profile_translator['DepRatio_Raman']['ylim_name'] = 'yLim_Profi_DR'
+        profile_translator['DepRatio_Raman']['x_label'] = 'Depolarization Ratio'
+        profile_translator['DepRatio_Raman']['plot_filename'] = 'DepRatio_Raman'
+
+        ## WVMR
+        profile_translator['WVMR']['method'] = '-'                        
+        profile_translator['WVMR']['misc'] = 'wvconst.\ncalibrated.'
+        profile_translator['WVMR']['var_name_ls'] = ['WVMR']                        
+        profile_translator['WVMR']['var_err_name_ls'] = ['WVMR_rel_error']
+        profile_translator['WVMR']['var_color_ls'] = ['blue']
+        profile_translator['WVMR']['var_style_ls'] = ['-']
+        profile_translator['WVMR']['scaling_factor'] = 1
+        profile_translator['WVMR']['xlim_name'] = 'xLim_Profi_WVMR'
+        profile_translator['WVMR']['ylim_name'] = 'yLim_Profi_WV_RH'
+        profile_translator['WVMR']['x_label'] = 'Water Vapor Mixing Ratio [$g*kg^{-1}$]'
+        profile_translator['WVMR']['plot_filename'] = 'WVMR'
+
+
+
+#        profile_translator['WVMR']['var_name'] = 'WVMR'
+#        profile_translator['WVMR']['var_err_name'] = 'WVMR_rel_error'
+#        profile_translator['WVMR']['xlim_name'] = 'xLim_Profi_WVMR'
+#        profile_translator['WVMR']['ylim_name'] = 'yLim_Profi_WV_RH'
+#        profile_translator['WVMR']['x_label'] = 'Water Vapor Mixing Ratio ($g*kg^{-1}$)'
+#        profile_translator['WVMR']['plot_filename'] = 'WVMR'
+ 
         try:
+            #nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
+            #for pro in nc_profiles:
+            #    nc_dict_WVMR_pro = readout_profiles.read_nc_profile(pro)
+            #    print('plotting WVMR_profile:')
+            #    display_profiles.pollyDisplayWVMR_profile(nc_dict_WVMR_pro, config_dict, polly_conf_dict, outputfolder)
             nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
-            for pro in nc_profiles:
-                nc_dict_WVMR_pro = readout_profiles.read_nc_profile(pro)
-                print('plotting WVMR_profile:')
-                display_profiles.pollyDisplayWVMR_profile(nc_dict_WVMR_pro, config_dict, polly_conf_dict, outputfolder)
+            print(f'plotting profiles to {outputfolder}')
+            for profile in nc_profiles:
+                #nc_dict_WVMR_pro = readout.read_nc_file(profile)
+                nc_dict_profile = readout.read_nc_file(profile)
+                starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
+                endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
+                print(f"profile: {starttime} - {endtime}")
+                for profilename in profile_translator.keys():
+                    print(f"{profilename}")
+                #display_profiles.pollyDisplayWVMR_profile(nc_dict_WVMR_pro, config_dict, polly_conf_dict, outputfolder)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
         except Exception as e:
              print("An error occurred:", e)
 
