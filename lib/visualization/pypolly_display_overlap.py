@@ -122,12 +122,13 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir):
         fontsize=14
         )
 
+    plt.legend(loc='upper right')
 
     # add watermark
     if flagWatermarkOn:
         rootDir = os.path.dirname(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-        rootDir = os.getcwd()
+#        rootDir = os.getcwd()
         im_license = matplotlib.image.imread(
             os.path.join(rootDir, 'img', 'by-sa.png'))
 

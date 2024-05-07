@@ -229,6 +229,7 @@ def read_nc_file(nc_filename,):
     nc_dict['m_date'] = f'{m_date[0]}-{m_date[1]}-{m_date[2]}'
 #    nc_dict['m_date'] = datetime.fromtimestamp(nc_file_ds['time'][0]).strftime("%Y-%m-%d")
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -517,6 +518,7 @@ def read_nc_VDR(nc_filename):
     nc_dict['eta532'] = eta532
     nc_dict['PollyDataFile'] = dataFilename
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -577,6 +579,7 @@ def read_nc_WVMR_RH(nc_filename):
     nc_dict['quality_mask_RH'] = quality_mask_RH
     nc_dict['PollyDataFile'] = dataFilename
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -657,6 +660,7 @@ def read_nc_quasi_results(nc_filename,q_version):
         nc_dict['QR_Bsc_1064_CUsed'] = QR_Bsc_1064_CUsed
     nc_dict['PollyDataFile'] = dataFilename
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -722,6 +726,7 @@ def read_nc_target_classification(nc_filename):
     nc_dict['TC_cRange'] = TC_cRange
     nc_dict['PollyDataFile'] = dataFilename
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -778,7 +783,7 @@ def read_nc_overlap(nc_filename):
     OL_532d = nc_file_ds[var[4]][:]
     height = nc_file_ds['height'][:]
     time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
+    #m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
 
     #dataFilename = re.split(r'\/',nc_filename)[-1]
     dataFilename = str(Path(nc_filename).name)
@@ -787,7 +792,7 @@ def read_nc_overlap(nc_filename):
     nc_dict['PollyVersion'] = PollyVersion
     nc_dict['location'] = location
     nc_dict['PicassoVersion'] = version
-    nc_dict['m_date'] = m_date
+   # nc_dict['m_date'] = m_date
     nc_dict['time'] = time
     nc_dict['height'] = height
     nc_dict['method'] = method
@@ -796,6 +801,10 @@ def read_nc_overlap(nc_filename):
     nc_dict['OL_532'] = OL_532
     nc_dict['OL_532d'] = OL_532d
     nc_dict['PollyDataFile'] = dataFilename
+    m_date = re.split(r'_',nc_dict['PollyDataFile'])
+    nc_dict['m_date'] = f'{m_date[0]}-{m_date[1]}-{m_date[2]}'
+
+    nc_file_ds.close()
 
     return nc_dict
 
