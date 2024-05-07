@@ -67,7 +67,7 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','target_class','wvmr_rh','quasi_results','profiles','NR_profiles','OC_profiles','overlap'],
+                       choices=['all','attbsc','voldepol','target_class','wvmr_rh','quasi_results','profiles','overlap'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
@@ -310,11 +310,13 @@ def main():
         profile_translator = p_translator.profile_translator_function()
         NR_profile_translator = p_translator.NR_profile_translator_function()
         OC_profile_translator = p_translator.OC_profile_translator_function()
+        POLIPHON_profile_translator = p_translator.POLIPHON_profile_translator_function()
 
         try:
             nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
             nc_profiles_NR = readout.get_nc_filename(date, device, inputfolder, param='NR_profiles')
             nc_profiles_OC = readout.get_nc_filename(date, device, inputfolder, param='OC_profiles')
+            nc_profiles_POLIPHON = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON')
             print(f'plotting profiles to {outputfolder}')
             for profile in nc_profiles:
                 nc_dict_profile = readout.read_nc_file(profile)
@@ -340,6 +342,14 @@ def main():
                 for profilename in OC_profile_translator.keys():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile_OC,OC_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
+            for POLIPHON in nc_profiles_POLIPHON:
+                nc_dict_profile_POLI = readout.read_nc_file(POLIPHON)
+                starttime=datetime.utcfromtimestamp(int(nc_dict_profile_POLI['start_time'])).strftime('%H:%M')
+                endtime=datetime.utcfromtimestamp(int(nc_dict_profile_POLI['end_time'])).strftime('%H:%M')
+                print(f"POLIPHON-profile: {starttime} - {endtime}")
+                for profilename in POLIPHON_profile_translator.keys():
+                    print(f"{profilename}")
+                    display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
         except Exception as e:
              print("An error occurred:", e)
 

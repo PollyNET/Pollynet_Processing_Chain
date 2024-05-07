@@ -203,7 +203,9 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
 
     # add watermark
     if flagWatermarkOn:
-        rootDir = os.getcwd()
+        #rootDir = os.getcwd()
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         im_license = matplotlib.image.imread(
             os.path.join(rootDir, 'img', 'by-sa.png'))
 
@@ -319,7 +321,9 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
     
         # add watermark
         if flagWatermarkOn:
-            rootDir = os.getcwd()
+        #    rootDir = os.getcwd()
+            rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
             im_license = matplotlib.image.imread(
                 os.path.join(rootDir, 'img', 'by-sa.png'))
     
@@ -550,7 +554,9 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
 
     # add watermark
     if flagWatermarkOn:
-        rootDir = os.getcwd()
+        #rootDir = os.getcwd()
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         im_license = matplotlib.image.imread(
             os.path.join(rootDir, 'img', 'by-sa.png'))
 

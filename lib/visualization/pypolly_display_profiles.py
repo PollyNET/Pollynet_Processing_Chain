@@ -86,6 +86,8 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
         dataFilename = re.split(r'_NR_profiles',nc_dict_profile['PollyDataFile'])[0]
     elif '_OC' in profilename:
         dataFilename = re.split(r'_OC_profiles',nc_dict_profile['PollyDataFile'])[0]
+    elif 'POLIPHON' in profilename:
+        dataFilename = re.split(r'_POLIPHON',nc_dict_profile['PollyDataFile'])[0]
     else:
         dataFilename = re.split(r'_profiles',nc_dict_profile['PollyDataFile'])[0]
     # set the default font

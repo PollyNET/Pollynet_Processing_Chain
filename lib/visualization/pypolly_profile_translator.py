@@ -350,6 +350,48 @@ def OC_profile_translator_function():
     profile_translator['LR_Raman_OC']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman_OC']['plot_filename'] = 'OC_LR_Raman'
 
+    return profile_translator
+
+
+def POLIPHON_profile_translator_function():
+    ## POLIPHON_profile_translator
+    
+    profilename_ls = ['POLIPHON_Bsc_Klett','POLIPHON_Bsc_Raman']
+
+    profile_dict_key_ls = profile_dict_keys()
+
+    ## initiate dict
+    profile_translator = {}
+    for profilename in profilename_ls:
+        profile_translator[profilename] = {}
+        for n,key in enumerate(profile_dict_key_ls):
+            profile_translator[profilename][key] = ''
+
+    ## Bsc_Klett
+    profile_translator['POLIPHON_Bsc_Klett']['method'] = 'Klett'
+    profile_translator['POLIPHON_Bsc_Klett']['misc'] = ''
+    profile_translator['POLIPHON_Bsc_Klett']['var_name_ls'] = ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064','aerBsc355_klett_d1','aerBsc532_klett_d1','aerBsc1064_klett_d1','aerBsc355_klett_nd1','aerBsc532_klett_nd1','aerBsc1064_klett_nd1']                        
+    profile_translator['POLIPHON_Bsc_Klett']['var_err_name_ls'] = ['uncertainty_aerBsc_klett_355','uncertainty_aerBsc_klett_532','uncertainty_aerBsc_klett_1064']
+    profile_translator['POLIPHON_Bsc_Klett']['var_color_ls'] = ['blue','green','red','blue','green','red','blue','green','red']
+    profile_translator['POLIPHON_Bsc_Klett']['var_style_ls'] = ['-','-','-','--','--','--','dotted','dotted','dotted']
+    profile_translator['POLIPHON_Bsc_Klett']['scaling_factor'] = 10**6
+    profile_translator['POLIPHON_Bsc_Klett']['xlim_name'] = 'xLim_beta_532_Poliphon'
+    profile_translator['POLIPHON_Bsc_Klett']['ylim_name'] = 'yLim_beta_532_Poliphon'
+    profile_translator['POLIPHON_Bsc_Klett']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+    profile_translator['POLIPHON_Bsc_Klett']['plot_filename'] = 'Bsc_Klett_POLIPHON_1'
+
+    ## Bsc_Raman
+    profile_translator['POLIPHON_Bsc_Raman']['method'] = 'Raman'
+    profile_translator['POLIPHON_Bsc_Raman']['misc'] = ''
+    profile_translator['POLIPHON_Bsc_Raman']['var_name_ls'] = ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064','aerBsc355_raman_d1','aerBsc532_raman_d1','aerBsc1064_raman_d1','aerBsc355_raman_nd1','aerBsc532_raman_nd1','aerBsc1064_raman_nd1']
+    profile_translator['POLIPHON_Bsc_Raman']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_355','uncertainty_aerBsc_raman_532','err_poliphon_aerBsc532_raman_d1','err_poliphon_aerBsc532_raman_nd1']
+    profile_translator['POLIPHON_Bsc_Raman']['var_color_ls'] = ['blue','green','red','blue','green','red','blue','green','red']
+    profile_translator['POLIPHON_Bsc_Raman']['var_style_ls'] = ['-','-','-','--','--','--','dotted','dotted','dotted']
+    profile_translator['POLIPHON_Bsc_Raman']['scaling_factor'] = 10**6
+    profile_translator['POLIPHON_Bsc_Raman']['xlim_name'] = 'xLim_beta_532_Poliphon'
+    profile_translator['POLIPHON_Bsc_Raman']['ylim_name'] = 'yLim_beta_532_Poliphon'
+    profile_translator['POLIPHON_Bsc_Raman']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+    profile_translator['POLIPHON_Bsc_Raman']['plot_filename'] = 'Bsc_Raman_POLIPHON_1'
 
     return profile_translator
 

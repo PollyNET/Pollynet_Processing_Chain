@@ -37,7 +37,9 @@ def input_folder(configfile):
 def get_nc_filename(date, device, inputfolder, param=""):
     '''
     param: str
-        att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results", "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles", "NR_profiles", "cloudinfo"
+        att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results",
+        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles",
+        "NR_profiles", "cloudinfo","POLIPHON"
     '''
 
 #    inputfolder = input_folder(configfile)
@@ -52,7 +54,7 @@ def get_nc_filename(date, device, inputfolder, param=""):
     if path_exist.exists() == True:
         print(inputfolder)
         
-        file_searchpattern = f"{YYYY}_{MM}_{DD}_*[0-9]_{param}.nc"
+        file_searchpattern = f"{YYYY}_{MM}_{DD}_*[0-9]_{param}*.nc"
 
         res_file = Path(r'{}'.format(inputfolder)).glob('{}'.format(file_searchpattern))
         ## convert type path to type string
