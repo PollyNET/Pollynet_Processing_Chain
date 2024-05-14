@@ -240,6 +240,46 @@ def read_nc_file(nc_filename,):
 ####
 
 
+def calc_ANGEXP(nc_dict):
+    ## AE_beta_lambda1_lambda2(z) = - np.log(beta1(z)/beta2(z))/np.log(lambda1/lambda2)
+    ## AE_part.ext_lambda1_lambda2(z) = AE_beta_lambda1_lambda2(z) + AE_LR_lambda1_lambda2(z)
+    ## with AngstromExp for the Lidar Ratio LR: AE_LR_lambda1_lambda2(z) = - np.log(LR1(z)/LR2(z))/np.log(lambda1/lambda2)
+    ## lambda1 < lambda2
+
+
+    def compute_valid_log(X,Y):
+        # Compute X / Y while avoiding division by zero
+        with np.errstate(divide='ignore', invalid='ignore'):
+            ratio = np.ma.divide(X, Y)
+
+        # Mask out invalid values in the ratio (e.g., non-positive values)
+        invalid_mask = (ratio <= 0) | ratio.mask
+        ratio = np.ma.masked_array(ratio, mask=invalid_mask)
+
+        # Compute the natural logarithm of the valid values
+        log_ratio = np.ma.log(ratio)
+        return log_ratio
+
+    log_klett_355_532 = compute_valid_log(nc_dict['aerBsc_klett_355'],nc_dict['aerBsc_klett_532'])
+    log_klett_532_1064 = compute_valid_log(nc_dict['aerBsc_klett_532'],nc_dict['aerBsc_klett_1064'])
+    log_raman_355_532 = compute_valid_log(nc_dict['aerBsc_raman_355'],nc_dict['aerBsc_raman_532'])
+    log_raman_532_1064 = compute_valid_log(nc_dict['aerBsc_raman_532'],nc_dict['aerBsc_raman_1064'])
+    log_LR_355_532 = compute_valid_log(nc_dict['aerLR_raman_355'],nc_dict['aerLR_raman_532'])
+
+    AE_beta_355_532_Klett = (-1)*log_klett_355_532/np.log(355/532)
+    AE_beta_532_1064_Klett = (-1)*log_klett_532_1064/np.log(532/1064)
+    AE_beta_355_532_Raman = (-1)*log_raman_355_532/np.log(355/532)
+    AE_beta_532_1064_Raman = (-1)*log_raman_532_1064/np.log(532/1064)
+    AE_LR_355_532_Raman = (-1)*log_LR_355_532/np.log(355/532)
+    AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
+    nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
+    nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
+    nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
+    nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
+    nc_dict['AE_LR_355_532_Raman'] = AE_LR_355_532_Raman
+    nc_dict['AE_parExt_355_532_Raman'] = AE_parExt_355_532_Raman
+    return nc_dict
+
 
 #def read_nc_att(nc_filename):
 #    nc_dict={}

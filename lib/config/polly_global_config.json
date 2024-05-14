@@ -212,6 +212,7 @@
     "xLim_Profi_WVMR": [0, 50],
     "xLim_Profi_RCS": [0.3, 1000],
     "xLim_Profi_LR": [0, 120],
+    "xLim_Profi_AE": [-1,2],
     "xLim_beta_532_Poliphon": [0, 10],
     "yLim_beta_532_Poliphon": [0, 8000],
     "yLim_LC_355": [0, 1e14],

@@ -320,6 +320,7 @@ def main():
             print(f'plotting profiles to {outputfolder}')
             for profile in nc_profiles:
                 nc_dict_profile = readout.read_nc_file(profile)
+                nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
                 print(f"profile: {starttime} - {endtime}")
