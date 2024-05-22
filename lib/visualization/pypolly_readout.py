@@ -265,13 +265,15 @@ def calc_ANGEXP(nc_dict):
     log_raman_355_532 = compute_valid_log(nc_dict['aerBsc_raman_355'],nc_dict['aerBsc_raman_532'])
     log_raman_532_1064 = compute_valid_log(nc_dict['aerBsc_raman_532'],nc_dict['aerBsc_raman_1064'])
     log_LR_355_532 = compute_valid_log(nc_dict['aerLR_raman_355'],nc_dict['aerLR_raman_532'])
+    log_Ext_raman_355_532 = compute_valid_log(nc_dict['aerExt_raman_355'],nc_dict['aerExt_raman_532'])
 
-    AE_beta_355_532_Klett = (-1)*log_klett_355_532/np.log(355/532)
-    AE_beta_532_1064_Klett = (-1)*log_klett_532_1064/np.log(532/1064)
-    AE_beta_355_532_Raman = (-1)*log_raman_355_532/np.log(355/532)
-    AE_beta_532_1064_Raman = (-1)*log_raman_532_1064/np.log(532/1064)
-    AE_LR_355_532_Raman = (-1)*log_LR_355_532/np.log(355/532)
-    AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
+    AE_beta_355_532_Klett = log_klett_355_532/np.log(532/355)
+    AE_beta_532_1064_Klett = log_klett_532_1064/np.log(1064/532)
+    AE_beta_355_532_Raman = log_raman_355_532/np.log(532/355)
+    AE_beta_532_1064_Raman = log_raman_532_1064/np.log(1064/532)
+    AE_LR_355_532_Raman = log_LR_355_532/np.log(532/355)
+    #AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
+    AE_parExt_355_532_Raman = log_Ext_raman_355_532/np.log(532/355)
     nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
     nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
     nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
