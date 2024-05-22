@@ -538,13 +538,13 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     #ax.scatter(dt_list, data['ablh_stratf']['var'], color='#666', marker='D', s=lw, label='ABLH')
     #ax.scatter(dt_list, data['cbh_stratf']['var'], color='#111', marker='o', s=lw, label='CBH')
 
-    ax.scatter(dt_list,cbh_layer_list[0], color='#111', marker='o', s=lw, label='CBH')
-    ax.scatter(dt_list,cth_layer_list[0], color='#666', marker='D', s=lw, label='CTH')
+    ax.scatter(dt_list,cbh_layer_list[0]/1000, color='#111', marker='o', s=lw, label='CBH')
+    ax.scatter(dt_list,cth_layer_list[0]/1000, color='#666', marker='D', s=lw, label='CTH')
     ax.legend(loc=1)
     for layer in range(1,len(cbh_layer_list)):
-        ax.scatter(dt_list,cbh_layer_list[layer], color='#111', marker='o', s=lw, label='CBH')
+        ax.scatter(dt_list,cbh_layer_list[layer]/1000, color='#111', marker='o', s=lw, label='CBH')
     for layer in range(1,len(cth_layer_list)):
-        ax.scatter(dt_list,cth_layer_list[layer], color='#666', marker='D', s=lw, label='CTH')
+        ax.scatter(dt_list,cth_layer_list[layer]/1000, color='#666', marker='D', s=lw, label='CTH')
                 
                 
 

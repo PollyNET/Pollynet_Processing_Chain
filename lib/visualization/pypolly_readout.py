@@ -241,8 +241,8 @@ def read_nc_file(nc_filename,):
 
 
 def calc_ANGEXP(nc_dict):
-    ## AE_beta_lambda1_lambda2(z) = - np.log(beta1(z)/beta2(z))/np.log(lambda1/lambda2)
-    ## AE_part.ext_lambda1_lambda2(z) = AE_beta_lambda1_lambda2(z) + AE_LR_lambda1_lambda2(z)
+    ## AE_beta_lambda1_lambda2(z) = - np.log(beta1(z)/beta2(z))/np.log(lambda1/lambda2) = np.log(beta1(z)/beta2(z))/np.log(lambda2/lambda1)
+    ## AE_part.ext_lambda1_lambda2(z) = AE_beta_lambda1_lambda2(z) + AE_LR_lambda1_lambda2(z) = np.log(extinction1(z)/extinction2(z)/np.log(lambda2/lambda1)
     ## with AngstromExp for the Lidar Ratio LR: AE_LR_lambda1_lambda2(z) = - np.log(LR1(z)/LR2(z))/np.log(lambda1/lambda2)
     ## lambda1 < lambda2
 
@@ -274,12 +274,21 @@ def calc_ANGEXP(nc_dict):
     AE_LR_355_532_Raman = log_LR_355_532/np.log(532/355)
     #AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
     AE_parExt_355_532_Raman = log_Ext_raman_355_532/np.log(532/355)
-    nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
-    nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
-    nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
-    nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
-    nc_dict['AE_LR_355_532_Raman'] = AE_LR_355_532_Raman
-    nc_dict['AE_parExt_355_532_Raman'] = AE_parExt_355_532_Raman
+
+    ##using smoothing window
+    def smoothed_data(data,window_size):
+        window = np.ones(int(window_size))/float(window_size)
+        smoothed_data = np.convolve(data,window,'same')
+        return smoothed_data
+
+    window_size = 25
+
+    nc_dict['AE_beta_355_532_Klett'] = smoothed_data(data=AE_beta_355_532_Klett,window_size=window_size)
+    nc_dict['AE_beta_355_532_Raman'] = smoothed_data(data=AE_beta_355_532_Raman,window_size=window_size)
+    nc_dict['AE_beta_532_1064_Klett'] = smoothed_data(data=AE_beta_532_1064_Klett,window_size=window_size)
+    nc_dict['AE_beta_532_1064_Raman'] = smoothed_data(data=AE_beta_532_1064_Raman,window_size=window_size)
+    nc_dict['AE_LR_355_532_Raman'] = smoothed_data(data=AE_LR_355_532_Raman,window_size=window_size)
+    nc_dict['AE_parExt_355_532_Raman'] = smoothed_data(data=AE_parExt_355_532_Raman,window_size=window_size)
     return nc_dict
 
 

@@ -67,7 +67,7 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','target_class','wvmr_rh','quasi_results','profiles','overlap'],
+                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
