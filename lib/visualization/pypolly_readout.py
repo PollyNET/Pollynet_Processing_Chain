@@ -260,12 +260,27 @@ def calc_ANGEXP(nc_dict):
         log_ratio = np.ma.log(ratio)
         return log_ratio
 
-    log_klett_355_532 = compute_valid_log(nc_dict['aerBsc_klett_355'],nc_dict['aerBsc_klett_532'])
-    log_klett_532_1064 = compute_valid_log(nc_dict['aerBsc_klett_532'],nc_dict['aerBsc_klett_1064'])
-    log_raman_355_532 = compute_valid_log(nc_dict['aerBsc_raman_355'],nc_dict['aerBsc_raman_532'])
-    log_raman_532_1064 = compute_valid_log(nc_dict['aerBsc_raman_532'],nc_dict['aerBsc_raman_1064'])
-    log_LR_355_532 = compute_valid_log(nc_dict['aerLR_raman_355'],nc_dict['aerLR_raman_532'])
-    log_Ext_raman_355_532 = compute_valid_log(nc_dict['aerExt_raman_355'],nc_dict['aerExt_raman_532'])
+    ##using smoothing window function
+    def smoothed_data(data,window_size):
+        window = np.ones(int(window_size))/float(window_size)
+        smoothed_data = np.convolve(data,window,'same')
+        return smoothed_data
+
+    window_size = 25
+
+    log_klett_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size))
+    log_klett_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_1064'],window_size=window_size))
+    log_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size))
+    log_raman_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_1064'],window_size=window_size))
+    log_LR_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerLR_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerLR_raman_532'],window_size=window_size))
+    log_Ext_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerExt_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerExt_raman_532'],window_size=window_size))
+
+#    log_klett_355_532 = compute_valid_log(nc_dict['aerBsc_klett_355'],nc_dict['aerBsc_klett_532'])
+#    log_klett_532_1064 = compute_valid_log(nc_dict['aerBsc_klett_532'],nc_dict['aerBsc_klett_1064'])
+#    log_raman_355_532 = compute_valid_log(nc_dict['aerBsc_raman_355'],nc_dict['aerBsc_raman_532'])
+#    log_raman_532_1064 = compute_valid_log(nc_dict['aerBsc_raman_532'],nc_dict['aerBsc_raman_1064'])
+#    log_LR_355_532 = compute_valid_log(nc_dict['aerLR_raman_355'],nc_dict['aerLR_raman_532'])
+#    log_Ext_raman_355_532 = compute_valid_log(nc_dict['aerExt_raman_355'],nc_dict['aerExt_raman_532'])
 
     AE_beta_355_532_Klett = log_klett_355_532/np.log(532/355)
     AE_beta_532_1064_Klett = log_klett_532_1064/np.log(1064/532)
@@ -275,20 +290,20 @@ def calc_ANGEXP(nc_dict):
     #AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
     AE_parExt_355_532_Raman = log_Ext_raman_355_532/np.log(532/355)
 
-    ##using smoothing window
-    def smoothed_data(data,window_size):
-        window = np.ones(int(window_size))/float(window_size)
-        smoothed_data = np.convolve(data,window,'same')
-        return smoothed_data
 
-    window_size = 25
+    nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
+    nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
+    nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
+    nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
+    nc_dict['AE_LR_355_532_Raman'] = AE_LR_355_532_Raman
+    nc_dict['AE_parExt_355_532_Raman'] = AE_parExt_355_532_Raman
 
-    nc_dict['AE_beta_355_532_Klett'] = smoothed_data(data=AE_beta_355_532_Klett,window_size=window_size)
-    nc_dict['AE_beta_355_532_Raman'] = smoothed_data(data=AE_beta_355_532_Raman,window_size=window_size)
-    nc_dict['AE_beta_532_1064_Klett'] = smoothed_data(data=AE_beta_532_1064_Klett,window_size=window_size)
-    nc_dict['AE_beta_532_1064_Raman'] = smoothed_data(data=AE_beta_532_1064_Raman,window_size=window_size)
-    nc_dict['AE_LR_355_532_Raman'] = smoothed_data(data=AE_LR_355_532_Raman,window_size=window_size)
-    nc_dict['AE_parExt_355_532_Raman'] = smoothed_data(data=AE_parExt_355_532_Raman,window_size=window_size)
+#    nc_dict['AE_beta_355_532_Klett'] = smoothed_data(data=AE_beta_355_532_Klett,window_size=window_size)
+#    nc_dict['AE_beta_355_532_Raman'] = smoothed_data(data=AE_beta_355_532_Raman,window_size=window_size)
+#    nc_dict['AE_beta_532_1064_Klett'] = smoothed_data(data=AE_beta_532_1064_Klett,window_size=window_size)
+#    nc_dict['AE_beta_532_1064_Raman'] = smoothed_data(data=AE_beta_532_1064_Raman,window_size=window_size)
+#    nc_dict['AE_LR_355_532_Raman'] = smoothed_data(data=AE_LR_355_532_Raman,window_size=window_size)
+#    nc_dict['AE_parExt_355_532_Raman'] = smoothed_data(data=AE_parExt_355_532_Raman,window_size=window_size)
     return nc_dict
 
 
