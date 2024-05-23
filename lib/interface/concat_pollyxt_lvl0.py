@@ -11,6 +11,7 @@ from netCDF4 import Dataset
 from pathlib import Path
 import re
 import os
+import shutil
 import datetime as dt
 import sys
 import xarray
@@ -121,6 +122,8 @@ def get_pollyxt_files():
             print('no files found!')
             sys.exit()
 
+        # Ensure the destination directory exists
+        Path(output_path).mkdir(parents=True, exist_ok=True)
 
         polly_files_list = []
         to_unzip_list = []
@@ -150,13 +153,31 @@ def get_pollyxt_files():
                 to_unzip_list.append(zip_file)
         
         ## unzipping
+        date_pattern = str(YYYY)+'_'+str(MM)+'_'+str(DD)
         if len(to_unzip_list) > 0:
-            print("\nUnzipping...")
-            for zip_file in to_unzip_list:
-                with ZipFile(zip_file, 'r') as zip_ref:
-                    print("unzipping "+zip_file)
-                    zip_ref.extractall(output_path)
-    
+            ## if working remotly on windows, copy zipped files first, than unzip
+            if os_name.lower() == 'windows':
+                print("\nCopy zipped files to local drive...")
+                for zip_file in to_unzip_list:
+                    print(zip_file)
+                    shutil.copy2(Path(zip_file), Path(output_path) / Path(zip_file).name)
+                print("\nUnzipping...")
+                for zip_file in Path(output_path).iterdir():
+                    if zip_file.is_file() and date_pattern in zip_file.stem and zip_file.suffix == '.zip': 
+                        with ZipFile(zip_file, 'r') as zip_ref:
+                            print("unzipping "+str(zip_file))
+                            zip_ref.extractall(output_path)
+                        print("Removing .zip file...")
+                        os.remove(zip_file)
+
+            else:
+                print("\nUnzipping...")
+                for zip_file in to_unzip_list:
+                    with ZipFile(zip_file, 'r') as zip_ref:
+                        print("unzipping "+zip_file)
+                        zip_ref.extractall(output_path)
+   
+
         ## sort lists
         polly_files_list.sort()
 
