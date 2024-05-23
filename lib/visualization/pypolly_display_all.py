@@ -320,10 +320,10 @@ def main():
             print(f'plotting profiles to {outputfolder}')
             for profile in nc_profiles:
                 nc_dict_profile = readout.read_nc_file(profile)
-                nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
                 print(f"profile: {starttime} - {endtime}")
+                nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
                 for profilename in profile_translator.keys():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
@@ -332,6 +332,7 @@ def main():
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_NR['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile_NR['end_time'])).strftime('%H:%M')
                 print(f"NR-profile: {starttime} - {endtime}")
+                nc_dict_profile_NR = readout.calc_ANGEXP(nc_dict_profile_NR)
                 for profilename in NR_profile_translator.keys():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile_NR,NR_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
@@ -340,6 +341,7 @@ def main():
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_OC['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile_OC['end_time'])).strftime('%H:%M')
                 print(f"OC-profile: {starttime} - {endtime}")
+                nc_dict_profile_OC = readout.calc_ANGEXP(nc_dict_profile_OC)
                 for profilename in OC_profile_translator.keys():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile_OC,OC_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)

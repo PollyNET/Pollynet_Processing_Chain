@@ -248,6 +248,12 @@ def calc_ANGEXP(nc_dict):
 
 
     def compute_valid_log(X,Y):
+        ## simple way
+        #ratio = X/Y
+        #ratio[ratio < 0] = np.nan
+        #log_ratio = np.log(ratio)
+
+        ## pythonic way
         # Compute X / Y while avoiding division by zero
         with np.errstate(divide='ignore', invalid='ignore'):
             ratio = np.ma.divide(X, Y)
@@ -269,9 +275,11 @@ def calc_ANGEXP(nc_dict):
     window_size = 25
 
     log_klett_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size))
-    log_klett_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_1064'],window_size=window_size))
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        log_klett_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_1064'],window_size=window_size))
     log_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size))
-    log_raman_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_1064'],window_size=window_size))
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        log_raman_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_1064'],window_size=window_size))
     log_LR_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerLR_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerLR_raman_532'],window_size=window_size))
     log_Ext_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerExt_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerExt_raman_532'],window_size=window_size))
 
@@ -283,9 +291,11 @@ def calc_ANGEXP(nc_dict):
 #    log_Ext_raman_355_532 = compute_valid_log(nc_dict['aerExt_raman_355'],nc_dict['aerExt_raman_532'])
 
     AE_beta_355_532_Klett = log_klett_355_532/np.log(532/355)
-    AE_beta_532_1064_Klett = log_klett_532_1064/np.log(1064/532)
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        AE_beta_532_1064_Klett = log_klett_532_1064/np.log(1064/532)
     AE_beta_355_532_Raman = log_raman_355_532/np.log(532/355)
-    AE_beta_532_1064_Raman = log_raman_532_1064/np.log(1064/532)
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        AE_beta_532_1064_Raman = log_raman_532_1064/np.log(1064/532)
     AE_LR_355_532_Raman = log_LR_355_532/np.log(532/355)
     #AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
     AE_parExt_355_532_Raman = log_Ext_raman_355_532/np.log(532/355)
@@ -293,8 +303,10 @@ def calc_ANGEXP(nc_dict):
 
     nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
     nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
-    nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
-    nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
     nc_dict['AE_LR_355_532_Raman'] = AE_LR_355_532_Raman
     nc_dict['AE_parExt_355_532_Raman'] = AE_parExt_355_532_Raman
 

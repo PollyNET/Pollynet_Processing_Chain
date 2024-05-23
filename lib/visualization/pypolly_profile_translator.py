@@ -218,7 +218,7 @@ def profile_translator_function():
 def NR_profile_translator_function():
     ## NR_profile_translator
     
-    profilename_ls = ['Bsc_Klett_NR','Bsc_Raman_NR','Ext_Raman_NR','LR_Raman_NR']
+    profilename_ls = ['Bsc_Klett_NR','Bsc_Raman_NR','Ext_Raman_NR','LR_Raman_NR','AE_Klett_NR','AE_Raman_NR']
     profile_dict_key_ls = profile_dict_keys()
     
     ## initiate dict
@@ -280,12 +280,38 @@ def NR_profile_translator_function():
     profile_translator['LR_Raman_NR']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman_NR']['plot_filename'] = 'LR_Raman_NR'
 
+    ## AE_Klett_NR
+    profile_translator['AE_Klett_NR']['method'] = 'Klett' 
+    profile_translator['AE_Klett_NR']['misc'] = ''
+    profile_translator['AE_Klett_NR']['var_name_ls'] = ['AE_beta_355_532_Klett']                        
+    profile_translator['AE_Klett_NR']['var_err_name_ls'] = ['']
+    profile_translator['AE_Klett_NR']['var_color_ls'] = ['orange']
+    profile_translator['AE_Klett_NR']['var_style_ls'] = ['-']
+    profile_translator['AE_Klett_NR']['scaling_factor'] = 1
+    profile_translator['AE_Klett_NR']['xlim_name'] = 'xLim_Profi_AE'
+    profile_translator['AE_Klett_NR']['ylim_name'] = 'yLim_NR_RCS'
+    profile_translator['AE_Klett_NR']['x_label'] = 'Angstroem Exponent'
+    profile_translator['AE_Klett_NR']['plot_filename'] = 'AE_Klett_NR'
+
+    ## AE_Raman_NR
+    profile_translator['AE_Raman_NR']['method'] = 'Raman' 
+    profile_translator['AE_Raman_NR']['misc'] = ''
+    profile_translator['AE_Raman_NR']['var_name_ls'] = ['AE_beta_355_532_Raman','AE_parExt_355_532_Raman'] 
+    profile_translator['AE_Raman_NR']['var_err_name_ls'] = ['']
+    profile_translator['AE_Raman_NR']['var_color_ls'] = ['orange','black']
+    profile_translator['AE_Raman_NR']['var_style_ls'] = ['-','-']
+    profile_translator['AE_Raman_NR']['scaling_factor'] = 1
+    profile_translator['AE_Raman_NR']['xlim_name'] = 'xLim_Profi_AE'
+    profile_translator['AE_Raman_NR']['ylim_name'] = 'yLim_NR_RCS'
+    profile_translator['AE_Raman_NR']['x_label'] = 'Angstroem Exponent'
+    profile_translator['AE_Raman_NR']['plot_filename'] = 'AE_Raman_NR'
+
     return profile_translator
 
 def OC_profile_translator_function():
     ## OC_profile_translator
     
-    profilename_ls = ['Bsc_Klett_OC','Bsc_Raman_OC','DepRatio_Klett_OC','DepRatio_Raman_OC','Ext_Raman_OC','LR_Raman_OC']
+    profilename_ls = ['Bsc_Klett_OC','Bsc_Raman_OC','DepRatio_Klett_OC','DepRatio_Raman_OC','Ext_Raman_OC','LR_Raman_OC','AE_Klett_OC','AE_Raman_OC']
 
     profile_dict_key_ls = profile_dict_keys()
 
@@ -309,7 +335,7 @@ def OC_profile_translator_function():
     profile_translator['Bsc_Klett_OC']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Klett_OC']['plot_filename'] = 'OC_Bsc_Klett'
 
-    ## Bsc_Raman
+    ## Bsc_Raman_OC
     profile_translator['Bsc_Raman_OC']['method'] = 'Raman'
     profile_translator['Bsc_Raman_OC']['misc'] = ''
     profile_translator['Bsc_Raman_OC']['var_name_ls'] = ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064']                        
@@ -322,7 +348,7 @@ def OC_profile_translator_function():
     profile_translator['Bsc_Raman_OC']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Raman_OC']['plot_filename'] = 'OC_Bsc_Raman'
 
-    ## DepRatio_Klett
+    ## DepRatio_Klett_OC
     profile_translator['DepRatio_Klett_OC']['method'] = 'Klett'
     profile_translator['DepRatio_Klett_OC']['misc'] = ''
     profile_translator['DepRatio_Klett_OC']['var_name_ls'] = ['volDepol_klett_355','volDepol_klett_532',\
@@ -336,7 +362,7 @@ def OC_profile_translator_function():
     profile_translator['DepRatio_Klett_OC']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Klett_OC']['plot_filename'] = 'OC_DepRatio_Klett'
 
-    ## DepRatio_Raman
+    ## DepRatio_Raman_OC
     profile_translator['DepRatio_Raman_OC']['method'] = 'Raman'
     profile_translator['DepRatio_Raman_OC']['misc'] = ''
     profile_translator['DepRatio_Raman_OC']['var_name_ls'] = ['volDepol_raman_355','volDepol_raman_532',\
@@ -350,7 +376,7 @@ def OC_profile_translator_function():
     profile_translator['DepRatio_Raman_OC']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Raman_OC']['plot_filename'] = 'OC_DepRatio_Raman'
 
-    ## Ext_Raman
+    ## Ext_Raman_OC
     profile_translator['Ext_Raman_OC']['method'] = 'Raman'
     profile_translator['Ext_Raman_OC']['misc'] = ''
     profile_translator['Ext_Raman_OC']['var_name_ls'] = ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064']                        
@@ -363,7 +389,7 @@ def OC_profile_translator_function():
     profile_translator['Ext_Raman_OC']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
     profile_translator['Ext_Raman_OC']['plot_filename'] = 'OC_Ext_Raman'
 
-    ## LR_Raman
+    ## LR_Raman_OC
     profile_translator['LR_Raman_OC']['method'] = 'Raman'
     profile_translator['LR_Raman_OC']['misc'] = ''
     profile_translator['LR_Raman_OC']['var_name_ls'] = ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064']                        
@@ -375,6 +401,32 @@ def OC_profile_translator_function():
     profile_translator['LR_Raman_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['LR_Raman_OC']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman_OC']['plot_filename'] = 'OC_LR_Raman'
+
+    ## AE_Klett_OC
+    profile_translator['AE_Klett_OC']['method'] = 'Klett' 
+    profile_translator['AE_Klett_OC']['misc'] = ''
+    profile_translator['AE_Klett_OC']['var_name_ls'] = ['AE_beta_355_532_Klett','AE_beta_532_1064_Klett']                        
+    profile_translator['AE_Klett_OC']['var_err_name_ls'] = ['']
+    profile_translator['AE_Klett_OC']['var_color_ls'] = ['orange','magenta']
+    profile_translator['AE_Klett_OC']['var_style_ls'] = ['-','-']
+    profile_translator['AE_Klett_OC']['scaling_factor'] = 1
+    profile_translator['AE_Klett_OC']['xlim_name'] = 'xLim_Profi_AE'
+    profile_translator['AE_Klett_OC']['ylim_name'] = 'yLim_Profi_LR'
+    profile_translator['AE_Klett_OC']['x_label'] = 'Angstroem Exponent'
+    profile_translator['AE_Klett_OC']['plot_filename'] = 'AE_Klett_OC'
+
+    ## AE_Raman_OC
+    profile_translator['AE_Raman_OC']['method'] = 'Raman' 
+    profile_translator['AE_Raman_OC']['misc'] = ''
+    profile_translator['AE_Raman_OC']['var_name_ls'] = ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman']                        
+    profile_translator['AE_Raman_OC']['var_err_name_ls'] = ['']
+    profile_translator['AE_Raman_OC']['var_color_ls'] = ['orange','magenta','black']
+    profile_translator['AE_Raman_OC']['var_style_ls'] = ['-','-','-']
+    profile_translator['AE_Raman_OC']['scaling_factor'] = 1
+    profile_translator['AE_Raman_OC']['xlim_name'] = 'xLim_Profi_AE'
+    profile_translator['AE_Raman_OC']['ylim_name'] = 'yLim_Profi_LR'
+    profile_translator['AE_Raman_OC']['x_label'] = 'Angstroem Exponent'
+    profile_translator['AE_Raman_OC']['plot_filename'] = 'AE_Raman_OC'
 
     return profile_translator
 
