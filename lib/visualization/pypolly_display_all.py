@@ -174,6 +174,9 @@ def main():
         #outputfolder = config_dict['pic_folder']
 ### be careful to choose correct input/output folders !!!
 
+    donefilelist_dict = {}
+
+
     print('retrievals to plot: '+ str(args.retrieval))
 
     if ('all' in args.retrieval) or ('cloudinfo' in args.retrieval):
@@ -184,6 +187,7 @@ def main():
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_1064nm + cloudinfo:')
                 display_ATT.pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064)
+                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=1064,product_type='Cloudinfo')
         except Exception as e:
              print("An error occurred:", e)
 
@@ -196,8 +200,10 @@ def main():
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_355nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='FR')
+                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=355,product_type='ATT_BETA_355')
                 print('plotting ATT_BETA_532nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='FR')
+                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=532,product_type='ATT_BETA_532')
                 print('plotting ATT_BETA_1064nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='FR')
         except Exception as e:
@@ -366,9 +372,10 @@ def main():
             display_OL.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder)
 
 
-    ## add plotted files to donefilelist
+    ## add plotted files to donefile
     try:
-        readout.write2donfilelist(date=date,device=device,picassoconfigfile_dict=config_dict)
+        print('Write image files to donefile...')
+        readout.write2donefile(picassoconfigfile_dict=config_dict,donefilelist_dict=donefilelist_dict)
     except Exception as e:
         print(f"An unexpected error occurred: {e}")
 

@@ -888,9 +888,18 @@ def read_nc_overlap(nc_filename):
 
     return nc_dict
 
+def write2donefilelist_dict(donefilelist_dict,lidar,location,wavelength,product_type):
+    import uuid
+    uuid = uuid.uuid4()
+    donefilelist_dict[uuid] = {}
+    donefilelist_dict[uuid]['lidar'] = lidar
+    donefilelist_dict[uuid]['location'] = location
+    donefilelist_dict[uuid]['lambda'] = wavelength
+    donefilelist_dict[uuid]['product_type'] = product_type
 
+    return donefilelist_dict
 
-def write2donfilelist(date,device,picassoconfigfile_dict):
+def write2donefile(picassoconfigfile_dict,donefilelist_dict):
 
     ## Entry for donefilelist
     #
@@ -918,9 +927,12 @@ def write2donfilelist(date,device,picassoconfigfile_dict):
     donefile = picassoconfigfile_dict['doneListFile']
 
     with open(donefile, 'a') as file:
-        file.write(f'lidar={device}\n')
-        file.write(f'location=Unknown\n')
-        file.write(f'------\n')
+        for key in donefilelist_dict.keys():
+            file.write(f'lidar={donefilelist_dict[key]["lidar"]}\n')
+            file.write(f'location={donefilelist_dict[key]["location"]}\n')
+            file.write(f'lambda={donefilelist_dict[key]["lambda"]}\n')
+            file.write(f'product_type={donefilelist_dict[key]["product_type"]}\n')
+            file.write(f'------\n')
     
     return None
 
