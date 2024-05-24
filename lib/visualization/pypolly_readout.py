@@ -889,3 +889,38 @@ def read_nc_overlap(nc_filename):
     return nc_dict
 
 
+
+def write2donfilelist(date,device,picassoconfigfile_dict):
+
+    ## Entry for donefilelist
+    #
+    #lidar=arielle
+    #location=Arctic
+    #starttime=20191108 00:00:00
+    #stoptime=20191108 23:59:30
+    #last_update=20191108 00:00:03
+    #lambda=355
+    #image=experimental/arielle/2019/11/08/2019_11_08_Fri_ARI_00_00_03_monitor.png
+    #level=0
+    #info=data based on laserlogbook.
+    #nc_zip_file=2019_11_08_Fri_ARI_00_00_03.nc.zip
+    #nc_zip_file_size=953235115
+    #active=1
+    #GDAS=1
+    #GDAS_timestamp=20191108 12:00:00
+    #lidar_ratio=50
+    #software_version=3.5
+    #product_type=monitor
+    #product_starttime=20191108 00:00:00
+    #product_stoptime=20191108 23:59:30
+    #------
+
+    donefile = picassoconfigfile_dict['doneListFile']
+
+    with open(donefile, 'a') as file:
+        file.write(f'lidar={device}\n')
+        file.write(f'location=Unknown\n')
+        file.write(f'------\n')
+    
+    return None
+

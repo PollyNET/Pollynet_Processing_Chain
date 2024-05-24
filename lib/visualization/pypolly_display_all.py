@@ -366,6 +366,13 @@ def main():
             display_OL.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder)
 
 
+    ## add plotted files to donefilelist
+    try:
+        readout.write2donfilelist(date=date,device=device,picassoconfigfile_dict=config_dict)
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
+
+
     ## measure computing time
     elapsed_time = time.process_time() - t0
 #    print(elapsed_time)
