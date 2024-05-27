@@ -72,6 +72,7 @@ def profile_translator_function():
     profile_translator['DepRatio_Klett']['ylim_name'] = 'yLim_Profi_DR'
     profile_translator['DepRatio_Klett']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Klett']['plot_filename'] = 'DepRatio_Klett'
+    profile_translator['DepRatio_Klett']['product_type'] = 'DepRatio_Klett'
 
     ## DepRatio_Raman
     profile_translator['DepRatio_Raman']['method'] = 'Raman'
@@ -86,6 +87,7 @@ def profile_translator_function():
     profile_translator['DepRatio_Raman']['ylim_name'] = 'yLim_Profi_DR'
     profile_translator['DepRatio_Raman']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Raman']['plot_filename'] = 'DepRatio_Raman'
+    profile_translator['DepRatio_Raman']['product_type'] = 'DepRatio_Raman'
 
     ## Ext_Raman
     profile_translator['Ext_Raman']['method'] = 'Raman'
@@ -99,6 +101,7 @@ def profile_translator_function():
     profile_translator['Ext_Raman']['ylim_name'] = 'yLim_Profi_Ext'
     profile_translator['Ext_Raman']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
     profile_translator['Ext_Raman']['plot_filename'] = 'Ext_Raman'
+    profile_translator['Ext_Raman']['product_type'] = 'Ext_Raman'
 
     ## Ext_RR
     profile_translator['Ext_RR']['method'] = 'RR'
@@ -112,6 +115,7 @@ def profile_translator_function():
     profile_translator['Ext_RR']['ylim_name'] = 'yLim_Profi_Ext'
     profile_translator['Ext_RR']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
     profile_translator['Ext_RR']['plot_filename'] = 'Ext_RR'
+    profile_translator['Ext_RR']['product_type'] = 'Ext_RR'
 
     ## LR_Raman
     profile_translator['LR_Raman']['method'] = 'Raman'
@@ -125,6 +129,7 @@ def profile_translator_function():
     profile_translator['LR_Raman']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['LR_Raman']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman']['plot_filename'] = 'LR_Raman'
+    profile_translator['LR_Raman']['plot_filename'] = 'LR'
 
     ## LR_RR
     profile_translator['LR_RR']['method'] = 'RR'
@@ -138,6 +143,7 @@ def profile_translator_function():
     profile_translator['LR_RR']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['LR_RR']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_RR']['plot_filename'] = 'LR_RR'
+    profile_translator['LR_RR']['product_type'] = 'LR_RR'
 
     ## WVMR
     profile_translator['WVMR']['method'] = '-'                        
@@ -151,6 +157,7 @@ def profile_translator_function():
     profile_translator['WVMR']['ylim_name'] = 'yLim_Profi_WV_RH'
     profile_translator['WVMR']['x_label'] = 'Water Vapor Mixing Ratio [$g*kg^{-1}$]'
     profile_translator['WVMR']['plot_filename'] = 'WVMR'
+    profile_translator['WVMR']['product_type'] = 'WVMR_av'
 
     ## RH
     profile_translator['RH']['method'] = '-'                        
@@ -164,6 +171,7 @@ def profile_translator_function():
     profile_translator['RH']['ylim_name'] = 'yLim_Profi_WV_RH'
     profile_translator['RH']['x_label'] = 'Relative Humidity [%]'
     profile_translator['RH']['plot_filename'] = 'RH'
+    profile_translator['RH']['product_type'] = 'RH_av'
 
     ## Meteor_T 
     profile_translator['Meteor_T']['method'] = '-'                        
@@ -177,6 +185,7 @@ def profile_translator_function():
     profile_translator['Meteor_T']['ylim_name'] = None
     profile_translator['Meteor_T']['x_label'] = 'Temperature [°C]'
     profile_translator['Meteor_T']['plot_filename'] = 'Meteor_T'
+    profile_translator['Meteor_T']['product_type'] = 'Meteor_T'
 
     ## Meteor_P 
     profile_translator['Meteor_P']['method'] = '-'                        
@@ -190,6 +199,7 @@ def profile_translator_function():
     profile_translator['Meteor_P']['ylim_name'] = None
     profile_translator['Meteor_P']['x_label'] = 'Pressure [hPa]'
     profile_translator['Meteor_P']['plot_filename'] = 'Meteor_P'
+    profile_translator['Meteor_P']['product_type'] = 'Meteor_P'
 
     ## AE_Klett
     profile_translator['AE_Klett']['method'] = 'Klett' 
@@ -203,6 +213,7 @@ def profile_translator_function():
     profile_translator['AE_Klett']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Klett']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Klett']['plot_filename'] = 'AE_Klett'
+    profile_translator['AE_Klett']['product_type'] = 'ANGEXP_Klett'
 
     ## AE_Raman
     profile_translator['AE_Raman']['method'] = 'Raman' 
@@ -216,6 +227,7 @@ def profile_translator_function():
     profile_translator['AE_Raman']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Raman']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Raman']['plot_filename'] = 'AE_Raman'
+    profile_translator['AE_Raman']['product_type'] = 'ANGEXP_Raman'
 
     return profile_translator
 
@@ -272,6 +284,7 @@ def NR_profile_translator_function():
     profile_translator['Ext_Raman_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['Ext_Raman_NR']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
     profile_translator['Ext_Raman_NR']['plot_filename'] = 'Ext_Raman_NR'
+    profile_translator['Ext_Raman_NR']['product_type'] = 'Ext_Raman_NR'
 
     ## LR_Raman_NR
     profile_translator['LR_Raman_NR']['method'] = 'Raman'
@@ -285,6 +298,7 @@ def NR_profile_translator_function():
     profile_translator['LR_Raman_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['LR_Raman_NR']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman_NR']['plot_filename'] = 'LR_Raman_NR'
+    profile_translator['LR_Raman_NR']['product_type'] = 'LR_NR'
 
     ## AE_Klett_NR
     profile_translator['AE_Klett_NR']['method'] = 'Klett' 
@@ -298,6 +312,7 @@ def NR_profile_translator_function():
     profile_translator['AE_Klett_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['AE_Klett_NR']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Klett_NR']['plot_filename'] = 'AE_Klett_NR'
+    profile_translator['AE_Klett_NR']['product_type'] = 'ANGEXP_Klett_NR'
 
     ## AE_Raman_NR
     profile_translator['AE_Raman_NR']['method'] = 'Raman' 
@@ -311,6 +326,7 @@ def NR_profile_translator_function():
     profile_translator['AE_Raman_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['AE_Raman_NR']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Raman_NR']['plot_filename'] = 'AE_Raman_NR'
+    profile_translator['AE_Raman_NR']['product_type'] = 'ANGEXP_Raman_NR'
 
     return profile_translator
 
@@ -340,6 +356,7 @@ def OC_profile_translator_function():
     profile_translator['Bsc_Klett_OC']['ylim_name'] = 'yLim_Profi_Bsc'
     profile_translator['Bsc_Klett_OC']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Klett_OC']['plot_filename'] = 'OC_Bsc_Klett'
+    profile_translator['Bsc_Klett_OC']['product_type'] = 'Bsc_Klett_OC'
 
     ## Bsc_Raman_OC
     profile_translator['Bsc_Raman_OC']['method'] = 'Raman'
@@ -353,6 +370,7 @@ def OC_profile_translator_function():
     profile_translator['Bsc_Raman_OC']['ylim_name'] = 'yLim_Profi_Bsc'
     profile_translator['Bsc_Raman_OC']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Raman_OC']['plot_filename'] = 'OC_Bsc_Raman'
+    profile_translator['Bsc_Raman_OC']['product_type'] = 'Bsc_Raman_OC'
 
     ## DepRatio_Klett_OC
     profile_translator['DepRatio_Klett_OC']['method'] = 'Klett'
@@ -367,6 +385,7 @@ def OC_profile_translator_function():
     profile_translator['DepRatio_Klett_OC']['ylim_name'] = 'yLim_Profi_DR'
     profile_translator['DepRatio_Klett_OC']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Klett_OC']['plot_filename'] = 'OC_DepRatio_Klett'
+    profile_translator['DepRatio_Klett_OC']['product_type'] = 'DepRatio_Klett_OC'
 
     ## DepRatio_Raman_OC
     profile_translator['DepRatio_Raman_OC']['method'] = 'Raman'
@@ -381,6 +400,7 @@ def OC_profile_translator_function():
     profile_translator['DepRatio_Raman_OC']['ylim_name'] = 'yLim_Profi_DR'
     profile_translator['DepRatio_Raman_OC']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Raman_OC']['plot_filename'] = 'OC_DepRatio_Raman'
+    profile_translator['DepRatio_Raman_OC']['product_type'] = 'DepRatio_Raman_OC'
 
     ## Ext_Raman_OC
     profile_translator['Ext_Raman_OC']['method'] = 'Raman'
@@ -394,6 +414,7 @@ def OC_profile_translator_function():
     profile_translator['Ext_Raman_OC']['ylim_name'] = 'yLim_Profi_Ext'
     profile_translator['Ext_Raman_OC']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
     profile_translator['Ext_Raman_OC']['plot_filename'] = 'OC_Ext_Raman'
+    profile_translator['Ext_Raman_OC']['product_type'] = 'Ext_Raman_OC'
 
     ## LR_Raman_OC
     profile_translator['LR_Raman_OC']['method'] = 'Raman'
@@ -407,6 +428,7 @@ def OC_profile_translator_function():
     profile_translator['LR_Raman_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['LR_Raman_OC']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman_OC']['plot_filename'] = 'OC_LR_Raman'
+    profile_translator['LR_Raman_OC']['product_type'] = 'LR_OC'
 
     ## AE_Klett_OC
     profile_translator['AE_Klett_OC']['method'] = 'Klett' 
@@ -420,6 +442,7 @@ def OC_profile_translator_function():
     profile_translator['AE_Klett_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Klett_OC']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Klett_OC']['plot_filename'] = 'AE_Klett_OC'
+    profile_translator['AE_Klett_OC']['product_type'] = 'ANGEXP_Klett_OC'
 
     ## AE_Raman_OC
     profile_translator['AE_Raman_OC']['method'] = 'Raman' 
@@ -433,6 +456,7 @@ def OC_profile_translator_function():
     profile_translator['AE_Raman_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Raman_OC']['x_label'] = 'Angstroem Exponent'
     profile_translator['AE_Raman_OC']['plot_filename'] = 'AE_Raman_OC'
+    profile_translator['AE_Raman_OC']['product_type'] = 'ANGEXP_Raman_OC'
 
     return profile_translator
 
@@ -463,6 +487,7 @@ def POLIPHON_profile_translator_function():
     profile_translator['POLIPHON_Bsc_Klett']['ylim_name'] = 'yLim_beta_532_Poliphon'
     profile_translator['POLIPHON_Bsc_Klett']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['POLIPHON_Bsc_Klett']['plot_filename'] = 'Bsc_Klett_POLIPHON_1'
+    profile_translator['POLIPHON_Bsc_Klett']['product_type'] = 'POLIPHON_step1_Klett'
 
     ## Bsc_Raman
     profile_translator['POLIPHON_Bsc_Raman']['method'] = 'Raman'
@@ -476,6 +501,7 @@ def POLIPHON_profile_translator_function():
     profile_translator['POLIPHON_Bsc_Raman']['ylim_name'] = 'yLim_beta_532_Poliphon'
     profile_translator['POLIPHON_Bsc_Raman']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['POLIPHON_Bsc_Raman']['plot_filename'] = 'Bsc_Raman_POLIPHON_1'
+    profile_translator['POLIPHON_Bsc_Raman']['product_type'] = 'POLIPHON_step1_Raman'
 
     return profile_translator
 
