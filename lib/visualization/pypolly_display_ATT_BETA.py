@@ -105,6 +105,10 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
         plotfile = f'{dataFilename}_ATT_BETA_OC_{wavelength}.{imgFormat}'
         plotfile_SNR = f'{dataFilename}_ATT_BETA_OC_{wavelength}_SNR.{imgFormat}'
 
+    saveFilename = os.path.join(saveFolder,plotfile)
+    saveFilename_SNR = os.path.join(saveFolder,plotfile_SNR)
+
+
     ## fill time gaps in att_bsc matrix
     ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
     
@@ -237,14 +241,34 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
             method=flagLC),
         fontsize=12)
 
-    fig.savefig(
-        os.path.join(
-            saveFolder,
-            plotfile),
-        dpi=figDPI)
+    fig.savefig(saveFilename,dpi=figDPI)
 
     plt.close()
 
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = wavelength,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = f"ATT_BETA plots for {param}",
+                                    nc_zip_file = nc_dict['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = f'ATT_BETA_{param}',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
+    
 
     ## plotting SNR
     if param == 'FR' or param == 'NR':
@@ -355,14 +379,32 @@ def pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, saveFolder, w
                 method=flagLC),
             fontsize=12)
     
-        fig.savefig(
-            os.path.join(
-                saveFolder,
-                plotfile_SNR),
-            dpi=figDPI)
+        fig.savefig(saveFilename_SNR,dpi=figDPI)
     
         plt.close()
 
+        ## write2donefilelist
+        readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                        lidar = pollyVersion,
+                                        location = nc_dict['location'],
+                                        starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                        wavelength = wavelength,
+                                        filename = saveFilename_SNR,
+                                        level = 0,
+                                        info = f"ATT_BETA plots for {param}",
+                                        nc_zip_file = nc_dict['PollyDataFile'],
+                                        nc_zip_file_size = 9000000,
+                                        active = 1,
+                                        GDAS = 0,
+                                        GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                        lidar_ratio = 50,
+                                        software_version = version,
+                                        product_type = f'SNR_{param}_{wavelength}',
+                                        product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                        )
 
 
 
