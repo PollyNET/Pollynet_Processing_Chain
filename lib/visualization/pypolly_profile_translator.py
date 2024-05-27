@@ -1,5 +1,6 @@
 def profile_dict_keys():
-    profile_dict_key_ls = ['method','misc', 'var_name_ls','var_err_name_ls','var_color_ls','var_style_ls','scaling_factor','xlim_name','ylim_name','x_label','plot_filename']
+    profile_dict_key_ls = ['method','misc', 'var_name_ls','var_err_name_ls','var_color_ls','var_style_ls','scaling_factor','xlim_name','ylim_name','x_label','plot_filename',
+                          'product_type']
     return profile_dict_key_ls
 
 def profile_translator_function():
@@ -28,6 +29,7 @@ def profile_translator_function():
     profile_translator['Bsc_Klett']['ylim_name'] = 'yLim_Profi_Bsc'
     profile_translator['Bsc_Klett']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Klett']['plot_filename'] = 'Bsc_Klett'
+    profile_translator['Bsc_Klett']['product_type'] = 'Bsc_Klett'
 
     ## Bsc_Raman
     profile_translator['Bsc_Raman']['method'] = 'Raman'
@@ -41,6 +43,7 @@ def profile_translator_function():
     profile_translator['Bsc_Raman']['ylim_name'] = 'yLim_Profi_Bsc'
     profile_translator['Bsc_Raman']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Raman']['plot_filename'] = 'Bsc_Raman'
+    profile_translator['Bsc_Raman']['product_type'] = 'Bsc_Raman'
 
     ## Bsc_RR
     profile_translator['Bsc_RR']['method'] = 'RR'
@@ -54,6 +57,7 @@ def profile_translator_function():
     profile_translator['Bsc_RR']['ylim_name'] = 'yLim_Profi_Bsc'
     profile_translator['Bsc_RR']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_RR']['plot_filename'] = 'Bsc_RR'
+    profile_translator['Bsc_RR']['product_type'] = 'Bsc_RR'
 
     ## DepRatio_Klett
     profile_translator['DepRatio_Klett']['method'] = 'Klett'
@@ -240,6 +244,7 @@ def NR_profile_translator_function():
     profile_translator['Bsc_Klett_NR']['ylim_name'] = 'yLim_att_beta_NR'
     profile_translator['Bsc_Klett_NR']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Klett_NR']['plot_filename'] = 'Bsc_Klett_NR'
+    profile_translator['Bsc_Klett_NR']['product_type'] = 'Bsc_Klett_NR'
 
     ## Bsc_Raman_NR
     profile_translator['Bsc_Raman_NR']['method'] = 'Raman'
@@ -253,6 +258,7 @@ def NR_profile_translator_function():
     profile_translator['Bsc_Raman_NR']['ylim_name'] = 'yLim_att_beta_NR'
     profile_translator['Bsc_Raman_NR']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
     profile_translator['Bsc_Raman_NR']['plot_filename'] = 'Bsc_Raman_NR'
+    profile_translator['Bsc_Raman_NR']['product_type'] = 'Bsc_Raman_NR'
 
     ## Ext_Raman_NR
     profile_translator['Ext_Raman_NR']['method'] = 'Raman'

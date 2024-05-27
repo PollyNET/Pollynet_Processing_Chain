@@ -10,7 +10,7 @@ import sys
 import time
 import scipy.io as spio
 import numpy as np
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import matplotlib
 import json
 from pathlib import Path
@@ -183,15 +183,29 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     plt.close()
 
     ## write2donefilelist
-    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
-                                    lidar = pollyVersion,
-                                    location = nc_dict_profile['location'],
-                                    starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M'),
-                                    stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M'),
-                                    wavelength = 355,
-                                    filename = saveFilename,
-                                    product_type = profile_translator[profilename]['plot_filename'])
-
+    if profile_translator[profilename]['product_type'] != '':
+        readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                        lidar = pollyVersion,
+                                        location = nc_dict_profile['location'],
+                                        starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                        wavelength = 355,
+                                        filename = saveFilename,
+                                        level = 0,
+                                        info = f"profile from {profile_translator[profilename]['product_type']}",
+                                        nc_zip_file = nc_dict_profile['PollyDataFile'],
+                                        nc_zip_file_size = 9000000,
+                                        active = 1,
+                                        GDAS = 0,
+                                        GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                        lidar_ratio = 50,
+                                        software_version = version,
+                                        product_type = profile_translator[profilename]['product_type'],
+                                        product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                        product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                        )
+    
 
 #def pollyDisplayWVMR_profile(nc_dict_profile,config_dict,polly_conf_dict,outdir):
 #    """

@@ -62,7 +62,7 @@ my_parser.add_argument('--polly_config_file', dest='polly_config_file', metavar=
                        type=str,
                        help='the json-type polly-config-file for the specific device at specific time, originally grepped from the xlsx-file. if this parameter is set, no grep from xlsx file will be performed.')
 my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
-                       default="none",
+                       default="read_from_picasso_config",
                        type=str,
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
@@ -169,21 +169,17 @@ def main():
     date = args.timestamp
     device = args.device
 
-### be careful to choose correct input/output folders !!!
     inputfolder = config_dict['results_folder']
     outputfolder = args.outdir
-    if outputfolder == 'none':
-        outputfolder = '.'
+    YYYY = date[0:4]
+    MM = date[4:6]
+    DD = date[6:8]
+    if outputfolder == 'read_from_picasso_config':
+        outputfolder = Path(config_dict['pic_folder'],device,YYYY,MM,DD)
     else:
-        YYYY = date[0:4]
-        MM = date[4:6]
-        DD = date[6:8]
-#        outputfolder = f"{args.outdir}/{device}/{YYYY}/{MM}/{DD}"
         outputfolder = Path(args.outdir,device,YYYY,MM,DD)
-        #creating a new directory if not existing
-        Path(outputfolder).mkdir(parents=True, exist_ok=True)
-        #outputfolder = config_dict['pic_folder']
-### be careful to choose correct input/output folders !!!
+    #creating a new directory if not existing
+    Path(outputfolder).mkdir(parents=True, exist_ok=True)
 
     donefilelist_dict = {}
 

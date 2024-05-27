@@ -909,37 +909,33 @@ def write2donefilelist_dict(donefilelist_dict='',
                             product_starttime='',
                             product_stoptime=''
                             ):
-#    import uuid
-#    uuid = uuid.uuid4()
+
+    filenamepath_cropped = Path(filename).parent.parts
+    filenamepath_cropped = Path(*filenamepath_cropped[-5:])
+
+
     ## initialize dict
     donefilelist_dict[filename] = {}
-    donefilelist_dict[filename]['lidar'] = ''
-    donefilelist_dict[filename]['location'] = ''
-    donefilelist_dict[filename]['starttime'] = ''
-    donefilelist_dict[filename]['stoptime'] = ''
-    donefilelist_dict[filename]['last_update'] = ''
-    donefilelist_dict[filename]['lambda'] = ''
-    donefilelist_dict[filename]['image'] = ''
-    donefilelist_dict[filename]['level'] = ''
-    donefilelist_dict[filename]['info'] = ''
-    donefilelist_dict[filename]['nc_zip_file'] = ''
-    donefilelist_dict[filename]['nc_zip_file_size'] = ''
-    donefilelist_dict[filename]['active'] = ''
-    donefilelist_dict[filename]['GDAS'] = ''
-    donefilelist_dict[filename]['GDAS_timestamp'] = ''
-    donefilelist_dict[filename]['lidar_ratio'] = ''
-    donefilelist_dict[filename]['software_version'] = ''
-    donefilelist_dict[filename]['product_type'] = ''
-    donefilelist_dict[filename]['product_starttime'] = ''
-    donefilelist_dict[filename]['product_stoptime'] = ''
 
     donefilelist_dict[filename]['lidar'] = lidar
     donefilelist_dict[filename]['location'] = location
     donefilelist_dict[filename]['starttime'] = starttime
     donefilelist_dict[filename]['stoptime'] = stoptime
+    donefilelist_dict[filename]['last_update'] = last_update
     donefilelist_dict[filename]['lambda'] = wavelength
-    donefilelist_dict[filename]['image'] = filename
+    donefilelist_dict[filename]['image'] = f'{str(filenamepath_cropped)}/{str(Path(filename).name)}' #experimental/arielle/2019/11/08/2019_11_08_Fri_ARI_00_00_03_SAT_FR_532.png
+    donefilelist_dict[filename]['level'] = level
+    donefilelist_dict[filename]['info'] = info
+    donefilelist_dict[filename]['nc_zip_file'] = nc_zip_file
+    donefilelist_dict[filename]['nc_zip_file_size'] = nc_zip_file_size
+    donefilelist_dict[filename]['active'] = active
+    donefilelist_dict[filename]['GDAS'] = GDAS
+    donefilelist_dict[filename]['GDAS_timestamp'] = GDAS_timestamp
+    donefilelist_dict[filename]['lidar_ratio'] = lidar_ratio
+    donefilelist_dict[filename]['software_version'] = software_version
     donefilelist_dict[filename]['product_type'] = product_type
+    donefilelist_dict[filename]['product_starttime'] = product_starttime
+    donefilelist_dict[filename]['product_stoptime'] = product_stoptime
 
     return donefilelist_dict
 
