@@ -71,9 +71,15 @@ my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval param
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
+my_parser.add_argument('--donefilelist', dest='donefilelist',
+                       type=str,
+                       default = False,
+                       help='write list of plotted filenames into donefilelist, specified in the picasso-config. Default is False.')
 
 # init parser
 args = my_parser.parse_args()
+
+
 
 def read_excel_config_file(excel_file, timestamp, device):
     excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl')
@@ -129,7 +135,12 @@ def main():
     ## measure computing time
     t0 = time.process_time()
 
-#    display_configfile = args.display_config_file
+    write2donefile = args.donefilelist
+    if write2donefile.lower() == "true":
+        write2donefile = True
+    elif write2donefile.lower() == "false":
+        write2donefile = False
+
     picasso_config_file = args.picasso_config_file
     config_dict = read_config(picasso_config_file)
     excel_config_file = config_dict['pollynet_config_link_file']
@@ -187,7 +198,7 @@ def main():
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_1064nm + cloudinfo:')
                 display_ATT.pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064)
-                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=1064,product_type='Cloudinfo')
+                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=1064,product_type='Cloudinfo')
         except Exception as e:
              print("An error occurred:", e)
 
@@ -200,10 +211,10 @@ def main():
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_355nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='FR')
-                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=355,product_type='ATT_BETA_355')
+                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=355,product_type='ATT_BETA_355')
                 print('plotting ATT_BETA_532nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='FR')
-                readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=532,product_type='ATT_BETA_532')
+                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=532,product_type='ATT_BETA_532')
                 print('plotting ATT_BETA_1064nm:')
                 display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='FR')
         except Exception as e:
@@ -332,7 +343,7 @@ def main():
                 nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
                 for profilename in profile_translator.keys():
                     print(f"{profilename}")
-                    display_profiles.pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
             for NR_profile in nc_profiles_NR:
                 nc_dict_profile_NR = readout.read_nc_file(NR_profile)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_NR['start_time'])).strftime('%H:%M')
@@ -341,7 +352,7 @@ def main():
                 nc_dict_profile_NR = readout.calc_ANGEXP(nc_dict_profile_NR)
                 for profilename in NR_profile_translator.keys():
                     print(f"{profilename}")
-                    display_profiles.pollyDisplay_profile(nc_dict_profile_NR,NR_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile_NR,NR_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
             for OC_profile in nc_profiles_OC:
                 nc_dict_profile_OC = readout.read_nc_file(OC_profile)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_OC['start_time'])).strftime('%H:%M')
@@ -350,7 +361,7 @@ def main():
                 nc_dict_profile_OC = readout.calc_ANGEXP(nc_dict_profile_OC)
                 for profilename in OC_profile_translator.keys():
                     print(f"{profilename}")
-                    display_profiles.pollyDisplay_profile(nc_dict_profile_OC,OC_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile_OC,OC_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
             for POLIPHON in nc_profiles_POLIPHON:
                 nc_dict_profile_POLI = readout.read_nc_file(POLIPHON)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_POLI['start_time'])).strftime('%H:%M')
@@ -358,7 +369,7 @@ def main():
                 print(f"POLIPHON-profile: {starttime} - {endtime}")
                 for profilename in POLIPHON_profile_translator.keys():
                     print(f"{profilename}")
-                    display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
 
@@ -373,11 +384,11 @@ def main():
 
 
     ## add plotted files to donefile
-    try:
+    if write2donefile == True:
         print('Write image files to donefile...')
         readout.write2donefile(picassoconfigfile_dict=config_dict,donefilelist_dict=donefilelist_dict)
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+    else:
+        pass
 
 
     ## measure computing time

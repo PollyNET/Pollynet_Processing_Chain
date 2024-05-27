@@ -15,7 +15,8 @@ import matplotlib
 import json
 from pathlib import Path
 import argparse
-import pypolly_readout_profiles as readout_profiles
+#import pypolly_readout_profiles as readout_profiles
+import pypolly_readout as readout
 import statistics
 from statistics import mode
 
@@ -32,7 +33,7 @@ plt.switch_backend('Agg')
 
 
 
-def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outdir):
+def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_dict,polly_conf_dict,outdir,donefilelist_dict):
     """
     Description
     -----------
@@ -96,6 +97,7 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
 
     saveFolder = outdir
     plotfile = f"{dataFilename}_{profile_translator[profilename]['plot_filename']}.{imgFormat}"
+    saveFilename = os.path.join(saveFolder,plotfile)
 
     # display WVMR-profile
     fig = plt.figure(figsize=[6, 9])
@@ -176,14 +178,19 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
         0.01, 0.01,
         f'Version: {version}\nMethod: {profile_translator[profilename]["method"]}\n{profile_translator[profilename]["misc"]}',fontsize=12)
     #print(f"plotting {plotfile} ... ")
-    fig.savefig(
-        os.path.join(
-            saveFolder,
-            plotfile),
-        dpi=figDPI)
+    fig.savefig(saveFilename,dpi=figDPI)
 
     plt.close()
 
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict_profile['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M'),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    product_type = profile_translator[profilename]['plot_filename'])
 
 
 #def pollyDisplayWVMR_profile(nc_dict_profile,config_dict,polly_conf_dict,outdir):

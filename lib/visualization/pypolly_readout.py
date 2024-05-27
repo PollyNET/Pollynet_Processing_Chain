@@ -888,14 +888,58 @@ def read_nc_overlap(nc_filename):
 
     return nc_dict
 
-def write2donefilelist_dict(donefilelist_dict,lidar,location,wavelength,product_type):
-    import uuid
-    uuid = uuid.uuid4()
-    donefilelist_dict[uuid] = {}
-    donefilelist_dict[uuid]['lidar'] = lidar
-    donefilelist_dict[uuid]['location'] = location
-    donefilelist_dict[uuid]['lambda'] = wavelength
-    donefilelist_dict[uuid]['product_type'] = product_type
+def write2donefilelist_dict(donefilelist_dict='',
+                            lidar='',
+                            location='',
+                            starttime='',
+                            stoptime='',
+                            last_update='',
+                            wavelength='',
+                            filename='',
+                            level='',
+                            info='',
+                            nc_zip_file='',
+                            nc_zip_file_size='',
+                            active='',
+                            GDAS='',
+                            GDAS_timestamp='',
+                            lidar_ratio='',
+                            software_version='',
+                            product_type='',
+                            product_starttime='',
+                            product_stoptime=''
+                            ):
+#    import uuid
+#    uuid = uuid.uuid4()
+    ## initialize dict
+    donefilelist_dict[filename] = {}
+    donefilelist_dict[filename]['lidar'] = ''
+    donefilelist_dict[filename]['location'] = ''
+    donefilelist_dict[filename]['starttime'] = ''
+    donefilelist_dict[filename]['stoptime'] = ''
+    donefilelist_dict[filename]['last_update'] = ''
+    donefilelist_dict[filename]['lambda'] = ''
+    donefilelist_dict[filename]['image'] = ''
+    donefilelist_dict[filename]['level'] = ''
+    donefilelist_dict[filename]['info'] = ''
+    donefilelist_dict[filename]['nc_zip_file'] = ''
+    donefilelist_dict[filename]['nc_zip_file_size'] = ''
+    donefilelist_dict[filename]['active'] = ''
+    donefilelist_dict[filename]['GDAS'] = ''
+    donefilelist_dict[filename]['GDAS_timestamp'] = ''
+    donefilelist_dict[filename]['lidar_ratio'] = ''
+    donefilelist_dict[filename]['software_version'] = ''
+    donefilelist_dict[filename]['product_type'] = ''
+    donefilelist_dict[filename]['product_starttime'] = ''
+    donefilelist_dict[filename]['product_stoptime'] = ''
+
+    donefilelist_dict[filename]['lidar'] = lidar
+    donefilelist_dict[filename]['location'] = location
+    donefilelist_dict[filename]['starttime'] = starttime
+    donefilelist_dict[filename]['stoptime'] = stoptime
+    donefilelist_dict[filename]['lambda'] = wavelength
+    donefilelist_dict[filename]['image'] = filename
+    donefilelist_dict[filename]['product_type'] = product_type
 
     return donefilelist_dict
 
@@ -928,10 +972,11 @@ def write2donefile(picassoconfigfile_dict,donefilelist_dict):
 
     with open(donefile, 'a') as file:
         for key in donefilelist_dict.keys():
-            file.write(f'lidar={donefilelist_dict[key]["lidar"]}\n')
-            file.write(f'location={donefilelist_dict[key]["location"]}\n')
-            file.write(f'lambda={donefilelist_dict[key]["lambda"]}\n')
-            file.write(f'product_type={donefilelist_dict[key]["product_type"]}\n')
+            for keyname in donefilelist_dict[key]:
+                file.write(f'{keyname}={donefilelist_dict[key][keyname]}\n')
+#            file.write(f'location={donefilelist_dict[key]["location"]}\n')
+#            file.write(f'lambda={donefilelist_dict[key]["lambda"]}\n')
+#            file.write(f'product_type={donefilelist_dict[key]["product_type"]}\n')
             file.write(f'------\n')
     
     return None
