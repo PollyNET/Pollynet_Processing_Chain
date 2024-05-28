@@ -129,7 +129,7 @@ def profile_translator_function():
     profile_translator['LR_Raman']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['LR_Raman']['x_label'] = 'Lidar Ratio [$Sr$]'
     profile_translator['LR_Raman']['plot_filename'] = 'LR_Raman'
-    profile_translator['LR_Raman']['plot_filename'] = 'LR'
+    profile_translator['LR_Raman']['product_type'] = 'LR'
 
     ## LR_RR
     profile_translator['LR_RR']['method'] = 'RR'

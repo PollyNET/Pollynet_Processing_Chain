@@ -19,15 +19,9 @@ import statistics
 from pathlib import Path
 from statistics import mode
 import pypolly_readout as readout
-import pypolly_readout_profiles as readout_profiles
-import pypolly_display_profiles as display_profiles
-import pypolly_display_ATT_BETA as display_ATT
-import pypolly_display_VDR as display_VDR
-import pypolly_display_WV as display_WV
-import pypolly_display_quasi_results as display_QR
-import pypolly_display_target_classification as display_TC
-import pypolly_display_overlap as display_OL
+import pypolly_display_3d_plots as display_3d
 import pypolly_profile_translator as p_translator
+import pypolly_display_profiles as display_profiles
 
 # load colormap
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -50,12 +44,7 @@ my_parser.add_argument('--date', dest='timestamp', metavar='timestamp',
 my_parser.add_argument('--device', dest='device', metavar='device',
                        type=str,
                        help='the polly device (level1 nc-file).')
-#my_parser.add_argument('--display_config_file', dest='display_config_file', metavar='config_file',
-#                       default="./config/display_config.json",
-#                       type=str,
-#                       help='the json-type config-file')
 my_parser.add_argument('--picasso_config_file', dest='picasso_config_file', metavar='picasso_config_file',
-#                       default="./config/display_config.json",
                        type=str,
                        help='the json-type picasso config-file')
 my_parser.add_argument('--polly_config_file', dest='polly_config_file', metavar='polly_config_file',
@@ -150,7 +139,6 @@ def main():
     else:
         polly_local_config = read_excel_config_file(excel_config_file, timestamp=args.timestamp, device=args.device)
 
-    #polly_local_config = f'{polly_config_folder}/{polly_local_config}'
     polly_local_config = Path(polly_config_folder,polly_local_config)
 
     pollyglobal = config_dict['polly_global_config']
@@ -178,6 +166,7 @@ def main():
         outputfolder = Path(config_dict['pic_folder'],device,YYYY,MM,DD)
     else:
         outputfolder = Path(args.outdir,device,YYYY,MM,DD)
+
     #creating a new directory if not existing
     Path(outputfolder).mkdir(parents=True, exist_ok=True)
 
@@ -193,8 +182,7 @@ def main():
             for data_file in nc_files:
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_1064nm + cloudinfo:')
-                display_ATT.pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064)
-                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=1064,product_type='Cloudinfo')
+                display_3d.pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064,donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
 
@@ -203,16 +191,13 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='att_bsc')
             for data_file in nc_files:
-    #            nc_dict = readout.read_nc_att(data_file)
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_355nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='FR')
-                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=355,product_type='ATT_BETA_355')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='FR',donefilelist_dict=donefilelist_dict)
                 print('plotting ATT_BETA_532nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='FR')
-                #readout.write2donefilelist_dict(donefilelist_dict=donefilelist_dict,lidar=device,location=nc_dict['location'],wavelength=532,product_type='ATT_BETA_532')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='FR',donefilelist_dict=donefilelist_dict)
                 print('plotting ATT_BETA_1064nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='FR')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='FR',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -220,12 +205,11 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='NR_att_bsc')
             for data_file in nc_files:
-    #            nc_dict = readout.read_nc_NR_att(data_file)
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_NR_355nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='NR')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='NR',donefilelist_dict=donefilelist_dict)
                 print('plotting ATT_BETA_NR_532nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='NR')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='NR',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -233,14 +217,13 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='OC_att_bsc')
             for data_file in nc_files:
-    #            nc_dict = readout.read_nc_OC_att(data_file)
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting ATT_BETA_OC_355nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='OC')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355, param='OC',donefilelist_dict=donefilelist_dict)
                 print('plotting ATT_BETA_OC_532nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='OC')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='OC',donefilelist_dict=donefilelist_dict)
                 print('plotting ATT_BETA_OC_1064nm:')
-                display_ATT.pollyDisplayAttnBsc_new(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='OC')
+                display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='OC',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
 
@@ -251,9 +234,9 @@ def main():
             for data_file in nc_files:
                 nc_dict = readout.read_nc_VDR(data_file)
                 print('plotting VDR_355nm:')
-                display_VDR.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355)
+                display_3d.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355,donefilelist_dict=donefilelist_dict)
                 print('plotting VDR_532nm:')
-                display_VDR.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532)
+                display_3d.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532,donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -262,11 +245,11 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='WVMR_RH')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_WVMR_RH(data_file)
+                nc_dict = readout.read_nc_file(data_file)
                 print('plotting WVMR:')
-                display_WV.pollyDisplayWVMR(nc_dict, config_dict, polly_conf_dict, outputfolder)
+                display_3d.pollyDisplayWVMR(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
                 print('plotting RH:')
-                display_WV.pollyDisplayRH(nc_dict, config_dict, polly_conf_dict, outputfolder)
+                display_3d.pollyDisplayRH(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
 
@@ -275,9 +258,9 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='target_classification')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_target_classification(data_file)
+                nc_dict = readout.read_nc_file(data_file)
                 print('plotting Target classification V1:')
-                display_TC.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V1')
+                display_3d.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V1',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -285,9 +268,9 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='target_classification_V2')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_target_classification(data_file)
+                nc_dict = readout.read_nc_file(data_file)
                 print('plotting Target classification V2:')
-                display_TC.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V2')
+                display_3d.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V2',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -297,10 +280,9 @@ def main():
             q_params_ls = ["angexp", "bsc_532", "bsc_1064", "par_depol_532"] 
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='quasi_results')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_quasi_results(data_file,q_version='V1')
-    #            print('plotting Quasi results AngExp V1:')
+                nc_dict = readout.read_nc_file(data_file)
                 for qp in q_params_ls:
-                    display_QR.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder,q_param=qp, q_version='V1')
+                    display_3d.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder,q_param=qp, q_version='V1',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -308,10 +290,9 @@ def main():
         try: 
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='quasi_results_V2')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_quasi_results(data_file,q_version='V2')
-    #            print('plotting Quasi results AngExp V2:')
+                nc_dict = readout.read_nc_file(data_file)
                 for qp in q_params_ls:
-                    display_QR.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder, q_param=qp, q_version='V2')
+                    display_3d.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder, q_param=qp, q_version='V2',donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
     
@@ -329,7 +310,7 @@ def main():
             nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
             nc_profiles_NR = readout.get_nc_filename(date, device, inputfolder, param='NR_profiles')
             nc_profiles_OC = readout.get_nc_filename(date, device, inputfolder, param='OC_profiles')
-            nc_profiles_POLIPHON = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON')
+            nc_profiles_POLIPHON = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON_1')
             print(f'plotting profiles to {outputfolder}')
             for profile in nc_profiles:
                 nc_dict_profile = readout.read_nc_file(profile)
@@ -374,9 +355,9 @@ def main():
         ## plotting overlap 
         nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
         for data_file in nc_files:
-            nc_dict = readout.read_nc_overlap(data_file)
+            nc_dict = readout.read_nc_file(data_file)
             print('plotting overlap:')
-            display_OL.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder)
+            display_3d.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
 
 
     ## add plotted files to donefile
@@ -389,7 +370,7 @@ def main():
 
     ## measure computing time
     elapsed_time = time.process_time() - t0
-#    print(elapsed_time)
+    print(elapsed_time)
     print('finished plotting!')
 if __name__ == '__main__':
     main()
