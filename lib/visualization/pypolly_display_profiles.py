@@ -104,8 +104,17 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     ax = fig.add_axes([0.21, 0.15, 0.74, 0.75])
 #    p1, = ax.plot(WVMR_rel_error, height, color='#2492ff', linestyle='-', zorder=2)
 #    p1 = ax.plot(WVMR, height, color='#2492ff', linestyle='-', zorder=2)
+    fixed_LR = 1
+    fixed_LR_ls = []
     for element in range(len(var_ls)):
-        p1 = ax.plot(var_ls[element]*profile_translator[profilename]['scaling_factor'], height/1000,\
+        if profilename == 'Ext_Klett':
+            param = profile_translator[profilename]["var_name_ls"][element]
+            fixed_LR = nc_dict_profile[f'{param}___retrieving_info']
+            fixed_LR = re.split(r'Fixed lidar ratio:',fixed_LR)[-1]
+            fixed_LR = float(re.split(r'\[Sr\]',fixed_LR)[0])
+            fixed_LR_ls.append(fixed_LR)
+            
+        p1 = ax.plot(var_ls[element]*profile_translator[profilename]['scaling_factor']*fixed_LR, height/1000,\
             linestyle=profile_translator[profilename]['var_style_ls'][element],\
             color=profile_translator[profilename]['var_color_ls'][element] ,\
             zorder=2,\
@@ -244,6 +253,13 @@ refH1064: {refHBase1064:.1f}-{refHTop1064:.1f} km',
             r'$\eta_{355}$: '+f'{eta355:.2f}\n'+\
             r'$\eta_{532}$: '+f'{eta532:.2f}\n'+\
             r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
+    if profilename == 'Ext_Klett':
+        fig.text(
+            0.32, 0.82,
+            r'LR$_{355}$: '+f'{fixed_LR_ls[0]:.2f}\n'+\
+            r'LR$_{532}$: '+f'{fixed_LR_ls[1]:.2f}\n'+\
+            r'LR$_{1064}$: '+f'{fixed_LR_ls[2]:.2f}',fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
 
     fig.savefig(saveFilename,dpi=figDPI)
 

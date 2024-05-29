@@ -6,7 +6,7 @@ def profile_dict_keys():
 def profile_translator_function():
     ## profile_translator
     
-    profilename_ls = ['Bsc_Klett','Bsc_Raman','Bsc_RR','DepRatio_Klett','DepRatio_Raman','Ext_Raman','Ext_RR','LR_Raman','LR_RR','WVMR','RH','Meteor_T','Meteor_P','AE_Klett','AE_Raman']
+    profilename_ls = ['Bsc_Klett','Bsc_Raman','Bsc_RR','DepRatio_Klett','DepRatio_Raman','Ext_Klett','Ext_Raman','Ext_RR','LR_Raman','LR_RR','WVMR','RH','Meteor_T','Meteor_P','AE_Klett','AE_Raman']
 
     profile_dict_key_ls = profile_dict_keys()
 
@@ -88,6 +88,20 @@ def profile_translator_function():
     profile_translator['DepRatio_Raman']['x_label'] = 'Depolarization Ratio'
     profile_translator['DepRatio_Raman']['plot_filename'] = 'DepRatio_Raman'
     profile_translator['DepRatio_Raman']['product_type'] = 'DepRatio_Raman'
+
+    ## Ext_Klett
+    profile_translator['Ext_Klett']['method'] = 'Klett'
+    profile_translator['Ext_Klett']['misc'] = ''
+    profile_translator['Ext_Klett']['var_name_ls'] = ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064']                        
+    profile_translator['Ext_Klett']['var_err_name_ls'] = ['uncertainty_aerBsc_klett_355','uncertainty_aerBsc_klett_532','uncertainty_aerBsc_klett_1064']
+    profile_translator['Ext_Klett']['var_color_ls'] = ['blue','green','red']
+    profile_translator['Ext_Klett']['var_style_ls'] = ['-','-','-']
+    profile_translator['Ext_Klett']['scaling_factor'] = 10**6
+    profile_translator['Ext_Klett']['xlim_name'] = 'xLim_Profi_Ext'
+    profile_translator['Ext_Klett']['ylim_name'] = 'yLim_Profi_Ext'
+    profile_translator['Ext_Klett']['x_label'] = 'Extinction Coefficient [$Mm^{-1}$]'
+    profile_translator['Ext_Klett']['plot_filename'] = 'Ext_Klett'
+    profile_translator['Ext_Klett']['product_type'] = 'Ext_Klett'
 
     ## Ext_Raman
     profile_translator['Ext_Raman']['method'] = 'Raman'
