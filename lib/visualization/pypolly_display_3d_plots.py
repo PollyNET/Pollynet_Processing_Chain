@@ -1805,7 +1805,9 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir,donefilelist
     overlap355Defaults = nc_dict['overlap355Defaults'].reshape(-1)
     overlap532 = nc_dict['overlap532'].reshape(-1)
     overlap532Defaults = nc_dict['overlap532Defaults'].reshape(-1)
-    height = nc_dict['height']
+    overlap355Raman = nc_dict['overlap355Raman'].reshape(-1)
+    overlap532Raman = nc_dict['overlap532Raman'].reshape(-1)
+    height = nc_dict['height']/1000
 
     pollyVersion = nc_dict['PollyVersion']
     location = nc_dict['location']
@@ -1832,13 +1834,18 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir,donefilelist
                    linestyle='--', label=r'default overlap 355 FR')
     p4, = ax.plot(overlap532Defaults, height, color='#58B13F',
                    linestyle='--', label=r'default overlap 532 FR')
+    p5, = ax.plot(overlap355Raman, height, color='#2affff',
+                   linestyle='-', label=r'overlap 355 FR Raman')
+    p6, = ax.plot(overlap532Raman, height, color='#d4d42a',
+                   linestyle='-', label=r'overlap 532 FR Raman')
 
     ax.set_xlabel('Overlap', fontsize=15)
-    ax.set_ylabel('Height (m)', fontsize=15)
+    ax.set_ylabel('Height (km)', fontsize=15)
 
-    ax.set_ylim(yLim)
-    ax.yaxis.set_major_locator(MultipleLocator(500))
-    ax.yaxis.set_minor_locator(MultipleLocator(100))
+#    ax.set_ylim(yLim)
+    ax.set_ylim(yLim[0]/1000,yLim[1]/1000)
+    ax.yaxis.set_major_locator(MultipleLocator(0.5))
+    ax.yaxis.set_minor_locator(MultipleLocator(0.1))
     ax.set_xlim(xLim)
     ax.grid(True)
     ax.tick_params(axis='both', which='major', labelsize=15,
@@ -1880,11 +1887,17 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir,donefilelist
                  ha='left', va='bottom', alpha=0.8, zorder=10)
 
         fig.text(
-            0.84, 0.01,
+            0.72, 0.003,
             u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
                 datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
+#        fig.text(
+#            0.84, 0.003,
+#            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+#                datetime.now().strftime('%Y'), partnerLabel),
+#            fontweight='bold', fontsize=7, color='black', ha='left',
+#            va='bottom', alpha=1, zorder=10)
 
 #    fig.text(
 #        0.05, 0.02,
