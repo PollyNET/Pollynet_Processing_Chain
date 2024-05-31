@@ -22,10 +22,9 @@ display_help() {
 PICASSO_CONFIG_FILE=""
 RETRIEVAL="all"
 flagDONEFILELIST="false"
-#PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
+PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
 #PICASSO_DIR="$(dirname "$(dirname "$( cd "$(dirname "$0")" ; pwd -P )")")"
-#echo $PICASSO_DIR_interface
 echo $PICASSO_DIR
 
 ################################
@@ -106,6 +105,7 @@ done
 PY_FOLDER=`cat ${PICASSO_CONFIG_FILE} | jq -r ."pyBinDir"`
 echo $PY_FOLDER
 echo $RETRIEVAL
+
 
 create_date_ls() {
 ## create DATE_LS
