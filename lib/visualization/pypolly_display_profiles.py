@@ -219,15 +219,24 @@ refH1064: {refHBase1064:.1f}-{refHTop1064:.1f} km',
     list_for_eta_raman_plots = ['DepRatio_Raman','DepRatio_Raman_OC']
     if  profilename in list_for_eta_klett_plots:
         if 'volDepol_klett_355___retrieving_info' in nc_dict_profile.keys():
-            eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_355___retrieving_info'])[-1])
+            try:
+                eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_355___retrieving_info'])[-1])
+            except:
+                eta355 = np.nan
         else:
             eta355 = np.nan
         if 'volDepol_klett_532___retrieving_info' in nc_dict_profile.keys():
-            eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_532___retrieving_info'])[-1])
+            try:
+                eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_532___retrieving_info'])[-1])
+            except:
+                eta532 = np.nan
         else:
             eta532 = np.nan
         if 'volDepol_klett_1064___retrieving_info' in nc_dict_profile.keys():
-            eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_1064___retrieving_info'])[-1])
+            try:
+                eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_1064___retrieving_info'])[-1])
+            except:
+                eta1064 = np.nan
         else:
             eta1064 = np.nan
         fig.text(
@@ -237,15 +246,24 @@ refH1064: {refHBase1064:.1f}-{refHTop1064:.1f} km',
             r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
     if  profilename in list_for_eta_raman_plots:
         if 'volDepol_raman_355___retrieving_info' in nc_dict_profile.keys():
-            eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_355___retrieving_info'])[-1])
+            try:
+                eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_355___retrieving_info'])[-1])
+            except:
+                eta355 = np.nan
         else:
             eta355 = np.nan
         if 'volDepol_raman_532___retrieving_info' in nc_dict_profile.keys():
-            eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_532___retrieving_info'])[-1])
+            try:
+                eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_532___retrieving_info'])[-1])
+            except:
+                eta532 = np.nan
         else:
             eta532 = np.nan
         if 'volDepol_raman_1064___retrieving_info' in nc_dict_profile.keys():
-            eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_1064___retrieving_info'])[-1])
+            try:
+                eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_raman_1064___retrieving_info'])[-1])
+            except:
+                eta1064 = np.nan
         else:
             eta1064 = np.nan
         fig.text(
