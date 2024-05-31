@@ -11,7 +11,8 @@ display_help() {
   echo "   -e, --enddate        specify enddate YYYYMMDD"
   echo "   -d, --device         specify device, e.g. pollyxt_lacros"
   echo "   -c, --config_file    specify Picasso configuration file, e.g.: ~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config_rsd2_andi.json"
-  echo "   -r, --retrieval    specify retrieval to be plotted [choice:]"
+  echo "   --flag_donefilelist   set flag for writing metainfo of plotted files into donefilelist, specified in picasso-config"
+  echo "   -r, --retrieval    specify retrieval to be plotted [choices: 'all', 'attbsc', 'voldepol', 'cloudinfo', 'target_class', 'wvmr_rh', 'quasi_results', 'profiles', 'overlap']; default is set to 'all'"
   echo "   -h, --help           show help message"
   echo
   exit 1
@@ -20,6 +21,7 @@ display_help() {
 ## initialize parameters
 PICASSO_CONFIG_FILE=""
 RETRIEVAL="all"
+flagDONEFILELIST="false"
 #PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
 #PICASSO_DIR="$(dirname "$(dirname "$( cd "$(dirname "$0")" ; pwd -P )")")"
@@ -60,7 +62,12 @@ while :; do
     shift 2
     ;;
 
-  --retrieval)
+  --flag_donefilelist)
+    flagDONEFILELIST="true"
+    shift 1
+    ;;
+
+  -r | --retrieval)
     if [ $# -ne 0 ]; then
       RETRIEVAL="$2"
     fi
@@ -98,7 +105,7 @@ done
 # getting "python_folder" from config_file
 PY_FOLDER=`cat ${PICASSO_CONFIG_FILE} | jq -r ."pyBinDir"`
 echo $PY_FOLDER
-
+echo $RETRIEVAL
 
 create_date_ls() {
 ## create DATE_LS
@@ -124,8 +131,9 @@ main() {
 	for DEVICE in ${DEVICE_LS[@]}; do
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
-	        echo $DATE	
-            "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL
+	        echo $DATE
+#            exit 1
+            "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL --donefilelist $flagDONEFILELIST
 #            if [[ "$flagWriteIntoTodoList" == "true" ]];then
 #            	check_todo_list_consistency
 #	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
@@ -141,8 +149,7 @@ main() {
 #            fi
 	    done
 	done
-
-#exit 1
+}
 
 ## execute main function
 main

@@ -226,7 +226,7 @@ def profile_translator_function():
     profile_translator['AE_Klett']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Klett']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Klett']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Klett']['plot_filename'] = 'AE_Klett'
+    profile_translator['AE_Klett']['plot_filename'] = 'ANGEXP_Klett'
     profile_translator['AE_Klett']['product_type'] = 'ANGEXP_Klett'
 
     ## AE_Raman
@@ -240,7 +240,7 @@ def profile_translator_function():
     profile_translator['AE_Raman']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Raman']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Raman']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Raman']['plot_filename'] = 'AE_Raman'
+    profile_translator['AE_Raman']['plot_filename'] = 'ANGEXP_Raman'
     profile_translator['AE_Raman']['product_type'] = 'ANGEXP_Raman'
 
     return profile_translator
@@ -325,7 +325,7 @@ def NR_profile_translator_function():
     profile_translator['AE_Klett_NR']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Klett_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['AE_Klett_NR']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Klett_NR']['plot_filename'] = 'AE_Klett_NR'
+    profile_translator['AE_Klett_NR']['plot_filename'] = 'ANGEXP_Klett_NR'
     profile_translator['AE_Klett_NR']['product_type'] = 'ANGEXP_Klett_NR'
 
     ## AE_Raman_NR
@@ -339,7 +339,7 @@ def NR_profile_translator_function():
     profile_translator['AE_Raman_NR']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Raman_NR']['ylim_name'] = 'yLim_NR_RCS'
     profile_translator['AE_Raman_NR']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Raman_NR']['plot_filename'] = 'AE_Raman_NR'
+    profile_translator['AE_Raman_NR']['plot_filename'] = 'ANGEXP_Raman_NR'
     profile_translator['AE_Raman_NR']['product_type'] = 'ANGEXP_Raman_NR'
 
     return profile_translator
@@ -455,7 +455,7 @@ def OC_profile_translator_function():
     profile_translator['AE_Klett_OC']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Klett_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Klett_OC']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Klett_OC']['plot_filename'] = 'AE_Klett_OC'
+    profile_translator['AE_Klett_OC']['plot_filename'] = 'ANGEXP_Klett_OC'
     profile_translator['AE_Klett_OC']['product_type'] = 'ANGEXP_Klett_OC'
 
     ## AE_Raman_OC
@@ -469,7 +469,7 @@ def OC_profile_translator_function():
     profile_translator['AE_Raman_OC']['xlim_name'] = 'xLim_Profi_AE'
     profile_translator['AE_Raman_OC']['ylim_name'] = 'yLim_Profi_LR'
     profile_translator['AE_Raman_OC']['x_label'] = 'Angstroem Exponent'
-    profile_translator['AE_Raman_OC']['plot_filename'] = 'AE_Raman_OC'
+    profile_translator['AE_Raman_OC']['plot_filename'] = 'ANGEXP_Raman_OC'
     profile_translator['AE_Raman_OC']['product_type'] = 'ANGEXP_Raman_OC'
 
     return profile_translator

@@ -700,9 +700,10 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength,d
     imgFormat = polly_conf_dict['imgFormat']
 
 
-    VDR = nc_dict[f'VDR_{wavelength}'] 
-    quality_mask = nc_dict[f'quality_mask_{wavelength}']
-    eta = nc_dict[f'eta{wavelength}']
+    VDR = nc_dict[f'volume_depolarization_ratio_{wavelength}nm'] 
+    quality_mask = np.where(VDR > 0, 0, 0)
+    eta = re.split(r'eta:',nc_dict[f'volume_depolarization_ratio_{wavelength}nm___comment'])[1]
+    eta = float(re.split(r'\)',eta)[0])
     height = nc_dict['height']
     time = nc_dict['time']
     pollyVersion = nc_dict['PollyVersion']

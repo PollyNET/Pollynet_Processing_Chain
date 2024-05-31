@@ -232,7 +232,7 @@ def main():
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='vol_depol')
             for data_file in nc_files:
-                nc_dict = readout.read_nc_VDR(data_file)
+                nc_dict = readout.read_nc_file(data_file)
                 print('plotting VDR_355nm:')
                 display_3d.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=355,donefilelist_dict=donefilelist_dict)
                 print('plotting VDR_532nm:')
