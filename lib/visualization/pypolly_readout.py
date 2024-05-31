@@ -37,7 +37,9 @@ def input_folder(configfile):
 def get_nc_filename(date, device, inputfolder, param=""):
     '''
     param: str
-        att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results", "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles", "NR_profiles", "cloudinfo"
+        att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results",
+        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles",
+        "NR_profiles", "cloudinfo","POLIPHON_1"
     '''
 
 #    inputfolder = input_folder(configfile)
@@ -229,6 +231,7 @@ def read_nc_file(nc_filename,):
     nc_dict['m_date'] = f'{m_date[0]}-{m_date[1]}-{m_date[2]}'
 #    nc_dict['m_date'] = datetime.fromtimestamp(nc_file_ds['time'][0]).strftime("%Y-%m-%d")
 
+    nc_file_ds.close()
     return nc_dict
 
 
@@ -237,566 +240,145 @@ def read_nc_file(nc_filename,):
 ####
 
 
-
-#def read_nc_att(nc_filename):
-#    nc_dict={}
-#    if not os.path.exists(nc_filename):
-#        print('{filename} does not exist.'.format(filename=nc_filename))
-#        return
-#    else:
-#        pass
-#
-#    ## open nc-file as dataset
-#    nc_file_ds = Dataset(nc_filename, "r")
-#    
-#    ## get global attributes from nc-file
-#    global_attr = {}
-#    for nc_attr in nc_file_ds.ncattrs():
-#                # att_value=repr(input_nc_file.getncattr(nc_attr))
-#        att_value = nc_file_ds.getncattr(nc_attr)
-#        global_attr[nc_attr] = att_value
-#    ## get variable attributes from nc-file
-#    var_attr_355 = {}
-#    var_attr_532 = {}
-#    var_attr_1064 = {}
-#    var = ["attenuated_backscatter_355nm", "attenuated_backscatter_532nm", "attenuated_backscatter_1064nm"]
-#    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-#        var_attr_355[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-#        var_attr_532[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-#        var_attr_1064[var_att] = var_att_value
-#
-#    PollyVersion = global_attr['source']
-#    location = global_attr['location']
-#    version = global_attr['version']
-#    
-#    ATT_BETA_355 = nc_file_ds[var[0]][:]
-#    ATT_BETA_532 = nc_file_ds[var[1]][:]
-#    ATT_BETA_1064 = nc_file_ds[var[2]][:]
-#    quality_mask_355 = nc_file_ds['quality_mask_355nm'][:]
-#    quality_mask_532 = nc_file_ds['quality_mask_532nm'][:]
-#    quality_mask_1064 = nc_file_ds['quality_mask_1064nm'][:]
-#    height = nc_file_ds['height'][:]
-#    time = nc_file_ds['time'][:]
-#    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-#    LCUsed355 = var_attr_355['Lidar_calibration_constant_used']
-#    LCUsed532 = var_attr_532['Lidar_calibration_constant_used']
-#    LCUsed1064 = var_attr_1064['Lidar_calibration_constant_used']
-#    dataFilename = re.split(r'\/',nc_filename)[-1]
-#   
-#
-#    ## fill dictionary for output
-#    nc_dict['m_date'] = m_date
-#    nc_dict['time'] = time
-#    nc_dict['height'] = height
-#    nc_dict['PollyVersion'] = PollyVersion
-#    nc_dict['location'] = location
-#    nc_dict['PicassoVersion'] = version
-#    nc_dict['ATT_BETA_355'] = ATT_BETA_355
-#    nc_dict['ATT_BETA_532'] = ATT_BETA_532
-#    nc_dict['ATT_BETA_1064'] = ATT_BETA_1064
-#    nc_dict['quality_mask_355'] = quality_mask_355
-#    nc_dict['quality_mask_532'] = quality_mask_532
-#    nc_dict['quality_mask_1064'] = quality_mask_1064
-#    nc_dict['LCUsed355'] = LCUsed355
-#    nc_dict['LCUsed532'] = LCUsed532
-#    nc_dict['LCUsed1064'] = LCUsed1064
-#    nc_dict['PollyDataFile'] = dataFilename
-#
-#    return nc_dict
-#
-#def read_nc_NR_att(nc_filename):
-#    nc_dict={}
-#    if not os.path.exists(nc_filename):
-#        print('{filename} does not exist.'.format(filename=nc_filename))
-#        return
-#    else:
-#        pass
-#
-#    ## open nc-file as dataset
-#    nc_file_ds = Dataset(nc_filename, "r")
-#    
-#    ## get global attributes from nc-file
-#    global_attr = {}
-#    for nc_attr in nc_file_ds.ncattrs():
-#                # att_value=repr(input_nc_file.getncattr(nc_attr))
-#        att_value = nc_file_ds.getncattr(nc_attr)
-#        global_attr[nc_attr] = att_value
-#    ## get variable attributes from nc-file
-#    var_attr_355 = {}
-#    var_attr_532 = {}
-#    var = ["attenuated_backscatter_355nm", "attenuated_backscatter_532nm"]
-#    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-#        var_attr_355[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-#        var_attr_532[var_att] = var_att_value
-#
-#    # pollyVersion = mat['CampaignConfig']['name'][0][0][0]
-#    PollyVersion = global_attr['source']
-#    location = global_attr['location']
-#    version = global_attr['version']
-#    
-#    ATT_BETA_355 = nc_file_ds[var[0]][:]
-#    ATT_BETA_532 = nc_file_ds[var[1]][:]
-#    quality_mask_355 = nc_file_ds['quality_mask_355nm'][:]
-#    quality_mask_532 = nc_file_ds['quality_mask_532nm'][:]
-#    height = nc_file_ds['height'][:]
-#    time = nc_file_ds['time'][:]
-#    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-#    LCUsed355 = var_attr_355['Lidar_calibration_constant_used']
-#    LCUsed532 = var_attr_532['Lidar_calibration_constant_used']
-#    dataFilename = re.split(r'\/',nc_filename)[-1]
-#   
-#
-#    ## fill dictionary for output
-#    nc_dict['m_date'] = m_date
-#    nc_dict['time'] = time
-#    nc_dict['height'] = height
-#    nc_dict['PollyVersion'] = PollyVersion
-#    nc_dict['location'] = location
-#    nc_dict['PicassoVersion'] = version
-#    nc_dict['ATT_BETA_355'] = ATT_BETA_355
-#    nc_dict['ATT_BETA_532'] = ATT_BETA_532
-#    nc_dict['quality_mask_355'] = quality_mask_355
-#    nc_dict['quality_mask_532'] = quality_mask_532
-#    nc_dict['LCUsed355'] = LCUsed355
-#    nc_dict['LCUsed532'] = LCUsed532
-#    nc_dict['PollyDataFile'] = dataFilename
-#
-#    return nc_dict
-#
-#def read_nc_OC_att(nc_filename):
-#    nc_dict={}
-#    if not os.path.exists(nc_filename):
-#        print('{filename} does not exist.'.format(filename=nc_filename))
-#        return
-#    else:
-#        pass
-#
-#    ## open nc-file as dataset
-#    nc_file_ds = Dataset(nc_filename, "r")
-#    
-#    ## get global attributes from nc-file
-#    global_attr = {}
-#    for nc_attr in nc_file_ds.ncattrs():
-#                # att_value=repr(input_nc_file.getncattr(nc_attr))
-#        att_value = nc_file_ds.getncattr(nc_attr)
-#        global_attr[nc_attr] = att_value
-#    ## get variable attributes from nc-file
-#    var_attr_355 = {}
-#    var_attr_532 = {}
-#    var_attr_1064 = {}
-#    var = ["attenuated_backscatter_355nm", "attenuated_backscatter_532nm", "attenuated_backscatter_1064nm"]
-#    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-#        var_attr_355[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-#        var_attr_532[var_att] = var_att_value
-#    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-#        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-#        var_attr_1064[var_att] = var_att_value
-#
-#    PollyVersion = global_attr['source']
-#    location = global_attr['location']
-#    version = global_attr['version']
-#    
-#    ATT_BETA_355 = nc_file_ds[var[0]][:]
-#    ATT_BETA_532 = nc_file_ds[var[1]][:]
-#    ATT_BETA_1064 = nc_file_ds[var[2]][:]
-#    quality_mask_355 = np.where(ATT_BETA_355 > 0, 0, 0)
-#    quality_mask_532 = np.where(ATT_BETA_532 > 0, 0, 0)
-#    quality_mask_1064 = np.where(ATT_BETA_1064 > 0, 0, 0)
-#    height = nc_file_ds['height'][:]
-#    time = nc_file_ds['time'][:]
-#    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-#    LCUsed355 = var_attr_355['Lidar_calibration_constant_used']
-#    LCUsed532 = var_attr_532['Lidar_calibration_constant_used']
-#    LCUsed1064 = var_attr_1064['Lidar_calibration_constant_used']
-#    dataFilename = re.split(r'\/',nc_filename)[-1]
-#   
-#
-#    ## fill dictionary for output
-#    nc_dict['m_date'] = m_date
-#    nc_dict['time'] = time
-#    nc_dict['height'] = height
-#    nc_dict['PollyVersion'] = PollyVersion
-#    nc_dict['location'] = location
-#    nc_dict['PicassoVersion'] = version
-#    nc_dict['ATT_BETA_355'] = ATT_BETA_355
-#    nc_dict['ATT_BETA_532'] = ATT_BETA_532
-#    nc_dict['ATT_BETA_1064'] = ATT_BETA_1064
-#    nc_dict['quality_mask_355'] = quality_mask_355
-#    nc_dict['quality_mask_532'] = quality_mask_532
-#    nc_dict['quality_mask_1064'] = quality_mask_1064
-#    nc_dict['LCUsed355'] = LCUsed355
-#    nc_dict['LCUsed532'] = LCUsed532
-#    nc_dict['LCUsed1064'] = LCUsed1064
-#    nc_dict['PollyDataFile'] = dataFilename
-#
-#    return nc_dict
-
-def read_nc_VDR(nc_filename):
-    nc_dict={}
-    if not os.path.exists(nc_filename):
-        print('{filename} does not exist.'.format(filename=nc_filename))
-        return
-    else:
-        pass
-
-    ## open nc-file as dataset
-    nc_file_ds = Dataset(nc_filename, "r")
-    
-    ## get global attributes from nc-file
-    global_attr = {}
-    for nc_attr in nc_file_ds.ncattrs():
-                # att_value=repr(input_nc_file.getncattr(nc_attr))
-        att_value = nc_file_ds.getncattr(nc_attr)
-        global_attr[nc_attr] = att_value
-    ## get variable attributes from nc-file
-    var_attr_355 = {}
-    var_attr_532 = {}
-    var_attr_1064 = {}
-#    var_attr_dict = {}
-    var = ["volume_depolarization_ratio_355nm", "volume_depolarization_ratio_532nm", "volume_depolarization_ratio_1064nm"]
-    
-
-    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-        var_attr_355[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-        var_attr_532[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-        var_attr_1064[var_att] = var_att_value
+def calc_ANGEXP(nc_dict):
+    ## AE_beta_lambda1_lambda2(z) = - np.log(beta1(z)/beta2(z))/np.log(lambda1/lambda2) = np.log(beta1(z)/beta2(z))/np.log(lambda2/lambda1)
+    ## AE_part.ext_lambda1_lambda2(z) = AE_beta_lambda1_lambda2(z) + AE_LR_lambda1_lambda2(z) = np.log(extinction1(z)/extinction2(z)/np.log(lambda2/lambda1)
+    ## with AngstromExp for the Lidar Ratio LR: AE_LR_lambda1_lambda2(z) = - np.log(LR1(z)/LR2(z))/np.log(lambda1/lambda2)
+    ## lambda1 < lambda2
 
 
+    def compute_valid_log(X,Y):
+        ## simple way
+        #ratio = X/Y
+        #ratio[ratio < 0] = np.nan
+        #log_ratio = np.log(ratio)
 
-    PollyVersion = global_attr['source']
-    location = global_attr['location']
-    version = global_attr['version']
+        ## pythonic way
+        # Compute X / Y while avoiding division by zero
+        with np.errstate(divide='ignore', invalid='ignore'):
+            ratio = np.ma.divide(X, Y)
 
-    VDR_355 = nc_file_ds[var[0]][:]
-    VDR_532 = nc_file_ds[var[1]][:]
-    VDR_1064 = nc_file_ds[var[2]][:]
-    quality_mask_355 = np.where(VDR_355 > 0, 0, 0)
-    quality_mask_532 = np.where(VDR_532 > 0, 0, 0)
-    quality_mask_1064 = np.where(VDR_1064 > 0, 0, 0)
-    eta355 = re.split(r'eta:',var_attr_355['comment'])[1]
-    eta355 = re.split(r'\)',eta355)[0].replace(" ", "")
-    eta532 = re.split(r'eta:',var_attr_532['comment'])[1]
-    eta532 = re.split(r'\)',eta532)[0].replace(" ", "")
-    height = nc_file_ds['height'][:]
-    time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
+        # Mask out invalid values in the ratio (e.g., non-positive values)
+        invalid_mask = (ratio <= 0) | ratio.mask
+        ratio = np.ma.masked_array(ratio, mask=invalid_mask)
 
-    #dataFilename = re.split(r'\/',nc_filename)[-1]
-    dataFilename = str(Path(nc_filename).name)
+        # Compute the natural logarithm of the valid values
+        log_ratio = np.ma.log(ratio)
+        return log_ratio
 
-    ## fill dictionary for output
-    nc_dict['PollyVersion'] = PollyVersion
-    nc_dict['location'] = location
-    nc_dict['PicassoVersion'] = version
-    nc_dict['m_date'] = m_date
-    nc_dict['time'] = time
-    nc_dict['height'] = height
-    nc_dict['VDR_355'] = VDR_355
-    nc_dict['VDR_532'] = VDR_532
-    nc_dict['VDR_1064'] = VDR_1064
-    nc_dict['quality_mask_355'] = quality_mask_355
-    nc_dict['quality_mask_532'] = quality_mask_532
-    nc_dict['quality_mask_1064'] = quality_mask_1064
-    nc_dict['eta355'] = eta355
-    nc_dict['eta532'] = eta532
-    nc_dict['PollyDataFile'] = dataFilename
+    ##using smoothing window function
+    def smoothed_data(data,window_size):
+        window = np.ones(int(window_size))/float(window_size)
+        smoothed_data = np.convolve(data,window,'same')
+        return smoothed_data
 
+    window_size = 25
+
+    log_klett_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size))
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        log_klett_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_klett_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_klett_1064'],window_size=window_size))
+    log_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size))
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        log_raman_532_1064 = compute_valid_log(smoothed_data(data=nc_dict['aerBsc_raman_532'],window_size=window_size),smoothed_data(data=nc_dict['aerBsc_raman_1064'],window_size=window_size))
+    log_LR_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerLR_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerLR_raman_532'],window_size=window_size))
+    log_Ext_raman_355_532 = compute_valid_log(smoothed_data(data=nc_dict['aerExt_raman_355'],window_size=window_size),smoothed_data(data=nc_dict['aerExt_raman_532'],window_size=window_size))
+
+#    log_klett_355_532 = compute_valid_log(nc_dict['aerBsc_klett_355'],nc_dict['aerBsc_klett_532'])
+#    log_klett_532_1064 = compute_valid_log(nc_dict['aerBsc_klett_532'],nc_dict['aerBsc_klett_1064'])
+#    log_raman_355_532 = compute_valid_log(nc_dict['aerBsc_raman_355'],nc_dict['aerBsc_raman_532'])
+#    log_raman_532_1064 = compute_valid_log(nc_dict['aerBsc_raman_532'],nc_dict['aerBsc_raman_1064'])
+#    log_LR_355_532 = compute_valid_log(nc_dict['aerLR_raman_355'],nc_dict['aerLR_raman_532'])
+#    log_Ext_raman_355_532 = compute_valid_log(nc_dict['aerExt_raman_355'],nc_dict['aerExt_raman_532'])
+
+    AE_beta_355_532_Klett = log_klett_355_532/np.log(532/355)
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        AE_beta_532_1064_Klett = log_klett_532_1064/np.log(1064/532)
+    AE_beta_355_532_Raman = log_raman_355_532/np.log(532/355)
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        AE_beta_532_1064_Raman = log_raman_532_1064/np.log(1064/532)
+    AE_LR_355_532_Raman = log_LR_355_532/np.log(532/355)
+    #AE_parExt_355_532_Raman = AE_beta_355_532_Raman + AE_LR_355_532_Raman
+    AE_parExt_355_532_Raman = log_Ext_raman_355_532/np.log(532/355)
+
+
+    nc_dict['AE_beta_355_532_Klett'] = AE_beta_355_532_Klett
+    nc_dict['AE_beta_355_532_Raman'] = AE_beta_355_532_Raman
+    if 'aerBsc_klett_1064' in nc_dict.keys():
+        nc_dict['AE_beta_532_1064_Klett'] = AE_beta_532_1064_Klett
+    if 'aerBsc_raman_1064' in nc_dict.keys():
+        nc_dict['AE_beta_532_1064_Raman'] = AE_beta_532_1064_Raman
+    nc_dict['AE_LR_355_532_Raman'] = AE_LR_355_532_Raman
+    nc_dict['AE_parExt_355_532_Raman'] = AE_parExt_355_532_Raman
+
+#    nc_dict['AE_beta_355_532_Klett'] = smoothed_data(data=AE_beta_355_532_Klett,window_size=window_size)
+#    nc_dict['AE_beta_355_532_Raman'] = smoothed_data(data=AE_beta_355_532_Raman,window_size=window_size)
+#    nc_dict['AE_beta_532_1064_Klett'] = smoothed_data(data=AE_beta_532_1064_Klett,window_size=window_size)
+#    nc_dict['AE_beta_532_1064_Raman'] = smoothed_data(data=AE_beta_532_1064_Raman,window_size=window_size)
+#    nc_dict['AE_LR_355_532_Raman'] = smoothed_data(data=AE_LR_355_532_Raman,window_size=window_size)
+#    nc_dict['AE_parExt_355_532_Raman'] = smoothed_data(data=AE_parExt_355_532_Raman,window_size=window_size)
     return nc_dict
 
 
-def read_nc_WVMR_RH(nc_filename):
-    nc_dict={}
-    if not os.path.exists(nc_filename):
-        print('{filename} does not exist.'.format(filename=nc_filename))
-        return
-    else:
-        pass
+def write2donefilelist_dict(donefilelist_dict='',
+                            lidar='',
+                            location='',
+                            starttime='',
+                            stoptime='',
+                            last_update='',
+                            wavelength='',
+                            filename='',
+                            level='',
+                            info='',
+                            nc_zip_file='',
+                            nc_zip_file_size='',
+                            active='',
+                            GDAS='',
+                            GDAS_timestamp='',
+                            lidar_ratio='',
+                            software_version='',
+                            product_type='',
+                            product_starttime='',
+                            product_stoptime=''
+                            ):
 
-    ## open nc-file as dataset
-    nc_file_ds = Dataset(nc_filename, "r")
+    filenamepath_cropped = Path(filename).parent.parts
+    filenamepath_cropped = Path(*filenamepath_cropped[-5:])
+
+
+    ## initialize dict
+    donefilelist_dict[filename] = {}
+
+    donefilelist_dict[filename]['lidar'] = lidar
+    donefilelist_dict[filename]['location'] = location
+    donefilelist_dict[filename]['starttime'] = starttime
+    donefilelist_dict[filename]['stoptime'] = stoptime
+    donefilelist_dict[filename]['last_update'] = last_update
+    donefilelist_dict[filename]['lambda'] = wavelength
+    donefilelist_dict[filename]['image'] = f'{str(filenamepath_cropped)}/{str(Path(filename).name)}' #experimental/arielle/2019/11/08/2019_11_08_Fri_ARI_00_00_03_SAT_FR_532.png
+    donefilelist_dict[filename]['level'] = level
+    donefilelist_dict[filename]['info'] = info
+    donefilelist_dict[filename]['nc_zip_file'] = nc_zip_file
+    donefilelist_dict[filename]['nc_zip_file_size'] = nc_zip_file_size
+    donefilelist_dict[filename]['active'] = active
+    donefilelist_dict[filename]['GDAS'] = GDAS
+    donefilelist_dict[filename]['GDAS_timestamp'] = GDAS_timestamp
+    donefilelist_dict[filename]['lidar_ratio'] = lidar_ratio
+    donefilelist_dict[filename]['software_version'] = software_version
+    donefilelist_dict[filename]['product_type'] = product_type
+    donefilelist_dict[filename]['product_starttime'] = product_starttime
+    donefilelist_dict[filename]['product_stoptime'] = product_stoptime
+
+    return donefilelist_dict
+
+def write2donefile(picassoconfigfile_dict,donefilelist_dict):
+
+    donefile = picassoconfigfile_dict['doneListFile']
+
+    with open(donefile, 'a') as file:
+        for key in donefilelist_dict.keys():
+            for keyname in donefilelist_dict[key]:
+                file.write(f'{keyname}={donefilelist_dict[key][keyname]}\n')
+            file.write(f'------\n')
     
-    ## get global attributes from nc-file
-    global_attr = {}
-    for nc_attr in nc_file_ds.ncattrs():
-                # att_value=repr(input_nc_file.getncattr(nc_attr))
-        att_value = nc_file_ds.getncattr(nc_attr)
-        global_attr[nc_attr] = att_value
-    ## get variable attributes from nc-file
-    var_attr_WVMR = {}
-    var_attr_RH = {}
-    var = ["WVMR", "RH"]
-    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-        var_attr_WVMR[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-        var_attr_RH[var_att] = var_att_value
-
-
-    PollyVersion = global_attr['source']
-    location = global_attr['location']
-    version = global_attr['version']
-    
-    WVMR = nc_file_ds[var[0]][:]
-    RH = nc_file_ds[var[1]][:]
-    quality_mask_WVMR = nc_file_ds['QM_WVMR'][:] ## get qual-matrix from FR-nc-file
-    quality_mask_RH = nc_file_ds['QM_RH'][:]
-                    
-    height = nc_file_ds['height'][:]
-    time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-    #dataFilename = re.split(r'\/',nc_filename)[-1]
-    dataFilename = str(Path(nc_filename).name)
-
-    ## fill dictionary for output
-    nc_dict['m_date'] = m_date
-    nc_dict['time'] = time
-    nc_dict['height'] = height
-    nc_dict['PollyVersion'] = PollyVersion
-    nc_dict['location'] = location
-    nc_dict['PicassoVersion'] = version
-    nc_dict['WVMR'] = WVMR
-    nc_dict['RH'] = RH
-    nc_dict['quality_mask_WVMR'] = quality_mask_WVMR
-    nc_dict['quality_mask_RH'] = quality_mask_RH
-    nc_dict['PollyDataFile'] = dataFilename
-
-    return nc_dict
-
-
-def read_nc_quasi_results(nc_filename,q_version):
-    nc_dict={}
-    if not os.path.exists(nc_filename):
-        print('{filename} does not exist.'.format(filename=nc_filename))
-        return
-    else:
-        pass
-
-    ## open nc-file as dataset
-    nc_file_ds = Dataset(nc_filename, "r")
-    
-    ## get global attributes from nc-file
-    global_attr = {}
-    for nc_attr in nc_file_ds.ncattrs():
-        att_value = nc_file_ds.getncattr(nc_attr)
-        global_attr[nc_attr] = att_value
-    ## get variable attributes from nc-file
-    var_attr_quasi_angstrom = {}
-    var_attr_quasi_bsc_532 = {}
-    var_attr_quasi_bsc_1064 = {}
-    var_attr_quasi_pardepol_532 = {}
-    var = ["quasi_ang_532_1064", "quasi_bsc_532", "quasi_bsc_1064", "quasi_pardepol_532"]
-    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-        var_attr_quasi_angstrom[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-        var_attr_quasi_bsc_532[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-        var_attr_quasi_bsc_1064[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[3]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[3]].getncattr(var_att)
-        var_attr_quasi_pardepol_532[var_att] = var_att_value
-
-
-    PollyVersion = global_attr['source']
-    location = global_attr['location']
-    version = global_attr['version']
-    
-    QR_Ang = nc_file_ds[var[0]][:]
-    QR_Bsc_532 = nc_file_ds[var[1]][:]
-    QR_Bsc_1064 = nc_file_ds[var[2]][:]
-    QR_ParDepol_532 = nc_file_ds[var[3]][:]
-    quality_mask_532 = nc_file_ds['quality_mask_532'][:]
-    quality_mask_1064 = nc_file_ds['quality_mask_1064'][:]
-    quality_mask_voldepol = nc_file_ds['quality_mask_voldepol_532'][:]
-                    
-    height = nc_file_ds['height'][:]
-    time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-    if q_version == 'V1':
-        QR_Bsc_532_CUsed = var_attr_quasi_bsc_532['Lidar_calibration_constant_used']
-        QR_Bsc_1064_CUsed = var_attr_quasi_bsc_1064['Lidar_calibration_constant_used']
-    #dataFilename = re.split(r'\/',nc_filename)[-1]
-    dataFilename = str(Path(nc_filename).name)
-   
-
-    ## fill dictionary for output
-    nc_dict['m_date'] = m_date
-    nc_dict['time'] = time
-    nc_dict['height'] = height
-    nc_dict['PollyVersion'] = PollyVersion
-    nc_dict['location'] = location
-    nc_dict['PicassoVersion'] = version
-    nc_dict['QR_Ang'] = QR_Ang
-    nc_dict['QR_Bsc_532'] = QR_Bsc_532
-    nc_dict['QR_Bsc_1064'] = QR_Bsc_1064
-    nc_dict['QR_ParDepol_532'] = QR_ParDepol_532
-    nc_dict['quality_mask_532'] = quality_mask_532
-    nc_dict['quality_mask_1064'] = quality_mask_1064
-    nc_dict['quality_mask_voldepol'] = quality_mask_voldepol
-    if q_version == 'V1':
-        nc_dict['QR_Bsc_532_CUsed'] = QR_Bsc_532_CUsed
-        nc_dict['QR_Bsc_1064_CUsed'] = QR_Bsc_1064_CUsed
-    nc_dict['PollyDataFile'] = dataFilename
-
-    return nc_dict
-
-
-
-def read_nc_target_classification(nc_filename):
-    nc_dict={}
-    if not os.path.exists(nc_filename):
-        print('{filename} does not exist.'.format(filename=nc_filename))
-        return
-    else:
-        pass
-
-    ## open nc-file as dataset
-    nc_file_ds = Dataset(nc_filename, "r")
-    
-    ## get global attributes from nc-file
-    global_attr = {}
-    for nc_attr in nc_file_ds.ncattrs():
-                # att_value=repr(input_nc_file.getncattr(nc_attr))
-        att_value = nc_file_ds.getncattr(nc_attr)
-        global_attr[nc_attr] = att_value
-    ## get variable attributes from nc-file
-    var_attr_class = {}
-    var = ["target_classification"]
-    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-        var_attr_class[var_att] = var_att_value
-
-
-    PollyVersion = global_attr['source']
-    location = global_attr['location']
-    version = global_attr['version']
- 
-    TC = nc_file_ds[var[0]][:]
-                    
-    height = nc_file_ds['height'][:]
-    time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-    TC_def = var_attr_class['definition']
-    TC_legend_key_red = var_attr_class['legend_key_red']
-    TC_legend_key_green = var_attr_class['legend_key_green']
-    TC_legend_key_blue = var_attr_class['legend_key_blue']
-
-    TC_cRange = var_attr_class['plot_range']
-
-    #dataFilename = re.split(r'\/',nc_filename)[-1]
-    dataFilename = str(Path(nc_filename).name)
-
-    ## fill dictionary for output
-    nc_dict['m_date'] = m_date
-    nc_dict['time'] = time
-    nc_dict['height'] = height
-    nc_dict['PollyVersion'] = PollyVersion
-    nc_dict['location'] = location
-    nc_dict['PicassoVersion'] = version
-    nc_dict['TC'] = TC
-#    nc_dict['quality_mask'] = quality_mask
-    
-    nc_dict['TC_def'] = TC_def
-    nc_dict['TC_legend_key_red'] = TC_legend_key_red
-    nc_dict['TC_legend_key_green'] = TC_legend_key_green
-    nc_dict['TC_legend_key_blue'] = TC_legend_key_blue
-    nc_dict['TC_cRange'] = TC_cRange
-    nc_dict['PollyDataFile'] = dataFilename
-
-    return nc_dict
-
-
-def read_nc_overlap(nc_filename):
-    nc_dict={}
-    if not os.path.exists(nc_filename):
-        print('{filename} does not exist.'.format(filename=nc_filename))
-        return
-    else:
-        pass
-
-    ## open nc-file as dataset
-    nc_file_ds = Dataset(nc_filename, "r")
-    
-    ## get global attributes from nc-file
-    global_attr = {}
-    for nc_attr in nc_file_ds.ncattrs():
-                # att_value=repr(input_nc_file.getncattr(nc_attr))
-        att_value = nc_file_ds.getncattr(nc_attr)
-        global_attr[nc_attr] = att_value
-    ## get variable attributes from nc-file
-    var_attr_method = {}
-    var_attr_OL355 = {}
-    var_attr_OL355d = {}
-    var_attr_OL532 = {}
-    var_attr_OL532d = {}
-    var = ["method","overlap355","overlap355Defaults","overlap532","overlap532Defaults"]
-    
-
-    for var_att in nc_file_ds.variables[var[0]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[0]].getncattr(var_att)
-        var_attr_method[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-        var_attr_OL355[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-        var_attr_OL355d[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[1]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[1]].getncattr(var_att)
-        var_attr_OL532[var_att] = var_att_value
-    for var_att in nc_file_ds.variables[var[2]].ncattrs():
-        var_att_value = nc_file_ds.variables[var[2]].getncattr(var_att)
-        var_attr_OL532d[var_att] = var_att_value
-
-    PollyVersion = global_attr['source']
-    location = global_attr['location']
-    version = global_attr['version']
-
-    method = nc_file_ds[var[0]][:]
-    OL_355 = nc_file_ds[var[1]][:]
-    OL_355d = nc_file_ds[var[2]][:]
-    OL_532 = nc_file_ds[var[3]][:]
-    OL_532d = nc_file_ds[var[4]][:]
-    height = nc_file_ds['height'][:]
-    time = nc_file_ds['time'][:]
-    m_date = datetime.fromtimestamp(time[0]).strftime("%Y-%m-%d")
-
-    #dataFilename = re.split(r'\/',nc_filename)[-1]
-    dataFilename = str(Path(nc_filename).name)
-
-    ## fill dictionary for output
-    nc_dict['PollyVersion'] = PollyVersion
-    nc_dict['location'] = location
-    nc_dict['PicassoVersion'] = version
-    nc_dict['m_date'] = m_date
-    nc_dict['time'] = time
-    nc_dict['height'] = height
-    nc_dict['method'] = method
-    nc_dict['OL_355'] = OL_355
-    nc_dict['OL_355d'] = OL_355d
-    nc_dict['OL_532'] = OL_532
-    nc_dict['OL_532d'] = OL_532d
-    nc_dict['PollyDataFile'] = dataFilename
-
-    return nc_dict
-
+    return None
 
