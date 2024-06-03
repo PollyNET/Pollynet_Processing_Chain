@@ -56,13 +56,13 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap'],
+                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
 my_parser.add_argument('--donefilelist', dest='donefilelist',
                        type=str,
-                       default = False,
+                       default = 'false',
                        help='write list of plotted filenames into donefilelist, specified in the picasso-config. Default is False.')
 
 # init parser
@@ -358,6 +358,18 @@ def main():
             nc_dict = readout.read_nc_file(data_file)
             print('plotting overlap:')
             display_3d.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
+
+    if ('LC' in args.retrieval):
+        ## plotting Lidar constants from db-file
+        base_dir = Path(config_dict['results_folder'])
+        db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
+        print(db_path)
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Klett',telescope='far')
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Klett',telescope='far')
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Klett',telescope='far')
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Raman',telescope='far')
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Raman',telescope='far')
+        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Raman',telescope='far')
 
 
     ## add plotted files to donefile

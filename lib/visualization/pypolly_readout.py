@@ -14,6 +14,8 @@ from netCDF4 import Dataset
 import json
 from pathlib import Path
 from statistics import mode
+import pandas as pd
+import sqlite3
 
 # load colormap
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -381,4 +383,36 @@ def write2donefile(picassoconfigfile_dict,donefilelist_dict):
             file.write(f'------\n')
     
     return None
+
+
+def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    YYYY = timestamp[0:4]
+    MM = timestamp[4:6]
+    DD = timestamp[6:8]
+    formatted_timestamp = f'{YYYY}-{MM}-{DD}'
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    cursor.execute(f"PRAGMA table_info({table_name});")
+
+    query = f"""
+              SELECT cali_start_time,cali_stop_time,liconst,wavelength,cali_method,telescope
+              FROM {table_name}
+              WHERE cali_start_time LIKE ? AND wavelength = ? AND cali_method LIKE ? AND telescope LIKE ?
+              """
+    df = pd.read_sql_query(query, conn, params=(f'%{formatted_timestamp}%',wavelength,f'%{method}%',f'%{telescope}%'))
+#    cursor.execute(query, (f'%{formatted_timestamp}%',wavelength,f'%{method}%',f'%{telescope}%'))
+
+
+#    values = cursor.fetchall()
+#    for value in values:
+#        print(value)
+
+    conn.close()
+    print(df)
+
+    return df
+
 
