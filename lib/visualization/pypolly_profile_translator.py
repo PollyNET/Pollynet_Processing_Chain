@@ -519,3 +519,71 @@ def POLIPHON_profile_translator_function():
 
     return profile_translator
 
+#### translator for calib.plotting
+def calib_profile_dict_keys():
+    profile_dict_key_ls = ['wavelength','misc', 'var_name_ls','var_err_name_ls','var_color_ls','var_style_ls','scaling_factor','xlim_name','ylim_name','x_label','y_label','plot_filename',
+                          'product_type']
+    return profile_dict_key_ls
+
+def calib_profile_translator_function():
+    ## profile_translator
+    
+    profilename_ls = ['LC355','LC532','LC1064']
+
+    profile_dict_key_ls = calib_profile_dict_keys()
+
+    ## initiate dict
+    profile_translator = {}
+    for profilename in profilename_ls:
+        profile_translator[profilename] = {}
+        for n,key in enumerate(profile_dict_key_ls):
+            profile_translator[profilename][key] = ''
+
+    ## LC355
+    profile_translator['LC355']['wavelength'] = 355
+    profile_translator['LC355']['misc'] = ''
+    profile_translator['LC355']['var_name_ls'] = ['LC355_Klett','LC355_Raman']                        
+    profile_translator['LC355']['var_err_name_ls'] = ['uncertainty_LC355_Klett','uncertainty_LC355_Raman']
+    profile_translator['LC355']['var_color_ls'] = ['green','purple']
+    profile_translator['LC355']['var_style_ls'] = ['^','o']
+    profile_translator['LC355']['scaling_factor'] = 1
+    profile_translator['LC355']['xlim_name'] = None
+    profile_translator['LC355']['ylim_name'] = None
+    profile_translator['LC355']['x_label'] = 'Time [UTC]'
+    profile_translator['LC355']['y_label'] = 'LC'
+    profile_translator['LC355']['plot_filename'] = 'LC_355'
+    profile_translator['LC355']['product_type'] = 'LC_355'
+
+    ## LC532
+    profile_translator['LC532']['wavelength'] = 532
+    profile_translator['LC532']['misc'] = ''
+    profile_translator['LC532']['var_name_ls'] = ['LC532_Klett','LC532_Raman']                        
+    profile_translator['LC532']['var_err_name_ls'] = ['uncertainty_LC532_Klett','uncertainty_LC532_Raman']
+    profile_translator['LC532']['var_color_ls'] = ['green','purple']
+    profile_translator['LC532']['var_style_ls'] = ['^','o']
+    profile_translator['LC532']['scaling_factor'] = 1
+    profile_translator['LC532']['xlim_name'] = None
+    profile_translator['LC532']['ylim_name'] = None
+    profile_translator['LC532']['x_label'] = 'Time [UTC]'
+    profile_translator['LC532']['y_label'] = 'LC'
+    profile_translator['LC532']['plot_filename'] = 'LC_532'
+    profile_translator['LC532']['product_type'] = 'LC_532'
+
+    ## LC1064
+    profile_translator['LC1064']['wavelength'] = 1064
+    profile_translator['LC1064']['misc'] = ''
+    profile_translator['LC1064']['var_name_ls'] = ['LC1064_Klett','LC1064_Raman']                        
+    profile_translator['LC1064']['var_err_name_ls'] = ['uncertainty_LC1064_Klett','uncertainty_LC1064_Raman']
+    profile_translator['LC1064']['var_color_ls'] = ['green','purple']
+    profile_translator['LC1064']['var_style_ls'] = ['^','o']
+    profile_translator['LC1064']['scaling_factor'] = 1
+    profile_translator['LC1064']['xlim_name'] = None
+    profile_translator['LC1064']['ylim_name'] = None
+    profile_translator['LC1064']['x_label'] = 'Time [UTC]'
+    profile_translator['LC1064']['y_label'] = 'LC'
+    profile_translator['LC1064']['plot_filename'] = 'LC_1064'
+    profile_translator['LC1064']['product_type'] = 'LC_1064'
+
+    return profile_translator
+
+

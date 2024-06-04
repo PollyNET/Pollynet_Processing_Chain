@@ -398,7 +398,7 @@ def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
     cursor.execute(f"PRAGMA table_info({table_name});")
 
     query = f"""
-              SELECT cali_start_time,cali_stop_time,liconst,wavelength,cali_method,telescope
+              SELECT * 
               FROM {table_name}
               WHERE cali_start_time LIKE ? AND wavelength = ? AND cali_method LIKE ? AND telescope LIKE ?
               """
@@ -411,7 +411,6 @@ def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
 #        print(value)
 
     conn.close()
-    print(df)
 
     return df
 

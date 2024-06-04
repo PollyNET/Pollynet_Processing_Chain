@@ -83,6 +83,7 @@ def read_excel_config_file(excel_file, timestamp, device):
 #    config_array = excel_file_ds.loc[(excel_file_ds['Instrument'] == 'arielle') & (excel_file_ds['Starttime of config'] == '20200204 00:00:00')]
     config_array = filtered_result.loc[(filtered_result['Instrument'] == device)]
     polly_local_config_file = str(config_array['Config file'].to_string(index=False)).strip() ## get rid of whtiespaces
+    #location = str(config_array['Location'].to_string(index=False)).strip() ## get rid of whtiespaces
 #    print(polly_local_config_file)
     return polly_local_config_file
 
@@ -363,13 +364,21 @@ def main():
         ## plotting Lidar constants from db-file
         base_dir = Path(config_dict['results_folder'])
         db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
-        print(db_path)
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Klett',telescope='far')
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Klett',telescope='far')
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Klett',telescope='far')
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Raman',telescope='far')
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Raman',telescope='far')
-        readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Raman',telescope='far')
+        LC = {}
+        LC['LC355'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Method',telescope='far')
+        LC['LC532'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Method',telescope='far')
+        LC['LC1064'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Method',telescope='far')
+        calib_profile_translator = p_translator.calib_profile_translator_function()
+        try:
+            nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
+            for data_file in nc_files:
+                nc_dict = readout.read_nc_file(data_file)
+                print('plotting LidarCalibrationConstants:')
+                for profilename in calib_profile_translator.keys():
+                    display_profiles.pollyDisplay_calibration_constants(nc_dict,LC[profilename],calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+        except Exception as e:
+             print("An error occurred:", e)
+
 
 
     ## add plotted files to donefile
