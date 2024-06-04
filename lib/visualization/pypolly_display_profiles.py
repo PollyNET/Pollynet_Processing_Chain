@@ -464,4 +464,165 @@ def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translato
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
                                     )
     
+    
+def pollyDisplay_longtermcalibration(nc_dict,dataframe,profile_calib_translator,profilename,config_dict,polly_conf_dict,outdir,donefilelist_dict):
+    """
+    Description
+    -----------
+    Display the calibration constans, such as LC.calib, WV.calib, Depol.calib. from sqlite3.db-file.
+
+    Parameters
+    ----------
+    nc_dict: dict
+        dict wich stores the WV data.
+
+    Usage
+    -----
+    pollyDisplayWVMR_profile(nc_dict,config_dict,polly_conf_dict)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    ## read from config file
+    figDPI = config_dict['figDPI']
+    flagWatermarkOn = config_dict['flagWatermarkOn']
+    fontname = config_dict['fontname']
+
+#    ## read from global config file
+#    if profile_calib_translator[profilename]['xlim_name'] != None:
+#        xLim = polly_conf_dict[profile_calib_translator[profilename]['xlim_name']]
+#    else:
+#        xLim = None
+#    if profile_calib_translator[profilename]['ylim_name'] != None:
+#        yLim = polly_conf_dict[profile_calib_translator[profilename]['ylim_name']]
+#    else:
+#        yLim = None
+
+    partnerLabel = polly_conf_dict['partnerLabel']
+    imgFormat = polly_conf_dict['imgFormat']
+
+    ## read from nc-file
+#    starttime = nc_dict_profile['start_time']
+#    endtime = nc_dict_profile['end_time']
+#    methods_orig = list(dataframe['cali_method'])
+    # Remove duplicates while preserving order using list comprehension
+#    seen = set()
+#    methods = [item for item in methods_orig if item not in seen and not seen.add(item)]
+
+    pollyVersion = nc_dict['PollyVersion']
+    location = nc_dict['location']
+    version = nc_dict['PicassoVersion']
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
+    saveFolder = outdir
+#    dataFilename = re.split(r'_overlap',nc_dict['PollyDataFile'])[0]
+    YYYY = nc_dict['m_date'][0:4]
+    MM = nc_dict['m_date'][5:7]
+    DD = nc_dict['m_date'][8:10]
+    newdate = f'{YYYY}{MM}{DD}'
+    plotfile = f"{pollyVersion}_{newdate}_long_term_cali_results.{imgFormat}"
+    saveFilename = os.path.join(saveFolder,plotfile)
+    exit()
+    fig = plt.figure(figsize=[12, 6])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
+
+    for element,method in enumerate(methods):
+        filtered_df = dataframe[dataframe['cali_method'].str.contains(method, na=False)]
+
+        p1 = ax.scatter(pd.to_datetime(filtered_df['cali_start_time']),filtered_df['liconst'],\
+            marker=profile_calib_translator[profilename]['var_style_ls'][element],\
+            color=profile_calib_translator[profilename]['var_color_ls'][element] ,\
+            zorder=2,\
+            label=method)
+#        p2 = ax.plot(pd.to_datetime(filtered_df['cali_start_time']),filtered_df['liconst'],\
+#            linestyle='--',\
+#            color=profile_calib_translator[profilename]['var_color_ls'][element] ,\
+#            zorder=2)
+    date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
+    date_00 = date_00.timestamp()
+    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    x_lims = date2num(x_lims)
+    ax.set_xlim(x_lims[0],x_lims[-1])
+
+    ax.set_xlabel(profile_calib_translator[profilename]['x_label'], fontsize=15)
+    ax.set_ylabel(profile_calib_translator[profilename]['y_label'], fontsize=15)
+
+    ax.xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
+    ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
+    ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
+
+    ax.grid(True)
+    ax.tick_params(axis='both', which='major', labelsize=15,
+                   right=True, top=True, width=2, length=5)
+    ax.tick_params(axis='both', which='minor', width=1.5,
+                   length=3.5, right=True, top=True)
+
+    ax.set_title(
+        '{profilename} {instrument} at {location}'.format(
+            profilename=profilename,
+            instrument=pollyVersion,
+            location=location
+            ),
+        fontsize=14
+        )
+
+    plt.legend(loc='upper right')
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=7, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+        fig.text(
+            0.2, 0.02,
+            f'{nc_dict["m_date"]}\nVersion: {version}',fontsize=12)
+    fig.savefig(saveFilename,dpi=figDPI)
+
+    plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = list(dataframe['wavelength'])[0],
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = f"Lidar calibration constant from {profile_calib_translator[profilename]['product_type']}",
+                                    nc_zip_file = polly_conf_dict['calibrationDB'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = profile_calib_translator[profilename]['product_type'],
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
+    
 

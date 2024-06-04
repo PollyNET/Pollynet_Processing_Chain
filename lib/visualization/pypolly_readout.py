@@ -414,4 +414,10 @@ def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
 
     return df
 
+def read_from_logbookFile(logbookFile_path):
+    df = pd.read_csv(logbookFile_path, sep=';', header=0, index_col=None)
+    print(df)
+    return df
+
+
 
