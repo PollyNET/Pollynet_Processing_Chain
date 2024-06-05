@@ -350,7 +350,8 @@ def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translato
     ## read from nc-file
 #    starttime = nc_dict_profile['start_time']
 #    endtime = nc_dict_profile['end_time']
-    methods_orig = list(dataframe['cali_method'])
+    filtered_sql_df = dataframe[dataframe['cali_start_time'].dt.date == pd.to_datetime(nc_dict['m_date']).date()]
+    methods_orig = list(filtered_sql_df['cali_method'])
     # Remove duplicates while preserving order using list comprehension
     seen = set()
     methods = [item for item in methods_orig if item not in seen and not seen.add(item)]
@@ -371,9 +372,9 @@ def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translato
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
 
     for element,method in enumerate(methods):
-        filtered_df = dataframe[dataframe['cali_method'].str.contains(method, na=False)]
+        filtered_df = filtered_sql_df[filtered_sql_df['cali_method'].str.contains(method, na=False)]
 
-        p1 = ax.scatter(pd.to_datetime(filtered_df['cali_start_time']),filtered_df['liconst'],\
+        p1 = ax.scatter(filtered_df['cali_start_time'],filtered_df['liconst'],\
             marker=profile_calib_translator[profilename]['var_style_ls'][element],\
             color=profile_calib_translator[profilename]['var_color_ls'][element] ,\
             zorder=2,\
@@ -466,7 +467,7 @@ def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translato
                                     )
     
     
-def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,sql_dataframe,profile_calib_translator,profilename,config_dict,polly_conf_dict,outdir,donefilelist_dict):
+def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,ETA_sql_dataframe,profile_calib_translator,profilename,config_dict,polly_conf_dict,outdir,donefilelist_dict):
     """
     Description
     -----------
@@ -528,17 +529,19 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,sql_dataframe,pro
     plotfile = f"{pollyVersion}_{newdate}_long_term_cali_results.{imgFormat}"
     saveFilename = os.path.join(saveFolder,plotfile)
 
-    today = datetime.now()
+    mdate = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     # Calculate the date 6 months ago
-    six_months_ago = today - timedelta(days=6*30)  # Roughly 6 months
+    six_months_ago = mdate - timedelta(days=6*30)  # Roughly 6 months
 
-    filtered_sql_df={}
-    for w in sql_dataframe.keys():
-        sql_dataframe[w]['cali_start_time'] = pd.to_datetime(sql_dataframe[w]['cali_start_time'])
-        filtered_sql_df[w] = sql_dataframe[w][(sql_dataframe[w]['cali_start_time'] >= six_months_ago) & (sql_dataframe[w]['cali_start_time'] <= today)]
+    filtered_LC_sql_df={}
+    filtered_ETA_sql_df={}
+    for w in LC_sql_dataframe.keys():
+        filtered_LC_sql_df[w] = LC_sql_dataframe[w][(LC_sql_dataframe[w]['cali_start_time'] >= six_months_ago) & (LC_sql_dataframe[w]['cali_start_time'] <= mdate)]
+    for w in ETA_sql_dataframe.keys():
+        filtered_ETA_sql_df[w] = ETA_sql_dataframe[w][(ETA_sql_dataframe[w]['cali_start_time'] >= six_months_ago) & (ETA_sql_dataframe[w]['cali_start_time'] <= mdate)]
 
-    filtered_logbook_df = logbook_dataframe[(logbook_dataframe['time'] >= six_months_ago) & (logbook_dataframe['time'] <= today)]
-#    filtered_sql_df = sql_dataframe[(sql_dataframe['cali_start_time'] >= six_months_ago) & (sql_dataframe['cali_start_time'] <= today)]
+    filtered_logbook_df = logbook_dataframe[(logbook_dataframe['time'] >= six_months_ago) & (logbook_dataframe['time'] <= mdate)]
+#    filtered_LC_sql_df = LC_sql_dataframe[(LC_sql_dataframe['cali_start_time'] >= six_months_ago) & (LC_sql_dataframe['cali_start_time'] <= mdate)]
 
     changes = ['overlap','pulsepower','restarted','windowwipe','flashlamps']
     color_map = {
@@ -551,9 +554,9 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,sql_dataframe,pro
     }
 
     #fig = plt.figure(figsize=[12, 6])
-    fig, ax = plt.subplots(nrows=3, ncols=1, figsize=(12, 18))
+    fig, ax = plt.subplots(nrows=6, ncols=1, figsize=(12, 18))
     #ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
-    for n,w in enumerate(sql_dataframe.keys()):
+    for n,w in enumerate(LC_sql_dataframe.keys()):
         for index, row in filtered_logbook_df.iterrows():
             for change in changes:
                 if change in row['changes']:
@@ -562,16 +565,33 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,sql_dataframe,pro
             if len(row['ndfilters']) > 2:
                 ax[n].axvline(x=row['time'], color='black', linestyle='-', linewidth=2)
     
-        p2 = ax[n].scatter(filtered_sql_df[w]['cali_start_time'],filtered_sql_df[w]['liconst'],\
+        p2 = ax[n].scatter(filtered_LC_sql_df[w]['cali_start_time'],filtered_LC_sql_df[w]['liconst'],\
             marker='o',\
             color='blue',\
             zorder=2)
 
-        ax[n].set_xlim([six_months_ago, today])
+        ax[n].set_xlim([six_months_ago, mdate])
         ax[n].set_ylabel(w, fontsize=15)
 
+    for n,w in enumerate(ETA_sql_dataframe.keys()):
+        for index, row in filtered_logbook_df.iterrows():
+            for change in changes:
+                if change in row['changes']:
+                    color = color_map.get(change)
+                    ax[3+n].axvline(x=row['time'], color=color, linestyle='-', linewidth=2)
+            if len(row['ndfilters']) > 2:
+                ax[3+n].axvline(x=row['time'], color='black', linestyle='-', linewidth=2)
+    
+        p2 = ax[3+n].scatter(filtered_ETA_sql_df[w]['cali_start_time'],filtered_ETA_sql_df[w]['depol_const'],\
+            marker='o',\
+            color='blue',\
+            zorder=2)
+
+        ax[3+n].set_xlim([six_months_ago, mdate])
+        ax[3+n].set_ylabel(w, fontsize=15)
+
     legend_elements = [ Patch(facecolor=color_map[change],label=change) for change in color_map.keys() ]
-    legend_elements.append(Patch(facecolor='blue',label='LC'))
+#    legend_elements.append(Patch(facecolor='blue',label='LC'))
     plt.legend(handles=legend_elements, title='legend', loc='upper right')
 
     ax[-1].set_xlabel('Date', fontsize=15)
@@ -623,27 +643,27 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,sql_dataframe,pro
 
     plt.close()
 
-#    ## write2donefilelist
-#    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
-#                                    lidar = pollyVersion,
-#                                    location = nc_dict['location'],
-#                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
-#                                    wavelength = list(dataframe['wavelength'])[0],
-#                                    filename = saveFilename,
-#                                    level = 0,
-#                                    info = f"Lidar calibration constant from {profile_calib_translator[profilename]['product_type']}",
-#                                    nc_zip_file = polly_conf_dict['calibrationDB'],
-#                                    nc_zip_file_size = 9000000,
-#                                    active = 1,
-#                                    GDAS = 0,
-#                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
-#                                    lidar_ratio = 50,
-#                                    software_version = version,
-#                                    product_type = profile_calib_translator[profilename]['product_type'],
-#                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
-#                                    )
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = six_months_ago.strftime("%Y%m%d %H:%M:%S"),
+                                    stoptime = mdate.strftime("%Y%m%d %H:%M:%S"),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = f"LC and logbook entries",
+                                    nc_zip_file = polly_conf_dict['calibrationDB'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = 'longterm_monitoring_LC',
+                                    product_starttime = six_months_ago.strftime("%Y%m%d %H:%M:%S"), 
+                                    product_stoptime = mdate.strftime("%Y%m%d %H:%M:%S")
+                                    )
     
 

@@ -365,9 +365,9 @@ def main():
         base_dir = Path(config_dict['results_folder'])
         db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
         LC = {}
-        LC['LC355'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='355',method='Method',telescope='far')
-        LC['LC532'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Method',telescope='far')
-        LC['LC1064'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Method',telescope='far')
+        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Method',telescope='far')
+        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
+        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
         calib_profile_translator = p_translator.calib_profile_translator_function()
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
@@ -387,19 +387,21 @@ def main():
         print(logbookFile_path)
         logbookFile_df = readout.read_from_logbookFile(logbookFile_path=str(logbookFile_path))
         LC = {}
-        LC['LC355'] = readout.connect_to_sql_db_longterm(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Klett',telescope='far')
-        LC['LC532'] = readout.connect_to_sql_db_longterm(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Klett',telescope='far')
-        LC['LC1064'] = readout.connect_to_sql_db_longterm(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Klett',telescope='far')
+        ETA={}
+        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Klett',telescope='far')
+        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Klett',telescope='far')
+        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Klett',telescope='far')
+        ETA['ETA355'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='355')
+        ETA['ETA532'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='532')
+        ETA['ETA1064'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='1064')
         calib_profile_translator = p_translator.calib_profile_translator_function()
-#        LC['LC532'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='532',method='Method',telescope='far')
-#        LC['LC1064'] = readout.connect_to_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',timestamp=date,wavelength='1064',method='Method',telescope='far')
         profilename='longterm_LC'
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
             for data_file in nc_files:
                 nc_dict = readout.read_nc_file(data_file)
                 print('plotting LongTermCalibration:')
-                display_profiles.pollyDisplay_longtermcalibration(nc_dict,logbookFile_df,LC,calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_longtermcalibration(nc_dict,logbookFile_df,LC,ETA,calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
              print("An error occurred:", e)
 

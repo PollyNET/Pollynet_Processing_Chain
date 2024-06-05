@@ -385,36 +385,7 @@ def write2donefile(picassoconfigfile_dict,donefilelist_dict):
     return None
 
 
-def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
-    conn = sqlite3.connect(db_path)
-    cursor = conn.cursor()
-
-    YYYY = timestamp[0:4]
-    MM = timestamp[4:6]
-    DD = timestamp[6:8]
-    formatted_timestamp = f'{YYYY}-{MM}-{DD}'
-
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    cursor.execute(f"PRAGMA table_info({table_name});")
-
-    query = f"""
-              SELECT * 
-              FROM {table_name}
-              WHERE cali_start_time LIKE ? AND wavelength = ? AND cali_method LIKE ? AND telescope LIKE ?
-              """
-    df = pd.read_sql_query(query, conn, params=(f'%{formatted_timestamp}%',wavelength,f'%{method}%',f'%{telescope}%'))
-#    cursor.execute(query, (f'%{formatted_timestamp}%',wavelength,f'%{method}%',f'%{telescope}%'))
-
-
-#    values = cursor.fetchall()
-#    for value in values:
-#        print(value)
-
-    conn.close()
-
-    return df
-
-def connect_to_sql_db_longterm(db_path,table_name,wavelength,method,telescope):
+def get_LC_from_sql_db(db_path,table_name,wavelength,method,telescope):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
@@ -427,15 +398,33 @@ def connect_to_sql_db_longterm(db_path,table_name,wavelength,method,telescope):
               WHERE wavelength = ? AND cali_method LIKE ? AND telescope LIKE ?
               """
     df = pd.read_sql_query(query, conn, params=(wavelength,f'%{method}%',f'%{telescope}%'))
-
+    df['cali_start_time'] = pd.to_datetime(df['cali_start_time'])
     conn.close()
 
     return df
 
+def get_depol_from_sql_db(db_path,table_name,wavelength):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    cursor.execute(f"PRAGMA table_info({table_name});")
+
+    query = f"""
+              SELECT * 
+              FROM {table_name}
+              WHERE wavelength = {wavelength}
+              """
+    df = pd.read_sql_query(query, conn)
+    df['cali_start_time'] = pd.to_datetime(df['cali_start_time'])
+    conn.close()
+
+    return df
+
+
 def read_from_logbookFile(logbookFile_path):
     df = pd.read_csv(logbookFile_path, sep=';', header=0, index_col=None)
     df['time'] = pd.to_datetime(df['time'], format='%Y%m%d-%H%M')
-#    print(df['time'],df['changes'])
     return df
 
 
