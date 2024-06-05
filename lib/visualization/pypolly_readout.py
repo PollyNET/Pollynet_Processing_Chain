@@ -414,9 +414,28 @@ def connect_to_sql_db(db_path,table_name,timestamp,wavelength,method,telescope):
 
     return df
 
+def connect_to_sql_db_longterm(db_path,table_name,wavelength,method,telescope):
+    conn = sqlite3.connect(db_path)
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    cursor.execute(f"PRAGMA table_info({table_name});")
+
+    query = f"""
+              SELECT * 
+              FROM {table_name}
+              WHERE wavelength = ? AND cali_method LIKE ? AND telescope LIKE ?
+              """
+    df = pd.read_sql_query(query, conn, params=(wavelength,f'%{method}%',f'%{telescope}%'))
+
+    conn.close()
+
+    return df
+
 def read_from_logbookFile(logbookFile_path):
     df = pd.read_csv(logbookFile_path, sep=';', header=0, index_col=None)
-    print(df)
+    df['time'] = pd.to_datetime(df['time'], format='%Y%m%d-%H%M')
+#    print(df['time'],df['changes'])
     return df
 
 
