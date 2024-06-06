@@ -373,6 +373,7 @@ def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translato
 
     for element,method in enumerate(methods):
         filtered_df = filtered_sql_df[filtered_sql_df['cali_method'].str.contains(method, na=False)]
+#        print(filtered_df[['cali_start_time','cali_stop_time','liconst','wavelength','cali_method','telescope']])
 
         p1 = ax.scatter(filtered_df['cali_start_time'],filtered_df['liconst'],\
             marker=profile_calib_translator[profilename]['var_style_ls'][element],\
@@ -568,6 +569,7 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,
         p2 = ax[n].scatter(filtered_LC_sql_df[w]['cali_start_time'],filtered_LC_sql_df[w]['liconst'],\
             marker='o',\
             color='blue',\
+            s=2,\
             zorder=2)
 
         ax[n].set_xlim([six_months_ago, mdate])
@@ -585,6 +587,7 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,
         p2 = ax[3+n].scatter(filtered_ETA_sql_df[w]['cali_start_time'],filtered_ETA_sql_df[w]['depol_const'],\
             marker='o',\
             color='blue',\
+            s=2,\
             zorder=2)
 
         ax[3+n].set_xlim([six_months_ago, mdate])
@@ -637,7 +640,7 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,
 
         fig.text(
             0.2, 0.02,
-            f'{nc_dict["m_date"][0:4]}\nVersion: {version}',fontsize=12)
+            f'Version: {version}',fontsize=12)
 
     fig.savefig(saveFilename,dpi=figDPI)
 
@@ -665,5 +668,173 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,
                                     product_starttime = six_months_ago.strftime("%Y%m%d %H:%M:%S"), 
                                     product_stoptime = mdate.strftime("%Y%m%d %H:%M:%S")
                                     )
-    
+
+
+def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,donefilelist_dict):
+#def pollyDisplay_calibration_constants(nc_dict,dataframe,profile_calib_translator,profilename,config_dict,polly_conf_dict,outdir,donefilelist_dict):
+    """
+    Description
+    -----------
+    Display the HouseKeepingData from the laserlogbook file.
+
+    Parameters
+    ----------
+    nc_dict: dict
+        dict wich stores the WV data.
+
+    Usage
+    -----
+    pollyDisplayWVMR_profile(nc_dict,config_dict,polly_conf_dict)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    ## read from config file
+    figDPI = config_dict['figDPI']
+    flagWatermarkOn = config_dict['flagWatermarkOn']
+    fontname = config_dict['fontname']
+
+#    ## read from global config file
+#    if profile_calib_translator[profilename]['xlim_name'] != None:
+#        xLim = polly_conf_dict[profile_calib_translator[profilename]['xlim_name']]
+#    else:
+#        xLim = None
+#    if profile_calib_translator[profilename]['ylim_name'] != None:
+#        yLim = polly_conf_dict[profile_calib_translator[profilename]['ylim_name']]
+#    else:
+#        yLim = None
+
+    partnerLabel = polly_conf_dict['partnerLabel']
+    imgFormat = polly_conf_dict['imgFormat']
+
+
+    pollyVersion = nc_dict['PollyVersion']
+    location = nc_dict['location']
+    version = nc_dict['PicassoVersion']
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
+    saveFolder = outdir
+    dataFilename = re.split(r'_overlap',nc_dict['PollyDataFile'])[0]
+    plotfile = f"{dataFilename}_monitor.{imgFormat}"
+    saveFilename = os.path.join(saveFolder,plotfile)
+
+    nrows = 5
+    fig, ax = plt.subplots(nrows=nrows, ncols=1, figsize=(12, 18))
+
+    for r in range(0,nrows):
+        ax[r].set_xticklabels([])
+
+    ax[0].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['ENERGY_VALUE_1'], linestyle='-', color='cornflowerblue')
+    ax[0].set_ylabel('Energy [mJ]', fontsize=15)
+
+    ax[1].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['ExtPyro'], linestyle='-', color='purple')
+    ax[1].set_ylabel('ExtPyro [mJ]', fontsize=15)
+
+    ax[2].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['TEMPERATURE'], linestyle='-', color='cyan',label='TEMPERATURE')
+    ax[2].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['Temp1'], linestyle='-', color='orange',label='Temp1')
+    ax[2].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['Temp2'], linestyle='-', color='green',label='Temp2')
+    ax[2].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['OutsideT'], linestyle='-', color='violet',label='OutsideT')
+    ax[2].legend(loc='upper right')
+    ax[2].set_ylabel('Temperature [°C]', fontsize=15)
+
+    ax[3].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['Temp1064'], linestyle='-', color='firebrick')
+    ax[3].set_ylabel('Temp1064 [°C]', fontsize=15)
+
+
+    state_colormap = {1: 'green', 2: 'red', 3: 'blue', 4: 'yellow'}
+    laserlogbook_df['rain'] = laserlogbook_df['rain'].astype(int)
+    laserlogbook_df['roof'] = laserlogbook_df['roof'].astype(int)
+    laserlogbook_df['shutter'] = laserlogbook_df['shutter'].astype(int)
+    states_params = ['rain','roof','shutter']
+    state_df = laserlogbook_df[states_params]
+
+    # Create bar plots with different colors
+    for param in states_params:
+        ax[4].scatter(laserlogbook_df['TIMESTAMP'], laserlogbook_df[param], color=laserlogbook_df[param].map(state_colormap),label=param)
+
+    ax[4].set_ylabel('State parameters', fontsize=15)
+    ax[4].legend(loc='upper right')
+
+
+#    ax[4].bar(laserlogbook_df['TIMESTAMP'],state_df['rain'])
+    #ax[4].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['rain'], linestyle='-', color='salmon')
+#    ax[4].set_ylabel('rain', fontsize=15)
+
+    date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
+    date_00 = date_00.timestamp()
+    x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
+    x_lims = date2num(x_lims)
+    ax[-1].set_xlim(x_lims[0],x_lims[-1])
+
+    ax[-1].set_xlabel('Time [UTC]', fontsize=15)
+
+    ax[-1].xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
+    ax[-1].xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
+    ax[-1].xaxis.set_major_formatter(DateFormatter('%H:%M'))
+
+#    ax.grid(True)
+#    ax.tick_params(axis='both', which='major', labelsize=15,
+#                   right=True, top=True, width=2, length=5)
+#    ax.tick_params(axis='both', which='minor', width=1.5,
+#                   length=3.5, right=True, top=True)
+
+    fig.suptitle(f'Laserlogbook monitoring of {pollyVersion} at {location}', fontsize=16, fontweight='bold', y=0.9)
+
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=7, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+        fig.text(
+            0.2, 0.02,
+            f'{nc_dict["m_date"]}\nVersion: {version}',fontsize=12)
+    fig.savefig(saveFilename,dpi=figDPI)
+
+    plt.close()
+
+#    ## write2donefilelist
+#    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+#                                    lidar = pollyVersion,
+#                                    location = nc_dict['location'],
+#                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+#                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+#                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+#                                    wavelength = list(dataframe['wavelength'])[0],
+#                                    filename = saveFilename,
+#                                    level = 0,
+#                                    info = f"Lidar calibration constant from {profile_calib_translator[profilename]['product_type']}",
+#                                    nc_zip_file = polly_conf_dict['calibrationDB'],
+#                                    nc_zip_file_size = 9000000,
+#                                    active = 1,
+#                                    GDAS = 0,
+#                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+#                                    lidar_ratio = 50,
+#                                    software_version = version,
+#                                    product_type = profile_calib_translator[profilename]['product_type'],
+#                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+#                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
+#                                    )
 

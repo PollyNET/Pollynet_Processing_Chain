@@ -16,6 +16,7 @@ from pathlib import Path
 from statistics import mode
 import pandas as pd
 import sqlite3
+from zipfile import ZipFile, ZIP_DEFLATED
 
 # load colormap
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -429,3 +430,123 @@ def read_from_logbookFile(logbookFile_path):
 
 
 
+def get_pollyxt_logbook_files(timestamp,device,raw_folder,output_path):
+    '''
+        This function locates multiple pollyxt logbook-zip files from one day measurements,
+        unzipps the files to output_path
+        and  merge them to one file
+    '''
+    YYYY=timestamp[0:4]
+    MM=timestamp[4:6]
+    input_path = Path(raw_folder,device,"data_zip",f"{YYYY}{MM}")
+
+    path_exist = Path(input_path)
+    print(input_path)
+    
+    if path_exist.exists() == True:
+        
+        ## set the searchpattern for the zipped-nc-files:
+        YYYY=timestamp[0:4]
+        MM=timestamp[4:6]
+        DD=timestamp[6:8]
+        
+        zip_searchpattern = str(YYYY)+'_'+str(MM)+'_'+str(DD)+'*_*laserlogbook*.zip'
+        
+        polly_laserlog_files       = Path(r'{}'.format(input_path)).glob('{}'.format(zip_searchpattern))
+        polly_laserlog_zip_files_list0 = [x for x in polly_laserlog_files if x.is_file()]
+        
+        
+        ## convert type path to type string
+        polly_laserlog_zip_files_list = []
+        for file in polly_laserlog_zip_files_list0:
+            polly_laserlog_zip_files_list.append(str(file))
+        
+        if len(polly_laserlog_zip_files_list) < 1:
+            print('no laserlogbook-files found!')
+            sys.exit()
+
+        polly_laserlog_files_list = []
+        to_unzip_list = []
+        for zip_file in polly_laserlog_zip_files_list:
+            unzipped_logtxt = Path(zip_file).name
+            unzipped_logtxt = Path(unzipped_logtxt).stem
+            unzipped_logtxt = Path(output_path,unzipped_logtxt)
+            polly_laserlog_files_list.append(unzipped_logtxt)
+            path = Path(unzipped_logtxt)
+
+            to_unzip_list.append(zip_file)
+
+        
+        ## unzipping
+        if len(to_unzip_list) > 0:
+            for zip_file in to_unzip_list:
+                with ZipFile(zip_file, 'r') as zip_ref:
+                    print("unzipping "+zip_file)
+                    zip_ref.extractall(output_path)
+    
+        ## sort lists
+        polly_laserlog_files_list.sort()
+
+        print("\n"+str(len(polly_laserlog_files_list))+" laserlogfiles found:\n")
+        print(polly_laserlog_files_list)
+        print("\n")
+
+        ## concat the txt files
+        result_file = Path(output_path,"result.txt")
+        with open(result_file, "wb") as outfile:
+            for logf in polly_laserlog_files_list:
+                with open(logf, "rb") as infile:
+                    outfile.write(infile.read())
+                ## delete every single logbook-file from unzipped-folder
+                os.remove(logf)
+
+        laserlog_filename = polly_laserlog_files_list[0]
+        laserlog_filename = Path(laserlog_filename).name
+        laserlog_filename_left = re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]\.nc',laserlog_filename)[0]
+        laserlog_filename = f'{laserlog_filename_left}_00_00_01.nc.laserlogbook.txt'
+        destination_file = Path(output_path,laserlog_filename)
+        
+        # Open the source file in binary mode and read its content
+        with open(result_file, 'rb') as source:
+            # Open the destination file in binary mode and write the content
+            with open(destination_file, 'wb') as destination:
+                destination.write(source.read())
+
+        os.remove(result_file)
+    else:
+        print("\nNo laserlogbook was found in {}. Correct path?\n".format(input_path))
+    
+    return destination_file
+
+def read_pollyxt_logbook_file(laserlogbookfile):
+
+    if Path(laserlogbookfile).exists() == True:
+        parameters_ls = ['ENERGY_VALUE_1','TEMPERATURE','ExtPyro','Temp1064','Temp1','Temp2','OutsideRH','OutsideT','roof','rain','shutter']
+        parameter_dict = {key: [] for key in parameters_ls}
+        parameter_dict['TIMESTAMP'] = []
+
+        date_pattern = r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
+        number_pattern = r'-?\d+\.\d+|-?\d+'
+        timestamp_ls = []
+        energy_ls = []
+        with open(laserlogbookfile) as laserlog:
+            for line in laserlog:
+                timestamp = re.findall(date_pattern,line)
+                parameter_dict['TIMESTAMP'].append(timestamp[0])
+                for param in parameters_ls:
+                    if param in line:
+                        value = re.split(f'{param}.',line)[1]
+                        match = re.search(number_pattern, value)
+                        value = match.group()
+                        parameter_dict[param].append(float(value))
+                    else:
+                        parameter_dict[param].append(np.nan)
+
+
+        df = pd.DataFrame(parameter_dict)
+        df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], format='%Y-%m-%d %H:%M:%S')
+        print(df)
+        return df
+
+    else:
+        print('laserlogbook could not be found.')

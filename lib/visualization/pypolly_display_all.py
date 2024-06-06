@@ -44,6 +44,10 @@ my_parser.add_argument('--date', dest='timestamp', metavar='timestamp',
 my_parser.add_argument('--device', dest='device', metavar='device',
                        type=str,
                        help='the polly device (level1 nc-file).')
+my_parser.add_argument('--base_dir', dest='base_dir',
+                       type=str,
+                       default='/data/level0/polly',
+                       help='the directory of level0 polly data and logbook-files.')
 my_parser.add_argument('--picasso_config_file', dest='picasso_config_file', metavar='picasso_config_file',
                        type=str,
                        help='the json-type picasso config-file')
@@ -83,7 +87,7 @@ def read_excel_config_file(excel_file, timestamp, device):
 #    config_array = excel_file_ds.loc[(excel_file_ds['Instrument'] == 'arielle') & (excel_file_ds['Starttime of config'] == '20200204 00:00:00')]
     config_array = filtered_result.loc[(filtered_result['Instrument'] == device)]
     polly_local_config_file = str(config_array['Config file'].to_string(index=False)).strip() ## get rid of whtiespaces
-    #location = str(config_array['Location'].to_string(index=False)).strip() ## get rid of whtiespaces
+#    location = str(config_array['Location'].to_string(index=False)).strip() ## get rid of whtiespaces
 #    print(polly_local_config_file)
     return polly_local_config_file
 
@@ -405,6 +409,17 @@ def main():
         except Exception as e:
              print("An error occurred:", e)
 
+    if ('HKD' in args.retrieval):
+         laserlogbook = readout.get_pollyxt_logbook_files(date,device,args.base_dir,outputfolder)
+         print(laserlogbook)
+         laserlogbook_df = readout.read_pollyxt_logbook_file(laserlogbook)
+         try:
+             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
+             for data_file in nc_files:
+                 nc_dict = readout.read_nc_file(data_file)
+                 display_profiles.pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+         except Exception as e:
+             print("An error occurred:", e)
 
 
     ## add plotted files to donefile
