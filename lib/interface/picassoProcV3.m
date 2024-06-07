@@ -423,7 +423,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Polarization calibration
 if ~ PollyConfig.flagMolDepolCali
     print_msg('Start polarization calibration.\n', 'flagTimestamp', true);
-    [polCaliEta355, polCaliEtaStd355, polCaliFac355, polCaliFacStd355, ~, polCali355Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [polCaliEta355, polCaliEtaStd355, polCaliFac355, polCaliFacStd355, ~, data.polCali355Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '355nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_355, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_355, ...
@@ -439,7 +439,7 @@ if ~ PollyConfig.flagMolDepolCali
         'flagDepolCali', PollyConfig.flagDepolCali, ...
         'default_polCaliEta', PollyDefaults.polCaliEta355, ...
         'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
-    [polCaliEta532, polCaliEtaStd532, polCaliFac532, polCaliFacStd532, ~, polCali532Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [polCaliEta532, polCaliEtaStd532, polCaliFac532, polCaliFacStd532, ~, data.polCali532Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '532nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_532, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_532, ...
@@ -455,7 +455,7 @@ if ~ PollyConfig.flagMolDepolCali
         'flagDepolCali', PollyConfig.flagDepolCali, ...
         'default_polCaliEta', PollyDefaults.polCaliEta532, ...
         'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
-    [polCaliEta1064, polCaliEtaStd1064, polCaliFac1064, polCaliFacStd1064, ~, polCali1064Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [polCaliEta1064, polCaliEtaStd1064, polCaliFac1064, polCaliFacStd1064, ~, data.polCali1064Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '1064nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_1064, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_1064, ...
@@ -749,7 +749,7 @@ if PollyConfig.flagMolDepolCali
     polCaliFacStd355 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
-    polCali355Attri = struct();
+    data.polCali355Attri = struct();
     for iGrp = 1:size(data.clFreGrps, 1)
         prfInd = data.clFreGrps(iGrp, 1):data.clFreGrps(iGrp, 2);
         flag355T = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
@@ -776,12 +776,12 @@ if PollyConfig.flagMolDepolCali
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    polCali355Attri.polCaliEta = polCaliEta355;
-    polCali355Attri.polCaliEtaStd = polCaliEtaStd355;
-    polCali355Attri.polCaliFac = polCaliFac355;
-    polCali355Attri.polCaliFacStd = polCaliFacStd355;
-    polCali355Attri.polCaliStartTime = polCaliStartTime;
-    polCali355Attri.polCaliStopTime = polCaliStopTime;
+    data.polCali355Attri.polCaliEta = polCaliEta355;
+    data.polCali355Attri.polCaliEtaStd = polCaliEtaStd355;
+    data.polCali355Attri.polCaliFac = polCaliFac355;
+    data.polCali355Attri.polCaliFacStd = polCaliFacStd355;
+    data.polCali355Attri.polCaliStartTime = polCaliStartTime;
+    data.polCali355Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
@@ -810,7 +810,7 @@ if PollyConfig.flagMolDepolCali
     polCaliFacStd532 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
-    polCali532Attri = struct();
+    data.polCali532Attri = struct();
     for iGrp = 1:size(data.clFreGrps, 1)
         prfInd = data.clFreGrps(iGrp, 1):data.clFreGrps(iGrp, 2);
         flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
@@ -837,12 +837,12 @@ if PollyConfig.flagMolDepolCali
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    polCali532Attri.polCaliEta = polCaliEta532;
-    polCali532Attri.polCaliEtaStd = polCaliEtaStd532;
-    polCali532Attri.polCaliFac = polCaliFac532;
-    polCali532Attri.polCaliFacStd = polCaliFacStd532;
-    polCali532Attri.polCaliStartTime = polCaliStartTime;
-    polCali532Attri.polCaliStopTime = polCaliStopTime;
+    data.polCali532Attri.polCaliEta = polCaliEta532;
+    data.polCali532Attri.polCaliEtaStd = polCaliEtaStd532;
+    data.polCali532Attri.polCaliFac = polCaliFac532;
+    data.polCali532Attri.polCaliFacStd = polCaliFacStd532;
+    data.polCali532Attri.polCaliStartTime = polCaliStartTime;
+    data.polCali532Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
@@ -871,7 +871,7 @@ if PollyConfig.flagMolDepolCali
     polCaliFacStd1064 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
-    polCali1064Attri = struct();
+    data.polCali1064Attri = struct();
     for iGrp = 1:size(data.clFreGrps, 1)
         prfInd = data.clFreGrps(iGrp, 1):data.clFreGrps(iGrp, 2);
         flag1064T = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
@@ -898,12 +898,12 @@ if PollyConfig.flagMolDepolCali
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    polCali1064Attri.polCaliEta = polCaliEta1064;
-    polCali1064Attri.polCaliEtaStd = polCaliEtaStd1064;
-    polCali1064Attri.polCaliFac = polCaliFac1064;
-    polCali1064Attri.polCaliFacStd = polCaliFacStd1064;
-    polCali1064Attri.polCaliStartTime = polCaliStartTime;
-    polCali1064Attri.polCaliStopTime = polCaliStopTime;
+    data.polCali1064Attri.polCaliEta = polCaliEta1064;
+    data.polCali1064Attri.polCaliEtaStd = polCaliEtaStd1064;
+    data.polCali1064Attri.polCaliFac = polCaliFac1064;
+    data.polCali1064Attri.polCaliFacStd = polCaliFacStd1064;
+    data.polCali1064Attri.polCaliStartTime = polCaliStartTime;
+    data.polCali1064Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
@@ -1961,13 +1961,13 @@ print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimesta
 % 355 nm
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-olAttri355 = struct();
-olAttri355.sigFR = [];
-olAttri355.sigNR = [];
-olAttri355.sigRatio = [];
-olAttri355.normRange = [];
-olAttri355.time = NaN;
-olFunc355 = NaN(length(data.height), 1);
+data.olAttri355 = struct();
+data.olAttri355.sigFR = [];
+data.olAttri355.sigNR = [];
+data.olAttri355.sigRatio = [];
+data.olAttri355.normRange = [];
+data.olAttri355.time = NaN;
+data.olFunc355 = NaN(length(data.height), 1);
 % olStd355 = NaN(length(data.height), 1);
 if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
     PC2PCR = data.hRes * sum(data.mShots(flag355FR, flagCloudFree_NR)) / 150;
@@ -1976,11 +1976,11 @@ if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
     bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
     sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
     bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_NR), 3));
-    [olFunc355, ~, olAttri355] = pollyOVLCalc(data.distance0, ...
+    [data.olFunc355, ~, data.olAttri355] = pollyOVLCalc(data.distance0, ...
         sig355FR, sig355NR, bg355FR, bg355NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
         'PC2PCR', PC2PCR);
-    olAttri355.time = nanmean(data.mTime);
+    data.olAttri355.time = nanmean(data.mTime);
 end
 
 % 387 nm
@@ -2011,13 +2011,13 @@ end
 % 532 nm
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-olAttri532 = struct();
-olAttri532.sigFR = [];
-olAttri532.sigNR = [];
-olAttri532.sigRatio = [];
-olAttri532.normRange = [];
-olAttri532.time = NaN;
-olFunc532 = NaN(length(data.height), 1);
+data.olAttri532 = struct();
+data.olAttri532.sigFR = [];
+data.olAttri532.sigNR = [];
+data.olAttri532.sigRatio = [];
+data.olAttri532.normRange = [];
+data.olAttri532.time = NaN;
+data.olFunc532 = NaN(length(data.height), 1);
 % olStd532 = NaN(length(data.height), 1);
 if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
     PC2PCR = data.hRes * sum(data.mShots(flag532FR,flagCloudFree_NR)) / 150;
@@ -2026,11 +2026,11 @@ if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
     bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
     sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
     bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_NR), 3));
-    [olFunc532, ~, olAttri532] = pollyOVLCalc(data.distance0, ...
+    [data.olFunc532, ~, data.olAttri532] = pollyOVLCalc(data.distance0, ...
         sig532FR, sig532NR, bg532FR, bg532NR, ...
         'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
         'PC2PCR', PC2PCR);
-    olAttri532.time = nanmean(data.mTime);
+    data.olAttri532.time = nanmean(data.mTime);
 end
 
 % 607 nm
@@ -2069,9 +2069,9 @@ olAttri1064.time = NaN;
 olFunc1064 = NaN(length(data.height), 1);
 % olStd1064 = NaN(length(data.height), 1);
 if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
-    olFunc1064 = olFunc532;
+    olFunc1064 = data.olFunc532;
     % olStd1064 = olStd532;
-    olAttri1064 = olAttri532;
+    olAttri1064 = data.olAttri532;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -2151,17 +2151,17 @@ print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 % 355 nm
 sigOLCor355 = [];
 bgOLCor355 = [];
-olFuncDeft355 = NaN(length(data.height), 1);
+data.olFuncDeft355 = NaN(length(data.height), 1);
 % flagOLDeft355 = false;
 if (sum(flag355FR) == 1)
     sig355FR = squeeze(data.signal(flag355FR, :, :));
     bg355FR = squeeze(data.bg(flag355FR, :, :));
     sig355NR = squeeze(data.signal(flag355NR, :, :));
     bg355NR = squeeze(data.bg(flag355NR, :, :));
-    [sigOLCor355, bgOLCor355, olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
+    [sigOLCor355, bgOLCor355, data.olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
         'signalNR', sig355NR, 'bgNR', bg355NR, ...
-        'signalRatio', olAttri355.sigRatio, 'normRange', olAttri355.normRange, ...
-        'overlap', olFunc355, 'overlap_Raman',olFunc355Raman, ...
+        'signalRatio', data.olAttri355.sigRatio, 'normRange', data.olAttri355.normRange, ...
+        'overlap', data.olFunc355, 'overlap_Raman',olFunc355Raman, ...
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
@@ -2198,8 +2198,8 @@ if (sum(flag532FR) == 1)
     bg532NR = squeeze(data.bg(flag532NR, :, :));
     [sigOLCor532, bgOLCor532, olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
         'signalNR', sig532NR, 'bgNR', bg532NR, ...
-        'signalRatio', olAttri532.sigRatio, 'normRange', olAttri532.normRange, ...
-        'overlap', olFunc532, 'overlap_Raman',olFunc532Raman, ...
+        'signalRatio', data.olAttri532.sigRatio, 'normRange', data.olAttri532.normRange, ...
+        'overlap', data.olFunc532, 'overlap_Raman',olFunc532Raman, ...
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
@@ -3746,17 +3746,17 @@ flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmCh
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
-if (~ isempty(olAttri355.sigRatio)) && (sum(flag355NR) == 1)
-    LC.LC_raman_355_NR = LC.LC_raman_355 .* olAttri355.sigRatio;
-    LC.LCStd_raman_355_NR = LC.LCStd_raman_355 .* olAttri355.sigRatio;
+if (~ isempty(data.olAttri355.sigRatio)) && (sum(flag355NR) == 1)
+    LC.LC_raman_355_NR = LC.LC_raman_355 .* data.olAttri355.sigRatio;
+    LC.LCStd_raman_355_NR = LC.LCStd_raman_355 .* data.olAttri355.sigRatio;
 end
 if (~ isempty(olAttri387.sigRatio)) && (sum(flag387NR) == 1)
     LC.LC_raman_387_NR = LC.LC_raman_387 .* olAttri387.sigRatio;
     LC.LCStd_raman_387_NR = LC.LCStd_raman_387 .* olAttri387.sigRatio;
 end
-if (~ isempty(olAttri532.sigRatio)) && (sum(flag532NR) == 1)
-    LC.LC_raman_532_NR = LC.LC_raman_532 .* olAttri532.sigRatio;
-    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* olAttri532.sigRatio;
+if (~ isempty(data.olAttri532.sigRatio)) && (sum(flag532NR) == 1)
+    LC.LC_raman_532_NR = LC.LC_raman_532 .* data.olAttri532.sigRatio;
+    LC.LCStd_raman_532_NR = LC.LCStd_raman_532 .* data.olAttri532.sigRatio;
 end
 if (~ isempty(olAttri607.sigRatio)) && (sum(flag607NR) == 1)
     LC.LC_raman_607_NR = LC.LC_raman_607 .* olAttri607.sigRatio;
@@ -4410,10 +4410,10 @@ if PicassoConfig.flagEnableCaliResultsOutput
     if (sum(flag355T) == 1) && (sum(flag355C) == 1)
         print_msg('--> saving polarization calibration results at 355 nm...\n', 'flagTimestamp', true);
         saveDepolConst(dbFile, ...
-                       polCali355Attri.polCaliEta, ...
-                       polCali355Attri.polCaliEtaStd, ...
-                       polCali355Attri.polCaliStartTime, ...
-                       polCali355Attri.polCaliStopTime, ...
+                       data.polCali355Attri.polCaliEta, ...
+                       data.polCali355Attri.polCaliEtaStd, ...
+                       data.polCali355Attri.polCaliStartTime, ...
+                       data.polCali355Attri.polCaliStopTime, ...
                        PollyDataInfo.pollyDataFile, ...
                        CampaignConfig.name, '355');
         print_msg('--> finish.\n', 'flagTimestamp', true);
@@ -4422,10 +4422,10 @@ if PicassoConfig.flagEnableCaliResultsOutput
     if (sum(flag532T) == 1) && (sum(flag532C) == 1)
         print_msg('--> saving polarization calibration results at 532 nm...\n', 'flagTimestamp', true);
         saveDepolConst(dbFile, ...
-                       polCali532Attri.polCaliEta, ...
-                       polCali532Attri.polCaliEtaStd, ...
-                       polCali532Attri.polCaliStartTime, ...
-                       polCali532Attri.polCaliStopTime, ...
+                       data.polCali532Attri.polCaliEta, ...
+                       data.polCali532Attri.polCaliEtaStd, ...
+                       data.polCali532Attri.polCaliStartTime, ...
+                       data.polCali532Attri.polCaliStopTime, ...
                        PollyDataInfo.pollyDataFile, ...
                        CampaignConfig.name, '532');
         print_msg('--> finish.\n', 'flagTimestamp', true);
@@ -4434,10 +4434,10 @@ if PicassoConfig.flagEnableCaliResultsOutput
     if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
         print_msg('--> saving polarization calibration results at 1064 nm...\n', 'flagTimestamp', true);
         saveDepolConst(dbFile, ...
-                       polCali1064Attri.polCaliEta, ...
-                       polCali1064Attri.polCaliEtaStd, ...
-                       polCali1064Attri.polCaliStartTime, ...
-                       polCali1064Attri.polCaliStopTime, ...
+                       data.polCali1064Attri.polCaliEta, ...
+                       data.polCali1064Attri.polCaliEtaStd, ...
+                       data.polCali1064Attri.polCaliStartTime, ...
+                       data.polCali1064Attri.polCaliStopTime, ...
                        PollyDataInfo.pollyDataFile, ...
                        CampaignConfig.name, '1064');
         print_msg('--> finish.\n', 'flagTimestamp', true);
@@ -4505,31 +4505,24 @@ if PicassoConfig.flagEnableCaliResultsOutput
     print_msg('Finish.\n', 'flagTimestamp', true);
 end
 
-data.polCali355Attri = polCali355Attri;
-data.polCali532Attri = polCali532Attri;
-data.polCali1064Attri = polCali1064Attri;
-data.olFunc355 = olFunc355;
-data.olAttri355 = olAttri355;
-data.olFuncDeft355 = olFuncDeft355;
-data.olFunc532 = olFunc532;
-data.olAttri532 = olAttri532;
+%data.polCali355Attri = polCali355Attri;
+%data.polCali532Attri = polCali532Attri;
+%data.polCali1064Attri = polCali1064Attri;
+%data.olFunc355 = olFunc355;
+%data.olAttri355 = olAttri355;
+%data.olFuncDeft355 = olFuncDeft355;
+%data.olFunc532 = olFunc532;
+%data.olAttri532 = olAttri532;
 data.olFuncDeft532 = olFuncDeft532;
 data.sigOLCor355 = sigOLCor355;
 data.sigOLCor532 = sigOLCor532;
 data.sigOLCor1064 = sigOLCor1064;
-data.olFunc532 = olFunc532;
-data.olFunc355 = olFunc355;
-data.olAttri355 = olAttri355;
-data.olAttri532 = olAttri532;
 data.olFunc532Raman = olFunc532Raman;
 data.olFunc355Raman = olFunc355Raman;
 data.olFunc532Raman_raw = olFunc532Raman_raw;
 data.olFunc355Raman_raw = olFunc355Raman_raw;
-data.olAttri355 = olAttri355;
-data.olAttri532 = olAttri532;
 data.olAttri355Raman = olAttri355Raman;
 data.olAttri532Raman = olAttri532Raman;
-data.olFuncDeft355 = olFuncDeft355;
 data.olFuncDeft532 = olFuncDeft532;
 data.polCaliFac355 = polCaliFac355;
 data.polCaliFacStd355 = polCaliFacStd355;
