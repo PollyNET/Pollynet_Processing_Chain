@@ -2561,10 +2561,10 @@ flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel
 polCaliFac=data.polCaliFac355;
 polCaliFacStd= data.polCaliFacStd355;
 smoothWin=PollyConfig.smoothWin_klett_355;
-[vdr355_klett,vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_355;
-[vdr355_raman,vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 %% Volume depolarization ratio at 532 nm new implemantation 
 %%Klett
@@ -2573,10 +2573,10 @@ flagC = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel
 polCaliFac=data.polCaliFac532;
 polCaliFacStd= data.polCaliFacStd532;
 smoothWin=PollyConfig.smoothWin_klett_532;
-[vdr532_klett,vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_532;
-[vdr532_raman,vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 %% Volume depolarization ratio at 1064 nm new implemantation 
 %%Klett
@@ -2632,25 +2632,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
 
     if ~ isnan(data.aerBsc355_klett(iGrp, 80))
-        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_klett(iGrp, :) = thisPdr355_klett;
         pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
     end
 
     if ~ isnan(data.aerBsc355_raman(iGrp, 80))
-        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), data.aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), data.aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_raman(iGrp, :) = thisPdr355_raman;
         pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
     if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
-        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
     if ~ isnan(aerBsc355_OC_raman(iGrp, 80))
-        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
         pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
     end
@@ -2697,25 +2697,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
 
     if ~ isnan(data.aerBsc532_klett(iGrp, 80))
-        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_klett(iGrp, :) = thisPdr532_klett;
         pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
     end
 
     if ~ isnan(data.aerBsc532_raman(iGrp, 80))
-        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), data.aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), data.aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_raman(iGrp, :) = thisPdr532_raman;
         pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
     if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
-        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
     if ~ isnan(aerBsc532_OC_raman(iGrp, 80))
-        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
         pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
     end
@@ -4598,14 +4598,14 @@ end
 %data.LRStd532_RR = LRStd532_RR;
 %data.LR1064_RR = LR1064_RR;
 %data.LRStd1064_RR = LRStd1064_RR;
-data.vdr355_klett = vdr355_klett;
-data.vdrStd355_klett = vdrStd355_klett;
-data.vdr532_klett = vdr532_klett;
-data.vdrStd532_klett = vdrStd532_klett;
-data.vdr355_raman = vdr355_raman;
-data.vdrStd355_raman = vdrStd355_raman;
-data.vdr532_raman = vdr532_raman;
-data.vdrStd532_raman = vdrStd532_raman;
+%data.vdr355_klett = vdr355_klett;
+%data.vdrStd355_klett = vdrStd355_klett;
+%data.vdr532_klett = vdr532_klett;
+%data.vdrStd532_klett = vdrStd532_klett;
+%data.vdr355_raman = vdr355_raman;
+%data.vdrStd355_raman = vdrStd355_raman;
+%data.vdr532_raman = vdr532_raman;
+%data.vdrStd532_raman = vdrStd532_raman;
 data.pdr355_klett = pdr355_klett;
 data.pdr532_klett = pdr532_klett;
 data.pdr355_raman = pdr355_raman;
