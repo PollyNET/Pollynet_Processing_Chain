@@ -2585,10 +2585,10 @@ flagC = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChanne
 polCaliFac=data.polCaliFac1064;
 polCaliFacStd= data.polCaliFacStd1064;
 smoothWin=PollyConfig.smoothWin_klett_1064;
-[vdr1064_klett,vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_1064;
-[vdr1064_raman,vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 
 %% Particle depolarization ratio at 355 nm
@@ -2724,10 +2724,10 @@ end
 %% Particle depolarization ratio at 1064 nm
 flag1064T = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag1064C = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2762,25 +2762,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr1064(iGrp) = thisFlagDeftMdr1064;
 
     if ~ isnan(data.aerBsc1064_klett(iGrp, 80))
-        [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(vdr1064_klett(iGrp, :), vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
-        pdr1064_klett(iGrp, :) = thisPdr1064_klett;
-        pdrStd1064_klett(iGrp, :) = thisPdrStd1064_klett;
+        [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        data.pdr1064_klett(iGrp, :) = thisPdr1064_klett;
+        data.pdrStd1064_klett(iGrp, :) = thisPdrStd1064_klett;
     end
 
     if ~ isnan(data.aerBsc1064_raman(iGrp, 80))
-        [thisPdr1064_raman, thisPdrStd1064_raman] = pollyPDR(vdr1064_raman(iGrp, :), vdrStd1064_raman(iGrp, :), data.aerBsc1064_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
-        pdr1064_raman(iGrp, :) = thisPdr1064_raman;
-        pdrStd1064_raman(iGrp, :) = thisPdrStd1064_raman;
+        [thisPdr1064_raman, thisPdrStd1064_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), data.aerBsc1064_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        data.pdr1064_raman(iGrp, :) = thisPdr1064_raman;
+        data.pdrStd1064_raman(iGrp, :) = thisPdrStd1064_raman;
     end
 
     if ~ isnan(aerBsc1064_OC_klett(iGrp, 80))
-        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(vdr1064_klett(iGrp, :), vdrStd1064_klett(iGrp, :), aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_klett(iGrp, :) = thisPdr1064_OC_klett;
         pdrStd1064_OC_klett(iGrp, :) = thisPdrStd1064_OC_klett;
     end
 
     if ~ isnan(aerBsc1064_OC_raman(iGrp, 80))
-        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(vdr1064_raman(iGrp, :), vdrStd1064_raman(iGrp, :), aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_raman(iGrp, :) = thisPdr1064_OC_raman;
         pdrStd1064_OC_raman(iGrp, :) = thisPdrStd1064_OC_raman;
     end
@@ -2926,10 +2926,10 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 [data.POLIPHON1] = poliphon_one ...
     (data.aerBsc355_klett, data.pdr355_klett, ...
     data.aerBsc532_klett, data.pdr532_klett, ...
-    data.aerBsc1064_klett, pdr1064_klett, ...
+    data.aerBsc1064_klett, data.pdr1064_klett, ...
     data.aerBsc355_raman, data.pdr355_raman, ...
     data.aerBsc532_raman, data.pdr532_raman, ...
-    data.aerBsc1064_raman, pdr1064_raman);
+    data.aerBsc1064_raman, data.pdr1064_raman);
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
@@ -4614,14 +4614,14 @@ end
 %data.pdrStd532_klett = pdrStd532_klett;
 %data.pdrStd355_raman = pdrStd355_raman;
 %data.pdrStd532_raman = pdrStd532_raman;
-data.vdr1064_klett = vdr1064_klett;
-data.vdrStd1064_klett = vdrStd1064_klett;
-data.vdr1064_raman = vdr1064_raman;
-data.vdrStd1064_raman = vdrStd1064_raman;
-data.pdr1064_klett = pdr1064_klett;
-data.pdr1064_raman = pdr1064_raman;
-data.pdrStd1064_klett = pdrStd1064_klett;
-data.pdrStd1064_raman = pdrStd1064_raman;
+%data.vdr1064_klett = vdr1064_klett;
+%data.vdrStd1064_klett = vdrStd1064_klett;
+%data.vdr1064_raman = vdr1064_raman;
+%data.vdrStd1064_raman = vdrStd1064_raman;
+%data.pdr1064_klett = pdr1064_klett;
+%data.pdr1064_raman = pdr1064_raman;
+%data.pdrStd1064_klett = pdrStd1064_klett;
+%data.pdrStd1064_raman = pdrStd1064_raman;
 data.wvmr = wvmr;
 data.wvmr_no_QC = wvmr_no_QC;
 data.wvmr_error = wvmr_error;
