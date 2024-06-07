@@ -1547,8 +1547,8 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% rotation Raman method (355 nm)
-aerBsc355_RR = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 LR355_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1611,16 +1611,16 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', aerExtStd355_RR(iGrp, :), 'aerBscStd', thisAerBscStd355_RR, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_355, 'smoothWInBsc', PollyConfig.smoothWin_raman_355);
 
-    aerBsc355_RR(iGrp, :) = thisAerBsc355_RR;
-    aerBscStd355_RR(iGrp, :) = thisAerBscStd355_RR;
+    data.aerBsc355_RR(iGrp, :) = thisAerBsc355_RR;
+    data.aerBscStd355_RR(iGrp, :) = thisAerBscStd355_RR;
     LR355_RR(iGrp, :) = thisLR355_RR;
     LRStd355_RR(iGrp, :) = thisLRStd355_RR;
 
 end
 
 %% rotation Raman method (532 nm)
-aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 LR532_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1683,16 +1683,16 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', aerExtStd532_RR(iGrp, :), 'aerBscStd', thisAerBscStd532_RR, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_532, 'smoothWInBsc', PollyConfig.smoothWin_raman_532);
 
-    aerBsc532_RR(iGrp, :) = thisAerBsc532_RR;
-    aerBscStd532_RR(iGrp, :) = thisAerBscStd532_RR;
+    data.aerBsc532_RR(iGrp, :) = thisAerBsc532_RR;
+    data.aerBscStd532_RR(iGrp, :) = thisAerBscStd532_RR;
     LR532_RR(iGrp, :) = thisLR532_RR;
     LRStd532_RR(iGrp, :) = thisLRStd532_RR;
 
 end
 
 %% rotation Raman method (1064 nm)
-aerBsc1064_RR = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc1064_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExt1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 LR1064_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1754,8 +1754,8 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', aerExtStd1064_RR(iGrp, :), 'aerBscStd', thisAerBscStd1064_RR, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_1064, 'smoothWInBsc', PollyConfig.smoothWin_raman_1064);
 
-    aerBsc1064_RR(iGrp, :) = thisAerBsc1064_RR;
-    aerBscStd1064_RR(iGrp, :) = thisAerBscStd1064_RR;
+    data.aerBsc1064_RR(iGrp, :) = thisAerBsc1064_RR;
+    data.aerBscStd1064_RR(iGrp, :) = thisAerBscStd1064_RR;
     LR1064_RR(iGrp, :) = thisLR1064_RR;
     LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
@@ -4580,12 +4580,12 @@ end
 %data.LRStd532_raman = LRStd532_raman;
 %data.LR1064_raman = LR1064_raman;
 %data.LRStd1064_raman = LRStd1064_raman;
-data.aerBsc355_RR = aerBsc355_RR;
-data.aerBscStd355_RR = aerBscStd355_RR;
-data.aerBsc532_RR = aerBsc532_RR;
-data.aerBscStd532_RR = aerBscStd532_RR;
-data.aerBsc1064_RR = aerBsc1064_RR;
-data.aerBscStd1064_RR = aerBscStd1064_RR;
+%data.aerBsc355_RR = aerBsc355_RR;
+%data.aerBscStd355_RR = aerBscStd355_RR;
+%data.aerBsc532_RR = aerBsc532_RR;
+%data.aerBscStd532_RR = aerBscStd532_RR;
+%data.aerBsc1064_RR = aerBsc1064_RR;
+%data.aerBscStd1064_RR = aerBscStd1064_RR;
 data.aerExt355_RR = aerExt355_RR;
 data.aerExtStd355_RR = aerExtStd355_RR;
 data.aerExt532_RR = aerExt532_RR;
