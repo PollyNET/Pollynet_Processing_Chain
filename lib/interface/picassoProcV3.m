@@ -1215,7 +1215,7 @@ data.aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-LR355_aeronet = NaN(size(clFreGrps, 1), 1);
+data.LR355_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD355 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1245,7 +1245,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerBscStd355_aeronet(iGrp, :) = 0.2 * thisAerBsc355_aeronet;
     data.aerExt355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     data.aerExtStd355_aeronet(iGrp, :) = thisAerExt355_aeronet;
-    LR355_aeronet(iGrp) = thisLR_355;
+    data.LR355_aeronet(iGrp) = thisLR_355;
     deltaAOD355(iGrp) = thisDeltaAOD355;
 end
 
@@ -1255,7 +1255,7 @@ data.aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-LR532_aeronet = NaN(size(clFreGrps, 1), 1);
+data.LR532_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD532 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1285,7 +1285,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerBscStd532_aeronet(iGrp, :) = 0.2 * thisAerBsc532_aeronet;
     data.aerExt532_aeronet(iGrp, :) = thisAerExt532_aeronet;
     data.aerExtStd532_aeronet(iGrp, :) = 0.2 * thisAerExt532_aeronet;
-    LR532_aeronet(iGrp) = thisLR_532;
+    data.LR532_aeronet(iGrp) = thisLR_532;
     deltaAOD532(iGrp) = thisDeltaAOD532;
 end
 
@@ -1295,7 +1295,7 @@ data.aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
+data.LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1325,7 +1325,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerBscStd1064_aeronet(iGrp, :) = 0.2 * thisAerBsc1064_aeronet;
     data.aerExt1064_aeronet(iGrp, :) = thisAerExt1064_aeronet;
     data.aerExtStd1064_aeronet(iGrp, :) = 0.2 * thisAerExt1064_aeronet;
-    LR1064_aeronet(iGrp) = thisLR_1064;
+    data.LR1064_aeronet(iGrp) = thisLR_1064;
     deltaAOD1064(iGrp) = thisDeltaAOD1064;
 end
 
@@ -4559,9 +4559,9 @@ end
 %data.aerExtStd532_aeronet = aerExtStd532_aeronet;
 %data.aerExt1064_aeronet = aerExt1064_aeronet;
 %data.aerExtStd1064_aeronet = aerExtStd1064_aeronet;
-data.LR355_aeronet = LR355_aeronet;
-data.LR532_aeronet = LR532_aeronet;
-data.LR1064_aeronet = LR1064_aeronet;
+%data.LR355_aeronet = LR355_aeronet;
+%data.LR532_aeronet = LR532_aeronet;
+%data.LR1064_aeronet = LR1064_aeronet;
 data.aerBsc355_raman = aerBsc355_raman;
 data.aerBscStd355_raman = aerBscStd355_raman;
 data.aerBsc532_raman = aerBsc532_raman;
