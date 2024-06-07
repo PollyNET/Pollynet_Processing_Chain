@@ -1551,8 +1551,8 @@ data.aerBsc355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
-LR355_RR = NaN(size(clFreGrps, 1), length(data.height));
-LRStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LR355_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355RR = data.flag355nmChannel & data.flagRotRamanChannel;
@@ -1613,8 +1613,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_RR(iGrp, :) = thisAerBsc355_RR;
     data.aerBscStd355_RR(iGrp, :) = thisAerBscStd355_RR;
-    LR355_RR(iGrp, :) = thisLR355_RR;
-    LRStd355_RR(iGrp, :) = thisLRStd355_RR;
+    data.LR355_RR(iGrp, :) = thisLR355_RR;
+    data.LRStd355_RR(iGrp, :) = thisLRStd355_RR;
 
 end
 
@@ -1623,8 +1623,8 @@ data.aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
-LR532_RR = NaN(size(clFreGrps, 1), length(data.height));
-LRStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LR532_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag532RR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagRotRamanChannel;
@@ -1685,8 +1685,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_RR(iGrp, :) = thisAerBsc532_RR;
     data.aerBscStd532_RR(iGrp, :) = thisAerBscStd532_RR;
-    LR532_RR(iGrp, :) = thisLR532_RR;
-    LRStd532_RR(iGrp, :) = thisLRStd532_RR;
+    data.LR532_RR(iGrp, :) = thisLR532_RR;
+    data.LRStd532_RR(iGrp, :) = thisLRStd532_RR;
 
 end
 
@@ -1695,8 +1695,8 @@ data.aerBsc1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
-LR1064_RR = NaN(size(clFreGrps, 1), length(data.height));
-LRStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LR1064_RR = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
@@ -1756,8 +1756,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc1064_RR(iGrp, :) = thisAerBsc1064_RR;
     data.aerBscStd1064_RR(iGrp, :) = thisAerBscStd1064_RR;
-    LR1064_RR(iGrp, :) = thisLR1064_RR;
-    LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
+    data.LR1064_RR(iGrp, :) = thisLR1064_RR;
+    data.LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
 end
 
@@ -4592,12 +4592,12 @@ end
 %data.aerExtStd532_RR = aerExtStd532_RR;
 %data.aerExt1064_RR = aerExt1064_RR;
 %data.aerExtStd1064_RR = aerExtStd1064_RR;
-data.LR355_RR = LR355_RR;
-data.LRStd355_RR = LRStd355_RR;
-data.LR532_RR = LR532_RR;
-data.LRStd532_RR = LRStd532_RR;
-data.LR1064_RR = LR1064_RR;
-data.LRStd1064_RR = LRStd1064_RR;
+%data.LR355_RR = LR355_RR;
+%data.LRStd355_RR = LRStd355_RR;
+%data.LR532_RR = LR532_RR;
+%data.LRStd532_RR = LRStd532_RR;
+%data.LR1064_RR = LR1064_RR;
+%data.LRStd1064_RR = LRStd1064_RR;
 data.vdr355_klett = vdr355_klett;
 data.vdrStd355_klett = vdrStd355_klett;
 data.vdr532_klett = vdr532_klett;
