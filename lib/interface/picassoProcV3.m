@@ -1018,8 +1018,8 @@ flag355 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChann
 
 data.aerBsc355_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt355_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1039,8 +1039,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_klett(iGrp, :) = thisAerBsc355_klett;
     data.aerBscStd355_klett(iGrp, :) = thisAerBscStd355_klett;
-    aerExt355_klett(iGrp, :) = thisAerExt355_klett;
-    aerExtStd355_klett(iGrp, :) = thisAerExtStd355_klett;
+    data.aerExt355_klett(iGrp, :) = thisAerExt355_klett;
+    data.aerExtStd355_klett(iGrp, :) = thisAerExtStd355_klett;
 end
 
 %% Klett method at 532 nm
@@ -1048,8 +1048,8 @@ flag532 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChann
 
 data.aerBsc532_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt532_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1069,8 +1069,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_klett(iGrp, :) = thisAerBsc532_klett;
     data.aerBscStd532_klett(iGrp, :) = thisAerBscStd532_klett;
-    aerExt532_klett(iGrp, :) = thisAerExt532_klett;
-    aerExtStd532_klett(iGrp, :) = thisAerExtStd532_klett;
+    data.aerExt532_klett(iGrp, :) = thisAerExt532_klett;
+    data.aerExtStd532_klett(iGrp, :) = thisAerExtStd532_klett;
 end
 
 %% Klett method at 1064 nm
@@ -1078,8 +1078,8 @@ flag1064 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmCha
 
 data.aerBsc1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1099,8 +1099,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc1064_klett(iGrp, :) = thisAerBsc1064_klett;
     data.aerBscStd1064_klett(iGrp, :) = thisAerBscStd1064_klett;
-    aerExt1064_klett(iGrp, :) = thisAerExt1064_klett;
-    aerExtStd1064_klett(iGrp, :) = thisAerExtStd1064_klett;
+    data.aerExt1064_klett(iGrp, :) = thisAerExt1064_klett;
+    data.aerExtStd1064_klett(iGrp, :) = thisAerExtStd1064_klett;
 end
 
 %% Klett method at 355 nm (near-field)
@@ -3329,8 +3329,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt355 = aerExt355_klett(iGrp, :);
-            aExt355(1:hIndBase) = aerExt355_klett(hIndBase);
+            aExt355 = data.aerExt355_klett(iGrp, :);
+            aExt355(1:hIndBase) = data.aerExt355_klett(hIndBase);
             aBsc355 = data.aerBsc355_klett(iGrp, :);
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
@@ -3368,8 +3368,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt532 = aerExt532_klett(iGrp, :);
-            aExt532(1:hIndBase) = aerExt532_klett(hIndBase);
+            aExt532 = data.aerExt532_klett(iGrp, :);
+            aExt532(1:hIndBase) = data.aerExt532_klett(hIndBase);
             aBsc532 = data.aerBsc532_klett(iGrp, :);
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
@@ -3407,8 +3407,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt1064 = aerExt1064_klett(iGrp, :);
-            aExt1064(1:hIndBase) = aerExt1064_klett(hIndBase);
+            aExt1064 = data.aerExt1064_klett(iGrp, :);
+            aExt1064(1:hIndBase) = data.aerExt1064_klett(hIndBase);
             aBsc1064 = data.aerBsc1064_klett(iGrp, :);
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
@@ -4541,12 +4541,12 @@ end
 %data.aerBscStd532_klett = aerBscStd532_klett;
 %data.aerBsc1064_klett = aerBsc1064_klett;
 %data.aerBscStd1064_klett = aerBscStd1064_klett;
-data.aerExt355_klett = aerExt355_klett;
-data.aerExtStd355_klett = aerExtStd355_klett;
-data.aerExt532_klett = aerExt532_klett;
-data.aerExtStd532_klett = aerExtStd532_klett;
-data.aerExt1064_klett = aerExt1064_klett;
-data.aerExtStd1064_klett = aerExtStd1064_klett;
+%data.aerExt355_klett = aerExt355_klett;
+%data.aerExtStd355_klett = aerExtStd355_klett;
+%data.aerExt532_klett = aerExt532_klett;
+%data.aerExtStd532_klett = aerExtStd532_klett;
+%data.aerExt1064_klett = aerExt1064_klett;
+%data.aerExtStd1064_klett = aerExtStd1064_klett;
 data.aerBsc355_aeronet = aerBsc355_aeronet;
 data.aerBscStd355_aeronet = aerBscStd355_aeronet;
 data.aerBsc532_aeronet = aerBsc532_aeronet;
