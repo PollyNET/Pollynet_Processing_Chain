@@ -369,9 +369,12 @@ def main():
         base_dir = Path(config_dict['results_folder'])
         db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
         LC = {}
-        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Method',telescope='far')
-        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
-        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
+        try:
+            LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Method',telescope='far')
+            LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
+            LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
+        except Exception as e:
+                     print("An error occurred:", e)
         calib_profile_translator = p_translator.calib_profile_translator_function()
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
@@ -392,12 +395,15 @@ def main():
         logbookFile_df = readout.read_from_logbookFile(logbookFile_path=str(logbookFile_path))
         LC = {}
         ETA={}
-        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Klett',telescope='far')
-        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Klett',telescope='far')
-        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Klett',telescope='far')
-        ETA['ETA355'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='355')
-        ETA['ETA532'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='532')
-        ETA['ETA1064'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='1064')
+        try:
+            LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Klett',telescope='far')
+            LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Klett',telescope='far')
+            LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Klett',telescope='far')
+            ETA['ETA355'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='355')
+            ETA['ETA532'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='532')
+            ETA['ETA1064'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='1064')
+        except Exception as e:
+                     print("An error occurred:", e)
         calib_profile_translator = p_translator.calib_profile_translator_function()
         profilename='longterm_LC'
         try:
