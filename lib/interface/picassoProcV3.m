@@ -439,7 +439,7 @@ if ~ PollyConfig.flagMolDepolCali
         'flagDepolCali', PollyConfig.flagDepolCali, ...
         'default_polCaliEta', PollyDefaults.polCaliEta355, ...
         'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
-    [polCaliEta532, polCaliEtaStd532, polCaliFac532, polCaliFacStd532, ~, data.polCali532Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [data.polCaliEta532, data.polCaliEtaStd532, data.polCaliFac532, data.polCaliFacStd532, ~, data.polCali532Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '532nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_532, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_532, ...
@@ -455,7 +455,7 @@ if ~ PollyConfig.flagMolDepolCali
         'flagDepolCali', PollyConfig.flagDepolCali, ...
         'default_polCaliEta', PollyDefaults.polCaliEta532, ...
         'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
-    [polCaliEta1064, polCaliEtaStd1064, polCaliFac1064, polCaliFacStd1064, ~, data.polCali1064Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [data.polCaliEta1064, data.polCaliEtaStd1064, data.polCaliFac1064, data.polCaliFacStd1064, ~, data.polCali1064Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '1064nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_1064, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_1064, ...
@@ -804,10 +804,10 @@ if PollyConfig.flagMolDepolCali
     end
 
     % 532 nm
-    polCaliEta532 = [];
-    polCaliEtaStd532 = [];
-    polCaliFac532 = [];
-    polCaliFacStd532 = [];
+    data.polCaliEta532 = [];
+    data.polCaliEtaStd532 = [];
+    data.polCaliFac532 = [];
+    data.polCaliFacStd532 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
     data.polCali532Attri = struct();
@@ -829,25 +829,25 @@ if PollyConfig.flagMolDepolCali
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig532T(refHIndArr), ...
             bg532T(refHIndArr), sig532C(refHIndArr), bg532C(refHIndArr), PollyConfig.TR(flag532T), 0, PollyConfig.TR(flag532C), 0, 10, PollyDefaults.molDepol532, PollyDefaults.molDepolStd532);
 
-        polCaliEta532 = cat(2, polCaliEta532, thisPolCaliEta);
-        polCaliEtaStd532 = cat(2, polCaliEtaStd532, thisPolCaliEtaStd);
-        polCaliFac532 = cat(2, polCaliFac532, thisPolCaliFac);
-        polCaliFacStd532 = cat(2, polCaliFacStd532, thisPolCaliFacStd);
+        data.polCaliEta532 = cat(2, data.polCaliEta532, thisPolCaliEta);
+        data.polCaliEtaStd532 = cat(2, data.polCaliEtaStd532, thisPolCaliEtaStd);
+        data.polCaliFac532 = cat(2, data.polCaliFac532, thisPolCaliFac);
+        data.polCaliFacStd532 = cat(2, data.polCaliFacStd532, thisPolCaliFacStd);
         polCaliStartTime = cat(2, polCaliStartTime, data.mTime(prfInd(1)));
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    data.polCali532Attri.polCaliEta = polCaliEta532;
-    data.polCali532Attri.polCaliEtaStd = polCaliEtaStd532;
-    data.polCali532Attri.polCaliFac = polCaliFac532;
-    data.polCali532Attri.polCaliFacStd = polCaliFacStd532;
+    data.polCali532Attri.polCaliEta = data.polCaliEta532;
+    data.polCali532Attri.polCaliEtaStd = data.polCaliEtaStd532;
+    data.polCali532Attri.polCaliFac = data.polCaliFac532;
+    data.polCali532Attri.polCaliFacStd = data.polCaliFacStd532;
     data.polCali532Attri.polCaliStartTime = polCaliStartTime;
     data.polCali532Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
-        [polCaliEta532, polCaliEtaStd532, ~, ~] = selectDepolConst(...
-            polCaliEta532, polCaliEtaStd532, ...
+        [data.polCaliEta532, data.polCaliEtaStd532, ~, ~] = selectDepolConst(...
+            data.polCaliEta532, data.polCaliEtaStd532, ...
             polCaliStartTime, polCaliStopTime, ...
             mean(data.mTime), dbFile, CampaignConfig.name, '532', ...
             'flagUsePrevDepolConst', PollyConfig.flagUsePreviousDepolCali, ...
@@ -855,20 +855,20 @@ if PollyConfig.flagMolDepolCali
             'deltaTime', datenum(0, 1, 7), ...
             'default_polCaliEta', PollyDefaults.polCaliEta532, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
-        polCaliFac532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * polCaliEta532;
-        polCaliFacStd532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * polCaliEtaStd532;
+        data.polCaliFac532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * data.polCaliEta532;
+        data.polCaliFacStd532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * data.polCaliEtaStd532;
     else
-        polCaliEta532 = PollyDefaults.polCaliEta532;
-        polCaliEtaStd532 = PollyDefaults.polCaliEtaStd532;
-        polCaliFac532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * polCaliEta532;
-        polCaliFacStd532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * polCaliEtaStd532;
+        data.polCaliEta532 = PollyDefaults.polCaliEta532;
+        data.polCaliEtaStd532 = PollyDefaults.polCaliEtaStd532;
+        data.polCaliFac532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * data.polCaliEta532;
+        data.polCaliFacStd532 = (1 + PollyConfig.TR(flag532T)) ./ (1 + PollyConfig.TR(flag532C)) * data.polCaliEtaStd532;
     end
 
     % 1064 nm
-    polCaliEta1064 = [];
-    polCaliEtaStd1064 = [];
-    polCaliFac1064 = [];
-    polCaliFacStd1064 = [];
+    data.polCaliEta1064 = [];
+    data.polCaliEtaStd1064 = [];
+    data.polCaliFac1064 = [];
+    data.polCaliFacStd1064 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
     data.polCali1064Attri = struct();
@@ -890,25 +890,25 @@ if PollyConfig.flagMolDepolCali
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig1064T(refHIndArr), ...
             bg1064T(refHIndArr), sig1064C(refHIndArr), bg1064C(refHIndArr), PollyConfig.TR(flag1064T), 0, PollyConfig.TR(flag1064C), 0, 10, PollyDefaults.molDepol1064, PollyDefaults.molDepolStd1064);
 
-        polCaliEta1064 = cat(2, polCaliEta1064, thisPolCaliEta);
-        polCaliEtaStd1064 = cat(2, polCaliEtaStd1064, thisPolCaliEtaStd);
-        polCaliFac1064 = cat(2, polCaliFac1064, thisPolCaliFac);
-        polCaliFacStd1064 = cat(2, polCaliFacStd1064, thisPolCaliFacStd);
+        data.polCaliEta1064 = cat(2, data.polCaliEta1064, thisPolCaliEta);
+        data.polCaliEtaStd1064 = cat(2, data.polCaliEtaStd1064, thisPolCaliEtaStd);
+        data.polCaliFac1064 = cat(2, data.polCaliFac1064, thisPolCaliFac);
+        data.polCaliFacStd1064 = cat(2, data.polCaliFacStd1064, thisPolCaliFacStd);
         polCaliStartTime = cat(2, polCaliStartTime, data.mTime(prfInd(1)));
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    data.polCali1064Attri.polCaliEta = polCaliEta1064;
-    data.polCali1064Attri.polCaliEtaStd = polCaliEtaStd1064;
-    data.polCali1064Attri.polCaliFac = polCaliFac1064;
-    data.polCali1064Attri.polCaliFacStd = polCaliFacStd1064;
+    data.polCali1064Attri.polCaliEta = data.polCaliEta1064;
+    data.polCali1064Attri.polCaliEtaStd = data.polCaliEtaStd1064;
+    data.polCali1064Attri.polCaliFac = data.polCaliFac1064;
+    data.polCali1064Attri.polCaliFacStd = data.polCaliFacStd1064;
     data.polCali1064Attri.polCaliStartTime = polCaliStartTime;
     data.polCali1064Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
-        [polCaliEta1064, polCaliEtaStd1064, ~, ~] = selectDepolConst(...
-            polCaliEta1064, polCaliEtaStd1064, ...
+        [data.polCaliEta1064, data.polCaliEtaStd1064, ~, ~] = selectDepolConst(...
+            data.polCaliEta1064, data.polCaliEtaStd1064, ...
             polCaliStartTime, polCaliStopTime, ...
             mean(data.mTime), dbFile, CampaignConfig.name, '1064', ...
             'flagUsePrevDepolConst', PollyConfig.flagUsePreviousDepolCali, ...
@@ -916,13 +916,13 @@ if PollyConfig.flagMolDepolCali
             'deltaTime', datenum(0, 1, 7), ...
             'default_polCaliEta', PollyDefaults.polCaliEta1064, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd1064);
-        polCaliFac1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * polCaliEta1064;
-        polCaliFacStd1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * polCaliEtaStd1064;
+        data.polCaliFac1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * data.polCaliEta1064;
+        data.polCaliFacStd1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * data.polCaliEtaStd1064;
     else
-        polCaliEta1064 = PollyDefaults.polCaliEta1064;
-        polCaliEtaStd1064 = PollyDefaults.polCaliEtaStd1064;
-        polCaliFac1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * polCaliEta1064;
-        polCaliFacStd1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * polCaliEtaStd1064;
+        data.polCaliEta1064 = PollyDefaults.polCaliEta1064;
+        data.polCaliEtaStd1064 = PollyDefaults.polCaliEtaStd1064;
+        data.polCaliFac1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * data.polCaliEta1064;
+        data.polCaliFacStd1064 = (1 + PollyConfig.TR(flag1064T)) ./ (1 + PollyConfig.TR(flag1064C)) * data.polCaliEtaStd1064;
     end
 
     print_msg('Finish.\n', 'flagTimestamp', true);
@@ -977,8 +977,8 @@ if (sum(flag532) == 1) && (sum(flag532X) == 1) && PollyConfig.flagTransCor
         'transRatioTotalStd', 0, ...
         'transRatioCross', PollyConfig.TR(flag532X), ...
         'transRatioCrossStd', 0, ...
-        'polCaliFactor', polCaliFac532, ...
-        'polCaliFacStd', polCaliFacStd532);
+        'polCaliFactor', data.polCaliFac532, ...
+        'polCaliFacStd', data.polCaliFacStd532);
 elseif (sum(flag532) == 1) && (sum(flag532X ~= 1))
     % disable transmission correction
     el532 = squeeze(data.signal(flag532, :, :));
@@ -1002,8 +1002,8 @@ if (sum(flag1064) == 1) && (sum(flag1064X) == 1) && PollyConfig.flagTransCor
         'transRatioTotalStd', 0, ...
         'transRatioCross', PollyConfig.TR(flag1064X), ...
         'transRatioCrossStd', 0, ...
-        'polCaliFactor', polCaliFac1064, ...
-        'polCaliFacStd', polCaliFacStd1064);
+        'polCaliFactor', data.polCaliFac1064, ...
+        'polCaliFacStd', data.polCaliFacStd1064);
 elseif (sum(flag1064) == 1) && (sum(flag1064X ~= 1))
     % disable transmission correction
     el1064 = squeeze(data.signal(flag1064, :, :));
@@ -2570,8 +2570,8 @@ smoothWin=PollyConfig.smoothWin_raman_355;
 %%Klett
 flagT = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 flagC = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-polCaliFac=polCaliFac532;
-polCaliFacStd= polCaliFacStd532;
+polCaliFac=data.polCaliFac532;
+polCaliFacStd= data.polCaliFacStd532;
 smoothWin=PollyConfig.smoothWin_klett_532;
 [vdr532_klett,vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
@@ -2582,8 +2582,8 @@ smoothWin=PollyConfig.smoothWin_raman_532;
 %%Klett
 flagT = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 flagC = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-polCaliFac=polCaliFac1064;
-polCaliFacStd= polCaliFacStd1064;
+polCaliFac=data.polCaliFac1064;
+polCaliFacStd= data.polCaliFacStd1064;
 smoothWin=PollyConfig.smoothWin_klett_1064;
 [vdr1064_klett,vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
@@ -2690,7 +2690,7 @@ for iGrp = 1:size(clFreGrps, 1)
         bg532C(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
         PollyConfig.TR(flag532T), 0, ...
         PollyConfig.TR(flag532C), 0, ...
-        polCaliFac532, polCaliFacStd532, 10, ...
+        data.polCaliFac532, data.polCaliFacStd532, 10, ...
         PollyDefaults.molDepol532, PollyDefaults.molDepolStd532);
     mdr532(iGrp) = thisMdr532;
     mdrStd532(iGrp) = thisMdrStd532;
@@ -2755,7 +2755,7 @@ for iGrp = 1:size(clFreGrps, 1)
         bg1064C(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2)), ...
         PollyConfig.TR(flag1064T), 0, ...
         PollyConfig.TR(flag1064C), 0, ...
-        polCaliFac1064, polCaliFacStd1064, 10, ...
+        data.polCaliFac1064, data.polCaliFacStd1064, 10, ...
         PollyDefaults.molDepol1064, PollyDefaults.molDepolStd1064);
     mdr1064(iGrp) = thisMdr1064;
     mdrStd1064(iGrp) = thisMdrStd1064;
@@ -3983,7 +3983,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     data.vdr532 = pollyVDR2(squeeze(data.signal(flag532T, :, :)), ...
                        squeeze(data.signal(flag532C, :, :)), ...
                        PollyConfig.TR(flag532T), ...
-                       PollyConfig.TR(flag532C), polCaliFac532);
+                       PollyConfig.TR(flag532C), data.polCaliFac532);
     data.vdr532(:, data.depCalMask) = NaN;
 end
 
@@ -3995,7 +3995,7 @@ if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
     data.vdr1064 = pollyVDR2(squeeze(data.signal(flag1064T, :, :)), ...
                        squeeze(data.signal(flag1064C, :, :)), ...
                        PollyConfig.TR(flag1064T), ...
-                       PollyConfig.TR(flag1064C), polCaliFac1064);
+                       PollyConfig.TR(flag1064C), data.polCaliFac1064);
     data.vdr1064(:, data.depCalMask) = NaN;
 end
 
@@ -4115,7 +4115,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), data.polCaliFac532);
     data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
     data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 end
@@ -4285,7 +4285,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), polCaliFac532);
+    vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), data.polCaliFac532);
     data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
     data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
 end
@@ -4527,14 +4527,14 @@ end
 %data.polCaliFacStd355 = polCaliFacStd355;
 %data.polCaliEta355 = polCaliEta355;
 %data.polCaliEtaStd355 = polCaliEtaStd355;
-data.polCaliFac532 = polCaliFac532;
-data.polCaliFacStd532 = polCaliFacStd532;
-data.polCaliEta532 = polCaliEta532;
-data.polCaliEtaStd532 = polCaliEtaStd532;
-data.polCaliFac1064 = polCaliFac1064;
-data.polCaliFacStd1064 = polCaliFacStd1064;
-data.polCaliEta1064 = polCaliEta1064;
-data.polCaliEtaStd1064 = polCaliEtaStd1064;
+%data.polCaliFac532 = polCaliFac532;
+%data.polCaliFacStd532 = polCaliFacStd532;
+%data.polCaliEta532 = polCaliEta532;
+%data.polCaliEtaStd532 = polCaliEtaStd532;
+%data.polCaliFac1064 = polCaliFac1064;
+%data.polCaliFacStd1064 = polCaliFacStd1064;
+%data.polCaliEta1064 = polCaliEta1064;
+%data.polCaliEtaStd1064 = polCaliEtaStd1064;
 data.aerBsc355_klett = aerBsc355_klett;
 data.aerBscStd355_klett = aerBscStd355_klett;
 data.aerBsc532_klett = aerBsc532_klett;
