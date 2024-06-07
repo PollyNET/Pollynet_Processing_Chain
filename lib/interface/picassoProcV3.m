@@ -2149,7 +2149,7 @@ end
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 
 % 355 nm
-sigOLCor355 = [];
+data.sigOLCor355 = [];
 bgOLCor355 = [];
 data.olFuncDeft355 = NaN(length(data.height), 1);
 % flagOLDeft355 = false;
@@ -2158,7 +2158,7 @@ if (sum(flag355FR) == 1)
     bg355FR = squeeze(data.bg(flag355FR, :, :));
     sig355NR = squeeze(data.signal(flag355NR, :, :));
     bg355NR = squeeze(data.bg(flag355NR, :, :));
-    [sigOLCor355, bgOLCor355, data.olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
+    [data.sigOLCor355, bgOLCor355, data.olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
         'signalNR', sig355NR, 'bgNR', bg355NR, ...
         'signalRatio', data.olAttri355.sigRatio, 'normRange', data.olAttri355.normRange, ...
         'overlap', data.olFunc355, 'overlap_Raman',olFunc355Raman, ...
@@ -2187,7 +2187,7 @@ if (sum(flag387FR) == 1)
 end
 
 % 532 nm
-sigOLCor532 = [];
+data.sigOLCor532 = [];
 bgOLCor532 = [];
 data.olFuncDeft532 = NaN(length(data.height), 1);
 % flagOLDeft532 = false;
@@ -2196,7 +2196,7 @@ if (sum(flag532FR) == 1)
     bg532FR = squeeze(data.bg(flag532FR, :, :));
     sig532NR = squeeze(data.signal(flag532NR, :, :));
     bg532NR = squeeze(data.bg(flag532NR, :, :));
-    [sigOLCor532, bgOLCor532, data.olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
+    [data.sigOLCor532, bgOLCor532, data.olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
         'signalNR', sig532NR, 'bgNR', bg532NR, ...
         'signalRatio', data.olAttri532.sigRatio, 'normRange', data.olAttri532.normRange, ...
         'overlap', data.olFunc532, 'overlap_Raman',olFunc532Raman, ...
@@ -2225,7 +2225,7 @@ if (sum(flag607FR) == 1)
 end
 
 % 1064 nm
-sigOLCor1064 = [];
+data.sigOLCor1064 = [];
 bgOLCor1064 = [];
 % olFuncDeft1064 = NaN(length(data.height), 1);
 % flagOLDeft1064 = false;
@@ -2234,7 +2234,7 @@ if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1)
     bg1064FR = squeeze(data.bg(flag1064FR, :, :));
     sig1064NR = [];
     bg1064NR = [];
-    [sigOLCor1064, bgOLCor1064, ~, ~] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
+    [data.sigOLCor1064, bgOLCor1064, ~, ~] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
         'signalNR', sig1064NR, 'bgNR', bg1064NR, ...
         'signalRatio', olAttri1064.sigRatio, 'normRange', olAttri1064.normRange, ...
         'overlap', olFunc1064, 'overlap_Raman',olFunc532Raman, ...
@@ -2260,7 +2260,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = transpose(squeeze(sum(sigOLCor355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    sig355 = transpose(squeeze(sum(data.sigOLCor355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg355 = transpose(squeeze(sum(bgOLCor355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
@@ -2290,7 +2290,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = transpose(squeeze(sum(sigOLCor532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    sig532 = transpose(squeeze(sum(data.sigOLCor532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg532 = transpose(squeeze(sum(bgOLCor532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
@@ -2320,7 +2320,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = transpose(squeeze(sum(sigOLCor1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
+    sig1064 = transpose(squeeze(sum(data.sigOLCor1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg1064 = transpose(squeeze(sum(bgOLCor1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
     refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
@@ -2360,7 +2360,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig355 = transpose(squeeze(sum(sigOLCor355(:, flagClFre), 2)));
+    sig355 = transpose(squeeze(sum(data.sigOLCor355(:, flagClFre), 2)));
     bg355 = transpose(squeeze(sum(bgOLCor355(:, flagClFre), 2)));
     sig387 = transpose(squeeze(sum(sigOLCor387(:, flagClFre), 2)));
     bg387 = transpose(squeeze(sum(bgOLCor387(:, flagClFre), 2)));
@@ -2432,7 +2432,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig532 = transpose(squeeze(sum(sigOLCor532(:, flagClFre), 2)));
+    sig532 = transpose(squeeze(sum(data.sigOLCor532(:, flagClFre), 2)));
     bg532 = transpose(squeeze(sum(bgOLCor532(:, flagClFre), 2)));
     sig607 = transpose(squeeze(sum(sigOLCor607(:, flagClFre), 2)));
     bg607 = transpose(squeeze(sum(bgOLCor607(:, flagClFre), 2)));
@@ -2504,7 +2504,7 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
-    sig1064 = transpose(squeeze(sum(sigOLCor1064(:, flagClFre), 2)));
+    sig1064 = transpose(squeeze(sum(data.sigOLCor1064(:, flagClFre), 2)));
     bg1064 = transpose(squeeze(sum(bgOLCor1064(:, flagClFre), 2)));
     sig607 = transpose(squeeze(sum(sigOLCor607(:, flagClFre), 2)));
     bg607 = transpose(squeeze(sum(bgOLCor607(:, flagClFre), 2)));
@@ -3912,21 +3912,21 @@ end
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_OC_355 = NaN(length(data.height), length(data.mTime));
 if (sum(flag355) == 1)
-    data.att_beta_OC_355 = sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
+    data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
     data.att_beta_OC_355(:, data.depCalMask) = NaN;
 end
 
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_OC_532 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532) == 1)
-    data.att_beta_OC_532 = sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
+    data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
     data.att_beta_OC_532(:, data.depCalMask) = NaN;
 end
 
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & flagTotalChannel;
 data.att_beta_OC_1064 = NaN(length(data.height), length(data.mTime));
 if (sum(flag1064) == 1)
-    data.att_beta_OC_1064 = sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
+    data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
     data.att_beta_OC_1064(:, data.depCalMask) = NaN;
 end
 
@@ -4514,9 +4514,9 @@ end
 %data.olFunc532 = olFunc532;
 %data.olAttri532 = olAttri532;
 %data.olFuncDeft532 = olFuncDeft532;
-data.sigOLCor355 = sigOLCor355;
-data.sigOLCor532 = sigOLCor532;
-data.sigOLCor1064 = sigOLCor1064;
+%data.sigOLCor355 = sigOLCor355;
+%data.sigOLCor532 = sigOLCor532;
+%data.sigOLCor1064 = sigOLCor1064;
 data.olFunc532Raman = olFunc532Raman;
 data.olFunc355Raman = olFunc355Raman;
 data.olFunc532Raman_raw = olFunc532Raman_raw;
