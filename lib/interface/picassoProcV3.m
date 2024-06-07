@@ -1211,8 +1211,8 @@ end
 
 %% Constrained-AOD Klett method at 355 nm (far-field)
 flag355FR = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR355_aeronet = NaN(size(clFreGrps, 1), 1);
@@ -1241,8 +1241,8 @@ for iGrp = 1:size(clFreGrps, 1)
     [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, ~] = pollyConstrainedKlett(data.distance0, sig355, SNR355, refH355, PollyConfig.refBeta355, mBsc355, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_355_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag355FR), PollyConfig.mask_SNRmin(flag355FR), PollyConfig.smoothWin_klett_355);
     thisAerExt355_aeronet = thisAerBsc355_aeronet * thisLR_355;
 
-    aerBsc355_aeronet(iGrp, :) = thisAerBsc355_aeronet;
-    aerBscStd355_aeronet(iGrp, :) = 0.2 * thisAerBsc355_aeronet;
+    data.aerBsc355_aeronet(iGrp, :) = thisAerBsc355_aeronet;
+    data.aerBscStd355_aeronet(iGrp, :) = 0.2 * thisAerBsc355_aeronet;
     aerExt355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     aerExtStd355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     LR355_aeronet(iGrp) = thisLR_355;
@@ -1251,8 +1251,8 @@ end
 
 %% Constrained-AOD Klett method at 532 nm (far-field)
 flag532FR = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR532_aeronet = NaN(size(clFreGrps, 1), 1);
@@ -1281,8 +1281,8 @@ for iGrp = 1:size(clFreGrps, 1)
     [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, ~] = pollyConstrainedKlett(data.distance0, sig532, SNR532, refH532, PollyConfig.refBeta532, mBsc532, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_532_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag532FR), PollyConfig.mask_SNRmin(flag532FR), PollyConfig.smoothWin_klett_532);
     thisAerExt532_aeronet = thisAerBsc532_aeronet * thisLR_532;
 
-    aerBsc532_aeronet(iGrp, :) = thisAerBsc532_aeronet;
-    aerBscStd532_aeronet(iGrp, :) = 0.2 * thisAerBsc532_aeronet;
+    data.aerBsc532_aeronet(iGrp, :) = thisAerBsc532_aeronet;
+    data.aerBscStd532_aeronet(iGrp, :) = 0.2 * thisAerBsc532_aeronet;
     aerExt532_aeronet(iGrp, :) = thisAerExt532_aeronet;
     aerExtStd532_aeronet(iGrp, :) = 0.2 * thisAerExt532_aeronet;
     LR532_aeronet(iGrp) = thisLR_532;
@@ -1291,8 +1291,8 @@ end
 
 %% Constrained-AOD Klett method at 1064 nm
 flag1064FR = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
@@ -1321,8 +1321,8 @@ for iGrp = 1:size(clFreGrps, 1)
     [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, ~] = pollyConstrainedKlett(data.distance0, sig1064, SNR1064, refH1064, PollyConfig.refBeta1064, mBsc1064, PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_1064_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag1064FR), PollyConfig.mask_SNRmin(flag1064FR), PollyConfig.smoothWin_klett_1064);
     thisAerExt1064_aeronet = thisAerBsc1064_aeronet * thisLR_1064;
 
-    aerBsc1064_aeronet(iGrp, :) = thisAerBsc1064_aeronet;
-    aerBscStd1064_aeronet(iGrp, :) = 0.2 * thisAerBsc1064_aeronet;
+    data.aerBsc1064_aeronet(iGrp, :) = thisAerBsc1064_aeronet;
+    data.aerBscStd1064_aeronet(iGrp, :) = 0.2 * thisAerBsc1064_aeronet;
     aerExt1064_aeronet(iGrp, :) = thisAerExt1064_aeronet;
     aerExtStd1064_aeronet(iGrp, :) = 0.2 * thisAerExt1064_aeronet;
     LR1064_aeronet(iGrp) = thisLR_1064;
@@ -3625,7 +3625,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_355/2);
 
-        if ~ isnan(aerBsc355_aeronet(iGrp, 80))
+        if ~ isnan(data.aerBsc355_aeronet(iGrp, 80))
 
             [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
@@ -3636,7 +3636,7 @@ for iGrp = 1:size(clFreGrps, 1)
             % optical thickness (OT)
             aExt355 = aerExt355_aeronet(iGrp, :);
             aExt355(1:hIndBase) = aerExt355_aeronet(hIndBase);
-            aBsc355 = aerBsc355_aeronet(iGrp, :);
+            aBsc355 = data.aerBsc355_aeronet(iGrp, :);
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3664,7 +3664,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_532/2);
 
-        if ~ isnan(aerBsc532_aeronet(iGrp, 80))
+        if ~ isnan(data.aerBsc532_aeronet(iGrp, 80))
 
             [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
@@ -3675,7 +3675,7 @@ for iGrp = 1:size(clFreGrps, 1)
             % optical thickness (OT)
             aExt532 = aerExt532_aeronet(iGrp, :);
             aExt532(1:hIndBase) = aerExt532_aeronet(hIndBase);
-            aBsc532 = aerBsc532_aeronet(iGrp, :);
+            aBsc532 = data.aerBsc532_aeronet(iGrp, :);
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3703,7 +3703,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
         hIndBase = hIndOL + ceil(PollyConfig.smoothWin_klett_1064/2);
 
-        if ~ isnan(aerBsc1064_aeronet(iGrp, 80))
+        if ~ isnan(data.aerBsc1064_aeronet(iGrp, 80))
 
             [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
@@ -3714,7 +3714,7 @@ for iGrp = 1:size(clFreGrps, 1)
             % optical thickness (OT)
             aExt1064 = aerExt1064_aeronet(iGrp, :);
             aExt1064(1:hIndBase) = aerExt1064_aeronet(hIndBase);
-            aBsc1064 = aerBsc1064_aeronet(iGrp, :);
+            aBsc1064 = data.aerBsc1064_aeronet(iGrp, :);
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -4547,12 +4547,12 @@ end
 %data.aerExtStd532_klett = aerExtStd532_klett;
 %data.aerExt1064_klett = aerExt1064_klett;
 %data.aerExtStd1064_klett = aerExtStd1064_klett;
-data.aerBsc355_aeronet = aerBsc355_aeronet;
-data.aerBscStd355_aeronet = aerBscStd355_aeronet;
-data.aerBsc532_aeronet = aerBsc532_aeronet;
-data.aerBscStd532_aeronet = aerBscStd532_aeronet;
-data.aerBsc1064_aeronet = aerBsc1064_aeronet;
-data.aerBscStd1064_aeronet = aerBscStd1064_aeronet;
+%data.aerBsc355_aeronet = aerBsc355_aeronet;
+%data.aerBscStd355_aeronet = aerBscStd355_aeronet;
+%data.aerBsc532_aeronet = aerBsc532_aeronet;
+%data.aerBscStd532_aeronet = aerBscStd532_aeronet;
+%data.aerBsc1064_aeronet = aerBsc1064_aeronet;
+%data.aerBscStd1064_aeronet = aerBscStd1064_aeronet;
 data.aerExt355_aeronet = aerExt355_aeronet;
 data.aerExtStd355_aeronet = aerExtStd355_aeronet;
 data.aerExt532_aeronet = aerExt532_aeronet;
