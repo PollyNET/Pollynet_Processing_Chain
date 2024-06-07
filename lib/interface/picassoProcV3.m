@@ -1213,8 +1213,8 @@ end
 flag355FR = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR355_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD355 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
@@ -1243,8 +1243,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_aeronet(iGrp, :) = thisAerBsc355_aeronet;
     data.aerBscStd355_aeronet(iGrp, :) = 0.2 * thisAerBsc355_aeronet;
-    aerExt355_aeronet(iGrp, :) = thisAerExt355_aeronet;
-    aerExtStd355_aeronet(iGrp, :) = thisAerExt355_aeronet;
+    data.aerExt355_aeronet(iGrp, :) = thisAerExt355_aeronet;
+    data.aerExtStd355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     LR355_aeronet(iGrp) = thisLR_355;
     deltaAOD355(iGrp) = thisDeltaAOD355;
 end
@@ -1253,8 +1253,8 @@ end
 flag532FR = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR532_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD532 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
@@ -1283,8 +1283,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_aeronet(iGrp, :) = thisAerBsc532_aeronet;
     data.aerBscStd532_aeronet(iGrp, :) = 0.2 * thisAerBsc532_aeronet;
-    aerExt532_aeronet(iGrp, :) = thisAerExt532_aeronet;
-    aerExtStd532_aeronet(iGrp, :) = 0.2 * thisAerExt532_aeronet;
+    data.aerExt532_aeronet(iGrp, :) = thisAerExt532_aeronet;
+    data.aerExtStd532_aeronet(iGrp, :) = 0.2 * thisAerExt532_aeronet;
     LR532_aeronet(iGrp) = thisLR_532;
     deltaAOD532(iGrp) = thisDeltaAOD532;
 end
@@ -1293,8 +1293,8 @@ end
 flag1064FR = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
@@ -1323,8 +1323,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc1064_aeronet(iGrp, :) = thisAerBsc1064_aeronet;
     data.aerBscStd1064_aeronet(iGrp, :) = 0.2 * thisAerBsc1064_aeronet;
-    aerExt1064_aeronet(iGrp, :) = thisAerExt1064_aeronet;
-    aerExtStd1064_aeronet(iGrp, :) = 0.2 * thisAerExt1064_aeronet;
+    data.aerExt1064_aeronet(iGrp, :) = thisAerExt1064_aeronet;
+    data.aerExtStd1064_aeronet(iGrp, :) = 0.2 * thisAerExt1064_aeronet;
     LR1064_aeronet(iGrp) = thisLR_1064;
     deltaAOD1064(iGrp) = thisDeltaAOD1064;
 end
@@ -3634,8 +3634,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt355 = aerExt355_aeronet(iGrp, :);
-            aExt355(1:hIndBase) = aerExt355_aeronet(hIndBase);
+            aExt355 = data.aerExt355_aeronet(iGrp, :);
+            aExt355(1:hIndBase) = data.aerExt355_aeronet(hIndBase);
             aBsc355 = data.aerBsc355_aeronet(iGrp, :);
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
@@ -3673,8 +3673,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt532 = aerExt532_aeronet(iGrp, :);
-            aExt532(1:hIndBase) = aerExt532_aeronet(hIndBase);
+            aExt532 = data.aerExt532_aeronet(iGrp, :);
+            aExt532(1:hIndBase) = data.aerExt532_aeronet(hIndBase);
             aBsc532 = data.aerBsc532_aeronet(iGrp, :);
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
@@ -3712,8 +3712,8 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
-            aExt1064 = aerExt1064_aeronet(iGrp, :);
-            aExt1064(1:hIndBase) = aerExt1064_aeronet(hIndBase);
+            aExt1064 = data.aerExt1064_aeronet(iGrp, :);
+            aExt1064(1:hIndBase) = data.aerExt1064_aeronet(hIndBase);
             aBsc1064 = data.aerBsc1064_aeronet(iGrp, :);
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
@@ -4553,12 +4553,12 @@ end
 %data.aerBscStd532_aeronet = aerBscStd532_aeronet;
 %data.aerBsc1064_aeronet = aerBsc1064_aeronet;
 %data.aerBscStd1064_aeronet = aerBscStd1064_aeronet;
-data.aerExt355_aeronet = aerExt355_aeronet;
-data.aerExtStd355_aeronet = aerExtStd355_aeronet;
-data.aerExt532_aeronet = aerExt532_aeronet;
-data.aerExtStd532_aeronet = aerExtStd532_aeronet;
-data.aerExt1064_aeronet = aerExt1064_aeronet;
-data.aerExtStd1064_aeronet = aerExtStd1064_aeronet;
+%data.aerExt355_aeronet = aerExt355_aeronet;
+%data.aerExtStd355_aeronet = aerExtStd355_aeronet;
+%data.aerExt532_aeronet = aerExt532_aeronet;
+%data.aerExtStd532_aeronet = aerExtStd532_aeronet;
+%data.aerExt1064_aeronet = aerExt1064_aeronet;
+%data.aerExtStd1064_aeronet = aerExtStd1064_aeronet;
 data.LR355_aeronet = LR355_aeronet;
 data.LR532_aeronet = LR532_aeronet;
 data.LR1064_aeronet = LR1064_aeronet;
