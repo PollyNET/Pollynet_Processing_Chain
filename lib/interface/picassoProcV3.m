@@ -2819,52 +2819,52 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % Angstroem exponent (Klett/Fernald/Raman method retrieved parameters)
-AE_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-AE_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(refHInd355(iGrp, 1))) && (~ isnan(refHInd532(iGrp, 1)))
         [thisAE_Bsc_355_532_klett, thisAEStd_Bsc_355_532_klett] = pollyAE(data.aerBsc355_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
-        AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
-        AEStd_Bsc_355_532_klett(iGrp, :) = thisAEStd_Bsc_355_532_klett;
+        data.AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
+        data.AEStd_Bsc_355_532_klett(iGrp, :) = thisAEStd_Bsc_355_532_klett;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Klett method)
     if (~ isnan(refHInd532(iGrp, 1))) && (~ isnan(refHInd1064(iGrp, 1)))
         [thisAE_Bsc_532_1064_klett, thisAEStd_Bsc_532_1064_klett] = pollyAE(data.aerBsc532_klett(iGrp, :), zeros(size(data.height)), data.aerBsc1064_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
-        AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
-        AEStd_Bsc_532_1064_klett(iGrp, :) = thisAEStd_Bsc_532_1064_klett;
+        data.AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
+        data.AEStd_Bsc_532_1064_klett(iGrp, :) = thisAEStd_Bsc_532_1064_klett;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerExt355_raman(iGrp, 80))) && (~ isnan(data.aerExt532_raman(iGrp, 80)))
         [thisAE_Ext_355_532_raman, thisAEStd_Ext_355_532_raman] = pollyAE(data.aerExt355_raman(iGrp, :), zeros(size(data.height)), data.aerExt532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
-        AE_Ext_355_532_raman(iGrp, :) = thisAE_Ext_355_532_raman;
-        AEStd_Ext_355_532_raman(iGrp, :) = thisAEStd_Ext_355_532_raman;
+        data.AE_Ext_355_532_raman(iGrp, :) = thisAE_Ext_355_532_raman;
+        data.AEStd_Ext_355_532_raman(iGrp, :) = thisAEStd_Ext_355_532_raman;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerBsc355_raman(iGrp, 80))) && (~ isnan(data.aerBsc532_raman(iGrp, 80)))
         [thisAE_Bsc_355_532_raman, thisAEStd_Bsc_355_532_raman] = pollyAE(data.aerBsc355_raman(iGrp, :), zeros(size(data.height)), data.aerBsc532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
-        AE_Bsc_355_532_raman(iGrp, :) = thisAE_Bsc_355_532_raman;
-        AEStd_Bsc_355_532_raman(iGrp, :) = thisAEStd_Bsc_355_532_raman;
+       data.AE_Bsc_355_532_raman(iGrp, :) = thisAE_Bsc_355_532_raman;
+        data.AEStd_Bsc_355_532_raman(iGrp, :) = thisAEStd_Bsc_355_532_raman;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Raman method)
     if (~ isnan(data.aerBsc532_raman(iGrp, 80))) && (~ isnan(data.aerBsc1064_raman(iGrp, 80)))
         [thisAE_Bsc_532_1064_raman, thisAEStd_Bsc_532_1064_raman] = pollyAE(data.aerBsc532_raman(iGrp, :), zeros(size(data.height)), data.aerBsc1064_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
-        AE_Bsc_532_1064_raman(iGrp, :) = thisAE_Bsc_532_1064_raman;
-        AEStd_Bsc_532_1064_raman(iGrp, :) = thisAEStd_Bsc_532_1064_raman;
+        data.AE_Bsc_532_1064_raman(iGrp, :) = thisAE_Bsc_532_1064_raman;
+        data.AEStd_Bsc_532_1064_raman(iGrp, :) = thisAEStd_Bsc_532_1064_raman;
     end
 end
 
@@ -4629,16 +4629,16 @@ end
 %data.rh = rh;
 %data.wvconstUsed = wvconstUsed;
 %data.wvconstUsedStd = wvconstUsedStd;
-data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
-data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
-data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
-data.AEStd_Bsc_532_1064_klett = AEStd_Bsc_532_1064_klett;
-data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
-data.AEStd_Bsc_355_532_raman = AEStd_Bsc_355_532_raman;
-data.AE_Bsc_532_1064_raman = AE_Bsc_532_1064_raman;
-data.AEStd_Bsc_532_1064_raman = AEStd_Bsc_532_1064_raman;
-data.AE_Ext_355_532_raman = AE_Ext_355_532_raman;
-data.AEStd_Ext_355_532_raman = AEStd_Ext_355_532_raman;
+%data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
+%data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
+%data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
+%data.AEStd_Bsc_532_1064_klett = AEStd_Bsc_532_1064_klett;
+%data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
+%data.AEStd_Bsc_355_532_raman = AEStd_Bsc_355_532_raman;
+%data.AE_Bsc_532_1064_raman = AE_Bsc_532_1064_raman;
+%data.AEStd_Bsc_532_1064_raman = AEStd_Bsc_532_1064_raman;
+%data.AE_Ext_355_532_raman = AE_Ext_355_532_raman;
+%data.AEStd_Ext_355_532_raman = AEStd_Ext_355_532_raman;
 data.refHInd355 = refHInd355;
 data.refHInd532 = refHInd532;
 data.refHInd1064 = refHInd1064;
@@ -4675,7 +4675,7 @@ data.LRStd355_NR_raman = LRStd355_NR_raman;
 data.LR532_NR_raman = LR532_NR_raman;
 data.LRStd532_NR_raman = LRStd532_NR_raman;
 data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
-data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
+data.AEStd_Bsc_355_532_NR_klett = AEStd_Bsc_355_532_NR_klett;
 data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
 data.AEStd_Bsc_355_532_NR_raman = AEStd_Bsc_355_532_NR_raman;
 data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
