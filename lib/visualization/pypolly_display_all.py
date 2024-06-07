@@ -44,6 +44,10 @@ my_parser.add_argument('--date', dest='timestamp', metavar='timestamp',
 my_parser.add_argument('--device', dest='device', metavar='device',
                        type=str,
                        help='the polly device (level1 nc-file).')
+my_parser.add_argument('--base_dir', dest='base_dir',
+                       type=str,
+                       default='/data/level0/polly',
+                       help='the directory of level0 polly data and logbook-files.')
 my_parser.add_argument('--picasso_config_file', dest='picasso_config_file', metavar='picasso_config_file',
                        type=str,
                        help='the json-type picasso config-file')
@@ -56,13 +60,13 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap'],
+                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
 my_parser.add_argument('--donefilelist', dest='donefilelist',
                        type=str,
-                       default = "false",
+                       default = 'false',
                        help='write list of plotted filenames into donefilelist, specified in the picasso-config. Default is False.')
 
 # init parser
@@ -83,6 +87,7 @@ def read_excel_config_file(excel_file, timestamp, device):
 #    config_array = excel_file_ds.loc[(excel_file_ds['Instrument'] == 'arielle') & (excel_file_ds['Starttime of config'] == '20200204 00:00:00')]
     config_array = filtered_result.loc[(filtered_result['Instrument'] == device)]
     polly_local_config_file = str(config_array['Config file'].to_string(index=False)).strip() ## get rid of whtiespaces
+#    location = str(config_array['Location'].to_string(index=False)).strip() ## get rid of whtiespaces
 #    print(polly_local_config_file)
     return polly_local_config_file
 
@@ -358,6 +363,63 @@ def main():
             nc_dict = readout.read_nc_file(data_file)
             print('plotting overlap:')
             display_3d.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
+
+    if ('all' in args.retrieval) or ('LC' in args.retrieval):
+        ## plotting Lidar constants from db-file
+        base_dir = Path(config_dict['results_folder'])
+        db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
+        LC = {}
+        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Method',telescope='far')
+        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
+        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
+        calib_profile_translator = p_translator.calib_profile_translator_function()
+        try:
+            nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
+            for data_file in nc_files:
+                nc_dict = readout.read_nc_file(data_file)
+                print('plotting LidarCalibrationConstants:')
+                for profilename in calib_profile_translator.keys():
+                    display_profiles.pollyDisplay_calibration_constants(nc_dict,LC[profilename],calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+        except Exception as e:
+             print("An error occurred:", e)
+
+    if ('all' in args.retrieval) or ('longterm_cali' in args.retrieval):
+        ## plotting Lidar constants from db-file
+        base_dir = Path(config_dict['results_folder'])
+        db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
+        logbookFile_path = base_dir.joinpath(device,polly_conf_dict['logbookFile'])
+        print(logbookFile_path)
+        logbookFile_df = readout.read_from_logbookFile(logbookFile_path=str(logbookFile_path))
+        LC = {}
+        ETA={}
+        LC['LC355'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='355',method='Klett',telescope='far')
+        LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Klett',telescope='far')
+        LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Klett',telescope='far')
+        ETA['ETA355'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='355')
+        ETA['ETA532'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='532')
+        ETA['ETA1064'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='1064')
+        calib_profile_translator = p_translator.calib_profile_translator_function()
+        profilename='longterm_LC'
+        try:
+            nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
+            for data_file in nc_files:
+                nc_dict = readout.read_nc_file(data_file)
+                print('plotting LongTermCalibration:')
+                display_profiles.pollyDisplay_longtermcalibration(nc_dict,logbookFile_df,LC,ETA,calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+        except Exception as e:
+             print("An error occurred:", e)
+
+    if ('all' in args.retrieval) or ('HKD' in args.retrieval):
+         laserlogbook = readout.get_pollyxt_logbook_files(date,device,args.base_dir,outputfolder)
+         print(laserlogbook)
+         laserlogbook_df = readout.read_pollyxt_logbook_file(laserlogbook)
+         try:
+             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
+             for data_file in nc_files:
+                 nc_dict = readout.read_nc_file(data_file)
+                 display_profiles.pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+         except Exception as e:
+             print("An error occurred:", e)
 
 
     ## add plotted files to donefile
