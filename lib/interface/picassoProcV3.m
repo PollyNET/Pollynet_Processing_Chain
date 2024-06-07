@@ -3123,10 +3123,10 @@ end
     'default_wvconstStd', PollyDefaults.wvconstStd);
 
 % obtain averaged water vapor profiles
-wvmr = NaN(size(clFreGrps, 1), length(data.height));
-wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
-wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
-wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
 rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
@@ -3159,7 +3159,7 @@ for iGrp = 1:size(clFreGrps, 1)
     rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
 
     % calculate wvmr and rh
-    wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
+    data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
     
      el387 = squeeze(data.signal(flag387, :, :));
     bgEl387 = squeeze(data.bg(flag387, :, :));
@@ -3173,10 +3173,10 @@ for iGrp = 1:size(clFreGrps, 1)
     SNR407  = pollySNR(sig407, bg407);
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
-    wvmr_no_QC(iGrp, :)=wvmr(iGrp, :);
-    wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
-    wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
-    rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
+    data.wvmr_no_QC(iGrp, :)=data.wvmr(iGrp, :);
+    data.wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
+    data.wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
+    rh(iGrp, :) = wvmr_2_rh(data.wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
     if isnan(wvCaliInfo.IntRange(iGrp, 1))
@@ -3185,10 +3185,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     IWVIntRange= wvCaliInfo.IntRange(iGrp, 1):wvCaliInfo.IntRange(iGrp, 2);
     wvPrfInfo.n407Prfs(iGrp) = n407OnPrf;
-    wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
+    wvPrfInfo.IWV(iGrp) = sum(data.wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
 
 end
-wvmr_error=wvmr_rel_error.*wvmr;
+data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -4622,10 +4622,10 @@ end
 %data.pdr1064_raman = pdr1064_raman;
 %data.pdrStd1064_klett = pdrStd1064_klett;
 %data.pdrStd1064_raman = pdrStd1064_raman;
-data.wvmr = wvmr;
-data.wvmr_no_QC = wvmr_no_QC;
-data.wvmr_error = wvmr_error;
-data.wvmr_rel_error = wvmr_rel_error;
+%data.wvmr = wvmr;
+%data.wvmr_no_QC = wvmr_no_QC;
+%data.wvmr_error = wvmr_error;
+%data.wvmr_rel_error = wvmr_rel_error;
 data.rh = rh;
 data.wvconstUsed = wvconstUsed;
 data.wvconstUsedStd = wvconstUsedStd;
