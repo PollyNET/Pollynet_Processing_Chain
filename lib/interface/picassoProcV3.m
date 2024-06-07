@@ -2594,10 +2594,10 @@ smoothWin=PollyConfig.smoothWin_raman_1064;
 %% Particle depolarization ratio at 355 nm
 flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2633,14 +2633,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if ~ isnan(data.aerBsc355_klett(iGrp, 80))
         [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_klett(iGrp, :) = thisPdr355_klett;
-        pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
+        data.pdr355_klett(iGrp, :) = thisPdr355_klett;
+        data.pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
     end
 
     if ~ isnan(data.aerBsc355_raman(iGrp, 80))
         [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), data.aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_raman(iGrp, :) = thisPdr355_raman;
-        pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
+        data.pdr355_raman(iGrp, :) = thisPdr355_raman;
+        data.pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
     if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
@@ -2659,10 +2659,10 @@ end
 %% Particle depolarization ratio at 532 nm
 flag532T = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag532C = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2698,14 +2698,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if ~ isnan(data.aerBsc532_klett(iGrp, 80))
         [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_klett(iGrp, :) = thisPdr532_klett;
-        pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
+        data.pdr532_klett(iGrp, :) = thisPdr532_klett;
+        data.pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
     end
 
     if ~ isnan(data.aerBsc532_raman(iGrp, 80))
         [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), data.aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_raman(iGrp, :) = thisPdr532_raman;
-        pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
+        data.pdr532_raman(iGrp, :) = thisPdr532_raman;
+        data.pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
     if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
@@ -2924,11 +2924,11 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 % % print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
 
 [data.POLIPHON1] = poliphon_one ...
-    (data.aerBsc355_klett, pdr355_klett, ...
-    data.aerBsc532_klett, pdr532_klett, ...
+    (data.aerBsc355_klett, data.pdr355_klett, ...
+    data.aerBsc532_klett, data.pdr532_klett, ...
     data.aerBsc1064_klett, pdr1064_klett, ...
-    data.aerBsc355_raman, pdr355_raman, ...
-    data.aerBsc532_raman, pdr532_raman, ...
+    data.aerBsc355_raman, data.pdr355_raman, ...
+    data.aerBsc532_raman, data.pdr532_raman, ...
     data.aerBsc1064_raman, pdr1064_raman);
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4606,14 +4606,14 @@ end
 %data.vdrStd355_raman = vdrStd355_raman;
 %data.vdr532_raman = vdr532_raman;
 %data.vdrStd532_raman = vdrStd532_raman;
-data.pdr355_klett = pdr355_klett;
-data.pdr532_klett = pdr532_klett;
-data.pdr355_raman = pdr355_raman;
-data.pdr532_raman = pdr532_raman;
-data.pdrStd355_klett = pdrStd355_klett;
-data.pdrStd532_klett = pdrStd532_klett;
-data.pdrStd355_raman = pdrStd355_raman;
-data.pdrStd532_raman = pdrStd532_raman;
+%data.pdr355_klett = pdr355_klett;
+%data.pdr532_klett = pdr532_klett;
+%data.pdr355_raman = pdr355_raman;
+%data.pdr532_raman = pdr532_raman;
+%data.pdrStd355_klett = pdrStd355_klett;
+%data.pdrStd532_klett = pdrStd532_klett;
+%data.pdrStd355_raman = pdrStd355_raman;
+%data.pdrStd532_raman = pdrStd532_raman;
 data.vdr1064_klett = vdr1064_klett;
 data.vdrStd1064_klett = vdrStd1064_klett;
 data.vdr1064_raman = vdr1064_raman;
