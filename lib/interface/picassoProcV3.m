@@ -3112,7 +3112,7 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % select water vapor calibration constant
-[wvconstUsed, wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
     wvconst, wvconstStd, IWVAttri, ...
     pollyParseFiletime(basename(PollyDataInfo.pollyDataFile), PollyConfig.dataFileFormat), ...
     dbFile, CampaignConfig.name, ...
@@ -3127,7 +3127,7 @@ data.wvmr = NaN(size(clFreGrps, 1), length(data.height));
 data.wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
 data.wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
 data.wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
-rh = NaN(size(clFreGrps, 1), length(data.height));
+data.rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
 wvPrfInfo.IWV = NaN(size(clFreGrps, 1), 1);
@@ -3159,7 +3159,7 @@ for iGrp = 1:size(clFreGrps, 1)
     rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
 
     % calculate wvmr and rh
-    data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
+    data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
     
      el387 = squeeze(data.signal(flag387, :, :));
     bgEl387 = squeeze(data.bg(flag387, :, :));
@@ -3175,8 +3175,8 @@ for iGrp = 1:size(clFreGrps, 1)
     %clFreGrps is defined
     data.wvmr_no_QC(iGrp, :)=data.wvmr(iGrp, :);
     data.wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
-    data.wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
-    rh(iGrp, :) = wvmr_2_rh(data.wvmr(iGrp, :), es, data.pressure(iGrp, :));
+    data.wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((data.wvconstUsedStd).^2)./((data.wvconstUsed).^2));
+    data.rh(iGrp, :) = wvmr_2_rh(data.wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
     if isnan(wvCaliInfo.IntRange(iGrp, 1))
@@ -3258,9 +3258,9 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
 
     % calculate wvmr and rh
-    data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
+    data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
     data.WVMR_no_QC = data.WVMR;
-    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR_error = data.WVMR_rel_error.* data.WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR (data.quality_mask_WVMR>0)=NaN;
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
@@ -4626,9 +4626,9 @@ end
 %data.wvmr_no_QC = wvmr_no_QC;
 %data.wvmr_error = wvmr_error;
 %data.wvmr_rel_error = wvmr_rel_error;
-data.rh = rh;
-data.wvconstUsed = wvconstUsed;
-data.wvconstUsedStd = wvconstUsedStd;
+%data.rh = rh;
+%data.wvconstUsed = wvconstUsed;
+%data.wvconstUsedStd = wvconstUsedStd;
 data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
 data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
 data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
