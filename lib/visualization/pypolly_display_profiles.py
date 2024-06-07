@@ -13,6 +13,7 @@ import numpy as np
 from datetime import datetime, timedelta, timezone
 import matplotlib
 from matplotlib.patches import Patch
+import matplotlib.colors as colors
 import json
 from pathlib import Path
 import argparse
@@ -696,15 +697,6 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
     flagWatermarkOn = config_dict['flagWatermarkOn']
     fontname = config_dict['fontname']
 
-#    ## read from global config file
-#    if profile_calib_translator[profilename]['xlim_name'] != None:
-#        xLim = polly_conf_dict[profile_calib_translator[profilename]['xlim_name']]
-#    else:
-#        xLim = None
-#    if profile_calib_translator[profilename]['ylim_name'] != None:
-#        yLim = polly_conf_dict[profile_calib_translator[profilename]['ylim_name']]
-#    else:
-#        yLim = None
 
     partnerLabel = polly_conf_dict['partnerLabel']
     imgFormat = polly_conf_dict['imgFormat']
@@ -721,6 +713,14 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
     dataFilename = re.split(r'_overlap',nc_dict['PollyDataFile'])[0]
     plotfile = f"{dataFilename}_monitor.{imgFormat}"
     saveFilename = os.path.join(saveFolder,plotfile)
+
+    ## filter out wrong values
+    laserlogbook_df['ExtPyro'] = laserlogbook_df['ExtPyro'].mask(laserlogbook_df['ExtPyro'] < 0, np.nan)
+    laserlogbook_df['TEMPERATURE'] = laserlogbook_df['TEMPERATURE'].mask(laserlogbook_df['TEMPERATURE'] < -80, np.nan)
+    laserlogbook_df['Temp1'] = laserlogbook_df['Temp1'].mask(laserlogbook_df['Temp1'] < -80, np.nan)
+    laserlogbook_df['Temp2'] = laserlogbook_df['Temp2'].mask(laserlogbook_df['Temp2'] < -80, np.nan)
+    laserlogbook_df['OutsideT'] = laserlogbook_df['OutsideT'].mask(laserlogbook_df['OutsideT'] < -80, np.nan)
+    laserlogbook_df['Temp1064'] = laserlogbook_df['Temp1064'].mask(laserlogbook_df['Temp1064'] < -120, np.nan)
 
     nrows = 5
     fig, ax = plt.subplots(nrows=nrows, ncols=1, figsize=(12, 18))
@@ -744,31 +744,36 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
     ax[3].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['Temp1064'], linestyle='-', color='firebrick')
     ax[3].set_ylabel('Temp1064 [°C]', fontsize=15)
 
-
-    state_colormap = {1: 'green', 2: 'red', 3: 'blue', 4: 'yellow'}
-    laserlogbook_df['rain'] = laserlogbook_df['rain'].astype(int)
-    laserlogbook_df['roof'] = laserlogbook_df['roof'].astype(int)
-    laserlogbook_df['shutter'] = laserlogbook_df['shutter'].astype(int)
-    states_params = ['rain','roof','shutter']
-    state_df = laserlogbook_df[states_params]
-
-    # Create bar plots with different colors
-    for param in states_params:
-        ax[4].scatter(laserlogbook_df['TIMESTAMP'], laserlogbook_df[param], color=laserlogbook_df[param].map(state_colormap),label=param)
-
-    ax[4].set_ylabel('State parameters', fontsize=15)
-    ax[4].legend(loc='upper right')
-
-
-#    ax[4].bar(laserlogbook_df['TIMESTAMP'],state_df['rain'])
-    #ax[4].plot(laserlogbook_df['TIMESTAMP'], laserlogbook_df['rain'], linestyle='-', color='salmon')
-#    ax[4].set_ylabel('rain', fontsize=15)
-
     date_00 = datetime.strptime(nc_dict['m_date'], '%Y-%m-%d')
     date_00 = date_00.timestamp()
     x_lims = list(map(datetime.fromtimestamp, [date_00, date_00+24*60*60]))
     x_lims = date2num(x_lims)
     ax[-1].set_xlim(x_lims[0],x_lims[-1])
+
+    laserlogbook_df['rain'] = laserlogbook_df['rain'].astype(int)
+    laserlogbook_df['roof'] = laserlogbook_df['roof'].astype(int)
+    laserlogbook_df['shutter'] = laserlogbook_df['shutter'].astype(int)
+    states_params = ['rain','roof','shutter']
+    state_colormap = ['navajowhite', 'coral', 'skyblue', 'm', 'mediumaquamarine']
+    cmap = colors.ListedColormap(state_colormap)
+    matrix = laserlogbook_df[states_params].values
+
+    pcmesh = ax[4].pcolormesh(
+            laserlogbook_df['TIMESTAMP'], np.arange(len(states_params)) +0.5, matrix.T,
+            cmap=cmap, vmin=-0.5, vmax=4.5,shading='nearest')
+    cb_ax = fig.add_axes([0.84, 0.08, 0.12, 0.016])
+    cbar = fig.colorbar(pcmesh, cax=cb_ax, ticks=[
+                            0, 1, 2, 3, 4], orientation='horizontal')
+    cbar.ax.tick_params(labeltop=True, direction='in', labelbottom=False,
+                            bottom=False, top=True, labelsize=12, pad=0.00)
+    ax[4].set_yticks([0.5, 1.5, 2.5])
+    [ax[4].axhline(p, color='white', linewidth=3) for p in np.arange(0, len(states_params))]
+
+    #ax[4].set_yticks(list(range(0,len(states_params))))
+    select_label_list = states_params
+    ax[4].set_yticklabels(select_label_list)
+    for tick in ax[4].get_yticklabels():
+        tick.set_verticalalignment("bottom")
 
     ax[-1].set_xlabel('Time [UTC]', fontsize=15)
 
@@ -777,11 +782,6 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
 
     ax[-1].xaxis.set_major_formatter(DateFormatter('%H:%M'))
 
-#    ax.grid(True)
-#    ax.tick_params(axis='both', which='major', labelsize=15,
-#                   right=True, top=True, width=2, length=5)
-#    ax.tick_params(axis='both', which='minor', width=1.5,
-#                   length=3.5, right=True, top=True)
 
     fig.suptitle(f'Laserlogbook monitoring of {pollyVersion} at {location}', fontsize=16, fontweight='bold', y=0.9)
 
@@ -815,26 +815,26 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
 
     plt.close()
 
-#    ## write2donefilelist
-#    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
-#                                    lidar = pollyVersion,
-#                                    location = nc_dict['location'],
-#                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
-#                                    wavelength = list(dataframe['wavelength'])[0],
-#                                    filename = saveFilename,
-#                                    level = 0,
-#                                    info = f"Lidar calibration constant from {profile_calib_translator[profilename]['product_type']}",
-#                                    nc_zip_file = polly_conf_dict['calibrationDB'],
-#                                    nc_zip_file_size = 9000000,
-#                                    active = 1,
-#                                    GDAS = 0,
-#                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
-#                                    lidar_ratio = 50,
-#                                    software_version = version,
-#                                    product_type = profile_calib_translator[profilename]['product_type'],
-#                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
-#                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
-#                                    )
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = "data based on laserlogbook.",
+                                    nc_zip_file = polly_conf_dict['calibrationDB'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = 'monitor',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
 

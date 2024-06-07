@@ -364,7 +364,7 @@ def main():
             print('plotting overlap:')
             display_3d.pollyDisplay_Overlap(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
 
-    if ('LC' in args.retrieval):
+    if ('all' in args.retrieval) or ('LC' in args.retrieval):
         ## plotting Lidar constants from db-file
         base_dir = Path(config_dict['results_folder'])
         db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
@@ -383,7 +383,7 @@ def main():
         except Exception as e:
              print("An error occurred:", e)
 
-    if ('longterm_cali' in args.retrieval):
+    if ('all' in args.retrieval) or ('longterm_cali' in args.retrieval):
         ## plotting Lidar constants from db-file
         base_dir = Path(config_dict['results_folder'])
         db_path = base_dir.joinpath(device,polly_conf_dict['calibrationDB'])
@@ -409,7 +409,7 @@ def main():
         except Exception as e:
              print("An error occurred:", e)
 
-    if ('HKD' in args.retrieval):
+    if ('all' in args.retrieval) or ('HKD' in args.retrieval):
          laserlogbook = readout.get_pollyxt_logbook_files(date,device,args.base_dir,outputfolder)
          print(laserlogbook)
          laserlogbook_df = readout.read_pollyxt_logbook_file(laserlogbook)

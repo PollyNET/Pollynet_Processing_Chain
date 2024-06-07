@@ -545,7 +545,7 @@ def read_pollyxt_logbook_file(laserlogbookfile):
 
         df = pd.DataFrame(parameter_dict)
         df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], format='%Y-%m-%d %H:%M:%S')
-        print(df)
+
         return df
 
     else:
