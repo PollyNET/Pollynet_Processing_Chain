@@ -2189,14 +2189,14 @@ end
 % 532 nm
 sigOLCor532 = [];
 bgOLCor532 = [];
-olFuncDeft532 = NaN(length(data.height), 1);
+data.olFuncDeft532 = NaN(length(data.height), 1);
 % flagOLDeft532 = false;
 if (sum(flag532FR) == 1)
     sig532FR = squeeze(data.signal(flag532FR, :, :));
     bg532FR = squeeze(data.bg(flag532FR, :, :));
     sig532NR = squeeze(data.signal(flag532NR, :, :));
     bg532NR = squeeze(data.bg(flag532NR, :, :));
-    [sigOLCor532, bgOLCor532, olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
+    [sigOLCor532, bgOLCor532, data.olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
         'signalNR', sig532NR, 'bgNR', bg532NR, ...
         'signalRatio', data.olAttri532.sigRatio, 'normRange', data.olAttri532.normRange, ...
         'overlap', data.olFunc532, 'overlap_Raman',olFunc532Raman, ...
@@ -4513,7 +4513,7 @@ end
 %data.olFuncDeft355 = olFuncDeft355;
 %data.olFunc532 = olFunc532;
 %data.olAttri532 = olAttri532;
-data.olFuncDeft532 = olFuncDeft532;
+%data.olFuncDeft532 = olFuncDeft532;
 data.sigOLCor355 = sigOLCor355;
 data.sigOLCor532 = sigOLCor532;
 data.sigOLCor1064 = sigOLCor1064;
@@ -4523,7 +4523,6 @@ data.olFunc532Raman_raw = olFunc532Raman_raw;
 data.olFunc355Raman_raw = olFunc355Raman_raw;
 data.olAttri355Raman = olAttri355Raman;
 data.olAttri532Raman = olAttri532Raman;
-data.olFuncDeft532 = olFuncDeft532;
 data.polCaliFac355 = polCaliFac355;
 data.polCaliFacStd355 = polCaliFacStd355;
 data.polCaliEta355 = polCaliEta355;
