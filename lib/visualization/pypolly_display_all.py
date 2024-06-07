@@ -62,7 +62,7 @@ my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval param
                        help='the retrievals to be plotted; default: "all".')
 my_parser.add_argument('--donefilelist', dest='donefilelist',
                        type=str,
-                       default = False,
+                       default = "false",
                        help='write list of plotted filenames into donefilelist, specified in the picasso-config. Default is False.')
 
 # init parser
