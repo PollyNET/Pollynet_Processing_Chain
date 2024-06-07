@@ -1334,8 +1334,8 @@ data.aerBsc355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR355_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
@@ -1396,8 +1396,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_raman(iGrp, :) = thisAerBsc355_raman;
     data.aerBscStd355_raman(iGrp, :) = thisAerBscStd355_raman;
-    LR355_raman(iGrp, :) = thisLR355_raman;
-    LRStd355_raman(iGrp, :) = thisLRStd355_raman;
+    data.LR355_raman(iGrp, :) = thisLR355_raman;
+    data.LRStd355_raman(iGrp, :) = thisLRStd355_raman;
 
 end
 
@@ -1406,8 +1406,8 @@ data.aerBsc532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR532_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
@@ -1468,8 +1468,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_raman(iGrp, :) = thisAerBsc532_raman;
     data.aerBscStd532_raman(iGrp, :) = thisAerBscStd532_raman;
-    LR532_raman(iGrp, :) = thisLR532_raman;
-    LRStd532_raman(iGrp, :) = thisLRStd532_raman;
+    data.LR532_raman(iGrp, :) = thisLR532_raman;
+    data.LRStd532_raman(iGrp, :) = thisLRStd532_raman;
 
 end
 
@@ -1478,8 +1478,8 @@ data.aerBsc1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
@@ -1541,8 +1541,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc1064_raman(iGrp, :) = thisAerBsc1064_raman;
     data.aerBscStd1064_raman(iGrp, :) = thisAerBscStd1064_raman;
-    LR1064_raman(iGrp, :) = thisLR1064_raman;
-    LRStd1064_raman(iGrp, :) = thisLRStd1064_raman;
+    data.LR1064_raman(iGrp, :) = thisLR1064_raman;
+    data.LRStd1064_raman(iGrp, :) = thisLRStd1064_raman;
 
 end
 
@@ -4574,12 +4574,12 @@ end
 %data.aerExtStd532_raman = aerExtStd532_raman;
 %data.aerExt1064_raman = aerExt1064_raman;
 %data.aerExtStd1064_raman = aerExtStd1064_raman;
-data.LR355_raman = LR355_raman;
-data.LRStd355_raman = LRStd355_raman;
-data.LR532_raman = LR532_raman;
-data.LRStd532_raman = LRStd532_raman;
-data.LR1064_raman = LR1064_raman;
-data.LRStd1064_raman = LRStd1064_raman;
+%data.LR355_raman = LR355_raman;
+%data.LRStd355_raman = LRStd355_raman;
+%data.LR532_raman = LR532_raman;
+%data.LRStd532_raman = LRStd532_raman;
+%data.LR1064_raman = LR1064_raman;
+%data.LRStd1064_raman = LRStd1064_raman;
 data.aerBsc355_RR = aerBsc355_RR;
 data.aerBscStd355_RR = aerBscStd355_RR;
 data.aerBsc532_RR = aerBsc532_RR;
