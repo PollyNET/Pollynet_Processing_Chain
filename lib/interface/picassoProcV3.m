@@ -4991,27 +4991,6 @@ if PicassoConfig.flagEnableResultsOutput
     print_msg('Finish.\n', 'flagTimestamp', true);
 end
 
-%% Display HKD, calib.constants and long-term-monitoring (will be plotted, even if plotting-flag in config is set to false)
-%% display monitor status
-print_msg('--> start diplaying lidar housekeeping data.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-pollyDisplayHousekeeping(data);
-print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-%% display polarization calibration results
-print_msg('--> start displaying polarization calibration results.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-pollyDisplayPolCali(data);
-print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-%% display lidar calibration constants
-print_msg('--> start display lidar calibration constants.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-pollyDisplayLC(data);
-print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
-%% display long-term lidar calibration results
-print_msg('--> start displaying long-term lidar calibration results.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-pollyDisplayLTLCali(data, dbFile);
-print_msg('--> finish.\n', 'flagTimestamp', true, 'flagSimpleMsg', true);
-
 
 %% Data visualization
 if PicassoConfig.flagEnableDataVisualization
@@ -5136,14 +5115,15 @@ if PicassoConfig.flagEnableDataVisualization
     end 
 
     print_msg('Finish!\n', 'flagTimestamp', true);
+
+    %% Done filelist
+    if p.Results.flagDonefileList
+        print_msg('Start writing done_filelist.\n', 'flagTimestamp', true);
+        pollyWriteDonelist(data);
+        print_msg('Finish.\n', 'flagTimestamp', true);
+    end
 end
 
-%% Done filelist
-if p.Results.flagDonefileList
-    print_msg('Start writing done_filelist.\n', 'flagTimestamp', true);
-    pollyWriteDonelist(data);
-    print_msg('Finish.\n', 'flagTimestamp', true);
-end
 
 tEnd = now();
 tUsage = (tEnd - tStart) * 24 * 3600;
