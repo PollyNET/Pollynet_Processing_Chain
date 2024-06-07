@@ -423,7 +423,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Polarization calibration
 if ~ PollyConfig.flagMolDepolCali
     print_msg('Start polarization calibration.\n', 'flagTimestamp', true);
-    [polCaliEta355, polCaliEtaStd355, polCaliFac355, polCaliFacStd355, ~, data.polCali355Attri] = pollyPolCali(data, PollyConfig.TR, ...
+    [data.polCaliEta355, data.polCaliEtaStd355, data.polCaliFac355, data.polCaliFacStd355, ~, data.polCali355Attri] = pollyPolCali(data, PollyConfig.TR, ...
         'wavelength', '355nm', ...
         'depolCaliMinBin', PollyConfig.depol_cal_minbin_355, ...
         'depolCaliMaxBin', PollyConfig.depol_cal_maxbin_355, ...
@@ -743,10 +743,10 @@ if PollyConfig.flagMolDepolCali
     print_msg('Start polarization calibration with molecule signal.\n', 'flagTimestamp', true);
 
     % 355 nm
-    polCaliEta355 = [];
-    polCaliEtaStd355 = [];
-    polCaliFac355 = [];
-    polCaliFacStd355 = [];
+    data.polCaliEta355 = [];
+    data.polCaliEtaStd355 = [];
+    data.polCaliFac355 = [];
+    data.polCaliFacStd355 = [];
     polCaliStartTime = [];
     polCaliStopTime = [];
     data.polCali355Attri = struct();
@@ -768,25 +768,25 @@ if PollyConfig.flagMolDepolCali
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig355T(refHIndArr), ...
             bg355T(refHIndArr), sig355C(refHIndArr), bg355C(refHIndArr), PollyConfig.TR(flag355T), 0, PollyConfig.TR(flag355C), 0, 10, PollyDefaults.molDepol355, PollyDefaults.molDepolStd355);
 
-        polCaliEta355 = cat(2, polCaliEta355, thisPolCaliEta);
-        polCaliEtaStd355 = cat(2, polCaliEtaStd355, thisPolCaliEtaStd);
-        polCaliFac355 = cat(2, polCaliFac355, thisPolCaliFac);
-        polCaliFacStd355 = cat(2, polCaliFacStd355, thisPolCaliFacStd);
+        data.polCaliEta355 = cat(2, data.polCaliEta355, thisPolCaliEta);
+        data.polCaliEtaStd355 = cat(2, data.polCaliEtaStd355, thisPolCaliEtaStd);
+        data.polCaliFac355 = cat(2, data.polCaliFac355, thisPolCaliFac);
+        data.polCaliFacStd355 = cat(2, data.polCaliFacStd355, thisPolCaliFacStd);
         polCaliStartTime = cat(2, polCaliStartTime, data.mTime(prfInd(1)));
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
 
-    data.polCali355Attri.polCaliEta = polCaliEta355;
-    data.polCali355Attri.polCaliEtaStd = polCaliEtaStd355;
-    data.polCali355Attri.polCaliFac = polCaliFac355;
-    data.polCali355Attri.polCaliFacStd = polCaliFacStd355;
+    data.polCali355Attri.polCaliEta = data.polCaliEta355;
+    data.polCali355Attri.polCaliEtaStd = data.polCaliEtaStd355;
+    data.polCali355Attri.polCaliFac = data.polCaliFac355;
+    data.polCali355Attri.polCaliFacStd = data.polCaliFacStd355;
     data.polCali355Attri.polCaliStartTime = polCaliStartTime;
     data.polCali355Attri.polCaliStopTime = polCaliStopTime;
 
     % determine the most suitable polarization calibration factor
     if exist(dbFile, 'file') == 2
-        [polCaliEta355, polCaliEtaStd355, ~, ~] = selectDepolConst(...
-            polCaliEta355, polCaliEtaStd355, ...
+        [data.polCaliEta355, data.polCaliEtaStd355, ~, ~] = selectDepolConst(...
+            data.polCaliEta355, data.polCaliEtaStd355, ...
             polCaliStartTime, polCaliStopTime, ...
             mean(data.mTime), dbFile, CampaignConfig.name, '355', ...
             'flagUsePrevDepolConst', PollyConfig.flagUsePreviousDepolCali, ...
@@ -794,13 +794,13 @@ if PollyConfig.flagMolDepolCali
             'deltaTime', datenum(0, 1, 7), ...
             'default_polCaliEta', PollyDefaults.polCaliEta355, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
-        polCaliFac355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * polCaliEta355;
-        polCaliFacStd355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * polCaliEtaStd355;
+        data.polCaliFac355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * data.polCaliEta355;
+        data.polCaliFacStd355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * data.polCaliEtaStd355;
     else
-        polCaliEta355 = PollyDefaults.polCaliEta355;
-        polCaliEtaStd355 = PollyDefaults.polCaliEtaStd355;
-        polCaliFac355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * polCaliEta355;
-        polCaliFacStd355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * polCaliEtaStd355;
+        data.polCaliEta355 = PollyDefaults.polCaliEta355;
+        data.polCaliEtaStd355 = PollyDefaults.polCaliEtaStd355;
+        data.polCaliFac355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * data.polCaliEta355;
+        data.polCaliFacStd355 = (1 + PollyConfig.TR(flag355T)) ./ (1 + PollyConfig.TR(flag355C)) * data.polCaliEtaStd355;
     end
 
     % 532 nm
@@ -952,8 +952,8 @@ if (sum(flag355) == 1) && (sum(flag355X) == 1) && PollyConfig.flagTransCor
         'transRatioTotalStd', 0, ...
         'transRatioCross', PollyConfig.TR(flag355X), ...
         'transRatioCrossStd', 0, ...
-        'polCaliFactor', polCaliFac355, ...
-        'polCaliFacStd', polCaliFacStd355);
+        'polCaliFactor', data.polCaliFac355, ...
+        'polCaliFacStd', data.polCaliFacStd355);
 elseif (sum(flag355) == 1) && (sum(flag355X ~= 1))
     % disable transmission correction
     el355 = squeeze(data.signal(flag355, :, :));
@@ -2558,8 +2558,8 @@ end
 %%Klett
 flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-polCaliFac=polCaliFac355;
-polCaliFacStd= polCaliFacStd355;
+polCaliFac=data.polCaliFac355;
+polCaliFacStd= data.polCaliFacStd355;
 smoothWin=PollyConfig.smoothWin_klett_355;
 [vdr355_klett,vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
@@ -2625,7 +2625,7 @@ for iGrp = 1:size(clFreGrps, 1)
         bg355C(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
         PollyConfig.TR(flag355T), 0, ...
         PollyConfig.TR(flag355C), 0, ...
-        polCaliFac355, polCaliFacStd355, 10, ...
+        data.polCaliFac355, data.polCaliFacStd355, 10, ...
         PollyDefaults.molDepol355, PollyDefaults.molDepolStd355);
     mdr355(iGrp) = thisMdr355;
     mdrStd355(iGrp) = thisMdrStd355;
@@ -3971,7 +3971,7 @@ if (sum(flag355T) == 1) && (sum(flag355C) == 1)
     data.vdr355 = pollyVDR2(squeeze(data.signal(flag355T, :, :)), ...
                        squeeze(data.signal(flag355C, :, :)), ...
                        PollyConfig.TR(flag355T), ...
-                       PollyConfig.TR(flag355C), polCaliFac355);
+                       PollyConfig.TR(flag355C), data.polCaliFac355);
     data.vdr355(:, data.depCalMask) = NaN;
 end
 
@@ -4523,10 +4523,10 @@ end
 %data.olFunc355Raman_raw = olFunc355Raman_raw;
 %data.olAttri355Raman = olAttri355Raman;
 %data.olAttri532Raman = olAttri532Raman;
-data.polCaliFac355 = polCaliFac355;
-data.polCaliFacStd355 = polCaliFacStd355;
-data.polCaliEta355 = polCaliEta355;
-data.polCaliEtaStd355 = polCaliEtaStd355;
+%data.polCaliFac355 = polCaliFac355;
+%data.polCaliFacStd355 = polCaliFacStd355;
+%data.polCaliEta355 = polCaliEta355;
+%data.polCaliEtaStd355 = polCaliEtaStd355;
 data.polCaliFac532 = polCaliFac532;
 data.polCaliFacStd532 = polCaliFacStd532;
 data.polCaliEta532 = polCaliEta532;
