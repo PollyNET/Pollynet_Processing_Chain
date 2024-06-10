@@ -63,8 +63,9 @@ def get_nc_filename(date, device, inputfolder, param=""):
         ## convert type path to type string
         res_file = [ str(res) for res in res_file ]
         if len(res_file) < 1:
-            print('no files found!')
-            sys.exit()
+            print(f'no files of type {param} found!')
+            return(res_file)
+    #        sys.exit()
         else:
             print(res_file)
             return(res_file)

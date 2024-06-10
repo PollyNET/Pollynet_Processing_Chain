@@ -665,7 +665,7 @@ def pollyDisplay_longtermcalibration(nc_dict,logbook_dataframe,LC_sql_dataframe,
                                     GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['start_time'])).strftime('%Y%m%d')} 12:00:00",
                                     lidar_ratio = 50,
                                     software_version = version,
-                                    product_type = 'longterm_monitoring_LC',
+                                    product_type = 'long_term_monitor',
                                     product_starttime = six_months_ago.strftime("%Y%m%d %H:%M:%S"), 
                                     product_stoptime = mdate.strftime("%Y%m%d %H:%M:%S")
                                     )

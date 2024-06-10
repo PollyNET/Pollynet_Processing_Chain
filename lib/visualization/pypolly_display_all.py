@@ -355,6 +355,12 @@ def main():
         except Exception as e:
              print("An error occurred:", e)
 
+    ## add plotted files to donefile
+    if write2donefile == True:
+        print('Write image files to donefile...')
+        readout.write2donefile(picassoconfigfile_dict=config_dict,donefilelist_dict=donefilelist_dict)
+    else:
+        pass
     
     if ('all' in args.retrieval) or ('overlap' in args.retrieval):
         ## plotting overlap 
