@@ -538,7 +538,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Start loading meteorological data.\n', 'flagTimestamp', true);
 
 clFreGrpTimes = nanmean(data.mTime(clFreGrps), 2);
-[temp, pres, relh, ~, ~, meteorAttri] = loadMeteor(clFreGrpTimes, data.alt, ...
+[temp, pres, relh, ~, ~, data.meteorAttri] = loadMeteor(clFreGrpTimes, data.alt, ...
     'meteorDataSource', PollyConfig.meteorDataSource, ...
     'gdas1Site', PollyConfig.gdas1Site, ...
     'meteo_folder', PollyConfig.meteo_folder, ...
@@ -550,7 +550,7 @@ clFreGrpTimes = nanmean(data.mTime(clFreGrps), 2);
 data.temperature = temp;
 data.pressure = pres;
 data.relh = relh;
-data.meteorAttri = meteorAttri;
+%data.meteorAttri = meteorAttri;
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
@@ -932,8 +932,8 @@ end
 print_msg('Start retrieving aerosol optical properties.\n', 'flagTimestamp', true);
 
 meteorStr = '';
-for iMeteor = 1:length(meteorAttri.dataSource)
-    meteorStr = cat(2, meteorStr, ' ', meteorAttri.dataSource{iMeteor});
+for iMeteor = 1:length(data.meteorAttri.dataSource)
+    meteorStr = cat(2, meteorStr, ' ', data.meteorAttri.dataSource{iMeteor});
 end
 
 print_msg(sprintf('Meteorological file : %s.\n', meteorStr), 'flagSimpleMsg', true);
@@ -3030,7 +3030,7 @@ end
 print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
 
 % external IWV
-[IWV, IWVAttri] = readIWV(PollyConfig.IWV_instrument, data.mTime(clFreGrps), ...
+[IWV, data.IWVAttri] = readIWV(PollyConfig.IWV_instrument, data.mTime(clFreGrps), ...
     'AERONETSite', PollyConfig.AERONETSite, ...
     'AERONETIWV', AERONET.IWV, ...
     'AERONETTime', AERONET.datetime, ...
@@ -3080,9 +3080,9 @@ for iGrp = 1:size(clFreGrps, 1)
     sig387 = squeeze(sum(data.signal(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
     bg387 = squeeze(sum(data.bg(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
     sig407 = squeeze(sum(data.signal(flag407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
-    [~, closestIndx] = min(abs(data.mTime - IWVAttri.datetime(iGrp)));
+    [~, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGrp)));
     print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
-        datestr(IWVAttri.datetime(iGrp), 'HH:MM'), ...
+        datestr(data.IWVAttri.datetime(iGrp), 'HH:MM'), ...
         datestr(data.mTime(closestIndx), 'HH:MM')), 'flagSimpleMsg', true);
     E_tot_1064_IWV = sum(squeeze(data.signal(flag1064, :, closestIndx)));
     E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
@@ -3113,7 +3113,7 @@ end
 
 % select water vapor calibration constant
 [data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
-    wvconst, wvconstStd, IWVAttri, ...
+    wvconst, wvconstStd, data.IWVAttri, ...
     pollyParseFiletime(basename(PollyDataInfo.pollyDataFile), PollyConfig.dataFileFormat), ...
     dbFile, CampaignConfig.name, ...
     'flagUsePrevWVConst', PollyConfig.flagUsePreviousWVconst, ...
@@ -4498,7 +4498,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
     %% save water vapor calibration results
     if (sum(flag407) == 1) && (sum(flag387) == 1)
         print_msg('--> start saving water vapor calibration results...\n', 'flagTimestamp', true);
-        saveWVConst(dbFile, wvconst, wvconstStd, wvCaliInfo, IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
+        saveWVConst(dbFile, wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
         print_msg('--> finish.\n', 'flagTimestamp', true);
     end
 
@@ -4648,8 +4648,8 @@ end
 %data.mdr355 = mdr355;
 %data.mdr532 = mdr532;
 %data.mdr1064 = mdr1064;
-data.IWVAttri = IWVAttri;
-data.meteorAttri = meteorAttri;
+%data.IWVAttri = IWVAttri;
+%data.meteorAttri = meteorAttri;
 data.refBeta_NR_355_klett = refBeta_NR_355_klett;
 data.refBeta_NR_532_klett = refBeta_NR_532_klett;
 data.refBeta_NR_355_raman = refBeta_NR_355_raman;
