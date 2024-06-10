@@ -574,9 +574,9 @@ print_msg('Start Rayleigh fitting.\n', 'flagTimestamp', true);
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
-refHInd355 = [];   % reference height range at 355 nm
-refHInd532 = [];   % reference height range at 532 nm
-refHInd1064 = [];   % reference height range at 1064 nm
+data.refHInd355 = [];   % reference height range at 355 nm
+data.refHInd532 = [];   % reference height range at 532 nm
+data.refHInd1064 = [];   % reference height range at 1064 nm
 DPInd355 = {};   % points decomposed by Douglas-Peucker method at 355 nm
 DPInd532 = {};   % points decomposed by Douglas-Peucker method at 532 nm
 DPInd1064 = {};   % points decomposed by Douglas-Peucker method at 1064 nm
@@ -728,9 +728,9 @@ for iGrp = 1:size(clFreGrps, 1)
         thisDPInd1064 = [];
     end
 
-    refHInd355 = cat(1, refHInd355, thisRefH355);
-    refHInd532 = cat(1, refHInd532, thisRefH532);
-    refHInd1064 = cat(1, refHInd1064, thisRefH1064);
+    data.refHInd355 = cat(1, data.refHInd355, thisRefH355);
+    data.refHInd532 = cat(1, data.refHInd532, thisRefH532);
+    data.refHInd1064 = cat(1, data.refHInd1064, thisRefH1064);
     DPInd355 = cat(2, DPInd355, thisDPInd355);
     DPInd532 = cat(2, DPInd532, thisDPInd532);
     DPInd1064 = cat(2, DPInd1064, thisDPInd1064);
@@ -755,7 +755,7 @@ if PollyConfig.flagMolDepolCali
         flag355T = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
         flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
 
-        if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1) || (isnan(refHInd355(iGrp, 1)))
+        if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1) || (isnan(data.refHInd355(iGrp, 1)))
             continue;
         end
 
@@ -764,7 +764,7 @@ if PollyConfig.flagMolDepolCali
         sig355C = squeeze(sum(data.signal(flag355C, :, prfInd), 3));
         bg355C = squeeze(sum(data.bg(flag355C, :, prfInd), 3));
 
-        refHIndArr = refHInd355(iGrp, 1):refHInd355(iGrp, 2);
+        refHIndArr = data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2);
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig355T(refHIndArr), ...
             bg355T(refHIndArr), sig355C(refHIndArr), bg355C(refHIndArr), PollyConfig.TR(flag355T), 0, PollyConfig.TR(flag355C), 0, 10, PollyDefaults.molDepol355, PollyDefaults.molDepolStd355);
 
@@ -816,7 +816,7 @@ if PollyConfig.flagMolDepolCali
         flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
         flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 
-        if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1) || (isnan(refHInd532(iGrp, 1)))
+        if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1) || (isnan(data.refHInd532(iGrp, 1)))
             continue;
         end
 
@@ -825,7 +825,7 @@ if PollyConfig.flagMolDepolCali
         sig532C = squeeze(sum(data.signal(flag532C, :, prfInd), 3));
         bg532C = squeeze(sum(data.bg(flag532C, :, prfInd), 3));
 
-        refHIndArr = refHInd532(iGrp, 1):refHInd532(iGrp, 2);
+        refHIndArr = data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2);
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig532T(refHIndArr), ...
             bg532T(refHIndArr), sig532C(refHIndArr), bg532C(refHIndArr), PollyConfig.TR(flag532T), 0, PollyConfig.TR(flag532C), 0, 10, PollyDefaults.molDepol532, PollyDefaults.molDepolStd532);
 
@@ -877,7 +877,7 @@ if PollyConfig.flagMolDepolCali
         flag1064T = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
         flag1064C = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 
-        if (sum(flag1064T) ~= 1) || (sum(flag1064C) ~= 1) || (isnan(refHInd1064(iGrp, 1)))
+        if (sum(flag1064T) ~= 1) || (sum(flag1064C) ~= 1) || (isnan(data.refHInd1064(iGrp, 1)))
             continue;
         end
 
@@ -886,7 +886,7 @@ if PollyConfig.flagMolDepolCali
         sig1064C = squeeze(sum(data.signal(flag1064C, :, prfInd), 3));
         bg1064C = squeeze(sum(data.bg(flag1064C, :, prfInd), 3));
 
-        refHIndArr = refHInd1064(iGrp, 1):refHInd1064(iGrp, 2);
+        refHIndArr = data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2);
         [thisPolCaliEta, thisPolCaliEtaStd, thisPolCaliFac, thisPolCaliFacStd] = pollyMolPolCali(sig1064T(refHIndArr), ...
             bg1064T(refHIndArr), sig1064C(refHIndArr), bg1064C(refHIndArr), PollyConfig.TR(flag1064T), 0, PollyConfig.TR(flag1064C), 0, 10, PollyDefaults.molDepol1064, PollyDefaults.molDepolStd1064);
 
@@ -1023,14 +1023,14 @@ data.aerExtStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd355(iGrp, 1)) || (sum(flag355) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355) ~= 1)
         continue;
     end
 
     sig355 = transpose(squeeze(sum(el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg355 = transpose(squeeze(sum(bgEl355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc355_klett, thisAerBscStd355_klett] = pollyFernald(data.distance0, sig355, bg355, PollyConfig.LR355, refH355, PollyConfig.refBeta355, mBsc355, PollyConfig.smoothWin_klett_355);
@@ -1053,14 +1053,14 @@ data.aerExtStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd532(iGrp, 1)) || (sum(flag532) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532) ~= 1)
         continue;
     end
 
     sig532 = transpose(squeeze(sum(el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg532 = transpose(squeeze(sum(bgEl532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc532_klett, thisAerBscStd532_klett] = pollyFernald(data.distance0, sig532, bg532, PollyConfig.LR532, refH532, PollyConfig.refBeta532, mBsc532, PollyConfig.smoothWin_klett_532);
@@ -1083,14 +1083,14 @@ data.aerExtStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd1064(iGrp, 1)) || (sum(flag1064) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064) ~= 1)
         continue;
     end
 
     sig1064 = transpose(squeeze(sum(el1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg1064 = transpose(squeeze(sum(bgEl1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc1064_klett, thisAerBscStd1064_klett] = pollyFernald(data.distance0, sig1064, bg1064, PollyConfig.LR1064, refH1064, PollyConfig.refBeta1064, mBsc1064, PollyConfig.smoothWin_klett_1064);
@@ -1116,7 +1116,7 @@ refH355 = PollyConfig.refH_NR_355;
 for iGrp = 1:size(clFreGrps, 1)
 
     % determine the existence of near-field data
-    if isnan(refHInd355(iGrp, 1)) || (sum(flag355NR) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355NR) ~= 1)
         continue;
     end
 
@@ -1168,7 +1168,7 @@ refH532 = PollyConfig.refH_NR_532;
 for iGrp = 1:size(clFreGrps, 1)
 
     % determine the existence of near-field data
-    if isnan(refHInd532(iGrp, 1)) || (sum(flag532NR) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532NR) ~= 1)
         continue;
     end
 
@@ -1219,14 +1219,14 @@ data.LR355_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD355 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
         continue;
     end
 
     sig355 = squeeze(sum(el355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg355 = squeeze(sum(bgEl355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR355 = pollySNR(sig355, bg355);
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
@@ -1259,14 +1259,14 @@ data.LR532_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD532 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
         continue;
     end
 
     sig532 = squeeze(sum(el532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg532 = squeeze(sum(bgEl532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR532 = pollySNR(sig532, bg532);
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
@@ -1299,14 +1299,14 @@ data.LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
 deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
         continue;
     end
 
     sig1064 = squeeze(sum(el1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg1064 = squeeze(sum(bgEl1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR1064 = pollySNR(sig1064, bg1064);
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     AERONETInd = search_AERONET_AOD(mean(data.mTime(clFreGrps(iGrp, :))), AERONET.datetime, datenum(0,1,0,2,0,0));
@@ -1361,14 +1361,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt355_raman(iGrp, :) = thisAerExt355_raman;
     data.aerExtStd355_raman(iGrp, :) = thisAerExtStd355_raman;
 
-    if isnan(refHInd355(iGrp, 1))
+    if isnan(data.refHInd355(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
@@ -1376,8 +1376,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd355 = 100;
     end
 
-    SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
-    SNRRef387 = pollySNR(sum(sig387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
+    SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
+    SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
 
     if (SNRRef355 < PollyConfig.minRamanRefSNR355) || (SNRRef387 < PollyConfig.minRamanRefSNR387)
         continue;
@@ -1433,14 +1433,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt532_raman(iGrp, :) = thisAerExt532_raman;
     data.aerExtStd532_raman(iGrp, :) = thisAerExtStd532_raman;
 
-    if isnan(refHInd532(iGrp, 1))
+    if isnan(data.refHInd532(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
@@ -1448,8 +1448,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd532 = 100;
     end
 
-    SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
-    SNRRef607 = pollySNR(sum(sig607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
+    SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
+    SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
 
     if (SNRRef532 < PollyConfig.minRamanRefSNR532) || (SNRRef607 < PollyConfig.minRamanRefSNR607)
         continue;
@@ -1506,14 +1506,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt1064_raman(iGrp, :) = thisAerExt1064_raman;
     data.aerExtStd1064_raman(iGrp, :) = thisAerExtStd532_raman / (1064/532).^PollyConfig.angstrexp;
 
-    if isnan(refHInd1064(iGrp, 1))
+    if isnan(data.refHInd1064(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
@@ -1521,8 +1521,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd1064 = 100;
     end
 
-    SNRRef1064 = pollySNR(sum(sig1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
-    SNRRef607 = pollySNR(sum(sig607(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg607(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
+    SNRRef1064 = pollySNR(sum(sig1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
+    SNRRef607 = pollySNR(sum(sig607(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg607(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
 
     if (SNRRef1064 < PollyConfig.minRamanRefSNR1064) || (SNRRef607 < PollyConfig.minRamanRefSNR607)
         continue;
@@ -1578,14 +1578,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt355_RR(iGrp, :) = thisAerExt355_RR;
     data.aerExtStd355_RR(iGrp, :) = thisAerExtStd355_RR;
 
-    if isnan(refHInd355(iGrp, 1))
+    if isnan(data.refHInd355(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
@@ -1593,8 +1593,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd355 = 100;
     end
 
-    SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
-    SNRRef355RR = pollySNR(sum(sig355RR(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355RR(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
+    SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
+    SNRRef355RR = pollySNR(sum(sig355RR(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355RR(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
 
     if (SNRRef355 < PollyConfig.minRamanRefSNR355) || (SNRRef355RR < PollyConfig.minRamanRefSNR607)
         continue;
@@ -1650,14 +1650,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt532_RR(iGrp, :) = thisAerExt532_RR;
     data.aerExtStd532_RR(iGrp, :) = thisAerExtStd532_RR;
 
-    if isnan(refHInd532(iGrp, 1))
+    if isnan(data.refHInd532(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
@@ -1665,8 +1665,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd532 = 100;
     end
 
-    SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
-    SNRRef532RR = pollySNR(sum(sig532RR(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532RR(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
+    SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
+    SNRRef532RR = pollySNR(sum(sig532RR(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532RR(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
 
     if (SNRRef532 < PollyConfig.minRamanRefSNR532) || (SNRRef532RR < PollyConfig.minRamanRefSNR607)
         continue;
@@ -1721,14 +1721,14 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt1064_RR(iGrp, :) = thisAerExt1064_RR;
     data.aerExtStd1064_RR(iGrp, :) = thisAerExtStd1064_RR;
 
-    if isnan(refHInd1064(iGrp, 1))
+    if isnan(data.refHInd1064(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
@@ -1736,8 +1736,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd1064 = 100;
     end
 
-    SNRRef1064 = pollySNR(sum(sig1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
-    SNRRef1064RR = pollySNR(sum(sig1064RR(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg1064RR(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
+    SNRRef1064 = pollySNR(sum(sig1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
+    SNRRef1064RR = pollySNR(sum(sig1064RR(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg1064RR(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
 
     if (SNRRef1064 < PollyConfig.minRamanRefSNR1064) || (SNRRef1064RR < PollyConfig.minRamanRefSNR1064)
         continue;
@@ -1825,12 +1825,12 @@ for iGrp = 1:size(clFreGrps, 1)
     % molecular scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    if isnan(refHInd355(iGrp, 1)) || isnan(refHInd355(iGrp, 2))
+    if isnan(data.refHInd355(iGrp, 1)) || isnan(data.refHInd355(iGrp, 2))
         continue;
     end
 
-    SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
-    SNRRef387 = pollySNR(sum(sig387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
+    SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
+    SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
     refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);
 
     if (SNRRef355 < PollyConfig.minRefSNR_NR_355) || (SNRRef387 < PollyConfig.minRamanRefSNR387) || isnan(refBeta355)
@@ -1920,12 +1920,12 @@ for iGrp = 1:size(clFreGrps, 1)
     % molecular scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    if isnan(refHInd532(iGrp, 1)) || isnan(refHInd532(iGrp, 2))
+    if isnan(data.refHInd532(iGrp, 1)) || isnan(data.refHInd532(iGrp, 2))
         continue;
     end
 
-    SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
-    SNRRef607 = pollySNR(sum(sig607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
+    SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
+    SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
     refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);
 
     if (SNRRef532 < PollyConfig.minRefSNR_NR_532) || (SNRRef607 < PollyConfig.minRamanRefSNR607) || isnan(refBeta532)
@@ -2106,7 +2106,7 @@ if (sum(flag355FR) == 1) && (sum(flag387FR) == 1 && ~isempty(data.aerBsc355_rama
         'PC2PCR', PC2PCR,'aerBsc', data.aerBsc355_raman, 'hres',data.hRes, ...
         'pressure',data.pressure,'temperature', data.temperature, ...
         'AE',PollyConfig.angstrexp,'smoothbins',PollyConfig.overlapSmoothBins-3, ...
-        'refH', refHInd355, 'refbeta',PollyConfig.refBeta355, 'smooth_klett',PollyConfig.smoothWin_klett_355);
+        'refH', data.refHInd355, 'refbeta',PollyConfig.refBeta355, 'smooth_klett',PollyConfig.smoothWin_klett_355);
     data.olAttri355Raman.time = nanmean(data.mTime);
 end
 
@@ -2141,7 +2141,7 @@ if (sum(flag532FR) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_rama
         'PC2PCR', PC2PCR,'aerBsc', data.aerBsc532_raman, 'hres',data.hRes, ...
         'pressure',data.pressure,'temperature', data.temperature, ...
         'AE',PollyConfig.angstrexp,'smoothbins',PollyConfig.overlapSmoothBins-3, ...
-        'refH', refHInd532, 'refbeta',PollyConfig.refBeta532, 'smoothklett',PollyConfig.smoothWin_klett_532);
+        'refH', data.refHInd532, 'refbeta',PollyConfig.refBeta532, 'smoothklett',PollyConfig.smoothWin_klett_532);
     data.olAttri532Raman.time = nanmean(data.mTime);
 end
 
@@ -2256,14 +2256,14 @@ aerExtStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
         continue;
     end
 
     sig355 = transpose(squeeze(sum(data.sigOLCor355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg355 = transpose(squeeze(sum(bgOLCor355(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc355_OC_klett, thisAerBscStd355_OC_klett] = pollyFernald(data.distance0, sig355, bg355, PollyConfig.LR355, refH355, PollyConfig.refBeta355, mBsc355, PollyConfig.smoothWin_klett_355);
@@ -2286,14 +2286,14 @@ aerExtStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
         continue;
     end
 
     sig532 = transpose(squeeze(sum(data.sigOLCor532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg532 = transpose(squeeze(sum(bgOLCor532(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc532_OC_klett, thisAerBscStd532_OC_klett] = pollyFernald(data.distance0, sig532, bg532, PollyConfig.LR532, refH532, PollyConfig.refBeta532, mBsc532, PollyConfig.smoothWin_klett_532);
@@ -2316,14 +2316,14 @@ aerExtStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
         continue;
     end
 
     sig1064 = transpose(squeeze(sum(data.sigOLCor1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
     bg1064 = transpose(squeeze(sum(bgOLCor1064(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2)));
 
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
     [thisAerBsc1064_OC_klett, thisAerBscStd1064_OC_klett] = pollyFernald(data.distance0, sig1064, bg1064, PollyConfig.LR1064, refH1064, PollyConfig.refBeta1064, mBsc1064, PollyConfig.smoothWin_klett_1064);
@@ -2370,14 +2370,14 @@ for iGrp = 1:size(clFreGrps, 1)
     aerExt355_OC_raman(iGrp, :) = thisAerExt355_OC_raman;
     aerExtStd355_OC_raman(iGrp, :) = thisAerExtStd355_OC_raman;
 
-    if isnan(refHInd355(iGrp, 1))
+    if isnan(data.refHInd355(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH355 = [data.distance0(refHInd355(iGrp, 1)), data.distance0(refHInd355(iGrp, 2))];
+    refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
     hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
@@ -2385,8 +2385,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd355 = 100;
     end
 
-    SNRRef355 = pollySNR(sum(sig355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg355(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
-    SNRRef387 = pollySNR(sum(sig387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))), sum(bg387(refHInd355(iGrp, 1):refHInd355(iGrp, 2))));
+    SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
+    SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
 
     if (SNRRef355 < PollyConfig.minRamanRefSNR355) || (SNRRef387 < PollyConfig.minRamanRefSNR387)
         continue;
@@ -2442,14 +2442,14 @@ for iGrp = 1:size(clFreGrps, 1)
     aerExt532_OC_raman(iGrp, :) = thisAerExt532_OC_raman;
     aerExtStd532_OC_raman(iGrp, :) = thisAerExtStd532_OC_raman;
 
-    if isnan(refHInd532(iGrp, 1))
+    if isnan(data.refHInd532(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH532 = [data.distance0(refHInd532(iGrp, 1)), data.distance0(refHInd532(iGrp, 2))];
+    refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
     hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
@@ -2457,8 +2457,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd532 = 100;
     end
 
-    SNRRef532 = pollySNR(sum(sig532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg532(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
-    SNRRef607 = pollySNR(sum(sig607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))), sum(bg607(refHInd532(iGrp, 1):refHInd532(iGrp, 2))));
+    SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
+    SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
 
     if (SNRRef532 < PollyConfig.minRamanRefSNR532) || (SNRRef607 < PollyConfig.minRamanRefSNR607)
         continue;
@@ -2514,14 +2514,14 @@ for iGrp = 1:size(clFreGrps, 1)
     aerExt1064_OC_raman(iGrp, :) = thisAerExt1064_OC_raman;
     aerExtStd1064_OC_raman(iGrp, :) = thisAerExtStd1064_OC_raman;
 
-    if isnan(refHInd1064(iGrp, 1))
+    if isnan(data.refHInd1064(iGrp, 1))
         continue;
     end
 
     % molecular scattering
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-    refH1064 = [data.distance0(refHInd1064(iGrp, 1)), data.distance0(refHInd1064(iGrp, 2))];
+    refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
     hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
@@ -2529,8 +2529,8 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd1064 = 100;
     end
 
-    SNRRef1064 = pollySNR(sum(sig1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg1064(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
-    SNRRef607 = pollySNR(sum(sig607(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))), sum(bg607(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2))));
+    SNRRef1064 = pollySNR(sum(sig1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg1064(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
+    SNRRef607 = pollySNR(sum(sig607(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))), sum(bg607(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2))));
 
     if (SNRRef1064 < PollyConfig.minRamanRefSNR1064) || (SNRRef607 < PollyConfig.minRamanRefSNR607)
         continue;
@@ -2561,10 +2561,10 @@ flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel
 polCaliFac=data.polCaliFac355;
 polCaliFacStd= data.polCaliFacStd355;
 smoothWin=PollyConfig.smoothWin_klett_355;
-[vdr355_klett,vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_355;
-[vdr355_raman,vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 %% Volume depolarization ratio at 532 nm new implemantation 
 %%Klett
@@ -2573,10 +2573,10 @@ flagC = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel
 polCaliFac=data.polCaliFac532;
 polCaliFacStd= data.polCaliFacStd532;
 smoothWin=PollyConfig.smoothWin_klett_532;
-[vdr532_klett,vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_532;
-[vdr532_raman,vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 %% Volume depolarization ratio at 1064 nm new implemantation 
 %%Klett
@@ -2585,19 +2585,19 @@ flagC = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChanne
 polCaliFac=data.polCaliFac1064;
 polCaliFacStd= data.polCaliFacStd1064;
 smoothWin=PollyConfig.smoothWin_klett_1064;
-[vdr1064_klett,vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 %Raman
 smoothWin=PollyConfig.smoothWin_raman_1064;
-[vdr1064_raman,vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+[data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
 
 %% Particle depolarization ratio at 355 nm
 flag355T = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag355C = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2608,7 +2608,7 @@ flagDeftMdr355 = true(size(clFreGrps, 1), 1);
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1) || isnan(refHInd355(iGrp, 1))
+    if (sum(flag355T) ~= 1) || (sum(flag355C) ~= 1) || isnan(data.refHInd355(iGrp, 1))
         continue;
     end
 
@@ -2619,10 +2619,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [thisMdr355, thisMdrStd355, thisFlagDeftMdr355] = pollyMDR(...
-        sig355T(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
-        bg355T(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
-        sig355C(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
-        bg355C(refHInd355(iGrp, 1):refHInd355(iGrp, 2)), ...
+        sig355T(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
+        bg355T(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
+        sig355C(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
+        bg355C(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
         PollyConfig.TR(flag355T), 0, ...
         PollyConfig.TR(flag355C), 0, ...
         data.polCaliFac355, data.polCaliFacStd355, 10, ...
@@ -2632,25 +2632,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
 
     if ~ isnan(data.aerBsc355_klett(iGrp, 80))
-        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_klett(iGrp, :) = thisPdr355_klett;
-        pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
+        [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        data.pdr355_klett(iGrp, :) = thisPdr355_klett;
+        data.pdrStd355_klett(iGrp, :) = thisPdrStd355_klett;
     end
 
     if ~ isnan(data.aerBsc355_raman(iGrp, 80))
-        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), data.aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_raman(iGrp, :) = thisPdr355_raman;
-        pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
+        [thisPdr355_raman, thisPdrStd355_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), data.aerBsc355_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        data.pdr355_raman(iGrp, :) = thisPdr355_raman;
+        data.pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
     if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
-        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(vdr355_klett(iGrp, :), vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
     if ~ isnan(aerBsc355_OC_raman(iGrp, 80))
-        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(vdr355_raman(iGrp, :), vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
         pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
     end
@@ -2659,10 +2659,10 @@ end
 %% Particle depolarization ratio at 532 nm
 flag532T = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag532C = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2673,7 +2673,7 @@ flagDeftMdr532 = true(size(clFreGrps, 1), 1);
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1) || isnan(refHInd532(iGrp, 1))
+    if (sum(flag532T) ~= 1) || (sum(flag532C) ~= 1) || isnan(data.refHInd532(iGrp, 1))
         continue;
     end
 
@@ -2684,10 +2684,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [thisMdr532, thisMdrStd532, thisFlagDeftMdr532] = pollyMDR(...
-        sig532T(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
-        bg532T(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
-        sig532C(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
-        bg532C(refHInd532(iGrp, 1):refHInd532(iGrp, 2)), ...
+        sig532T(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
+        bg532T(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
+        sig532C(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
+        bg532C(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
         PollyConfig.TR(flag532T), 0, ...
         PollyConfig.TR(flag532C), 0, ...
         data.polCaliFac532, data.polCaliFacStd532, 10, ...
@@ -2697,25 +2697,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
 
     if ~ isnan(data.aerBsc532_klett(iGrp, 80))
-        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_klett(iGrp, :) = thisPdr532_klett;
-        pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
+        [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        data.pdr532_klett(iGrp, :) = thisPdr532_klett;
+        data.pdrStd532_klett(iGrp, :) = thisPdrStd532_klett;
     end
 
     if ~ isnan(data.aerBsc532_raman(iGrp, 80))
-        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), data.aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_raman(iGrp, :) = thisPdr532_raman;
-        pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
+        [thisPdr532_raman, thisPdrStd532_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), data.aerBsc532_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        data.pdr532_raman(iGrp, :) = thisPdr532_raman;
+        data.pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
     if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
-        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(vdr532_klett(iGrp, :), vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
     if ~ isnan(aerBsc532_OC_raman(iGrp, 80))
-        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(vdr532_raman(iGrp, :), vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
         pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
     end
@@ -2724,10 +2724,10 @@ end
 %% Particle depolarization ratio at 1064 nm
 flag1064T = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;  %temporar workaround
 flag1064C = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;%temporar workaround
-pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2738,7 +2738,7 @@ flagDeftMdr1064 = true(size(clFreGrps, 1), 1);
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if (sum(flag1064T) ~= 1) || (sum(flag1064C) ~= 1) || isnan(refHInd1064(iGrp, 1))
+    if (sum(flag1064T) ~= 1) || (sum(flag1064C) ~= 1) || isnan(data.refHInd1064(iGrp, 1))
         continue;
     end
 
@@ -2749,10 +2749,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     [mBsc1064, ~] = rayleigh_scattering(1064, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     [thisMdr1064, thisMdrStd1064, thisFlagDeftMdr1064] = pollyMDR(...
-        sig1064T(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2)), ...
-        bg1064T(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2)), ...
-        sig1064C(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2)), ...
-        bg1064C(refHInd1064(iGrp, 1):refHInd1064(iGrp, 2)), ...
+        sig1064T(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
+        bg1064T(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
+        sig1064C(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
+        bg1064C(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
         PollyConfig.TR(flag1064T), 0, ...
         PollyConfig.TR(flag1064C), 0, ...
         data.polCaliFac1064, data.polCaliFacStd1064, 10, ...
@@ -2762,25 +2762,25 @@ for iGrp = 1:size(clFreGrps, 1)
     flagDeftMdr1064(iGrp) = thisFlagDeftMdr1064;
 
     if ~ isnan(data.aerBsc1064_klett(iGrp, 80))
-        [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(vdr1064_klett(iGrp, :), vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
-        pdr1064_klett(iGrp, :) = thisPdr1064_klett;
-        pdrStd1064_klett(iGrp, :) = thisPdrStd1064_klett;
+        [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        data.pdr1064_klett(iGrp, :) = thisPdr1064_klett;
+        data.pdrStd1064_klett(iGrp, :) = thisPdrStd1064_klett;
     end
 
     if ~ isnan(data.aerBsc1064_raman(iGrp, 80))
-        [thisPdr1064_raman, thisPdrStd1064_raman] = pollyPDR(vdr1064_raman(iGrp, :), vdrStd1064_raman(iGrp, :), data.aerBsc1064_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
-        pdr1064_raman(iGrp, :) = thisPdr1064_raman;
-        pdrStd1064_raman(iGrp, :) = thisPdrStd1064_raman;
+        [thisPdr1064_raman, thisPdrStd1064_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), data.aerBsc1064_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        data.pdr1064_raman(iGrp, :) = thisPdr1064_raman;
+        data.pdrStd1064_raman(iGrp, :) = thisPdrStd1064_raman;
     end
 
     if ~ isnan(aerBsc1064_OC_klett(iGrp, 80))
-        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(vdr1064_klett(iGrp, :), vdrStd1064_klett(iGrp, :), aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_klett(iGrp, :) = thisPdr1064_OC_klett;
         pdrStd1064_OC_klett(iGrp, :) = thisPdrStd1064_OC_klett;
     end
 
     if ~ isnan(aerBsc1064_OC_raman(iGrp, 80))
-        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(vdr1064_raman(iGrp, :), vdrStd1064_raman(iGrp, :), aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_raman(iGrp, :) = thisPdr1064_OC_raman;
         pdrStd1064_OC_raman(iGrp, :) = thisPdrStd1064_OC_raman;
     end
@@ -2819,52 +2819,52 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % Angstroem exponent (Klett/Fernald/Raman method retrieved parameters)
-AE_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
-AE_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_532_1064_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Ext_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_532_1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(refHInd355(iGrp, 1))) && (~ isnan(refHInd532(iGrp, 1)))
+    if (~ isnan(data.refHInd355(iGrp, 1))) && (~ isnan(data.refHInd532(iGrp, 1)))
         [thisAE_Bsc_355_532_klett, thisAEStd_Bsc_355_532_klett] = pollyAE(data.aerBsc355_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
-        AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
-        AEStd_Bsc_355_532_klett(iGrp, :) = thisAEStd_Bsc_355_532_klett;
+        data.AE_Bsc_355_532_klett(iGrp, :) = thisAE_Bsc_355_532_klett;
+        data.AEStd_Bsc_355_532_klett(iGrp, :) = thisAEStd_Bsc_355_532_klett;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Klett method)
-    if (~ isnan(refHInd532(iGrp, 1))) && (~ isnan(refHInd1064(iGrp, 1)))
+    if (~ isnan(data.refHInd532(iGrp, 1))) && (~ isnan(data.refHInd1064(iGrp, 1)))
         [thisAE_Bsc_532_1064_klett, thisAEStd_Bsc_532_1064_klett] = pollyAE(data.aerBsc532_klett(iGrp, :), zeros(size(data.height)), data.aerBsc1064_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
-        AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
-        AEStd_Bsc_532_1064_klett(iGrp, :) = thisAEStd_Bsc_532_1064_klett;
+        data.AE_Bsc_532_1064_klett(iGrp, :) = thisAE_Bsc_532_1064_klett;
+        data.AEStd_Bsc_532_1064_klett(iGrp, :) = thisAEStd_Bsc_532_1064_klett;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerExt355_raman(iGrp, 80))) && (~ isnan(data.aerExt532_raman(iGrp, 80)))
         [thisAE_Ext_355_532_raman, thisAEStd_Ext_355_532_raman] = pollyAE(data.aerExt355_raman(iGrp, :), zeros(size(data.height)), data.aerExt532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
-        AE_Ext_355_532_raman(iGrp, :) = thisAE_Ext_355_532_raman;
-        AEStd_Ext_355_532_raman(iGrp, :) = thisAEStd_Ext_355_532_raman;
+        data.AE_Ext_355_532_raman(iGrp, :) = thisAE_Ext_355_532_raman;
+        data.AEStd_Ext_355_532_raman(iGrp, :) = thisAEStd_Ext_355_532_raman;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerBsc355_raman(iGrp, 80))) && (~ isnan(data.aerBsc532_raman(iGrp, 80)))
         [thisAE_Bsc_355_532_raman, thisAEStd_Bsc_355_532_raman] = pollyAE(data.aerBsc355_raman(iGrp, :), zeros(size(data.height)), data.aerBsc532_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
-        AE_Bsc_355_532_raman(iGrp, :) = thisAE_Bsc_355_532_raman;
-        AEStd_Bsc_355_532_raman(iGrp, :) = thisAEStd_Bsc_355_532_raman;
+       data.AE_Bsc_355_532_raman(iGrp, :) = thisAE_Bsc_355_532_raman;
+        data.AEStd_Bsc_355_532_raman(iGrp, :) = thisAEStd_Bsc_355_532_raman;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Raman method)
     if (~ isnan(data.aerBsc532_raman(iGrp, 80))) && (~ isnan(data.aerBsc1064_raman(iGrp, 80)))
         [thisAE_Bsc_532_1064_raman, thisAEStd_Bsc_532_1064_raman] = pollyAE(data.aerBsc532_raman(iGrp, :), zeros(size(data.height)), data.aerBsc1064_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
-        AE_Bsc_532_1064_raman(iGrp, :) = thisAE_Bsc_532_1064_raman;
-        AEStd_Bsc_532_1064_raman(iGrp, :) = thisAEStd_Bsc_532_1064_raman;
+        data.AE_Bsc_532_1064_raman(iGrp, :) = thisAE_Bsc_532_1064_raman;
+        data.AEStd_Bsc_532_1064_raman(iGrp, :) = thisAEStd_Bsc_532_1064_raman;
     end
 end
 
@@ -2883,14 +2883,14 @@ AEStd_Bsc_532_1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(refHInd355(iGrp, 1))) && (~ isnan(refHInd532(iGrp, 1)))
+    if (~ isnan(data.refHInd355(iGrp, 1))) && (~ isnan(data.refHInd532(iGrp, 1)))
         [thisAE_Bsc_355_532_OC_klett, thisAEStd_Bsc_355_532_OC_klett] = pollyAE(aerBsc355_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_OC_klett(iGrp, :) = thisAE_Bsc_355_532_OC_klett;
         AEStd_Bsc_355_532_OC_klett(iGrp, :) = thisAEStd_Bsc_355_532_OC_klett;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Klett method)
-    if (~ isnan(refHInd532(iGrp, 1))) && (~ isnan(refHInd1064(iGrp, 1)))
+    if (~ isnan(data.refHInd532(iGrp, 1))) && (~ isnan(data.refHInd1064(iGrp, 1)))
         [thisAE_Bsc_532_1064_OC_klett, thisAEStd_Bsc_532_1064_OC_klett] = pollyAE(aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_OC_klett(iGrp, :) = thisAE_Bsc_532_1064_OC_klett;
         AEStd_Bsc_532_1064_OC_klett(iGrp, :) = thisAEStd_Bsc_532_1064_OC_klett;
@@ -2924,12 +2924,12 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 % % print_msg('Start 1-step POLIPHON\n', 'flagTimestamp', true);
 
 [data.POLIPHON1] = poliphon_one ...
-    (data.aerBsc355_klett, pdr355_klett, ...
-    data.aerBsc532_klett, pdr532_klett, ...
-    data.aerBsc1064_klett, pdr1064_klett, ...
-    data.aerBsc355_raman, pdr355_raman, ...
-    data.aerBsc532_raman, pdr532_raman, ...
-    data.aerBsc1064_raman, pdr1064_raman);
+    (data.aerBsc355_klett, data.pdr355_klett, ...
+    data.aerBsc532_klett, data.pdr532_klett, ...
+    data.aerBsc1064_klett, data.pdr1064_klett, ...
+    data.aerBsc355_raman, data.pdr355_raman, ...
+    data.aerBsc532_raman, data.pdr532_raman, ...
+    data.aerBsc1064_raman, data.pdr1064_raman);
 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
@@ -3112,7 +3112,7 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % select water vapor calibration constant
-[wvconstUsed, wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
+[data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
     wvconst, wvconstStd, IWVAttri, ...
     pollyParseFiletime(basename(PollyDataInfo.pollyDataFile), PollyConfig.dataFileFormat), ...
     dbFile, CampaignConfig.name, ...
@@ -3123,11 +3123,11 @@ end
     'default_wvconstStd', PollyDefaults.wvconstStd);
 
 % obtain averaged water vapor profiles
-wvmr = NaN(size(clFreGrps, 1), length(data.height));
-wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
-wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
-wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
-rh = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_no_QC= NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_error = NaN(size(clFreGrps, 1), length(data.height));
+data.wvmr_rel_error = NaN(size(clFreGrps, 1), length(data.height));
+data.rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
 wvPrfInfo.IWV = NaN(size(clFreGrps, 1), 1);
@@ -3159,7 +3159,7 @@ for iGrp = 1:size(clFreGrps, 1)
     rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
 
     % calculate wvmr and rh
-    wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* wvconstUsed;
+    data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
     
      el387 = squeeze(data.signal(flag387, :, :));
     bgEl387 = squeeze(data.bg(flag387, :, :));
@@ -3173,10 +3173,10 @@ for iGrp = 1:size(clFreGrps, 1)
     SNR407  = pollySNR(sig407, bg407);
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
-    wvmr_no_QC(iGrp, :)=wvmr(iGrp, :);
-    wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
-    wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((wvconstUsedStd).^2)./((wvconstUsed).^2));
-    rh(iGrp, :) = wvmr_2_rh(wvmr(iGrp, :), es, data.pressure(iGrp, :));
+    data.wvmr_no_QC(iGrp, :)=data.wvmr(iGrp, :);
+    data.wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
+    data.wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((data.wvconstUsedStd).^2)./((data.wvconstUsed).^2));
+    data.rh(iGrp, :) = wvmr_2_rh(data.wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
     % integral water vapor
     if isnan(wvCaliInfo.IntRange(iGrp, 1))
@@ -3185,10 +3185,10 @@ for iGrp = 1:size(clFreGrps, 1)
 
     IWVIntRange= wvCaliInfo.IntRange(iGrp, 1):wvCaliInfo.IntRange(iGrp, 2);
     wvPrfInfo.n407Prfs(iGrp) = n407OnPrf;
-    wvPrfInfo.IWV(iGrp) = sum(wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
+    wvPrfInfo.IWV(iGrp) = sum(data.wvmr(iGrp, IWVIntRange) .* rhoAir(IWVIntRange) ./ 1e6 .* [data.height(IWVIntRange(1)), diff(data.height(IWVIntRange))]);
 
 end
-wvmr_error=wvmr_rel_error.*wvmr;
+data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -3258,9 +3258,9 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
 
     % calculate wvmr and rh
-    data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* wvconstUsed;
+    data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
     data.WVMR_no_QC = data.WVMR;
-    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((wvconstUsedStd).^2)./(wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR_error = data.WVMR_rel_error.* data.WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR (data.quality_mask_WVMR>0)=NaN;
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
@@ -4598,50 +4598,50 @@ end
 %data.LRStd532_RR = LRStd532_RR;
 %data.LR1064_RR = LR1064_RR;
 %data.LRStd1064_RR = LRStd1064_RR;
-data.vdr355_klett = vdr355_klett;
-data.vdrStd355_klett = vdrStd355_klett;
-data.vdr532_klett = vdr532_klett;
-data.vdrStd532_klett = vdrStd532_klett;
-data.vdr355_raman = vdr355_raman;
-data.vdrStd355_raman = vdrStd355_raman;
-data.vdr532_raman = vdr532_raman;
-data.vdrStd532_raman = vdrStd532_raman;
-data.pdr355_klett = pdr355_klett;
-data.pdr532_klett = pdr532_klett;
-data.pdr355_raman = pdr355_raman;
-data.pdr532_raman = pdr532_raman;
-data.pdrStd355_klett = pdrStd355_klett;
-data.pdrStd532_klett = pdrStd532_klett;
-data.pdrStd355_raman = pdrStd355_raman;
-data.pdrStd532_raman = pdrStd532_raman;
-data.vdr1064_klett = vdr1064_klett;
-data.vdrStd1064_klett = vdrStd1064_klett;
-data.vdr1064_raman = vdr1064_raman;
-data.vdrStd1064_raman = vdrStd1064_raman;
-data.pdr1064_klett = pdr1064_klett;
-data.pdr1064_raman = pdr1064_raman;
-data.pdrStd1064_klett = pdrStd1064_klett;
-data.pdrStd1064_raman = pdrStd1064_raman;
-data.wvmr = wvmr;
-data.wvmr_no_QC = wvmr_no_QC;
-data.wvmr_error = wvmr_error;
-data.wvmr_rel_error = wvmr_rel_error;
-data.rh = rh;
-data.wvconstUsed = wvconstUsed;
-data.wvconstUsedStd = wvconstUsedStd;
-data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
-data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
-data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
-data.AEStd_Bsc_532_1064_klett = AEStd_Bsc_532_1064_klett;
-data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
-data.AEStd_Bsc_355_532_raman = AEStd_Bsc_355_532_raman;
-data.AE_Bsc_532_1064_raman = AE_Bsc_532_1064_raman;
-data.AEStd_Bsc_532_1064_raman = AEStd_Bsc_532_1064_raman;
-data.AE_Ext_355_532_raman = AE_Ext_355_532_raman;
-data.AEStd_Ext_355_532_raman = AEStd_Ext_355_532_raman;
-data.refHInd355 = refHInd355;
-data.refHInd532 = refHInd532;
-data.refHInd1064 = refHInd1064;
+%data.vdr355_klett = vdr355_klett;
+%data.vdrStd355_klett = vdrStd355_klett;
+%data.vdr532_klett = vdr532_klett;
+%data.vdrStd532_klett = vdrStd532_klett;
+%data.vdr355_raman = vdr355_raman;
+%data.vdrStd355_raman = vdrStd355_raman;
+%data.vdr532_raman = vdr532_raman;
+%data.vdrStd532_raman = vdrStd532_raman;
+%data.pdr355_klett = pdr355_klett;
+%data.pdr532_klett = pdr532_klett;
+%data.pdr355_raman = pdr355_raman;
+%data.pdr532_raman = pdr532_raman;
+%data.pdrStd355_klett = pdrStd355_klett;
+%data.pdrStd532_klett = pdrStd532_klett;
+%data.pdrStd355_raman = pdrStd355_raman;
+%data.pdrStd532_raman = pdrStd532_raman;
+%data.vdr1064_klett = vdr1064_klett;
+%data.vdrStd1064_klett = vdrStd1064_klett;
+%data.vdr1064_raman = vdr1064_raman;
+%data.vdrStd1064_raman = vdrStd1064_raman;
+%data.pdr1064_klett = pdr1064_klett;
+%data.pdr1064_raman = pdr1064_raman;
+%data.pdrStd1064_klett = pdrStd1064_klett;
+%data.pdrStd1064_raman = pdrStd1064_raman;
+%data.wvmr = wvmr;
+%data.wvmr_no_QC = wvmr_no_QC;
+%data.wvmr_error = wvmr_error;
+%data.wvmr_rel_error = wvmr_rel_error;
+%data.rh = rh;
+%data.wvconstUsed = wvconstUsed;
+%data.wvconstUsedStd = wvconstUsedStd;
+%data.AE_Bsc_355_532_klett = AE_Bsc_355_532_klett;
+%data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
+%data.AE_Bsc_532_1064_klett = AE_Bsc_532_1064_klett;
+%data.AEStd_Bsc_532_1064_klett = AEStd_Bsc_532_1064_klett;
+%data.AE_Bsc_355_532_raman = AE_Bsc_355_532_raman;
+%data.AEStd_Bsc_355_532_raman = AEStd_Bsc_355_532_raman;
+%data.AE_Bsc_532_1064_raman = AE_Bsc_532_1064_raman;
+%data.AEStd_Bsc_532_1064_raman = AEStd_Bsc_532_1064_raman;
+%data.AE_Ext_355_532_raman = AE_Ext_355_532_raman;
+%data.AEStd_Ext_355_532_raman = AEStd_Ext_355_532_raman;
+%data.refHInd355 = refHInd355;
+%data.refHInd532 = refHInd532;
+%data.refHInd1064 = refHInd1064;
 data.deltaAOD355 = deltaAOD355;
 data.deltaAOD532 = deltaAOD532;
 data.deltaAOD1064 = deltaAOD1064;
@@ -4675,7 +4675,7 @@ data.LRStd355_NR_raman = LRStd355_NR_raman;
 data.LR532_NR_raman = LR532_NR_raman;
 data.LRStd532_NR_raman = LRStd532_NR_raman;
 data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
-data.AEStd_Bsc_355_532_klett = AEStd_Bsc_355_532_klett;
+data.AEStd_Bsc_355_532_NR_klett = AEStd_Bsc_355_532_NR_klett;
 data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
 data.AEStd_Bsc_355_532_NR_raman = AEStd_Bsc_355_532_NR_raman;
 data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
