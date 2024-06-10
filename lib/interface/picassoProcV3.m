@@ -1216,7 +1216,7 @@ data.aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_aeronet = NaN(size(clFreGrps, 1), 1);
-deltaAOD355 = NaN(size(clFreGrps, 1), 1);
+data.deltaAOD355 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
@@ -1246,7 +1246,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     data.aerExtStd355_aeronet(iGrp, :) = thisAerExt355_aeronet;
     data.LR355_aeronet(iGrp) = thisLR_355;
-    deltaAOD355(iGrp) = thisDeltaAOD355;
+    data.deltaAOD355(iGrp) = thisDeltaAOD355;
 end
 
 %% Constrained-AOD Klett method at 532 nm (far-field)
@@ -1256,7 +1256,7 @@ data.aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_aeronet = NaN(size(clFreGrps, 1), 1);
-deltaAOD532 = NaN(size(clFreGrps, 1), 1);
+data.deltaAOD532 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
@@ -1286,7 +1286,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt532_aeronet(iGrp, :) = thisAerExt532_aeronet;
     data.aerExtStd532_aeronet(iGrp, :) = 0.2 * thisAerExt532_aeronet;
     data.LR532_aeronet(iGrp) = thisLR_532;
-    deltaAOD532(iGrp) = thisDeltaAOD532;
+    data.deltaAOD532(iGrp) = thisDeltaAOD532;
 end
 
 %% Constrained-AOD Klett method at 1064 nm
@@ -1296,7 +1296,7 @@ data.aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
-deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
+data.deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
     if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
@@ -1326,7 +1326,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerExt1064_aeronet(iGrp, :) = thisAerExt1064_aeronet;
     data.aerExtStd1064_aeronet(iGrp, :) = 0.2 * thisAerExt1064_aeronet;
     data.LR1064_aeronet(iGrp) = thisLR_1064;
-    deltaAOD1064(iGrp) = thisDeltaAOD1064;
+    data.deltaAOD1064(iGrp) = thisDeltaAOD1064;
 end
 
 %% Raman method (355 nm)
@@ -4642,9 +4642,9 @@ end
 %data.refHInd355 = refHInd355;
 %data.refHInd532 = refHInd532;
 %data.refHInd1064 = refHInd1064;
-data.deltaAOD355 = deltaAOD355;
-data.deltaAOD532 = deltaAOD532;
-data.deltaAOD1064 = deltaAOD1064;
+%data.deltaAOD355 = deltaAOD355;
+%data.deltaAOD532 = deltaAOD532;
+%data.deltaAOD1064 = deltaAOD1064;
 data.mdr355 = mdr355;
 data.mdr532 = mdr532;
 data.mdr1064 = mdr1064;
