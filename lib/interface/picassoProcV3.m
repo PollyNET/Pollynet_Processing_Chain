@@ -2602,7 +2602,7 @@ pdr355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-mdr355 = NaN(size(clFreGrps, 1), 1);
+data.mdr355 = NaN(size(clFreGrps, 1), 1);
 mdrStd355 = NaN(size(clFreGrps, 1), 1);
 flagDeftMdr355 = true(size(clFreGrps, 1), 1);
 
@@ -2627,7 +2627,7 @@ for iGrp = 1:size(clFreGrps, 1)
         PollyConfig.TR(flag355C), 0, ...
         data.polCaliFac355, data.polCaliFacStd355, 10, ...
         PollyDefaults.molDepol355, PollyDefaults.molDepolStd355);
-    mdr355(iGrp) = thisMdr355;
+    data.mdr355(iGrp) = thisMdr355;
     mdrStd355(iGrp) = thisMdrStd355;
     flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
 
@@ -2667,7 +2667,7 @@ pdr532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-mdr532 = NaN(size(clFreGrps, 1), 1);
+data.mdr532 = NaN(size(clFreGrps, 1), 1);
 mdrStd532 = NaN(size(clFreGrps, 1), 1);
 flagDeftMdr532 = true(size(clFreGrps, 1), 1);
 
@@ -2692,7 +2692,7 @@ for iGrp = 1:size(clFreGrps, 1)
         PollyConfig.TR(flag532C), 0, ...
         data.polCaliFac532, data.polCaliFacStd532, 10, ...
         PollyDefaults.molDepol532, PollyDefaults.molDepolStd532);
-    mdr532(iGrp) = thisMdr532;
+    data.mdr532(iGrp) = thisMdr532;
     mdrStd532(iGrp) = thisMdrStd532;
     flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
 
@@ -2732,7 +2732,7 @@ pdr1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdr1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 pdrStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-mdr1064 = NaN(size(clFreGrps, 1), 1);
+data.mdr1064 = NaN(size(clFreGrps, 1), 1);
 mdrStd1064 = NaN(size(clFreGrps, 1), 1);
 flagDeftMdr1064 = true(size(clFreGrps, 1), 1);
 
@@ -2757,7 +2757,7 @@ for iGrp = 1:size(clFreGrps, 1)
         PollyConfig.TR(flag1064C), 0, ...
         data.polCaliFac1064, data.polCaliFacStd1064, 10, ...
         PollyDefaults.molDepol1064, PollyDefaults.molDepolStd1064);
-    mdr1064(iGrp) = thisMdr1064;
+    data.mdr1064(iGrp) = thisMdr1064;
     mdrStd1064(iGrp) = thisMdrStd1064;
     flagDeftMdr1064(iGrp) = thisFlagDeftMdr1064;
 
@@ -4645,9 +4645,9 @@ end
 %data.deltaAOD355 = deltaAOD355;
 %data.deltaAOD532 = deltaAOD532;
 %data.deltaAOD1064 = deltaAOD1064;
-data.mdr355 = mdr355;
-data.mdr532 = mdr532;
-data.mdr1064 = mdr1064;
+%data.mdr355 = mdr355;
+%data.mdr532 = mdr532;
+%data.mdr1064 = mdr1064;
 data.IWVAttri = IWVAttri;
 data.meteorAttri = meteorAttri;
 data.refBeta_NR_355_klett = refBeta_NR_355_klett;
