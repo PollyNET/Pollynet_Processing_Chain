@@ -2249,10 +2249,10 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Klett method at 355 nm (overlap corrected)
 flag355FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
 
-aerBsc355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2270,19 +2270,19 @@ for iGrp = 1:size(clFreGrps, 1)
     thisAerExt355_OC_klett = PollyConfig.LR355 * thisAerBsc355_OC_klett;
     thisAerExtStd355_OC_klett = PollyConfig.LR355 * thisAerBscStd355_OC_klett;
 
-    aerBsc355_OC_klett(iGrp, :) = thisAerBsc355_OC_klett;
-    aerBscStd355_OC_klett(iGrp, :) = thisAerBscStd355_OC_klett;
-    aerExt355_OC_klett(iGrp, :) = thisAerExt355_OC_klett;
-    aerExtStd355_OC_klett(iGrp, :) = thisAerExtStd355_OC_klett;
+    data.aerBsc355_OC_klett(iGrp, :) = thisAerBsc355_OC_klett;
+    data.aerBscStd355_OC_klett(iGrp, :) = thisAerBscStd355_OC_klett;
+    data.aerExt355_OC_klett(iGrp, :) = thisAerExt355_OC_klett;
+    data.aerExtStd355_OC_klett(iGrp, :) = thisAerExtStd355_OC_klett;
 end
 
 %% Klett method at 532 nm (overlap corrected)
 flag532FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
 
-aerBsc532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2300,19 +2300,19 @@ for iGrp = 1:size(clFreGrps, 1)
     thisAerExt532_OC_klett = PollyConfig.LR532 * thisAerBsc532_OC_klett;
     thisAerExtStd532_OC_klett = PollyConfig.LR532 * thisAerBscStd532_OC_klett;
 
-    aerBsc532_OC_klett(iGrp, :) = thisAerBsc532_OC_klett;
-    aerBscStd532_OC_klett(iGrp, :) = thisAerBscStd532_OC_klett;
-    aerExt532_OC_klett(iGrp, :) = thisAerExt532_OC_klett;
-    aerExtStd532_OC_klett(iGrp, :) = thisAerExtStd532_OC_klett;
+    data.aerBsc532_OC_klett(iGrp, :) = thisAerBsc532_OC_klett;
+    data.aerBscStd532_OC_klett(iGrp, :) = thisAerBscStd532_OC_klett;
+    data.aerExt532_OC_klett(iGrp, :) = thisAerExt532_OC_klett;
+    data.aerExtStd532_OC_klett(iGrp, :) = thisAerExtStd532_OC_klett;
 end
 
 %% Klett method at 1064 nm (overlap corrected)
 flag1064FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
 
-aerBsc1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2330,10 +2330,10 @@ for iGrp = 1:size(clFreGrps, 1)
     thisAerExt1064_OC_klett = PollyConfig.LR1064 * thisAerBsc1064_OC_klett;
     thisAerExtStd1064_OC_klett = PollyConfig.LR1064 * thisAerBscStd1064_OC_klett;
 
-    aerBsc1064_OC_klett(iGrp, :) = thisAerBsc1064_OC_klett;
-    aerBscStd1064_OC_klett(iGrp, :) = thisAerBscStd1064_OC_klett;
-    aerExt1064_OC_klett(iGrp, :) = thisAerExt1064_OC_klett;
-    aerExtStd1064_OC_klett(iGrp, :) = thisAerExtStd1064_OC_klett;
+    data.aerBsc1064_OC_klett(iGrp, :) = thisAerBsc1064_OC_klett;
+    data.aerBscStd1064_OC_klett(iGrp, :) = thisAerBscStd1064_OC_klett;
+    data.aerExt1064_OC_klett(iGrp, :) = thisAerExt1064_OC_klett;
+    data.aerExtStd1064_OC_klett(iGrp, :) = thisAerExtStd1064_OC_klett;
 end
 
 
@@ -2643,8 +2643,8 @@ for iGrp = 1:size(clFreGrps, 1)
         data.pdrStd355_raman(iGrp, :) = thisPdrStd355_raman;
     end
 
-    if ~ isnan(aerBsc355_OC_klett(iGrp, 80))
-        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+    if ~ isnan(data.aerBsc355_OC_klett(iGrp, 80))
+        [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
@@ -2708,8 +2708,8 @@ for iGrp = 1:size(clFreGrps, 1)
         data.pdrStd532_raman(iGrp, :) = thisPdrStd532_raman;
     end
 
-    if ~ isnan(aerBsc532_OC_klett(iGrp, 80))
-        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+    if ~ isnan(data.aerBsc532_OC_klett(iGrp, 80))
+        [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
@@ -2773,8 +2773,8 @@ for iGrp = 1:size(clFreGrps, 1)
         data.pdrStd1064_raman(iGrp, :) = thisPdrStd1064_raman;
     end
 
-    if ~ isnan(aerBsc1064_OC_klett(iGrp, 80))
-        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+    if ~ isnan(data.aerBsc1064_OC_klett(iGrp, 80))
+        [thisPdr1064_OC_klett, thisPdrStd1064_OC_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), data.aerBsc1064_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_klett(iGrp, :) = thisPdr1064_OC_klett;
         pdrStd1064_OC_klett(iGrp, :) = thisPdrStd1064_OC_klett;
     end
@@ -2884,14 +2884,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(data.refHInd355(iGrp, 1))) && (~ isnan(data.refHInd532(iGrp, 1)))
-        [thisAE_Bsc_355_532_OC_klett, thisAEStd_Bsc_355_532_OC_klett] = pollyAE(aerBsc355_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
+        [thisAE_Bsc_355_532_OC_klett, thisAEStd_Bsc_355_532_OC_klett] = pollyAE(data.aerBsc355_OC_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_532);
         AE_Bsc_355_532_OC_klett(iGrp, :) = thisAE_Bsc_355_532_OC_klett;
         AEStd_Bsc_355_532_OC_klett(iGrp, :) = thisAEStd_Bsc_355_532_OC_klett;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Klett method)
     if (~ isnan(data.refHInd532(iGrp, 1))) && (~ isnan(data.refHInd1064(iGrp, 1)))
-        [thisAE_Bsc_532_1064_OC_klett, thisAEStd_Bsc_532_1064_OC_klett] = pollyAE(aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
+        [thisAE_Bsc_532_1064_OC_klett, thisAEStd_Bsc_532_1064_OC_klett] = pollyAE(data.aerBsc532_OC_klett(iGrp, :), zeros(size(data.height)), data.aerBsc1064_OC_klett(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_klett_1064);
         AE_Bsc_532_1064_OC_klett(iGrp, :) = thisAE_Bsc_532_1064_OC_klett;
         AEStd_Bsc_532_1064_OC_klett(iGrp, :) = thisAEStd_Bsc_532_1064_OC_klett;
     end
@@ -4680,18 +4680,18 @@ end
 %data.AEStd_Bsc_355_532_NR_raman = AEStd_Bsc_355_532_NR_raman;
 %data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
 %data.AEStd_Ext_355_532_NR_raman = AEStd_Ext_355_532_NR_raman;
-data.aerBsc355_OC_klett = aerBsc355_OC_klett;
-data.aerBscStd355_OC_klett = aerBscStd355_OC_klett;
-data.aerBsc532_OC_klett = aerBsc532_OC_klett;
-data.aerBscStd532_OC_klett = aerBscStd532_OC_klett;
-data.aerBsc1064_OC_klett = aerBsc1064_OC_klett;
-data.aerBscStd1064_OC_klett = aerBscStd1064_OC_klett;
-data.aerExt355_OC_klett = aerExt355_OC_klett;
-data.aerExtStd355_OC_klett = aerExtStd355_OC_klett;
-data.aerExt532_OC_klett = aerExt532_OC_klett;
-data.aerExtStd532_OC_klett = aerExtStd532_OC_klett;
-data.aerExt1064_OC_klett = aerExt1064_OC_klett;
-data.aerExtStd1064_OC_klett = aerExtStd1064_OC_klett;
+%data.aerBsc355_OC_klett = aerBsc355_OC_klett;
+%data.aerBscStd355_OC_klett = aerBscStd355_OC_klett;
+%data.aerBsc532_OC_klett = aerBsc532_OC_klett;
+%data.aerBscStd532_OC_klett = aerBscStd532_OC_klett;
+%data.aerBsc1064_OC_klett = aerBsc1064_OC_klett;
+%data.aerBscStd1064_OC_klett = aerBscStd1064_OC_klett;
+%data.aerExt355_OC_klett = aerExt355_OC_klett;
+%data.aerExtStd355_OC_klett = aerExtStd355_OC_klett;
+%data.aerExt532_OC_klett = aerExt532_OC_klett;
+%data.aerExtStd532_OC_klett = aerExtStd532_OC_klett;
+%data.aerExt1064_OC_klett = aerExt1064_OC_klett;
+%data.aerExtStd1064_OC_klett = aerExtStd1064_OC_klett;
 data.aerBsc355_OC_raman = aerBsc355_OC_raman;
 data.aerBscStd355_OC_raman = aerBscStd355_OC_raman;
 data.aerBsc532_OC_raman = aerBsc532_OC_raman;
