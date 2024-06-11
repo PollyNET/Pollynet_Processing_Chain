@@ -4361,6 +4361,11 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(
     data.tcMaskV2((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_607 ~= 0)) = 0;
 end
 
+data.quality_mask_532_V2 = data.quality_mask_532;
+data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
+data.quality_mask_1064_V2 = data.quality_mask_1064;
+data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((data.quality_mask_607 == 1) | (data.quality_mask_532 == 1))) = 1;
+
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Cloud detection
@@ -4769,11 +4774,11 @@ end
 %data.qsiBsc1064V2 = qsiBsc1064V2;
 %data.qsiPDR532V2 = qsiPDR532V2;
 %data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
-data.quality_mask_532_V2 = data.quality_mask_532;
-data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
+%data.quality_mask_532_V2 = data.quality_mask_532;
+%data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
 %data.quality_mask_532_V2 = quality_mask_532_V2;
-data.quality_mask_1064_V2 = data.quality_mask_1064;
-data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((data.quality_mask_607 == 1) | (data.quality_mask_532 == 1))) = 1;
+%data.quality_mask_1064_V2 = data.quality_mask_1064;
+%data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((data.quality_mask_607 == 1) | (data.quality_mask_532 == 1))) = 1;
 %data.quality_mask_1064_V2 = quality_mask_1064_V2;
 %data.tcMaskV1 = tcMaskV1;
 %data.tcMaskV2 = tcMaskV2;
