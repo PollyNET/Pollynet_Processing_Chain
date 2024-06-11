@@ -2934,13 +2934,13 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Signal status
-SNR = NaN(size(data.signal));
+data.SNR = NaN(size(data.signal));
 for iCh = 1:size(data.signal, 1)
     signal_sm = smooth2(squeeze(data.signal(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
     signal_int = signal_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
     bg_sm = smooth2(squeeze(data.bg(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
     bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
-    SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
+    data.SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
 
 flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
@@ -2966,61 +2966,61 @@ quality_mask_607 = zeros(length(data.height), length(data.mTime));
 % 3 in quality_mask means shutter on
 % 4 in quality_mask means fog
 if (sum(flag355T) == 1)
-    quality_mask_355(squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T)) = 1;
+    quality_mask_355(squeeze(data.SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T)) = 1;
     quality_mask_355(:, data.depCalMask) = 2;
     quality_mask_355(:, data.shutterOnMask) = 3;
     quality_mask_355(:, data.fogMask) = 4;
 end
 if (sum(flag355NR) == 1)
-    quality_mask_NR_355(squeeze(SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
+    quality_mask_NR_355(squeeze(data.SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
     quality_mask_NR_355(:, data.depCalMask) = 2;
     quality_mask_NR_355(:, data.shutterOnMask) = 3;
     quality_mask_NR_355(:, data.fogMask) = 4;
 end
 if (sum(flag532T) == 1)
-    quality_mask_532(squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
+    quality_mask_532(squeeze(data.SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
     quality_mask_532(:, data.depCalMask) = 2;
     quality_mask_532(:, data.shutterOnMask) = 3;
     quality_mask_532(:, data.fogMask) = 4;
 end
 if (sum(flag532NR) == 1)
-    quality_mask_NR_532(squeeze(SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
+    quality_mask_NR_532(squeeze(data.SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
     quality_mask_NR_532(:, data.depCalMask) = 2;
     quality_mask_NR_532(:, data.shutterOnMask) = 3;
     quality_mask_NR_532(:, data.fogMask) = 4;
 end
 if (sum(flag1064) == 1)
-    quality_mask_1064(squeeze(SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
+    quality_mask_1064(squeeze(data.SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
     quality_mask_1064(:, data.depCalMask) = 2;
     quality_mask_1064(:, data.shutterOnMask) = 3;
     quality_mask_1064(:, data.fogMask) = 4;
 end
 if (sum(flag387) == 1)
-    quality_mask_387(squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
+    quality_mask_387(squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
     quality_mask_387(:, data.depCalMask) = 2;
     quality_mask_387(:, data.shutterOnMask) = 3;
     quality_mask_387(:, data.fogMask) = 4;
 end
 if (sum(flag607) == 1)
-    quality_mask_607(squeeze(SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
+    quality_mask_607(squeeze(data.SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
     quality_mask_607(:, data.depCalMask) = 2;
     quality_mask_607(:, data.shutterOnMask) = 3;
     quality_mask_607(:, data.fogMask) = 4;
 end
 if (sum(flag355T) == 1) && (sum(flag355C) == 1)
-     data.quality_mask_vdr_355((squeeze(SNR(flag355C, :, :)) < PollyConfig.mask_SNRmin(flag355C)) | (squeeze(SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
+     data.quality_mask_vdr_355((squeeze(data.SNR(flag355C, :, :)) < PollyConfig.mask_SNRmin(flag355C)) | (squeeze(data.SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
      data.quality_mask_vdr_355(:, data.depCalMask) = 2;
      data.quality_mask_vdr_355(:, data.shutterOnMask) = 3;
      data.quality_mask_vdr_355(:, data.fogMask) = 4;
 end
 if (sum(flag532T) == 1) && (sum(flag532C) == 1)
-    data.quality_mask_vdr_532((squeeze(SNR(flag532C, :, :)) < PollyConfig.mask_SNRmin(flag532C)) | (squeeze(SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T))) = 1;
+    data.quality_mask_vdr_532((squeeze(data.SNR(flag532C, :, :)) < PollyConfig.mask_SNRmin(flag532C)) | (squeeze(data.SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T))) = 1;
     data.quality_mask_vdr_532(:, data.depCalMask) = 2;
     data.quality_mask_vdr_532(:, data.shutterOnMask) = 3;
     data.quality_mask_vdr_532(:, data.fogMask) = 4;
 end
 if (sum(flag1064T) == 1) && (sum(flag1064C) == 1)
-    data.quality_mask_vdr_1064((squeeze(SNR(flag1064C, :, :)) < PollyConfig.mask_SNRmin(flag1064C)) | (squeeze(SNR(flag1064T, :, :)) < PollyConfig.mask_SNRmin(flag1064T))) = 1;
+    data.quality_mask_vdr_1064((squeeze(data.SNR(flag1064C, :, :)) < PollyConfig.mask_SNRmin(flag1064C)) | (squeeze(data.SNR(flag1064T, :, :)) < PollyConfig.mask_SNRmin(flag1064T))) = 1;
     data.quality_mask_vdr_1064(:, data.depCalMask) = 2;
     data.quality_mask_vdr_1064(:, data.shutterOnMask) = 3;
     data.quality_mask_vdr_1064(:, data.fogMask) = 4;
@@ -3210,7 +3210,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     % quality mask to filter low SNR bits
     data.quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
-    data.quality_mask_WVMR((squeeze(SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
+    data.quality_mask_WVMR((squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(data.SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
     data.quality_mask_WVMR(:, data.depCalMask) = 2;
     data.quality_mask_RH = data.quality_mask_WVMR;
 
@@ -3260,7 +3260,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % calculate wvmr and rh
     data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
     data.WVMR_no_QC = data.WVMR;
-    data.WVMR_rel_error = sqrt((squeeze(SNR(flag387, :, :))).^(-2)+(squeeze(SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR_rel_error = sqrt((squeeze(data.SNR(flag387, :, :))).^(-2)+(squeeze(data.SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR_error = data.WVMR_rel_error.* data.WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR (data.quality_mask_WVMR>0)=NaN;
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
@@ -3764,7 +3764,7 @@ if (~ isempty(olAttri607.sigRatio)) && (sum(flag607NR) == 1)
 end
 
 % select lidar calibration constant
-LCUsed = struct();
+data.LCUsed = struct();
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
@@ -3776,7 +3776,7 @@ flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 %% far-range calibration constants
-[LCUsed.LCUsed355, ~, LCUsed.LCUsedTag355, LCUsed.flagLCWarning355] = ...
+[data.LCUsed.LCUsed355, ~, data.LCUsed.LCUsedTag355, data.LCUsed.flagLCWarning355] = ...
     selectLiConst(data.LC.LC_raman_355, zeros(size(data.LC.LC_raman_355)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3786,7 +3786,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag355), ...
         'default_liconstStd', PollyDefaults.LCStd(flag355));
-[LCUsed.LCUsed532, ~, LCUsed.LCUsedTag532, LCUsed.flagLCWarning532] = ...
+[data.LCUsed.LCUsed532, ~, data.LCUsed.LCUsedTag532, data.LCUsed.flagLCWarning532] = ...
     selectLiConst(data.LC.LC_raman_532, zeros(size(data.LC.LC_raman_532)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3796,7 +3796,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag532), ...
         'default_liconstStd', PollyDefaults.LCStd(flag532));
-[LCUsed.LCUsed1064, ~, LCUsed.LCUsedTag1064, LCUsed.flagLCWarning1064] = ...
+[data.LCUsed.LCUsed1064, ~, data.LCUsed.LCUsedTag1064, data.LCUsed.flagLCWarning1064] = ...
     selectLiConst(data.LC.LC_raman_1064, zeros(size(data.LC.LC_raman_1064)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3806,7 +3806,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag1064), ...
         'default_liconstStd', PollyDefaults.LCStd(flag1064));
-[LCUsed.LCUsed387, ~, LCUsed.LCUsedTag387, LCUsed.flagLCWarning387] = ...
+[data.LCUsed.LCUsed387, ~, data.LCUsed.LCUsedTag387, data.LCUsed.flagLCWarning387] = ...
     selectLiConst(data.LC.LC_raman_387, zeros(size(data.LC.LC_raman_387)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3816,7 +3816,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag387), ...
         'default_liconstStd', PollyDefaults.LCStd(flag387));
-[LCUsed.LCUsed607, ~, LCUsed.LCUsedTag607, LCUsed.flagLCWarning607] = ...
+[data.LCUsed.LCUsed607, ~, data.LCUsed.LCUsedTag607, data.LCUsed.flagLCWarning607] = ...
     selectLiConst(data.LC.LC_raman_607, zeros(size(data.LC.LC_raman_607)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3828,7 +3828,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'default_liconstStd', PollyDefaults.LCStd(flag607));
 
 %% near-range lidar calibration constants
-[LCUsed.LCUsed532NR, ~, LCUsed.LCUsedTag532NR, LCUsed.flagLCWarning532NR] = ...
+[data.LCUsed.LCUsed532NR, ~, data.LCUsed.LCUsedTag532NR, data.LCUsed.flagLCWarning532NR] = ...
     selectLiConst(data.LC.LC_raman_532_NR, zeros(size(data.LC.LC_raman_532_NR)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3838,7 +3838,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag532NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag532NR));
-[LCUsed.LCUsed607NR, ~, LCUsed.LCUsedTag607NR, LCUsed.flagLCWarning607NR] = ...
+[data.LCUsed.LCUsed607NR, ~, data.LCUsed.LCUsedTag607NR, data.LCUsed.flagLCWarning607NR] = ...
     selectLiConst(data.LC.LC_raman_607_NR, zeros(size(data.LC.LC_raman_607_NR)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3848,7 +3848,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag607NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag607NR));
-[LCUsed.LCUsed355NR, ~, LCUsed.LCUsedTag355NR, LCUsed.flagLCWarning355NR] = ...
+[data.LCUsed.LCUsed355NR, ~, data.LCUsed.LCUsedTag355NR, data.LCUsed.flagLCWarning355NR] = ...
     selectLiConst(data.LC.LC_raman_355_NR, zeros(size(data.LC.LC_raman_355_NR)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3858,7 +3858,7 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'deltaTime', datenum(0, 1, 7), ...
         'default_liconst', PollyDefaults.LC(flag355NR), ...
         'default_liconstStd', PollyDefaults.LCStd(flag355NR));
-[LCUsed.LCUsed387NR, ~, LCUsed.LCUsedTag387NR, LCUsed.flagLCWarning387NR] = ...
+[data.LCUsed.LCUsed387NR, ~, data.LCUsed.LCUsedTag387NR, data.LCUsed.flagLCWarning387NR] = ...
     selectLiConst(data.LC.LC_raman_387_NR, zeros(size(data.LC.LC_raman_387_NR)), ...
         data.LC.LC_start_time, ...
         data.LC.LC_stop_time, ...
@@ -3877,84 +3877,84 @@ print_msg('Start calculating attenuated backscatter.\n', 'flagTimestamp', true);
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_355 = NaN(length(data.height), length(data.mTime));
 if (sum(flag355) == 1)
-    data.att_beta_355 = squeeze(data.signal(flag355, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
+    data.att_beta_355 = squeeze(data.signal(flag355, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_355(:, data.depCalMask) = NaN;
 end
 
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_532 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532) == 1)
-    data.att_beta_532 = squeeze(data.signal(flag532, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
+    data.att_beta_532 = squeeze(data.signal(flag532, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_532(:, data.depCalMask) = NaN;
 end
 
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 data.att_beta_1064 = NaN(length(data.height), length(data.mTime));
 if (sum(flag1064) == 1)
-    data.att_beta_1064 = squeeze(data.signal(flag1064, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
+    data.att_beta_1064 = squeeze(data.signal(flag1064, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_1064(:, data.depCalMask) = NaN;
 end
 
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 att_beta_387 = NaN(length(data.height), length(data.mTime));
 if (sum(flag387) == 1)
-    att_beta_387 = squeeze(data.signal(flag387, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed387;
+    att_beta_387 = squeeze(data.signal(flag387, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
     att_beta_387(:, data.depCalMask) = NaN;
 end
 
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 att_beta_607 = NaN(length(data.height), length(data.mTime));
 if (sum(flag607) == 1)
-    att_beta_607 = squeeze(data.signal(flag607, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed607;
+    att_beta_607 = squeeze(data.signal(flag607, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
     att_beta_607(:, data.depCalMask) = NaN;
 end
 
 flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_OC_355 = NaN(length(data.height), length(data.mTime));
 if (sum(flag355) == 1)
-    data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355;
+    data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_OC_355(:, data.depCalMask) = NaN;
 end
 
 flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_OC_532 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532) == 1)
-    data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532;
+    data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_OC_532(:, data.depCalMask) = NaN;
 end
 
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & flagTotalChannel;
 data.att_beta_OC_1064 = NaN(length(data.height), length(data.mTime));
 if (sum(flag1064) == 1)
-    data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed1064;
+    data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_OC_1064(:, data.depCalMask) = NaN;
 end
 
 % flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % att_beta_OC_387 = NaN(length(data.height), length(data.mTime));
 % if (sum(flag387) == 1)
-%     att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed387;
+%     att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
 %     att_beta_OC_387(:, data.depCalMask) = NaN;
 % end
 
 % flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 % att_beta_OC_607 = NaN(length(data.height), length(data.mTime));
 % if (sum(flag607) == 1)
-%     att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed607;
+%     att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
 %     att_beta_OC_607(:, data.depCalMask) = NaN;
 % end
 
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_NR_355 = NaN(length(data.height), length(data.mTime));
 if (sum(flag355NR) == 1)
-    data.att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed355NR;
+    data.att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355NR;
     data.att_beta_NR_355(:, data.depCalMask) = NaN;
 end
 
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_NR_532 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532NR) == 1)
-    data.att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / LCUsed.LCUsed532NR;
+    data.att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532NR;
     data.att_beta_NR_532(:, data.depCalMask) = NaN;
 end
 
@@ -4739,8 +4739,8 @@ data.quality_mask_NR_532 = quality_mask_NR_532;
 data.quality_mask_1064 = quality_mask_1064;
 data.quality_mask_387 = quality_mask_387;
 data.quality_mask_607 = quality_mask_607;
-data.SNR = SNR;
-data.LCUsed = LCUsed;
+%data.SNR = SNR;
+%data.LCUsed = LCUsed;
 %data.att_beta_NR_355 = att_beta_NR_355;
 %data.att_beta_NR_532 = att_beta_NR_532;
 %data.att_beta_OC_355 = att_beta_OC_355;
