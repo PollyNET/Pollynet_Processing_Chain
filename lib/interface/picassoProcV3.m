@@ -2950,62 +2950,62 @@ flag355T = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChan
 flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-quality_mask_355 = zeros(length(data.height), length(data.mTime));
-quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
-quality_mask_532 = zeros(length(data.height), length(data.mTime));
-quality_mask_NR_532 = zeros(length(data.height), length(data.mTime));
-quality_mask_1064 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_532 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_NR_532 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_1064 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_vdr_532 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_vdr_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_vdr_1064 = zeros(length(data.height), length(data.mTime));
-quality_mask_387 = zeros(length(data.height), length(data.mTime));
-quality_mask_607 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_387 = zeros(length(data.height), length(data.mTime));
+data.quality_mask_607 = zeros(length(data.height), length(data.mTime));
 % 0 in quality_mask means good data
 % 1 in quality_mask means low-SNR data
 % 2 in quality_mask means depolarization calibration periods
 % 3 in quality_mask means shutter on
 % 4 in quality_mask means fog
 if (sum(flag355T) == 1)
-    quality_mask_355(squeeze(data.SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T)) = 1;
-    quality_mask_355(:, data.depCalMask) = 2;
-    quality_mask_355(:, data.shutterOnMask) = 3;
-    quality_mask_355(:, data.fogMask) = 4;
+    data.quality_mask_355(squeeze(data.SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T)) = 1;
+    data.quality_mask_355(:, data.depCalMask) = 2;
+    data.quality_mask_355(:, data.shutterOnMask) = 3;
+    data.quality_mask_355(:, data.fogMask) = 4;
 end
 if (sum(flag355NR) == 1)
-    quality_mask_NR_355(squeeze(data.SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
-    quality_mask_NR_355(:, data.depCalMask) = 2;
-    quality_mask_NR_355(:, data.shutterOnMask) = 3;
-    quality_mask_NR_355(:, data.fogMask) = 4;
+    data.quality_mask_NR_355(squeeze(data.SNR(flag355NR, :, :)) < PollyConfig.mask_SNRmin(flag355NR)) = 1;
+    data.quality_mask_NR_355(:, data.depCalMask) = 2;
+    data.quality_mask_NR_355(:, data.shutterOnMask) = 3;
+    data.quality_mask_NR_355(:, data.fogMask) = 4;
 end
 if (sum(flag532T) == 1)
-    quality_mask_532(squeeze(data.SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
-    quality_mask_532(:, data.depCalMask) = 2;
-    quality_mask_532(:, data.shutterOnMask) = 3;
-    quality_mask_532(:, data.fogMask) = 4;
+    data.quality_mask_532(squeeze(data.SNR(flag532T, :, :)) < PollyConfig.mask_SNRmin(flag532T)) = 1;
+    data.quality_mask_532(:, data.depCalMask) = 2;
+    data.quality_mask_532(:, data.shutterOnMask) = 3;
+    data.quality_mask_532(:, data.fogMask) = 4;
 end
 if (sum(flag532NR) == 1)
-    quality_mask_NR_532(squeeze(data.SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
-    quality_mask_NR_532(:, data.depCalMask) = 2;
-    quality_mask_NR_532(:, data.shutterOnMask) = 3;
-    quality_mask_NR_532(:, data.fogMask) = 4;
+    data.quality_mask_NR_532(squeeze(data.SNR(flag532NR, :, :)) < PollyConfig.mask_SNRmin(flag532NR)) = 1;
+    data.quality_mask_NR_532(:, data.depCalMask) = 2;
+    data.quality_mask_NR_532(:, data.shutterOnMask) = 3;
+    data.quality_mask_NR_532(:, data.fogMask) = 4;
 end
 if (sum(flag1064) == 1)
-    quality_mask_1064(squeeze(data.SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
-    quality_mask_1064(:, data.depCalMask) = 2;
-    quality_mask_1064(:, data.shutterOnMask) = 3;
-    quality_mask_1064(:, data.fogMask) = 4;
+    data.quality_mask_1064(squeeze(data.SNR(flag1064, :, :)) < PollyConfig.mask_SNRmin(flag1064)) = 1;
+    data.quality_mask_1064(:, data.depCalMask) = 2;
+    data.quality_mask_1064(:, data.shutterOnMask) = 3;
+    data.quality_mask_1064(:, data.fogMask) = 4;
 end
 if (sum(flag387) == 1)
-    quality_mask_387(squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
-    quality_mask_387(:, data.depCalMask) = 2;
-    quality_mask_387(:, data.shutterOnMask) = 3;
-    quality_mask_387(:, data.fogMask) = 4;
+    data.quality_mask_387(squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
+    data.quality_mask_387(:, data.depCalMask) = 2;
+    data.quality_mask_387(:, data.shutterOnMask) = 3;
+    data.quality_mask_387(:, data.fogMask) = 4;
 end
 if (sum(flag607) == 1)
-    quality_mask_607(squeeze(data.SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
-    quality_mask_607(:, data.depCalMask) = 2;
-    quality_mask_607(:, data.shutterOnMask) = 3;
-    quality_mask_607(:, data.fogMask) = 4;
+    data.quality_mask_607(squeeze(data.SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
+    data.quality_mask_607(:, data.depCalMask) = 2;
+    data.quality_mask_607(:, data.shutterOnMask) = 3;
+    data.quality_mask_607(:, data.fogMask) = 4;
 end
 if (sum(flag355T) == 1) && (sum(flag355C) == 1)
      data.quality_mask_vdr_355((squeeze(data.SNR(flag355C, :, :)) < PollyConfig.mask_SNRmin(flag355C)) | (squeeze(data.SNR(flag355T, :, :)) < PollyConfig.mask_SNRmin(flag355T))) = 1;
@@ -4023,7 +4023,7 @@ flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChann
 data.qsiBsc355V1 = NaN(length(data.height), length(data.mTime));
 att_beta_355_qsi = data.att_beta_355;
 if (sum(flag355) == 1)
-    att_beta_355_qsi(quality_mask_355 ~= 0) = NaN;
+    att_beta_355_qsi(data.quality_mask_355 ~= 0) = NaN;
     att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
 
     % Rayleigh scattering
@@ -4049,7 +4049,7 @@ flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChann
 data.qsiBsc532V1 = NaN(length(data.height), length(data.mTime));
 att_beta_532_qsi = data.att_beta_532;
 if (sum(flag532) == 1)
-    att_beta_532_qsi(quality_mask_532 ~= 0) = NaN;
+    att_beta_532_qsi(data.quality_mask_532 ~= 0) = NaN;
     att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
 
     % Rayleigh scattering
@@ -4075,7 +4075,7 @@ flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmCha
 data.qsiBsc1064V1 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
 if (sum(flag1064) == 1)
-    att_beta_1064_qsi(quality_mask_1064 ~= 0) = NaN;
+    att_beta_1064_qsi(data.quality_mask_1064 ~= 0) = NaN;
     att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
 
     % Rayleigh scattering
@@ -4117,7 +4117,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
 
     vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), data.polCaliFac532);
     data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
-    data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
+    data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
 end
 
 % % quasi-retrieved Angstroem exponents 355-532
@@ -4181,7 +4181,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1)
     data.tcMaskV1(:, data.depCalMask | data.fogMask) = 0;
 
     %% set the value with low SNR to 0
-    data.tcMaskV1((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0)) = 0;
+    data.tcMaskV1((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0)) = 0;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4195,8 +4195,8 @@ data.qsiBsc355V2 = NaN(length(data.height), length(data.mTime));
 att_beta_355_qsi = data.att_beta_355;
 att_beta_387_qsi = att_beta_387;
 if (sum(flag355) == 1) && (sum(flag387) == 1)
-    att_beta_355_qsi(quality_mask_355 ~= 0) = NaN;
-    att_beta_387_qsi(quality_mask_387 ~= 0) = NaN;
+    att_beta_355_qsi(data.quality_mask_355 ~= 0) = NaN;
+    att_beta_387_qsi(data.quality_mask_387 ~= 0) = NaN;
     att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
     att_beta_387_qsi = smooth2(att_beta_387_qsi, PollyConfig.quasi_smooth_h(flag387), PollyConfig.quasi_smooth_t(flag387));
 
@@ -4221,8 +4221,8 @@ data.qsiBsc532V2 = NaN(length(data.height), length(data.mTime));
 att_beta_532_qsi = data.att_beta_532;
 att_beta_607_qsi = att_beta_607;
 if (sum(flag532) == 1) && (sum(flag607) == 1)
-    att_beta_532_qsi(quality_mask_532 ~= 0) = NaN;
-    att_beta_607_qsi(quality_mask_607 ~= 0) = NaN;
+    att_beta_532_qsi(data.quality_mask_532 ~= 0) = NaN;
+    att_beta_607_qsi(data.quality_mask_607 ~= 0) = NaN;
     att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
     att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607), PollyConfig.quasi_smooth_t(flag607));
 
@@ -4247,8 +4247,8 @@ data.qsiBsc1064V2 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
 att_beta_607_qsi = att_beta_607;
 if (sum(flag1064) == 1) && (sum(flag607) == 1)
-    att_beta_1064_qsi(quality_mask_1064 ~= 0) = NaN;
-    att_beta_607_qsi(quality_mask_607 ~= 0) = NaN;
+    att_beta_1064_qsi(data.quality_mask_1064 ~= 0) = NaN;
+    att_beta_607_qsi(data.quality_mask_607 ~= 0) = NaN;
     att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
     att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607), PollyConfig.quasi_smooth_t(flag607));
 
@@ -4287,7 +4287,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1)
 
     vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532T), PollyConfig.TR(flag532C), data.polCaliFac532);
     data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
-    data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (quality_mask_532 ~= 0)) = NaN;
+    data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
 end
 
 % % quasi-retrieved Angstroem exponents 355-532 (V2)
@@ -4358,7 +4358,7 @@ if (sum(flag532T) == 1) && (sum(flag532C) == 1) && (sum(flag1064) == 1) && (sum(
     data.tcMaskV2(:, data.depCalMask | data.fogMask) = 0;
 
     %% set the value with low SNR to 0
-    data.tcMaskV2((quality_mask_532 ~= 0) | (quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (quality_mask_607 ~= 0)) = 0;
+    data.tcMaskV2((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_607 ~= 0)) = 0;
 end
 
 print_msg('Finish.\n', 'flagTimestamp', true);
@@ -4732,13 +4732,13 @@ end
 %data.att_beta_355 = att_beta_355;
 %data.att_beta_532 = att_beta_532;
 %data.att_beta_1064 = att_beta_1064;
-data.quality_mask_355 = quality_mask_355;
-data.quality_mask_NR_355 = quality_mask_NR_355;
-data.quality_mask_532 = quality_mask_532;
-data.quality_mask_NR_532 = quality_mask_NR_532;
-data.quality_mask_1064 = quality_mask_1064;
-data.quality_mask_387 = quality_mask_387;
-data.quality_mask_607 = quality_mask_607;
+%data.quality_mask_355 = quality_mask_355;
+%data.quality_mask_NR_355 = quality_mask_NR_355;
+%data.quality_mask_532 = quality_mask_532;
+%data.quality_mask_NR_532 = quality_mask_NR_532;
+%data.quality_mask_1064 = quality_mask_1064;
+%data.quality_mask_387 = quality_mask_387;
+%data.quality_mask_607 = quality_mask_607;
 %data.SNR = SNR;
 %data.LCUsed = LCUsed;
 %data.att_beta_NR_355 = att_beta_NR_355;
@@ -4769,11 +4769,11 @@ data.quality_mask_607 = quality_mask_607;
 %data.qsiBsc1064V2 = qsiBsc1064V2;
 %data.qsiPDR532V2 = qsiPDR532V2;
 %data.qsiAE_532_1064_V2 = qsiAE_532_1064_V2;
-data.quality_mask_532_V2 = quality_mask_532;
-data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (quality_mask_607 == 1)) = 1;
+data.quality_mask_532_V2 = data.quality_mask_532;
+data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
 %data.quality_mask_532_V2 = quality_mask_532_V2;
-data.quality_mask_1064_V2 = quality_mask_1064;
-data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((quality_mask_607 == 1) | (quality_mask_532 == 1))) = 1;
+data.quality_mask_1064_V2 = data.quality_mask_1064;
+data.quality_mask_1064_V2((data.quality_mask_1064_V2 == 0) & ((data.quality_mask_607 == 1) | (data.quality_mask_532 == 1))) = 1;
 %data.quality_mask_1064_V2 = quality_mask_1064_V2;
 %data.tcMaskV1 = tcMaskV1;
 %data.tcMaskV2 = tcMaskV2;
