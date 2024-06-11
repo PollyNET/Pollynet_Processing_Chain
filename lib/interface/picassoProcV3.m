@@ -2787,34 +2787,34 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 % (Near-field) Angstroem exponent (Klett/Fernald/Raman method retrieved parameters)
-AE_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-AE_Ext_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Ext_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-AE_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Ext_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Ext_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AE_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
     if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt355_NR_klett(iGrp, 60)))  %check what the 60 mean HB
         [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(data.aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
-        AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
-        AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
+        data.AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
+        data.AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerExt355_NR_raman(iGrp, 80))) && (~ isnan(data.aerExt532_NR_raman(iGrp, 80)))
         [thisAE_Ext_355_532_NR_raman, thisAEStd_Ext_355_532_NR_raman] = pollyAE(data.aerExt355_NR_raman(iGrp, :), zeros(size(data.height)), data.aerExt532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
-        AE_Ext_355_532_NR_raman(iGrp, :) = thisAE_Ext_355_532_NR_raman;
-        AEStd_Ext_355_532_NR_raman(iGrp, :) = thisAEStd_Ext_355_532_NR_raman;
+        data.AE_Ext_355_532_NR_raman(iGrp, :) = thisAE_Ext_355_532_NR_raman;
+        data.AEStd_Ext_355_532_NR_raman(iGrp, :) = thisAEStd_Ext_355_532_NR_raman;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
     if (~ isnan(data.aerBsc355_NR_raman(iGrp, 80))) && (~ isnan(data.aerBsc532_NR_raman(iGrp, 80)))
         [thisAE_Bsc_355_532_NR_raman, thisAEStd_Bsc_355_532_NR_raman] = pollyAE(data.aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
-        AE_Bsc_355_532_NR_raman(iGrp, :) = thisAE_Bsc_355_532_NR_raman;
-        AEStd_Bsc_355_532_NR_raman(iGrp, :) = thisAEStd_Bsc_355_532_NR_raman;
+        data.AE_Bsc_355_532_NR_raman(iGrp, :) = thisAE_Bsc_355_532_NR_raman;
+        data.AEStd_Bsc_355_532_NR_raman(iGrp, :) = thisAEStd_Bsc_355_532_NR_raman;
     end
 end
 
@@ -4674,12 +4674,12 @@ end
 %data.LRStd355_NR_raman = LRStd355_NR_raman;
 %data.LR532_NR_raman = LR532_NR_raman;
 %data.LRStd532_NR_raman = LRStd532_NR_raman;
-data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
-data.AEStd_Bsc_355_532_NR_klett = AEStd_Bsc_355_532_NR_klett;
-data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
-data.AEStd_Bsc_355_532_NR_raman = AEStd_Bsc_355_532_NR_raman;
-data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
-data.AEStd_Ext_355_532_NR_raman = AEStd_Ext_355_532_NR_raman;
+%data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
+%data.AEStd_Bsc_355_532_NR_klett = AEStd_Bsc_355_532_NR_klett;
+%data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
+%data.AEStd_Bsc_355_532_NR_raman = AEStd_Bsc_355_532_NR_raman;
+%data.AE_Ext_355_532_NR_raman = AE_Ext_355_532_NR_raman;
+%data.AEStd_Ext_355_532_NR_raman = AEStd_Ext_355_532_NR_raman;
 data.aerBsc355_OC_klett = aerBsc355_OC_klett;
 data.aerBscStd355_OC_klett = aerBscStd355_OC_klett;
 data.aerBsc532_OC_klett = aerBsc532_OC_klett;
