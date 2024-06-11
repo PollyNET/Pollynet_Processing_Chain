@@ -1762,10 +1762,10 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Raman method (near-field 355 nm)
-aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerExt355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
@@ -1804,8 +1804,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt355_NR_raman = pollyRamanExt(data.distance0, sig387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_NR_355, 380, 70, 'moving');
     thisAerExtStd355_NR_raman = pollyRamanExtStd(data.distance0, sig387, bg387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_NR_355, 380, 70, 15);
-    aerExt355_NR_raman(iGrp, :) = thisAerExt355_NR_raman;
-    aerExtStd355_NR_raman(iGrp, :) = thisAerExtStd355_NR_raman;
+    data.aerExt355_NR_raman(iGrp, :) = thisAerExt355_NR_raman;
+    data.aerExtStd355_NR_raman(iGrp, :) = thisAerExtStd355_NR_raman;
 
     hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355NR) + PollyConfig.smoothWin_raman_NR_355/2 * data.hRes, 1);
     if isempty(hBaseInd355)
@@ -1848,8 +1848,8 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', thisAerExtStd355_NR_raman, 'aerBscStd', thisAerBscStd355_NR_raman, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_NR_355, 'smoothWInBsc', PollyConfig.smoothWin_raman_NR_355);
 
-    aerBsc355_NR_raman(iGrp, :) = thisAerBsc355_NR_raman;
-    aerBscStd355_NR_raman(iGrp, :) = thisAerBscStd355_NR_raman;
+    data.aerBsc355_NR_raman(iGrp, :) = thisAerBsc355_NR_raman;
+    data.aerBscStd355_NR_raman(iGrp, :) = thisAerBscStd355_NR_raman;
     LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
     LRStd355_NR_raman(iGrp, :) = thisLRStd355_NR_raman;
     data.refBeta_NR_355_raman(iGrp) = refBeta355;
@@ -1857,10 +1857,10 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Raman method (near-field 532 nm)
-aerBsc532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerExt532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
@@ -1899,8 +1899,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt532_NR_raman = pollyRamanExt(data.distance0, sig607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_NR_532, 380, 70, 'moving');
     thisAerExtStd532_NR_raman = pollyRamanExtStd(data.distance0, sig607, bg607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_NR_532, 380, 70, 15);
-    aerExt532_NR_raman(iGrp, :) = thisAerExt532_NR_raman;
-    aerExtStd532_NR_raman(iGrp, :) = thisAerExtStd532_NR_raman;
+    data.aerExt532_NR_raman(iGrp, :) = thisAerExt532_NR_raman;
+    data.aerExtStd532_NR_raman(iGrp, :) = thisAerExtStd532_NR_raman;
 
     hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532NR) + PollyConfig.smoothWin_raman_NR_532/2 * data.hRes, 1);
     if isempty(hBaseInd532)
@@ -1943,8 +1943,8 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', thisAerExtStd532_NR_raman, 'aerBscStd', thisAerBscStd532_NR_raman, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_NR_532, 'smoothWInBsc', PollyConfig.smoothWin_raman_NR_532);
 
-    aerBsc532_NR_raman(iGrp, :) = thisAerBsc532_NR_raman;
-    aerBscStd532_NR_raman(iGrp, :) = thisAerBscStd532_NR_raman;
+    data.aerBsc532_NR_raman(iGrp, :) = thisAerBsc532_NR_raman;
+    data.aerBscStd532_NR_raman(iGrp, :) = thisAerBscStd532_NR_raman;
     LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
     LRStd532_NR_raman(iGrp, :) = thisLRStd532_NR_raman;
     data.refBeta_NR_532_raman(iGrp) = refBeta532;
@@ -2804,15 +2804,15 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
-    if (~ isnan(aerExt355_NR_raman(iGrp, 80))) && (~ isnan(aerExt532_NR_raman(iGrp, 80)))
-        [thisAE_Ext_355_532_NR_raman, thisAEStd_Ext_355_532_NR_raman] = pollyAE(aerExt355_NR_raman(iGrp, :), zeros(size(data.height)), aerExt532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
+    if (~ isnan(data.aerExt355_NR_raman(iGrp, 80))) && (~ isnan(data.aerExt532_NR_raman(iGrp, 80)))
+        [thisAE_Ext_355_532_NR_raman, thisAEStd_Ext_355_532_NR_raman] = pollyAE(data.aerExt355_NR_raman(iGrp, :), zeros(size(data.height)), data.aerExt532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
         AE_Ext_355_532_NR_raman(iGrp, :) = thisAE_Ext_355_532_NR_raman;
         AEStd_Ext_355_532_NR_raman(iGrp, :) = thisAEStd_Ext_355_532_NR_raman;
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
-    if (~ isnan(aerBsc355_NR_raman(iGrp, 80))) && (~ isnan(aerBsc532_NR_raman(iGrp, 80)))
-        [thisAE_Bsc_355_532_NR_raman, thisAEStd_Bsc_355_532_NR_raman] = pollyAE(aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
+    if (~ isnan(data.aerBsc355_NR_raman(iGrp, 80))) && (~ isnan(data.aerBsc532_NR_raman(iGrp, 80)))
+        [thisAE_Bsc_355_532_NR_raman, thisAEStd_Bsc_355_532_NR_raman] = pollyAE(data.aerBsc355_NR_raman(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_NR_532);
         AE_Bsc_355_532_NR_raman(iGrp, :) = thisAE_Bsc_355_532_NR_raman;
         AEStd_Bsc_355_532_NR_raman(iGrp, :) = thisAEStd_Bsc_355_532_NR_raman;
     end
@@ -4662,14 +4662,14 @@ end
 %data.aerExtStd355_NR_klett = aerExtStd355_NR_klett;
 %data.aerExt532_NR_klett = aerExt532_NR_klett;
 %data.aerExtStd532_NR_klett = aerExtStd532_NR_klett;
-data.aerBsc355_NR_raman = aerBsc355_NR_raman;
-data.aerBscStd355_NR_raman = aerBscStd355_NR_raman;
-data.aerBsc532_NR_raman = aerBsc532_NR_raman;
-data.aerBscStd532_NR_raman = aerBscStd532_NR_raman;
-data.aerExt355_NR_raman = aerExt355_NR_raman;
-data.aerExtStd355_NR_raman = aerExtStd355_NR_raman;
-data.aerExt532_NR_raman = aerExt532_NR_raman;
-data.aerExtStd532_NR_raman = aerExtStd532_NR_raman;
+%data.aerBsc355_NR_raman = aerBsc355_NR_raman;
+%data.aerBscStd355_NR_raman = aerBscStd355_NR_raman;
+%data.aerBsc532_NR_raman = aerBsc532_NR_raman;
+%data.aerBscStd532_NR_raman = aerBscStd532_NR_raman;
+%data.aerExt355_NR_raman = aerExt355_NR_raman;
+%data.aerExtStd355_NR_raman = aerExtStd355_NR_raman;
+%data.aerExt532_NR_raman = aerExt532_NR_raman;
+%data.aerExtStd532_NR_raman = aerExtStd532_NR_raman;
 data.LR355_NR_raman = LR355_NR_raman;
 data.LRStd355_NR_raman = LRStd355_NR_raman;
 data.LR532_NR_raman = LR532_NR_raman;
