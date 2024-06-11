@@ -2343,8 +2343,8 @@ data.aerBsc355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
@@ -2405,8 +2405,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_OC_raman(iGrp, :) = thisAerBsc355_OC_raman;
     data.aerBscStd355_OC_raman(iGrp, :) = thisAerBscStd355_OC_raman;
-    LR355_OC_raman(iGrp, :) = thisLR355_OC_raman;
-    LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
+    data.LR355_OC_raman(iGrp, :) = thisLR355_OC_raman;
+    data.LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
 
@@ -2415,8 +2415,8 @@ data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
@@ -2477,8 +2477,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_OC_raman(iGrp, :) = thisAerBsc532_OC_raman;
     data.aerBscStd532_OC_raman(iGrp, :) = thisAerBscStd532_OC_raman;
-    LR532_OC_raman(iGrp, :) = thisLR532_OC_raman;
-    LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
+    data.LR532_OC_raman(iGrp, :) = thisLR532_OC_raman;
+    data.LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
 
 end
 
@@ -2487,8 +2487,8 @@ data.aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
@@ -2549,8 +2549,8 @@ for iGrp = 1:size(clFreGrps, 1)
 %HB check why above data.aerExtStd1064_OC_raman(iGrp, :) is used and not thisaerExtStd1064_OC_raman
     data.aerBsc1064_OC_raman(iGrp, :) = thisAerBsc1064_OC_raman;
     data.aerBscStd1064_OC_raman(iGrp, :) = thisAerBscStd1064_OC_raman;
-    LR1064_OC_raman(iGrp, :) = thisLR1064_OC_raman;
-    LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
+    data.LR1064_OC_raman(iGrp, :) = thisLR1064_OC_raman;
+    data.LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
 end
 
@@ -4714,12 +4714,12 @@ end
 %data.AEStd_Bsc_532_1064_OC_raman = AEStd_Bsc_532_1064_OC_raman;
 %data.AE_Ext_355_532_OC_raman = AE_Ext_355_532_OC_raman;
 %data.AEStd_Ext_355_532_OC_raman = AEStd_Ext_355_532_OC_raman;
-data.LR355_OC_raman = LR355_OC_raman;
-data.LRStd355_OC_raman = LRStd355_OC_raman;
-data.LR532_OC_raman = LR532_OC_raman;
-data.LRStd532_OC_raman = LRStd532_OC_raman;
-data.LR1064_OC_raman = LR1064_OC_raman;
-data.LRStd1064_OC_raman = LRStd1064_OC_raman;
+%data.LR355_OC_raman = LR355_OC_raman;
+%data.LRStd355_OC_raman = LRStd355_OC_raman;
+%data.LR532_OC_raman = LR532_OC_raman;
+%data.LRStd532_OC_raman = LRStd532_OC_raman;
+%data.LR1064_OC_raman = LR1064_OC_raman;
+%data.LRStd1064_OC_raman = LRStd1064_OC_raman;
 data.pdr355_OC_klett = pdr355_OC_klett;
 data.pdrStd355_OC_klett = pdrStd355_OC_klett;
 data.pdr532_OC_klett = pdr532_OC_klett;
