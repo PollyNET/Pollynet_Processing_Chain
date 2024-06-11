@@ -1106,10 +1106,10 @@ end
 %% Klett method at 355 nm (near-field)
 flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
 
-aerBsc355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_355_klett = NaN(1, size(clFreGrps, 1));
 refH355 = PollyConfig.refH_NR_355;
 
@@ -1147,10 +1147,10 @@ for iGrp = 1:size(clFreGrps, 1)
         thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
         thisAerExtStd355_NR_klett = PollyConfig.LR_NR_355 * thisAerBscStd355_NR_klett;
 
-        aerBsc355_NR_klett(iGrp, :) = thisAerBsc355_NR_klett;
-        aerBscStd355_NR_klett(iGrp, :) = thisAerBscStd355_NR_klett;
-        aerExt355_NR_klett(iGrp, :) = thisAerExt355_NR_klett;
-        aerExtStd355_NR_klett(iGrp, :) = thisAerExtStd355_NR_klett;
+        data.aerBsc355_NR_klett(iGrp, :) = thisAerBsc355_NR_klett;
+        data.aerBscStd355_NR_klett(iGrp, :) = thisAerBscStd355_NR_klett;
+        data.aerExt355_NR_klett(iGrp, :) = thisAerExt355_NR_klett;
+        data.aerExtStd355_NR_klett(iGrp, :) = thisAerExtStd355_NR_klett;
         data.refBeta_NR_355_klett(iGrp) = refBeta355;
     end
 end
@@ -1158,10 +1158,10 @@ end
 %% Klett method at 532 nm (near-field)
 flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
 
-aerBsc532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExt532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-aerExtStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExt532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.aerExtStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_klett = NaN(1, size(clFreGrps, 1));
 refH532 = PollyConfig.refH_NR_532;
 
@@ -1199,10 +1199,10 @@ for iGrp = 1:size(clFreGrps, 1)
         thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
         thisAerExtStd532_NR_klett = PollyConfig.LR_NR_532 * thisAerBscStd532_NR_klett;
 
-        aerBsc532_NR_klett(iGrp, :) = thisAerBsc532_NR_klett;
-        aerBscStd532_NR_klett(iGrp, :) = thisAerBscStd532_NR_klett;
-        aerExt532_NR_klett(iGrp, :) = thisAerExt532_NR_klett;
-        aerExtStd532_NR_klett(iGrp, :) = thisAerExtStd532_NR_klett;
+        data.aerBsc532_NR_klett(iGrp, :) = thisAerBsc532_NR_klett;
+        data.aerBscStd532_NR_klett(iGrp, :) = thisAerBscStd532_NR_klett;
+        data.aerExt532_NR_klett(iGrp, :) = thisAerExt532_NR_klett;
+        data.aerExtStd532_NR_klett(iGrp, :) = thisAerExtStd532_NR_klett;
         data.refBeta_NR_532_klett(iGrp) = refBeta532;
     end
 end
@@ -2797,8 +2797,8 @@ AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(aerExt355_NR_klett(iGrp, 60))) && (~ isnan(aerExt355_NR_klett(iGrp, 60)))
-        [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
+    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt355_NR_klett(iGrp, 60)))  %check what the 60 mean HB
+        [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(data.aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
         AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
         AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
     end
@@ -4654,14 +4654,14 @@ end
 %data.refBeta_NR_532_klett = refBeta_NR_532_klett;
 %data.refBeta_NR_355_raman = refBeta_NR_355_raman;
 %data.refBeta_NR_532_raman = refBeta_NR_532_raman;
-data.aerBsc355_NR_klett = aerBsc355_NR_klett;
-data.aerBscStd355_NR_klett = aerBscStd355_NR_klett;
-data.aerBsc532_NR_klett = aerBsc532_NR_klett;
-data.aerBscStd532_NR_klett = aerBscStd532_NR_klett;
-data.aerExt355_NR_klett = aerExt355_NR_klett;
-data.aerExtStd355_NR_klett = aerExtStd355_NR_klett;
-data.aerExt532_NR_klett = aerExt532_NR_klett;
-data.aerExtStd532_NR_klett = aerExtStd532_NR_klett;
+%data.aerBsc355_NR_klett = aerBsc355_NR_klett;
+%data.aerBscStd355_NR_klett = aerBscStd355_NR_klett;
+%data.aerBsc532_NR_klett = aerBsc532_NR_klett;
+%data.aerBscStd532_NR_klett = aerBscStd532_NR_klett;
+%data.aerExt355_NR_klett = aerExt355_NR_klett;
+%data.aerExtStd355_NR_klett = aerExtStd355_NR_klett;
+%data.aerExt532_NR_klett = aerExt532_NR_klett;
+%data.aerExtStd532_NR_klett = aerExtStd532_NR_klett;
 data.aerBsc355_NR_raman = aerBsc355_NR_raman;
 data.aerBscStd355_NR_raman = aerBscStd355_NR_raman;
 data.aerBsc532_NR_raman = aerBsc532_NR_raman;
