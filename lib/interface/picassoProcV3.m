@@ -1110,7 +1110,7 @@ aerBsc355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerBscStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-refBeta_NR_355_klett = NaN(1, size(clFreGrps, 1));
+data.refBeta_NR_355_klett = NaN(1, size(clFreGrps, 1));
 refH355 = PollyConfig.refH_NR_355;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1151,7 +1151,7 @@ for iGrp = 1:size(clFreGrps, 1)
         aerBscStd355_NR_klett(iGrp, :) = thisAerBscStd355_NR_klett;
         aerExt355_NR_klett(iGrp, :) = thisAerExt355_NR_klett;
         aerExtStd355_NR_klett(iGrp, :) = thisAerExtStd355_NR_klett;
-        refBeta_NR_355_klett(iGrp) = refBeta355;
+        data.refBeta_NR_355_klett(iGrp) = refBeta355;
     end
 end
 
@@ -1162,7 +1162,7 @@ aerBsc532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerBscStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
-refBeta_NR_532_klett = NaN(1, size(clFreGrps, 1));
+data.refBeta_NR_532_klett = NaN(1, size(clFreGrps, 1));
 refH532 = PollyConfig.refH_NR_532;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1203,7 +1203,7 @@ for iGrp = 1:size(clFreGrps, 1)
         aerBscStd532_NR_klett(iGrp, :) = thisAerBscStd532_NR_klett;
         aerExt532_NR_klett(iGrp, :) = thisAerExt532_NR_klett;
         aerExtStd532_NR_klett(iGrp, :) = thisAerExtStd532_NR_klett;
-        refBeta_NR_532_klett(iGrp) = refBeta532;
+        data.refBeta_NR_532_klett(iGrp) = refBeta532;
     end
 end
 
@@ -1768,7 +1768,7 @@ aerExt355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
+data.refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
 refH355 = PollyConfig.refH_NR_355;
 
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
@@ -1852,7 +1852,7 @@ for iGrp = 1:size(clFreGrps, 1)
     aerBscStd355_NR_raman(iGrp, :) = thisAerBscStd355_NR_raman;
     LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
     LRStd355_NR_raman(iGrp, :) = thisLRStd355_NR_raman;
-    refBeta_NR_355_raman(iGrp) = refBeta355;
+    data.refBeta_NR_355_raman(iGrp) = refBeta355;
 
 end
 
@@ -1863,7 +1863,7 @@ aerExt532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
+data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
 refH532 = PollyConfig.refH_NR_532;
 
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
@@ -1947,7 +1947,7 @@ for iGrp = 1:size(clFreGrps, 1)
     aerBscStd532_NR_raman(iGrp, :) = thisAerBscStd532_NR_raman;
     LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
     LRStd532_NR_raman(iGrp, :) = thisLRStd532_NR_raman;
-    refBeta_NR_532_raman(iGrp) = refBeta532;
+    data.refBeta_NR_532_raman(iGrp) = refBeta532;
 
 end
 
@@ -4650,10 +4650,10 @@ end
 %data.mdr1064 = mdr1064;
 %data.IWVAttri = IWVAttri;
 %data.meteorAttri = meteorAttri;
-data.refBeta_NR_355_klett = refBeta_NR_355_klett;
-data.refBeta_NR_532_klett = refBeta_NR_532_klett;
-data.refBeta_NR_355_raman = refBeta_NR_355_raman;
-data.refBeta_NR_532_raman = refBeta_NR_532_raman;
+%data.refBeta_NR_355_klett = refBeta_NR_355_klett;
+%data.refBeta_NR_532_klett = refBeta_NR_532_klett;
+%data.refBeta_NR_355_raman = refBeta_NR_355_raman;
+%data.refBeta_NR_532_raman = refBeta_NR_532_raman;
 data.aerBsc355_NR_klett = aerBsc355_NR_klett;
 data.aerBscStd355_NR_klett = aerBscStd355_NR_klett;
 data.aerBsc532_NR_klett = aerBsc532_NR_klett;
