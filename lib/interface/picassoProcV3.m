@@ -1766,8 +1766,8 @@ data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
 refH355 = PollyConfig.refH_NR_355;
 
@@ -1850,8 +1850,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc355_NR_raman(iGrp, :) = thisAerBsc355_NR_raman;
     data.aerBscStd355_NR_raman(iGrp, :) = thisAerBscStd355_NR_raman;
-    LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
-    LRStd355_NR_raman(iGrp, :) = thisLRStd355_NR_raman;
+    data.LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
+    data.LRStd355_NR_raman(iGrp, :) = thisLRStd355_NR_raman;
     data.refBeta_NR_355_raman(iGrp) = refBeta355;
 
 end
@@ -1861,8 +1861,8 @@ data.aerBsc532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
-LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
 refH532 = PollyConfig.refH_NR_532;
 
@@ -1945,8 +1945,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     data.aerBsc532_NR_raman(iGrp, :) = thisAerBsc532_NR_raman;
     data.aerBscStd532_NR_raman(iGrp, :) = thisAerBscStd532_NR_raman;
-    LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
-    LRStd532_NR_raman(iGrp, :) = thisLRStd532_NR_raman;
+    data.LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
+    data.LRStd532_NR_raman(iGrp, :) = thisLRStd532_NR_raman;
     data.refBeta_NR_532_raman(iGrp) = refBeta532;
 
 end
@@ -4670,10 +4670,10 @@ end
 %data.aerExtStd355_NR_raman = aerExtStd355_NR_raman;
 %data.aerExt532_NR_raman = aerExt532_NR_raman;
 %data.aerExtStd532_NR_raman = aerExtStd532_NR_raman;
-data.LR355_NR_raman = LR355_NR_raman;
-data.LRStd355_NR_raman = LRStd355_NR_raman;
-data.LR532_NR_raman = LR532_NR_raman;
-data.LRStd532_NR_raman = LRStd532_NR_raman;
+%data.LR355_NR_raman = LR355_NR_raman;
+%data.LRStd355_NR_raman = LRStd355_NR_raman;
+%data.LR532_NR_raman = LR532_NR_raman;
+%data.LRStd532_NR_raman = LRStd532_NR_raman;
 data.AE_Bsc_355_532_NR_klett = AE_Bsc_355_532_NR_klett;
 data.AEStd_Bsc_355_532_NR_klett = AEStd_Bsc_355_532_NR_klett;
 data.AE_Bsc_355_532_NR_raman = AE_Bsc_355_532_NR_raman;
