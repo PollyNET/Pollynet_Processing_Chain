@@ -2598,10 +2598,10 @@ data.pdr355_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.pdrStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.pdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.pdrStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdr355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.mdr355 = NaN(size(clFreGrps, 1), 1);
 mdrStd355 = NaN(size(clFreGrps, 1), 1);
 flagDeftMdr355 = true(size(clFreGrps, 1), 1);
@@ -2645,14 +2645,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if ~ isnan(data.aerBsc355_OC_klett(iGrp, 80))
         [thisPdr355_OC_klett, thisPdrStd355_OC_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
-        pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
+        data.pdr355_OC_klett(iGrp, :) = thisPdr355_OC_klett;
+        data.pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
     if ~ isnan(data.aerBsc355_OC_raman(iGrp, 80))
         [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), data.aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
-        pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
-        pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
+        data.pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
+        data.pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
     end
 end
 
@@ -2663,10 +2663,10 @@ data.pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.pdrStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.pdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.pdrStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdr532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdr532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
-pdrStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdr532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
+data.pdrStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.mdr532 = NaN(size(clFreGrps, 1), 1);
 mdrStd532 = NaN(size(clFreGrps, 1), 1);
 flagDeftMdr532 = true(size(clFreGrps, 1), 1);
@@ -2710,14 +2710,14 @@ for iGrp = 1:size(clFreGrps, 1)
 
     if ~ isnan(data.aerBsc532_OC_klett(iGrp, 80))
         [thisPdr532_OC_klett, thisPdrStd532_OC_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_OC_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
-        pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
+        data.pdr532_OC_klett(iGrp, :) = thisPdr532_OC_klett;
+        data.pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
     if ~ isnan(data.aerBsc532_OC_raman(iGrp, 80))
         [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), data.aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
-        pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
-        pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
+        data.pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
+        data.pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
     end
 end
 
@@ -4720,14 +4720,14 @@ end
 %data.LRStd532_OC_raman = LRStd532_OC_raman;
 %data.LR1064_OC_raman = LR1064_OC_raman;
 %data.LRStd1064_OC_raman = LRStd1064_OC_raman;
-data.pdr355_OC_klett = pdr355_OC_klett;
-data.pdrStd355_OC_klett = pdrStd355_OC_klett;
-data.pdr532_OC_klett = pdr532_OC_klett;
-data.pdrStd532_OC_klett = pdrStd532_OC_klett;
-data.pdr355_OC_raman = pdr355_OC_raman;
-data.pdrStd355_OC_raman = pdrStd355_OC_raman;
-data.pdr532_OC_raman = pdr532_OC_raman;
-data.pdrStd532_OC_raman = pdrStd532_OC_raman;
+%data.pdr355_OC_klett = pdr355_OC_klett;
+%data.pdrStd355_OC_klett = pdrStd355_OC_klett;
+%data.pdr532_OC_klett = pdr532_OC_klett;
+%data.pdrStd532_OC_klett = pdrStd532_OC_klett;
+%data.pdr355_OC_raman = pdr355_OC_raman;
+%data.pdrStd355_OC_raman = pdrStd355_OC_raman;
+%data.pdr532_OC_raman = pdr532_OC_raman;
+%data.pdrStd532_OC_raman = pdrStd532_OC_raman;
 data.LC = LC;
 %data.att_beta_355 = att_beta_355;
 %data.att_beta_532 = att_beta_532;
