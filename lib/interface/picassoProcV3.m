@@ -2339,8 +2339,8 @@ end
 
 
 %% Raman method (overlap corrected at 355 nm)
-aerBsc355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExt355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2403,16 +2403,16 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', thisAerExtStd355_OC_raman, 'aerBscStd', thisAerBscStd355_OC_raman, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_355, 'smoothWInBsc', PollyConfig.smoothWin_raman_355);
 
-    aerBsc355_OC_raman(iGrp, :) = thisAerBsc355_OC_raman;
-    aerBscStd355_OC_raman(iGrp, :) = thisAerBscStd355_OC_raman;
+    data.aerBsc355_OC_raman(iGrp, :) = thisAerBsc355_OC_raman;
+    data.aerBscStd355_OC_raman(iGrp, :) = thisAerBscStd355_OC_raman;
     LR355_OC_raman(iGrp, :) = thisLR355_OC_raman;
     LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
 
 %% Raman method (overlap corrected 532 nm)
-aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExt532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2475,16 +2475,16 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', thisAerExtStd532_OC_raman, 'aerBscStd', thisAerBscStd532_OC_raman, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_532, 'smoothWInBsc', PollyConfig.smoothWin_raman_532);
 
-    aerBsc532_OC_raman(iGrp, :) = thisAerBsc532_OC_raman;
-    aerBscStd532_OC_raman(iGrp, :) = thisAerBscStd532_OC_raman;
+    data.aerBsc532_OC_raman(iGrp, :) = thisAerBsc532_OC_raman;
+    data.aerBscStd532_OC_raman(iGrp, :) = thisAerBscStd532_OC_raman;
     LR532_OC_raman(iGrp, :) = thisLR532_OC_raman;
     LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
 
 end
 
 %% Raman method (overlap corrected 1064 nm)
-aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
+data.aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExt1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 aerExtStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 LR1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2547,8 +2547,8 @@ for iGrp = 1:size(clFreGrps, 1)
         'aerExtStd', aerExtStd1064_OC_raman(iGrp, :), 'aerBscStd', thisAerBscStd1064_OC_raman, ...
         'smoothWinExt', PollyConfig.smoothWin_raman_1064, 'smoothWInBsc', PollyConfig.smoothWin_raman_1064);
 
-    aerBsc1064_OC_raman(iGrp, :) = thisAerBsc1064_OC_raman;
-    aerBscStd1064_OC_raman(iGrp, :) = thisAerBscStd1064_OC_raman;
+    data.aerBsc1064_OC_raman(iGrp, :) = thisAerBsc1064_OC_raman;
+    data.aerBscStd1064_OC_raman(iGrp, :) = thisAerBscStd1064_OC_raman;
     LR1064_OC_raman(iGrp, :) = thisLR1064_OC_raman;
     LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
@@ -2649,8 +2649,8 @@ for iGrp = 1:size(clFreGrps, 1)
         pdrStd355_OC_klett(iGrp, :) = thisPdrStd355_OC_klett;
     end
 
-    if ~ isnan(aerBsc355_OC_raman(iGrp, 80))
-        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
+    if ~ isnan(data.aerBsc355_OC_raman(iGrp, 80))
+        [thisPdr355_OC_raman, thisPdrStd355_OC_raman] = pollyPDR(data.vdr355_raman(iGrp, :), data.vdrStd355_raman(iGrp, :), data.aerBsc355_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
         pdr355_OC_raman(iGrp, :) = thisPdr355_OC_raman;
         pdrStd355_OC_raman(iGrp, :) = thisPdrStd355_OC_raman;
     end
@@ -2714,8 +2714,8 @@ for iGrp = 1:size(clFreGrps, 1)
         pdrStd532_OC_klett(iGrp, :) = thisPdrStd532_OC_klett;
     end
 
-    if ~ isnan(aerBsc532_OC_raman(iGrp, 80))
-        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
+    if ~ isnan(data.aerBsc532_OC_raman(iGrp, 80))
+        [thisPdr532_OC_raman, thisPdrStd532_OC_raman] = pollyPDR(data.vdr532_raman(iGrp, :), data.vdrStd532_raman(iGrp, :), data.aerBsc532_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
         pdr532_OC_raman(iGrp, :) = thisPdr532_OC_raman;
         pdrStd532_OC_raman(iGrp, :) = thisPdrStd532_OC_raman;
     end
@@ -2779,8 +2779,8 @@ for iGrp = 1:size(clFreGrps, 1)
         pdrStd1064_OC_klett(iGrp, :) = thisPdrStd1064_OC_klett;
     end
 
-    if ~ isnan(aerBsc1064_OC_raman(iGrp, 80))
-        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
+    if ~ isnan(data.aerBsc1064_OC_raman(iGrp, 80))
+        [thisPdr1064_OC_raman, thisPdrStd1064_OC_raman] = pollyPDR(data.vdr1064_raman(iGrp, :), data.vdrStd1064_raman(iGrp, :), data.aerBsc1064_OC_raman(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
         pdr1064_OC_raman(iGrp, :) = thisPdr1064_OC_raman;
         pdrStd1064_OC_raman(iGrp, :) = thisPdrStd1064_OC_raman;
     end
@@ -2904,15 +2904,15 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % Angstroem exponent 355-532 (based on parameters by Raman method)
-    if (~ isnan(aerBsc355_OC_raman(iGrp, 80))) && (~ isnan(aerBsc532_OC_raman(iGrp, 80)))
-        [thisAE_Bsc_355_532_OC_raman, thisAEStd_Bsc_355_532_OC_raman] = pollyAE(aerBsc355_OC_raman(iGrp, :), zeros(size(data.height)), aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
+    if (~ isnan(data.aerBsc355_OC_raman(iGrp, 80))) && (~ isnan(data.aerBsc532_OC_raman(iGrp, 80)))
+        [thisAE_Bsc_355_532_OC_raman, thisAEStd_Bsc_355_532_OC_raman] = pollyAE(data.aerBsc355_OC_raman(iGrp, :), zeros(size(data.height)), data.aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_raman_532);
         AE_Bsc_355_532_OC_raman(iGrp, :) = thisAE_Bsc_355_532_OC_raman;
         AEStd_Bsc_355_532_OC_raman(iGrp, :) = thisAEStd_Bsc_355_532_OC_raman;
     end
 
     % Angstroem exponent 532-1064 (based on parameters by Raman method)
-    if (~ isnan(aerBsc532_OC_raman(iGrp, 80))) && (~ isnan(aerBsc1064_OC_raman(iGrp, 80)))
-        [thisAE_Bsc_532_1064_OC_raman, thisAEStd_Bsc_532_1064_OC_raman] = pollyAE(aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), aerBsc1064_OC_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
+    if (~ isnan(data.aerBsc532_OC_raman(iGrp, 80))) && (~ isnan(data.aerBsc1064_OC_raman(iGrp, 80)))
+        [thisAE_Bsc_532_1064_OC_raman, thisAEStd_Bsc_532_1064_OC_raman] = pollyAE(data.aerBsc532_OC_raman(iGrp, :), zeros(size(data.height)), data.aerBsc1064_OC_raman(iGrp, :), zeros(size(data.height)), 532, 1064, PollyConfig.smoothWin_raman_1064);
         AE_Bsc_532_1064_OC_raman(iGrp, :) = thisAE_Bsc_532_1064_OC_raman;
         AEStd_Bsc_532_1064_OC_raman(iGrp, :) = thisAEStd_Bsc_532_1064_OC_raman;
     end
@@ -4692,12 +4692,12 @@ end
 %data.aerExtStd532_OC_klett = aerExtStd532_OC_klett;
 %data.aerExt1064_OC_klett = aerExt1064_OC_klett;
 %data.aerExtStd1064_OC_klett = aerExtStd1064_OC_klett;
-data.aerBsc355_OC_raman = aerBsc355_OC_raman;
-data.aerBscStd355_OC_raman = aerBscStd355_OC_raman;
-data.aerBsc532_OC_raman = aerBsc532_OC_raman;
-data.aerBscStd532_OC_raman = aerBscStd532_OC_raman;
-data.aerBsc1064_OC_raman = aerBsc1064_OC_raman;
-data.aerBscStd1064_OC_raman = aerBscStd1064_OC_raman;
+%data.aerBsc355_OC_raman = aerBsc355_OC_raman;
+%data.aerBscStd355_OC_raman = aerBscStd355_OC_raman;
+%data.aerBsc532_OC_raman = aerBsc532_OC_raman;
+%data.aerBscStd532_OC_raman = aerBscStd532_OC_raman;
+%data.aerBsc1064_OC_raman = aerBsc1064_OC_raman;
+%data.aerBscStd1064_OC_raman = aerBscStd1064_OC_raman;
 data.aerExt355_OC_raman = aerExt355_OC_raman;
 data.aerExtStd355_OC_raman = aerExtStd355_OC_raman;
 data.aerExt532_OC_raman = aerExt532_OC_raman;
