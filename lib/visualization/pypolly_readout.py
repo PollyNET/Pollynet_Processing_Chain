@@ -464,7 +464,8 @@ def get_pollyxt_logbook_files(timestamp,device,raw_folder,output_path):
         
         if len(polly_laserlog_zip_files_list) < 1:
             print('no laserlogbook-files found!')
-            sys.exit()
+            destination_file = None
+            return destination_file
 
         polly_laserlog_files_list = []
         to_unzip_list = []
@@ -516,15 +517,17 @@ def get_pollyxt_logbook_files(timestamp,device,raw_folder,output_path):
         os.remove(result_file)
     else:
         print("\nNo laserlogbook was found in {}. Correct path?\n".format(input_path))
+        destination_file = '' 
     
     return destination_file
 
 def read_pollyxt_logbook_file(laserlogbookfile):
 
-    if Path(laserlogbookfile).exists() == True:
-        parameters_ls = ['ENERGY_VALUE_1','TEMPERATURE','ExtPyro','Temp1064','Temp1','Temp2','OutsideRH','OutsideT','roof','rain','shutter']
-        parameter_dict = {key: [] for key in parameters_ls}
-        parameter_dict['TIMESTAMP'] = []
+    parameters_ls = ['ENERGY_VALUE_1','TEMPERATURE','ExtPyro','Temp1064','Temp1','Temp2','OutsideRH','OutsideT','roof','rain','shutter']
+    parameter_dict = {key: [] for key in parameters_ls}
+    parameter_dict['TIMESTAMP'] = []
+
+    if Path(str(laserlogbookfile)).exists() == True:
 
         date_pattern = r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}'
         number_pattern = r'-?\d+\.\d+|-?\d+'
@@ -542,12 +545,10 @@ def read_pollyxt_logbook_file(laserlogbookfile):
                         parameter_dict[param].append(float(value))
                     else:
                         parameter_dict[param].append(np.nan)
-
-
-        df = pd.DataFrame(parameter_dict)
-        df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], format='%Y-%m-%d %H:%M:%S')
-
-        return df
-
     else:
-        print('laserlogbook could not be found.')
+        pass
+
+    df = pd.DataFrame(parameter_dict)
+    df['TIMESTAMP'] = pd.to_datetime(df['TIMESTAMP'], format='%Y-%m-%d %H:%M:%S')
+
+    return df

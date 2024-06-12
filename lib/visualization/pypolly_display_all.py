@@ -380,7 +380,7 @@ def main():
             LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
             LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
         except Exception as e:
-                     print("An error occurred:", e)
+            print("An error occurred:", e)
         calib_profile_translator = p_translator.calib_profile_translator_function()
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
@@ -390,7 +390,7 @@ def main():
                 for profilename in calib_profile_translator.keys():
                     display_profiles.pollyDisplay_calibration_constants(nc_dict,LC[profilename],calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            print("An error occurred:", e)
 
     if ('all' in args.retrieval) or ('longterm_cali' in args.retrieval):
         ## plotting Lidar constants from db-file
@@ -419,7 +419,7 @@ def main():
                 print('plotting LongTermCalibration:')
                 display_profiles.pollyDisplay_longtermcalibration(nc_dict,logbookFile_df,LC,ETA,calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            print("An error occurred:", e)
 
     if ('all' in args.retrieval) or ('HKD' in args.retrieval):
          laserlogbook = readout.get_pollyxt_logbook_files(date,device,args.base_dir,outputfolder)

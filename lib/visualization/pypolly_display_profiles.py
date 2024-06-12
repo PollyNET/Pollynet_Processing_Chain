@@ -691,6 +691,10 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
     -------
     2022-09-01. First edition by Andi
     """
+    if laserlogbook_df.empty:
+        return None
+    else:    
+        pass
 
     ## read from config file
     figDPI = config_dict['figDPI']
@@ -713,7 +717,6 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
     dataFilename = re.split(r'_overlap',nc_dict['PollyDataFile'])[0]
     plotfile = f"{dataFilename}_monitor.{imgFormat}"
     saveFilename = os.path.join(saveFolder,plotfile)
-
     ## filter out wrong values
     laserlogbook_df['ExtPyro'] = laserlogbook_df['ExtPyro'].mask(laserlogbook_df['ExtPyro'] < 0, np.nan)
     laserlogbook_df['TEMPERATURE'] = laserlogbook_df['TEMPERATURE'].mask(laserlogbook_df['TEMPERATURE'] < -80, np.nan)
