@@ -425,8 +425,15 @@ def get_depol_from_sql_db(db_path,table_name,wavelength):
 
 
 def read_from_logbookFile(logbookFile_path):
-    df = pd.read_csv(logbookFile_path, sep=';', header=0, index_col=None)
-    df['time'] = pd.to_datetime(df['time'], format='%Y%m%d-%H%M')
+
+    if Path(str(logbookFile_path)).exists() == True:
+        df = pd.read_csv(logbookFile_path, sep=';', header=0, index_col=None)
+        df['time'] = pd.to_datetime(df['time'], format='%Y%m%d-%H%M')
+    else:
+        print('no polly-logbook could be found.')
+        df = pd.DataFrame(columns=["id","time","operator","changes","ndfilters","comment","_last_changed"])
+        df['time'] = pd.to_datetime(df['time'], format='%Y%m%d-%H%M')
+
     return df
 
 
