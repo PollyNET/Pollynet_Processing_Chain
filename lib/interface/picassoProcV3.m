@@ -1141,7 +1141,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta355 = mean(data.aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2);
+        refBeta355 = mean(data.aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2); %here the refereence value is calculated from the far field
 
         [thisAerBsc355_NR_klett, thisAerBscStd355_NR_klett] = pollyFernald(data.distance0, sig355, bg355, PollyConfig.LR_NR_355, refH355, refBeta355, mBsc355, PollyConfig.smoothWin_klett_NR_355);
         thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
@@ -1193,7 +1193,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta532 = mean(data.aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2);
+        refBeta532 = mean(data.aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
 
         [thisAerBsc532_NR_klett, thisAerBscStd532_NR_klett] = pollyFernald(data.distance0, sig532, bg532, PollyConfig.LR_NR_532, refH532, refBeta532, mBsc532, PollyConfig.smoothWin_klett_NR_532);
         thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
@@ -1831,7 +1831,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
     SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
-    refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);
+    refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);%here the refereence value is calculated from the far field
 
     if (SNRRef355 < PollyConfig.minRefSNR_NR_355) || (SNRRef387 < PollyConfig.minRamanRefSNR387) || isnan(refBeta355)
         continue;
@@ -1926,7 +1926,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
     SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
-    refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);
+    refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
 
     if (SNRRef532 < PollyConfig.minRefSNR_NR_532) || (SNRRef607 < PollyConfig.minRamanRefSNR607) || isnan(refBeta532)
         continue;
