@@ -16,7 +16,7 @@ import datetime as dt
 import sys
 import xarray
 #import zipfile
-from zipfile import ZipFile, ZIP_DEFLATED
+from zipfile import ZipFile, ZIP_DEFLATED, is_zipfile
 import argparse
 import platform
 
@@ -139,6 +139,14 @@ def get_pollyxt_files():
                 print("filesize too small, file will be skipped!")
                 continue ## go to next file
 
+            ## check if zipfile is a valid zip-file
+            if not is_zipfile(zip_file):
+                print(f"invalid zip-file: {zip_file}\nskipping file.")
+                #polly_zip_files_list.remove(zip_file)
+                continue
+            else:
+                pass
+
             unzipped_nc = Path(zip_file).name
             unzipped_nc = Path(unzipped_nc).stem
             unzipped_nc = Path(output_path,unzipped_nc)
@@ -176,7 +184,7 @@ def get_pollyxt_files():
                     with ZipFile(zip_file, 'r') as zip_ref:
                         print("unzipping "+zip_file)
                         zip_ref.extractall(output_path)
-   
+       
 
         ## sort lists
         polly_files_list.sort()
@@ -188,7 +196,6 @@ def get_pollyxt_files():
     else:
         print("\nNo data was found in {}. Correct path?\n".format(input_path))
         sys.exit()
-    
     return polly_files_list
 
 def get_pollyxt_logbook_files():
