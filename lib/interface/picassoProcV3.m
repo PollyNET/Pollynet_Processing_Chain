@@ -4514,10 +4514,10 @@ end
 %% Saving products
 if PicassoConfig.flagEnableResultsOutput
 % prepare confugartion information for storing to netcdf
-data.PicassoConfig_saving_info=struct2char(PicassoConfig)
-data.PollyConfig_saving_info=struct2char(PollyConfig)
-data.CampaignConfig_saving_info=struct2char(CampaignConfig)
-data.PollyDataInfo_saving_info=struct2char(PollyDataInfo)
+data.PicassoConfig_saving_info=struct2char(PicassoConfig);
+data.PollyConfig_saving_info=struct2char(PollyConfig);
+data.CampaignConfig_saving_info=struct2char(CampaignConfig);
+data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
 
     % delete the previous outputs
     % This is only necessary when you run the code on the server,
