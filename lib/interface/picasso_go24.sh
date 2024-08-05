@@ -14,6 +14,7 @@ display_help() {
 #  echo "   -o, --output         specify folder where to put merged nc-file, e.g.: ~/todo_filelist"
   echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; default: false"
   echo "   --todolist       write merged level0-file into todo-list (set to true or false); default: true"
+  echo "   --matlab         specify location of matlab-executable; default is just set to: matlab"
   echo "   --proc 	        execute picasso-processing-chain (set to true or false); default: true"
   echo "   --delmerged      deleting merged files in the end (set to true or false); default: true"
 #  echo "   --fproc 	        force to execute picasso-processing-chain even if job was already processed (entry in done-list exists)"
@@ -25,6 +26,7 @@ display_help() {
 
 ## initialize parameters
 FORCE_MERGING="false"
+MATLABEXEC="matlab"
 PICASSO_CONFIG_FILE=""
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
@@ -82,6 +84,11 @@ while :; do
 
   --todolist)
     flagWriteIntoTodoList="$2"
+    shift 2
+    ;;
+
+  --matlab)
+    MATLABEXEC="$2"
     shift 2
     ;;
 
@@ -324,7 +331,7 @@ else
 
 echo -e "\nSettings:\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\n\n"
 
-matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+$MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
 cd $PICASSO_DIR;
 initPicassoToolbox;
 clc;
