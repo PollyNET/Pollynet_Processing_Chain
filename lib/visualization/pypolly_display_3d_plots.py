@@ -916,6 +916,8 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
 
     ## read from nc-file
     WVMR = nc_dict['WVMR']
+    SNR387 = nc_dict[f'SNR_387nm']
+    SNR407 = nc_dict[f'SNR_407nm']
     quality_mask = nc_dict['QM_WVMR']
     height = nc_dict['height']
     time = nc_dict['time']
@@ -929,7 +931,11 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
     matplotlib.rcParams['font.family'] = "sans-serif"
 
     plotfile = f'{dataFilename}_WVMR.{imgFormat}'
+    plotfile_SNR387 = f'{dataFilename}_WVMR_SNR_387.{imgFormat}'
+    plotfile_SNR407 = f'{dataFilename}_WVMR_SNR_407.{imgFormat}'
     saveFilename = os.path.join(saveFolder,plotfile)
+    saveFilename_SNR387 = os.path.join(saveFolder,plotfile_SNR387)
+    saveFilename_SNR407 = os.path.join(saveFolder,plotfile_SNR407)
 
     ## fill time gaps in att_bsc matrix
     WVMR, quality_mask = readout.fill_time_gaps_of_matrix(time, WVMR, quality_mask)
@@ -1083,7 +1089,259 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
                                     )
 
+    ## plotting SNR
+    ## fill time gaps in snr matrix
+    SNR387, quality_mask_SNR387 = readout.fill_time_gaps_of_matrix(time, SNR387, quality_mask)
+    SNR407, quality_mask_SNR407 = readout.fill_time_gaps_of_matrix(time, SNR407, quality_mask)
+    
 
+#    ## mask matrix
+    SNR387 = np.ma.masked_where(SNR387 < 0, SNR387)
+    SNR407 = np.ma.masked_where(SNR407 < 0, SNR407)
+
+
+    ## slice matrix to max_height
+    SNR387 = SNR387[:,0:len(max_height)]
+    SNR407 = SNR407[:,0:len(max_height)]
+
+    ## trimm matrix to last available timestamp if neccessary
+    SNR387 = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=SNR387,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
+    SNR407 = readout.trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly=config_dict['flagPlotLastProfilesOnly'],matrix=SNR407,mdate=date_00,profile_length=int(np.nanmean(np.diff(time))),last_timestamp=nc_dict['time'][-1])
+    
+    zLim = [np.nanmin(SNR387), np.nanmax(SNR387)]
+
+    ## transpose and flip for correct plotting
+    SNR387 = np.ma.transpose(SNR387)  ## matrix has to be transposed for usage with pcolormesh!
+    SNR387 = np.flip(SNR387,0)
+    SNR407 = np.ma.transpose(SNR407)  ## matrix has to be transposed for usage with pcolormesh!
+    SNR407 = np.flip(SNR407,0)
+    print(f"plotting {plotfile_SNR387} ... ")
+    # display attenuate backscatter
+    fig = plt.figure(figsize=[12, 6])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
+    pcmesh = ax.imshow(
+            SNR387,
+            cmap=cmap,
+            vmin=zLim[0],
+            vmax=zLim[1],
+            interpolation='none',
+            aspect='auto',
+            extent=extent,
+            )
+    # convert the datetime data from a float (which is the output of date2num into a nice datetime string.
+    ax.xaxis_date()
+
+    ax.set_xlabel('Time [UTC]', fontsize=15)
+    ax.set_ylabel('Height [km]', fontsize=15)
+
+    ax.xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
+    if config_dict['flagPlotLastProfilesOnly'] == True:
+        ax.xaxis.set_major_locator(HourLocator(interval=2))
+    else:
+        ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
+    ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
+
+
+#    
+    ax.tick_params(
+        axis='both', which='major', labelsize=15, right=True,
+        top=True, width=2, length=5)
+    ax.tick_params(
+        axis='both', which='minor', width=1.5, length=3.5,
+        right=True, top=True)
+
+    ax.set_title(
+        'SNR at {wave} nm'.format(wave = 387) +
+        ' of {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location),
+        fontsize=15)
+
+    cb_ax = fig.add_axes([0.92, 0.25, 0.02, 0.55])
+    cbar = fig.colorbar(
+        pcmesh,
+        cax=cb_ax,
+        ticks=np.linspace(zLim[0], zLim[1], 5),
+        orientation='vertical')
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.set_title('      SNR387\n', fontsize=10)
+
+    # add watermark
+    if flagWatermarkOn:
+    #    rootDir = os.getcwd()
+        rootDir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=7, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(
+        0.05, 0.02,
+        '{0}'.format(
+#            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+            nc_dict['m_date']),
+            fontsize=12)
+    fig.text(
+        0.2, 0.02,
+        'Version: {version}'.format(
+            version=version),
+        fontsize=12)
+
+    fig.savefig(saveFilename_SNR387,dpi=figDPI)
+
+    plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = '387',
+                                    filename = saveFilename_SNR387,
+                                    level = 0,
+                                    info = f"SNR plots for WVMR",
+                                    nc_zip_file = nc_dict['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = 'SNR_387',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
+                                    )
+
+    print(f"plotting {plotfile_SNR407} ... ")
+    # display attenuate backscatter
+    fig = plt.figure(figsize=[12, 6])
+    ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
+    pcmesh = ax.imshow(
+            SNR407,
+            cmap=cmap,
+            vmin=zLim[0],
+            vmax=zLim[1],
+            interpolation='none',
+            aspect='auto',
+            extent=extent,
+            )
+    # convert the datetime data from a float (which is the output of date2num into a nice datetime string.
+    ax.xaxis_date()
+
+    ax.set_xlabel('Time [UTC]', fontsize=15)
+    ax.set_ylabel('Height [km]', fontsize=15)
+
+    ax.xaxis.set_minor_locator(HourLocator(interval=1))    # every hour
+    if config_dict['flagPlotLastProfilesOnly'] == True:
+        ax.xaxis.set_major_locator(HourLocator(interval=2))
+    else:
+        ax.xaxis.set_major_locator(HourLocator(byhour = [4,8,12,16,20,24]))
+
+    ax.xaxis.set_major_formatter(DateFormatter('%H:%M'))
+
+
+#    
+    ax.tick_params(
+        axis='both', which='major', labelsize=15, right=True,
+        top=True, width=2, length=5)
+    ax.tick_params(
+        axis='both', which='minor', width=1.5, length=3.5,
+        right=True, top=True)
+
+    ax.set_title(
+        'SNR at {wave} nm'.format(wave = 407) +
+        ' of {instrument} at {location}'.format(
+            instrument=pollyVersion,
+            location=location),
+        fontsize=15)
+
+    cb_ax = fig.add_axes([0.92, 0.25, 0.02, 0.55])
+    cbar = fig.colorbar(
+        pcmesh,
+        cax=cb_ax,
+        ticks=np.linspace(zLim[0], zLim[1], 5),
+        orientation='vertical')
+    cbar.ax.tick_params(direction='in', labelsize=15, pad=5)
+    cbar.ax.set_title('      SNR407\n', fontsize=10)
+
+    # add watermark
+    if flagWatermarkOn:
+    #    rootDir = os.getcwd()
+        rootDir = os.path.dirname(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.58, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.72, 0.003, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.84, 0.003,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=7, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    fig.text(
+        0.05, 0.02,
+        '{0}'.format(
+#            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+            nc_dict['m_date']),
+            fontsize=12)
+    fig.text(
+        0.2, 0.02,
+        'Version: {version}'.format(
+            version=version),
+        fontsize=12)
+
+    fig.savefig(saveFilename_SNR407,dpi=figDPI)
+
+    plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = '407',
+                                    filename = saveFilename_SNR407,
+                                    level = 0,
+                                    info = f"SNR plots for WVMR",
+                                    nc_zip_file = nc_dict['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = 'SNR_407',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
+                                    )
 
 def pollyDisplayRH(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist_dict):
     """
