@@ -1230,6 +1230,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
                                     )
 
     print(f"plotting {plotfile_SNR407} ... ")
+    zLim = [np.nanmin(SNR407), np.nanmax(SNR407)]
     # display attenuate backscatter
     fig = plt.figure(figsize=[12, 6])
     ax = fig.add_axes([0.11, 0.15, 0.79, 0.75])
