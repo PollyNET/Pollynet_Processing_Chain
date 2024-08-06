@@ -442,7 +442,8 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     flagPlotLastProfilesOnly = config_dict['flagPlotLastProfilesOnly']
 
     ## read from global config file
-    yLim = polly_conf_dict['yLim_att_beta']
+    #yLim = polly_conf_dict['yLim_att_beta']
+    yLim = polly_conf_dict['yLim_cloudinfo']
     zLim = polly_conf_dict[f'zLim_att_beta_{wavelength}']
     partnerLabel = polly_conf_dict['partnerLabel']
     colormap_basic = polly_conf_dict['colormap_basic']
@@ -589,6 +590,7 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
 
     ax.scatter(dt_list,cbh_layer_list[0]/1000, color='#111', marker='o', s=lw, label='CBH')
     ax.scatter(dt_list,cth_layer_list[0]/1000, color='#666', marker='D', s=lw, label='CTH')
+    ax.set_ylim(yLim[0]/1000,yLim[1]/1000)
     ax.legend(loc=1)
     for layer in range(1,len(cbh_layer_list)):
         ax.scatter(dt_list,cbh_layer_list[layer]/1000, color='#111', marker='o', s=lw, label='CBH')

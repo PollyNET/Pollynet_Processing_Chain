@@ -241,6 +241,7 @@
     "yLim_depolConst_355": [0, 50],
     "yLim_depolConst_532": [0, 50],
     "yLim_depolConst_1064": [0, 50],
+    "yLim_cloudinfo": [0, 2000],
     "zLim_att_beta_355": [0, 15],
     "zLim_att_beta_532": [0, 5],
     "zLim_att_beta_1064": [0, 2],
