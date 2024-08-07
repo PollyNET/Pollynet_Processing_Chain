@@ -110,6 +110,8 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
     fill_size = 0
     fill_size_all = 0
     fill_value = ATT_BETA.fill_value
+    if fill_value == 1e+20:
+        fill_value = -999.0
 
     ## Set masked values (bad signal) to 0, to differntiate between bad signals and measurement-gaps
     ATT_BETA = np.ma.masked_where(ATT_BETA.mask, ATT_BETA, 0)
