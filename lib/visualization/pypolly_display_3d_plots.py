@@ -1226,7 +1226,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
                                     GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d')} 12:00:00",
                                     lidar_ratio = 50,
                                     software_version = version,
-                                    product_type = 'SNR_387',
+                                    product_type = 'SNR_FR_387',
                                     product_starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
                                     )
@@ -1341,7 +1341,7 @@ def pollyDisplayWVMR(nc_dict,config_dict,polly_conf_dict,saveFolder,donefilelist
                                     GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d')} 12:00:00",
                                     lidar_ratio = 50,
                                     software_version = version,
-                                    product_type = 'SNR_407',
+                                    product_type = 'SNR_FR_407',
                                     product_starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
                                     )
