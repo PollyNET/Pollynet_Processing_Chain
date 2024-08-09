@@ -60,7 +60,7 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali'],
+                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali','profile_summary'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
@@ -432,6 +432,37 @@ def main():
                  display_profiles.pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
          except Exception as e:
              print("An error occurred:", e)
+
+    if ('all' in args.retrieval) or ('profile_summary' in args.retrieval):
+        ## plotting profiles
+        ## using profile_translator
+
+        #profile_translator = p_translator.profile_translator_function()
+
+        try:
+            nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
+            nc_profiles_NR = readout.get_nc_filename(date, device, inputfolder, param='NR_profiles')
+            print(f'plotting profile summary to {outputfolder}')
+            #for prof in nc_profiles:
+            #    nc_dict_profile = readout.read_nc_file(prof)
+            #    starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
+            #    endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
+            #    print(f"profile: {starttime} - {endtime}")
+            #    nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
+            #    display_profiles.pollyDisplay_profile_summary(nc_dict_profile,profile,config_dict,polly_conf_dict,outputfolder,donefilelist_dict)
+            for n_prof in range(len(nc_profiles)):
+                nc_dict_profile = readout.read_nc_file(nc_profiles[n_prof])
+                if len(nc_profiles_NR) > 0:
+                    nc_dict_profile_NR = readout.read_nc_file(nc_profiles_NR[n_prof])
+                else:
+                    nc_dict_profile_NR = {}
+                starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
+                endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
+                print(f"profile: {starttime} - {endtime}")
+                nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
+                display_profiles.pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outputfolder,donefilelist_dict)
+        except Exception as e:
+            print("An error occurred:", e)
 
 
     ## add plotted files to donefile
