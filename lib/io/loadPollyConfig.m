@@ -135,8 +135,6 @@ for fn = fieldnames(pollyConfig)'
         warning('''zLim_NR_RCS_532'' was deprecated');
     elseif strcmp(fn{1}, 'channelTag')
         warning('''channelTag'' was deprecated');
-    elseif strcmp(fn{1}, 'is1058nm')
-        warning('''is1058nm'' was deprecated');
     else
         error('Unknown polly settings: %s', fn{1});
     end
