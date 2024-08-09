@@ -121,8 +121,6 @@ end
 for fn = fieldnames(pollyConfig)'
     if isfield(pollyGlobalConfig, fn{1})
         pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
-    elseif strcmp(fn{1}, 'minSNR_4_sigNorm')
-        warning('''minSNR_4_sigNorm'' was deprecated');
     elseif strcmp(fn{1}, 'zLim_FR_RCS_355')
         warning('''zLim_FR_RCS_355'' was deprecated');
     elseif strcmp(fn{1}, 'zLim_FR_RCS_532')
