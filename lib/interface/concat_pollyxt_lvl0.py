@@ -553,7 +553,8 @@ def checking_timestamp():
             print(f'The file: {selected_timestamp_nc_ls[elementNR]} passes timestamp check.')
             selected_cor_timestamp_nc_ls.append(selected_timestamp_nc_ls[elementNR])
 
-        ds.close()
+        if ds.isopen():
+            ds.close()
 
 
     print('\nthe following '+str(len(selected_cor_timestamp_nc_ls))+' files can be merged:')
