@@ -842,7 +842,7 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
                                     )
 
 
-def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outdir,donefilelist_dict):
+def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outdir,ymax,donefilelist_dict):
     """
     Description
     -----------
@@ -887,11 +887,21 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     matplotlib.rcParams['font.sans-serif'] = fontname
     matplotlib.rcParams['font.family'] = "sans-serif"
 
-    plotfile = f"{dataFilename}_profile_summary.{imgFormat}"
+
+    if ymax == 'high_range':
+        y_max_FR = 18000
+        ymax_prod_type = ymax
+    elif ymax == 'low_range':
+        y_max_FR = 5000
+        ymax_prod_type = ymax
+    else:
+        y_max_FR = 18000
+        ymax_prod_type = 'high_range'
+
+    plotfile = f"{dataFilename}_profile_summary_{ymax_prod_type}.{imgFormat}"
     saveFolder = outdir
     saveFilename = os.path.join(saveFolder,plotfile)
 
-    y_max_FR = 18000
     y_max_NR = 5000
     cols = 6
     if len(nc_dict_profile_NR) > 0:
@@ -938,7 +948,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
                       "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
                                          "NR": []
                                         },
-                      "wvmr": {"FR": ['WVMR'],
+                      "wvmr": {"FR": ['WVMR','RH'],
                                "NR": []
                               }
         }
@@ -946,6 +956,11 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
     def plotting_procedure(col,param_dict,parameter,xlabel,xlim=[0,1],ylim=[0,1],scaling_factor=1):
         ax[col].set_xlabel(xlabel, fontsize=axes_fontsize)
+        ax[col].grid(True)
+        ax[col].tick_params(axis='both', which='major', labelsize=15,
+                       right=True, top=True, width=2, length=5)
+        ax[col].tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
 
         for n,p in enumerate(param_dict[parameter]["FR"]):
             if parameter == 'angstroem':
@@ -955,11 +970,37 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
             line_style = '-'
 
-            p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor, height_FR/1000,\
-                linestyle=line_style,\
-                color=color_ls[n],\
-                zorder=2,\
-                label=p)
+            if parameter == 'wvmr':
+#                ax2 = ax[col].secondary_xaxis('top')
+                ax2 = ax[col].twiny()
+                ax2.set_xlabel('Rel.Humidity [%]', fontsize=axes_fontsize)
+                ax2.set_xlim(0,100)
+                ax2.tick_params(axis='both', which='major', labelsize=15,
+                       right=True, top=True, width=2, length=5)
+                ax2.tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
+                p_FR = ax[col].plot(nc_dict_profile['WVMR']*scaling_factor, height_FR/1000,\
+                    linestyle=line_style,\
+                    color=color_ls[n],\
+                    zorder=2,\
+                    alpha=1,\
+                    label='WVMR')
+                p_RH = ax2.plot(nc_dict_profile['RH']*scaling_factor, height_FR/1000,\
+                    linestyle=line_style,\
+                    #color=color_ls[n],\
+                    color='green',
+                    zorder=2,\
+                    alpha=1,\
+                    label='RH')
+                ax2.legend(fontsize=14, loc='upper right', bbox_to_anchor=(0.9, 0.95))
+            else:
+                p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor, height_FR/1000,\
+                    linestyle=line_style,\
+                    color=color_ls[n],\
+                    zorder=2,\
+                    label=p)
+
+
         for n,p in enumerate(param_dict[parameter]["NR"]):
             color_ls = ['cyan','lime']
 
@@ -968,7 +1009,8 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
             p_NR = ax[col].plot(nc_dict_profile_NR_shortened*scaling_factor, height_NR_shortened/1000,\
                 linestyle=line_style,\
                 color=color_ls[n],\
-                zorder=2,\
+                zorder=1,\
+                alpha=0.5,\
                 label=f'{p}_NR')
         ax[col].set_xlim(xlim[0],xlim[1])
         ax[col].set_ylim(ylim[0],ylim[1]/1000)
@@ -978,56 +1020,6 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
 
     axes_fontsize = 18
-
-#    if profile == "FR":
-#        color_ls = ['blue','green','red']
-#        if np.any(nc_dict_profile['reference_height_355'].mask):
-#            pass
-#        else:
-#            ax[0].axhline(y=nc_dict_profile['reference_height_355'][0]/1000, color=color_ls[0], linestyle='--',label='ref.H_355')
-#            ax[0].axhline(y=nc_dict_profile['reference_height_355'][1]/1000, color=color_ls[0], linestyle='--')
-#        if np.any(nc_dict_profile['reference_height_532'].mask):
-#            pass
-#        else:
-#            ax[0].axhline(y=nc_dict_profile['reference_height_532'][0]/1000, color=color_ls[1], linestyle='--',label='ref.H_532')
-#            ax[0].axhline(y=nc_dict_profile['reference_height_532'][1]/1000, color=color_ls[1], linestyle='--')
-#        if np.any(nc_dict_profile['reference_height_1064'].mask):
-#            pass
-#        else:
-#            ax[0].axhline(y=nc_dict_profile['reference_height_1064'][0]/1000, color=color_ls[2], linestyle='--',label='ref.H_1064')
-#            ax[0].axhline(y=nc_dict_profile['reference_height_1064'][1]/1000, color=color_ls[2], linestyle='--')
-#
-#        ## eta
-#        try:
-#            eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_355___retrieving_info'])[-1])
-#        except:
-#            eta355 = np.nan
-#        try:
-#            eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_532___retrieving_info'])[-1])
-#        except:
-#            eta532 = np.nan
-#        try:
-#            eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_1064___retrieving_info'])[-1])
-#        except:
-#            eta1064 = np.nan
-#        ax[4].text(
-#            0.5, 0.8,
-#            r'$\eta_{355}$: '+f'{eta355:.2f}\n'+\
-#            r'$\eta_{532}$: '+f'{eta532:.2f}\n'+\
-#            r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[4].transAxes)
-#
-#    elif profile == 'NR':
-#        color_ls = ['blue','green']
-#        if np.any(nc_dict_profile['reference_height_355'].mask):
-#            pass
-#        else:
-#            ax[0].axhline(y=nc_dict_profile['reference_height_355'][0]/1000, color=color_ls[0], linestyle='--',label='ref.H_355')
-#            ax[0].axhline(y=nc_dict_profile['reference_height_355'][1]/1000, color=color_ls[0], linestyle='--')
-#        if np.any(nc_dict_profile['reference_height_532'].mask):
-#            pass
-#        else:
-#            ax[0].axhline(y=nc_dict_profile['reference_height_532'][0]/1000, color=color_ls[1], linestyle='--',label='ref.H_532')
-#            ax[0].axhline(y=nc_dict_profile['reference_height_532'][1]/1000, color=color_ls[1], linestyle='--')
 
 
     ## ref.Height
@@ -1049,11 +1041,11 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     else:
         refH1064_0 = nc_dict_profile['reference_height_1064'][0]/1000
         refH1064_1 = nc_dict_profile['reference_height_1064'][1]/1000
-    ax[5].text(
-        0.2, 0.8,
+    fig.text(
+        0.1, 0.02,
         'ref.H_355: '+f'{refH355_0:.2f}-{refH355_1:.2f} km\n'+\
         'ref.H_532: '+f'{refH532_0:.2f}-{refH532_1:.2f} km\n'+\
-        'ref.H_1064: '+f'{refH1064_0:.2f}-{refH1064_1:.2f} km',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[5].transAxes)
+        'ref.H_1064: '+f'{refH1064_0:.2f}-{refH1064_1:.2f} km',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
 
     ## eta
     try:
@@ -1090,11 +1082,6 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         
     ax[0].set_ylabel("Height [km]",fontsize=18)
 
-#    ax.grid(True)
-#    ax.tick_params(axis='both', which='major', labelsize=15,
-#                   right=True, top=True, width=2, length=5)
-#    ax.tick_params(axis='both', which='minor', width=1.5,
-#                   length=3.5, right=True, top=True)
 
     fig.suptitle(
         'Summary of profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
@@ -1137,6 +1124,29 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     fig.savefig(saveFilename, dpi=figDPI)
     
     plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict_profile['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = "overview of all relevant polly profile-products",
+                                    nc_zip_file = nc_dict_profile['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = f'Profile_summary_{ymax_prod_type}',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
 
 
 
