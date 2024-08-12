@@ -891,12 +891,15 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     if ymax == 'high_range':
         y_max_FR = 18000
         ymax_prod_type = ymax
+        xmax_depol = [0,0.6]
     elif ymax == 'low_range':
         y_max_FR = 5000
         ymax_prod_type = ymax
+        xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
     else:
         y_max_FR = 18000
         ymax_prod_type = 'high_range'
+        xmax_depol = [0,0.6]
 
     plotfile = f"{dataFilename}_profile_summary_{ymax_prod_type}.{imgFormat}"
     saveFolder = outdir
@@ -1066,6 +1069,15 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         r'$\eta_{532}$: '+f'{eta532:.2f}\n'+\
         r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[4].transAxes)
 
+## water-vapor calib-constant
+    try:
+        wv_calib = float(nc_dict_profile['WVMR___wv_calibration_constant_used'])
+    except:
+        wv_calib  = np.nan
+    fig.text(
+        0.85, 0.05,
+        f'WV-calib.const.: {wv_calib:.1f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
 
     plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
     
@@ -1075,7 +1087,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     
     plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
 
-    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = polly_conf_dict['zLim_VolDepol_1064'],ylim=[0,y_max_FR])
+    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
     plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
     
     plt.tight_layout(rect=[0.05, 0.07, 0.98, 0.95])
