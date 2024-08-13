@@ -460,8 +460,10 @@ def main():
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
                 print(f"profile: {starttime} - {endtime}")
                 nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
-                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,ymax='high_range',donefilelist_dict=donefilelist_dict)
-                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,ymax='low_range',donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='raman',ymax='high_range',donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='raman',ymax='low_range',donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='high_range',donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='low_range',donefilelist_dict=donefilelist_dict)
         except Exception as e:
             print("An error occurred:", e)
 
