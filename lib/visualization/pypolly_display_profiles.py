@@ -842,7 +842,7 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
                                     )
 
 
-def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outdir,ymax,donefilelist_dict):
+def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outdir,method,ymax,donefilelist_dict):
     """
     Description
     -----------
@@ -901,7 +901,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         ymax_prod_type = 'high_range'
         xmax_depol = [0,0.6]
 
-    plotfile = f"{dataFilename}_profile_summary_{ymax_prod_type}.{imgFormat}"
+    plotfile = f"{dataFilename}_profile_summary_{method}_{ymax_prod_type}.{imgFormat}"
     saveFolder = outdir
     saveFilename = os.path.join(saveFolder,plotfile)
 
@@ -911,53 +911,106 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         height_NR = nc_dict_profile_NR['height']
         h_index = np.where(height_NR > 5000)[0][0]
         height_NR_shortened = height_NR[0:h_index]
+
+        if method == 'raman':
         
-        param_dict = {
-                      "backscatter":
-                                    {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
-                                     "NR":['aerBsc_raman_355','aerBsc_raman_532']
-                                    },
-                      "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
-                                     "NR": ['aerExt_raman_355','aerExt_raman_532']
-                                    },
-                      "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
-                                     "NR": ['aerLR_raman_355','aerLR_raman_532']
-                                    },
-                      "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
-                                    "NR": []
-                                   },
-                      "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
+                                         "NR":['aerBsc_raman_355','aerBsc_raman_532']
+                                        },
+                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                                         "NR": ['aerExt_raman_355','aerExt_raman_532']
+                                        },
+                          "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
+                                         "NR": ['aerLR_raman_355','aerLR_raman_532']
+                                        },
+                          "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR'],
+                                   "NR": []
+                                  }
+            }
+
+        elif method == 'klett':
+
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR":['aerBsc_klett_355','aerBsc_klett_532']
+                                        },
+                          "extinction": {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
                                          "NR": []
                                         },
-                      "wvmr": {"FR": ['WVMR'],
-                               "NR": []
-                              }
-        }
+                          "lidarratio": {"FR": [],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": [],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_klett_355','parDepol_klett_532','parDepol_klett_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR'],
+                                   "NR": []
+                                  }
+            }
     else:
-        param_dict = {
-                      "backscatter":
-                                    {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
-                                     "NR": []
-                                    },
-                      "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
-                                     "NR": []
-                                    },
-                      "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
-                                     "NR": []
-                                    },
-                      "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
-                                    "NR": []
-                                   },
-                      "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+
+        if method == 'raman':
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
                                          "NR": []
                                         },
-                      "wvmr": {"FR": ['WVMR','RH'],
-                               "NR": []
-                              }
-        }
+                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                                         "NR": []
+                                        },
+                          "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR','RH'],
+                                   "NR": []
+                                  }
+            }
 
+        elif method == 'klett':
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR": []
+                                        },
+                          "extinction": {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR": []
+                                        },
+                          "lidarratio": {"FR": [],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": [],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_klett_355','parDepol_klett_532','parDepol_klett_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR','RH'],
+                                   "NR": []
+                                  }
+            }
 
+    fixed_LR = 1
+    fixed_LR_ls = []
     def plotting_procedure(col,param_dict,parameter,xlabel,xlim=[0,1],ylim=[0,1],scaling_factor=1):
+
         ax[col].set_xlabel(xlabel, fontsize=axes_fontsize)
         ax[col].grid(True)
         ax[col].tick_params(axis='both', which='major', labelsize=15,
@@ -966,6 +1019,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
                        length=3.5, right=True, top=True)
 
         for n,p in enumerate(param_dict[parameter]["FR"]):
+            label = p
             if parameter == 'angstroem':
                     color_ls = ['orange','magenta','black']
             else:
@@ -997,11 +1051,22 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
                     label='RH')
                 ax2.legend(fontsize=14, loc='upper right', bbox_to_anchor=(0.9, 0.95))
             else:
-                p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor, height_FR/1000,\
+                if parameter == 'extinction' and method == 'klett':
+                    label = f'{p} x LR'
+                    try:
+                        fixed_LR = nc_dict_profile[f'{p}___retrieving_info']
+                        fixed_LR = re.split(r'Fixed lidar ratio:',fixed_LR)[-1]
+                        fixed_LR = float(re.split(r'\[Sr\]',fixed_LR)[0])
+                        fixed_LR_ls.append(fixed_LR)
+                    except:
+                         fixed_LR = 50
+                else:
+                    fixed_LR = 1
+                p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor*fixed_LR, height_FR/1000,\
                     linestyle=line_style,\
                     color=color_ls[n],\
                     zorder=2,\
-                    label=p)
+                    label=label)
 
 
         for n,p in enumerate(param_dict[parameter]["NR"]):
@@ -1069,7 +1134,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         r'$\eta_{532}$: '+f'{eta532:.2f}\n'+\
         r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[4].transAxes)
 
-## water-vapor calib-constant
+    ## water-vapor calib-constant
     try:
         wv_calib = float(nc_dict_profile['WVMR___wv_calibration_constant_used'])
     except:
@@ -1077,6 +1142,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     fig.text(
         0.85, 0.05,
         f'WV-calib.const.: {wv_calib:.1f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
 
 
     plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
@@ -1090,13 +1156,23 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
     plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
     
+    ## Ext.Klett (with fixed LidarRatio)
+    if method == 'klett' and len(fixed_LR_ls) > 0:
+        ax[1].text(
+            0.6, 0.85,
+            r'LR$_{355}$: '+f'{fixed_LR_ls[0]:.2f}\n'+\
+            r'LR$_{532}$: '+f'{fixed_LR_ls[1]:.2f}\n'+\
+            r'LR$_{1064}$: '+f'{fixed_LR_ls[2]:.2f}',fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[1].transAxes)
+
+
     plt.tight_layout(rect=[0.05, 0.07, 0.98, 0.95])
         
     ax[0].set_ylabel("Height [km]",fontsize=18)
 
-
+    method_upper = str(method).capitalize()
     fig.suptitle(
-        'Summary of profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
+        'Summary of {method_upper} profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
+            method_upper=method_upper,
             instrument=pollyVersion,
             location=location,
             starttime=datetime.utcfromtimestamp(int(starttime)).strftime('%Y%m%d %H:%M'),
@@ -1155,7 +1231,7 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
                                     GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d')} 12:00:00",
                                     lidar_ratio = 50,
                                     software_version = version,
-                                    product_type = f'Profile_summary_{ymax_prod_type}',
+                                    product_type = f'Profile_summary_{method}_{ymax_prod_type}',
                                     product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
                                     )
