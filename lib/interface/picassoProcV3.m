@@ -4598,12 +4598,12 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %% save aerosol optical results
-                try
+               % try
                 pollySaveOCProfiles(data);
                 print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                catch
-                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                end
+                %catch
+                %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %end
             end
             
         case 'aerattbetafr'
