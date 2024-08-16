@@ -22,24 +22,112 @@ flagCh1064FR = PollyConfig.isFR & PollyConfig.is1064nm & PollyConfig.isTot;
 missing_value = -999;
 
 for iGrp = 1:size(data.clFreGrps, 1)
-    save_for_detlef = true;
-    if save_for_detlef
+    QC = true;
+    no_fill_low_profile =true;
+    % QC flags will yet be implemetned only for standard products
+    if QC
         % cutting lower edge
         % no cutting, but filling?
-        data.aerBsc355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
-        data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
-        data.LR355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
-        data.pdr355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
-        data.aerBsc532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
-        data.aerExt532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
-        data.LR532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
-        data.pdr532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
-         data.LR1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
-        data.pdr1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
-        data.aerBsc1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
-        data.aerExt1064_raman(iGrp,:) = missing_value;
-        data.LR1064_raman(iGrp,:) = missing_value;
+        if no_fill_low_profile
+            % UV FF
+            data.aerBsc355_raman(iGrp,(data.height <= 300)) = missing_value;
+            data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.LR355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.pdr355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.pdr_klett_355(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.aerBsc355_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            
+            %VIS FF
+            data.aerBsc532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.aerExt532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.LR532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.pdr532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.pdr532_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.aerBsc532_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            %IR FF
+            data.aerBsc1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.aerExt1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.LR1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.pdr1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.pdr1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.aerBsc1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            %UV NF
+        else
+            %UV NF
+            data.aerBsc355_NR_raman(iGrp,(data.height <= 100)) = missing_value;
+            data.aerExt355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(12))) = missing_value;
+            data.LR355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(12))) = missing_value;
+            %data.pdr355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            %data.pdr_klett_NR_355(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.aerBsc355_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            
+            %VIS NF
+            data.aerBsc532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(9))) = missing_value;
+            data.aerExt532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(10))) = missing_value;
+            data.LR532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(10))) = missing_value;
+            %data.pdr532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(9))) = missing_value;
+            %data.pdr532_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(9))) = missing_value;
+            data.aerBsc532_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(9))) = missing_value;
+            %%%%fill overlap region of FF with NF.
+            % UV FF
+            data.aerBsc355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = data.aerBsc355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3)));
+            data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = data.aerExt355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3)));
+            data.LR355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) =  data.LR355_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3)));
+              data.pdr355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+              data.pdr_klett_355(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+            data.aerBsc355_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = data.aerBsc355_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(3)));
+            %VIS FF
+            data.aerBsc532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = data.aerBsc532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6)));
+            data.aerExt532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = data.aerExt532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6)));
+            data.LR532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) =  data.LR532_NR_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6)));
+              data.pdr532_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+              data.pdr532_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = missing_value;
+            data.aerBsc532_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = data.aerBsc532_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6)));
+            %IR FF
+            data.aerBsc1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.aerExt1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.LR1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.pdr1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.pdr1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+            data.aerBsc1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+        
+        
+        end  
+            
+           %%%%%interpolate profiles
 
+            
+                netcdf.putVar(ncID, varID_altitude, single(data.alt0));
+    netcdf.putVar(ncID, varID_longitude, single(data.lon));
+    netcdf.putVar(ncID, varID_latitude, single(data.lat));
+    netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
+    netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
+    netcdf.putVar(ncID, varID_height, single(data.height));
+    netcdf.putVar(ncID, varID_aerBsc_klett_NR_355, single(fillmissing(data.aerBsc355_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBscStd_klett_NR_355, single(fillmissing(data.aerBscStd355_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_klett_NR_532, single(fillmissing(data.aerBsc532_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBscStd_klett_NR_532, single(fillmissing(data.aerBscStd532_NR_klett(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_raman_NR_355, single(fillmissing(data.aerBsc355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBscStd_raman_NR_355, single(fillmissing(data.aerBscStd355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBsc_raman_NR_532, single(fillmissing(data.aerBsc532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerBscStd_raman_NR_532, single(fillmissing(data.aerBscStd532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExt_raman_NR_355, single(fillmissing(data.aerExt355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExtStd_raman_NR_355, single(fillmissing(data.aerExtStd355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExt_raman_NR_532, single(fillmissing(data.aerExt532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerExtStd_raman_NR_532, single(fillmissing(data.aerExtStd532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLR_raman_NR_355, single(fillmissing(data.LR355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLRStd_raman_NR_355, single(fillmissing(data.LRStd355_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLR_raman_NR_532, single(fillmissing(data.LR532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_aerLRStd_raman_NR_532, single(fillmissing(data.LRStd532_NR_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_temperature, single(fillmissing(data.temperature(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_pressure, single(fillmissing(data.pressure(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_reference_height_355, single(refH355));
+    netcdf.putVar(ncID, varID_reference_height_532, single(refH532));
+            
+            
+            
+       
+        
         %removing values with no aerosol
         bsc532_thres=1e-7; %--> 10 times beta ef?
         data.aerBsc355_raman((data.aerBsc532_raman <= bsc532_thres)) = missing_value;
