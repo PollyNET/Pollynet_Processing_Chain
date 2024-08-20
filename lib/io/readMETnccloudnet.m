@@ -60,8 +60,22 @@ fname = fullfile(folder, sprintf('%04d', thisyear), ...
             thisyear, thismonth, thisday, site));
 
 disp(fname);
-%disp(tRange);
 
+% preallocate
+alt = NaN;
+pres = NaN;
+temp = NaN;
+relh = NaN;
+uwd =NaN;
+vwd = NaN;
+wins = NaN;
+wind =NaN;
+
+filenameList = dir(fname);
+if numel(filenameList) == 0
+    fprintf('ECMWF File (%s) does not exist.\n', fname);
+    return;
+end
 % Open the netCDF file
 ncid = netcdf.open(fname, 'NOWRITE');
 
