@@ -102,6 +102,7 @@
     "overlapSmoothBins": 8,
     "saturate_thresh": 100,
     "heightFullOverlap": [500, 500, 500, 500, 500, 500, 500, 500, 150, 150, 150, 150, 150],
+    "minSNR_4_sigNorm": [10],
     "cloudScreenMode": 1,
     "maxSigSlope4FilterCloud": 3e6,
     "maxSigSlope4FilterCloud_NR": 4e5,
