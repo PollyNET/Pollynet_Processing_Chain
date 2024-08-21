@@ -183,6 +183,7 @@ main() {
             	check_todo_list_consistency
 	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
             fi
+            copy_level0_merged_file_to_level0b $DEVICE $DATE ## copy merged level0-24h-file to level0b
 		    ## OPTION 1: process every single task???
             if [[ "$flagProc" == "true" ]];then
 		        process_merged ## process actual merged file with picasso - written in todo_list
@@ -341,6 +342,23 @@ ENDMATLAB
 
 echo "Finished processing."
 fi
+}
+
+copy_level0_merged_file_to_level0b() {
+## copy level0 24h-file to
+	DEVICE=$1
+	DATE=$2
+	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+	local merged_level0_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*.nc"
+    local level0b_folder=/data/level0b/polly24h/$DEVICE/${DATE:0:4}
+    mkdir -p $level0b_folder
+        if ls ${merged_level0_file} 1> /dev/null 2>&1; then
+    	    echo "copy merged level0 file to level0b-folder: ${level0b_folder} ..."
+            cp ${merged_level0_file} ${level0b_folder}/
+            echo "done."
+        else
+            :  # Do nothing  
+        fi
 }
 
 delete_level0_merged_file() {
