@@ -4572,6 +4572,17 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
     	         print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        end
             end
+            %%%%%% Test for storing quality controled information
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save aerosol optical results
+                try
+    	            pollySaveProfiles_QC(data);
+                     print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        catch
+    	         print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        end
+            end
         case 'aerprofnr'
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
@@ -4587,12 +4598,12 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %% save aerosol optical results
-                try
+               % try
                 pollySaveOCProfiles(data);
                 print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                catch
-                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                end
+                %catch
+                %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %end
             end
             
         case 'aerattbetafr'
