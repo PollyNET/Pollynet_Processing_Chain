@@ -166,11 +166,17 @@ case 'mwr_cloudnet'
         mwrResFileSearch(end).name);
         disp(mwrResFile)
     end
-
+    try
     [tIWV_mwr, IWV_mwr, attri_mwr] = readMWR_cloudnet(mwrResFile);
-
     globalAttri.source = attri_mwr.source;
     globalAttri.site = attri_mwr.site;
+    catch
+      tIWV_mwr=[];
+      IWV_mwr=[];
+      globalAttri.source = "NONE";
+    globalAttri.site = "NONE";
+    end
+    
 %     if ~ isempty(attri_mwr.contact)
 %         contactInfo = regexp(attri_mwr.contact, ...
 %             '(?<PI>.*) \((?<contact>.*)\)', 'names');
