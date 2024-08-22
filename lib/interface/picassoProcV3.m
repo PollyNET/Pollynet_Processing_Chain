@@ -3329,9 +3329,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt355 = data.aerExt355_klett(iGrp, :);
-            aExt355(1:hIndBase) = data.aerExt355_klett(hIndBase);
+            aExt355(1:hIndBase) = data.aerExt355_klett(iGrp, hIndBase);
             aBsc355 = data.aerBsc355_klett(iGrp, :);
+
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3368,9 +3370,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt532 = data.aerExt532_klett(iGrp, :);
-            aExt532(1:hIndBase) = data.aerExt532_klett(hIndBase);
+            aExt532(1:hIndBase) = data.aerExt532_klett(iGrp, hIndBase);
             aBsc532 = data.aerBsc532_klett(iGrp, :);
+
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3407,9 +3411,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt1064 = data.aerExt1064_klett(iGrp, :);
-            aExt1064(1:hIndBase) = data.aerExt1064_klett(hIndBase);
+            aExt1064(1:hIndBase) = data.aerExt1064_klett(iGrp, hIndBase);
             aBsc1064 = data.aerBsc1064_klett(iGrp, :);
+
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3634,9 +3640,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt355 = data.aerExt355_aeronet(iGrp, :);
-            aExt355(1:hIndBase) = data.aerExt355_aeronet(hIndBase);
+            aExt355(1:hIndBase) = data.aerExt355_aeronet(iGrp, hIndBase);
             aBsc355 = data.aerBsc355_aeronet(iGrp, :);
+
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3673,9 +3681,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt532 = data.aerExt532_aeronet(iGrp, :);
-            aExt532(1:hIndBase) = data.aerExt532_aeronet(hIndBase);
+            aExt532(1:hIndBase) = data.aerExt532_aeronet(iGrp, hIndBase);
             aBsc532 = data.aerBsc532_aeronet(iGrp, :);
+
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3712,9 +3722,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt1064 = data.aerExt1064_aeronet(iGrp, :);
-            aExt1064(1:hIndBase) = data.aerExt1064_aeronet(hIndBase);
+            aExt1064(1:hIndBase) = data.aerExt1064_aeronet(iGrp, hIndBase);
             aBsc1064 = data.aerBsc1064_aeronet(iGrp, :);
+
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 

@@ -13,6 +13,7 @@ todo_filelist
 test
 netcdf4
 log
+analysis
 done_filelist
 
 # Sphinx build
