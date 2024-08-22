@@ -44,3 +44,6 @@ config_T15/template_pollynet_processing_chain_config_links.xlsx
 lib/config/*
 !lib/config/template_polly_global_config.json
 !lib/config/template_polly_global_defaults.json
+*.png
+*.jpg
+*.gif
