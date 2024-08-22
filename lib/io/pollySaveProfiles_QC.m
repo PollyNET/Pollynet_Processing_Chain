@@ -105,7 +105,8 @@ for iGrp = 1:size(data.clFreGrps, 1)
     data.aerBsc1064_raman((data.aerBsc532_raman <= bsc532_thres)) = missing_value;
     data.pdr1064_raman((data.aerBsc532_raman <= bsc532_thres)) = missing_value;
     
-
+%%%%%%%%%%%%%%%%%%QC end
+    
     startTime = data.mTime(data.clFreGrps(iGrp, 1));
     endTime = data.mTime(data.clFreGrps(iGrp, 2));
 

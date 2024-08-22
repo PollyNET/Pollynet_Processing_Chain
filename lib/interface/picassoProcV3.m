@@ -4577,8 +4577,8 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                 print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %% save aerosol optical results
                 try
-    	            pollySaveProfiles_QC(data);
-                     print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	         pollySaveProfiles_QC(data);
+                 print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        catch
     	         print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        end
