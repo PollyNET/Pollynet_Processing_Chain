@@ -173,8 +173,8 @@ case 'mwr_cloudnet'
     catch
       tIWV_mwr=[];
       IWV_mwr=[];
-      globalAttri.source = [];
-      globalAttri.site = [];
+      globalAttri.source = 'None';
+      globalAttri.site = 'None';
     end
     
 %     if ~ isempty(attri_mwr.contact)
