@@ -20,6 +20,7 @@
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",
     "gdas1Site": "",
+    "meteorDataSource": "gdas1",
     "meteo_folder": "",
     "AERONETSite": "",
 
@@ -91,7 +92,6 @@
     "is387nm": [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
     "is407nm": [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "is607nm": [0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
-    "is1058nm": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "channelTags": [],
     "channelTag": ["FR-total-355 nm", "FR-cross-355 nm", "FR-387 nm", "FR-407 nm", "FR-total-532 nm", "FR-cross-532 nm", "FR-607 nm", "FR-total-1064 nm", "NR-total-532 nm", "NR-607 nm", "NR-total-355 nm", "NR-387 nm", "unknown"],
     "minPC_fog": 60,
@@ -151,6 +151,11 @@
     "smoothWin_klett_1064": 21,
     "smoothWin_klett_NR_355": 21,
     "smoothWin_klett_NR_532": 21,
+    "smoothWin_raman_355": 99,
+    "smoothWin_raman_532": 99,
+    "smoothWin_raman_1064": 99,
+    "smoothWin_raman_NR_355": 25,
+    "smoothWin_raman_NR_532": 25,
     "maxIterConstrainFernald": 20,
     "minLRConstrainFernald": 1,
     "maxLRConstrainFernald": 150,
@@ -167,11 +172,6 @@
     "min_RR_RefSNR1058": 0,
     "angstrexp": 0.9,
     "angstrexp_NR": 0.9,
-    "smoothWin_raman_355": 61,
-    "smoothWin_raman_532": 61,
-    "smoothWin_raman_1064": 61,
-    "smoothWin_raman_NR_355": 31,
-    "smoothWin_raman_NR_532": 31,
     "LCMeanWindow": 50,
     "LCMeanMinIndx": 70,
     "LCMeanMaxIndx": 1000,
@@ -238,6 +238,7 @@
     "yLim_depolConst_355": [0, 50],
     "yLim_depolConst_532": [0, 50],
     "yLim_depolConst_1064": [0, 50],
+    "yLim_cloudinfo": [0,2000],
     "zLim_att_beta_355": [0, 15],
     "zLim_att_beta_532": [0, 5],
     "zLim_att_beta_1064": [0, 2],
@@ -270,9 +271,11 @@
     "comment": "",
 
     "logbookFile": "",
+    "logbookPath": "",
+    "logbookFileName": "",
     "radiosondeFolder": "",
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
 }

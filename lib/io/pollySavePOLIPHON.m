@@ -6,7 +6,8 @@ function pollySavePOLIPHON(data, POLIPHON1)
 %    POLIPHON1 : struct
 %
 % HISTORY:
-%    - 2023-06-26: first edition by Athena A. Floutsi 
+%    - 2023-06-26: first edition by Athena A. Floutsi
+%    - 2024-05-17: updates on startTime/endTime writing and on variable name 
 %
 % .. Authors: - floutsi@tropos.de
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
@@ -61,7 +62,7 @@ varID_err_aerBsc532_klett_nd1  = netcdf.defVar(ncID, 'uncertainty_aerBsc532_klet
 varID_aerBsc1064_klett_d1      = netcdf.defVar(ncID, 'aerBsc1064_klett_d1', 'NC_FLOAT', dimID_height);
 varID_err_aerBsc1064_klett_d1  = netcdf.defVar(ncID, 'uncertainty_aerBsc1064_klett_d1', 'NC_FLOAT', dimID_height);
 varID_aerBsc1064_klett_nd1     = netcdf.defVar(ncID, 'aerBsc1064_klett_nd1', 'NC_FLOAT', dimID_height);
-varID_err_aerBsc1064_klett_nd1 = netcdf.defVar(ncID, 'uncertainty_aerBsc1064__nd1', 'NC_FLOAT', dimID_height);
+varID_err_aerBsc1064_klett_nd1 = netcdf.defVar(ncID, 'uncertainty_aerBsc1064_klett_nd1', 'NC_FLOAT', dimID_height);
 
 varID_aerBsc355_raman_d1       = netcdf.defVar(ncID, 'aerBsc355_raman_d1', 'NC_FLOAT', dimID_height);
 varID_err_aerBsc355_raman_d1   = netcdf.defVar(ncID, 'uncertainty_aerBsc355_raman_d1', 'NC_FLOAT', dimID_height);
@@ -159,8 +160,8 @@ netcdf.endDef(ncID);
 netcdf.putVar(ncID, varID_altitude, single(data.alt0));
 netcdf.putVar(ncID, varID_longitude, single(data.lon));
 netcdf.putVar(ncID, varID_latitude, single(data.lat));
-netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(data.mTime(1)));
-netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(data.mTime(end)));
+netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
+netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
 netcdf.putVar(ncID, varID_height, single(data.height));
 
 netcdf.putVar(ncID, varID_aerBsc_klett_355, single(fillmissing(data.aerBsc355_klett(iGrp, :), missing_value)));
@@ -571,6 +572,10 @@ netcdf.putAtt(ncID, varID_global, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_global, 'version', PicassoConfig.PicassoVersion);
 netcdf.putAtt(ncID, varID_global, 'reference', PicassoConfig.homepage);
 netcdf.putAtt(ncID, varID_global, 'contact', PicassoConfig.contact);
+netcdf.putAtt(ncID, varID_global, 'PicassoConfig_Info', data.PicassoConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'PollyConfig_Info', data.PollyConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'CampaignConfig_Info', data.CampaignConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'PollyData_Info', data.PollyDataInfo_saving_info);
 cwd = pwd;
 cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();

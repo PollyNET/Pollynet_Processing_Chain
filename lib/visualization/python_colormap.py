@@ -621,6 +621,50 @@ def calipso_colormap():
     return CALIPSO_CMAP
 
 
+def calipso_colormap_gray_inv():
+    CALIPSO_RGB = [
+        (0, 0.16862745,  0.50196078),
+        (0, 0.16862745,  0.66666667),
+        (0, 0.16862745, 0.6667),
+        (0, 0.50196078, 1),
+        (0, 0.66666667, 1),
+        (0, 0.83529412, 1),
+        (0, 1, 1),
+        (0, 1, 0.83529412),
+        (0, 1, 0.66666667),
+        (0, 0.50196078, 0.50196078),
+        (0, 0.66666667, 0.33333333),
+        (1, 1, 0.47843137),
+        (1, 1, 0),
+        (1, 0.83529412, 0),
+        (1, 0.66666667, 0),
+        (1, 0.50196078, 0),
+        (1, 0.33333333, 0),
+        (1, 0, 0),
+        (1, 0.16862745, 0.33333333),
+        (1, 0.33333333, 0.50196078),
+        (1, 0.50196078, 0.66666667),
+        (0.2745098, 0.2745098, 0.2745098),
+        (0.39215686, 0.39215686, 0.39215686),
+        (0.50980392, 0.50980392, 0.50980392),
+        (0.60784314, 0.60784314, 0.60784314),
+        (0.78431373, 0.78431373, 0.78431373)
+
+
+#        (0.78431373, 0.78431373, 0.78431373),
+#        (0.60784314, 0.60784314, 0.60784314),
+#        (0.50980392, 0.50980392, 0.50980392),
+#        (0.39215686, 0.39215686, 0.39215686),
+#        (0.2745098, 0.2745098, 0.2745098)
+    ]
+
+    nbins = 1024
+    CALIPSO_CMAP = LinearSegmentedColormap.from_list(
+        'calipso', CALIPSO_RGB, N=nbins)
+
+    return CALIPSO_CMAP
+
+
 def chiljet_colormap():
 
     chiljet_rgb = [
@@ -770,7 +814,7 @@ def load_colormap(name='chiljet'):
         colormap name.
         - 'chiljet'
         - 'eleni'
-        - 'CALIPSO'
+        - 'calipso'
     Return
     ------
     cmap: matplotlib colormap
@@ -780,8 +824,8 @@ def load_colormap(name='chiljet'):
         cmap = chiljet_colormap()
     elif name == 'eleni':
         cmap = eleni_colormap()
-    elif name == 'CALIPSO':
-        cmap = CALIPSO_colormap()
+    elif name == 'calipso':
+        cmap = calipso_colormap_gray_inv()
     elif name == 'labview':
         cmap = labivew_colormap()
     else:
@@ -796,13 +840,29 @@ def Test():
     import numpy as np
     import matplotlib.pyplot as plt
 
-    x = np.random.random((40, 40))
-    y = np.random.random((40, 40))
-    X, Y = np.meshgrid(x, y)
-    Z = np.exp(-2*(X**2 + Y**2))
+#    x = np.random.random((40, 40))
+#    y = np.random.random((40, 40))
+#    X, Y = np.meshgrid(x, y)
+#    Z = np.exp(-2*(X**2 + Y**2))
 
-    plt.contourf(Z, level=40, cmap=eleni_colormap())
+#    plt.contourf(Z, level=255, cmap=calipso_colormap())
+#    image_data = np.random.rand(42,42)
+#    plt.imshow(image_data, cmap=calipso_colormap_gray_inv())
+
+    # Define the dimensions of the grid
+    n = 1024
+    x = np.linspace(-2, 2, n)
+    y = np.linspace(-2, 2, n)
+
+    # Create a meshgrid
+    X, Y = np.meshgrid(x, y)
+
+    # Create a smooth gradient using a function, for example, a Gaussian
+    sigma = 1.0
+    Z = np.exp(-X**2/(2*sigma**2)) * np.exp(-Y**2/(2*sigma**2))
+    plt.imshow(Z, cmap=calipso_colormap_gray_inv())
     plt.colorbar()
+    plt.savefig('c:\_data\calipso_colormap_gray_inv.png', dpi=300)
     plt.show()
 
     # fig = plt.figure(figsize=[15, 5])
@@ -833,6 +893,7 @@ def make_colormap(seq):
     seq: a sequence of floats and RGB-tuples. The floats should be increasing
     and in the interval (0,1).
     """
+    import matplotlib.colors
     seq = [(None,) * 3, 0.0] + list(seq) + [1.0, (None,) * 3]
     cdict = {'red': [], 'green': [], 'blue': []}
     for i, item in enumerate(seq):
@@ -844,20 +905,21 @@ def make_colormap(seq):
             cdict['blue'].append([item, b1, b2])
     return matplotlib.colors.LinearSegmentedColormap('CustomMap', cdict)
 
-def eleni_colormap():
-    c = matplotlib.colors.ColorConverter().to_rgb 
-    cmap=eleni_colormap([c('lightskyblue'),c('dodgerblue'), 0.1,
-                          c('dodgerblue'),c('teal'), 0.2,
-                          c('teal'),c('limegreen'), 0.3,
-                          c('limegreen'),c('yellow'), 0.4,
-                          c('yellow'), c('orange'), 0.5,
-                          c('orange'),c('orangered'), 0.6,
-                          c('orangered'), c('red'), 0.7,
-                          c('red'), c('firebrick'), 0.8,
-                          c('firebrick'),c('darkred'), 0.9,
-                          c('darkred'),c('k')])
-    cmap.set_bad(color='white', alpha=1)
-    return cmap
+# def eleni_colormap():
+#     import matplotlib.colors
+#     c = matplotlib.colors.ColorConverter().to_rgb 
+#     cmap=eleni_colormap([c('lightskyblue'),c('dodgerblue'), 0.1,
+#                           c('dodgerblue'),c('teal'), 0.2,
+#                           c('teal'),c('limegreen'), 0.3,
+#                           c('limegreen'),c('yellow'), 0.4,
+#                           c('yellow'), c('orange'), 0.5,
+#                           c('orange'),c('orangered'), 0.6,
+#                           c('orangered'), c('red'), 0.7,
+#                           c('red'), c('firebrick'), 0.8,
+#                           c('firebrick'),c('darkred'), 0.9,
+#                           c('darkred'),c('k')])
+#     cmap.set_bad(color='white', alpha=1)
+#     return cmap
 
 def main():
     Test()

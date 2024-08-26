@@ -121,8 +121,6 @@ end
 for fn = fieldnames(pollyConfig)'
     if isfield(pollyGlobalConfig, fn{1})
         pollyGlobalConfig.(fn{1}) = pollyConfig.(fn{1});
-    elseif strcmp(fn{1}, 'minSNR_4_sigNorm')
-        warning('''minSNR_4_sigNorm'' was deprecated');
     elseif strcmp(fn{1}, 'zLim_FR_RCS_355')
         warning('''zLim_FR_RCS_355'' was deprecated');
     elseif strcmp(fn{1}, 'zLim_FR_RCS_532')
@@ -135,8 +133,6 @@ for fn = fieldnames(pollyConfig)'
         warning('''zLim_NR_RCS_532'' was deprecated');
     elseif strcmp(fn{1}, 'channelTag')
         warning('''channelTag'' was deprecated');
-    elseif strcmp(fn{1}, 'is1058nm')
-        warning('''is1058nm'' was deprecated');
     else
         error('Unknown polly settings: %s', fn{1});
     end

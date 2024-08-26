@@ -120,6 +120,16 @@ if ~ isfield(PollyConfig, 'logbookFile')
     % if 'logbookFile' was no set
     PollyConfig.logbookFile = '';
 end
+
+if isfield(PollyConfig, 'logbookPath')
+    [USER, HOME, OS] = getsysinfo();
+    if strcmp(OS,'win')
+        PollyConfig.logbookFile = fullfile('K:\\',PollyConfig.logbookPath, PollyConfig.logbookFileName)
+    else
+        PollyConfig.logbookFile = fullfile(PollyConfig.logbookPath, PollyConfig.logbookFileName)   
+    end
+ end
+
 logbookInfo = readLogBook(PollyConfig.logbookFile, numel(PollyConfig.first_range_gate_indx));
 flagLogbookTillNow = (logbookInfo.datetime <= PollyDataInfo.dataTime);
 logbookTime = logbookInfo.datetime(flagLogbookTillNow);
