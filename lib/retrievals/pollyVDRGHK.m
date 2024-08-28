@@ -4,7 +4,7 @@ function [volDepol, volDepolStd] = pollyVDRGHK(sigTot, sigCross, ...
 % POLLYVDR calculate volume depolarization ratio using GHK parameters.
 %
 % USAGE:
-%    [volDepol, volDepolStd] = pollyVDR(sigTot, bgTot, sigCross, bgCross, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, smoothWindow)
+%    [volDepol, volDepolStd] = pollyVDRGHK(sigTot, bgTot, sigCross, bgCross, GT, GR,HT,HR, eta, voldep_sys_uncertainty, smoothWindow)
 %
 % INPUTS:
 %    sigTot: array
@@ -15,19 +15,19 @@ function [volDepol, volDepolStd] = pollyVDRGHK(sigTot, sigCross, ...
 %        signal strength of the cross channel. [photon count]
 %    bgCross: array
 %        background of the cross channel. [photon count]
-%    Rt: scalar
-%        transmission ratio in total channel
-%    RtStd: scalar
-%        uncertainty of the transmission ratio in total channel
-%    Rc: scalar
-%        transmission ratio in cross channel
-%    RcStd: scalar
-%        uncertainty of the transmission ratio in cross channel
-%    depolConst: scalar
-%        depolarzation calibration constant. (transmission ratio for the 
-%        parallel component in cross channel and total channel)
-%    depolConstStd: scalar
-%        uncertainty of the depolarization calibration constant.
+%    GT: scalar
+%        G parameter in total channel
+%    GR: scalar
+%        G parameter in cross channel
+%    HT: scalar
+%        H parameter in total channel
+%    HR: scalar
+%        H parameter in cross channel
+%    voldep_sys_uncertainty: scalar
+%        systematic uncertainty of the volume depolarization ratio (in
+%        future it should be given in the config file)
+%    eta: scalar
+%        depolarzation calibration constant. 
 %    smoothWindow: scalar or m*3 matrix
 %        the width of the sliding smoothing window for the signal.
 %    flagSmoothBefore: logical
@@ -75,7 +75,7 @@ end
 volDepol = (sigRatio ./ eta * (GT + HT) - (GR + HR)) ./ ((GR - HR) - sigRatio ./eta * (GT - HT));
 % TODO:
 % Implementing the uncertainty of the volume depolarization. 
-% The systematic uncertainty should be given as a default value for each
+% The systematic uncertainty should be given as a config value for each
 % system and has to be determined additionally. 
 volDepolStd = voldep_sys_uncertainty;
 % volDepolStd = (sigRatio .* (Rt - Rc) ./ ...

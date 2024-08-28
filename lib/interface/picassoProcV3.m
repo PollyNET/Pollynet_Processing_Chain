@@ -428,20 +428,35 @@ flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChan
 flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064c = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
-%GHK from config file
-if ~isnan(PollyConfig.G) 
+
+if isempty(PollyConfig.H)
+    print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
+    flagGHK = 0;
+elseif (PollyConfig.H ~= -999) 
+    print_msg('Using GHK from config file.\n', 'flagTimestamp', true);
     flagGHK = 1;
 else
-    %GHK calculation from transmission ratios
-    flagGHK =0; 
+    print_msg('Calculating GHK from transmission ratios in config file.\n', 'flagTimestamp', true);
+    PollyConfig.K(flag355t) = 1.0;
+    PollyConfig.K(flag532t) = 1.0;  
+    PollyConfig.K(flag1064t) = 1.0;
+        
+    PollyConfig.G(flag355t) = 1.0;
+    PollyConfig.G(flag355c) = 1.0;
+    PollyConfig.G(flag532t) = 1.0;
+    PollyConfig.G(flag532c) = 1.0;    
+    PollyConfig.G(flag1064t) = 1.0;
+    PollyConfig.G(flag1064c) = 1.0;  
+
+    PollyConfig.H(flag355t) = (1-PollyConfig.TR(flag355t))/(1+PollyConfig.TR(flag355t));
+    PollyConfig.H(flag355c) = (1-PollyConfig.TR(flag355c))/(1+PollyConfig.TR(flag355c));
+    PollyConfig.H(flag532t) = (1-PollyConfig.TR(flag532t))/(1+PollyConfig.TR(flag532t));
+    PollyConfig.H(flag532c) = (1-PollyConfig.TR(flag532c))/(1+PollyConfig.TR(flag532c));    
+    PollyConfig.H(flag1064t) = (1-PollyConfig.TR(flag1064t))/(1+PollyConfig.TR(flag1064t));
+    PollyConfig.H(flag1064c) = (1-PollyConfig.TR(flag1064c))/(1+PollyConfig.TR(flag1064c));  
+    flagGHK =1; 
 end
        
-
-%flagGHK =1; 
-
-
-
-
 %% Polarization calibration
 if flagGHK
     if ~ PollyConfig.flagMolDepolCali
@@ -563,14 +578,6 @@ else
     end
 end
 
-%polCaliEta=data.polCaliEta355;%polCalAttri355.polCaliEta;%
-% print_msg('Polarization calibration eta_355 =', 'flagTimestamp', true);
-% data.polCali355Attri.polCaliEta
-% return
-%set eta values for our test case
-% data.polCaliEta355 = 46.775451;
-% data.polCaliEta532 = 12.145015;
-% data.polCaliEta1064 = 0.146774;
 %% Cloud screen
 print_msg('Start cloud screening.\n', 'flagTimestamp', true);
 flagChannel532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
@@ -2723,8 +2730,7 @@ if flagGHK
     % 355 nm
     %%Klett
     polCaliEta=data.polCali355Attri.polCaliEta;
-    %polCaliEtaStd= data.polCaliEtaStd355;
-    voldep_sys_uncertainty355 = 0.01; %intermediate hard coded solution, should be given in default file
+    voldep_sys_uncertainty355 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty355;
     smoothWin=PollyConfig.smoothWin_klett_355;
     [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
@@ -2735,8 +2741,7 @@ if flagGHK
     % 532 nm
     %%Klett
     polCaliEta=data.polCali532Attri.polCaliEta;
-    %polCaliEtaStd= data.polCaliEtaStd532;
-    voldep_sys_uncertainty532 = 0.01; %intermediate hard coded solution, should be given in default file
+    voldep_sys_uncertainty532 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty532;
     smoothWin=PollyConfig.smoothWin_klett_532;
     [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
@@ -2747,8 +2752,7 @@ if flagGHK
     % 1064 nm
     %%Klett
     polCaliEta=data.polCali1064Attri.polCaliEta;
-    %polCaliEtaStd= data.polCaliEtaStd1064;
-    voldep_sys_uncertainty1064 = 0.01; %intermediate hard coded solution, should be given in default file
+    voldep_sys_uncertainty1064 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty1064;
     smoothWin=PollyConfig.smoothWin_klett_1064;
     [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
@@ -2830,7 +2834,7 @@ if flagGHK
         data.mdr355(iGrp) = thisMdr355;
         mdrStd355(iGrp) = thisMdrStd355;
         flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
-
+        % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
         if ~ isnan(data.aerBsc355_klett(iGrp, 80))
             [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
             data.pdr355_klett(iGrp, :) = thisPdr355_klett;
@@ -2956,7 +2960,7 @@ if flagGHK
         data.mdr532(iGrp) = thisMdr532;
         mdrStd532(iGrp) = thisMdrStd532;
         flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
-
+        % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
         if ~ isnan(data.aerBsc532_klett(iGrp, 80))
             [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
             data.pdr532_klett(iGrp, :) = thisPdr532_klett;
@@ -3083,7 +3087,7 @@ if flagGHK
         data.mdr1064(iGrp) = thisMdr1064;
         mdrStd1064(iGrp) = thisMdrStd1064;
         flagDeftMdr1064(iGrp) = thisFlagDeftMdr1064;
-
+        % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
         if ~ isnan(data.aerBsc1064_klett(iGrp, 80))
             [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
             data.pdr1064_klett(iGrp, :) = thisPdr1064_klett;

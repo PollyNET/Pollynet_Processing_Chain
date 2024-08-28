@@ -3,20 +3,23 @@ function [volDepol] = pollyVDR2GHK(sigTot, sigCross, GT, GR, HT, HR, eta)
 % system, which is used for the high resolution and quasi PDR products. 
 %
 % USAGE:
-%    [volDepol] = pollyVDR2(sigTot, sigCross, Rt, Rc, depolConst)
+%    [volDepol] = pollyVDR2GHK(sigTot, sigCross, GT, GR, HT, HR, eta)
 %
 % INPUTS:
 %    sigTot: array
 %        signal strength of the total channel. [photon count]
 %    sigCross: array
 %        signal strength of the cross channel. [photon count]
-%    Rt: scalar
-%        transmission ratio in total channel
-%    Rc: scalar
-%        transmission ratio in cross channel
-%    depolConst: scalar
-%        depolarzation calibration constant. (transmission ratio for the 
-%        parallel component in cross channel and total channel)
+%    GT: scalar
+%        G parameter in total channel
+%    GR: scalar
+%        G parameter in cross channel
+%    HT: scalar
+%        H parameter in total channel
+%    HR: scalar
+%        H parameter in cross channel
+%    eta: scalar
+%        depolarzation calibration constant. 
 %
 % OUTPUTS:
 %    volDepol: array

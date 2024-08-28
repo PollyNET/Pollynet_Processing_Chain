@@ -6,10 +6,10 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 % DEPOLCALI polarization calibration for PollyXT lidar system.
 %
 % USAGE:
-%    [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, depol_cal_time] = depolCali(signal_t, 
+%    [polCaliEta, polCaliEtaStd, depol_cal_time] = depolCaliGHK(signal_t, 
 %        bg_t, signal_x, bg_x, time, polCaliPAngStartTime, 
 %        polCaliPAngStopTime, polCaliNAngStartTime, 
-%        polCaliNAngStopTime, TR_t, TR_x, caliHIndxRange, 
+%        polCaliNAngStopTime, K, caliHIndxRange, 
 %        SNRmin, sigMax, rel_std_dplus, rel_std_dminus, 
 %        segmentLen, smoothWin, flagShowResults)
 %
@@ -38,10 +38,8 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 %    polCaliNAngStopTime: array
 %        datenum array represents the end time that the polarizer
 %        rotates to the negative angle.
-%    TR_t: float
-%        tranmission at total channel.
-%    TR_x: float
-%        transmision at cross channel.
+%    K: float
+%        K parameter from GHK to correct the calibration.
 %    caliHIndxRange: 2-element array
 %        range of height indexes at which the signal can be used for
 %        polarization calibration.
@@ -67,10 +65,6 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 %        eta from polarization calibration.
 %    polCaliEtaStd: array
 %        uncertainty of eta from polarizatrion calibration.
-%    polCaliFac: array
-%        polarization calibration factor.
-%    polCaliFacStd: array
-%        uncertainty of polarization calibration factor.
 %    polCaliStartTime: array
 %        start time for each successful calibration.
 %    polCaliStopTime: array
@@ -79,14 +73,15 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 %        all the information about the depol calibration.
 %
 % REFERENCE:
-%    1. Freudenthaler, V.: About the effects of polarising optics on lidar signals and the Î”90Â calibration, Atmos. Meas. Tech., 9, 4181-4255, 10.5194/amt-9-4181-2016, 2016.
+%    1. Freudenthaler, V.: About the effects of polarising optics on lidar signals and the Delta90° calibration, Atmos. Meas. Tech., 9, 4181-4255, 10.5194/amt-9-4181-2016, 2016.
 %
 % HISTORY:
 %    - 2018-07-25: First edition by Zhenping.
 %    - 2019-06-08: If no depol cali, return empty array.
 %    - 2019-09-06: Remove the part to replace the bins of low SNR with NaN, because it will lead to bias when doing smoothing.
+%    - 2024-08-27: Transfrom to GHK parameters using only eta and not V* (polCaliFac) any more 
 %
-% .. Authors: - zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de, haarig@tropos.de
 
 %% parameters initialization
 polCaliEta = [];
@@ -114,8 +109,6 @@ globalAttri.std_dplus_tmp = cell(0);
 globalAttri.mean_dminus_tmp = cell(0);
 globalAttri.std_dminus_tmp = cell(0);
 globalAttri.K = cell(0);
-%globalAttri.TR_t = cell(0);
-%globalAttri.TR_x = cell(0);
 globalAttri.segIndx = cell(0);
 globalAttri.caliTime = cell(0);
 
@@ -247,8 +240,6 @@ for iDay = 1:nDays
         globalAttri.mean_dminus_tmp{end + 1} = mean_dminus_tmp;
         globalAttri.std_dminus_tmp{end + 1} = std_dminus_tmp;
         globalAttri.K{end + 1} = K;
-        %globalAttri.TR_t{end + 1} = TR_t;
-        %globalAttri.TR_x{end + 1} = TR_x;
         globalAttri.segIndx{end + 1} = segIndx;
         globalAttri.caliTime{end + 1} = mean([thisCaliStartTime, thisCaliStopTime]);
 
@@ -259,7 +250,8 @@ if isempty(mean_dminus) || isempty(mean_dplus)
     return;
 end
 
-% calculate the depol-calibration factor and unceratinty
+% calculate the depol-calibration factor and unceratinty and correcting it
+% with K
 polCaliEta = 1/K .* sqrt(mean_dplus .* mean_dminus);
 polCaliEtaStd = 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus) ./ sqrt(mean_dplus .* mean_dminus);
 

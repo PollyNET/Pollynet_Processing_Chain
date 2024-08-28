@@ -2,8 +2,8 @@ function [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, sigC, bgC, flagT,flagC
 % POLLYMDR etimate the molecular depolarization ratio according to the measurements at reference height.
 %
 % USAGE:
-%    [MDR, MDRStd, flagDeft] = pollyMDR(sigT, bgT, ...
-%    sigC, bgC, Rt, RtStd, Rc, RcStd, depolConst, depolConstStd, ...
+%    [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, ...
+%    sigC, bgC, flagT,flagC, eta, voldep_sys_uncertainty, ...
 %    minSNR, deftMDR, deftMDRStd)
 %
 % INPUTS:
@@ -17,19 +17,15 @@ function [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, sigC, bgC, flagT,flagC
 %        [photon count]
 %    bgCross: array
 %        background of the cross channel at reference height. [photon count]
-%    Rt: scalar
-%        transmission ratio in total channel
-%    RtStd: scalar
-%        uncertainty of the transmission ratio in total channel
-%    Rc: scalar
-%        transmission ratio in cross channel
-%    RcStd: scalar
-%        uncertainty of the transmission ratio in cross channel
-%    depolConst: scalar
-%        depolarzation calibration constant. (transmission ratio for the 
-%        parallel component in cross channel and total channel)
-%    depolConstStd: scalar
-%        uncertainty of the depolarization calibration constant.
+%    flagT: 
+%        flag the total channel for the respective wavelength.
+%    flagC: 
+%        flag the cross channel for the respective wavelength.
+%    eta: scalar
+%        depolarzation calibration constant. 
+%    voldep_sys_uncertainty: scalar
+%        systematic uncertainty of the volume depolarization ratio (in
+%        future it should be given in the config file)
 %    minSNR: float
 %        the SNR constrain for the the signal strength at reference height. 
 %        Choose a strong constrain for ensuring a stable result, 
@@ -38,6 +34,8 @@ function [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, sigC, bgC, flagT,flagC
 %        default molecular depolarization ratio.
 %    deftMDRStd: float
 %        default std of molecular depolarization ratio.
+%    Polly.Config:
+%        contains the GHK parameters for further calcualtions. 
 %
 % OUTPUTS:
 %    MDR: float
