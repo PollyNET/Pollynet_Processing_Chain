@@ -841,3 +841,400 @@ def pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outdir,
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['end_time'])).strftime('%Y%m%d %H:%M:%S')
                                     )
 
+
+def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,polly_conf_dict,outdir,method,ymax,donefilelist_dict):
+    """
+    Description
+    -----------
+    Display the water vapor mixing ratio WVMR from level1 polly nc-file.
+
+    Parameters
+    ----------
+    nc_dict_profile: dict
+        dict wich stores the WV data.
+
+    Usage
+    -----
+    pollyDisplayWVMR_profile(nc_dict_profile,config_dict,polly_conf_dict)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    ## read from config file
+    figDPI = config_dict['figDPI']
+    flagWatermarkOn = config_dict['flagWatermarkOn']
+    fontname = config_dict['fontname']
+
+
+    partnerLabel = polly_conf_dict['partnerLabel']
+    imgFormat = polly_conf_dict['imgFormat']
+
+    ## read from nc-file
+    starttime = nc_dict_profile['start_time']
+    endtime = nc_dict_profile['end_time']
+#    var_err_ls = [ nc_dict_profile[parameter_err] for parameter_err in profile_translator[profilename]['var_err_name_ls'] ]
+    height_FR = nc_dict_profile['height']
+#    LCUsed = np.array([nc_dict_profile[f'LCUsed{wavelength}']])
+
+#    flagLC = nc_dict_profile[f'flagLC{wavelength}']
+    pollyVersion = nc_dict_profile['PollyVersion']
+    location = nc_dict_profile['location']
+    version = nc_dict_profile['PicassoVersion']
+    dataFilename = re.split(r'_profiles',nc_dict_profile['PollyDataFile'])[0]
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
+
+    if ymax == 'high_range':
+        y_max_FR = 18000
+        ymax_prod_type = ymax
+        xmax_depol = [0,0.6]
+    elif ymax == 'low_range':
+        y_max_FR = 5000
+        ymax_prod_type = ymax
+        xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
+    else:
+        y_max_FR = 18000
+        ymax_prod_type = 'high_range'
+        xmax_depol = [0,0.6]
+
+    plotfile = f"{dataFilename}_profile_summary_{method}_{ymax_prod_type}.{imgFormat}"
+    saveFolder = outdir
+    saveFilename = os.path.join(saveFolder,plotfile)
+
+    y_max_NR = 5000
+    cols = 6
+    if len(nc_dict_profile_NR) > 0:
+        height_NR = nc_dict_profile_NR['height']
+        h_index = np.where(height_NR > 5000)[0][0]
+        height_NR_shortened = height_NR[0:h_index]
+
+        if method == 'raman':
+        
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
+                                         "NR":['aerBsc_raman_355','aerBsc_raman_532']
+                                        },
+                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                                         "NR": ['aerExt_raman_355','aerExt_raman_532']
+                                        },
+                          "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
+                                         "NR": ['aerLR_raman_355','aerLR_raman_532']
+                                        },
+                          "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR'],
+                                   "NR": []
+                                  }
+            }
+
+        elif method == 'klett':
+
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR":['aerBsc_klett_355','aerBsc_klett_532']
+                                        },
+                          "extinction": {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR": []
+                                        },
+                          "lidarratio": {"FR": [],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": [],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_klett_355','parDepol_klett_532','parDepol_klett_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR'],
+                                   "NR": []
+                                  }
+            }
+    else:
+
+        if method == 'raman':
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
+                                         "NR": []
+                                        },
+                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                                         "NR": []
+                                        },
+                          "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR','RH'],
+                                   "NR": []
+                                  }
+            }
+
+        elif method == 'klett':
+            param_dict = {
+                          "backscatter":
+                                        {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR": []
+                                        },
+                          "extinction": {"FR": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
+                                         "NR": []
+                                        },
+                          "lidarratio": {"FR": [],
+                                         "NR": []
+                                        },
+                          "angstroem": {"FR": [],
+                                        "NR": []
+                                       },
+                          "depolarization": {"FR": ['parDepol_klett_355','parDepol_klett_532','parDepol_klett_1064'],
+                                             "NR": []
+                                            },
+                          "wvmr": {"FR": ['WVMR','RH'],
+                                   "NR": []
+                                  }
+            }
+
+    fixed_LR = 1
+    fixed_LR_ls = []
+    def plotting_procedure(col,param_dict,parameter,xlabel,xlim=[0,1],ylim=[0,1],scaling_factor=1):
+
+        ax[col].set_xlabel(xlabel, fontsize=axes_fontsize)
+        ax[col].grid(True)
+        ax[col].tick_params(axis='both', which='major', labelsize=15,
+                       right=True, top=True, width=2, length=5)
+        ax[col].tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
+
+        for n,p in enumerate(param_dict[parameter]["FR"]):
+            label = p
+            if parameter == 'angstroem':
+                    color_ls = ['orange','magenta','black']
+            else:
+                    color_ls = ['blue','green','red']
+
+            line_style = '-'
+
+            if parameter == 'wvmr':
+#                ax2 = ax[col].secondary_xaxis('top')
+                ax2 = ax[col].twiny()
+                ax2.set_xlabel('Rel.Humidity [%]', fontsize=axes_fontsize)
+                ax2.set_xlim(0,100)
+                ax2.tick_params(axis='both', which='major', labelsize=15,
+                       right=True, top=True, width=2, length=5)
+                ax2.tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
+                p_FR = ax[col].plot(nc_dict_profile['WVMR']*scaling_factor, height_FR/1000,\
+                    linestyle=line_style,\
+                    color=color_ls[n],\
+                    zorder=2,\
+                    alpha=1,\
+                    label='WVMR')
+                p_RH = ax2.plot(nc_dict_profile['RH']*scaling_factor, height_FR/1000,\
+                    linestyle=line_style,\
+                    #color=color_ls[n],\
+                    color='green',
+                    zorder=2,\
+                    alpha=1,\
+                    label='RH')
+                ax2.legend(fontsize=14, loc='upper right', bbox_to_anchor=(0.9, 0.95))
+            else:
+                if parameter == 'extinction' and method == 'klett':
+                    label = f'{p} x LR'
+                    try:
+                        fixed_LR = nc_dict_profile[f'{p}___retrieving_info']
+                        fixed_LR = re.split(r'Fixed lidar ratio:',fixed_LR)[-1]
+                        fixed_LR = float(re.split(r'\[Sr\]',fixed_LR)[0])
+                        fixed_LR_ls.append(fixed_LR)
+                    except:
+                         fixed_LR = 50
+                else:
+                    fixed_LR = 1
+                p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor*fixed_LR, height_FR/1000,\
+                    linestyle=line_style,\
+                    color=color_ls[n],\
+                    zorder=2,\
+                    label=label)
+
+
+        for n,p in enumerate(param_dict[parameter]["NR"]):
+            color_ls = ['cyan','lime']
+
+            line_style = '-'
+            nc_dict_profile_NR_shortened = nc_dict_profile_NR[p][0:h_index]
+            p_NR = ax[col].plot(nc_dict_profile_NR_shortened*scaling_factor, height_NR_shortened/1000,\
+                linestyle=line_style,\
+                color=color_ls[n],\
+                zorder=1,\
+                alpha=0.5,\
+                label=f'{p}_NR')
+        ax[col].set_xlim(xlim[0],xlim[1])
+        ax[col].set_ylim(ylim[0],ylim[1]/1000)
+        ax[col].legend(loc='upper right',fontsize=14)
+    
+    fig, ax = plt.subplots(1,cols, figsize=(25, 17))
+
+
+    axes_fontsize = 18
+
+
+    ## ref.Height
+    if np.any(nc_dict_profile['reference_height_355'].mask):
+        refH355_0 = np.nan
+        refH355_1 = np.nan
+    else:
+        refH355_0 = nc_dict_profile['reference_height_355'][0]/1000
+        refH355_1 = nc_dict_profile['reference_height_355'][1]/1000
+    if np.any(nc_dict_profile['reference_height_532'].mask):
+        refH532_0 = np.nan
+        refH532_1 = np.nan
+    else:
+        refH532_0 = nc_dict_profile['reference_height_532'][0]/1000
+        refH532_1 = nc_dict_profile['reference_height_532'][1]/1000
+    if np.any(nc_dict_profile['reference_height_1064'].mask):
+        refH1064_0 = np.nan
+        refH1064_1 = np.nan
+    else:
+        refH1064_0 = nc_dict_profile['reference_height_1064'][0]/1000
+        refH1064_1 = nc_dict_profile['reference_height_1064'][1]/1000
+    fig.text(
+        0.1, 0.02,
+        'ref.H_355: '+f'{refH355_0:.2f}-{refH355_1:.2f} km\n'+\
+        'ref.H_532: '+f'{refH532_0:.2f}-{refH532_1:.2f} km\n'+\
+        'ref.H_1064: '+f'{refH1064_0:.2f}-{refH1064_1:.2f} km',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
+    ## eta
+    try:
+        eta355 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_355___retrieving_info'])[-1])
+    except:
+        eta355 = np.nan
+    try:
+        eta532 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_532___retrieving_info'])[-1])
+    except:
+        eta532 = np.nan
+    try:
+        eta1064 = float(re.split(r'eta:',nc_dict_profile['volDepol_klett_1064___retrieving_info'])[-1])
+    except:
+        eta1064 = np.nan
+    ax[4].text(
+        0.2, 0.8,
+        r'$\eta_{355}$: '+f'{eta355:.2f}\n'+\
+        r'$\eta_{532}$: '+f'{eta532:.2f}\n'+\
+        r'$\eta_{1064}$: '+f'{eta1064:.2f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[4].transAxes)
+
+    ## water-vapor calib-constant
+    try:
+        wv_calib = float(nc_dict_profile['WVMR___wv_calibration_constant_used'])
+    except:
+        wv_calib  = np.nan
+    fig.text(
+        0.85, 0.05,
+        f'WV-calib.const.: {wv_calib:.1f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
+
+
+    plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    
+    plotting_procedure(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    
+    plotting_procedure(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=[0,y_max_FR])
+    
+    plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
+
+    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
+    plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
+    
+    ## Ext.Klett (with fixed LidarRatio)
+    if method == 'klett' and len(fixed_LR_ls) > 0:
+        ax[1].text(
+            0.6, 0.85,
+            r'LR$_{355}$: '+f'{fixed_LR_ls[0]:.2f}\n'+\
+            r'LR$_{532}$: '+f'{fixed_LR_ls[1]:.2f}\n'+\
+            r'LR$_{1064}$: '+f'{fixed_LR_ls[2]:.2f}',fontsize=11, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1,transform=ax[1].transAxes)
+
+
+    plt.tight_layout(rect=[0.05, 0.07, 0.98, 0.95])
+        
+    ax[0].set_ylabel("Height [km]",fontsize=18)
+
+    method_upper = str(method).capitalize()
+    fig.suptitle(
+        'Summary of {method_upper} profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
+            method_upper=method_upper,
+            instrument=pollyVersion,
+            location=location,
+            starttime=datetime.utcfromtimestamp(int(starttime)).strftime('%Y%m%d %H:%M'),
+            endtime=datetime.utcfromtimestamp(int(endtime)).strftime('%H:%M'),
+#            starttime=starttime.strftime('%Y%m%d %H:%M'),
+#            endtime=endtime.strftime('%H:%M')
+            ),
+        fontsize=20
+        )
+
+#    plt.legend(loc='upper right')
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        #rootDir = os.getcwd()
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.33, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.5, 0.01, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.75, 0.01,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    
+    fig.savefig(saveFilename, dpi=figDPI)
+    
+    plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict_profile['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = "overview of all relevant polly profile-products",
+                                    nc_zip_file = nc_dict_profile['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = f'Profile_summary_{method}_{ymax_prod_type}',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
+
+
+

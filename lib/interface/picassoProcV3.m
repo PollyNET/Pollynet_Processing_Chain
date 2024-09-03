@@ -1312,7 +1312,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc355, ~] = rayleigh_scattering(355, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta355 = mean(data.aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2);
+        refBeta355 = mean(data.aerBsc355_klett(iGrp, refHBaseInd355:refHTopInd355), 2); %here the refereence value is calculated from the far field
 
         [thisAerBsc355_NR_klett, thisAerBscStd355_NR_klett] = pollyFernald(data.distance0, sig355, bg355, PollyConfig.LR_NR_355, refH355, refBeta355, mBsc355, PollyConfig.smoothWin_klett_NR_355);
         thisAerExt355_NR_klett = PollyConfig.LR_NR_355 * thisAerBsc355_NR_klett;
@@ -1364,7 +1364,7 @@ for iGrp = 1:size(clFreGrps, 1)
     else
         [mBsc532, ~] = rayleigh_scattering(532, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
-        refBeta532 = mean(data.aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2);
+        refBeta532 = mean(data.aerBsc532_klett(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
 
         [thisAerBsc532_NR_klett, thisAerBscStd532_NR_klett] = pollyFernald(data.distance0, sig532, bg532, PollyConfig.LR_NR_532, refH532, refBeta532, mBsc532, PollyConfig.smoothWin_klett_NR_532);
         thisAerExt532_NR_klett = PollyConfig.LR_NR_532 * thisAerBsc532_NR_klett;
@@ -2002,7 +2002,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
     SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
-    refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);
+    refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);%here the refereence value is calculated from the far field
 
     if (SNRRef355 < PollyConfig.minRefSNR_NR_355) || (SNRRef387 < PollyConfig.minRamanRefSNR387) || isnan(refBeta355)
         continue;
@@ -2097,7 +2097,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
     SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
-    refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);
+    refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
 
     if (SNRRef532 < PollyConfig.minRefSNR_NR_532) || (SNRRef607 < PollyConfig.minRamanRefSNR607) || isnan(refBeta532)
         continue;
@@ -3721,9 +3721,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt355 = data.aerExt355_klett(iGrp, :);
-            aExt355(1:hIndBase) = data.aerExt355_klett(hIndBase);
+            aExt355(1:hIndBase) = data.aerExt355_klett(iGrp, hIndBase);
             aBsc355 = data.aerBsc355_klett(iGrp, :);
+
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3760,9 +3762,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt532 = data.aerExt532_klett(iGrp, :);
-            aExt532(1:hIndBase) = data.aerExt532_klett(hIndBase);
+            aExt532(1:hIndBase) = data.aerExt532_klett(iGrp, hIndBase);
             aBsc532 = data.aerBsc532_klett(iGrp, :);
+
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -3799,9 +3803,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt1064 = data.aerExt1064_klett(iGrp, :);
-            aExt1064(1:hIndBase) = data.aerExt1064_klett(hIndBase);
+            aExt1064(1:hIndBase) = data.aerExt1064_klett(iGrp, hIndBase);
             aBsc1064 = data.aerBsc1064_klett(iGrp, :);
+
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -4026,9 +4032,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt355 = data.aerExt355_aeronet(iGrp, :);
-            aExt355(1:hIndBase) = data.aerExt355_aeronet(hIndBase);
+            aExt355(1:hIndBase) = data.aerExt355_aeronet(iGrp, hIndBase);
             aBsc355 = data.aerBsc355_aeronet(iGrp, :);
+
             aOT355 = nancumsum(aExt355 .* [data.distance0(1), diff(data.distance0)]);
             mOT355 = nancumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -4065,9 +4073,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt532 = data.aerExt532_aeronet(iGrp, :);
-            aExt532(1:hIndBase) = data.aerExt532_aeronet(hIndBase);
+            aExt532(1:hIndBase) = data.aerExt532_aeronet(iGrp, hIndBase);
             aBsc532 = data.aerBsc532_aeronet(iGrp, :);
+
             aOT532 = nancumsum(aExt532 .* [data.distance0(1), diff(data.distance0)]);
             mOT532 = nancumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -4104,9 +4114,11 @@ for iGrp = 1:size(clFreGrps, 1)
             sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
+
             aExt1064 = data.aerExt1064_aeronet(iGrp, :);
-            aExt1064(1:hIndBase) = data.aerExt1064_aeronet(hIndBase);
+            aExt1064(1:hIndBase) = data.aerExt1064_aeronet(iGrp, hIndBase);
             aBsc1064 = data.aerBsc1064_aeronet(iGrp, :);
+
             aOT1064 = nancumsum(aExt1064 .* [data.distance0(1), diff(data.distance0)]);
             mOT1064 = nancumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]);
 
@@ -4988,6 +5000,11 @@ end
 
 %% Saving products
 if PicassoConfig.flagEnableResultsOutput
+% prepare confugartion information for storing to netcdf
+data.PicassoConfig_saving_info=struct2char(PicassoConfig);
+data.PollyConfig_saving_info=struct2char(PollyConfig);
+data.CampaignConfig_saving_info=struct2char(CampaignConfig);
+data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
 
     % delete the previous outputs
     % This is only necessary when you run the code on the server,
@@ -5042,6 +5059,17 @@ if PicassoConfig.flagEnableResultsOutput
     	         print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        end
             end
+            %%%%%% Test for storing quality controled information
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save aerosol optical results
+                try
+    	         pollySaveProfiles_QC(data);
+                 print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        catch
+    	         print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        end
+            end
         case 'aerprofnr'
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles (near-field).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
@@ -5056,13 +5084,14 @@ if PicassoConfig.flagEnableResultsOutput
         case 'aerprofoc'
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles (overlap corrected).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                %% save aerosol optical results (overlap corrected)
-                try
-                pollySaveOCProfiles(data);
-                print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                catch
-                print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                end
+
+                %% save aerosol optical results(overlap corrected)
+                % try
+                  pollySaveOCProfiles(data);
+                  print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %catch
+                  %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %end
             end
             
         case 'aerattbetafr'

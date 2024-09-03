@@ -14,6 +14,7 @@ display_help() {
 #  echo "   -o, --output         specify folder where to put merged nc-file, e.g.: ~/todo_filelist"
   echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; default: false"
   echo "   --todolist       write merged level0-file into todo-list (set to true or false); default: true"
+  echo "   --matlab         specify location of matlab-executable; default is just set to: matlab"
   echo "   --proc 	        execute picasso-processing-chain (set to true or false); default: true"
   echo "   --delmerged      deleting merged files in the end (set to true or false); default: true"
 #  echo "   --fproc 	        force to execute picasso-processing-chain even if job was already processed (entry in done-list exists)"
@@ -25,6 +26,7 @@ display_help() {
 
 ## initialize parameters
 FORCE_MERGING="false"
+MATLABEXEC="matlab"
 PICASSO_CONFIG_FILE=""
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
@@ -82,6 +84,11 @@ while :; do
 
   --todolist)
     flagWriteIntoTodoList="$2"
+    shift 2
+    ;;
+
+  --matlab)
+    MATLABEXEC="$2"
     shift 2
     ;;
 
@@ -176,6 +183,7 @@ main() {
             	check_todo_list_consistency
 	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
             fi
+            copy_level0_merged_file_to_level0b $DEVICE $DATE ## copy merged level0-24h-file to level0b
 		    ## OPTION 1: process every single task???
             if [[ "$flagProc" == "true" ]];then
 		        process_merged ## process actual merged file with picasso - written in todo_list
@@ -256,7 +264,8 @@ write_job_into_todo_list() {
         then
     		echo "add $filename to todo_list"
 		#local filename2=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
-                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
+                #local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
+                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*_00_00_01.nc | awk  -F '/' '{print $NF}')
 	        local filesize=`stat -c %s $OUTPUT_FOLDER/$filename2`
 	    	echo -n "$TODO_FOLDER, " >> $PICASSO_TODO_FILE
 	    	echo -n "${DEVICE}/data_zip/${DATE:0:6}, " >> $PICASSO_TODO_FILE
@@ -324,7 +333,7 @@ else
 
 echo -e "\nSettings:\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\n\n"
 
-matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+$MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
 cd $PICASSO_DIR;
 initPicassoToolbox;
 clc;
@@ -334,6 +343,23 @@ ENDMATLAB
 
 echo "Finished processing."
 fi
+}
+
+copy_level0_merged_file_to_level0b() {
+## copy level0 24h-file to
+	DEVICE=$1
+	DATE=$2
+	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+	local merged_level0_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*_00_00_01.nc"
+    local level0b_folder=/data/level0b/polly24h/$DEVICE/${DATE:0:4}
+    mkdir -p $level0b_folder
+        if ls ${merged_level0_file} 1> /dev/null 2>&1; then
+    	    echo "copy merged level0 file to level0b-folder: ${level0b_folder} ..."
+            cp ${merged_level0_file} ${level0b_folder}/
+            echo "done."
+        else
+            :  # Do nothing  
+        fi
 }
 
 delete_level0_merged_file() {

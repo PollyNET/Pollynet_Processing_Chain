@@ -257,6 +257,10 @@ netcdf.putAtt(ncID, varID_global, 'wv_calibration_constant_std', data.wvconstUse
 thisStr = logical2str(data.wvconstUsedInfo.flagCalibrated, 'yes');
 netcdf.putAtt(ncID, varID_global, 'retrieving_info', sprintf('Smoothing window: %d [m]; flagCalibrated: %s; Calibration instrument: %s; Number of successful calibration: %d;', data.hRes, thisStr{1}, data.IWVAttri.source, data.wvconstUsedInfo.nIWVCali));
 netcdf.putAtt(ncID, varID_global, 'comment', sprintf('The difference of AOD between 387 and 407 nm is not taken into account. More information about the water vapor calibration, please go to Dai, G., et al. (2018). \"Calibration of Raman lidar water vapor profiles by means of AERONET photometer observations and GDAS meteorological data.\" Atmospheric Measurement Techniques 11(5): 2735-2748.'));
+netcdf.putAtt(ncID, varID_global, 'PicassoConfig_Info', data.PicassoConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'PollyConfig_Info', data.PollyConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'CampaignConfig_Info', data.CampaignConfig_saving_info);
+netcdf.putAtt(ncID, varID_global, 'PollyData_Info', data.PollyDataInfo_saving_info);
 cwd = pwd;
 cd(PicassoConfig.PicassoRootDir);
 gitInfo = getGitInfo();

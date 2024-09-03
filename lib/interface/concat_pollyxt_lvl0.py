@@ -470,8 +470,8 @@ def checking_attr():
 
 def checking_timestamp():
     selected_timestamp_nc_ls = checking_attr()
-    if len(selected_timestamp_nc_ls) == 1:
-        return selected_timestamp_nc_ls
+#    if len(selected_timestamp_nc_ls) == 1:
+#        return selected_timestamp_nc_ls
     selected_cor_timestamp_nc_ls = []
     polly_file_ds_ls = []
     print('checking for correct timestamps...')
@@ -553,7 +553,8 @@ def checking_timestamp():
             print(f'The file: {selected_timestamp_nc_ls[elementNR]} passes timestamp check.')
             selected_cor_timestamp_nc_ls.append(selected_timestamp_nc_ls[elementNR])
 
-        ds.close()
+        if ds.isopen():
+            ds.close()
 
 
     print('\nthe following '+str(len(selected_cor_timestamp_nc_ls))+' files can be merged:')
