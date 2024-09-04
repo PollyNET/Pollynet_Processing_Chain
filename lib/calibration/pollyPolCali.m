@@ -266,7 +266,6 @@ case '1064nm'
         polCaliTime = [polCaliStartTime1064, polCaliStopTime1064];
         polCaliAttri = polCalAttri1064;
     end
-
 otherwise
     error('Unknown wavelength %s for polarization calibration.', p.Results.wavelength);
 end
