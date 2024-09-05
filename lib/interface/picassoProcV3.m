@@ -428,6 +428,15 @@ flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChan
 flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064c = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
+%%%%workaround until code is cleaned up, then everything shall be chnaged
+%%%%to non-capital letters
+flag355T = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
+flag355C = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
+flag532T = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+flag532C = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
+flag1064T = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+flag1064C = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
+%%%% workaround end
 
 if isempty(PollyConfig.H)
     print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
