@@ -3028,9 +3028,17 @@ end
 
 %% Water vapor calibration
 print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
-
 % external IWV
-[IWV, data.IWVAttri] = readIWV(PollyConfig.IWV_instrument, data.mTime(clFreGrps), ...
+wvconst = NaN(size(clFreGrps, 1), 1);
+wvconstStd = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo = struct();
+wvCaliInfo.cali_start_time = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo.cali_stop_time = NaN(size(clFreGrps, 1), 1);
+wvCaliInfo.WVCaliInfo = cell(1, size(clFreGrps, 1));
+wvCaliInfo.IntRange = NaN(size(clFreGrps, 1), 2);
+
+if PollyConfig.flagWVCalibration 
+    [IWV, data.IWVAttri] = readIWV(PollyConfig.IWV_instrument, data.mTime(clFreGrps), ...
     'AERONETSite', PollyConfig.AERONETSite, ...
     'AERONETIWV', AERONET.IWV, ...
     'AERONETTime', AERONET.datetime, ...
@@ -3040,77 +3048,78 @@ print_msg('Start water vapor calibration\n', 'flagTimestamp', true);
     'PI', AERONET.AERONETAttri.PI, ...
     'contact', AERONET.AERONETAttri.contact);
 
-% sunrise/sunset
-sun_rise_set = suncycle(CampaignConfig.lat, CampaignConfig.lon, floor(data.mTime(1)), 2880);
-sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
-sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
+    % sunrise/sunset
+    sun_rise_set = suncycle(CampaignConfig.lat, CampaignConfig.lon, floor(data.mTime(1)), 2880);
+    sunriseTime = sun_rise_set(1)/24 + floor(data.mTime(1));
+    sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
 
-% water vapor calibration
-wvconst = NaN(size(clFreGrps, 1), 1);
-wvconstStd = NaN(size(clFreGrps, 1), 1);
-wvCaliInfo = struct();
-wvCaliInfo.cali_start_time = NaN(size(clFreGrps, 1), 1);
-wvCaliInfo.cali_stop_time = NaN(size(clFreGrps, 1), 1);
-wvCaliInfo.WVCaliInfo = cell(1, size(clFreGrps, 1));
-wvCaliInfo.IntRange = NaN(size(clFreGrps, 1), 2);
+    % water vapor calibration
+    flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
+    flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
+    flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel;
 
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel;
+    for iGrp = 1:size(clFreGrps, 1)
 
-for iGrp = 1:size(clFreGrps, 1)
+        thisCaliStartTime = data.mTime(clFreGrps(iGrp, 1));
+        thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
+        thisWVCaliInfo = '407 off';
 
-    thisCaliStartTime = data.mTime(clFreGrps(iGrp, 1));
-    thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
-    thisWVCaliInfo = '407 off';
+            if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
+                wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
+                wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
+                wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
+                continue;
+            end
 
-    if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
-        wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
-        wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
-        wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
-        continue;
+        flag407On = (~ pollyIs407Off(squeeze(data.signal(flag407, :, :))));
+        flagWVCali = false(size(flag407On));
+        wvCaliInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
+        flagWVCali(wvCaliInd) = true;
+        flagLowSolarBG = (data.mTime <= (sunriseTime - PollyConfig.tTwilight)) | (data.mTime >= (sunsetTime + PollyConfig.tTwilight));
+
+        sig387 = squeeze(sum(data.signal(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+        bg387 = squeeze(sum(data.bg(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+        sig407 = squeeze(sum(data.signal(flag407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+        [~, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGrp)));
+        print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
+            datestr(data.IWVAttri.datetime(iGrp), 'HH:MM'), ...
+            datestr(data.mTime(closestIndx), 'HH:MM')), 'flagSimpleMsg', true);
+        E_tot_1064_IWV = sum(squeeze(data.signal(flag1064, :, closestIndx)));
+        E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
+        E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064, :, flag407On & flagWVCali), 2)));
+
+        [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+        [~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
+        trans387 = exp(-cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
+        trans407 = exp(-cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
+        rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
+
+        [thisWVconst, thisWVconstStd, thisWVAttri] = pollyWVCali(data.height, ...
+            sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
+            thisCaliStartTime, thisCaliStopTime, IWV(iGrp), flagWVCali, flag407On, ...
+            trans387, trans407, rhoAir, sunriseTime, sunsetTime, ...
+            'hWVCaliBase', PollyConfig.hWVCaliBase, ...
+            'hWVCaliTop', PollyConfig.hWVCaliTop, ...
+            'hFullOL387', PollyConfig.heightFullOverlap(flag387), ...
+            'minSNRWVCali', PollyConfig.minSNRWVCali);
+
+        wvconst(iGrp) = thisWVconst;
+        wvconstStd(iGrp) = thisWVconstStd;
+        wvCaliInfo.WVCaliInfo{iGrp} = thisWVAttri.WVCaliInfo;
+        wvCaliInfo.IntRange(iGrp, :) = thisWVAttri.IntRange;
+        wvCaliInfo.cali_start_time(iGrp) = thisWVAttri.cali_start_time;
+        wvCaliInfo.cali_stop_time(iGrp) = thisWVAttri.cali_stop_time;
     end
+else
 
-    flag407On = (~ pollyIs407Off(squeeze(data.signal(flag407, :, :))));
-    flagWVCali = false(size(flag407On));
-    wvCaliInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
-    flagWVCali(wvCaliInd) = true;
-    flagLowSolarBG = (data.mTime <= (sunriseTime - PollyConfig.tTwilight)) | (data.mTime >= (sunsetTime + PollyConfig.tTwilight));
+    data.IWVAttri = struct();
+    data.IWVAttri.source = 'none';
+    data.IWVAttri.site = '';
+    data.IWVAttri.datetime = [];
+    data.IWVAttri.PI = '';
+    data.IWVAttri.contact = '';
 
-    sig387 = squeeze(sum(data.signal(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
-    bg387 = squeeze(sum(data.bg(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
-    sig407 = squeeze(sum(data.signal(flag407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
-    [~, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGrp)));
-    print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
-        datestr(data.IWVAttri.datetime(iGrp), 'HH:MM'), ...
-        datestr(data.mTime(closestIndx), 'HH:MM')), 'flagSimpleMsg', true);
-    E_tot_1064_IWV = sum(squeeze(data.signal(flag1064, :, closestIndx)));
-    E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
-    E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064, :, flag407On & flagWVCali), 2)));
-
-    [~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    [~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    trans387 = exp(-cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
-    trans407 = exp(-cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
-    rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
-
-    [thisWVconst, thisWVconstStd, thisWVAttri] = pollyWVCali(data.height, ...
-        sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
-        thisCaliStartTime, thisCaliStopTime, IWV(iGrp), flagWVCali, flag407On, ...
-        trans387, trans407, rhoAir, sunriseTime, sunsetTime, ...
-        'hWVCaliBase', PollyConfig.hWVCaliBase, ...
-        'hWVCaliTop', PollyConfig.hWVCaliTop, ...
-        'hFullOL387', PollyConfig.heightFullOverlap(flag387), ...
-        'minSNRWVCali', PollyConfig.minSNRWVCali);
-
-    wvconst(iGrp) = thisWVconst;
-    wvconstStd(iGrp) = thisWVconstStd;
-    wvCaliInfo.WVCaliInfo{iGrp} = thisWVAttri.WVCaliInfo;
-    wvCaliInfo.IntRange(iGrp, :) = thisWVAttri.IntRange;
-    wvCaliInfo.cali_start_time(iGrp) = thisWVAttri.cali_start_time;
-    wvCaliInfo.cali_stop_time(iGrp) = thisWVAttri.cali_stop_time;
 end
-
 % select water vapor calibration constant
 [data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
     wvconst, wvconstStd, data.IWVAttri, ...
