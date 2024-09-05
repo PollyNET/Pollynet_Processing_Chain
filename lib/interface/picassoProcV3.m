@@ -3064,12 +3064,12 @@ if PollyConfig.flagWVCalibration
         thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
         thisWVCaliInfo = '407 off';
 
-            if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
-                wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
-                wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
-                wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
-                continue;
-            end
+        if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
+            wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
+            wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
+            wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
+            continue;
+        end
 
         flag407On = (~ pollyIs407Off(squeeze(data.signal(flag407, :, :))));
         flagWVCali = false(size(flag407On));
