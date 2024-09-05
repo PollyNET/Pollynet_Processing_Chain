@@ -264,8 +264,7 @@ write_job_into_todo_list() {
         then
     		echo "add $filename to todo_list"
 		#local filename2=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
-                #local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
-                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*_00_00_01.nc | awk  -F '/' '{print $NF}')
+                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
 	        local filesize=`stat -c %s $OUTPUT_FOLDER/$filename2`
 	    	echo -n "$TODO_FOLDER, " >> $PICASSO_TODO_FILE
 	    	echo -n "${DEVICE}/data_zip/${DATE:0:6}, " >> $PICASSO_TODO_FILE
@@ -350,7 +349,7 @@ copy_level0_merged_file_to_level0b() {
 	DEVICE=$1
 	DATE=$2
 	local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
-	local merged_level0_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*_00_00_01.nc"
+	local merged_level0_file="${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}*.nc"
     local level0b_folder=/data/level0b/polly24h/$DEVICE/${DATE:0:4}
     mkdir -p $level0b_folder
         if ls ${merged_level0_file} 1> /dev/null 2>&1; then
