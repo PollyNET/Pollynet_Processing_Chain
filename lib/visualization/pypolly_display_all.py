@@ -72,23 +72,20 @@ my_parser.add_argument('--donefilelist', dest='donefilelist',
 # init parser
 args = my_parser.parse_args()
 
-
-
 def read_excel_config_file(excel_file, timestamp, device):
-    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl')
+    pd.set_option('display.width', 1500)
+    pd.set_option('display.max_columns', None)
+    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl',usecols = 'A:Z')
     print(excel_file)
     ## search for timerange for given timestamp
-    after_start_date = excel_file_ds['Starttime of config'] <= timestamp
-    before_end_date = excel_file_ds['Stoptime of config'] >= timestamp
-    between_two_dates = after_start_date & before_end_date
-    filtered_result = excel_file_ds.loc[between_two_dates]
-#    print(filtered_result)
-    ## get config-file for timeperiod and instrument
-#    config_array = excel_file_ds.loc[(excel_file_ds['Instrument'] == 'arielle') & (excel_file_ds['Starttime of config'] == '20200204 00:00:00')]
-    config_array = filtered_result.loc[(filtered_result['Instrument'] == device)]
-    polly_local_config_file = str(config_array['Config file'].to_string(index=False)).strip() ## get rid of whtiespaces
-#    location = str(config_array['Location'].to_string(index=False)).strip() ## get rid of whtiespaces
-#    print(polly_local_config_file)
+    filtered_device = excel_file_ds.loc[(excel_file_ds['Instrument'] == device)]
+    filtered_device['starttime'] = pd.to_datetime(filtered_device['Starttime of config'])
+    filtered_device['stoptime'] = pd.to_datetime(filtered_device['Stoptime of config'])
+    timestamp_dt = pd.to_datetime(f'{timestamp} 00:00:00')
+    matching_row = filtered_device[(filtered_device['starttime'] <= timestamp_dt) & (filtered_device['stoptime'] >= timestamp_dt)]
+    #print(matching_row['Config file'])
+    polly_local_config_file = str(matching_row['Config file'].to_string(index=False)).strip()  ## get rid of whtiespaces
+    print(polly_local_config_file)
     return polly_local_config_file
 
 def display_config(display_configfile):
