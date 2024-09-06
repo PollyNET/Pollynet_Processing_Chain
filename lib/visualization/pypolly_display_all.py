@@ -462,6 +462,7 @@ def main():
         try:
             nc_profiles = readout.get_nc_filename(date, device, inputfolder, param='profiles')
             nc_profiles_NR = readout.get_nc_filename(date, device, inputfolder, param='NR_profiles')
+            nc_profiles_QC = readout.get_nc_filename(date, device, inputfolder, param='profiles_QC')
             print(f'plotting profile summary to {outputfolder}')
             #for prof in nc_profiles:
             #    nc_dict_profile = readout.read_nc_file(prof)
@@ -476,10 +477,20 @@ def main():
                     nc_dict_profile_NR = readout.read_nc_file(nc_profiles_NR[n_prof])
                 else:
                     nc_dict_profile_NR = {}
+                if len(nc_profiles_QC) > 0:
+                    nc_dict_profile_QC = readout.read_nc_file(nc_profiles_QC[n_prof])
+                    nc_dict_profile_QC = readout.calc_ANGEXP(nc_dict_profile_QC)
+                else:
+                    nc_dict_profile_QC = {}
+
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%H:%M')
                 print(f"profile: {starttime} - {endtime}")
                 nc_dict_profile = readout.calc_ANGEXP(nc_dict_profile)
+#                pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,outdir,ymax,donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary_QC(nc_dict_profile=nc_dict_profile_QC,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,ymax='high_range',donefilelist_dict=donefilelist_dict)
+                display_profiles.pollyDisplay_profile_summary_QC(nc_dict_profile=nc_dict_profile_QC,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,ymax='low_range',donefilelist_dict=donefilelist_dict)
+
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='raman',ymax='high_range',donefilelist_dict=donefilelist_dict)
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='raman',ymax='low_range',donefilelist_dict=donefilelist_dict)
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='high_range',donefilelist_dict=donefilelist_dict)
