@@ -1,4 +1,4 @@
-function [vdr,vdrStd] = pollyVDRModuleGHK(data,clFreGrps,flagT,flagC,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig)
+function [vdr,vdrStd] = pollyVDRModuleGHK(data,clFreGrps,flagT,flagC,polCaliEta, voldepol_error, smoothWin, PollyConfig)
 %% Volume depolarization ratio at any wavelegth
 vdr = NaN(size(clFreGrps, 1), length(data.height));% VDR should be the same for Klett and raman, thus new variables are introduced
 vdrStd = NaN(size(clFreGrps, 1), length(data.height));% VDR should be the same for Klett and raman, thus new variables are introduced
@@ -18,7 +18,7 @@ for iGrp = 1:size(clFreGrps, 1)
     [thisVdr, thisVdrStd] = pollyVDRGHK(sigT, sigC, ...
         PollyConfig.G(flagT), PollyConfig.G(flagC), ...
         PollyConfig.H(flagT), PollyConfig.H(flagC), ...
-        polCaliEta, voldep_sys_uncertainty, smoothWin);
+        polCaliEta, voldepol_error(1), voldepol_error(2), voldepol_error(3), smoothWin);
 
       % VDR should be the same for Klett and raman, thus new variables are introduced
     vdr(iGrp, :) = thisVdr;

@@ -20,5 +20,8 @@
     "molDepol355": 0,
     "molDepolStd355": 0,
     "wvconst": 0,
-    "wvconstStd": 0
+    "wvconstStd": 0,
+    "volDepolerror355": 0,
+	"volDepolerror532": 0,
+	"volDepolerror1064": 0
 }

@@ -7,10 +7,14 @@
     "LCStd": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "overlapFile532": "template_polly_overlap_532.txt",
     "overlapFile355": "template_polly_overlap_355.txt",
-    "molDepol532": 0.0053,
+    "molDepol532": 0.0044,
     "molDepolStd532": 0.001,
-    "molDepol355": 0.0075,
+    "molDepol355": 0.0077,
     "molDepolStd355": 0.0015,
+	"molDepol1064": 0.0036,
     "wvconst": 11.1,
-    "wvconstStd": 0
+    "wvconstStd": 0,
+	"volDepolerror355": 0.003,
+	"volDepolerror532": 0.004,
+	"volDepolerror1064": 0.005
 }

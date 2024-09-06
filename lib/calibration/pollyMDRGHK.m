@@ -1,4 +1,4 @@
-function [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, sigC, bgC, flagT,flagC, eta, voldep_sys_uncertainty, minSNR, deftMDR, deftMDRStd, PollyConfig)
+function [MDR, MDRStd, flagDeft] = pollyMDRGHK(sigT, bgT, sigC, bgC, flagT,flagC, eta, voldepol_error, minSNR, deftMDR, deftMDRStd, PollyConfig)
 % POLLYMDR etimate the molecular depolarization ratio according to the measurements at reference height.
 %
 % USAGE:
@@ -71,7 +71,7 @@ end
 [MDR, MDRStd] = pollyVDRGHK(sum(sigT), sum(sigC), ...
                             PollyConfig.G(flagT), PollyConfig.G(flagC), ...
                             PollyConfig.H(flagT), PollyConfig.H(flagC), ...
-                            eta, voldep_sys_uncertainty, 1);
+                            eta, voldepol_error(1), voldepol_error(2), voldepol_error(3), 1);
 flagDeft = false;
 
 end

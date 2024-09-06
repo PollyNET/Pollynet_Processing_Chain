@@ -1,5 +1,5 @@
 function [volDepol, volDepolStd] = pollyVDRGHK(sigTot, sigCross, ...
-    GT, GR,HT,HR, eta, voldep_sys_uncertainty, smoothWindow, ...
+    GT, GR,HT,HR, eta, voldepol_error_a0,voldepol_error_a1,voldepol_error_a2, smoothWindow, ...
     flagSmoothBefore)
 % POLLYVDR calculate volume depolarization ratio using GHK parameters.
 %
@@ -73,11 +73,9 @@ end
 
 %volDepol = (1 - sigRatio ./ depolConst) ./ (sigRatio * Rt / depolConst - Rc);
 volDepol = (sigRatio ./ eta * (GT + HT) - (GR + HR)) ./ ((GR - HR) - sigRatio ./eta * (GT - HT));
-% TODO:
-% Implementing the uncertainty of the volume depolarization. 
-% The systematic uncertainty should be given as a config value for each
-% system and has to be determined additionally. 
-volDepolStd = voldep_sys_uncertainty;
+% Systematic uncertainty of the volume depolarization, coefficients given in config file,
+% coefficients according to Volker's GHK script (positive branch)
+volDepolStd = voldepol_error_a0 + voldepol_error_a1 .* volDepol + voldepol_error_a2 .* volDepol.^2;
 % volDepolStd = (sigRatio .* (Rt - Rc) ./ ...
 %               (sigRatio .* Rt - depolConst .* Rc).^2).^2 .* ...
 %                depolConstStd.^2 + ...
