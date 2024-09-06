@@ -67,14 +67,13 @@ if ~ isequal(size(sigT), size(sigC))
     error('input signals have different size.')
 end
 
-% uncertainty caused by RcStd and RtStd is neglected because usually it
-% is very small. 
 GT = p.Results.transGT;
 GR = p.Results.transGR;
 HT = p.Results.transHT;
 HR = p.Results.transHR;
 eta = p.Results.polCaliEta;
 etaStd = p.Results.polCaliEtaStd;
+
 % from Freudenthaler AMT 2016: eq 65 with the denominator from eq 64 to
 % avoid a negative signal
 sigTCor = (eta .* HR .* sigT - HT .* sigC) ./ (HR*GT - HT*GR);

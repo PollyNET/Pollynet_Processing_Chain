@@ -488,6 +488,10 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta355, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
+            %Taking the eta with lowest standard deviation
+            [~, index_min] = min(data.polCali355Attri.polCaliEtaStd);
+            %polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
+            data.polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
         else
             warning('Cross or total channel at 355 nm does not exist.');      
         end
@@ -508,6 +512,9 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta532, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
+            %Taking the eta with lowest standard deviation
+            [~, index_min] = min(data.polCali532Attri.polCaliEtaStd);
+            data.polCaliEta532=data.polCali532Attri.polCaliEta(index_min);
         else
             warning('Cross or total channel at 532 nm does not exist.');       
         end
@@ -528,6 +535,9 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta1064, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd1064);
+            %Taking the eta with lowest standard deviation
+            [~, index_min] = min(data.polCali1064Attri.polCaliEtaStd);
+            data.polCaliEta1064=data.polCali1064Attri.polCaliEta(index_min);
         else
             warning('Cross or total channel at 1064 nm does not exist.');     
         end
@@ -586,6 +596,10 @@ else
         print_msg('Finish.\n', 'flagTimestamp', true);
     end
 end
+
+print_msg('eta 355', 'flagTimestamp', true);
+data.polCali355Attri.polCaliEta
+size(data.polCali355Attri.polCaliEta)
 
 %% Cloud screen
 print_msg('Start cloud screening.\n', 'flagTimestamp', true);
@@ -1064,7 +1078,7 @@ if flagGHK
             'transGR', PollyConfig.G(flag355c),...
             'transHT', PollyConfig.H(flag355t), ...
             'transHR', PollyConfig.H(flag355c), ...
-            'polCaliEta', data.polCali355Attri.polCaliEta, ...
+            'polCaliEta', data.polCaliEta355, ...
             'polCaliEtaStd', data.polCali355Attri.polCaliEtaStd );
     elseif (sum(flag355t) == 1) && (sum(flag355c ~= 1))
         % disable transmission correction
@@ -1074,7 +1088,6 @@ if flagGHK
         el355 = [];
         bgEl355 = [];
      end
-     
      %532 nm
      if (sum(flag532t) == 1) && (sum(flag532c) == 1) && PollyConfig.flagTransCor
         % transmission correction
@@ -1086,7 +1099,7 @@ if flagGHK
             'transGR', PollyConfig.G(flag532c),...
             'transHT', PollyConfig.H(flag532t), ...
             'transHR', PollyConfig.H(flag532c), ...
-            'polCaliEta', data.polCali532Attri.polCaliEta, ...
+            'polCaliEta', data.polCaliEta532, ...
             'polCaliEtaStd', data.polCali532Attri.polCaliEtaStd);
     elseif (sum(flag532t) == 1) && (sum(flag532c ~= 1))
         % disable transmission correction
@@ -1108,7 +1121,7 @@ if flagGHK
             'transGR', PollyConfig.G(flag1064c),...
             'transHT', PollyConfig.H(flag1064t), ...
             'transHR', PollyConfig.H(flag1064c), ...
-            'polCaliEta', data.polCali1064Attri.polCaliEta, ...
+            'polCaliEta', data.polCaliEta1064, ...
             'polCaliEtaStd', data.polCali1064Attri.polCaliEtaStd);
     elseif (sum(flag1064t) == 1) && (sum(flag1064c ~= 1))
         % disable transmission correction
@@ -2738,36 +2751,33 @@ end
 if flagGHK
     % 355 nm
     %%Klett
-    polCaliEta=data.polCali355Attri.polCaliEta;
     voldep_sys_uncertainty355 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty355;
     smoothWin=PollyConfig.smoothWin_klett_355;
-    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
+    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, voldep_sys_uncertainty, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_355;
-    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
-    
+    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, voldep_sys_uncertainty, smoothWin, PollyConfig);
+
     % 532 nm
     %%Klett
-    polCaliEta=data.polCali532Attri.polCaliEta;
     voldep_sys_uncertainty532 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty532;
     smoothWin=PollyConfig.smoothWin_klett_532;
-    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
+    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, voldep_sys_uncertainty, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_532;
-    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
+    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, voldep_sys_uncertainty, smoothWin, PollyConfig);
     
     % 1064 nm
     %%Klett
-    polCaliEta=data.polCali1064Attri.polCaliEta;
     voldep_sys_uncertainty1064 = 0.005; %intermediate hard coded solution, should be given in config and default file
     voldep_sys_uncertainty = voldep_sys_uncertainty1064;
     smoothWin=PollyConfig.smoothWin_klett_1064;
-    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
+    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, voldep_sys_uncertainty, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_1064;
-    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,polCaliEta, voldep_sys_uncertainty, smoothWin, PollyConfig);
+    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, voldep_sys_uncertainty, smoothWin, PollyConfig);
 else
     %%Klett
     flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
@@ -2838,7 +2848,7 @@ if flagGHK
             sig355C(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
             bg355C(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2)), ...
             flag355t,flag355c, ...
-            data.polCali355Attri.polCaliEta, voldep_sys_uncertainty355, 10, ...
+            data.polCaliEta355, voldep_sys_uncertainty355, 10, ...
             PollyDefaults.molDepol355, PollyDefaults.molDepolStd355, PollyConfig);
         data.mdr355(iGrp) = thisMdr355;
         mdrStd355(iGrp) = thisMdrStd355;
@@ -2964,7 +2974,7 @@ if flagGHK
             sig532C(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
             bg532C(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2)), ...
             flag532t,flag532c, ...
-            data.polCali532Attri.polCaliEta, voldep_sys_uncertainty532, 10, ...
+            data.polCaliEta532, voldep_sys_uncertainty532, 10, ...
             PollyDefaults.molDepol532, PollyDefaults.molDepolStd532, PollyConfig);
         data.mdr532(iGrp) = thisMdr532;
         mdrStd532(iGrp) = thisMdrStd532;
@@ -3091,7 +3101,7 @@ if flagGHK
             sig1064C(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
             bg1064C(data.refHInd1064(iGrp, 1):data.refHInd1064(iGrp, 2)), ...
             flag532t,flag532c, ...
-            data.polCali1064Attri.polCaliEta, voldep_sys_uncertainty1064, 10, ...
+            data.polCaliEta1064, voldep_sys_uncertainty1064, 10, ...
             PollyDefaults.molDepol1064, PollyDefaults.molDepolStd1064, PollyConfig);
         data.mdr1064(iGrp) = thisMdr1064;
         mdrStd1064(iGrp) = thisMdrStd1064;
