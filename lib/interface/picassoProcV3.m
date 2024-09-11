@@ -545,7 +545,8 @@ if flagGHK
         else
             warning('Cross or total channel at 532 nm does not exist.');       
         end
-        if (any(flag1064t)) || (any(flag1064c))
+        if (any(flag1064t)) && (any(flag1064c))
+        %if (any(flag1064t)) || (any(flag1064c)) %% changed to and
             wavelength = '1064nm';
             [data.polCaliEta1064, data.polCaliEtaStd1064, data.polCaliTime, data.polCali1064Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag1064t), flag1064t, flag1064c, wavelength, ...
             'depolCaliMinBin', PollyConfig.depol_cal_minbin_1064, ...
@@ -566,7 +567,11 @@ if flagGHK
             [~, index_min] = min(data.polCali1064Attri.polCaliEtaStd);
             data.polCaliEta1064=data.polCali1064Attri.polCaliEta(index_min);
         else
-            warning('Cross or total channel at 1064 nm does not exist.');     
+            warning('Cross or total channel at 1064 nm does not exist.')
+            data.polCaliEta1064=[];
+            data.polCaliEtaStd1064=[];
+            data.polCaliTime=[];
+            data.polCali1064Attri=[];     
         end
     end
 else
@@ -2766,28 +2771,47 @@ end
 %% Volume depolarization ratio new implemantation 
 if flagGHK
     % 355 nm
-    %%Klett
-    smoothWin=PollyConfig.smoothWin_klett_355;
-    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
-    %Raman
-    smoothWin=PollyConfig.smoothWin_raman_355;
-    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
-
+    if flag355c 
+        %%Klett
+        smoothWin=PollyConfig.smoothWin_klett_355;
+        [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
+        %Raman
+        smoothWin=PollyConfig.smoothWin_raman_355;
+        [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
+    else
+        data.vdr355_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd355_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd355_raman= NaN(size(clFreGrps, 1), length(data.height));
+    end
     % 532 nm
-    %%Klett
-    smoothWin=PollyConfig.smoothWin_klett_532;
-    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
-    %Raman
-    smoothWin=PollyConfig.smoothWin_raman_532;
-    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
-    
+    if flag532c 
+        %%Klett
+        smoothWin=PollyConfig.smoothWin_klett_532;
+        [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
+        %Raman
+        smoothWin=PollyConfig.smoothWin_raman_532;
+        [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
+    else
+        data.vdr532_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd532_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd532_raman= NaN(size(clFreGrps, 1), length(data.height));
+    end
     % 1064 nm
-    %%Klett
-    smoothWin=PollyConfig.smoothWin_klett_1064;
-    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
-    %Raman
-    smoothWin=PollyConfig.smoothWin_raman_1064;
-    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
+    if flag1064c 
+        %%Klett
+        smoothWin=PollyConfig.smoothWin_klett_1064;
+        [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
+        %Raman
+        smoothWin=PollyConfig.smoothWin_raman_1064;
+        [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
+    else
+        data.vdr1064_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd1064_klett= NaN(size(clFreGrps, 1), length(data.height));
+        data.vdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
+        data.vdrStd1064_raman= NaN(size(clFreGrps, 1), length(data.height));
+    end
 else
     %%Klett
     flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
@@ -5059,12 +5083,12 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %% save aerosol optical results
-                try
+                %try
     	            pollySaveProfiles(data);
                      print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    	        catch
-    	         print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    	        end
+    	        %catch
+    	        % print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        %end
             end
             %%%%%% Test for storing quality controled information
             if PicassoConfig.flagSaveProfiles

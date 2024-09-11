@@ -100,7 +100,7 @@ end
 time = data.mTime;
 
 if (~ any(flagTot)) || (~ any(flagCro))
-    warning('Cross or total channel at'+wavelength+' does not exist.');
+    warning('Cross or total channel at ',string(wavelength),' does not exist.');
     return;
 end
 sigTot = squeeze(data.signal(flagTot, :, :));
