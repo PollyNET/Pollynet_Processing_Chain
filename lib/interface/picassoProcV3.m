@@ -520,7 +520,12 @@ if flagGHK
             %polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
             data.polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
         else
-            warning('Cross or total channel at 355 nm does not exist.');      
+            warning('Cross or total channel at 355 nm does not exist.');
+            data.polCaliEta355=NaN;
+            data.polCaliEtaStd355=NaN;
+            data.polCaliTime=NaN;
+            data.polCali355Attri.polCaliEta = data.polCaliEta355;  %
+            data.polCali355Attri.polCaliEtaStd = data.polCaliEtaStd355;
         end
         if (any(flag532t)) || (any(flag532c))
             wavelength = '532nm';
@@ -543,7 +548,12 @@ if flagGHK
             [~, index_min] = min(data.polCali532Attri.polCaliEtaStd);
             data.polCaliEta532=data.polCali532Attri.polCaliEta(index_min);
         else
-            warning('Cross or total channel at 532 nm does not exist.');       
+            warning('Cross or total channel at 532 nm does not exist.');
+            data.polCaliEta532=NaN;
+            data.polCaliEtaStd532=NaN;
+            data.polCaliTime=NaN;
+            data.polCali532Attri.polCaliEta = data.polCaliEta532;  %
+            data.polCali532Attri.polCaliEtaStd = data.polCaliEtaStd532;
         end
         if (any(flag1064t)) && (any(flag1064c))
         %if (any(flag1064t)) || (any(flag1064c)) %% changed to and
@@ -568,11 +578,12 @@ if flagGHK
             data.polCaliEta1064=data.polCali1064Attri.polCaliEta(index_min);
         else
             warning('Cross or total channel at 1064 nm does not exist.')
-            data.polCaliEta1064=[];
-            data.polCaliEtaStd1064=[];
-            data.polCaliTime=[];
-            data.polCali1064Attri=[];     
-        end
+            data.polCaliEta1064=NaN;
+            data.polCaliEtaStd1064=NaN;
+            data.polCaliTime=NaN;
+            data.polCali1064Attri.polCaliEta = data.polCaliEta1064;  %
+            data.polCali1064Attri.polCaliEtaStd = data.polCaliEtaStd1064;
+       end
     end
 else
     if ~ PollyConfig.flagMolDepolCali
@@ -1045,11 +1056,12 @@ if PollyConfig.flagMolDepolCali
         polCaliStartTime = cat(2, polCaliStartTime, data.mTime(prfInd(1)));
         polCaliStopTime = cat(2, polCaliStopTime, data.mTime(prfInd(end)));
     end
-
-    data.polCali1064Attri.polCaliEta = data.polCaliEta1064;
+%%%%can be maybe deleted
+    data.polCali1064Attri.polCaliEta = data.polCaliEta1064;  %
     data.polCali1064Attri.polCaliEtaStd = data.polCaliEtaStd1064;
     data.polCali1064Attri.polCaliFac = data.polCaliFac1064;
     data.polCali1064Attri.polCaliFacStd = data.polCaliFacStd1064;
+%%%%end
     data.polCali1064Attri.polCaliStartTime = polCaliStartTime;
     data.polCali1064Attri.polCaliStopTime = polCaliStopTime;
 
