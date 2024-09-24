@@ -498,7 +498,7 @@ if flagGHK
     if ~ PollyConfig.flagMolDepolCali
         print_msg('Start polarization calibration using GHK.\n', 'flagTimestamp', true);
         %355 nm
-        if (any(flag355t)) || (any(flag355c))
+        if (any(flag355t)) && (any(flag355c))
             wavelength = '355nm';
             [data.polCaliEta355, data.polCaliEtaStd355, data.polCaliTime, data.polCali355Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag355t), flag355t, flag355c,wavelength, ...
             'depolCaliMinBin', PollyConfig.depol_cal_minbin_355, ...
@@ -527,7 +527,7 @@ if flagGHK
             data.polCali355Attri.polCaliEta = data.polCaliEta355;  %
             data.polCali355Attri.polCaliEtaStd = data.polCaliEtaStd355;
         end
-        if (any(flag532t)) || (any(flag532c))
+        if (any(flag532t)) && (any(flag532c))
             wavelength = '532nm';
             [data.polCaliEta532, data.polCaliEtaStd532, data.polCaliTime, data.polCali532Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag532t), flag532t, flag532c, wavelength, ...
             'depolCaliMinBin', PollyConfig.depol_cal_minbin_532, ...
