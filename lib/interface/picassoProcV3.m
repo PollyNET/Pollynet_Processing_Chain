@@ -515,6 +515,8 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta355, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
+            %print_msg('eta355 attribute.\n', 'flagTimestamp', true);
+            %data.polCali355Attri
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali355Attri.polCaliEtaStd);
             %polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
@@ -527,6 +529,8 @@ if flagGHK
             data.polCali355Attri.polCaliEta = data.polCaliEta355;  %
             data.polCali355Attri.polCaliEtaStd = data.polCaliEtaStd355;
         end
+        %print_msg('eta355.\n', 'flagTimestamp', true);
+        %data.polCaliEta355
         if (any(flag532t)) && (any(flag532c))
             wavelength = '532nm';
             [data.polCaliEta532, data.polCaliEtaStd532, data.polCaliTime, data.polCali532Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag532t), flag532t, flag532c, wavelength, ...
@@ -544,6 +548,8 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta532, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd532);
+            %print_msg('eta532.\n', 'flagTimestamp', true);
+            %data.polCaliEta532
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali532Attri.polCaliEtaStd);
             data.polCaliEta532=data.polCali532Attri.polCaliEta(index_min);
@@ -555,6 +561,8 @@ if flagGHK
             data.polCali532Attri.polCaliEta = data.polCaliEta532;  %
             data.polCali532Attri.polCaliEtaStd = data.polCaliEtaStd532;
         end
+        %print_msg('eta532.\n', 'flagTimestamp', true);
+        %data.polCaliEta532
         if (any(flag1064t)) && (any(flag1064c))
         %if (any(flag1064t)) || (any(flag1064c)) %% changed to and
             wavelength = '1064nm';

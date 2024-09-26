@@ -139,12 +139,17 @@ case '355nm'
             'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
         polCaliTime = [polCaliStartTime, polCaliStopTime];
         polCaliAttri = polCalAttri355;
+        print_msg('eta355 selected.\n', 'flagTimestamp', true);
     else
         polCaliEta = p.Results.default_polCaliEta;
         polCaliEtaStd = p.Results.default_polCaliEtaStd;
         polCaliTime = [polCaliStartTime355, polCaliStopTime355];
+        polCalAttri355.polCaliEta = polCaliEta;
+        polCalAttri355.polCaliEtaStd = polCaliEtaStd;
         polCaliAttri = polCalAttri355;
+        print_msg('eta355 default.\n', 'flagTimestamp', true);
     end
+
     
 case '532nm'
     % polarization calibration at 532 nm
@@ -177,6 +182,8 @@ case '532nm'
         polCaliEta = p.Results.default_polCaliEta;
         polCaliEtaStd = p.Results.default_polCaliEtaStd;
         polCaliTime = [polCaliStartTime, polCaliStopTime];
+        polCalAttri532.polCaliEta = polCaliEta;
+        polCalAttri532.polCaliEtaStd = polCaliEtaStd;
         polCaliAttri = polCalAttri532;
     end
 
@@ -211,6 +218,8 @@ case '1064nm'
         polCaliEta = p.Results.default_polCaliEta;
         polCaliEtaStd = p.Results.default_polCaliEtaStd;
         polCaliTime = [polCaliStartTime, polCaliStopTime];
+        polCalAttri1064.polCaliEta = polCaliEta;
+        polCalAttri1064.polCaliEtaStd = polCaliEtaStd;
         polCaliAttri = polCalAttri1064;
     end
 otherwise

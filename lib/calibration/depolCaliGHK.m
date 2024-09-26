@@ -247,6 +247,7 @@ for iDay = 1:nDays
 end
 
 if isempty(mean_dminus) || isempty(mean_dplus)
+    print_msg('Plus or minus 45° calibration is missing.\n', 'flagTimestamp', true);
     return;
 end
 
@@ -254,5 +255,5 @@ end
 % with K
 polCaliEta = 1/K .* sqrt(mean_dplus .* mean_dminus);
 polCaliEtaStd = 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus) ./ sqrt(mean_dplus .* mean_dminus);
-
+%print_msg('Delta 90° calibratrion done.\n', 'flagTimestamp', true);
 end
