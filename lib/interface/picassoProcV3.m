@@ -436,19 +436,19 @@ elseif (PollyConfig.H ~= -999)
     print_msg('Using GHK from config file.\n', 'flagTimestamp', true);
     flagGHK = 1;
     if (PollyConfig.voldepol_error_355 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 355 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 355 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_355(1) = PollyDefaults.volDepolerror355; %assume a constant default value
         PollyConfig.voldepol_error_355(2) = 0.0;
         PollyConfig.voldepol_error_355(3) = 0.0;
     end
     if (PollyConfig.voldepol_error_532 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 532 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 532 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_532(1) = PollyDefaults.volDepolerror532; %assume a constant default value
         PollyConfig.voldepol_error_532(2) = 0.0;
         PollyConfig.voldepol_error_532(3) = 0.0;
     end
     if (PollyConfig.voldepol_error_1064 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 1064 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 1064 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_1064(1) = PollyDefaults.volDepolerror1064; %assume a constant default value
         PollyConfig.voldepol_error_1064(2) = 0.0;
         PollyConfig.voldepol_error_1064(3) = 0.0;
@@ -474,19 +474,19 @@ else
     PollyConfig.H(flag1064c) = (1-PollyConfig.TR(flag1064c))/(1+PollyConfig.TR(flag1064c));  
     flagGHK =1; 
     if (PollyConfig.voldepol_error_355 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 355 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 355 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_355(1) = PollyDefaults.volDepolerror355; %assume a constant default value
         PollyConfig.voldepol_error_355(2) = 0.0;
         PollyConfig.voldepol_error_355(3) = 0.0;
     end
     if (PollyConfig.voldepol_error_532 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 532 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 532 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_532(1) = PollyDefaults.volDepolerror532; %assume a constant default value
         PollyConfig.voldepol_error_532(2) = 0.0;
         PollyConfig.voldepol_error_532(3) = 0.0;
     end
     if (PollyConfig.voldepol_error_1064 == -999)
-        print_msg('No info about uncertainty of volume depolarization ratio at 1064 nm, assuming default value.\n', 'flagTimestamp', true);
+        print_msg('No info about uncertainty of volume depolarization ratio at 1064 nm, assuming constant default value.\n', 'flagTimestamp', true);
         PollyConfig.voldepol_error_1064(1) = PollyDefaults.volDepolerror1064; %assume a constant default value
         PollyConfig.voldepol_error_1064(2) = 0.0;
         PollyConfig.voldepol_error_1064(3) = 0.0;
@@ -515,11 +515,8 @@ if flagGHK
             'flagDepolCali', PollyConfig.flagDepolCali, ...
             'default_polCaliEta', PollyDefaults.polCaliEta355, ...
             'default_polCaliEtaStd', PollyDefaults.polCaliEtaStd355);
-            %print_msg('eta355 attribute.\n', 'flagTimestamp', true);
-            %data.polCali355Attri
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali355Attri.polCaliEtaStd);
-            %polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
             data.polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
         else
             warning('Cross or total channel at 355 nm does not exist.');
@@ -529,8 +526,6 @@ if flagGHK
             data.polCali355Attri.polCaliEta = data.polCaliEta355;  %
             data.polCali355Attri.polCaliEtaStd = data.polCaliEtaStd355;
         end
-        %print_msg('eta355.\n', 'flagTimestamp', true);
-        %data.polCaliEta355
         if (any(flag532t)) && (any(flag532c))
             wavelength = '532nm';
             [data.polCaliEta532, data.polCaliEtaStd532, data.polCaliTime, data.polCali532Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag532t), flag532t, flag532c, wavelength, ...
@@ -2790,48 +2785,31 @@ end
 
 %% Volume depolarization ratio new implemantation 
 if flagGHK
+    print_msg('Calculating volume depolarization ratio with GHK.\n', 'flagTimestamp', true);
     % 355 nm
-    if flag355c 
-        %%Klett
-        smoothWin=PollyConfig.smoothWin_klett_355;
-        [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
-        %Raman
-        smoothWin=PollyConfig.smoothWin_raman_355;
-        [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
-    else
-        data.vdr355_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd355_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdr355_raman = NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd355_raman= NaN(size(clFreGrps, 1), length(data.height));
-    end
+    %%Klett
+    smoothWin=PollyConfig.smoothWin_klett_355;
+    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
+    %Raman
+    smoothWin=PollyConfig.smoothWin_raman_355;
+    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModuleGHK(data,clFreGrps,flag355t,flag355c,data.polCaliEta355, PollyConfig.voldepol_error_355, smoothWin, PollyConfig);
+    
     % 532 nm
-    if flag532c 
-        %%Klett
-        smoothWin=PollyConfig.smoothWin_klett_532;
-        [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
-        %Raman
-        smoothWin=PollyConfig.smoothWin_raman_532;
-        [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
-    else
-        data.vdr532_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd532_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdr532_raman = NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd532_raman= NaN(size(clFreGrps, 1), length(data.height));
-    end
+    %%Klett
+    smoothWin=PollyConfig.smoothWin_klett_532;
+    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
+    %Raman
+    smoothWin=PollyConfig.smoothWin_raman_532;
+    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModuleGHK(data,clFreGrps,flag532t,flag532c,data.polCaliEta532, PollyConfig.voldepol_error_532, smoothWin, PollyConfig);
+
     % 1064 nm
-    if flag1064c 
-        %%Klett
-        smoothWin=PollyConfig.smoothWin_klett_1064;
-        [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
-        %Raman
-        smoothWin=PollyConfig.smoothWin_raman_1064;
-        [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
-    else
-        data.vdr1064_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd1064_klett= NaN(size(clFreGrps, 1), length(data.height));
-        data.vdr1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-        data.vdrStd1064_raman= NaN(size(clFreGrps, 1), length(data.height));
-    end
+    %%Klett
+    smoothWin=PollyConfig.smoothWin_klett_1064;
+    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
+    %Raman
+    smoothWin=PollyConfig.smoothWin_raman_1064;
+    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModuleGHK(data,clFreGrps,flag1064t,flag1064c,data.polCaliEta1064, PollyConfig.voldepol_error_1064, smoothWin, PollyConfig);
+
 else
     %%Klett
     flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;

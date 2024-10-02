@@ -1,4 +1,4 @@
-function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAttri] = depolCaliGHK(signal_t, ...
+function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime,cali_status, globalAttri ] = depolCaliGHK(signal_t, ...
         bg_t, signal_x, bg_x, time, polCaliPAngStartTime, ...
         polCaliPAngStopTime, polCaliNAngStartTime, ...
         polCaliNAngStopTime, K, caliHIndxRange, ...
@@ -69,6 +69,8 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 %        start time for each successful calibration.
 %    polCaliStopTime: array
 %        stop time for each successful calibration.
+%    cali_status: integer
+%        1 if calibration is successfull, 0 otherwise.
 %    globalAttri: struct
 %        all the information about the depol calibration.
 %
@@ -80,6 +82,7 @@ function [polCaliEta, polCaliEtaStd, polCaliStartTime, polCaliStopTime, globalAt
 %    - 2019-06-08: If no depol cali, return empty array.
 %    - 2019-09-06: Remove the part to replace the bins of low SNR with NaN, because it will lead to bias when doing smoothing.
 %    - 2024-08-27: Transfrom to GHK parameters using only eta and not V* (polCaliFac) any more 
+%    - 2024-10-02: Add calibration status variable to output. 
 %
 % .. Authors: - zhenping@tropos.de, haarig@tropos.de
 
@@ -92,6 +95,7 @@ std_dminus = [];
 std_dplus = [];
 polCaliStartTime = [];
 polCaliStopTime = [];
+cali_status = 0;
 globalAttri = struct();
 globalAttri.sig_t_p = cell(0);
 globalAttri.sig_t_m = cell(0);
@@ -248,6 +252,7 @@ end
 
 if isempty(mean_dminus) || isempty(mean_dplus)
     print_msg('Plus or minus 45° calibration is missing.\n', 'flagTimestamp', true);
+    cali_status =0; %Calibration was not successfull.
     return;
 end
 
@@ -255,5 +260,5 @@ end
 % with K
 polCaliEta = 1/K .* sqrt(mean_dplus .* mean_dminus);
 polCaliEtaStd = 0.5 .* (mean_dplus .* std_dminus + mean_dminus .* std_dplus) ./ sqrt(mean_dplus .* mean_dminus);
-%print_msg('Delta 90° calibratrion done.\n', 'flagTimestamp', true);
+cali_status =1; % Calibration successfull.
 end

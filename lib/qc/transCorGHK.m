@@ -74,9 +74,6 @@ HR = p.Results.transHR;
 eta = p.Results.polCaliEta;
 etaStd = p.Results.polCaliEtaStd;
 
-size(eta)
-size(sigT)
-
 % from Freudenthaler AMT 2016: eq 65 with the denominator from eq 64 to
 % avoid a negative signal
 sigTCor = (eta * HR .* sigT - HT .* sigC) ./ (HR*GT - HT*GR);
