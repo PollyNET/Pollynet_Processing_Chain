@@ -32,6 +32,9 @@ try:
 except Exception as e:
     raise ImportError('python_colormap module is necessary.')
 
+import logging
+logging.basicConfig(level=logging.ERROR)
+
 # generating figure without X server
 plt.switch_backend('Agg')
 
@@ -189,7 +192,7 @@ def main():
                 print('plotting ATT_BETA_1064nm + cloudinfo:')
                 display_3d.pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            logging.exception("An error occurred")
 
     if ('all' in args.retrieval) or ('attbsc' in args.retrieval):
         ## plotting ATT_BETA_FR plots
@@ -204,8 +207,8 @@ def main():
                 print('plotting ATT_BETA_1064nm:')
                 display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='FR',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+            logging.exception("An error occurred")
+
         ## plotting ATT_BETA_NR plots
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='NR_att_bsc')
@@ -216,7 +219,7 @@ def main():
                 print('plotting ATT_BETA_NR_532nm:')
                 display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532, param='NR',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            logging.exception("An error occurred")
     
         ## plotting ATT_BETA_OC plots
         try:
@@ -230,7 +233,7 @@ def main():
                 print('plotting ATT_BETA_OC_1064nm:')
                 display_3d.pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=1064, param='OC',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            logging.exception("An error occurred")
 
     if ('all' in args.retrieval) or ('voldepol' in args.retrieval):
     ## plotting VolDepol plots
@@ -243,7 +246,7 @@ def main():
                 print('plotting VDR_532nm:')
                 display_3d.pollyDisplayVDR(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=532,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            logging.exception("An error occurred")
     
     if ('all' in args.retrieval) or ('wvmr_rh' in args.retrieval):
     ## plotting WVMR_RH plots
@@ -256,7 +259,7 @@ def main():
                 print('plotting RH:')
                 display_3d.pollyDisplayRH(nc_dict, config_dict, polly_conf_dict, outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
+            logging.exception("An error occurred")
 
     if ('all' in args.retrieval) or ('target_class' in args.retrieval):
     ## plotting Target classification V1 
@@ -267,8 +270,7 @@ def main():
                 print('plotting Target classification V1:')
                 display_3d.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V1',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+           logging.exception("An error occurred") 
     ## plotting Target classification V2 
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='target_classification_V2')
@@ -277,8 +279,7 @@ def main():
                 print('plotting Target classification V2:')
                 display_3d.pollyDisplayTargetClass(nc_dict, config_dict, polly_conf_dict, outputfolder,c_version='V2',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+           logging.exception("An error occurred") 
     if ('all' in args.retrieval) or ('quasi_results' in args.retrieval):
     ## plotting Quasi results V1
         try:
@@ -289,8 +290,7 @@ def main():
                 for qp in q_params_ls:
                     display_3d.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder,q_param=qp, q_version='V1',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+            logging.exception("An error occurred") 
     ## plotting Quasi results V2
         try: 
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='quasi_results_V2')
@@ -299,8 +299,7 @@ def main():
                 for qp in q_params_ls:
                     display_3d.pollyDisplayQR(nc_dict, config_dict, polly_conf_dict, outputfolder, q_param=qp, q_version='V2',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+            logging.exception("An error occurred") 
     
     if ('profiles' in args.retrieval):
         ## plotting profiles
@@ -353,8 +352,8 @@ def main():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-    
+            logging.exception("An error occurred")
+
     if ('all' in args.retrieval) or ('poliphon' in args.retrieval):
         ## plotting profiles
         ## using profile_translator
@@ -373,8 +372,7 @@ def main():
                     print(f"{profilename}")
                     display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-             print("An error occurred:", e)
-
+            logging.exception("An error occurred")
     ## add plotted files to donefile
     if write2donefile == True:
         print('Write image files to donefile...')
@@ -400,7 +398,8 @@ def main():
             LC['LC532'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='532',method='Method',telescope='far')
             LC['LC1064'] = readout.get_LC_from_sql_db(db_path=str(db_path),table_name='lidar_calibration_constant',wavelength='1064',method='Method',telescope='far')
         except Exception as e:
-            print("An error occurred:", e)
+            logging.exception("An error occurred")
+
         calib_profile_translator = p_translator.calib_profile_translator_function()
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='overlap')
@@ -410,8 +409,7 @@ def main():
                 for profilename in calib_profile_translator.keys():
                     display_profiles.pollyDisplay_calibration_constants(nc_dict,LC[profilename],calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-            print("An error occurred:", e)
-
+            logging.exception("An error occurred")
     if ('all' in args.retrieval) or ('longterm_cali' in args.retrieval):
         ## plotting Lidar constants from db-file
         base_dir = Path(config_dict['results_folder'])
@@ -429,7 +427,7 @@ def main():
             ETA['ETA532'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='532')
             ETA['ETA1064'] = readout.get_depol_from_sql_db(db_path=str(db_path),table_name='depol_calibration_constant',wavelength='1064')
         except Exception as e:
-                     print("An error occurred:", e)
+            logging.exception("An error occurred")
         calib_profile_translator = p_translator.calib_profile_translator_function()
         profilename='longterm_LC'
         try:
@@ -439,7 +437,7 @@ def main():
                 print('plotting LongTermCalibration:')
                 display_profiles.pollyDisplay_longtermcalibration(nc_dict,logbookFile_df,LC,ETA,calib_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
-            print("An error occurred:", e)
+            logging.exception("An error occurred")
 
     if ('all' in args.retrieval) or ('HKD' in args.retrieval):
          laserlogbook = readout.get_pollyxt_logbook_files(date,device,args.base_dir,outputfolder)
@@ -451,8 +449,7 @@ def main():
                  nc_dict = readout.read_nc_file(data_file)
                  display_profiles.pollyDisplay_HKD(laserlogbook_df,nc_dict,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
          except Exception as e:
-             print("An error occurred:", e)
-
+             logging.exception("An error occurred")
     if ('all' in args.retrieval) or ('profile_summary' in args.retrieval):
         ## plotting profiles
         ## using profile_translator
@@ -485,7 +482,7 @@ def main():
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='high_range',donefilelist_dict=donefilelist_dict)
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='low_range',donefilelist_dict=donefilelist_dict)
         except Exception as e:
-            print("An error occurred:", e)
+            logging.exception("An error occurred")
 
 
     ## add plotted files to donefile

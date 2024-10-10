@@ -82,7 +82,9 @@ def pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, saveFolder, wavel
 
     height = nc_dict['height']
     time = nc_dict['time']
-    LCUsed = np.array([nc_dict[f'attenuated_backscatter_{wavelength}nm___Lidar_calibration_constant_used']])
+#    LCUsed = np.array([nc_dict[f'attenuated_backscatter_{wavelength}nm___Lidar_calibration_constant_used']])
+    LCUsed = nc_dict[f'attenuated_backscatter_{wavelength}nm___Lidar_calibration_constant_used']
+
     pollyVersion = nc_dict['PollyVersion']
     location = nc_dict['location']
     version = nc_dict['PicassoVersion']
@@ -112,7 +114,6 @@ def pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, saveFolder, wavel
 
     saveFilename = os.path.join(saveFolder,plotfile)
     saveFilename_SNR = os.path.join(saveFolder,plotfile_SNR)
-
 
     ## fill time gaps in att_bsc matrix
     ATT_BETA, quality_mask_ATT = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
@@ -233,12 +234,16 @@ def pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, saveFolder, wavel
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
 
+    if isinstance(LCUsed,float):
+        pass
+    else:
+        LCUsed = np.nan
     fig.text(
         0.05, 0.02,
         '{0}\nLC: {1:.2e}'.format(
-#            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
             nc_dict['m_date'],
-            LCUsed[0]), fontsize=12)
+            LCUsed), fontsize=12)
+
     fig.text(
         0.2, 0.02,
         'Version: {version}\nCalibration: {method}'.format(
@@ -371,13 +376,13 @@ def pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, saveFolder, wavel
                     datetime.now().strftime('%Y'), partnerLabel),
                 fontweight='bold', fontsize=7, color='black', ha='left',
                 va='bottom', alpha=1, zorder=10)
-    
+
         fig.text(
-            0.05, 0.02,
-            '{0}\nLC: {1:.2e}'.format(
-    #            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
-                nc_dict['m_date'],
-                LCUsed[0]), fontsize=12)
+           0.05, 0.02,
+           '{0}\nLC: {1:.2e}'.format(
+   #            datenum_to_datetime(time[0]).strftime("%Y-%m-%d"),
+               nc_dict['m_date'],
+               LCUsed), fontsize=12)
         fig.text(
             0.2, 0.02,
             'Version: {version}\nCalibration: {method}'.format(
@@ -486,6 +491,11 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
             cth_layer_list.append(layer)
         else:
             pass
+
+    if len(cbh_layer_list) == 0 or len(cth_layer_list) == 0:
+        return print('Warning: No cloudinfo available.')
+    else:
+        pass
 
     ## fill time gaps in att_bsc matrix
     ATT_BETA, quality_mask = readout.fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask)
@@ -625,6 +635,10 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
                 datetime.now().strftime('%Y'), partnerLabel),
             fontweight='bold', fontsize=7, color='black', ha='left',
             va='bottom', alpha=1, zorder=10)
+    if isinstance(LCUsed,float):
+        pass
+    else:
+        LCUsed = np.nan
 
     fig.text(
         0.05, 0.02,
@@ -705,7 +719,10 @@ def pollyDisplayVDR(nc_dict,config_dict,polly_conf_dict,saveFolder, wavelength,d
     VDR = nc_dict[f'volume_depolarization_ratio_{wavelength}nm'] 
     quality_mask = np.where(VDR > 0, 0, 0)
     eta = re.split(r'eta:',nc_dict[f'volume_depolarization_ratio_{wavelength}nm___comment'])[1]
-    eta = float(re.split(r'\)',eta)[0])
+    try:
+        eta = float(re.split(r'\)',eta)[0])
+    except Exception as e:
+        eta = '' 
     height = nc_dict['height']
     time = nc_dict['time']
     pollyVersion = nc_dict['PollyVersion']
