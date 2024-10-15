@@ -48,7 +48,7 @@ stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq_index ON ', ...
 %% insert data
 for iDC = 1:length(depolconst)
 
-    if isnan(depolconst(iDC)) || isnan(depolconstStd(iDC))
+    if isnan(depolconst(iDC)) || isnan(depolconstStd(iDC) || isnan(dcStartTime(iDC)) || isnan(dcStopTime(iDC)))
         continue;
     end
 
