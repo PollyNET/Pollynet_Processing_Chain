@@ -2885,6 +2885,9 @@ if flagGHK
         data.mdr355(iGrp) = thisMdr355;
         mdrStd355(iGrp) = thisMdrStd355;
         flagDeftMdr355(iGrp) = thisFlagDeftMdr355;
+        if PollyConfig.flagUseTheoreticalMDR
+            thisMdr355 = PollyDefaults.molDepol355; % to do: implement the temperature dependence of the molecular depolarization ratio
+        end
         % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
         if ~ isnan(data.aerBsc355_klett(iGrp, 80))
             [thisPdr355_klett, thisPdrStd355_klett] = pollyPDR(data.vdr355_klett(iGrp, :), data.vdrStd355_klett(iGrp, :), data.aerBsc355_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc355, thisMdr355, thisMdrStd355);
@@ -3010,6 +3013,9 @@ if flagGHK
         mdrStd532(iGrp) = thisMdrStd532;
         flagDeftMdr532(iGrp) = thisFlagDeftMdr532;
         % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
+        if PollyConfig.flagUseTheoreticalMDR
+            thisMdr532 = PollyDefaults.molDepol532; % to do: implement the temperature dependence of the molecular depolarization ratio
+        end
         if ~ isnan(data.aerBsc532_klett(iGrp, 80))
             [thisPdr532_klett, thisPdrStd532_klett] = pollyPDR(data.vdr532_klett(iGrp, :), data.vdrStd532_klett(iGrp, :), data.aerBsc532_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc532, thisMdr532, thisMdrStd532);
             data.pdr532_klett(iGrp, :) = thisPdr532_klett;
@@ -3135,6 +3141,9 @@ if flagGHK
         mdrStd1064(iGrp) = thisMdrStd1064;
         flagDeftMdr1064(iGrp) = thisFlagDeftMdr1064;
         % still the "adapted" method is implemented where the MDR in the reference height is used to calculate the PDR (instead of the temperature dependent theoretical MDR)
+        if PollyConfig.flagUseTheoreticalMDR
+            thisMdr1064 = PollyDefaults.molDepol1064; % to do: implement the temperature dependence of the molecular depolarization ratio
+        end
         if ~ isnan(data.aerBsc1064_klett(iGrp, 80))
             [thisPdr1064_klett, thisPdrStd1064_klett] = pollyPDR(data.vdr1064_klett(iGrp, :), data.vdrStd1064_klett(iGrp, :), data.aerBsc1064_klett(iGrp, :), ones(1, length(data.height)) * 1e-7, mBsc1064, thisMdr1064, thisMdrStd1064);
             data.pdr1064_klett(iGrp, :) = thisPdr1064_klett;

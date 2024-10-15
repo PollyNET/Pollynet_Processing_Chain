@@ -15,6 +15,7 @@
     "flagAutoscaleRCS": true,
     "flagMolDepolCali": false,
     "flagTransCor": true,
+	"flagUseTheoreticalMDR": false,
 
     "MWRFolder": "",
 
