@@ -139,6 +139,8 @@ case '355nm'
                 'default_polCaliEta', p.Results.default_polCaliEta, ...
                 'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
             polCaliTime = [polCaliStartTime, polCaliStopTime];
+            polCalAttri355.polCaliEta = polCaliEta;
+            polCalAttri355.polCaliEtaStd = polCaliEtaStd;
             polCaliAttri = polCalAttri355;
         else
             polCaliEta = p.Results.default_polCaliEta;
@@ -180,6 +182,8 @@ case '532nm'
                 'default_polCaliEta', p.Results.default_polCaliEta, ...
                 'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
             polCaliTime = [polCaliStartTime, polCaliStopTime];
+            polCalAttri532.polCaliEta = polCaliEta;
+            polCalAttri532.polCaliEtaStd = polCaliEtaStd;
             polCaliAttri = polCalAttri532;
         else
             polCaliEta = p.Results.default_polCaliEta;
@@ -220,6 +224,8 @@ case '1064nm'
                 'default_polCaliEta', p.Results.default_polCaliEta, ...
                 'default_polCaliEtaStd', p.Results.default_polCaliEtaStd);
             polCaliTime = [polCaliStartTime, polCaliStopTime];
+            polCalAttri1064.polCaliEta = polCaliEta;
+            polCalAttri1064.polCaliEtaStd = polCaliEtaStd;
             polCaliAttri = polCalAttri1064;
         else
             polCaliEta = p.Results.default_polCaliEta;
