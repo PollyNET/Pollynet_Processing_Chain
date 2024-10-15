@@ -76,6 +76,13 @@ etaStd = p.Results.polCaliEtaStd;
 
 % from Freudenthaler AMT 2016: eq 65 with the denominator from eq 64 to
 % avoid a negative signal
+display(size(eta))
+display(size(HR))
+display(size(sigT))
+display(size(HT))
+display(size(sigC))
+display(size(GT))
+display(size(GR))
 sigTCor = (eta * HR .* sigT - HT .* sigC) ./ (HR*GT - HT*GR);
 bgTCor = (eta * HR .* bgT - HT .* bgC) ./ (HR*GT - HT*GR);
 % Variance and std not yet included. 
