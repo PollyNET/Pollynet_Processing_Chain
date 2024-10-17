@@ -1,5 +1,5 @@
 function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio, varargin)
-% POLLYPOLCALI calibrate the PollyXT cross channels for 355 and 532 nm with ±45° method.
+% POLLYPOLCALI calibrate the PollyXT cross channels for 355, 532 and 1064 nm with Delta90� method.
 %
 % USAGE:
 %    [polCaliEta, polCaliEtaStd,polCaliFac, polCaliFacStd,  polCaliTime, polCaliAttri] = pollyPolCali(data, transRatio)
@@ -12,7 +12,7 @@ function [polCaliEta, polCaliEtaStd, polCaliFac, polCaliFacStd, polCaliTime, pol
 %
 % KEYWORDS:
 %    wavelength: char
-%        '355nm' or '532nm'.
+%        '355nm' or '532nm' or '1064nm'
 %    depolCaliMinBin: numeric
 %        minimum search index for stable polarization calibration constants.
 %    depolCaliMaxBin

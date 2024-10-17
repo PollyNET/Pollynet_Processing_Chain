@@ -15,7 +15,8 @@
     "flagAutoscaleRCS": true,
     "flagMolDepolCali": false,
     "flagTransCor": true,
-
+	"flagUseTheoreticalMDR": false, 
+	
     "MWRFolder": "",
 
     "dataFileFormat": "(?<year>\\d{4})_(?<month>\\d{2})_(?<day>\\d{2})_\\w*_(?<hour>\\d{2})_(?<minute>\\d{2})_(?<second>\\d{2})\\w*.nc",

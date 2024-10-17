@@ -41,7 +41,7 @@ function [sigTCor, bgTCor, sigTCorStd] = transCor(sigT, bgT, sigC, bgC, varargin
 %        uncertainty of transmission corrected elastic signal.
 %
 % REFERENCES:
-%    Mattis, I., Tesche, M., Grein, M., Freudenthaler, V., and MÃ¼ller, D.: Systematic error of lidar profiles caused by a polarization-dependent receiver transmission: Quantification and error correction scheme, Appl. Opt., 48, 2742-2751, 2009.
+%    Mattis, I., Tesche, M., Grein, M., Freudenthaler, V., and Müller, D.: Systematic error of lidar profiles caused by a polarization-dependent receiver transmission: Quantification and error correction scheme, Appl. Opt., 48, 2742-2751, 2009.
 %
 % HISTORY:
 %    - 2021-05-27: first edition by Zhenping.
