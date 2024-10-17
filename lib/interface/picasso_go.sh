@@ -28,6 +28,7 @@ display_help() {
   echo "   --auto                  start automatic data processing"
   echo "   --check_gdas            reprocess polly data when GDAS1 data is ready"
   echo "   --pollyapp_config       specify the path of 'config.private' for the pollyAPP"
+  echo "   --matlab                specify location of matlab-executable; default is just set to: matlab"
   echo "   -h, --help              show help message"
   echo ""
   echo "Usecase 1: automatic running (on rsd server)"
@@ -44,7 +45,7 @@ display_help() {
 process_history() {
   echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$STARTDATE\nEND_DATE=$ENDDATE\n\n"
 
-  /usr/local/bin/matlab/R2022a/bin/matlab -nodisplay -nodesktop -nosplash <<ENDMATLAB
+  $MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
 PICASSO_DIR = fileparts(fileparts('$cwd'));
 cd(PICASSO_DIR);
 initPicassoToolbox;
@@ -60,7 +61,7 @@ ENDMATLAB
 
 # Automatic data processing
 auto_process() {
-/usr/local/bin/matlab/R2022a/bin/matlab -nodesktop -nosplash << ENDMATLAB
+$MATLABEXEC -nodesktop -nosplash << ENDMATLAB
 PICASSO_PATH = fileparts(fileparts('$cwd'));
 cd(PICASSO_PATH);
 
@@ -100,6 +101,7 @@ POLLYAPP_PATH="/pollyhome/Bildermacher2/pollyAPP"
 ADDNEW_SCRIPT="/pollyhome/Bildermacher2/pollyAPP/src/util/add_new_data2pollydb.pl"
 PERL5LIB="/pollyhome/Bildermacher2/.perlbrew/libs/perl-5.22.2@devel/lib/perl5"
 PERL_BIN="/pollyhome/Bildermacher2/perl5/perlbrew/perls/perl-5.22.2/bin/perl"
+MATLABEXEC="matlab"
 
 ################################
 # Check if parameters options  #
@@ -146,6 +148,11 @@ while :; do
     if [ $# -ne 0 ]; then
       POLLYAPP_CONFIG_FILE="$2"
     fi
+    shift 2
+    ;;
+
+  --matlab)
+    MATLABEXEC="$2"
     shift 2
     ;;
 

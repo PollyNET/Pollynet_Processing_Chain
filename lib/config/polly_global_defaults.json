@@ -4,11 +4,11 @@
     "depolCaliConst355": 0,
     "depolCaliConstStd355": 0,
     "polCaliEta532": 0,
-    "polCaliEtaStd532": 0,
+    "polCaliEtaStd532": 1,
     "polCaliEta355": 0,
-    "polCaliEtaStd355": 0,
+    "polCaliEtaStd355": 1,
     "polCaliEta1064": 0,
-    "polCaliEtaStd1064": 0,
+    "polCaliEtaStd1064": 1,
     "LC": [],
     "LCStd": [],
     "overlapFile532": "",
@@ -20,5 +20,8 @@
     "molDepol355": 0,
     "molDepolStd355": 0,
     "wvconst": 0,
-    "wvconstStd": 0
+    "wvconstStd": 0,
+    "volDepolerror355": 0,
+	"volDepolerror532": 0,
+	"volDepolerror1064": 0
 }

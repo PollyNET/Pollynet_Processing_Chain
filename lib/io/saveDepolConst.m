@@ -48,10 +48,7 @@ stmt.executeUpdate(['CREATE UNIQUE INDEX IF NOT EXISTS uniq_index ON ', ...
 %% insert data
 for iDC = 1:length(depolconst)
 
-    if isnan(depolconst(iDC)) || isnan(depolconstStd(iDC))
-        continue;
-    end
-
+    if (~isnan(depolconst(iDC)) && ~isnan(depolconstStd(iDC)) && ~isempty(dcStartTime) && ~isempty(dcStopTime))
     stmt.executeUpdate(sprintf(['INSERT OR REPLACE INTO depol_calibration_constant', ...
         '(cali_start_time, cali_stop_time,', ...
         'depol_const, uncertainty_depol_const, ', ...
@@ -64,6 +61,7 @@ for iDC = 1:length(depolconst)
     wavelength, ...
     pollyDataFilename, ...
     pollyType));
+    end
 end
 
 %% close connection
