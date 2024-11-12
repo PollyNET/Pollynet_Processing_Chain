@@ -3490,8 +3490,6 @@ if PollyConfig.flagWVCalibration
         E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
         E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064, :, flag407On & flagWVCali), 2)));
 
-        %[~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        %[~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
         trans387 = exp(-cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
         rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
@@ -3559,9 +3557,6 @@ for iGrp = 1:size(clFreGrps, 1)
     sig387 = sum(data.signal(flag387, :, flag407On), 3);
     sig407 = sum(data.signal(flag407, :, flag407On), 3);
 
-    % calculate molecule optical properties
-    %[~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-    %[~, mExt407] = rayleigh_scattering(407, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
     trans387 = exp(- cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
     trans407 = exp(- cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
 
@@ -3652,9 +3647,6 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     temperature = repmat(transpose(temp), 1, length(data.mTime));
     pressure = repmat(transpose(pres), 1, length(data.mTime));
 
-    % calculate the molecule optical properties
-    %[~, mExt387] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
-    %[~, mExt407] = rayleigh_scattering(407, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
     trans387 = exp(- cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
     trans407 = exp(- cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
     TRANS387 = repmat(transpose(trans387), 1, length(data.mTime));
@@ -3945,8 +3937,6 @@ for iGrp = 1:size(clFreGrps, 1)
 
         if ~ isnan(data.aerBsc355_raman(iGrp, 80))
 
-            %[~, mExt387] = rayleigh_scattering(387, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
             flagClFre(prfInd) = true;
@@ -3983,8 +3973,6 @@ for iGrp = 1:size(clFreGrps, 1)
     if sum(flag532) == 1
 
         if ~ isnan(data.aerBsc532_raman(iGrp, 80))
-
-            %[~, mExt607] = rayleigh_scattering(607, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             flagClFre = false(size(data.mTime));
