@@ -738,9 +738,23 @@ data.AERONET = AERONET;
 
 print_msg('Finish\n', 'flagTimestamp', true);
 
-%% Rayleigh fitting
-print_msg('Start Rayleigh fitting.\n', 'flagTimestamp', true);
+%% Calculate molecular scattering properties
+for iGrp = 1:size(clFreGrps, 1)
+    temperature = data.temperature(iGrp, :);
+    pressure = data.pressure(iGrp, :);
+        [mBsc355(iGrp,:), mExt355(iGrp,:)] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
+        [mBsc387(iGrp,:), mExt387(iGrp,:)] = rayleigh_scattering(387, pressure, temperature + 273.17, 380, 70);
+        [mBsc407(iGrp,:), mExt407(iGrp,:)] = rayleigh_scattering(407, pressure, temperature + 273.17, 380, 70);
+        [mBsc532(iGrp,:), mExt532(iGrp,:)] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+        [mBsc607(iGrp,:), mExt607(iGrp,:)] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
+        [mBsc1058(iGrp,:), mExt1058(iGrp,:)] = rayleigh_scattering(1058, pressure, temperature + 273.17, 380, 70);
+        [mBsc1064(iGrp,:), mExt1064(iGrp,:)] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+end
 
+
+%% Rayleigh fitting
+
+print_msg('Start Rayleigh fitting.\n', 'flagTimestamp', true);
 flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
@@ -754,8 +768,8 @@ DPInd1064 = {};   % points decomposed by Douglas-Peucker method at 1064 nm
 for iGrp = 1:size(clFreGrps, 1)
 
     tInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
-    temperature = data.temperature(iGrp, :);
-    pressure = data.pressure(iGrp, :);
+    temperature = data.temperature(iGrp, :);  % tb deleted
+    pressure = data.pressure(iGrp, :); % tb deleted
 
     % 532 nm
     if (sum(flag532FR) == 1) && (~ PollyConfig.flagUseManualRefH)
@@ -765,8 +779,7 @@ for iGrp = 1:size(clFreGrps, 1)
         pcr532 = sig532 / nShots532 * (150 / data.hRes);
 
         % Rayleigh scattering
-        [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mSig532 = mBsc532 .* exp(-2 * cumsum(mExt532 .* [data.distance0(1), diff(data.distance0)]));
+        mSig532 = mBsc532(iGrp,:) .* exp(-2 * cumsum(mExt532(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
 
         print_msg(sprintf('\nStart searching reference height for signal at 532 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
@@ -812,8 +825,8 @@ for iGrp = 1:size(clFreGrps, 1)
         pcr355 = sig355 / nShots355 * (150 / data.hRes);
 
         % Rayleigh scattering
-        [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
-        mSig355 = mBsc355 .* exp(-2 * cumsum(mExt355 .* [data.distance0(1), diff(data.distance0)]));
+        %[mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
+        mSig355 = mBsc355(iGrp,:) .* exp(-2 * cumsum(mExt355(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
 
         print_msg(sprintf('\nStart searching reference height for 355 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
@@ -859,8 +872,8 @@ for iGrp = 1:size(clFreGrps, 1)
         pcr1064 = sig1064 / nShots1064 * (150 / data.hRes);
 
         % Rayleigh scattering
-        [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
-        mSig1064 = mBsc1064 .* exp(-2 * cumsum(mExt1064 .* [data.distance0(1), diff(data.distance0)]));
+        %[mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+        mSig1064 = mBsc1064(iGrp,:) .* exp(-2 * cumsum(mExt1064(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
 
         print_msg(sprintf('\nStart searching reference height for 1064 nm, period from %s to %s.\n', ...
             datestr(data.mTime(tInd(1)), 'yyyymmdd HH:MM'), datestr(data.mTime(tInd(end)), 'HH:MM')), 'flagSimpleMsg', true);
@@ -1616,6 +1629,7 @@ for iGrp = 1:size(clFreGrps, 1)
 %the mean value in future?
     thisAerExt355_raman_tmp = thisAerExt355_raman;
     thisAerExt355_raman(1:hBaseInd355) = thisAerExt355_raman(hBaseInd355);
+    [thisAerBsc355_raman_smart, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355, mBsc355, refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
     [thisAerBsc355_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355, mBsc355, refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
     thisAerBscStd355_raman = pollyRamanBscStd(data.distance0, sig355, bg355, sig387, bg387, thisAerExt355_raman, thisAerExtStd355_raman, PollyConfig.angstrexp, 0.2, mExt355, mBsc355, refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
 
