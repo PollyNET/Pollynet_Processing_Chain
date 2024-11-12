@@ -1,4 +1,4 @@
-function [ beta_aer, LR ] = pollyRamanBsc_smart(height, sigElastic, sigVRN2, ext_aer, angstroem, ext_mol, beta_mol, HRef, wavelength, betaRef, window_size, flagSmoothBefore, el_lambda, inel_lambda)
+function [ beta_aer, LR ] = pollyRamanBsc_smart(height, sigElastic, sigVRN2, ext_aer, angstroem, ext_mol, beta_mol,ext_mol_raman, beta_mol_inela, HRef, wavelength, betaRef, window_size, flagSmoothBefore, el_lambda, inel_lambda)
 % POLLYRAMANBSC calculate the aerosol backscatter coefficient with Raman method.
 %Modified by HB for cinsitency in 2024
 % USAGE:
@@ -73,7 +73,6 @@ end
 
 
  ext_aer_factor = (el_lambda / inel_lambda) .^ angstroem;
- ext_mol_factor = (355 / 387) ^ 4; %ist nicht konsistent sollte explizit gerechnet werden
 
 dH = height(2) - height(1);   % height resolution. [m]
 
@@ -84,76 +83,7 @@ refIndx = fix((mean(HRef) - height(1)) / dH) + 1;
 
 % calculate the extinction coefficient at inelastic wavelength.
 ext_aer_raman = ext_aer .* ext_aer_factor;
-ext_mol_raman = ext_mol .* ext_mol_factor;
 
-if wavelength == 1064
-    % calculate the optical depth from any point to refIndx 
-    mol_el_OD = nansum(ext_mol(1:refIndx)) * dH - nancumsum(ext_mol) * dH;
-    mol_vr_OD = nansum(ext_mol_raman(1:refIndx)) * dH - ...
-                nancumsum(ext_mol_raman) * dH;
-    mol_el_532_OD = mol_el_OD * (1064/532).^4;
-    aer_el_OD = nansum(ext_aer(1:refIndx)) * dH - nancumsum(ext_aer) * dH;
-    aer_vr_OD = nansum(ext_aer_raman(1:refIndx)) * dH - ...
-                nancumsum(ext_aer_raman) * dH;
-    aer_el_532_OD = aer_el_OD * (1064/532).^angstroem;
-
-    hIndx = false(1, length(height));
-    hIndx(HRefIndx(1):HRefIndx(end)) = true;
-
-    % calculate the signal ratio at the reference height
-    elMean = sigElastic(hIndx) ./ ...
-             (beta_mol(hIndx) + betaRef);
-    vrMean = sigVRN2(hIndx) ./ (beta_mol(hIndx));
-
-    % calculate the aerosol backscatter coefficient.
-    if ~ flagSmoothBefore
-        beta_aer = transpose(smoothWin(((sigElastic ./ sigVRN2) ...
-        .* (nanmean(vrMean) ./ nanmean(elMean)) .* ...
-        exp(mol_vr_OD + mol_el_532_OD - 2 * mol_el_OD + ...
-        aer_vr_OD + aer_el_532_OD - 2 * aer_el_OD) - 1) .* ...
-        beta_mol, window_size, 'moving'));
-    else
-        beta_aer = ((transpose(smoothWin(sigElastic, window_size, 'moving')) ...
-        ./ transpose(smoothWin(sigVRN2, window_size, 'moving'))) ...
-        .* (nanmean(vrMean) ./ nanmean(elMean)) .* ...
-        exp(mol_vr_OD + mol_el_532_OD - 2*mol_el_OD + aer_vr_OD + ...
-            aer_el_532_OD - 2 * aer_el_OD) - 1) .* beta_mol;
-    end
-    LR = ext_aer ./ beta_aer;
-
-elseif wavelength == 532
-    % calculate the optical depth from any point to refIndx 
-    mol_el_OD = nansum(ext_mol(1:refIndx)) * dH - nancumsum(ext_mol) * dH;
-    mol_vr_OD = nansum(ext_mol_raman(1:refIndx)) * dH - ...
-                nancumsum(ext_mol_raman) * dH;
-    aer_el_OD = nansum(ext_aer(1:refIndx)) * dH - nancumsum(ext_aer) * dH;
-    aer_vr_OD = nansum(ext_aer_raman(1:refIndx)) * dH - ...
-                nancumsum(ext_aer_raman) * dH;
-
-    hIndx = false(1, length(height));
-    hIndx(HRefIndx(1):HRefIndx(end)) = true;
-
-    % calculate the signal ratio at the reference height
-    elMean = sigElastic(hIndx) ./ ...
-             (beta_mol(hIndx) + betaRef);
-    vrMean = sigVRN2(hIndx) ./ (beta_mol(hIndx));
-
-    % calculate the aerosol backscatter coefficient.
-    if ~ flagSmoothBefore
-        beta_aer = transpose(smoothWin(((sigElastic ./ sigVRN2) ...
-        .* (nanmean(vrMean) ./ nanmean(elMean)) .* ...
-        exp(mol_vr_OD - mol_el_OD + aer_vr_OD - aer_el_OD) - 1) .* ...
-        beta_mol, window_size, 'moving'));
-    else
-        beta_aer = ...
-        ((transpose(smoothWin(sigElastic, window_size, 'moving')) ./ ...
-          transpose(smoothWin(sigVRN2, window_size, 'moving'))) ...
-        .* (nanmean(vrMean) ./ nanmean(elMean)) .* ...
-        exp(mol_vr_OD - mol_el_OD + aer_vr_OD - aer_el_OD) - 1) .* beta_mol;
-    end
-    LR = ext_aer ./ beta_aer;
-
-elseif wavelength == 355
     % calculate the optical depth from any point to refIndx 
     mol_el_OD = nansum(ext_mol(1:refIndx)) * dH - nancumsum(ext_mol) * dH;
     mol_vr_OD = nansum(ext_mol_raman(1:refIndx)) * dH - ...
@@ -185,6 +115,6 @@ elseif wavelength == 355
     end
     LR = ext_aer ./ beta_aer;
 
-end
+
 
 end
