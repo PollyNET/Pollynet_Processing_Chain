@@ -42,7 +42,7 @@ def get_nc_filename(date, device, inputfolder, param=""):
     param: str
         att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results",
         "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles",
-        "NR_profiles", "cloudinfo","POLIPHON_1"
+        "NR_profiles", "cloudinfo","POLIPHON_1", "RCS"
     '''
 
 #    inputfolder = input_folder(configfile)
@@ -155,6 +155,81 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
         quality_mask = np.pad(quality_mask,((0,fill_size_end),(0,0)), 'constant', constant_values=-1)
 
     return ATT_BETA, quality_mask
+
+
+def fill_time_gaps_of_single_matrix(time, matrix):
+    """
+    Description
+    -----------
+    Locate gaps in time-dimension and fill gaps in matrix for 24h plots.
+
+    Parameters
+    ----------
+    time: list
+        time values in unixtime.
+    matrix: array-like  matrix.
+
+    Usage
+    -----
+    fill_time_gaps_of_matrix(time, matrix)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    ## get time-differences between profiles
+    diff_time = [ time[d+1]-time[d] for d in range(len(time)-1) ]
+
+    ## get profile_length (in most cases 30 seconds)
+    occurence_count = mode(diff_time) ## get most frequently element
+    profile_length = int(np.round(occurence_count))
+    
+    ## get gaps, if time-gap is bigger than 2 x profile_length
+    gap_finder = np.where(np.array(diff_time) > 2*profile_length)
+    fill_size = 0
+    fill_size_all = 0
+    fill_value = matrix.fill_value
+    if fill_value == 1e+20:
+        fill_value = -999.0
+
+#    ## Set masked values (bad signal) to 0, to differntiate between bad signals and measurement-gaps
+#    ATT_BETA = np.ma.masked_where(ATT_BETA.mask, ATT_BETA, 0)
+    
+    for gap in gap_finder[0]:
+        fill_size_all = fill_size_all + fill_size
+        gap = gap + fill_size_all
+        time_gap = diff_time[gap-fill_size_all]
+        profiles_num = int(np.round(time_gap/profile_length))
+        matrix_left = matrix[:gap+1]
+        matrix_right = matrix[gap:]
+        fill_size =  profiles_num
+        matrix_left = np.pad(matrix_left,((0,fill_size),(0,0)), 'constant', constant_values=fill_value)
+        
+        matrix = np.append(matrix_left, matrix_right, axis=0)
+
+    ## get date and convert to datetime object
+    date_00 = datetime.fromtimestamp(int(time[0])).strftime('%Y%m%d') # convert Unix-timestamp to datestring
+    date_00 = datetime.strptime(str(date_00), '%Y%m%d').replace(tzinfo=timezone.utc) # convert to datetime object of UTC-time 
+    date_00 = date_00.timestamp() # convert to unix-timestamp-object
+
+    ## check start unix-time
+    start_diff = abs(time[0]-date_00)
+    if start_diff < (profile_length * 2):
+        fill_size_start = 0
+    else:
+        fill_size_start = int(np.round(start_diff/profile_length))
+        matrix = np.pad(matrix, ((fill_size_start,0),(0,0)), 'constant', constant_values=fill_value)
+    ## check end unix-time
+    end_diff = abs(time[-1] - (date_00+24*60*60))
+    if end_diff < (profile_length * 2):
+        fill_size_end = 0
+    else:
+        fill_size_end =  int(np.round(end_diff/profile_length))
+        matrix = np.pad(matrix,((0,fill_size_end),(0,0)), 'constant', constant_values=fill_value)
+    
+
+    return matrix 
 
 
 

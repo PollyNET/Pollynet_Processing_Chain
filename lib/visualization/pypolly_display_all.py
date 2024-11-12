@@ -63,7 +63,7 @@ my_parser.add_argument('--outdir', dest='outdir', metavar='outputdir',
                        help='the output folder to put the png files to.')
 my_parser.add_argument('--retrieval', dest='retrieval', metavar='retrieval parameter',
                        default=['all'],
-                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali','profile_summary','poliphon'],
+                       choices=['all','attbsc','voldepol','cloudinfo','target_class','wvmr_rh','quasi_results','profiles','overlap','LC','HKD','longterm_cali','profile_summary','poliphon','RCS'],
                        nargs='+',
                        type=str,
                        help='the retrievals to be plotted; default: "all".')
@@ -484,6 +484,26 @@ def main():
         except Exception as e:
             logging.exception("An error occurred")
 
+    if ('all' in args.retrieval) or ('RCS' in args.retrieval):
+    ## plotting RCS plots
+        try:
+            nc_files = readout.get_nc_filename(date, device, inputfolder, param='RCS')
+            for data_file in nc_files:
+                nc_dict = readout.read_nc_file(data_file)
+                param_ls = ['RCS_FR_355nm', 'RCS_FR_cross_355nm', 'RCS_NR_355nm', 'RCS_RR_355nm', 'RCS_FR_387nm', 'RCS_NR_387nm', 'RCS_FR_407nm', 'RCS_NR_407nm', 'RCS_FR_532nm', 'RCS_FR_cross_532nm','RCS_FR_parallel_532nm', 'RCS_NR_532nm', 'RCS_NR_cross_532nm', 'RCS_RR_532nm', 'RCS_FR_607nm', 'RCS_NR_607nm', 'RCS_FR_1064nm', 'RCS_FR_cross_1064nm', 'RCS_RR_1064nm']
+                for p in param_ls:
+                    p1 = re.split(r'RCS_',p)[1]
+                    param = re.split(r'_[1-9].*nm',p1)[0]
+                    wavelength = re.split(f'{param}_',p1)[-1]
+                    wavelength = re.split(r'nm',wavelength)[0]
+
+                    if np.all(nc_dict[p].mask): ## do not plot empty/non-existing channels
+                        continue
+                    else:
+                        print(f'plotting {p}')
+                        display_3d.pollyDisplayRCS(nc_dict, config_dict, polly_conf_dict, outputfolder, wavelength=wavelength,param=param,donefilelist_dict=donefilelist_dict)
+        except Exception as e:
+            logging.exception("An error occurred")
 
     ## add plotted files to donefile
     if write2donefile == True:
