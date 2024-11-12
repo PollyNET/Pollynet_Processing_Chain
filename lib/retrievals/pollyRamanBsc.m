@@ -70,7 +70,7 @@ end
 
 if wavelength == 355
     ext_aer_factor = (355 / 387) .^ angstroem;
-    ext_mol_factor = (355 / 387) ^ 4;
+    ext_mol_factor = (355 / 387) ^ 4; %ist nicht konsistent sollte explizit gerechnet werden
 elseif wavelength == 532
     ext_aer_factor = (532 / 607) .^ angstroem;
     ext_mol_factor = (532 / 607) ^ 4;
@@ -166,7 +166,7 @@ elseif wavelength == 355
     aer_vr_OD = nansum(ext_aer_raman(1:refIndx)) * dH - ...
                 nancumsum(ext_aer_raman) * dH;
 
-    hIndx = false(1, length(height));
+    hIndx = false(1, length(height)); 
     hIndx(HRefIndx(1):HRefIndx(end)) = true;
 
     % calculate the signal ratio at the reference height

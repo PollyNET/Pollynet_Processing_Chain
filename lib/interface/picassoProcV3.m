@@ -1611,7 +1611,9 @@ for iGrp = 1:size(clFreGrps, 1)
     if (SNRRef355 < PollyConfig.minRamanRefSNR355) || (SNRRef387 < PollyConfig.minRamanRefSNR387)
         continue;
     end
-
+%here the lower end of the exitncion profiles is set to contant values
+%according to the value at fullüverlap + smoothing window/2 --> should be
+%the mean value in future?
     thisAerExt355_raman_tmp = thisAerExt355_raman;
     thisAerExt355_raman(1:hBaseInd355) = thisAerExt355_raman(hBaseInd355);
     [thisAerBsc355_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355, mBsc355, refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
@@ -1629,7 +1631,9 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_raman(iGrp, :) = thisLRStd355_raman;
 
 end
-
+% here delete temp variables
+%clear vars here
+clearvars thisAerBsc355_raman thisAerBscStd355_raman thisAerExt355_raman thisAerExt355_raman_tmp thisAerExtStd355_raman
 %% Raman method (532 nm)
 data.aerBsc532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
