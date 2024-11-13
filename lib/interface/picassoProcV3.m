@@ -1567,10 +1567,11 @@ for iGrp = 1:size(clFreGrps, 1)
     sig387 = squeeze(sum(data.signal(flag387FR, :, flagClFre), 3));
     bg387 = squeeze(sum(data.bg(flag387FR, :, flagClFre), 3));
 
-    thisAerExt355_raman = pollyRamanExt_smart(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving');
+    [thisAerExt355_raman, thisAerExtStd355_raman] = pollyRamanExt_smart_MC(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving',15,bg387);
+   % thisAerExt355_raman = pollyRamanExt_smart(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving');
    % thisAerExt355_raman = pollyRamanExt(data.distance0, sig387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_355, 380, 70, 'moving');
      
-    thisAerExtStd355_raman = pollyRamanExtStd(data.distance0, sig387, bg387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_355, 380, 70, 15);
+    %thisAerExtStd355_raman = pollyRamanExtStd(data.distance0, sig387, bg387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_355, 380, 70, 15);
     data.aerExt355_raman(iGrp, :) = thisAerExt355_raman;
     data.aerExtStd355_raman(iGrp, :) = thisAerExtStd355_raman;
 

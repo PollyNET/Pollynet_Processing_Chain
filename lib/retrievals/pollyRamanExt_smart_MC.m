@@ -1,5 +1,5 @@
-function [ ext_aer ] = pollyRamanExt_smart(height, sig, lambda_emit, ...
-    lambda_Raman,alpha_molecular_elastic, alpha_molecular_Raman, number_density, angstrom, window_size, method, measure_error)
+function [ ext_aer, ext_error] = pollyRamanExt_smart_MC(height, sig, lambda_emit, ...
+    lambda_Raman,alpha_molecular_elastic, alpha_molecular_Raman, number_density, angstrom, window_size, method, MC_count,bg)
 % POLLYRAMANEXT etrieve the aerosol extinction coefficient with Raman method
 %
 % USAGE:
@@ -74,4 +74,36 @@ end
 
 ext_aer = (deriv_ratio - alpha_molecular_elastic - alpha_molecular_Raman) ./ ...
           (1 + (lambda_emit ./ lambda_Raman) .^ angstrom);
+      
+      
+%calculation of error
+if MC_count>1
+    ext_aer_MC = NaN(MC_count, length(sig));
+
+    signalGen = sigGenWithNoise(sig, sqrt(sig + bg), MC_count, 'norm');
+
+    for iProfile = 1:MC_count
+        %sig_MC = signalGen(:, iProfile)';
+        temp = number_density ./ ((signalGen(:, iProfile)') .* height.^2);
+        temp(temp <= 0) = NaN;
+        ratio = log(temp);
+        if strcmpi(method, 'moving') || strcmpi(method, 'movingslope')
+            deriv_ratio = movingslope_variedWin(ratio, window_size) ./ ...
+            [height(2) - height(1), diff(height)];
+        elseif strcmpi(method, 'smoothing') || strcmpi(method, 'smooth')
+            deriv_ratio = movingsmooth_variedWin(ratio, window_size) ./ [height(2) - ...
+            height(1), diff(height)];
+        elseif strcmpi(method, 'chi2') 
+            deriv_ratio = movingLinfit_variedWin(height, ratio, measure_error, ...
+            window_size);
+        else
+            error('Please set a valid method for calculate the extinction coefficient.');
+        end
+        ext_aer_MC(iProfile, :) = (deriv_ratio - alpha_molecular_elastic - alpha_molecular_Raman) ./ ...
+          (1 + (lambda_emit ./ lambda_Raman) .^ angstrom);
+    end
+    ext_error = nanstd(ext_aer_MC, 1, 0);
+else
+    ext_error = NaN(length(ext_aer));
+end      
 end
