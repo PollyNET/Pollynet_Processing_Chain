@@ -20,7 +20,7 @@ flagCh532FR = PollyConfig.isFR & PollyConfig.is532nm & PollyConfig.isTot;
 flagCh1064FR = PollyConfig.isFR & PollyConfig.is1064nm & PollyConfig.isTot;
 
 missing_value = -999;
-
+%%%%%%%%%%%%%%%%%%%%%here QC starts%%%%%%%%%%%%%%%%%%%%%
 for iGrp = 1:size(data.clFreGrps, 1)
     no_fill_low_profile =false;
     % QC flags will yet be implemetned only for standard products

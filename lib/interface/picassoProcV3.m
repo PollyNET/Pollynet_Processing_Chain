@@ -698,12 +698,13 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 
 
 %% Cloud-free profiles segmentation
+%%%%This is the part interesting for Georg!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 print_msg('Start cloud-free profiles segmentation.\n', 'flagTimestamp', true);
 
 flagValPrf = flagCloudFree & (~ data.fogMask) & (~ data.depCalMask) & (~ data.shutterOnMask);
 clFreGrps = clFreeSeg(flagValPrf, PollyConfig.intNProfiles, PollyConfig.minIntNProfiles);
 data.clFreGrps = clFreGrps;
-
+%%%%This is the part interesting for Georg end!!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if isempty(clFreGrps)
     print_msg('No cloud-free groups were found.\n', 'flagSimpleMsg', true);
 else
@@ -2334,7 +2335,10 @@ end
 
 %% Overlap correction
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
-
+%%%%%%%%%%%%%@ andi + Maria %%%%%%%%%%% 
+%%%%%%%%%here signal merging should be implemented here with a new flag?
+%%%%%%%%%%%%%%%%%%%%Later it can be moved to an own product, not called _OC
+%%%%%%%%%%%%%%%%%%%%but _merged or so
 % 355 nm
 data.sigOLCor355 = [];
 bgOLCor355 = [];
@@ -4938,7 +4942,9 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                 print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %% save aerosol optical results
                 try
-    	         pollySaveProfiles_QC(data);
+    	          %%%%This is the part interesting for Henriette!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                 pollySaveProfiles_QC(data);
+                  %%%%This is the part interesting for Henriette end!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                  print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
     	        catch
     	         print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
