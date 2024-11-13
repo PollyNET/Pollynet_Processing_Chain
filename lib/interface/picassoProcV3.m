@@ -1098,7 +1098,7 @@ if PollyConfig.flagMolDepolCali
 
     print_msg('Finish.\n', 'flagTimestamp', true);
 end
-
+    
 %% Lidar retrievals for aerosol optical properties
 print_msg('Start retrieving aerosol optical properties.\n', 'flagTimestamp', true);
 
@@ -3692,6 +3692,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % IWV = sum(data.WVMR .* RHOAIR .* DIFFHeight .* (data.quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
 
+
 print_msg('Start\n', 'flagTimestamp', true);
 
 %% Lidar calibration
@@ -5038,6 +5039,15 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                                 sprintf('%s_overlap.nc', rmext(PollyDataInfo.pollyDataFile)));
             pollySaveOverlap(data, saveFile);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            catch
+            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            end
+
+        case 'rcs'
+            print_msg('--> start saving Range Corrected Signals.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            try
+            pollySaveRCS(data);
+            print_msg('--> finsih!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             catch
             print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
             end
