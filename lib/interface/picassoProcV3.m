@@ -3606,6 +3606,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
+
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -3657,9 +3658,11 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % repmat the array to matrix as the size of data.signal
     temperature = repmat(transpose(temp), 1, length(data.mTime));
     pressure = repmat(transpose(pres), 1, length(data.mTime));
-
-    trans387 = exp(- cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
-    trans407 = exp(- cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
+    % calculate the molecule optical properties
+    [~, mExt387] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
+    [~, mExt407] = rayleigh_scattering(407, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
+    trans387 = exp(- cumsum(mExt387 .* [data.distance0(1), diff(data.distance0)]));
+    trans407 = exp(- cumsum(mExt407 .* [data.distance0(1), diff(data.distance0)]));
     TRANS387 = repmat(transpose(trans387), 1, length(data.mTime));
     TRANS407 = repmat(transpose(trans407), 1, length(data.mTime));
 
