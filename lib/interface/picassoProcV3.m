@@ -435,7 +435,9 @@ flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmCh
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
-
+flag355RR = data.flag355nmChannel & data.flagRotRamanChannel;
+flag532RR = data.flag532nmChannel & data.flagRotRamanChannel;
+flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
 if isempty(PollyConfig.H)
     print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
@@ -567,7 +569,6 @@ if flagGHK
         %print_msg('eta532.\n', 'flagTimestamp', true);
         %data.polCaliEta532
         if (any(flag1064t)) && (any(flag1064c))
-        %if (any(flag1064t)) || (any(flag1064c)) %% changed to and
             wavelength = '1064nm';
             [data.polCaliEta1064, data.polCaliEtaStd1064, data.polCaliTime, data.polCali1064Attri] = pollyPolCaliGHK(data, PollyConfig.K(flag1064t), flag1064t, flag1064c, wavelength, ...
             'depolCaliMinBin', PollyConfig.depol_cal_minbin_1064, ...
@@ -654,40 +655,39 @@ end
 
 %% Cloud screen
 print_msg('Start cloud screening.\n', 'flagTimestamp', true);
-flagChannel532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flagChannel532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
+
 PCRate = data.signal ./ repmat(reshape(data.mShots, size(data.mShots, 1), 1, []), ...
         1, size(data.signal, 2), 1) * 150 / data.hRes;
 flagCloudFree = true(size(data.mTime));
 
-if sum(flagChannel532FR) == 1
+if sum(flag532t) == 1
     % with only one far-range total channel at 532 nm
     [flagCloudFree_FR, cloudMask] = cloudScreen(data.mTime, data.height, ...
-        squeeze(PCRate(flagChannel532FR, :, :)), ...
+        squeeze(PCRate(flag532t, :, :)), ...
         'mode', PollyConfig.cloudScreenMode, ...
-        'detectRange', [PollyConfig.heightFullOverlap(flagChannel532FR), 7000], ...
+        'detectRange', [PollyConfig.heightFullOverlap(flag532t), 7000], ...
         'slope_thres', PollyConfig.maxSigSlope4FilterCloud, ...
-        'background', squeeze(data.bg(flagChannel532FR, 1, :)), ...
-        'heightFullOverlap', PollyConfig.heightFullOverlap(flagChannel532FR), ...
+        'background', squeeze(data.bg(flag532t, 1, :)), ...
+        'heightFullOverlap', PollyConfig.heightFullOverlap(flag532t), ...
         'minSNR', 2);
 end
 
-if sum(flagChannel532NR) == 1
+if sum(flag532NR) == 1
     % with only one near-range total channel at 532 nm
     [flagCloudFree_NR, cloudMask] = cloudScreen(data.mTime, data.height, ...
-        squeeze(PCRate(flagChannel532NR, :, :)), ...
+        squeeze(PCRate(flag532NR, :, :)), ...
         'mode', PollyConfig.cloudScreenMode, ...
-        'detectRange', [PollyConfig.heightFullOverlap(flagChannel532NR), 2000], ...
+        'detectRange', [PollyConfig.heightFullOverlap(flag532NR), 2000], ...
         'slope_thres', PollyConfig.maxSigSlope4FilterCloud, ...
-        'background', squeeze(data.bg(flagChannel532NR, 1, :)), ...
-        'heightFullOverlap', PollyConfig.heightFullOverlap(flagChannel532NR), ...
+        'background', squeeze(data.bg(flag532NR, 1, :)), ...
+        'heightFullOverlap', PollyConfig.heightFullOverlap(flag532NR), ...
         'minSNR', 2);
 end
 
-if (sum(flagChannel532FR) == 1) && (sum(flagChannel532NR) == 1)
+if (sum(flag532t) == 1) && (sum(flag532NR) == 1)
     % combined cloud mask from near-range and far-range channels
     flagCloudFree = flagCloudFree_FR & flagCloudFree_NR & (~ data.shutterOnMask);
-elseif (sum(flagChannel532FR) == 1)
+elseif (sum(flag532t) == 1)
     % cloud-mask from far-range channel
     flagCloudFree = flagCloudFree_FR & (~ data.shutterOnMask);
 else
@@ -1761,7 +1761,7 @@ data.aerExtStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 
-flag355RR = data.flag355nmChannel & data.flagRotRamanChannel;
+
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1833,8 +1833,6 @@ data.aerExtStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 
-flag532RR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagRotRamanChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     flagClFre = false(size(data.mTime));
@@ -1904,8 +1902,6 @@ data.aerExt1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
-
-flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2752,39 +2748,33 @@ if flagGHK
 
 else
     %%Klett
-    flagT = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-    flagC = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
     polCaliFac=data.polCaliFac355;
     polCaliFacStd= data.polCaliFacStd355;
     smoothWin=PollyConfig.smoothWin_klett_355;
-    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr355_klett,data.vdrStd355_klett] = pollyVDRModule(data,clFreGrps,flag355t,flag355c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_355;
-    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr355_raman,data.vdrStd355_raman] = pollyVDRModule(data,clFreGrps,flag355t,flag355c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
     %% Volume depolarization ratio at 532 nm new implemantation 
     %%Klett
-    flagT = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-    flagC = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
     polCaliFac=data.polCaliFac532;
     polCaliFacStd= data.polCaliFacStd532;
     smoothWin=PollyConfig.smoothWin_klett_532;
-    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr532_klett,data.vdrStd532_klett] = pollyVDRModule(data,clFreGrps,flag532t,flag532c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_532;
-    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr532_raman,data.vdrStd532_raman] = pollyVDRModule(data,clFreGrps,flag532t,flag532c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 
     %% Volume depolarization ratio at 1064 nm new implemantation 
     %%Klett
-    flagT = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-    flagC = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
     polCaliFac=data.polCaliFac1064;
     polCaliFacStd= data.polCaliFacStd1064;
     smoothWin=PollyConfig.smoothWin_klett_1064;
-    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr1064_klett,data.vdrStd1064_klett] = pollyVDRModule(data,clFreGrps,flag1064t,flag1064c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
     %Raman
     smoothWin=PollyConfig.smoothWin_raman_1064;
-    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flagT,flagC,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
+    [data.vdr1064_raman,data.vdrStd1064_raman] = pollyVDRModule(data,clFreGrps,flag1064t,flag1064c,polCaliFac, polCaliFacStd, smoothWin, PollyConfig);
 end
 
 
