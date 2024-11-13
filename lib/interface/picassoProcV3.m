@@ -1904,7 +1904,7 @@ for iGrp = 1:size(clFreGrps, 1)
     thisAerExt532_RR_tmp = thisAerExt532_RR;
     thisAerExt532_RR(1:hBaseInd532) = thisAerExt532_RR(hBaseInd532);
     [thisAerBsc532_RR, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true, 532, 532);
-%[thisAerBsc355_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
+   %[thisAerBsc355_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
     %[thisAerBsc532_RR, ~] = pollyRamanBsc(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
     thisAerBscStd532_RR = pollyRamanBscStd(data.distance0, sig532, bg532, sig532RR, bg532RR, thisAerExt532_RR, data.aerExtStd532_RR(iGrp, :), PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
 
@@ -2001,7 +2001,7 @@ data.aerExtStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
-refH355 = PollyConfig.refH_NR_355;
+refH355_NR = PollyConfig.refH_NR_355;
 
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
@@ -2013,12 +2013,12 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % search index for reference height
-    if (refH355(1) < data.height(1)) || (refH355(1) > data.height(end)) || ...
-       (refH355(2) < data.height(1)) || (refH355(2) > data.height(end))
+    if (refH355_NR(1) < data.height(1)) || (refH355_NR(1) > data.height(end)) || ...
+       (refH355_NR(2) < data.height(1)) || (refH355_NR(2) > data.height(end))
         print_msg(sprintf('refH_NR_355 (%f - %f m) in the polly config file is out of range.\n', ...
-            refH355(1), refH355(2)), 'flagSimpleMsg', true);
+            refH355_NR(1), refH355_NR(2)), 'flagSimpleMsg', true);
         print_msg('Set refH_NR_355 to [2500 - 3000 m]\n');
-        refH355 = [2500, 3000];
+        refH355_NR = [2500, 3000];
     end
 
     mask387Off = pollyIs387Off(squeeze(data.signal(flag387NR, :, :)));
@@ -2047,14 +2047,14 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd355 =40;
     end
 
-    if (refH355(1) < data.height(1)) || (refH355(1) > data.height(end)) || ...
-       (refH355(2) < data.height(1)) || (refH355(2) > data.height(end))
-       print_msg(sprintf('refH_NR_355 (%f - %f) m in the polly config file is out of range.\n', refH355(1), refH355(2)), 'flagSimpleMsg', true);
+    if (refH355_NR(1) < data.height(1)) || (refH355_NR(1) > data.height(end)) || ...
+       (refH355_NR(2) < data.height(1)) || (refH355_NR(2) > data.height(end))
+       print_msg(sprintf('refH_NR_355 (%f - %f) m in the polly config file is out of range.\n', refH355_NR(1), refH355_NR(2)), 'flagSimpleMsg', true);
        print_msg('Set refH_NR_355 to [2500 - 3000] m', 'flagSimpleMsg', true);
-       refH355 = [2500, 3000];
+       refH355_NR = [2500, 3000];
     end
-    refHTopInd355 = find(data.height <= refH355(2), 1, 'last');
-    refHBaseInd355 = find(data.height >= refH355(1), 1, 'first');
+    refHTopInd355 = find(data.height <= refH355_NR(2), 1, 'last');
+    refHBaseInd355 = find(data.height >= refH355_NR(1), 1, 'first');
 
     if isnan(data.refHInd355(iGrp, 1)) || isnan(data.refHInd355(iGrp, 2))
         continue;
@@ -2062,16 +2062,18 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef355 = pollySNR(sum(sig355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg355(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
     SNRRef387 = pollySNR(sum(sig387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))), sum(bg387(data.refHInd355(iGrp, 1):data.refHInd355(iGrp, 2))));
-    refBeta355 = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);%here the refereence value is calculated from the far field
+    refBeta355_NF = mean(data.aerBsc355_raman(iGrp, refHBaseInd355:refHTopInd355), 2);%here the refereence value is calculated from the far field
 
-    if (SNRRef355 < PollyConfig.minRefSNR_NR_355) || (SNRRef387 < PollyConfig.minRamanRefSNR387) || isnan(refBeta355)
+    if (SNRRef355 < PollyConfig.minRefSNR_NR_355) || (SNRRef387 < PollyConfig.minRamanRefSNR387) || isnan(refBeta355_NF)
         continue;
     end
 
     thisAerExt355_NR_raman_tmp = thisAerExt355_NR_raman;
     thisAerExt355_NR_raman(1:hBaseInd355) = thisAerExt355_NR_raman(hBaseInd355);
-    [thisAerBsc355_NR_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, refBeta355, PollyConfig.smoothWin_raman_NR_355, true);
-    thisAerBscStd355_NR_raman = pollyRamanBscStd(data.distance0, sig355, bg355, sig387, bg387, thisAerExt355_NR_raman, thisAerExtStd355_NR_raman, PollyConfig.angstrexp, 0.2, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, refBeta355, PollyConfig.smoothWin_raman_NR_355, true);
+    %[thisAerBsc355_raman, ~] =   pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
+    [thisAerBsc355_NR_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355_NR, 355, refBeta355_NF, PollyConfig.smoothWin_raman_NR_355, true,355, 387); 
+    %[thisAerBsc355_NR_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, refBeta355, PollyConfig.smoothWin_raman_NR_355, true);
+    thisAerBscStd355_NR_raman = pollyRamanBscStd(data.distance0, sig355, bg355, sig387, bg387, thisAerExt355_NR_raman, thisAerExtStd355_NR_raman, PollyConfig.angstrexp, 0.2, mExt355(iGrp,:), mBsc355(iGrp,:), refH355_NR, 355, refBeta355_NF, PollyConfig.smoothWin_raman_NR_355, true);
 
     % lidar ratio
     [thisLR355_NR_raman, thisLRStd355_NR_raman] = pollyLR(thisAerExt355_NR_raman_tmp, thisAerBsc355_NR_raman, ...
@@ -2083,7 +2085,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerBscStd355_NR_raman(iGrp, :) = thisAerBscStd355_NR_raman;
     data.LR355_NR_raman(iGrp, :) = thisLR355_NR_raman;
     data.LRStd355_NR_raman(iGrp, :) = thisLRStd355_NR_raman;
-    data.refBeta_NR_355_raman(iGrp) = refBeta355;
+    data.refBeta_NR_355_raman(iGrp) = refBeta355_NF;
 
 end
 
@@ -2095,7 +2097,7 @@ data.aerExtStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
-refH532 = PollyConfig.refH_NR_532;
+refH532_NR = PollyConfig.refH_NR_532;
 
 flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
@@ -2107,12 +2109,12 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % search index for reference height
-    if (refH532(1) < data.height(1)) || (refH532(1) > data.height(end)) || ...
-       (refH532(2) < data.height(1)) || (refH532(2) > data.height(end))
+    if (refH532_NR(1) < data.height(1)) || (refH532_NR(1) > data.height(end)) || ...
+       (refH532_NR(2) < data.height(1)) || (refH532_NR(2) > data.height(end))
         print_msg(sprintf('refH_NR_532 (%f - %f m) in the polly config file is out of range.\n', ...
-            refH532(1), refH532(2)), 'flagSimpleMsg', true);
+            refH532_NR(1), refH532_NR(2)), 'flagSimpleMsg', true);
         print_msg('Set refH_NR_532 to [2500 - 3000 m]\n');
-        refH532 = [2500, 3000];
+        refH532_NR = [2500, 3000];
     end
 
     mask607Off = pollyIs607Off(squeeze(data.signal(flag607NR, :, :)));
@@ -2141,14 +2143,14 @@ for iGrp = 1:size(clFreGrps, 1)
         hBaseInd532 =40;
     end
 
-    if (refH532(1) < data.height(1)) || (refH532(1) > data.height(end)) || ...
-       (refH532(2) < data.height(1)) || (refH532(2) > data.height(end))
-       print_msg(sprintf('refH_NR_532 (%f - %f) m in the polly config file is out of range.\n', refH532(1), refH532(2)), 'flagSimpleMsg', true);
+    if (refH532_NR(1) < data.height(1)) || (refH532_NR(1) > data.height(end)) || ...
+       (refH532_NR(2) < data.height(1)) || (refH532_NR(2) > data.height(end))
+       print_msg(sprintf('refH_NR_532 (%f - %f) m in the polly config file is out of range.\n', refH532_NR(1), refH532_NR(2)), 'flagSimpleMsg', true);
        print_msg('Set refH_NR_532 to [2500 - 3000] m', 'flagSimpleMsg', true);
-       refH532 = [2500, 3000];
+       refH532_NR = [2500, 3000];
     end
-    refHTopInd532 = find(data.height <= refH532(2), 1, 'last');
-    refHBaseInd532 = find(data.height >= refH532(1), 1, 'first');
+    refHTopInd532 = find(data.height <= refH532_NR(2), 1, 'last');
+    refHBaseInd532 = find(data.height >= refH532_NR(1), 1, 'first');
 
     if isnan(data.refHInd532(iGrp, 1)) || isnan(data.refHInd532(iGrp, 2))
         continue;
@@ -2156,16 +2158,19 @@ for iGrp = 1:size(clFreGrps, 1)
 
     SNRRef532 = pollySNR(sum(sig532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg532(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
     SNRRef607 = pollySNR(sum(sig607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))), sum(bg607(data.refHInd532(iGrp, 1):data.refHInd532(iGrp, 2))));
-    refBeta532 = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
+    refBeta532_NR = mean(data.aerBsc532_raman(iGrp, refHBaseInd532:refHTopInd532), 2);%here the refereence value is calculated from the far field
 
-    if (SNRRef532 < PollyConfig.minRefSNR_NR_532) || (SNRRef607 < PollyConfig.minRamanRefSNR607) || isnan(refBeta532)
+    if (SNRRef532 < PollyConfig.minRefSNR_NR_532) || (SNRRef607 < PollyConfig.minRamanRefSNR607) || isnan(refBeta532_NR)
         continue;
     end
 
     thisAerExt532_NR_raman_tmp = thisAerExt532_NR_raman;
     thisAerExt532_NR_raman(1:hBaseInd532) = thisAerExt532_NR_raman(hBaseInd532);
-    [thisAerBsc532_NR_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, refBeta532, PollyConfig.smoothWin_raman_NR_532, true);
-    thisAerBscStd532_NR_raman = pollyRamanBscStd(data.distance0, sig532, bg532, sig607, bg607, thisAerExt532_NR_raman, thisAerExtStd532_NR_raman, PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, refBeta532, PollyConfig.smoothWin_raman_NR_532, true);
+    
+    %thisAerBsc355_raman, ~] =     pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman,    PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355,    355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
+     [thisAerBsc532_NR_raman, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532_NR, 532, refBeta532_NR, PollyConfig.smoothWin_raman_NR_532, true, 532, 607);
+    %[thisAerBsc532_NR_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, refBeta532, PollyConfig.smoothWin_raman_NR_532, true);
+    thisAerBscStd532_NR_raman = pollyRamanBscStd(data.distance0, sig532, bg532, sig607, bg607, thisAerExt532_NR_raman, thisAerExtStd532_NR_raman, PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532_NR, 532, refBeta532_NR, PollyConfig.smoothWin_raman_NR_532, true);
 
     % lidar ratio
     [thisLR532_NR_raman, thisLRStd532_NR_raman] = pollyLR(thisAerExt532_NR_raman_tmp, thisAerBsc532_NR_raman, ...
@@ -2177,7 +2182,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.aerBscStd532_NR_raman(iGrp, :) = thisAerBscStd532_NR_raman;
     data.LR532_NR_raman(iGrp, :) = thisLR532_NR_raman;
     data.LRStd532_NR_raman(iGrp, :) = thisLRStd532_NR_raman;
-    data.refBeta_NR_532_raman(iGrp) = refBeta532;
+    data.refBeta_NR_532_raman(iGrp) = refBeta532_NR;
 
 end
 
