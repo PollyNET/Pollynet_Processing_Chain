@@ -43,7 +43,7 @@ def get_nc_filename(date, device, inputfolder, param=""):
     '''
     param: str
         att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results",
-        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles",
+        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles", "profiles_QC"
         "NR_profiles", "cloudinfo","POLIPHON_1", "RCS"
     '''
 
