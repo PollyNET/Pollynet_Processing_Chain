@@ -259,10 +259,16 @@
     "zLim_quasi_beta_1064": [0, 3],
     "zLim_quasi_Par_DR_532": [0, 0.4],
     "zLim_FR_RCS_355": [1e-2, 30],
+    "zLim_FR_RCS_387": [1e-2, 30],
+    "zLim_FR_RCS_407": [1e-2, 35],
     "zLim_FR_RCS_532": [1e-2, 50],
+    "zLim_FR_RCS_607": [1e-2, 50],
     "zLim_FR_RCS_1064": [1e-2, 60],
     "zLim_NR_RCS_355": [1e-2, 5],
+    "zLim_NR_RCS_387": [1e-2, 5],
+    "zLim_NR_RCS_407": [1e-2, 5],
     "zLim_NR_RCS_532": [1e-2, 10],
+    "zLim_NR_RCS_607": [1e-2, 10],
     "zLim_VolDepol_355": [0, 0.2],
     "zLim_VolDepol_532": [0, 0.3],
     "zLim_VolDepol_1064": [0, 0.3],
@@ -289,5 +295,5 @@
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one","RCS"]
 }
