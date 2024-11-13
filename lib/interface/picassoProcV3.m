@@ -422,14 +422,14 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Transmission ratios to GHK paramters
 %Channel flags
-flag355t = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag355c = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel; %check
-flag407 = data.flagFarRangeChannel & data.flag407nmChannel; %check
-flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
-flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
+flag355t = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel; 
+flag355c = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel; 
+flag387FR = data.flagFarRangeChannel & data.flag387nmChannel; 
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel; 
+flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel; 
+flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel; 
+flag607FR = data.flagFarRangeChannel & data.flag607nmChannel; 
+flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel; 
 flag1064c = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
