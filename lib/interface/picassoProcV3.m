@@ -1181,21 +1181,20 @@ if flagGHK
         bgEl1064 = [];
     end
 else
-        flag355X = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
 
-    if (sum(flag355t) == 1) && (sum(flag355X) == 1) && PollyConfig.flagTransCor
+    if (sum(flag355t) == 1) && (sum(flag355c) == 1) && PollyConfig.flagTransCor
         % transmission correction
         [el355, bgEl355] = transCor(squeeze(data.signal(flag355t, :, :)), ...
             squeeze(data.bg(flag355t, :, :)), ...
-            squeeze(data.signal(flag355X, :, :)), ...
-            squeeze(data.bg(flag355X, :, :)), ...
+            squeeze(data.signal(flag355c, :, :)), ...
+            squeeze(data.bg(flag355c, :, :)), ...
             'transRatioTotal', PollyConfig.TR(flag355t), ...
             'transRatioTotalStd', 0, ...
-            'transRatioCross', PollyConfig.TR(flag355X), ...
+            'transRatioCross', PollyConfig.TR(flag355c), ...
             'transRatioCrossStd', 0, ...
             'polCaliFactor', data.polCaliFac355, ...
             'polCaliFacStd', data.polCaliFacStd355);
-    elseif (sum(flag355t) == 1) && (sum(flag355X ~= 1))
+    elseif (sum(flag355t) == 1) && (sum(flag355c ~= 1))
         % disable transmission correction
         el355 = squeeze(data.signal(flag355t, :, :));
         bgEl355 = squeeze(data.bg(flag355t, :, :));
@@ -1205,21 +1204,19 @@ else
     end
 
     %% Transmission correction at 532 nm
-    flag532X = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
-
-    if (sum(flag532t) == 1) && (sum(flag532X) == 1) && PollyConfig.flagTransCor
+    if (sum(flag532t) == 1) && (sum(flag532c) == 1) && PollyConfig.flagTransCor
         % transmission correction
         [el532, bgEl532] = transCor(squeeze(data.signal(flag532t, :, :)), ...
             squeeze(data.bg(flag532t, :, :)), ...
-            squeeze(data.signal(flag532X, :, :)), ...
-            squeeze(data.bg(flag532X, :, :)), ...
+            squeeze(data.signal(flag532c, :, :)), ...
+            squeeze(data.bg(flag532c, :, :)), ...
             'transRatioTotal', PollyConfig.TR(flag532t), ...
             'transRatioTotalStd', 0, ...
-            'transRatioCross', PollyConfig.TR(flag532X), ...
+            'transRatioCross', PollyConfig.TR(flag532c), ...
             'transRatioCrossStd', 0, ...
             'polCaliFactor', data.polCaliFac532, ...
             'polCaliFacStd', data.polCaliFacStd532);
-    elseif (sum(flag532t) == 1) && (sum(flag532X ~= 1))
+    elseif (sum(flag532t) == 1) && (sum(flag532c ~= 1))
         % disable transmission correction
         el532 = squeeze(data.signal(flag532t, :, :));
         bgEl532 = squeeze(data.bg(flag532t, :, :));
@@ -1229,25 +1226,24 @@ else
     end
 
     %% Transmission correction at 1064 nm
-    flag1064 = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-    flag1064X = data.flag1064nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+   
 
-    if (sum(flag1064) == 1) && (sum(flag1064X) == 1) && PollyConfig.flagTransCor
+    if (sum(flag1064t) == 1) && (sum(flag1064c) == 1) && PollyConfig.flagTransCor
         % transmission correction
-        [el1064, bgEl1064] = transCor(squeeze(data.signal(flag1064, :, :)), ...
-            squeeze(data.bg(flag1064, :, :)), ...
-            squeeze(data.signal(flag1064X, :, :)), ...
-            squeeze(data.bg(flag1064X, :, :)), ...
-            'transRatioTotal', PollyConfig.TR(flag1064), ...
+        [el1064, bgEl1064] = transCor(squeeze(data.signal(flag1064t, :, :)), ...
+            squeeze(data.bg(flag1064t, :, :)), ...
+            squeeze(data.signal(flag1064c, :, :)), ...
+            squeeze(data.bg(flag1064c, :, :)), ...
+            'transRatioTotal', PollyConfig.TR(flag1064t), ...
             'transRatioTotalStd', 0, ...
-            'transRatioCross', PollyConfig.TR(flag1064X), ...
+            'transRatioCross', PollyConfig.TR(flag1064c), ...
             'transRatioCrossStd', 0, ...
             'polCaliFactor', data.polCaliFac1064, ...
             'polCaliFacStd', data.polCaliFacStd1064);
-    elseif (sum(flag1064) == 1) && (sum(flag1064X ~= 1))
+    elseif (sum(flag1064t) == 1) && (sum(flag1064c ~= 1))
         % disable transmission correction
-        el1064 = squeeze(data.signal(flag1064, :, :));
-        bgEl1064 = squeeze(data.bg(flag1064, :, :));
+        el1064 = squeeze(data.signal(flag1064t, :, :));
+        bgEl1064 = squeeze(data.bg(flag1064t, :, :));
     else
         el1064 = [];
         bgEl1064 = [];
@@ -1309,8 +1305,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 1064 nm
-flag1064 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
-
 data.aerBsc1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -1318,7 +1312,7 @@ data.aerExtStd1064_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064t) ~= 1)
         continue;
     end
 
@@ -3329,7 +3323,6 @@ for iCh = 1:size(data.signal, 1)
     data.SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
 
-%flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_532 = zeros(length(data.height), length(data.mTime));
@@ -3440,7 +3433,7 @@ if PollyConfig.flagWVCalibration
         thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
         thisWVCaliInfo = '407 off';
 
-        if (sum(flag387FR) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
+        if (sum(flag387FR) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064t) ~= 1) || isnan(IWV(iGrp))
             wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
             wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
             wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
@@ -3460,9 +3453,9 @@ if PollyConfig.flagWVCalibration
         print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
             datestr(data.IWVAttri.datetime(iGrp), 'HH:MM'), ...
             datestr(data.mTime(closestIndx), 'HH:MM')), 'flagSimpleMsg', true);
-        E_tot_1064_IWV = sum(squeeze(data.signal(flag1064, :, closestIndx)));
-        E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064, :, flag407On & flagWVCali), 3)));
-        E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064, :, flag407On & flagWVCali), 2)));
+        E_tot_1064_IWV = sum(squeeze(data.signal(flag1064t, :, closestIndx)));
+        E_tot_1064_cali = sum(squeeze(mean(data.signal(flag1064t, :, flag407On & flagWVCali), 3)));
+        E_tot_1064_cali_std = std(squeeze(sum(data.signal(flag1064t, :, flag407On & flagWVCali), 2)));
 
         trans387 = exp(-cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
@@ -3760,8 +3753,8 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 1064 nm
-    if sum(flag1064) == 1
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+    if sum(flag1064t) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -3773,7 +3766,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
+            sig1064 = squeeze(sum(data.signal(flag1064t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -3867,7 +3860,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 1064 nm (Raman)
-    if sum(flag1064) == 1
+    if sum(flag1064t) == 1
 
         if ~ isnan(data.aerBsc1064_raman(iGrp, 80))
 
@@ -3876,7 +3869,7 @@ for iGrp = 1:size(clFreGrps, 1)
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
-            sig1064 = squeeze(sum(data.signal(flag1064, :, flagClFre), 3)) / nPrf;
+            sig1064 = squeeze(sum(data.signal(flag1064t, :, flagClFre), 3)) / nPrf;
 
             % optical thickness (OT)
             aBsc1064 = data.aerBsc1064_raman(iGrp, :);
@@ -4053,8 +4046,8 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 1064 nm (AOD-constrained Klett)
-    if sum(flag1064) == 1
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+    if sum(flag1064t) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -4066,7 +4059,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig1064 = squeeze(sum(data.signal(flag1064, :, prfInd), 3)) / nPrf;
+            sig1064 = squeeze(sum(data.signal(flag1064t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -4150,8 +4143,8 @@ data.LCUsed = struct();
         'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
         'flagLCCalibration', PollyConfig.flagLCCalibration, ...
         'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', PollyDefaults.LC(flag1064), ...
-        'default_liconstStd', PollyDefaults.LCStd(flag1064));
+        'default_liconst', PollyDefaults.LC(flag1064t), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag1064t));
 [data.LCUsed.LCUsed387, ~, data.LCUsed.LCUsedTag387, data.LCUsed.flagLCWarning387] = ...
     selectLiConst(data.LC.LC_raman_387, zeros(size(data.LC.LC_raman_387)), ...
         data.LC.LC_start_time, ...
@@ -4232,10 +4225,9 @@ if (sum(flag532t) == 1)
     data.att_beta_532(:, data.depCalMask) = NaN;
 end
 
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 data.att_beta_1064 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1)
-    data.att_beta_1064 = squeeze(data.signal(flag1064, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
+if (sum(flag1064t) == 1)
+    data.att_beta_1064 = squeeze(data.signal(flag1064t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_1064(:, data.depCalMask) = NaN;
 end
 
@@ -4263,9 +4255,8 @@ if (sum(flag532t) == 1)
     data.att_beta_OC_532(:, data.depCalMask) = NaN;
 end
 
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & flagTotalChannel;
 data.att_beta_OC_1064 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1)
+if (sum(flag1064t) == 1)
     data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_OC_1064(:, data.depCalMask) = NaN;
 end
@@ -4436,12 +4427,11 @@ if (sum(flag532t) == 1)
 end
 
 % quasi-retrieved backscatter at 1064 nm
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
 data.qsiBsc1064V1 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
-if (sum(flag1064) == 1)
+if (sum(flag1064t) == 1)
     att_beta_1064_qsi(data.quality_mask_1064 ~= 0) = NaN;
-    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064t), PollyConfig.quasi_smooth_t(flag1064t));
 
     % Rayleigh scattering
 %achtung
@@ -4452,7 +4442,7 @@ if (sum(flag1064) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064), 1);
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064t), 1);
     if ~ isempty(hIndOL)
         att_beta_1064_qsi(1:hIndOL, :) = repmat(att_beta_1064_qsi(hIndOL, :), hIndOL, 1);
     else
@@ -4520,7 +4510,7 @@ end
 
 % % quasi-retrieved Angstroem exponents 355-1064
 % qsiAE_355_1064 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag1064) == 1) && (sum(flag355t) == 1)
+% if (sum(flag1064t) == 1) && (sum(flag355t) == 1)
 %     ratio_par_bsc_355_1064 = data.qsiBsc1064V1 ./ data.qsiBsc355V1;
 %     ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 %     qsiAE_355_1064 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
@@ -4528,7 +4518,7 @@ end
 
 % quasi-retrieved Angstroem exponents 532-1064
 data.qsiAE_532_1064_V1 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1) && (sum(flag532t) == 1)
+if (sum(flag1064t) == 1) && (sum(flag532t) == 1)
     ratio_par_bsc_532_1064 = data.qsiBsc1064V1 ./ data.qsiBsc532V1;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V1 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
@@ -4540,8 +4530,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Start aerosol/cloud target classification (v1).\n', 'flagTimestamp', true);
 
 data.tcMaskV1 = zeros(length(data.height), length(data.mTime));
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1)
+if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064t) == 1)
     data.tcMaskV1 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V1, data.qsiBsc532V1, data.qsiPDR532V1, vdr532Sm, data.qsiAE_532_1064_V1, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
@@ -4557,7 +4546,7 @@ if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1)
     'minAttnRatioBsc1064', PollyConfig.min_atten_par_beta_1064, ...
     'searchCloudAbove', PollyConfig.search_cloud_above, ...
     'searchCloudBelow', PollyConfig.search_cloud_below, ...
-    'hFullOL', max(PollyConfig.heightFullOverlap(flag532t), PollyConfig.heightFullOverlap(flag1064)));
+    'hFullOL', max(PollyConfig.heightFullOverlap(flag532t), PollyConfig.heightFullOverlap(flag1064t)));
 
     %% set the value during the depolarization calibration period or in fog conditions to 0
     data.tcMaskV1(:, data.depCalMask | data.fogMask) = 0;
@@ -4622,10 +4611,10 @@ end
 data.qsiBsc1064V2 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
 att_beta_607_qsi = att_beta_607;
-if (sum(flag1064) == 1) && (sum(flag607FR) == 1)
+if (sum(flag1064t) == 1) && (sum(flag607FR) == 1)
     att_beta_1064_qsi(data.quality_mask_1064 ~= 0) = NaN;
     att_beta_607_qsi(data.quality_mask_607 ~= 0) = NaN;
-    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+    att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064t), PollyConfig.quasi_smooth_t(flag1064t));
     att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607FR), PollyConfig.quasi_smooth_t(flag607FR));
 
     % Rayleigh scattering
@@ -4639,7 +4628,7 @@ if (sum(flag1064) == 1) && (sum(flag607FR) == 1)
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     [data.qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
-    data.qsiBsc1064V2 = smooth2(data.qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
+    data.qsiBsc1064V2 = smooth2(data.qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064t), PollyConfig.quasi_smooth_t(flag1064t));
 end
 
 % quasi-retrieved particle depolarization ratio at 532 nm (V2)
@@ -4699,7 +4688,7 @@ end
 
 % % quasi-retrieved Angstroem exponents 355-1064 (V2)
 % qsiAE_355_1064_V2 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag1064) == 1) && (sum(flag355t) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
+% if (sum(flag1064t) == 1) && (sum(flag355t) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
 %     ratio_par_bsc_355_1064 = data.qsiBsc1064V2 ./ data.qsiBsc355V2;
 %     ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 %     qsiAE_355_1064_V2 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
@@ -4707,7 +4696,7 @@ end
 
 % quasi-retrieved Angstroem exponents 532-1064 (V2)
 data.qsiAE_532_1064_V2 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1) && (sum(flag532t) == 1) && (sum(flag607FR) == 1)
+if (sum(flag1064t) == 1) && (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     ratio_par_bsc_532_1064 = data.qsiBsc1064V2 ./ data.qsiBsc532V2;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
@@ -4718,7 +4707,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Target classification (V2)
 print_msg('Start aerosol/cloud target classification (v2).\n', 'flagTimestamp', true);
 data.tcMaskV2 = zeros(length(data.height), length(data.mTime));
-if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
+if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064t) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
     data.tcMaskV2 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V2, data.qsiBsc532V2, data.qsiPDR532V2, vdr532Sm, data.qsiAE_532_1064_V2, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
@@ -4758,9 +4747,7 @@ data.clTopH = NaN(MAXCLLAYERS, length(data.mTime));
 data.clPh = zeros(MAXCLLAYERS, length(data.mTime));
 data.clPhProb = zeros(MAXCLLAYERS, length(data.mTime));
 
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-
-if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1)
+if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064t) == 1)
     [data.clBaseH, data.clTopH, data.clPh, data.clPhProb] = cloudGeoExtract(data.mTime, data.height, data.tcMaskV2, ...
         'minCloudDepth', 100, ...
         'liquidCloudBit', 8, ...
