@@ -424,11 +424,18 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %Channel flags
 flag355t = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355c = data.flagFarRangeChannel & data.flag355nmChannel & data.flagCrossChannel;
+flag387FR = data.flagFarRangeChannel & data.flag387nmChannel; %check
+flag407 = data.flagFarRangeChannel & data.flag407nmChannel; %check
 flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
+flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064c = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
 flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
+flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
+flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
+flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
+
 
 if isempty(PollyConfig.H)
     print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
@@ -1174,50 +1181,48 @@ if flagGHK
         bgEl1064 = [];
     end
 else
-    flag355 = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
-    flag355X = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
+        flag355X = data.flag355nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
 
-    if (sum(flag355) == 1) && (sum(flag355X) == 1) && PollyConfig.flagTransCor
+    if (sum(flag355t) == 1) && (sum(flag355X) == 1) && PollyConfig.flagTransCor
         % transmission correction
-        [el355, bgEl355] = transCor(squeeze(data.signal(flag355, :, :)), ...
-            squeeze(data.bg(flag355, :, :)), ...
+        [el355, bgEl355] = transCor(squeeze(data.signal(flag355t, :, :)), ...
+            squeeze(data.bg(flag355t, :, :)), ...
             squeeze(data.signal(flag355X, :, :)), ...
             squeeze(data.bg(flag355X, :, :)), ...
-            'transRatioTotal', PollyConfig.TR(flag355), ...
+            'transRatioTotal', PollyConfig.TR(flag355t), ...
             'transRatioTotalStd', 0, ...
             'transRatioCross', PollyConfig.TR(flag355X), ...
             'transRatioCrossStd', 0, ...
             'polCaliFactor', data.polCaliFac355, ...
             'polCaliFacStd', data.polCaliFacStd355);
-    elseif (sum(flag355) == 1) && (sum(flag355X ~= 1))
+    elseif (sum(flag355t) == 1) && (sum(flag355X ~= 1))
         % disable transmission correction
-        el355 = squeeze(data.signal(flag355, :, :));
-        bgEl355 = squeeze(data.bg(flag355, :, :));
+        el355 = squeeze(data.signal(flag355t, :, :));
+        bgEl355 = squeeze(data.bg(flag355t, :, :));
     else
         el355 = [];
         bgEl355 = [];
     end
 
     %% Transmission correction at 532 nm
-    flag532 = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
     flag532X = data.flag532nmChannel & data.flagCrossChannel & data.flagFarRangeChannel;
 
-    if (sum(flag532) == 1) && (sum(flag532X) == 1) && PollyConfig.flagTransCor
+    if (sum(flag532t) == 1) && (sum(flag532X) == 1) && PollyConfig.flagTransCor
         % transmission correction
-        [el532, bgEl532] = transCor(squeeze(data.signal(flag532, :, :)), ...
-            squeeze(data.bg(flag532, :, :)), ...
+        [el532, bgEl532] = transCor(squeeze(data.signal(flag532t, :, :)), ...
+            squeeze(data.bg(flag532t, :, :)), ...
             squeeze(data.signal(flag532X, :, :)), ...
             squeeze(data.bg(flag532X, :, :)), ...
-            'transRatioTotal', PollyConfig.TR(flag532), ...
+            'transRatioTotal', PollyConfig.TR(flag532t), ...
             'transRatioTotalStd', 0, ...
             'transRatioCross', PollyConfig.TR(flag532X), ...
             'transRatioCrossStd', 0, ...
             'polCaliFactor', data.polCaliFac532, ...
             'polCaliFacStd', data.polCaliFacStd532);
-    elseif (sum(flag532) == 1) && (sum(flag532X ~= 1))
+    elseif (sum(flag532t) == 1) && (sum(flag532X ~= 1))
         % disable transmission correction
-        el532 = squeeze(data.signal(flag532, :, :));
-        bgEl532 = squeeze(data.bg(flag532, :, :));
+        el532 = squeeze(data.signal(flag532t, :, :));
+        bgEl532 = squeeze(data.bg(flag532t, :, :));
     else
         el532 = [];
         bgEl532 = [];
@@ -1333,8 +1338,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 355 nm (near-field)
-flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
-
 data.aerBsc355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -1554,8 +1557,6 @@ data.aerExtStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     flagClFre = false(size(data.mTime));
@@ -1629,8 +1630,6 @@ data.aerExtStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     flagClFre = false(size(data.mTime));
@@ -1698,8 +1697,6 @@ data.aerExt1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -1987,9 +1984,6 @@ data.LRStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_355_raman = NaN(1, size(clFreGrps, 1));
 refH355_NR = PollyConfig.refH_NR_355;
 
-flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     if (sum(flag355NR) ~= 1) || (sum(flag387NR) ~= 1)
@@ -2083,8 +2077,6 @@ data.LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
 refH532_NR = PollyConfig.refH_NR_532;
 
-flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     if (sum(flag532NR) ~= 1) || (sum(flag607NR) ~= 1)
@@ -2177,7 +2169,6 @@ end
 print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimestamp', true);
 
 % 355 nm
-flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.olAttri355 = struct();
 data.olAttri355.sigFR = [];
 data.olAttri355.sigNR = [];
@@ -2201,8 +2192,6 @@ if (sum(flag355t) == 1) && (sum(flag355NR) == 1)
 end
 
 % 387 nm
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
-flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
 olAttri387 = struct();
 olAttri387.sigFR = [];
 olAttri387.sigNR = [];
@@ -2249,8 +2238,6 @@ if (sum(flag532t) == 1) && (sum(flag532NR) == 1)
 end
 
 % 607 nm
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
-flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 olAttri607 = struct();
 olAttri607.sigFR = [];
 olAttri607.sigNR = [];
@@ -2294,9 +2281,6 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimestamp', true);
 
 %355
-
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
-
 data.olAttri355Raman = struct();
 data.olAttri355Raman.sigFRel = [];
 data.olAttri355Raman.sigFRRa= [];
@@ -2325,8 +2309,6 @@ end
 
 
 %532
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
-
 data.olAttri532Raman = struct();
 data.olAttri532Raman.sigFRel = [];
 data.olAttri532Raman.sigFRRa= [];
@@ -2549,8 +2531,6 @@ data.aerExtStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
 
     flagClFre = false(size(data.mTime));
@@ -2618,8 +2598,6 @@ data.aerExt532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -2689,8 +2667,6 @@ data.aerExt1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExtStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
-
-flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
 
@@ -3354,8 +3330,6 @@ for iCh = 1:size(data.signal, 1)
 end
 
 %flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_532 = zeros(length(data.height), length(data.mTime));
@@ -3401,14 +3375,14 @@ if (sum(flag1064t) == 1)
     data.quality_mask_1064(:, data.shutterOnMask) = 3;
     data.quality_mask_1064(:, data.fogMask) = 4;
 end
-if (sum(flag387) == 1)
-    data.quality_mask_387(squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) = 1;
+if (sum(flag387FR) == 1)
+    data.quality_mask_387(squeeze(data.SNR(flag387FR, :, :)) < PollyConfig.mask_SNRmin(flag387FR)) = 1;
     data.quality_mask_387(:, data.depCalMask) = 2;
     data.quality_mask_387(:, data.shutterOnMask) = 3;
     data.quality_mask_387(:, data.fogMask) = 4;
 end
-if (sum(flag607) == 1)
-    data.quality_mask_607(squeeze(data.SNR(flag607, :, :)) < PollyConfig.mask_SNRmin(flag607)) = 1;
+if (sum(flag607FR) == 1)
+    data.quality_mask_607(squeeze(data.SNR(flag607FR, :, :)) < PollyConfig.mask_SNRmin(flag607FR)) = 1;
     data.quality_mask_607(:, data.depCalMask) = 2;
     data.quality_mask_607(:, data.shutterOnMask) = 3;
     data.quality_mask_607(:, data.fogMask) = 4;
@@ -3460,17 +3434,13 @@ if PollyConfig.flagWVCalibration
     sunsetTime = rem(sun_rise_set(2)/24, 1) + floor(data.mTime(1));
 
     % water vapor calibration
-    flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-    flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
-    flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel;
-
     for iGrp = 1:size(clFreGrps, 1)
 
         thisCaliStartTime = data.mTime(clFreGrps(iGrp, 1));
         thisCaliStopTime = data.mTime(clFreGrps(iGrp, 2));
         thisWVCaliInfo = '407 off';
 
-        if (sum(flag387) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
+        if (sum(flag387FR) ~= 1) || (sum(flag407) ~= 1) || (sum(flag1064) ~= 1) || isnan(IWV(iGrp))
             wvCaliInfo.cali_start_time(iGrp) = thisCaliStartTime;
             wvCaliInfo.cali_stop_time(iGrp) = thisCaliStopTime;
             wvCaliInfo.WVCaliInfo{iGrp} = thisWVCaliInfo;
@@ -3483,8 +3453,8 @@ if PollyConfig.flagWVCalibration
         flagWVCali(wvCaliInd) = true;
         flagLowSolarBG = (data.mTime <= (sunriseTime - PollyConfig.tTwilight)) | (data.mTime >= (sunsetTime + PollyConfig.tTwilight));
 
-        sig387 = squeeze(sum(data.signal(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
-        bg387 = squeeze(sum(data.bg(flag387, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+        sig387 = squeeze(sum(data.signal(flag387FR, :, flag407On & flagWVCali & flagLowSolarBG), 3));
+        bg387 = squeeze(sum(data.bg(flag387FR, :, flag407On & flagWVCali & flagLowSolarBG), 3));
         sig407 = squeeze(sum(data.signal(flag407, :, flag407On & flagWVCali & flagLowSolarBG), 3));
         [~, closestIndx] = min(abs(data.mTime - data.IWVAttri.datetime(iGrp)));
         print_msg(sprintf('IWV measurement time: %s\nClosest lidar measurement time: %s\n', ...
@@ -3504,7 +3474,7 @@ if PollyConfig.flagWVCalibration
             trans387, trans407, rhoAir, sunriseTime, sunsetTime, ...
             'hWVCaliBase', PollyConfig.hWVCaliBase, ...
             'hWVCaliTop', PollyConfig.hWVCaliTop, ...
-            'hFullOL387', PollyConfig.heightFullOverlap(flag387), ...
+            'hFullOL387', PollyConfig.heightFullOverlap(flag387FR), ...
             'minSNRWVCali', PollyConfig.minSNRWVCali);
 
         wvconst(iGrp) = thisWVconst;
@@ -3544,8 +3514,6 @@ data.rh = NaN(size(clFreGrps, 1), length(data.height));
 wvPrfInfo = struct();
 wvPrfInfo.n407Prfs = NaN(size(clFreGrps, 1), 1);
 wvPrfInfo.IWV = NaN(size(clFreGrps, 1), 1);
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
@@ -3554,11 +3522,11 @@ for iGrp = 1:size(clFreGrps, 1)
     flag407On = flagClFre & (~ data.mask407Off);
     n407OnPrf = sum(flag407On);
 
-    if (n407OnPrf <= 10) || (sum(flag387) ~= 1) || (sum(flag407) ~= 1)
+    if (n407OnPrf <= 10) || (sum(flag387FR) ~= 1) || (sum(flag407) ~= 1)
         continue;
     end
 
-    sig387 = sum(data.signal(flag387, :, flag407On), 3);
+    sig387 = sum(data.signal(flag387FR, :, flag407On), 3);
     sig407 = sum(data.signal(flag407, :, flag407On), 3);
 
     trans387 = exp(- cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
@@ -3571,8 +3539,8 @@ for iGrp = 1:size(clFreGrps, 1)
     % calculate wvmr and rh
     data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
     
-     el387 = squeeze(data.signal(flag387, :, :));
-    bgEl387 = squeeze(data.bg(flag387, :, :));
+     el387 = squeeze(data.signal(flag387FR, :, :));
+    bgEl387 = squeeze(data.bg(flag387FR, :, :));
     sig387 = squeeze(sum(el387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg387 = squeeze(sum(bgEl387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     SNR387  = pollySNR(sig387, bg387);
@@ -3584,7 +3552,7 @@ for iGrp = 1:size(clFreGrps, 1)
     %maybe the SNR per interval should be centrlized computed after
     %clFreGrps is defined
     data.wvmr_no_QC(iGrp, :)=data.wvmr(iGrp, :);
-    data.wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
+    data.wvmr(iGrp, (((squeeze(SNR387)) < PollyConfig.mask_SNRmin(flag387FR)) | (SNR407 < PollyConfig.mask_SNRmin(flag407))))=NaN; 
     data.wvmr_rel_error(iGrp, :) = sqrt((SNR387).^(-2)+(SNR407).^(-2)+((data.wvconstUsedStd).^2)./((data.wvconstUsed).^2));
     data.rh(iGrp, :) = wvmr_2_rh(data.wvmr(iGrp, :), es, data.pressure(iGrp, :));
 
@@ -3609,19 +3577,17 @@ data.RH = NaN(size(data.signal, 2), size(data.signal, 3));
 data.quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 data.quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 ones_WV=  ones(size(data.signal, 2), size(data.signal, 3));
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
 
-if (sum(flag387) == 1) && (sum(flag407 == 1))
+if (sum(flag387FR) == 1) && (sum(flag407 == 1))
 
-    sig387 = squeeze(data.signal(flag387, :, :));
+    sig387 = squeeze(data.signal(flag387FR, :, :));
     sig387(:, data.depCalMask) = NaN;
     sig407 = squeeze(data.signal(flag407, :, :));
     sig407(:, data.depCalMask) = NaN;
 
     % quality mask to filter low SNR bits
     data.quality_mask_WVMR = zeros(size(data.signal, 2), size(data.signal, 3));
-    data.quality_mask_WVMR((squeeze(data.SNR(flag387, :, :)) < PollyConfig.mask_SNRmin(flag387)) | (squeeze(data.SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
+    data.quality_mask_WVMR((squeeze(data.SNR(flag387FR, :, :)) < PollyConfig.mask_SNRmin(flag387FR)) | (squeeze(data.SNR(flag407, :, :)) < PollyConfig.mask_SNRmin(flag407))) = 1;
     data.quality_mask_WVMR(:, data.depCalMask) = 2;
     data.quality_mask_RH = data.quality_mask_WVMR;
 
@@ -3635,7 +3601,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     sig387_QC(:, data.mask407Off) = NaN;
 
     % smooth the signal
-    sig387_QC = smooth2(sig387_QC, PollyConfig.quasi_smooth_h(flag387), PollyConfig.quasi_smooth_t(flag387));
+    sig387_QC = smooth2(sig387_QC, PollyConfig.quasi_smooth_h(flag387FR), PollyConfig.quasi_smooth_t(flag387FR));
     sig407_QC = smooth2(sig407_QC, PollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407));
 
     % read the meteorological data
@@ -3670,7 +3636,7 @@ if (sum(flag387) == 1) && (sum(flag407 == 1))
     % calculate wvmr and rh
     data.WVMR = sig407_QC ./ sig387_QC .* TRANS387 ./ TRANS407 .* data.wvconstUsed;
     data.WVMR_no_QC = data.WVMR;
-    data.WVMR_rel_error = sqrt((squeeze(data.SNR(flag387, :, :))).^(-2)+(squeeze(data.SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
+    data.WVMR_rel_error = sqrt((squeeze(data.SNR(flag387FR, :, :))).^(-2)+(squeeze(data.SNR(flag407, :, :))).^(-2)+(ones_WV*((data.wvconstUsedStd).^2)./(data.wvconstUsed).^2));  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR_error = data.WVMR_rel_error.* data.WVMR_no_QC;  % SNR bereits f?r smoothing mit ollyConfig.quasi_smooth_h(flag407), PollyConfig.quasi_smooth_t(flag407) gerechnet
     data.WVMR (data.quality_mask_WVMR>0)=NaN;
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
@@ -3710,20 +3676,14 @@ data.LC.LCStd_raman_387 = NaN(size(clFreGrps, 1), 1);
 data.LC.LC_start_time = NaN(size(clFreGrps, 1), 1);
 data.LC.LC_stop_time = NaN(size(clFreGrps, 1), 1);
 
-flag355 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
-flag532 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
-flag1064 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-
 for iGrp = 1:size(clFreGrps, 1)
     data.LC.LC_start_time(iGrp) = data.mTime(clFreGrps(iGrp, 1));
     data.LC.LC_stop_time(iGrp) = data.mTime(clFreGrps(iGrp, 2));
 
     % 355 nm
-    if sum(flag355) == 1
+    if sum(flag355t) == 1
 
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -3735,7 +3695,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
+            sig355 = squeeze(sum(data.signal(flag355t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -3761,8 +3721,8 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 532 nm
-    if sum(flag532) == 1
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+    if sum(flag532t) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -3774,7 +3734,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
+            sig532 = squeeze(sum(data.signal(flag532t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -3839,7 +3799,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 355 nm (Raman)
-    if sum(flag355) == 1
+    if sum(flag355t) == 1
 
         if ~ isnan(data.aerBsc355_raman(iGrp, 80))
 
@@ -3848,7 +3808,7 @@ for iGrp = 1:size(clFreGrps, 1)
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask387Off);
             nPrf = sum(flagClFre);
-            sig355 = squeeze(sum(data.signal(flag355, :, flagClFre), 3)) / nPrf;
+            sig355 = squeeze(sum(data.signal(flag355t, :, flagClFre), 3)) / nPrf;
 
             % optical thickness (OT)
             aBsc355 = data.aerBsc355_raman(iGrp, :);
@@ -3873,7 +3833,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 532 nm (Raman)
-    if sum(flag532) == 1
+    if sum(flag532t) == 1
 
         if ~ isnan(data.aerBsc532_raman(iGrp, 80))
 
@@ -3882,7 +3842,7 @@ for iGrp = 1:size(clFreGrps, 1)
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
-            sig532 = squeeze(sum(data.signal(flag532, :, flagClFre), 3)) / nPrf;
+            sig532 = squeeze(sum(data.signal(flag532t, :, flagClFre), 3)) / nPrf;
 
             % optical thickness (OT)
             aBsc532 = data.aerBsc532_raman(iGrp, :);
@@ -3941,7 +3901,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 387 nm (Raman)
-    if sum(flag355) == 1
+    if sum(flag355t) == 1
 
         if ~ isnan(data.aerBsc355_raman(iGrp, 80))
 
@@ -3950,7 +3910,7 @@ for iGrp = 1:size(clFreGrps, 1)
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask387Off);
             nPrf = sum(flagClFre);
-            sig387 = squeeze(sum(data.signal(flag387, :, flagClFre), 3)) / nPrf;
+            sig387 = squeeze(sum(data.signal(flag387FR, :, flagClFre), 3)) / nPrf;
 
             % optical thickness (OT)
             aBsc355 = data.aerBsc355_raman(iGrp, :);
@@ -3978,7 +3938,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 607 nm (Raman)
-    if sum(flag532) == 1
+    if sum(flag532t) == 1
 
         if ~ isnan(data.aerBsc532_raman(iGrp, 80))
 
@@ -3987,7 +3947,7 @@ for iGrp = 1:size(clFreGrps, 1)
             flagClFre(prfInd) = true;
             flagClFre = flagClFre & (~ data.mask607Off);
             nPrf = sum(flagClFre);
-            sig607 = squeeze(sum(data.signal(flag607, :, flagClFre), 3)) / nPrf;
+            sig607 = squeeze(sum(data.signal(flag607FR, :, flagClFre), 3)) / nPrf;
 
             % optical thickness (OT)
             aBsc532 = data.aerBsc532_raman(iGrp, :);
@@ -4015,8 +3975,8 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 355 nm (AOD-constrained Klett)
-    if sum(flag355) == 1
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+    if sum(flag355t) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -4028,7 +3988,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
              prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig355 = squeeze(sum(data.signal(flag355, :, prfInd), 3)) / nPrf;
+            sig355 = squeeze(sum(data.signal(flag355t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -4054,8 +4014,8 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 532 nm (AOD-constrained Klett)
-    if sum(flag532) == 1
-        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+    if sum(flag532t) == 1
+        hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532t), 1);
 
         if isempty(hIndOL)
             hIndOL = 70;
@@ -4067,7 +4027,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
             prfInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
             nPrf = numel(prfInd);
-            sig532 = squeeze(sum(data.signal(flag532, :, prfInd), 3)) / nPrf;
+            sig532 = squeeze(sum(data.signal(flag532t, :, prfInd), 3)) / nPrf;
 
             % optical thickness (OT)
 
@@ -4141,10 +4101,6 @@ data.LC.LC_raman_532_NR = NaN(size(clFreGrps, 1), 1);
 data.LC.LCStd_raman_532_NR = NaN(size(clFreGrps, 1), 1);
 data.LC.LC_raman_607_NR = NaN(size(clFreGrps, 1), 1);
 data.LC.LCStd_raman_607_NR = NaN(size(clFreGrps, 1), 1);
-flag355NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
-flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
-flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
-flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 if (~ isempty(data.olAttri355.sigRatio)) && (sum(flag355NR) == 1)
     data.LC.LC_raman_355_NR = data.LC.LC_raman_355 .* data.olAttri355.sigRatio;
     data.LC.LCStd_raman_355_NR = data.LC.LCStd_raman_355 .* data.olAttri355.sigRatio;
@@ -4164,15 +4120,6 @@ end
 
 % select lidar calibration constant
 data.LCUsed = struct();
-flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag1064 = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag387NR = data.flagNearRangeChannel & data.flag387nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 %% far-range calibration constants
 [data.LCUsed.LCUsed355, ~, data.LCUsed.LCUsedTag355, data.LCUsed.flagLCWarning355] = ...
@@ -4183,8 +4130,8 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
         'flagLCCalibration', PollyConfig.flagLCCalibration, ...
         'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', PollyDefaults.LC(flag355), ...
-        'default_liconstStd', PollyDefaults.LCStd(flag355));
+        'default_liconst', PollyDefaults.LC(flag355t), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag355t));
 [data.LCUsed.LCUsed532, ~, data.LCUsed.LCUsedTag532, data.LCUsed.flagLCWarning532] = ...
     selectLiConst(data.LC.LC_raman_532, zeros(size(data.LC.LC_raman_532)), ...
         data.LC.LC_start_time, ...
@@ -4193,8 +4140,8 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
         'flagLCCalibration', PollyConfig.flagLCCalibration, ...
         'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', PollyDefaults.LC(flag532), ...
-        'default_liconstStd', PollyDefaults.LCStd(flag532));
+        'default_liconst', PollyDefaults.LC(flag532t), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag532t));
 [data.LCUsed.LCUsed1064, ~, data.LCUsed.LCUsedTag1064, data.LCUsed.flagLCWarning1064] = ...
     selectLiConst(data.LC.LC_raman_1064, zeros(size(data.LC.LC_raman_1064)), ...
         data.LC.LC_start_time, ...
@@ -4213,8 +4160,8 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
         'flagLCCalibration', PollyConfig.flagLCCalibration, ...
         'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', PollyDefaults.LC(flag387), ...
-        'default_liconstStd', PollyDefaults.LCStd(flag387));
+        'default_liconst', PollyDefaults.LC(flag387FR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag387FR));
 [data.LCUsed.LCUsed607, ~, data.LCUsed.LCUsedTag607, data.LCUsed.flagLCWarning607] = ...
     selectLiConst(data.LC.LC_raman_607, zeros(size(data.LC.LC_raman_607)), ...
         data.LC.LC_start_time, ...
@@ -4223,8 +4170,8 @@ flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
         'flagUsePrevLC', PollyConfig.flagUsePreviousLC, ...
         'flagLCCalibration', PollyConfig.flagLCCalibration, ...
         'deltaTime', datenum(0, 1, 7), ...
-        'default_liconst', PollyDefaults.LC(flag607), ...
-        'default_liconstStd', PollyDefaults.LCStd(flag607));
+        'default_liconst', PollyDefaults.LC(flag607FR), ...
+        'default_liconstStd', PollyDefaults.LCStd(flag607FR));
 
 %% near-range lidar calibration constants
 [data.LCUsed.LCUsed532NR, ~, data.LCUsed.LCUsedTag532NR, data.LCUsed.flagLCWarning532NR] = ...
@@ -4273,17 +4220,15 @@ print_msg('Finish\n', 'flagTimestamp', true);
 %% attenuated backscatter
 print_msg('Start calculating attenuated backscatter.\n', 'flagTimestamp', true);
 
-flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_355 = NaN(length(data.height), length(data.mTime));
-if (sum(flag355) == 1)
-    data.att_beta_355 = squeeze(data.signal(flag355, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
+if (sum(flag355t) == 1)
+    data.att_beta_355 = squeeze(data.signal(flag355t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_355(:, data.depCalMask) = NaN;
 end
 
-flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_532 = NaN(length(data.height), length(data.mTime));
-if (sum(flag532) == 1)
-    data.att_beta_532 = squeeze(data.signal(flag532, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
+if (sum(flag532t) == 1)
+    data.att_beta_532 = squeeze(data.signal(flag532t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_532(:, data.depCalMask) = NaN;
 end
 
@@ -4294,30 +4239,26 @@ if (sum(flag1064) == 1)
     data.att_beta_1064(:, data.depCalMask) = NaN;
 end
 
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 att_beta_387 = NaN(length(data.height), length(data.mTime));
-if (sum(flag387) == 1)
-    att_beta_387 = squeeze(data.signal(flag387, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
+if (sum(flag387FR) == 1)
+    att_beta_387 = squeeze(data.signal(flag387FR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
     att_beta_387(:, data.depCalMask) = NaN;
 end
 
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 att_beta_607 = NaN(length(data.height), length(data.mTime));
-if (sum(flag607) == 1)
-    att_beta_607 = squeeze(data.signal(flag607, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
+if (sum(flag607FR) == 1)
+    att_beta_607 = squeeze(data.signal(flag607FR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
     att_beta_607(:, data.depCalMask) = NaN;
 end
 
-flag355 = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_OC_355 = NaN(length(data.height), length(data.mTime));
-if (sum(flag355) == 1)
+if (sum(flag355t) == 1)
     data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_OC_355(:, data.depCalMask) = NaN;
 end
 
-flag532 = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_OC_532 = NaN(length(data.height), length(data.mTime));
-if (sum(flag532) == 1)
+if (sum(flag532t) == 1)
     data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_OC_532(:, data.depCalMask) = NaN;
 end
@@ -4329,21 +4270,18 @@ if (sum(flag1064) == 1)
     data.att_beta_OC_1064(:, data.depCalMask) = NaN;
 end
 
-% flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % att_beta_OC_387 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag387) == 1)
+% if (sum(flag387FR) == 1)
 %     att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
 %     att_beta_OC_387(:, data.depCalMask) = NaN;
 % end
 
-% flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 % att_beta_OC_607 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag607) == 1)
+% if (sum(flag607FR) == 1)
 %     att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
 %     att_beta_OC_607(:, data.depCalMask) = NaN;
 % end
 
-flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.att_beta_NR_355 = NaN(length(data.height), length(data.mTime));
 if (sum(flag355NR) == 1)
     data.att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355NR;
@@ -4446,12 +4384,11 @@ data.quasiAttri.timestamp = [];
 
 
 % quasi-retrieved backscatter at 355 nm
-flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
 data.qsiBsc355V1 = NaN(length(data.height), length(data.mTime));
 att_beta_355_qsi = data.att_beta_355;
-if (sum(flag355) == 1)
+if (sum(flag355t) == 1)
     att_beta_355_qsi(data.quality_mask_355 ~= 0) = NaN;
-    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
+    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355t), PollyConfig.quasi_smooth_t(flag355t));
 
     % Rayleigh scattering
 %---------------achtung
@@ -4462,7 +4399,7 @@ if (sum(flag355) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355), 1);
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355t), 1);
     if ~ isempty(hIndOL)
         att_beta_355_qsi(1:hIndOL, :) = repmat(att_beta_355_qsi(hIndOL, :), hIndOL, 1);
     else
@@ -4473,12 +4410,11 @@ if (sum(flag355) == 1)
 end
 
 % quasi-retrieved backscatter at 532 nm
-flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 data.qsiBsc532V1 = NaN(length(data.height), length(data.mTime));
 att_beta_532_qsi = data.att_beta_532;
-if (sum(flag532) == 1)
+if (sum(flag532t) == 1)
     att_beta_532_qsi(data.quality_mask_532 ~= 0) = NaN;
-    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
+    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532t), PollyConfig.quasi_smooth_t(flag532t));
 
     % Rayleigh scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
@@ -4489,7 +4425,7 @@ if (sum(flag532) == 1)
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
-    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532), 1);
+    hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532t), 1);
     if ~ isempty(hIndOL)
         att_beta_532_qsi(1:hIndOL, :) = repmat(att_beta_532_qsi(hIndOL, :), hIndOL, 1);
     else
@@ -4575,30 +4511,24 @@ else
 end
 
 % % quasi-retrieved Angstroem exponents 355-532
-% flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-% flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
 % qsiAE_355_532 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag532) == 1) && (sum(flag355) == 1)
+% if (sum(flag532t) == 1) && (sum(flag355t) == 1)
 %     ratio_par_bsc_355_532 = data.qsiBsc532V1 ./ data.qsiBsc355V1;
 %     ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
 %     qsiAE_355_532 = log(ratio_par_bsc_355_532) ./ log(355/532);
 % end
 
 % % quasi-retrieved Angstroem exponents 355-1064
-% flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-% flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
 % qsiAE_355_1064 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag1064) == 1) && (sum(flag355) == 1)
+% if (sum(flag1064) == 1) && (sum(flag355t) == 1)
 %     ratio_par_bsc_355_1064 = data.qsiBsc1064V1 ./ data.qsiBsc355V1;
 %     ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 %     qsiAE_355_1064 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
 % end
 
 % quasi-retrieved Angstroem exponents 532-1064
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 data.qsiAE_532_1064_V1 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1) && (sum(flag532) == 1)
+if (sum(flag1064) == 1) && (sum(flag532t) == 1)
     ratio_par_bsc_532_1064 = data.qsiBsc1064V1 ./ data.qsiBsc532V1;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V1 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
@@ -4641,16 +4571,14 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Quasi-retrieval (V2)
 
 % quasi-retrieved backscatter at 355 nm (V2)
-flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 data.qsiBsc355V2 = NaN(length(data.height), length(data.mTime));
 att_beta_355_qsi = data.att_beta_355;
 att_beta_387_qsi = att_beta_387;
-if (sum(flag355) == 1) && (sum(flag387) == 1)
+if (sum(flag355t) == 1) && (sum(flag387FR) == 1)
     att_beta_355_qsi(data.quality_mask_355 ~= 0) = NaN;
     att_beta_387_qsi(data.quality_mask_387 ~= 0) = NaN;
-    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
-    att_beta_387_qsi = smooth2(att_beta_387_qsi, PollyConfig.quasi_smooth_h(flag387), PollyConfig.quasi_smooth_t(flag387));
+    att_beta_355_qsi = smooth2(att_beta_355_qsi, PollyConfig.quasi_smooth_h(flag355t), PollyConfig.quasi_smooth_t(flag355t));
+    att_beta_387_qsi = smooth2(att_beta_387_qsi, PollyConfig.quasi_smooth_h(flag387FR), PollyConfig.quasi_smooth_t(flag387FR));
 
     % Rayleigh scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
@@ -4663,20 +4591,18 @@ if (sum(flag355) == 1) && (sum(flag387) == 1)
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     [data.qsiBsc355V2, ~] = quasiRetrieval2(data.height, att_beta_355_qsi, att_beta_387_qsi, 355, mExt355, mBsc355, mExt387, 0.5, PollyConfig.LR355, 'nIters', 3);
-    data.qsiBsc355V2 = smooth2(data.qsiBsc355V2, PollyConfig.quasi_smooth_h(flag355), PollyConfig.quasi_smooth_t(flag355));
+    data.qsiBsc355V2 = smooth2(data.qsiBsc355V2, PollyConfig.quasi_smooth_h(flag355t), PollyConfig.quasi_smooth_t(flag355t));
 end
 
 % quasi-retrieved backscatter at 532 nm (V2)
-flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 data.qsiBsc532V2 = NaN(length(data.height), length(data.mTime));
 att_beta_532_qsi = data.att_beta_532;
 att_beta_607_qsi = att_beta_607;
-if (sum(flag532) == 1) && (sum(flag607) == 1)
+if (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     att_beta_532_qsi(data.quality_mask_532 ~= 0) = NaN;
     att_beta_607_qsi(data.quality_mask_607 ~= 0) = NaN;
-    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
-    att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607), PollyConfig.quasi_smooth_t(flag607));
+    att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532t), PollyConfig.quasi_smooth_t(flag532t));
+    att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607FR), PollyConfig.quasi_smooth_t(flag607FR));
 
     % Rayleigh scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
@@ -4689,20 +4615,18 @@ if (sum(flag532) == 1) && (sum(flag607) == 1)
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
     [data.qsiBsc532V2, ~] = quasiRetrieval2(data.height, att_beta_532_qsi, att_beta_607_qsi, 532, mExt532, mBsc532, mExt607, 0.5, PollyConfig.LR532, 'nIters', 3);
-    data.qsiBsc532V2 = smooth2(data.qsiBsc532V2, PollyConfig.quasi_smooth_h(flag532), PollyConfig.quasi_smooth_t(flag532));
+    data.qsiBsc532V2 = smooth2(data.qsiBsc532V2, PollyConfig.quasi_smooth_h(flag532t), PollyConfig.quasi_smooth_t(flag532t));
 end
 
 % quasi-retrieved backscatter at 1064 nm (V2)
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
 data.qsiBsc1064V2 = NaN(length(data.height), length(data.mTime));
 att_beta_1064_qsi = data.att_beta_1064;
 att_beta_607_qsi = att_beta_607;
-if (sum(flag1064) == 1) && (sum(flag607) == 1)
+if (sum(flag1064) == 1) && (sum(flag607FR) == 1)
     att_beta_1064_qsi(data.quality_mask_1064 ~= 0) = NaN;
     att_beta_607_qsi(data.quality_mask_607 ~= 0) = NaN;
     att_beta_1064_qsi = smooth2(att_beta_1064_qsi, PollyConfig.quasi_smooth_h(flag1064), PollyConfig.quasi_smooth_t(flag1064));
-    att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607), PollyConfig.quasi_smooth_t(flag607));
+    att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607FR), PollyConfig.quasi_smooth_t(flag607FR));
 
     % Rayleigh scattering
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
@@ -4766,35 +4690,24 @@ else
     end
 end
 % % quasi-retrieved Angstroem exponents 355-532 (V2)
-% flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
-% flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
-% flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-% flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % qsiAE_355_532_V2 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag532) == 1) && (sum(flag355) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
+% if (sum(flag532t) == 1) && (sum(flag355t) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
 %     ratio_par_bsc_355_532 = data.qsiBsc532V2 ./ data.qsiBsc355V2;
 %     ratio_par_bsc_355_532(ratio_par_bsc_355_532 <= 0) = NaN;
 %     qsiAE_355_532_V2 = log(ratio_par_bsc_355_532) ./ log(355/532);
 % end
 
 % % quasi-retrieved Angstroem exponents 355-1064 (V2)
-% flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-% flag355 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag355nmChannel;
-% flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-% flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
 % qsiAE_355_1064_V2 = NaN(length(data.height), length(data.mTime));
-% if (sum(flag1064) == 1) && (sum(flag355) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
+% if (sum(flag1064) == 1) && (sum(flag355t) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
 %     ratio_par_bsc_355_1064 = data.qsiBsc1064V2 ./ data.qsiBsc355V2;
 %     ratio_par_bsc_355_1064(ratio_par_bsc_355_1064 <= 0) = NaN;
 %     qsiAE_355_1064_V2 = log(ratio_par_bsc_355_1064) ./ log(355/1064);
 % end
 
 % quasi-retrieved Angstroem exponents 532-1064 (V2)
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-flag532 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag532nmChannel;
 data.qsiAE_532_1064_V2 = NaN(length(data.height), length(data.mTime));
-if (sum(flag1064) == 1) && (sum(flag532) == 1) && (sum(flag607) == 1)
+if (sum(flag1064) == 1) && (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     ratio_par_bsc_532_1064 = data.qsiBsc1064V2 ./ data.qsiBsc532V2;
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
@@ -4805,10 +4718,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Target classification (V2)
 print_msg('Start aerosol/cloud target classification (v2).\n', 'flagTimestamp', true);
 data.tcMaskV2 = zeros(length(data.height), length(data.mTime));
-flag1064 = data.flagTotalChannel & data.flagFarRangeChannel & data.flag1064nmChannel;
-flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-flag607 = data.flagFarRangeChannel & data.flag607nmChannel;
-if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1) && (sum(flag387) == 1) && (sum(flag607) == 1)
+if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064) == 1) && (sum(flag387FR) == 1) && (sum(flag607FR) == 1)
     data.tcMaskV2 = targetClassify(data.height, data.att_beta_532, data.qsiBsc1064V2, data.qsiBsc532V2, data.qsiPDR532V2, vdr532Sm, data.qsiAE_532_1064_V2, ...
     'clearThresBsc1064', PollyConfig.clear_thres_par_beta_1064, ...
     'turbidThresBsc1064', PollyConfig.turbid_thres_par_beta_1064, ...
@@ -4874,10 +4784,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 if PicassoConfig.flagEnableCaliResultsOutput
     print_msg('Start saving calibration results.\n', 'flagTimestamp', true);
 
-    flag387 = data.flagFarRangeChannel & data.flag387nmChannel;
-    flag407 = data.flagFarRangeChannel & data.flag407nmChannel;
-
-    %% save polarization calibration results
+        %% save polarization calibration results
     if (sum(flag355t) == 1) && (sum(flag355c) == 1)
         print_msg('--> saving polarization calibration results at 355 nm...\n', 'flagTimestamp', true);
         saveDepolConst(dbFile, ...
@@ -4967,7 +4874,7 @@ if PicassoConfig.flagEnableCaliResultsOutput
     print_msg('--> ERROR saving lidar calibration constants.\n', 'flagTimestamp', true);
     end
     %% save water vapor calibration results
-    if (sum(flag407) == 1) && (sum(flag387) == 1)
+    if (sum(flag407) == 1) && (sum(flag387FR) == 1)
         print_msg('--> start saving water vapor calibration results...\n', 'flagTimestamp', true);
         saveWVConst(dbFile, wvconst, wvconstStd, wvCaliInfo, data.IWVAttri, PollyDataInfo.pollyDataFile, CampaignConfig.name);
         print_msg('--> finish.\n', 'flagTimestamp', true);
