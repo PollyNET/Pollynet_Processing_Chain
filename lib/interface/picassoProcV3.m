@@ -428,6 +428,7 @@ flag532t = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChan
 flag532c = data.flagFarRangeChannel & data.flag532nmChannel & data.flagCrossChannel;
 flag1064t = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064c = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagCrossChannel;
+flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
 
 if isempty(PollyConfig.H)
     print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
@@ -754,9 +755,6 @@ end
 %% Rayleigh fitting
 
 print_msg('Start Rayleigh fitting.\n', 'flagTimestamp', true);
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 data.refHInd355 = [];   % reference height range at 355 nm
 data.refHInd532 = [];   % reference height range at 532 nm
 data.refHInd1064 = [];   % reference height range at 1064 nm
@@ -769,10 +767,10 @@ for iGrp = 1:size(clFreGrps, 1)
     tInd = clFreGrps(iGrp, 1):clFreGrps(iGrp, 2);
     
     % 532 nm
-    if (sum(flag532FR) == 1) && (~ PollyConfig.flagUseManualRefH)
-        sig532 = squeeze(sum(data.signal(flag532FR, :, tInd), 3));   % photon count
-        bg532 = squeeze(sum(data.bg(flag532FR, :, tInd), 3));
-        nShots532 = nansum(data.mShots(flag532FR, tInd), 2);
+    if (sum(flag532t) == 1) && (~ PollyConfig.flagUseManualRefH)
+        sig532 = squeeze(sum(data.signal(flag532t, :, tInd), 3));   % photon count
+        bg532 = squeeze(sum(data.bg(flag532t, :, tInd), 3));
+        nShots532 = nansum(data.mShots(flag532t, tInd), 2);
         pcr532 = sig532 / nShots532 * (150 / data.hRes);
 
         % Rayleigh scattering
@@ -788,7 +786,7 @@ for iGrp = 1:size(clFreGrps, 1)
             'minRefThickness', PollyConfig.minRefThickness532, ...
             'minRefDeltaExt', PollyConfig.minRefDeltaExt532, ...
             'minRefSNR', PollyConfig.minRefSNR532, ...
-            'heightFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
+            'heightFullOverlap', PollyConfig.heightFullOverlap(flag532t), ...
             'flagSameRef', false, ...
             'defaultRefH', [NaN, NaN], 'defaultDPInd', []);
     elseif PollyConfig.flagUseManualRefH
@@ -815,10 +813,10 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 355 nm
-    if (sum(flag355FR) == 1) && (~ PollyConfig.flagUseManualRefH)
-        sig355 = squeeze(sum(data.signal(flag355FR, :, tInd), 3));   % photon count
-        bg355 = squeeze(sum(data.bg(flag355FR, :, tInd), 3));
-        nShots355 = nansum(data.mShots(flag355FR, tInd), 2);
+    if (sum(flag355t) == 1) && (~ PollyConfig.flagUseManualRefH)
+        sig355 = squeeze(sum(data.signal(flag355t, :, tInd), 3));   % photon count
+        bg355 = squeeze(sum(data.bg(flag355t, :, tInd), 3));
+        nShots355 = nansum(data.mShots(flag355t, tInd), 2);
         pcr355 = sig355 / nShots355 * (150 / data.hRes);
 
         % Rayleigh scattering
@@ -834,7 +832,7 @@ for iGrp = 1:size(clFreGrps, 1)
             'minRefThickness', PollyConfig.minRefThickness355, ...
             'minRefDeltaExt', PollyConfig.minRefDeltaExt355, ...
             'minRefSNR', PollyConfig.minRefSNR355, ...
-            'heightFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
+            'heightFullOverlap', PollyConfig.heightFullOverlap(flag355t), ...
             'flagSameRef', PollyConfig.flagUseSameRefH, ...
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
     elseif PollyConfig.flagUseManualRefH
@@ -861,10 +859,10 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     % 1064 nm
-    if (sum(flag1064FR) == 1) && (~ PollyConfig.flagUseManualRefH)
-        sig1064 = squeeze(sum(data.signal(flag1064FR, :, tInd), 3));   % photon count
-        bg1064 = squeeze(sum(data.bg(flag1064FR, :, tInd), 3));
-        nShots1064 = nansum(data.mShots(flag1064FR, tInd), 2);
+    if (sum(flag1064t) == 1) && (~ PollyConfig.flagUseManualRefH)
+        sig1064 = squeeze(sum(data.signal(flag1064t, :, tInd), 3));   % photon count
+        bg1064 = squeeze(sum(data.bg(flag1064t, :, tInd), 3));
+        nShots1064 = nansum(data.mShots(flag1064t, tInd), 2);
         pcr1064 = sig1064 / nShots1064 * (150 / data.hRes);
 
         % Rayleigh scattering
@@ -880,7 +878,7 @@ for iGrp = 1:size(clFreGrps, 1)
             'minRefThickness', PollyConfig.minRefThickness1064, ...
             'minRefDeltaExt', PollyConfig.minRefDeltaExt1064, ...
             'minRefSNR', PollyConfig.minRefSNR1064, ...
-            'heightFullOverlap', PollyConfig.heightFullOverlap(flag1064FR), ...
+            'heightFullOverlap', PollyConfig.heightFullOverlap(flag1064t), ...
             'flagSameRef', PollyConfig.flagUseSameRefH, ...
             'defaultRefH', thisRefH532, 'defaultDPInd', thisDPInd532);
     elseif PollyConfig.flagUseManualRefH
@@ -1251,7 +1249,6 @@ else
     end
 end
 %% Klett method at 355 nm
-flag355 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
 
 data.aerBsc355_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -1260,7 +1257,7 @@ data.aerExtStd355_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355t) ~= 1)
         continue;
     end
 
@@ -1280,8 +1277,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 532 nm
-flag532 = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
-
 data.aerBsc532_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -1289,7 +1284,7 @@ data.aerExtStd532_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532t) ~= 1)
         continue;
     end
 
@@ -1388,8 +1383,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 532 nm (near-field)
-flag532NR = data.flagNearRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
-
 data.aerBsc532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -1440,7 +1433,6 @@ end
 
 
 %% Constrained-AOD Klett method at 355 nm (far-field)
-flag355FR = data.flag355nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_aeronet = NaN(size(clFreGrps, 1), length(data.height));
@@ -1449,7 +1441,7 @@ data.LR355_aeronet = NaN(size(clFreGrps, 1), 1);
 data.deltaAOD355 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355t) ~= 1)
         continue;
     end
 
@@ -1467,7 +1459,7 @@ for iGrp = 1:size(clFreGrps, 1)
     AOD_355_aeronet = interp_AERONET_AOD(340, AERONET.AOD_340(AERONETInd), 380, AERONET.AOD_380(AERONETInd), 355);
 
     % constrained Klett method
-    [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, ~] = pollyConstrainedKlett(data.distance0, sig355, SNR355, refH355, PollyConfig.refBeta355, mBsc355(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_355_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag355FR), PollyConfig.mask_SNRmin(flag355FR), PollyConfig.smoothWin_klett_355);
+    [thisAerBsc355_aeronet, thisLR_355, thisDeltaAOD355, ~] = pollyConstrainedKlett(data.distance0, sig355, SNR355, refH355, PollyConfig.refBeta355, mBsc355(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_355_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag355t), PollyConfig.mask_SNRmin(flag355t), PollyConfig.smoothWin_klett_355);
     thisAerExt355_aeronet = thisAerBsc355_aeronet * thisLR_355;
 
     data.aerBsc355_aeronet(iGrp, :) = thisAerBsc355_aeronet;
@@ -1479,7 +1471,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Constrained-AOD Klett method at 532 nm (far-field)
-flag532FR = data.flag532nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_aeronet = NaN(size(clFreGrps, 1), length(data.height));
@@ -1488,7 +1479,7 @@ data.LR532_aeronet = NaN(size(clFreGrps, 1), 1);
 data.deltaAOD532 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532t) ~= 1)
         continue;
     end
 
@@ -1506,7 +1497,7 @@ for iGrp = 1:size(clFreGrps, 1)
     AOD_532_aeronet = interp_AERONET_AOD(500, AERONET.AOD_500(AERONETInd), 675, AERONET.AOD_675(AERONETInd), 532);
 
     % constrained Klett method
-    [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, ~] = pollyConstrainedKlett(data.distance0, sig532, SNR532, refH532, PollyConfig.refBeta532, mBsc532(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_532_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag532FR), PollyConfig.mask_SNRmin(flag532FR), PollyConfig.smoothWin_klett_532);
+    [thisAerBsc532_aeronet, thisLR_532, thisDeltaAOD532, ~] = pollyConstrainedKlett(data.distance0, sig532, SNR532, refH532, PollyConfig.refBeta532, mBsc532(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_532_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag532t), PollyConfig.mask_SNRmin(flag532t), PollyConfig.smoothWin_klett_532);
     thisAerExt532_aeronet = thisAerBsc532_aeronet * thisLR_532;
 
     data.aerBsc532_aeronet(iGrp, :) = thisAerBsc532_aeronet;
@@ -1518,7 +1509,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Constrained-AOD Klett method at 1064 nm
-flag1064FR = data.flag1064nmChannel & data.flagTotalChannel & data.flagFarRangeChannel;
 data.aerBsc1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_aeronet = NaN(size(clFreGrps, 1), length(data.height));
@@ -1527,7 +1517,7 @@ data.LR1064_aeronet = NaN(size(clFreGrps, 1), 1);
 data.deltaAOD1064 = NaN(size(clFreGrps, 1), 1);
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064t) ~= 1)
         continue;
     end
 
@@ -1545,7 +1535,7 @@ for iGrp = 1:size(clFreGrps, 1)
     AOD_1064_aeronet = interp_AERONET_AOD(1020, AERONET.AOD_1020(AERONETInd), 1640, AERONET.AOD_1640(AERONETInd), 1064);
 
     % constrained Klett method
-    [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, ~] = pollyConstrainedKlett(data.distance0, sig1064, SNR1064, refH1064, PollyConfig.refBeta1064, mBsc1064(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_1064_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag1064FR), PollyConfig.mask_SNRmin(flag1064FR), PollyConfig.smoothWin_klett_1064);
+    [thisAerBsc1064_aeronet, thisLR_1064, thisDeltaAOD1064, ~] = pollyConstrainedKlett(data.distance0, sig1064, SNR1064, refH1064, PollyConfig.refBeta1064, mBsc1064(iGrp,:), PollyConfig.maxIterConstrainFernald, PollyConfig.minLRConstrainFernald, PollyConfig.maxLRConstrainFernald, AOD_1064_aeronet, PollyConfig.minDeltaAOD, PollyConfig.heightFullOverlap(flag1064t), PollyConfig.mask_SNRmin(flag1064t), PollyConfig.smoothWin_klett_1064);
     thisAerExt1064_aeronet = thisAerBsc1064_aeronet * thisLR_1064;
 
     data.aerBsc1064_aeronet(iGrp, :) = thisAerBsc1064_aeronet;
@@ -1564,7 +1554,6 @@ data.aerExtStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1572,7 +1561,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask387Off);
-    if (sum(flag355FR) ~= 1) || (sum(flag387FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag355t) ~= 1) || (sum(flag387FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -1595,7 +1584,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
-    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
+    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355t) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -1640,7 +1629,6 @@ data.aerExtStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1648,7 +1636,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask607Off);
-    if (sum(flag532FR) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag532t) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -1670,7 +1658,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
-    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
+    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532t) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -1711,7 +1699,6 @@ data.aerExtStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1719,7 +1706,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask607Off);
-    if (sum(flag1064FR) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag1064t) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -1742,7 +1729,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
-    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
+    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064t) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -1783,7 +1770,6 @@ data.aerExtStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_RR = NaN(size(clFreGrps, 1), length(data.height));
 
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355RR = data.flag355nmChannel & data.flagRotRamanChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1792,7 +1778,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask355RROff);
 
-    if (sum(flag355FR) ~= 1) || (sum(flag355RR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag355t) ~= 1) || (sum(flag355RR) ~= 1) || (sum(flagClFre) == 0)
         continue;
     end
 
@@ -1814,7 +1800,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
-    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
+    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355t) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -1856,7 +1842,6 @@ data.aerExtStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_RR = NaN(size(clFreGrps, 1), length(data.height));
 
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag532RR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagRotRamanChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1865,7 +1850,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask532RROff);
 
-    if (sum(flag532FR) ~= 1) || (sum(flag532RR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag532t) ~= 1) || (sum(flag532RR) ~= 1) || (sum(flagClFre) == 0)
         continue;
     end
 
@@ -1887,7 +1872,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
-    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
+    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532t) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -1929,7 +1914,6 @@ data.aerExtStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -1938,7 +1922,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask1064RROff);
 
-    if (sum(flag1064FR) ~= 1) || (sum(flag1064RR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag1064t) ~= 1) || (sum(flag1064RR) ~= 1) || (sum(flagClFre) == 0)
         continue;
     end
 
@@ -1959,7 +1943,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
-    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
+    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064t) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -2099,7 +2083,6 @@ data.LRStd532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.refBeta_NR_532_raman = NaN(1, size(clFreGrps, 1));
 refH532_NR = PollyConfig.refH_NR_532;
 
-flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607NR = data.flagNearRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -2194,7 +2177,6 @@ end
 print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimestamp', true);
 
 % 355 nm
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag355NR = data.flagNearRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 data.olAttri355 = struct();
 data.olAttri355.sigFR = [];
@@ -2204,16 +2186,16 @@ data.olAttri355.normRange = [];
 data.olAttri355.time = NaN;
 data.olFunc355 = NaN(length(data.height), 1);
 % olStd355 = NaN(length(data.height), 1);
-if (sum(flag355FR) == 1) && (sum(flag355NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flag355FR, flagCloudFree_NR)) / 150;
+if (sum(flag355t) == 1) && (sum(flag355NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flag355t, flagCloudFree_NR)) / 150;
     PC2PCRNR = data.hRes * sum(data.mShots(flag355NR,flagCloudFree_NR)) / 150;
     sig355NR = squeeze(sum(data.signal(flag355NR, :, flagCloudFree_NR), 3));
     bg355NR = squeeze(sum(data.bg(flag355NR, :, flagCloudFree_NR), 3));
-    sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_NR), 3));
-    bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_NR), 3));
+    sig355FR = squeeze(sum(data.signal(flag355t, :, flagCloudFree_NR), 3));
+    bg355FR = squeeze(sum(data.bg(flag355t, :, flagCloudFree_NR), 3));
     [data.olFunc355, ~, data.olAttri355] = pollyOVLCalc(data.distance0, ...
         sig355FR, sig355NR, bg355FR, bg355NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag355t), ...
         'PC2PCR', PC2PCR);
     data.olAttri355.time = nanmean(data.mTime);
 end
@@ -2244,8 +2226,6 @@ if (sum(flag387FR) == 1) && (sum(flag387NR) == 1)
 end
 
 % 532 nm
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
-flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.olAttri532 = struct();
 data.olAttri532.sigFR = [];
 data.olAttri532.sigNR = [];
@@ -2254,16 +2234,16 @@ data.olAttri532.normRange = [];
 data.olAttri532.time = NaN;
 data.olFunc532 = NaN(length(data.height), 1);
 % olStd532 = NaN(length(data.height), 1);
-if (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
-    PC2PCR = data.hRes * sum(data.mShots(flag532FR,flagCloudFree_NR)) / 150;
+if (sum(flag532t) == 1) && (sum(flag532NR) == 1)
+    PC2PCR = data.hRes * sum(data.mShots(flag532t,flagCloudFree_NR)) / 150;
     PC2PCRNR = data.hRes * sum(data.mShots(flag532NR,flagCloudFree_NR)) / 150;
     sig532NR = squeeze(sum(data.signal(flag532NR, :, flagCloudFree_NR), 3));
     bg532NR = squeeze(sum(data.bg(flag532NR, :, flagCloudFree_NR), 3));
-    sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_NR), 3));
-    bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_NR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_NR), 3));
+    bg532FR = squeeze(sum(data.bg(flag532t, :, flagCloudFree_NR), 3));
     [data.olFunc532, ~, data.olAttri532] = pollyOVLCalc(data.distance0, ...
         sig532FR, sig532NR, bg532FR, bg532NR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag532t), ...
         'PC2PCR', PC2PCR);
     data.olAttri532.time = nanmean(data.mTime);
 end
@@ -2294,7 +2274,6 @@ if (sum(flag607FR) == 1) && (sum(flag607NR) == 1)
 end
 
 % 1064 nm
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 olAttri1064 = struct();
 olAttri1064.sigFR = [];
 olAttri1064.sigNR = [];
@@ -2303,7 +2282,7 @@ olAttri1064.normRange = [];
 olAttri1064.time = NaN;
 olFunc1064 = NaN(length(data.height), 1);
 % olStd1064 = NaN(length(data.height), 1);
-if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1) && (sum(flag532NR) == 1)
+if (sum(flag1064t) == 1) && (sum(flag532t) == 1) && (sum(flag532NR) == 1)
     olFunc1064 = data.olFunc532;
     % olStd1064 = olStd532;
     olAttri1064 = data.olAttri532;
@@ -2316,7 +2295,6 @@ print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimesta
 
 %355
 
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
 
 data.olAttri355Raman = struct();
@@ -2327,17 +2305,17 @@ data.olAttri355Raman.time = NaN;
 data.olFunc355Raman = NaN(length(data.height), 1);
 data.olFunc355Raman_raw= NaN(length(data.height), 1);
 
-if (sum(flag355FR) == 1) && (sum(flag387FR) == 1 && ~isempty(data.aerBsc355_raman))
-    PC2PCR = data.hRes * sum(data.mShots(flag355FR,flagCloudFree_FR)) / 150;
+if (sum(flag355t) == 1) && (sum(flag387FR) == 1 && ~isempty(data.aerBsc355_raman))
+    PC2PCR = data.hRes * sum(data.mShots(flag355t,flagCloudFree_FR)) / 150;
     sig387FR = squeeze(sum(data.signal(flag387FR, :, flagCloudFree_FR), 3));
     bg387FR = squeeze(sum(data.bg(flag387FR, :, flagCloudFree_FR), 3));
-    sig355FR = squeeze(sum(data.signal(flag355FR, :, flagCloudFree_FR), 3));
-    bg355FR = squeeze(sum(data.bg(flag355FR, :, flagCloudFree_FR), 3));
+    sig355FR = squeeze(sum(data.signal(flag355t, :, flagCloudFree_FR), 3));
+    bg355FR = squeeze(sum(data.bg(flag355t, :, flagCloudFree_FR), 3));
     
     
     [data.olFunc355Raman, ~,data.olFunc355Raman_raw, data.olAttri355Raman] = pollyOVLCalcRaman(355,387, data.distance0, ...
         sig355FR, sig387FR, bg355FR, bg387FR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag355FR), ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag355t), ...
         'PC2PCR', PC2PCR,'aerBsc', data.aerBsc355_raman, 'hres',data.hRes, ...
         'pressure',data.pressure,'temperature', data.temperature, ...
         'AE',PollyConfig.angstrexp,'smoothbins',PollyConfig.overlapSmoothBins-3, ...
@@ -2347,7 +2325,6 @@ end
 
 
 %532
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 data.olAttri532Raman = struct();
@@ -2359,20 +2336,20 @@ data.olFunc532Raman = NaN(length(data.height), 1);
 data.olFunc532Raman_raw= NaN(length(data.height), 1);
 
 
-if (sum(flag532FR) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman))
-    PC2PCR = data.hRes * sum(data.mShots(flag532FR,flagCloudFree_FR)) / 150;
+if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman))
+    PC2PCR = data.hRes * sum(data.mShots(flag532t,flagCloudFree_FR)) / 150;
     sig607FR = squeeze(sum(data.signal(flag607FR, :, flagCloudFree_FR), 3));
     bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_FR), 3));
     
     
-    sig532FR = squeeze(sum(data.signal(flag532FR, :, flagCloudFree_FR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3));
     sig532FR = squeeze(sum(el532(:, flagCloudFree_FR), 2));
     
-    bg532FR = squeeze(sum(data.bg(flag532FR, :, flagCloudFree_FR), 3));
+    bg532FR = squeeze(sum(data.bg(flag532t, :, flagCloudFree_FR), 3));
     
     [data.olFunc532Raman, ~,data.olFunc532Raman_raw, data.olAttri532Raman] = pollyOVLCalcRaman(532,607, data.distance0, ...
         sig532FR, sig607FR, bg532FR, bg607FR, ...
-        'hFullOverlap', PollyConfig.heightFullOverlap(flag532FR), ...
+        'hFullOverlap', PollyConfig.heightFullOverlap(flag532t), ...
         'PC2PCR', PC2PCR,'aerBsc', data.aerBsc532_raman, 'hres',data.hRes, ...
         'pressure',data.pressure,'temperature', data.temperature, ...
         'AE',PollyConfig.angstrexp,'smoothbins',PollyConfig.overlapSmoothBins-3, ...
@@ -2388,9 +2365,9 @@ data.sigOLCor355 = [];
 bgOLCor355 = [];
 data.olFuncDeft355 = NaN(length(data.height), 1);
 % flagOLDeft355 = false;
-if (sum(flag355FR) == 1)
-    sig355FR = squeeze(data.signal(flag355FR, :, :));
-    bg355FR = squeeze(data.bg(flag355FR, :, :));
+if (sum(flag355t) == 1)
+    sig355FR = squeeze(data.signal(flag355t, :, :));
+    bg355FR = squeeze(data.bg(flag355t, :, :));
     sig355NR = squeeze(data.signal(flag355NR, :, :));
     bg355NR = squeeze(data.bg(flag355NR, :, :));
     [data.sigOLCor355, bgOLCor355, data.olFuncDeft355, ~] = pollyOLCor(data.height, sig355FR, bg355FR, ...
@@ -2426,9 +2403,9 @@ data.sigOLCor532 = [];
 bgOLCor532 = [];
 data.olFuncDeft532 = NaN(length(data.height), 1);
 % flagOLDeft532 = false;
-if (sum(flag532FR) == 1)
-    sig532FR = squeeze(data.signal(flag532FR, :, :));
-    bg532FR = squeeze(data.bg(flag532FR, :, :));
+if (sum(flag532t) == 1)
+    sig532FR = squeeze(data.signal(flag532t, :, :));
+    bg532FR = squeeze(data.bg(flag532t, :, :));
     sig532NR = squeeze(data.signal(flag532NR, :, :));
     bg532NR = squeeze(data.bg(flag532NR, :, :));
     [data.sigOLCor532, bgOLCor532, data.olFuncDeft532, ~] = pollyOLCor(data.height, sig532FR, bg532FR, ...
@@ -2464,9 +2441,9 @@ data.sigOLCor1064 = [];
 bgOLCor1064 = [];
 % olFuncDeft1064 = NaN(length(data.height), 1);
 % flagOLDeft1064 = false;
-if (sum(flag1064FR) == 1) && (sum(flag532FR) == 1)
-    sig1064FR = squeeze(data.signal(flag1064FR, :, :));
-    bg1064FR = squeeze(data.bg(flag1064FR, :, :));
+if (sum(flag1064t) == 1) && (sum(flag532t) == 1)
+    sig1064FR = squeeze(data.signal(flag1064t, :, :));
+    bg1064FR = squeeze(data.bg(flag1064t, :, :));
     sig1064NR = [];
     bg1064NR = [];
     [data.sigOLCor1064, bgOLCor1064, ~, ~] = pollyOLCor(data.height, sig1064FR, bg1064FR, ...
@@ -2482,8 +2459,6 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 
 
 %% Klett method at 355 nm (overlap corrected)
-flag355FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag355nmChannel;
-
 data.aerBsc355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2491,7 +2466,7 @@ data.aerExtStd355_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355FR) ~= 1)
+    if isnan(data.refHInd355(iGrp, 1)) || (sum(flag355t) ~= 1)
         continue;
     end
 
@@ -2511,8 +2486,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 532 nm (overlap corrected)
-flag532FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag532nmChannel;
-
 data.aerBsc532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2520,7 +2493,7 @@ data.aerExtStd532_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532FR) ~= 1)
+    if isnan(data.refHInd532(iGrp, 1)) || (sum(flag532t) ~= 1)
         continue;
     end
 
@@ -2540,8 +2513,6 @@ for iGrp = 1:size(clFreGrps, 1)
 end
 
 %% Klett method at 1064 nm (overlap corrected)
-flag1064FR = data.flagFarRangeChannel & data.flagTotalChannel & data.flag1064nmChannel;
-
 data.aerBsc1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.aerExt1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2549,7 +2520,7 @@ data.aerExtStd1064_OC_klett = NaN(size(clFreGrps, 1), length(data.height));
 
 for iGrp = 1:size(clFreGrps, 1)
 
-    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064FR) ~= 1)
+    if isnan(data.refHInd1064(iGrp, 1)) || (sum(flag1064t) ~= 1)
         continue;
     end
 
@@ -2578,7 +2549,6 @@ data.aerExtStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd355_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag355FR = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel;
 flag387FR = data.flagFarRangeChannel & data.flag387nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -2586,7 +2556,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask387Off);
-    if (sum(flag355FR) ~= 1) || (sum(flag387FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag355t) ~= 1) || (sum(flag387FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -2609,7 +2579,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH355 = [data.distance0(data.refHInd355(iGrp, 1)), data.distance0(data.refHInd355(iGrp, 2))];
-    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355FR) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
+    hBaseInd355 = find(data.height >= PollyConfig.heightFullOverlap(flag355t) + PollyConfig.smoothWin_raman_355/2 * data.hRes, 1);
 
     if isempty(hBaseInd355)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -2649,7 +2619,6 @@ data.aerExtStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag532FR = data.flagFarRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -2657,7 +2626,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask607Off);
-    if (sum(flag532FR) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag532t) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -2681,7 +2650,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH532 = [data.distance0(data.refHInd532(iGrp, 1)), data.distance0(data.refHInd532(iGrp, 2))];
-    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532FR) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
+    hBaseInd532 = find(data.height >= PollyConfig.heightFullOverlap(flag532t) + PollyConfig.smoothWin_raman_532/2 * data.hRes, 1);
 
     if isempty(hBaseInd532)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -2721,7 +2690,6 @@ data.aerExtStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LR1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.LRStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 
-flag1064FR = data.flagFarRangeChannel & data.flag1064nmChannel & data.flagTotalChannel;
 flag607FR = data.flagFarRangeChannel & data.flag607nmChannel;
 
 for iGrp = 1:size(clFreGrps, 1)
@@ -2729,7 +2697,7 @@ for iGrp = 1:size(clFreGrps, 1)
     flagClFre = false(size(data.mTime));
     flagClFre(clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)) = true;
     flagClFre = flagClFre & (~ data.mask607Off);
-    if (sum(flag1064FR) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
+    if (sum(flag1064t) ~= 1) || (sum(flag607FR) ~= 1) || (sum(flagClFre) == 0)
         print_msg(sprintf('No Raman measurement during %s - %s\n', datestr(data.mTime(clFreGrps(iGrp, 1)), 'HH:MM'), datestr(data.mTime(clFreGrps(iGrp, 2)), 'HH:MM')), 'flagSimpleMsg', true);
 
         continue;
@@ -2753,7 +2721,7 @@ for iGrp = 1:size(clFreGrps, 1)
     end
 
     refH1064 = [data.distance0(data.refHInd1064(iGrp, 1)), data.distance0(data.refHInd1064(iGrp, 2))];
-    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064FR) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
+    hBaseInd1064 = find(data.height >= PollyConfig.heightFullOverlap(flag1064t) + PollyConfig.smoothWin_raman_1064/2 * data.hRes, 1);
 
     if isempty(hBaseInd1064)
         print_msg(sprintf('Failure in searching index of mininum height. Set the index of the minimum integral range to be 100.\n'), 'flagSimpleMsg', true);
@@ -4382,7 +4350,6 @@ if (sum(flag355NR) == 1)
     data.att_beta_NR_355(:, data.depCalMask) = NaN;
 end
 
-flag532NR = data.flagNearRangeChannel & data.flag532nmChannel & data.flagTotalChannel;
 data.att_beta_NR_532 = NaN(length(data.height), length(data.mTime));
 if (sum(flag532NR) == 1)
     data.att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532NR;
