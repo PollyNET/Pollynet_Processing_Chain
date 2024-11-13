@@ -419,7 +419,7 @@ def pollyDisplayAttnBsc(nc_dict, config_dict, polly_conf_dict, saveFolder, wavel
 
 
 
-def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFolder, wavelength,donefilelist_dict):
+def pollyDisplayATT_BSC_cloudinfo(nc_dict, nc_dict_cloudinfo, config_dict, polly_conf_dict, saveFolder, wavelength,donefilelist_dict):
     """
     Description
     -----------
@@ -475,10 +475,6 @@ def pollyDisplayATT_BSC_cloudinfo(nc_dict, config_dict, polly_conf_dict, saveFol
     plotfile = f'{dataFilename}_CLOUDINFO.{imgFormat}'
     saveFilename = os.path.join(saveFolder,plotfile)
 
-    ## read in cloudinfo-file
-    cloud_file = f'{dataFilenameFolder}_cloudinfo.nc'
-    print(cloud_file)
-    nc_dict_cloudinfo = readout.read_nc_file(cloud_file)
     cbh_layer_list = []
     cth_layer_list = []
     for layer in nc_dict_cloudinfo['cloud_base_height'].T:

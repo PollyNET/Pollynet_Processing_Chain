@@ -17,6 +17,8 @@ from statistics import mode
 import pandas as pd
 import sqlite3
 from zipfile import ZipFile, ZIP_DEFLATED
+import logging
+logging.basicConfig(level=logging.WARNING)
 
 # load colormap
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -55,7 +57,7 @@ def get_nc_filename(date, device, inputfolder, param=""):
     path_exist = Path(inputfolder)
 
     if path_exist.exists() == True:
-        print(inputfolder)
+#        print(inputfolder)
         
         file_searchpattern = f"{YYYY}_{MM}_{DD}_*[0-9]_{param}.nc"
 
@@ -265,10 +267,46 @@ def trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly,matrix,mdate,profile
     else:
         pass
     return matrix
+def read_config(configfile):
+    print(configfile)
+    f = open (configfile, "r")
+    config_json = json.load(f)
+    configfile_dict={}
+    f.close()
+    return config_json#configfile_dict
+
+def read_excel_config_file(excel_file, timestamp, device):
+    pd.set_option('display.width', 1500)
+    pd.set_option('display.max_columns', None)
+    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl',usecols = 'A:Z')
+    print(excel_file)
+    ## search for timerange for given timestamp
+    filtered_device = excel_file_ds.loc[(excel_file_ds['Instrument'] == device)]
+    filtered_device['starttime'] = pd.to_datetime(filtered_device['Starttime of config'])
+    filtered_device['stoptime'] = pd.to_datetime(filtered_device['Stoptime of config'])
+    timestamp_dt = pd.to_datetime(f'{timestamp} 00:00:00')
+    matching_row = filtered_device[(filtered_device['starttime'] <= timestamp_dt) & (filtered_device['stoptime'] >= timestamp_dt)]
+    #print(matching_row['Config file'])
+    location = str(matching_row['Location'].to_string(index=False)).strip()  ## get rid of whitespaces
+    polly_local_config_file = str(matching_row['Config file'].to_string(index=False)).strip()  ## get rid of whitespaces
+    return polly_local_config_file, device, location
+
+def read_global_conf(polly_global_config):
+    print(polly_global_config)
+    f = open (polly_global_config, "r")
+    config_json = json.load(f)
+    f.close()
+    return config_json#globalconfig_dict
+
+def read_local_conf(polly_local_config):
+    print(polly_local_config)
+    f = open (polly_local_config, "r")
+    config_json = json.load(f)
+    f.close()
+    return config_json
 
 
-
-def read_nc_file(nc_filename,):
+def read_nc_file(nc_filename,timestamp,device,location):
 
     nc_dict={}
     if not os.path.exists(nc_filename):
@@ -303,9 +341,17 @@ def read_nc_file(nc_filename,):
 
 
     ## fill dict with non-variable-value-params (e.g. global attributes)
-    nc_dict['PollyVersion'] = global_attr['source']
-    nc_dict['location'] = global_attr['location']
-    nc_dict['PicassoVersion'] = global_attr['version']
+
+    #nc_dict['PollyVersion'] = global_attr['source']
+    #nc_dict['location'] = global_attr['location']
+    nc_dict['PollyVersion'] = device
+    nc_dict['location'] = location
+    try:
+        nc_dict['PicassoVersion'] = global_attr['version']
+    except Exception as e:
+        nc_dict['PicassoVersion'] = 'n.a.'
+        logging.exception("PicassoVersion could not be found.") 
+
     nc_dict['PollyDataFileFolder'] = nc_filename
     nc_dict['PollyDataFile'] = Path(nc_filename).parts[-1]
     m_date = re.split(r'_',nc_dict['PollyDataFile'])
