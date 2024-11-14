@@ -17,6 +17,8 @@ from statistics import mode
 import pandas as pd
 import sqlite3
 from zipfile import ZipFile, ZIP_DEFLATED
+import logging
+logging.basicConfig(level=logging.WARNING)
 
 # load colormap
 dirname = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -41,8 +43,8 @@ def get_nc_filename(date, device, inputfolder, param=""):
     '''
     param: str
         att-param with possible values: "att_bsc", "NR_att_bsc", "OC_att_bsc", "vol_depol", "WVMR_RH", "quasi_results",
-        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles",
-        "NR_profiles", "cloudinfo","POLIPHON_1"
+        "quasi_results_V2" "target_classification", "target_classification_V2", "profiles", "OC_profiles", "profiles_QC"
+        "NR_profiles", "cloudinfo","POLIPHON_1", "RCS"
     '''
 
 #    inputfolder = input_folder(configfile)
@@ -55,7 +57,7 @@ def get_nc_filename(date, device, inputfolder, param=""):
     path_exist = Path(inputfolder)
 
     if path_exist.exists() == True:
-        print(inputfolder)
+#        print(inputfolder)
         
         file_searchpattern = f"{YYYY}_{MM}_{DD}_*[0-9]_{param}.nc"
 
@@ -157,6 +159,81 @@ def fill_time_gaps_of_matrix(time, ATT_BETA, quality_mask):
     return ATT_BETA, quality_mask
 
 
+def fill_time_gaps_of_single_matrix(time, matrix):
+    """
+    Description
+    -----------
+    Locate gaps in time-dimension and fill gaps in matrix for 24h plots.
+
+    Parameters
+    ----------
+    time: list
+        time values in unixtime.
+    matrix: array-like  matrix.
+
+    Usage
+    -----
+    fill_time_gaps_of_matrix(time, matrix)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    ## get time-differences between profiles
+    diff_time = [ time[d+1]-time[d] for d in range(len(time)-1) ]
+
+    ## get profile_length (in most cases 30 seconds)
+    occurence_count = mode(diff_time) ## get most frequently element
+    profile_length = int(np.round(occurence_count))
+    
+    ## get gaps, if time-gap is bigger than 2 x profile_length
+    gap_finder = np.where(np.array(diff_time) > 2*profile_length)
+    fill_size = 0
+    fill_size_all = 0
+    fill_value = matrix.fill_value
+    if fill_value == 1e+20:
+        fill_value = -999.0
+
+#    ## Set masked values (bad signal) to 0, to differntiate between bad signals and measurement-gaps
+#    ATT_BETA = np.ma.masked_where(ATT_BETA.mask, ATT_BETA, 0)
+    
+    for gap in gap_finder[0]:
+        fill_size_all = fill_size_all + fill_size
+        gap = gap + fill_size_all
+        time_gap = diff_time[gap-fill_size_all]
+        profiles_num = int(np.round(time_gap/profile_length))
+        matrix_left = matrix[:gap+1]
+        matrix_right = matrix[gap:]
+        fill_size =  profiles_num
+        matrix_left = np.pad(matrix_left,((0,fill_size),(0,0)), 'constant', constant_values=fill_value)
+        
+        matrix = np.append(matrix_left, matrix_right, axis=0)
+
+    ## get date and convert to datetime object
+    date_00 = datetime.fromtimestamp(int(time[0])).strftime('%Y%m%d') # convert Unix-timestamp to datestring
+    date_00 = datetime.strptime(str(date_00), '%Y%m%d').replace(tzinfo=timezone.utc) # convert to datetime object of UTC-time 
+    date_00 = date_00.timestamp() # convert to unix-timestamp-object
+
+    ## check start unix-time
+    start_diff = abs(time[0]-date_00)
+    if start_diff < (profile_length * 2):
+        fill_size_start = 0
+    else:
+        fill_size_start = int(np.round(start_diff/profile_length))
+        matrix = np.pad(matrix, ((fill_size_start,0),(0,0)), 'constant', constant_values=fill_value)
+    ## check end unix-time
+    end_diff = abs(time[-1] - (date_00+24*60*60))
+    if end_diff < (profile_length * 2):
+        fill_size_end = 0
+    else:
+        fill_size_end =  int(np.round(end_diff/profile_length))
+        matrix = np.pad(matrix,((0,fill_size_end),(0,0)), 'constant', constant_values=fill_value)
+    
+
+    return matrix 
+
+
 
 ####
 ####
@@ -190,10 +267,46 @@ def trimm_matrix_to_last_timestamp(flagPlotLastProfilesOnly,matrix,mdate,profile
     else:
         pass
     return matrix
+def read_config(configfile):
+    print(configfile)
+    f = open (configfile, "r")
+    config_json = json.load(f)
+    configfile_dict={}
+    f.close()
+    return config_json#configfile_dict
+
+def read_excel_config_file(excel_file, timestamp, device):
+    pd.set_option('display.width', 1500)
+    pd.set_option('display.max_columns', None)
+    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl',usecols = 'A:Z')
+    print(excel_file)
+    ## search for timerange for given timestamp
+    filtered_device = excel_file_ds.loc[(excel_file_ds['Instrument'] == device)]
+    filtered_device['starttime'] = pd.to_datetime(filtered_device['Starttime of config'])
+    filtered_device['stoptime'] = pd.to_datetime(filtered_device['Stoptime of config'])
+    timestamp_dt = pd.to_datetime(f'{timestamp} 00:00:00')
+    matching_row = filtered_device[(filtered_device['starttime'] <= timestamp_dt) & (filtered_device['stoptime'] >= timestamp_dt)]
+    #print(matching_row['Config file'])
+    location = str(matching_row['Location'].to_string(index=False)).strip()  ## get rid of whitespaces
+    polly_local_config_file = str(matching_row['Config file'].to_string(index=False)).strip()  ## get rid of whitespaces
+    return polly_local_config_file, device, location
+
+def read_global_conf(polly_global_config):
+    print(polly_global_config)
+    f = open (polly_global_config, "r")
+    config_json = json.load(f)
+    f.close()
+    return config_json#globalconfig_dict
+
+def read_local_conf(polly_local_config):
+    print(polly_local_config)
+    f = open (polly_local_config, "r")
+    config_json = json.load(f)
+    f.close()
+    return config_json
 
 
-
-def read_nc_file(nc_filename,):
+def read_nc_file(nc_filename,timestamp,device,location):
 
     nc_dict={}
     if not os.path.exists(nc_filename):
@@ -228,9 +341,17 @@ def read_nc_file(nc_filename,):
 
 
     ## fill dict with non-variable-value-params (e.g. global attributes)
-    nc_dict['PollyVersion'] = global_attr['source']
-    nc_dict['location'] = global_attr['location']
-    nc_dict['PicassoVersion'] = global_attr['version']
+
+    #nc_dict['PollyVersion'] = global_attr['source']
+    #nc_dict['location'] = global_attr['location']
+    nc_dict['PollyVersion'] = device
+    nc_dict['location'] = location
+    try:
+        nc_dict['PicassoVersion'] = global_attr['version']
+    except Exception as e:
+        nc_dict['PicassoVersion'] = 'n.a.'
+        logging.exception("PicassoVersion could not be found.") 
+
     nc_dict['PollyDataFileFolder'] = nc_filename
     nc_dict['PollyDataFile'] = Path(nc_filename).parts[-1]
     m_date = re.split(r'_',nc_dict['PollyDataFile'])

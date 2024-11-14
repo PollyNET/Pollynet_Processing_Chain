@@ -15,6 +15,7 @@
     "flagAutoscaleRCS": true,
     "flagMolDepolCali": false,
     "flagTransCor": true,
+	"flagUseTheoreticalMDR": false,
 
     "MWRFolder": "",
 
@@ -97,7 +98,13 @@
     "channelTags": [],
     "channelTag": ["FR-total-355 nm", "FR-cross-355 nm", "FR-387 nm", "FR-407 nm", "FR-total-532 nm", "FR-cross-532 nm", "FR-607 nm", "FR-total-1064 nm", "NR-total-532 nm", "NR-607 nm", "NR-total-355 nm", "NR-387 nm", "unknown"],
     "minPC_fog": 60,
-    "TR": [0.898, 1086, 1, 1, 1.45, 778.8, 1, 1, 1, 1, 1, 1, 1],
+    "TR": [0.898, 1086,   1,    1, 1.45, 778.8,   1,    1,    1,    1,    1,    1,     1],
+    "G":  [-999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ], 
+    "H":  [-999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ], 
+    "K":  [-999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999, -999 ], 
+    "voldepol_error_355": [-999, -999, -999 ], 
+    "voldepol_error_532": [-999, -999, -999 ], 
+    "voldepol_error_1064": [-999, -999, -999], 
     "overlapCalMode": 1,
     "overlapCorMode": 3,
     "overlapSmoothBins": 8,
@@ -252,10 +259,16 @@
     "zLim_quasi_beta_1064": [0, 3],
     "zLim_quasi_Par_DR_532": [0, 0.4],
     "zLim_FR_RCS_355": [1e-2, 30],
+    "zLim_FR_RCS_387": [1e-2, 30],
+    "zLim_FR_RCS_407": [1e-2, 35],
     "zLim_FR_RCS_532": [1e-2, 50],
+    "zLim_FR_RCS_607": [1e-2, 50],
     "zLim_FR_RCS_1064": [1e-2, 60],
     "zLim_NR_RCS_355": [1e-2, 5],
+    "zLim_NR_RCS_387": [1e-2, 5],
+    "zLim_NR_RCS_407": [1e-2, 5],
     "zLim_NR_RCS_532": [1e-2, 10],
+    "zLim_NR_RCS_607": [1e-2, 10],
     "zLim_VolDepol_355": [0, 0.2],
     "zLim_VolDepol_532": [0, 0.3],
     "zLim_VolDepol_1064": [0, 0.3],
@@ -282,5 +295,5 @@
     "calibrationDB": "polly_calibration.db",
     "imgFormat": "png",
     "partnerLabel": "",
-    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one"]
+    "prodSaveList": ["overlap", "aerProfFR", "aerProfNR", "aerProfOC", "aerAttBetaFR", "aerAttBetaOC", "aerAttBetaNR", "WVMR_RH", "volDepol", "quasiV1", "quasiV2", "TC", "TCV2", "cloudinfo", "poliphon_one","RCS"]
 }

@@ -131,7 +131,7 @@ def get_pollyxt_files():
             ## check for size of zip-files to ensure to exclude bad measurement files with wrong timestamp e.g. 19700101
             f_size = os.path.getsize(zip_file)
             print(zip_file)
-            if f_size > 500000:
+            if f_size > 150000:
                 print(f_size)
                 print("filesize passes")
             else:
