@@ -150,7 +150,8 @@ switch p.Results.overlapCorMode
                 height, height(p.Results.normRange));
             bgOLCor = sigGlue(bgFR, p.Results.bgNR, p.Results.signalRatio, height, height(p.Results.normRange));
         end
-        
+    case 4
+        % signal gleuing according to maria T script
         
     otherwise
         error('Unknown overlap correction mode %d', p.Results.overlapCorMode);
