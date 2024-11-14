@@ -439,6 +439,10 @@ flag355RR = data.flag355nmChannel & data.flagRotRamanChannel;
 flag532RR = data.flag532nmChannel & data.flagRotRamanChannel;
 flag1064RR = data.flag1064nmChannel & data.flagRotRamanChannel;
 
+%%%% to be put in config file:
+sigma_angstroem=0.2
+MC_count=3;
+
 if isempty(PollyConfig.H)
     print_msg('Using transmission ratios instead of GHK.\n', 'flagTimestamp', true);
     flagGHK = 0;
@@ -1569,10 +1573,6 @@ for iGrp = 1:size(clFreGrps, 1)
     bg387 = squeeze(sum(data.bg(flag387FR, :, flagClFre), 3));
 
     [thisAerExt355_raman, thisAerExtStd355_raman] = pollyRamanExt_smart_MC(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving',15,bg387);
-   % thisAerExt355_raman = pollyRamanExt_smart(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving');
-   % thisAerExt355_raman = pollyRamanExt(data.distance0, sig387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_355, 380, 70, 'moving');
-     
-    %thisAerExtStd355_raman = pollyRamanExtStd(data.distance0, sig387, bg387, 355, 387, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_355, 380, 70, 15);
     data.aerExt355_raman(iGrp, :) = thisAerExt355_raman;
     data.aerExtStd355_raman(iGrp, :) = thisAerExtStd355_raman;
 
@@ -1595,14 +1595,12 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 %here the lower end of the exitncion profiles is set to contant values
-%according to the value at fullüverlap + smoothing window/2 --> should be
+%according to the value at full overlap + smoothing window/2 --> should be
 %the mean value in future?
     thisAerExt355_raman_tmp = thisAerExt355_raman;
     thisAerExt355_raman(1:hBaseInd355) = thisAerExt355_raman(hBaseInd355);
-    [thisAerBsc355_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
-    %[thisAerBsc355_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
-    thisAerBscStd355_raman = pollyRamanBscStd(data.distance0, sig355, bg355, sig387, bg387, thisAerExt355_raman, thisAerExtStd355_raman, PollyConfig.angstrexp, 0.2, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
-
+    [thisAerBsc355_raman, thisAerBscStd355_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355,      PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355,  true, 355, 387,  bg355, bg387, thisAerExtStd355_raman, sigma_angstroem, MC_count, 'monte-carlo');
+        
     % lidar ratio
     [thisLR355_raman, thisLRStd355_raman] = pollyLR(thisAerExt355_raman_tmp, thisAerBsc355_raman, ...
         'hRes', data.hRes, ...
@@ -1615,7 +1613,6 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_raman(iGrp, :) = thisLRStd355_raman;
 
 end
-% here delete temp variables
 %clear vars here
 clearvars thisAerBsc355_raman thisAerBscStd355_raman thisAerExt355_raman thisAerExt355_raman_tmp thisAerExtStd355_raman
 %% Raman method (532 nm)
@@ -1642,10 +1639,7 @@ for iGrp = 1:size(clFreGrps, 1)
     sig607 = squeeze(sum(data.signal(flag607FR, :, flagClFre), 3));
     bg607 = squeeze(sum(data.bg(flag607FR, :, flagClFre), 3));
 
-    %[thisAerExt355_raman, thisAerExtStd355_raman]=pollyRamanExt_smart_MC(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving',15,bg387);
     [thisAerExt532_raman,thisAerExtStd532_raman] = pollyRamanExt_smart_MC(data.distance0, sig607, 532, 607, mExt532(iGrp,:), mExt607(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_532, 'moving',15,bg607);
-    %thisAerExt532_raman = pollyRamanExt(data.distance0, sig607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_532, 380, 70, 'moving');
-    %thisAerExtStd532_raman = pollyRamanExtStd(data.distance0, sig607, bg607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_532, 380, 70, 15);
     data.aerExt532_raman(iGrp, :) = thisAerExt532_raman;
     data.aerExtStd532_raman(iGrp, :) = thisAerExtStd532_raman;
 
@@ -1670,9 +1664,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt532_raman_tmp = thisAerExt532_raman;
     thisAerExt532_raman(1:hBaseInd532) = thisAerExt532_raman(hBaseInd532);
-      [thisAerBsc532_raman, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true, 532, 607);
-     %[thisAerBsc532_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
-    thisAerBscStd532_raman = pollyRamanBscStd(data.distance0, sig532, bg532, sig607, bg607, thisAerExt532_raman, thisAerExtStd532_raman, PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
+    [thisAerBsc532_raman, thisAerBscStd532_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532,      PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532,  true, 532, 607,  bg532, bg607, thisAerExtStd532_raman, sigma_angstroem, MC_count, 'monte-carlo');
 
     % lidar ratio
     [thisLR532_raman, thisLRStd532_raman] = pollyLR(thisAerExt532_raman_tmp, thisAerBsc532_raman, ...
@@ -1711,13 +1703,11 @@ for iGrp = 1:size(clFreGrps, 1)
     sig607 = squeeze(sum(data.signal(flag607FR, :, flagClFre), 3));
     bg607 = squeeze(sum(data.bg(flag607FR, :, flagClFre), 3));
     
-    %[thisAerExt355_raman, thisAerExtStd355_raman]=   pollyRamanExt_smart_MC(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving',15,bg387);
-     [thisAerExt532_raman, thisAerExtStd532_raman]  = pollyRamanExt_smart_MC(data.distance0, sig607, 532, 607, mExt532(iGrp,:), mExt607(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_1064, 'moving',15,bg607);
-  %  thisAerExt532_raman = pollyRamanExt(data.distance0, sig607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_1064, 380, 70, 'moving');
-    %thisAerExtStd532_raman = pollyRamanExtStd(data.distance0, sig607, bg607, 532, 607, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_1064, 380, 70, 15);
+    [thisAerExt532_raman, thisAerExtStd532_raman]  = pollyRamanExt_smart_MC(data.distance0, sig607, 532, 607, mExt532(iGrp,:), mExt607(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_1064, 'moving',15,bg607);
     thisAerExt1064_raman = thisAerExt532_raman / (1064/532).^PollyConfig.angstrexp;
     data.aerExt1064_raman(iGrp, :) = thisAerExt1064_raman;
-    data.aerExtStd1064_raman(iGrp, :) = thisAerExtStd532_raman / (1064/532).^PollyConfig.angstrexp;
+    thisAerExtStd1064_raman = thisAerExtStd532_raman / (1064/532).^PollyConfig.angstrexp;
+    data.aerExtStd1064_raman(iGrp, :) = thisAerExtStd1064_raman;
 
     if isnan(data.refHInd1064(iGrp, 1))
         continue;
@@ -1740,9 +1730,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt1064_raman_tmp = thisAerExt1064_raman;
     thisAerExt1064_raman(1:hBaseInd1064) = thisAerExt1064_raman(hBaseInd1064);
-    [thisAerBsc1064_raman, ~] = pollyRamanBsc_smart(data.distance0, sig1064, sig607, thisAerExt1064_raman, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true, 1064, 607);
- %  [thisAerBsc1064_raman, ~] = pollyRamanBsc(data.distance0, sig1064, sig607, thisAerExt1064_raman, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true);
-    thisAerBscStd1064_raman = pollyRamanBscStd(data.distance0, sig1064, bg1064, sig607, bg607, thisAerExt1064_raman, data.aerExtStd1064_raman(iGrp, :), PollyConfig.angstrexp, 0.2, mExt1064(iGrp,:), mBsc1064(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true);
+    [thisAerBsc1064_raman, thisAerBscStd1064_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig1064, sig607, thisAerExt1064_raman, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH1064,      PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064,  true, 1064, 607,  bg1064, bg607, thisAerExtStd1064_raman, sigma_angstroem, MC_count, 'monte-carlo');
 
     % lidar ratio
     [thisLR1064_raman, thisLRStd1064_raman] = pollyLR(thisAerExt1064_raman_tmp, thisAerBsc1064_raman, ...
@@ -1811,11 +1799,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt355_RR_tmp = thisAerExt355_RR;
     thisAerExt355_RR(1:hBaseInd355) = thisAerExt355_RR(hBaseInd355);
-    %[thisAerBsc355_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
-    [thisAerBsc355_RR, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig355RR, thisAerExt355_RR, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true,355, 355);
-    %[thisAerBsc355_RR, ~] = pollyRamanBsc(data.distance0, sig355, sig355RR, thisAerExt355_RR, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
-    thisAerBscStd355_RR = pollyRamanBscStd(data.distance0, sig355, bg355, sig355RR, bg355RR, thisAerExt355_RR, data.aerExtStd355_RR(iGrp, :), PollyConfig.angstrexp, 0.2, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true);
-
+    [thisAerBsc355_RR, thisAerBscStd355_RR, ~] = pollyRamanBsc_smart_MC(data.distance0, sig355, sig355RR, thisAerExt355_RR, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), mExt355(iGrp,:), mBsc355(iGrp,:), refH355,      PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 355,  bg355, bg355RR, thisAerExtStd355_RR, sigma_angstroem, MC_count, 'monte-carlo');
+    
     % lidar ratio
     [thisLR355_RR, thisLRStd355_RR] = pollyLR(thisAerExt355_RR_tmp, thisAerBsc355_RR, ...
         'hRes', data.hRes, ...
@@ -1853,10 +1838,7 @@ for iGrp = 1:size(clFreGrps, 1)
     sig532RR = squeeze(sum(data.signal(flag532RR, :, flagClFre), 3));
     bg532RR = squeeze(sum(data.bg(flag532RR, :, flagClFre), 3));
     
-    %[thisAerExt355_raman, thisAerExtStd355_raman] = pollyRamanExt_smart_MC(data.distance0, sig387, 355, 387, mExt355(iGrp,:), mExt387(iGrp,:), number_density(iGrp, :), PollyConfig.angstrexp, PollyConfig.smoothWin_raman_355, 'moving',15,bg387);
     [thisAerExt532_RR,thisAerExtStd532_RR]  = pollyRamanExt_smart_MC(data.distance0, sig532RR, 532, 532, mExt532(iGrp,:), mExt532(iGrp,:),number_density(iGrp, :),PollyConfig.angstrexp, PollyConfig.smoothWin_raman_532, 'moving',15,bg532RR);
-    %thisAerExt532_RR = pollyRamanExt(data.distance0, sig532RR, 532, 532, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_532, 380, 70, 'moving');
-    %thisAerExtStd532_RR = pollyRamanExtStd(data.distance0, sig532RR, bg532RR, 532, 532, PollyConfig.angstrexp, data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, PollyConfig.smoothWin_raman_532, 380, 70, 15);
     data.aerExt532_RR(iGrp, :) = thisAerExt532_RR;
     data.aerExtStd532_RR(iGrp, :) = thisAerExtStd532_RR;
 
@@ -1881,11 +1863,8 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt532_RR_tmp = thisAerExt532_RR;
     thisAerExt532_RR(1:hBaseInd532) = thisAerExt532_RR(hBaseInd532);
-    [thisAerBsc532_RR, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true, 532, 532);
-   %[thisAerBsc355_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
-    %[thisAerBsc532_RR, ~] = pollyRamanBsc(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
-    thisAerBscStd532_RR = pollyRamanBscStd(data.distance0, sig532, bg532, sig532RR, bg532RR, thisAerExt532_RR, data.aerExtStd532_RR(iGrp, :), PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true);
-
+    [thisAerBsc532_RR, thisAerBscStd532_RR, ~] = pollyRamanBsc_smart_MC(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), mExt532(iGrp,:), mBsc532(iGrp,:), refH532,      PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true, 532, 532,  bg532, bg532RR, thisAerExtStd532_RR, sigma_angstroem, MC_count, 'monte-carlo');
+   
     % lidar ratio
     [thisLR532_RR, thisLRStd532_RR] = pollyLR(thisAerExt532_RR_tmp, thisAerBsc532_RR, ...
         'hRes', data.hRes, ...
@@ -1950,10 +1929,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt1064_RR_tmp = thisAerExt1064_RR;
     thisAerExt1064_RR(1:hBaseInd1064) = thisAerExt1064_RR(hBaseInd1064);
-    %[thisAerBsc532_RR, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig532RR, thisAerExt532_RR, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), mExt532(iGrp,:), mBsc532(iGrp,:),        refH532, 532, PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532, true, 532, 532);
-    [thisAerBsc1064_RR, ~] = pollyRamanBsc_smart(data.distance0, sig1064, sig1064RR, thisAerExt1064_RR, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:), mExt1058(iGrp,:), mBsc1058(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true, 1064,1064);
-    %[thisAerBsc1064_RR, ~] = pollyRamanBsc(data.distance0, sig1064, sig1064RR, thisAerExt1064_RR, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true);
-    thisAerBscStd1064_RR = pollyRamanBscStd(data.distance0, sig1064, bg1064, sig1064RR, bg1064RR, thisAerExt1064_RR, data.aerExtStd1064_RR(iGrp, :), PollyConfig.angstrexp, 0.2, mExt1064(iGrp,:), mBsc1064(iGrp,:), refH1064, 1064, PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true);
+    [thisAerBsc1064_RR, thisAerBscStd1064_RR, ~] = pollyRamanBsc_smart_MC(data.distance0, sig1064, sig1064RR, thisAerExt1064_RR, PollyConfig.angstrexp, mExt1064(iGrp,:), mBsc1064(iGrp,:), mExt1058(iGrp,:), mBsc1058(iGrp,:), refH1064,      PollyConfig.refBeta1064, PollyConfig.smoothWin_raman_1064, true, 1064, 1058,  bg1064, bg1064RR, thisAerExtStd1064_RR, sigma_angstroem, MC_count, 'monte-carlo');
 
     % lidar ratio
     [thisLR1064_RR, thisLRStd1064_RR] = pollyLR(thisAerExt1064_RR_tmp, thisAerBsc1064_RR, ...
@@ -2042,10 +2018,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     thisAerExt355_NR_raman_tmp = thisAerExt355_NR_raman;
     thisAerExt355_NR_raman(1:hBaseInd355) = thisAerExt355_NR_raman(hBaseInd355);
-    %[thisAerBsc355_raman, ~] =   pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355, 355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
-    [thisAerBsc355_NR_raman, ~] = pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355_NR, 355, refBeta355_NF, PollyConfig.smoothWin_raman_NR_355, true,355, 387); 
-    %[thisAerBsc355_NR_raman, ~] = pollyRamanBsc(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:), refH355, 355, refBeta355, PollyConfig.smoothWin_raman_NR_355, true);
-    thisAerBscStd355_NR_raman = pollyRamanBscStd(data.distance0, sig355, bg355, sig387, bg387, thisAerExt355_NR_raman, thisAerExtStd355_NR_raman, PollyConfig.angstrexp, 0.2, mExt355(iGrp,:), mBsc355(iGrp,:), refH355_NR, 355, refBeta355_NF, PollyConfig.smoothWin_raman_NR_355, true);
+   [thisAerBsc355_NR_raman, thisAerBscStd355_NR_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig355, sig387, thisAerExt355_NR_raman, PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355_NR,      refBeta355_NF, PollyConfig.smoothWin_raman_NR_355, true, 355, 387,  bg355, bg387, thisAerExtStd355_NR_raman, sigma_angstroem, MC_count, 'monte-carlo');
 
     % lidar ratio
     [thisLR355_NR_raman, thisLRStd355_NR_raman] = pollyLR(thisAerExt355_NR_raman_tmp, thisAerBsc355_NR_raman, ...
@@ -2136,11 +2109,7 @@ for iGrp = 1:size(clFreGrps, 1)
     thisAerExt532_NR_raman_tmp = thisAerExt532_NR_raman;
     thisAerExt532_NR_raman(1:hBaseInd532) = thisAerExt532_NR_raman(hBaseInd532);
     
-    %thisAerBsc355_raman, ~] =     pollyRamanBsc_smart(data.distance0, sig355, sig387, thisAerExt355_raman,    PollyConfig.angstrexp, mExt355(iGrp,:), mBsc355(iGrp,:),mExt387(iGrp,:), mBsc387(iGrp,:), refH355,    355, PollyConfig.refBeta355, PollyConfig.smoothWin_raman_355, true, 355, 387);
-     [thisAerBsc532_NR_raman, ~] = pollyRamanBsc_smart(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532_NR, 532, refBeta532_NR, PollyConfig.smoothWin_raman_NR_532, true, 532, 607);
-    %[thisAerBsc532_NR_raman, ~] = pollyRamanBsc(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:), refH532, 532, refBeta532, PollyConfig.smoothWin_raman_NR_532, true);
-    thisAerBscStd532_NR_raman = pollyRamanBscStd(data.distance0, sig532, bg532, sig607, bg607, thisAerExt532_NR_raman, thisAerExtStd532_NR_raman, PollyConfig.angstrexp, 0.2, mExt532(iGrp,:), mBsc532(iGrp,:), refH532_NR, 532, refBeta532_NR, PollyConfig.smoothWin_raman_NR_532, true);
-
+    [thisAerBsc532_NR_raman, thisAerBscStd532_NR_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig532, sig607, thisAerExt532_NR_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532_NR,      refBeta532_NR, PollyConfig.smoothWin_raman_NR_532, true, 532, 607,  bg532, bg607, thisAerExtStd532_NR_raman, sigma_angstroem, MC_count, 'monte-carlo');
     % lidar ratio
     [thisLR532_NR_raman, thisLRStd532_NR_raman] = pollyLR(thisAerExt532_NR_raman_tmp, thisAerBsc532_NR_raman, ...
         'hRes', data.hRes, ...
