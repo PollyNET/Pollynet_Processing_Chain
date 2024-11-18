@@ -56,6 +56,9 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     2022-09-01. First edition by Andi
     """
 
+    if not nc_dict_profile :
+        return
+
     ## read from config file
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
@@ -862,6 +865,9 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     2022-09-01. First edition by Andi
     """
 
+    if not nc_dict_profile :
+        return
+
     ## read from config file
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
@@ -1261,6 +1267,9 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
     -------
     2022-09-01. First edition by Andi
     """
+
+    if not nc_dict_profile :
+        return
 
     ## read from config file
     figDPI = config_dict['figDPI']
