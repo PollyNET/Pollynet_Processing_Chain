@@ -2293,7 +2293,9 @@ end
 %% Overlap correction
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 %%%%%%%%%%%%%@ andi + Maria %%%%%%%%%%% 
-%%%%%%%%%here signal merging should be implemented here with a new flag?
+%%%%%%%%%here signal merging should be implemented here with a new flag:
+%%%%%%%%%Overlap correction mode 4 --> then you go into the function
+%%%%%%%%%pollyOLCor and implement it there.
 %%%%%%%%%%%%%%%%%%%%Later it can be moved to an own product, not called _OC
 %%%%%%%%%%%%%%%%%%%%but _merged or so
 % 355 nm
