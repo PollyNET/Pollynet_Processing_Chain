@@ -419,7 +419,7 @@ flagSaturation = pollySaturationDetect(data, ...
     'sigSaturateThresh', PollyConfig.saturate_thresh);
 data.flagSaturation = flagSaturation;
 print_msg('Finish.\n', 'flagTimestamp', true);
-
+clearvars flagSaturation
 %% Transmission ratios to GHK paramters
 %Channel flags
 flag355t = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel; 
@@ -687,7 +687,7 @@ if sum(flag532NR) == 1
         'heightFullOverlap', PollyConfig.heightFullOverlap(flag532NR), ...
         'minSNR', 2);
 end
-
+clearvars PCRate
 if (sum(flag532t) == 1) && (sum(flag532NR) == 1)
     % combined cloud mask from near-range and far-range channels
     flagCloudFree = flagCloudFree_FR & flagCloudFree_NR & (~ data.shutterOnMask);
@@ -1810,7 +1810,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_RR(iGrp, :) = thisLRStd355_RR;
 
 end
-clearvars sig355 bg355 sig355RR bg355RR el355
+clearvars sig355 bg355 sig355RR bg355RR el355 bgEl355
 
 %% rotation Raman method (532 nm)
 data.aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -2544,7 +2544,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
-clearvars bgOLCor355 bgOLCor355
+clearvars bgOLCor355 bgOLCor355 bgOLCor387 sigOLCor387
 %% Raman method (overlap corrected 532 nm)
 data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2675,7 +2675,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
 end
-clearvars bgOLCor607
+clearvars bgOLCor607 bgOLCor1064 sigOLCor607
 %% Volume depolarization ratio new implemantation 
 if flagGHK
     print_msg('Calculating volume depolarization ratio with GHK.\n', 'flagTimestamp', true);
@@ -3269,7 +3269,7 @@ for iCh = 1:size(data.signal, 1)
     bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
     data.SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
-clearvars bg_int bg_sm
+clearvars bg_int bg_sm signal_int bg_int signal_sm bg_sm
 
 data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
@@ -3583,7 +3583,7 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
     % IWV = sum(data.WVMR .* RHOAIR .* DIFFHeight .* (data.quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
-clearvars ES es
+clearvars ES es ones_WV sig407_QC sig387_QC sig407 TRANS387 TRANS407 
 
 print_msg('Start\n', 'flagTimestamp', true);
 
@@ -4578,7 +4578,8 @@ if (sum(flag1064t) == 1) && (sum(flag607FR) == 1)
     [data.qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
     data.qsiBsc1064V2 = smooth2(data.qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064t), PollyConfig.quasi_smooth_t(flag1064t));
 end
-
+clearvars att_beta_1064_qsi att_beta_355_qsi att_beta_387_qsi att_beta_532_qsi att_beta_607_qsi att_beta_387 att_beta_607;
+clearvars  mBsc355 mExt355 mBsc387 mExt387 mBsc407 mExt407 mBsc532 mExt532 mBsc607 mExt607 mBsc1058 mExt1058 mBsc1064 mExt1064 number_density ;
 % quasi-retrieved particle depolarization ratio at 532 nm (V2)
 if flagGHK
     data.qsiPDR532V2 = NaN(length(data.height), length(data.mTime));
@@ -4649,7 +4650,7 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
 end
-
+clearvars ratio_par_bsc_532_1064 sig532C sig532TSm sig532CSm sig532T
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Target classification (V2)
@@ -4679,6 +4680,7 @@ if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064t) == 1) && (sum
     %% set the value with low SNR to 0
     data.tcMaskV2((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_607 ~= 0)) = 0;
 end
+clearvars vdr532Sm
 
 data.quality_mask_532_V2 = data.quality_mask_532;
 data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
@@ -4712,7 +4714,7 @@ elseif PollyConfig.cloudScreenMode == 2
 else
     warning('No cloud geometrical properties available.');
 end
-
+clearvars cloudMask
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Saving calibration results
