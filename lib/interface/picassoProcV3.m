@@ -1810,6 +1810,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_RR(iGrp, :) = thisLRStd355_RR;
 
 end
+clearvars sig355 bg355 sig355RR bg355RR el355
 
 %% rotation Raman method (532 nm)
 data.aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1874,7 +1875,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd532_RR(iGrp, :) = thisLRStd532_RR;
 
 end
-
+clearvars bg532RR bg532 sig532RR sig532 thisAerExt532_RR thisAerExtStd532_RR SNRRef532 SNRRef532RR thisAerExt532_RR_tmp bgEl532
 %% rotation Raman method (1064 nm)
 data.aerBsc1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1937,7 +1938,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
 end
-clearvars bgEL1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR
+clearvars el1064 bgEl1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR
 %% Raman method (near-field 355 nm)
 data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2275,7 +2276,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
     bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_FR), 3));
     
     
-    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3)); %why two times? sig532FR
     sig532FR = squeeze(sum(el532(:, flagCloudFree_FR), 2));
     
     bg532FR = squeeze(sum(data.bg(flag532t, :, flagCloudFree_FR), 3));
@@ -2289,7 +2290,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
         'refH', data.refHInd532, 'refbeta',PollyConfig.refBeta532, 'smoothklett',PollyConfig.smoothWin_klett_532);
     data.olAttri532Raman.time = nanmean(data.mTime);
 end
-
+clearvars el532
 %% Overlap correction
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 %%%%%%%%%%%%%@ andi + Maria %%%%%%%%%%% 
@@ -2373,7 +2374,7 @@ if (sum(flag607FR) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg607FR bg607NR sig607FR sig607NR
 % 1064 nm
 data.sigOLCor1064 = [];
 bgOLCor1064 = [];
@@ -2543,7 +2544,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
-
+clearvars bgOLCor355 bgOLCor355
 %% Raman method (overlap corrected 532 nm)
 data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2608,7 +2609,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
 
 end
-
+clearvars bgOLCor532 
 %% Raman method (overlap corrected 1064 nm)
 data.aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2674,7 +2675,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
 end
-
+clearvars bgOLCor607
 %% Volume depolarization ratio new implemantation 
 if flagGHK
     print_msg('Calculating volume depolarization ratio with GHK.\n', 'flagTimestamp', true);
@@ -3479,7 +3480,7 @@ for iGrp = 1:size(clFreGrps, 1)
     % calculate wvmr and rh
     data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
     
-     el387 = squeeze(data.signal(flag387FR, :, :));
+    el387 = squeeze(data.signal(flag387FR, :, :));
     bgEl387 = squeeze(data.bg(flag387FR, :, :));
     sig387 = squeeze(sum(el387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg387 = squeeze(sum(bgEl387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
@@ -3507,7 +3508,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
-
+clearvars bgEl387 bgEl407 el387 el407
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -3582,7 +3583,7 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
     % IWV = sum(data.WVMR .* RHOAIR .* DIFFHeight .* (data.quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
-
+clearvars ES es
 
 print_msg('Start\n', 'flagTimestamp', true);
 
