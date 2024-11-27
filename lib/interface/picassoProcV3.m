@@ -1937,7 +1937,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
 end
-
+clearvars bgEL1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR
 %% Raman method (near-field 355 nm)
 data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2316,7 +2316,7 @@ if (sum(flag355t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg355FR bg355NR sig355FR sig355NR
 % 387 nm
 sigOLCor387 = [];
 bgOLCor387 = [];
@@ -2335,7 +2335,7 @@ if (sum(flag387FR) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg387FR bg387NR sig387FR sig387NR
 % 532 nm
 data.sigOLCor532 = [];
 bgOLCor532 = [];
@@ -2354,7 +2354,7 @@ if (sum(flag532t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg532FR bg532NR sig532FR sig532NR
 % 607 nm
 sigOLCor607 = [];
 bgOLCor607 = [];
@@ -2392,7 +2392,7 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg1064FR bg1064NR sig1064FR sig1064NR
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 
@@ -3268,6 +3268,7 @@ for iCh = 1:size(data.signal, 1)
     bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
     data.SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
+clearvars bg_int bg_sm
 
 data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
