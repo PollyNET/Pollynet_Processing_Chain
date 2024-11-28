@@ -419,7 +419,7 @@ flagSaturation = pollySaturationDetect(data, ...
     'sigSaturateThresh', PollyConfig.saturate_thresh);
 data.flagSaturation = flagSaturation;
 print_msg('Finish.\n', 'flagTimestamp', true);
-
+clearvars flagSaturation
 %% Transmission ratios to GHK paramters
 %Channel flags
 flag355t = data.flagFarRangeChannel & data.flag355nmChannel & data.flagTotalChannel; 
@@ -687,7 +687,7 @@ if sum(flag532NR) == 1
         'heightFullOverlap', PollyConfig.heightFullOverlap(flag532NR), ...
         'minSNR', 2);
 end
-
+clearvars PCRate
 if (sum(flag532t) == 1) && (sum(flag532NR) == 1)
     % combined cloud mask from near-range and far-range channels
     flagCloudFree = flagCloudFree_FR & flagCloudFree_NR & (~ data.shutterOnMask);
@@ -1810,6 +1810,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_RR(iGrp, :) = thisLRStd355_RR;
 
 end
+clearvars sig355 bg355 sig355RR bg355RR el355 bgEl355
 
 %% rotation Raman method (532 nm)
 data.aerBsc532_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1874,7 +1875,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd532_RR(iGrp, :) = thisLRStd532_RR;
 
 end
-
+clearvars bg532RR bg532 sig532RR sig532 thisAerExt532_RR thisAerExtStd532_RR SNRRef532 SNRRef532RR thisAerExt532_RR_tmp bgEl532
 %% rotation Raman method (1064 nm)
 data.aerBsc1064_RR = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_RR = NaN(size(clFreGrps, 1), length(data.height));
@@ -1937,7 +1938,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
 end
-
+clearvars el1064 bgEl1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR
 %% Raman method (near-field 355 nm)
 data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2275,7 +2276,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
     bg607FR = squeeze(sum(data.bg(flag607FR, :, flagCloudFree_FR), 3));
     
     
-    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3));
+    sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3)); %why two times? sig532FR
     sig532FR = squeeze(sum(el532(:, flagCloudFree_FR), 2));
     
     bg532FR = squeeze(sum(data.bg(flag532t, :, flagCloudFree_FR), 3));
@@ -2289,7 +2290,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
         'refH', data.refHInd532, 'refbeta',PollyConfig.refBeta532, 'smoothklett',PollyConfig.smoothWin_klett_532);
     data.olAttri532Raman.time = nanmean(data.mTime);
 end
-
+clearvars el532
 %% Overlap correction
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 %%%%%%%%%%%%%@ andi + Maria %%%%%%%%%%% 
@@ -2316,7 +2317,7 @@ if (sum(flag355t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg355FR bg355NR sig355FR sig355NR
 % 387 nm
 sigOLCor387 = [];
 bgOLCor387 = [];
@@ -2335,7 +2336,7 @@ if (sum(flag387FR) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg387FR bg387NR sig387FR sig387NR
 % 532 nm
 data.sigOLCor532 = [];
 bgOLCor532 = [];
@@ -2354,7 +2355,7 @@ if (sum(flag532t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg532FR bg532NR sig532FR sig532NR
 % 607 nm
 sigOLCor607 = [];
 bgOLCor607 = [];
@@ -2373,7 +2374,7 @@ if (sum(flag607FR) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg607FR bg607NR sig607FR sig607NR
 % 1064 nm
 data.sigOLCor1064 = [];
 bgOLCor1064 = [];
@@ -2392,7 +2393,7 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1)
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
 end
-
+clearvars bg1064FR bg1064NR sig1064FR sig1064NR
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 
@@ -2543,7 +2544,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
-
+clearvars bgOLCor355 bgOLCor355 bgOLCor387 sigOLCor387
 %% Raman method (overlap corrected 532 nm)
 data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2608,7 +2609,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
 
 end
-
+clearvars bgOLCor532 
 %% Raman method (overlap corrected 1064 nm)
 data.aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2674,7 +2675,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
 end
-
+clearvars bgOLCor607 bgOLCor1064 sigOLCor607
 %% Volume depolarization ratio new implemantation 
 if flagGHK
     print_msg('Calculating volume depolarization ratio with GHK.\n', 'flagTimestamp', true);
@@ -3268,6 +3269,7 @@ for iCh = 1:size(data.signal, 1)
     bg_int = bg_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
     data.SNR(iCh, :, :) = pollySNR(signal_int, bg_int);
 end
+clearvars bg_int bg_sm signal_int bg_int signal_sm bg_sm
 
 data.quality_mask_355 = zeros(length(data.height), length(data.mTime));
 data.quality_mask_NR_355 = zeros(length(data.height), length(data.mTime));
@@ -3478,7 +3480,7 @@ for iGrp = 1:size(clFreGrps, 1)
     % calculate wvmr and rh
     data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
     
-     el387 = squeeze(data.signal(flag387FR, :, :));
+    el387 = squeeze(data.signal(flag387FR, :, :));
     bgEl387 = squeeze(data.bg(flag387FR, :, :));
     sig387 = squeeze(sum(el387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
     bg387 = squeeze(sum(bgEl387(:, clFreGrps(iGrp, 1):clFreGrps(iGrp, 2)), 2));
@@ -3506,7 +3508,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
-
+clearvars bgEl387 bgEl407 el387 el407
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -3581,7 +3583,7 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     data.RH = wvmr_2_rh(data.WVMR, ES, pressure);
     % IWV = sum(data.WVMR .* RHOAIR .* DIFFHeight .* (data.quality_mask_WVMR == 0), 1) ./ 1e6;   % kg*m^{-2}
 end
-
+clearvars ES es ones_WV sig407_QC sig387_QC sig407 TRANS387 TRANS407 
 
 print_msg('Start\n', 'flagTimestamp', true);
 
@@ -4576,7 +4578,8 @@ if (sum(flag1064t) == 1) && (sum(flag607FR) == 1)
     [data.qsiBsc1064V2, ~] = quasiRetrieval2(data.height, att_beta_1064_qsi, att_beta_607_qsi, 1064, mExt1064, mBsc1064, mExt607, 0.5, PollyConfig.LR1064, 'nIters', 3);
     data.qsiBsc1064V2 = smooth2(data.qsiBsc1064V2, PollyConfig.quasi_smooth_h(flag1064t), PollyConfig.quasi_smooth_t(flag1064t));
 end
-
+clearvars att_beta_1064_qsi att_beta_355_qsi att_beta_387_qsi att_beta_532_qsi att_beta_607_qsi att_beta_387 att_beta_607;
+clearvars  mBsc355 mExt355 mBsc387 mExt387 mBsc407 mExt407 mBsc532 mExt532 mBsc607 mExt607 mBsc1058 mExt1058 mBsc1064 mExt1064 number_density ;
 % quasi-retrieved particle depolarization ratio at 532 nm (V2)
 if flagGHK
     data.qsiPDR532V2 = NaN(length(data.height), length(data.mTime));
@@ -4647,7 +4650,7 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     ratio_par_bsc_532_1064(ratio_par_bsc_532_1064 <= 0) = NaN;
     data.qsiAE_532_1064_V2 = log(ratio_par_bsc_532_1064) ./ log(532/1064);
 end
-
+clearvars ratio_par_bsc_532_1064 sig532C sig532TSm sig532CSm sig532T
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Target classification (V2)
@@ -4677,6 +4680,7 @@ if (sum(flag532t) == 1) && (sum(flag532c) == 1) && (sum(flag1064t) == 1) && (sum
     %% set the value with low SNR to 0
     data.tcMaskV2((data.quality_mask_532 ~= 0) | (data.quality_mask_1064 ~= 0) | (data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_607 ~= 0)) = 0;
 end
+clearvars vdr532Sm
 
 data.quality_mask_532_V2 = data.quality_mask_532;
 data.quality_mask_532_V2((data.quality_mask_532_V2 == 0) & (data.quality_mask_607 == 1)) = 1;
@@ -4710,7 +4714,7 @@ elseif PollyConfig.cloudScreenMode == 2
 else
     warning('No cloud geometrical properties available.');
 end
-
+clearvars cloudMask
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Saving calibration results
