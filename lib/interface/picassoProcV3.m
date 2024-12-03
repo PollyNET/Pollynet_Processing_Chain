@@ -2299,6 +2299,9 @@ print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 %%%%%%%%%pollyOLCor and implement it there.
 %%%%%%%%%%%%%%%%%%%%Later it can be moved to an own product, not called _OC
 %%%%%%%%%%%%%%%%%%%%but _merged or so
+%Input PR2
+
+
 % 355 nm
 data.sigOLCor355 = [];
 bgOLCor355 = [];
@@ -4843,7 +4846,8 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                               sprintf('%s.*.nc', rmext(PollyDataInfo.pollyDataFile)));
 
         for iFile = 1:length(ncFileList)
-            delete(ncFileList{iFile});
+            display(ncFileList{iFile})
+            delete(ncFileList{iFile})
         end
         print_msg('Finish.\n', 'flagTimestamp', true);
     end
