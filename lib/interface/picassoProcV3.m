@@ -717,7 +717,7 @@ if isempty(clFreGrps)
 else
     print_msg('%d cloud-free groups were found.\n', 'flagSimpleMsg', true);
 end
-
+clearvars flagCloudFree 
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Meteorological data loading
@@ -1550,7 +1550,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LR1064_aeronet(iGrp) = thisLR_1064;
     data.deltaAOD1064(iGrp) = thisDeltaAOD1064;
 end
-
+clearvars AERONETInd
 %% Raman method (355 nm)
 data.aerBsc355_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -1941,7 +1941,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_RR(iGrp, :) = thisLRStd1064_RR;
 
 end
-clearvars el1064 bgEl1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR
+clearvars el1064 bgEl1064 thisAerExt1064_RR_tmp thisLR1064_RR thisLRStd1064_RR thisAerExt1064_RR thisAerBsc1064_RR thisAerBscStd1064_RR bg1064RR
 %% Raman method (near-field 355 nm)
 data.aerBsc355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd355_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2229,7 +2229,7 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1) && (sum(flag532NR) == 1)
     % olStd1064 = olStd532;
     olAttri1064 = data.olAttri532;
 end
-
+clearvars flagCloudFree_NR
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% Overlap estimation (Raman method)
@@ -2293,7 +2293,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
         'refH', data.refHInd532, 'refbeta',PollyConfig.refBeta532, 'smoothklett',PollyConfig.smoothWin_klett_532);
     data.olAttri532Raman.time = nanmean(data.mTime);
 end
-clearvars el532
+clearvars el532 flagCloudFree_FR
 %% Overlap correction
 print_msg('Start overlap correction.\n', 'flagTimestamp', true);
 %%%%%%%%%%%%%@ andi + Maria %%%%%%%%%%% 
@@ -2550,7 +2550,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd355_OC_raman(iGrp, :) = thisLRStd355_OC_raman;
 
 end
-clearvars bgOLCor355 bgOLCor355 bgOLCor387 sigOLCor387
+clearvars bgOLCor355 bgOLCor355 bgOLCor387 sigOLCor387 bg355
 %% Raman method (overlap corrected 532 nm)
 data.aerBsc532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd532_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2615,7 +2615,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd532_OC_raman(iGrp, :) = thisLRStd532_OC_raman;
 
 end
-clearvars bgOLCor532 
+clearvars bgOLCor532 bg532
 %% Raman method (overlap corrected 1064 nm)
 data.aerBsc1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
 data.aerBscStd1064_OC_raman = NaN(size(clFreGrps, 1), length(data.height));
@@ -2681,7 +2681,7 @@ for iGrp = 1:size(clFreGrps, 1)
     data.LRStd1064_OC_raman(iGrp, :) = thisLRStd1064_OC_raman;
 
 end
-clearvars bgOLCor607 bgOLCor1064 sigOLCor607
+clearvars bgOLCor607 bgOLCor1064 sigOLCor607 bg1064 bg607
 %% Volume depolarization ratio new implemantation 
 if flagGHK
     print_msg('Calculating volume depolarization ratio with GHK.\n', 'flagTimestamp', true);
@@ -2866,6 +2866,7 @@ else
         end
     end
 end
+clearvars bg355C bg355T
     %% Particle depolarization ratio at 532 nm
 if flagGHK
     data.pdr532_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -2992,6 +2993,7 @@ else
         end
     end
 end
+clearvars bg532C bg532T
 %% Particle depolarization ratio at 1064 nm
 if flagGHK
     data.pdr1064_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -3119,6 +3121,7 @@ else
         end
     end
 end
+clearvars bg1064C bg1064T
 %% (Near-field) Angstroem exponent (Klett/Fernald/Raman method retrieved parameters)
 data.AE_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
 data.AEStd_Bsc_355_532_NR_klett = NaN(size(clFreGrps, 1), length(data.height));
@@ -3441,6 +3444,7 @@ else
     data.IWVAttri.contact = '';
 
 end
+clearvars AERONET 
 % select water vapor calibration constant
 [data.wvconstUsed, data.wvconstUsedStd, data.wvconstUsedInfo] = selectWVConst(...
     wvconst, wvconstStd, data.IWVAttri, ...
@@ -3514,7 +3518,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
 end
 data.wvmr_error=data.wvmr_rel_error.*data.wvmr;
-clearvars bgEl387 bgEl407 el387 el407
+clearvars bgEl387 bgEl407 el387 el407 bg387 bg407 flag407On
 %% retrieve high resolution WVMR and RH
 data.WVMR = NaN(size(data.signal, 2), size(data.signal, 3));
 data.WVMR_no_QC = NaN(size(data.signal, 2), size(data.signal, 3));
@@ -3883,7 +3887,7 @@ for iGrp = 1:size(clFreGrps, 1)
             data.LC.LCStd_raman_387(iGrp) = LCStd_raman_387;
         end
     end
-
+clearvars aExt387 aOT387
     % 607 nm (Raman)
     if sum(flag532t) == 1
 
@@ -3920,7 +3924,7 @@ for iGrp = 1:size(clFreGrps, 1)
             data.LC.LCStd_raman_607(iGrp) = LCStd_raman_607;
         end
     end
-
+clearvars aExt607 aOT607 flagClFre
     % 355 nm (AOD-constrained Klett)
     if sum(flag355t) == 1
         hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag355t), 1);
@@ -3959,7 +3963,7 @@ for iGrp = 1:size(clFreGrps, 1)
             data.LC.LCStd_aeronet_355(iGrp) = LCStd_aeronet_355;
         end
     end
-
+clearvars aBsc355 aExt355 aOT355 bsc355 
     % 532 nm (AOD-constrained Klett)
     if sum(flag532t) == 1
         hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag532t), 1);
@@ -3998,7 +4002,7 @@ for iGrp = 1:size(clFreGrps, 1)
             data.LC.LCStd_aeronet_532(iGrp) = LCStd_aeronet_532;
         end
     end
-
+clearvars aBsc532 aExt532 aOT532 bsc532
     % 1064 nm (AOD-constrained Klett)
     if sum(flag1064t) == 1
         hIndOL = find(data.height >= PollyConfig.heightFullOverlap(flag1064t), 1);
@@ -4038,7 +4042,7 @@ for iGrp = 1:size(clFreGrps, 1)
         end
     end
 end
-
+clearvars aBsc1064 aExt1064 aOT1064 bsc1064
 % lidar constants for near-range channels
 data.LC.LC_raman_355_NR = NaN(size(clFreGrps, 1), 1);
 data.LC.LCStd_raman_355_NR = NaN(size(clFreGrps, 1), 1);
