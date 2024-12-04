@@ -2239,7 +2239,7 @@ print_msg('Start overlap estimation (near to Far range method).\n', 'flagTimesta
 data.olAttri355Raman = struct();
 data.olAttri355Raman.sigFRel = [];
 data.olAttri355Raman.sigFRRa= [];
-data.olAttri355Raman.LR_derived= [];
+data.olAttri355Raman.LR_derived= NaN;
 data.olAttri355Raman.time = NaN;
 data.olFunc355Raman = NaN(length(data.height), 1);
 data.olFunc355Raman_raw= NaN(length(data.height), 1);
@@ -2267,7 +2267,7 @@ end
 data.olAttri532Raman = struct();
 data.olAttri532Raman.sigFRel = [];
 data.olAttri532Raman.sigFRRa= [];
-data.olAttri532Raman.LR_derived= [];
+data.olAttri532Raman.LR_derived= NaN;
 data.olAttri532Raman.time = NaN;
 data.olFunc532Raman = NaN(length(data.height), 1);
 data.olFunc532Raman_raw= NaN(length(data.height), 1);
@@ -2280,7 +2280,7 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1 && ~isempty(data.aerBsc532_raman
     
     
     sig532FR = squeeze(sum(data.signal(flag532t, :, flagCloudFree_FR), 3)); %why two times? sig532FR
-    sig532FR = squeeze(sum(el532(:, flagCloudFree_FR), 2));
+    %sig532FR = squeeze(sum(el532(:, flagCloudFree_FR), 2));
     
     bg532FR = squeeze(sum(data.bg(flag532t, :, flagCloudFree_FR), 3));
     
