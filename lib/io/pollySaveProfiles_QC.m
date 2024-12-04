@@ -19,8 +19,12 @@ flagCh355FR = PollyConfig.isFR & PollyConfig.is355nm & PollyConfig.isTot;
 flagCh532FR = PollyConfig.isFR & PollyConfig.is532nm & PollyConfig.isTot;
 flagCh1064FR = PollyConfig.isFR & PollyConfig.is1064nm & PollyConfig.isTot;
 
+
+%%%%%%%%%%%%%%%%Works currently only for advanced systems like arielle,
+%%%%%%%%%%%%%%%%lacros, cvo etc...NOT for CGE
 missing_value = -999;
 %%%%%%%%%%%%%%%%%%%%%here QC starts%%%%%%%%%%%%%%%%%%%%%
+if size(PollyConfig.heightFullOverlap,2) == 12 
 for iGrp = 1:size(data.clFreGrps, 1)
     no_fill_low_profile =false;
     % QC flags will yet be implemetned only for standard products
@@ -30,7 +34,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     if no_fill_low_profile
         % UV FF
         data.aerBsc355_raman(iGrp,(data.height <= 300)) = missing_value;
-        data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+        data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value; %these numbers in the array  are hardcoded and should be chnages accoridng to chanel tags
         data.LR355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
         data.pdr355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
         data.pdr_klett_355(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
@@ -1444,5 +1448,5 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     % close file
     netcdf.close(ncID);
-
+end
 end

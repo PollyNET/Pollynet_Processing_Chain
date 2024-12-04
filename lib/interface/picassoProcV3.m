@@ -4900,16 +4900,16 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             end
             %%%%%% Test for storing quality controled information
             if PicassoConfig.flagSaveProfiles
-                print_msg('--> start saving aerosol vertical profiles.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-                %% save aerosol optical results
-                %try
+                print_msg('--> start saving qualtiy controlled aerosol vertical profiles (experimental).\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                %% save QCaerosol optical results
+                try %as this is experimental, the try statement stays
     	          %%%%This is the part interesting for Henriette!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                 pollySaveProfiles_QC(data);
+                  pollySaveProfiles_QC(data);
                   %%%%This is the part interesting for Henriette end!!!!%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-                 print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    	        %catch
-    	        % print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
-    	        %end
+                  print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                catch
+    	          print_msg('--> WARNING, could not save QC with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+    	        end
             end
         case 'aerprofnr'
             if PicassoConfig.flagSaveProfiles
@@ -4942,7 +4942,7 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             pollySaveAttnBeta(data);
             print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true)
             %catch
-            print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
+            %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
             %end
 
         case 'aerattbetaoc'
