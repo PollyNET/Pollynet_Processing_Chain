@@ -764,6 +764,9 @@ for iGrp = 1:size(clFreGrps, 1)
         [mBsc1058(iGrp,:), mExt1058(iGrp,:)] = rayleigh_scattering(1058,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
         [mBsc1064(iGrp,:), mExt1064(iGrp,:)] = rayleigh_scattering(1064,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
         number_density(iGrp,:) = number_density_at_pt(data.pressure(iGrp, :), data.temperature(iGrp, :)+ 273.17, 70, true);
+        data.molBsc355(iGrp,:)= mBsc355(iGrp,:);
+        data.molBsc532(iGrp,:)= mBsc532(iGrp,:);
+        data.molBsc1064(iGrp,:)= mBsc1064(iGrp,:);
 end
 
 
