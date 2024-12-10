@@ -2316,6 +2316,8 @@ if (sum(flag355t) == 1)
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
+    % glueing NR+FR signals
+    data.sigGL355 = signal_glueing_tsichla(sig355NR, sig355FR, clFreGrps)
 end
 clearvars bg355FR bg355NR sig355FR sig355NR
 % 387 nm
@@ -2335,6 +2337,8 @@ if (sum(flag387FR) == 1)
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile355), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
+    % glueing NR+FR signals
+    data.sigGL387 = signal_glueing_tsichla(sig387NR, sig387FR, clFreGrps)
 end
 clearvars bg387FR bg387NR sig387FR sig387NR
 % 532 nm
@@ -2354,6 +2358,8 @@ if (sum(flag532t) == 1)
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
+    % glueing NR+FR signals
+    data.sigGL532 = signal_glueing_tsichla(sig532NR, sig532FR, clFreGrps)
 end
 clearvars bg532FR bg532NR sig532FR sig532NR
 % 607 nm
@@ -2373,6 +2379,8 @@ if (sum(flag607FR) == 1)
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
+    % glueing NR+FR signals
+    data.sigGL607 = signal_glueing_tsichla(sig607NR, sig607FR, clFreGrps)
 end
 clearvars bg607FR bg607NR sig607FR sig607NR
 % 1064 nm
@@ -2392,6 +2400,8 @@ if (sum(flag1064t) == 1) && (sum(flag532t) == 1)
         'defaultOLFile', fullfile(PicassoConfig.defaultFile_folder, PollyDefaults.overlapFile532), ...
         'overlapCorMode', PollyConfig.overlapCorMode, 'overlapCalMode', PollyConfig.overlapCalMode, ...
         'overlapSmWin', PollyConfig.overlapSmoothBins);
+    % glueing NR+FR signals
+    data.sigGL1064 = signal_glueing_tsichla(sig1064NR, sig1064FR, clFreGrps)
 end
 clearvars bg1064FR bg1064NR sig1064FR sig1064NR
 print_msg('Finish.\n', 'flagTimestamp', true);
