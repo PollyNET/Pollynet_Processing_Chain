@@ -263,14 +263,16 @@ if (size(data.mShots, 1) ~= size(data.rawSignal, 1)) && (size(data.mShots, 2) ~=
 end
 
 %% Re-locate measurement time forcefully.
-if config.flagForceMeasTime
+if config.flagForceMeasTime %does not work anymore with merged 24 hour files --> need to be executed only in non-24h mode
     data.mTime = data.filenameStartTime + ...
                  datenum(0, 1, 0, 0, 0, double(1:size(data.mTime, 2)) * p.Results.deltaT);
 else
     %% Filter profiles with negative timestamp (which is an indication of power failure for the lidar system)
     data.mTime = data.mTime(data.flagValidProfile);
     data.mShots = data.mShots(:, data.flagValidProfile);
-    data.depCalAng = data.depCalAng(data.flagValidProfile);
+    if exist(data.depCalAng)
+        data.depCalAng = data.depCalAng(data.flagValidProfile);
+    end
     data.rawSignal = data.rawSignal(:, :, data.flagValidProfile);
     data = rmfield(data, 'flagValidProfile');
 end
