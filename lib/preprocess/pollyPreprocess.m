@@ -271,9 +271,9 @@ else
     data.mTime = data.mTime(data.flagValidProfile);
     data.mShots = data.mShots(:, data.flagValidProfile);
     try
-    if exist(data.depCalAng)
+    %if exist(data.depCalAng)
         data.depCalAng = data.depCalAng(data.flagValidProfile);
-    end
+    %end
     end
     data.rawSignal = data.rawSignal(:, :, data.flagValidProfile);
     data = rmfield(data, 'flagValidProfile');
