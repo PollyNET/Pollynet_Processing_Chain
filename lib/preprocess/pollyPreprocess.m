@@ -270,11 +270,12 @@ else
     %% Filter profiles with negative timestamp (which is an indication of power failure for the lidar system)
     data.mTime = data.mTime(data.flagValidProfile);
     data.mShots = data.mShots(:, data.flagValidProfile);
-    try
-    %if exist(data.depCalAng)
+   %data.depCalAng = data.depCalAng(data.flagValidProfile);
+    %try
+    if ~isempty(data.depCalAng)
         data.depCalAng = data.depCalAng(data.flagValidProfile);
-    %end
     end
+    %end
     data.rawSignal = data.rawSignal(:, :, data.flagValidProfile);
     data = rmfield(data, 'flagValidProfile');
 end
