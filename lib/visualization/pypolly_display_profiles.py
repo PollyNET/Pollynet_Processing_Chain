@@ -895,15 +895,15 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
 
     if ymax == 'high_range':
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = ymax
         xmax_depol = [0,0.6]
     elif ymax == 'low_range':
-        y_max_FR = 5000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_low_range']
         ymax_prod_type = ymax
         xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
     else:
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = 'high_range'
         xmax_depol = [0,0.6]
 
@@ -1156,16 +1156,16 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
 
 
-    plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=[0,y_max_FR])
+    plotting_procedure(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=y_max_FR)
     
-    plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
+    plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=y_max_FR)
 
-    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
-    plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
+    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=y_max_FR)
+    plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=y_max_FR)
     
     ## Ext.Klett (with fixed LidarRatio)
     if method == 'klett' and len(fixed_LR_ls) > 0:
@@ -1298,15 +1298,15 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
 
 
     if ymax == 'high_range':
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = ymax
         xmax_depol = [0,0.6]
     elif ymax == 'low_range':
-        y_max_FR = 5000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_low_range']
         ymax_prod_type = ymax
         xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
     else:
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = 'high_range'
         xmax_depol = [0,0.6]
 
@@ -1480,16 +1480,16 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
 
 
 
-    plotting_procedure_QC(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure_QC(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure_QC(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure_QC(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure_QC(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=y_max_FR)
     
-    plotting_procedure_QC(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=y_max_FR)
 
-    plotting_procedure_QC(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
-    plotting_procedure_QC(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=y_max_FR)
+    plotting_procedure_QC(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=y_max_FR)
     
     if len(fixed_LR_ls) > 0:
         ax[1].text(

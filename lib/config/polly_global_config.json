@@ -251,6 +251,8 @@
     "yLim_depolConst_532": [0, 50],
     "yLim_depolConst_1064": [0, 50],
     "yLim_cloudinfo": [0, 2000],
+    "yLim_all_profiles_high_range": [0, 18000],
+    "yLim_all_profiles_low_range": [0, 5000],
     "zLim_att_beta_355": [0, 15],
     "zLim_att_beta_532": [0, 5],
     "zLim_att_beta_1064": [0, 2],
