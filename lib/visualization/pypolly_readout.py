@@ -282,6 +282,7 @@ def read_excel_config_file(excel_file, timestamp, device):
     print(excel_file)
     ## search for timerange for given timestamp
     filtered_device = excel_file_ds.loc[(excel_file_ds['Instrument'] == device)]
+    filtered_device = filtered_device.copy() ## make a copy of the df to avoid the SettingWithCopyWarning
     filtered_device['starttime'] = pd.to_datetime(filtered_device['Starttime of config'])
     filtered_device['stoptime'] = pd.to_datetime(filtered_device['Stoptime of config'])
     timestamp_dt = pd.to_datetime(f'{timestamp} 00:00:00')
