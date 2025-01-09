@@ -177,7 +177,9 @@ main() {
 	for DEVICE in ${DEVICE_LS[@]}; do
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
-	        echo $DATE	
+	        echo $DATE
+            testmerge $DEVICE $DATE
+            exit 1
             merging $DEVICE $DATE ## merging of level0 files and put into todo-list
             if [[ "$flagWriteIntoTodoList" == "true" ]];then
             	check_todo_list_consistency
@@ -232,6 +234,51 @@ get_polly_filename() {
 	    :
 	fi
 
+}
+testmerge() {
+    DEVICE=$1
+    DATE=$2
+
+    local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+    mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
+    echo "start merging... "
+    
+    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
+    exit_status=$?
+    echo $exit_status
+
+    if [ $exit_status -eq 0 ]; then
+        echo "The concatenating-script returned merging: TRUE."
+    else
+        echo "The concatenating-script returned merging: FALSE; processing individual files."
+        process_history $DEVICE $DATE
+        
+    fi
+
+
+}
+
+# Process history data
+process_history() {
+  DEVICE=$1
+  DATE=$2
+  local POLLY_FOLDER="/data/level0/polly/${DEVICE}"
+  local POLLY_TYPE=$DEVICE
+
+  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$DATE\nEND_DATE=$DATE\n\n"
+
+  $MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
+PICASSO_DIR = fileparts(fileparts('$cwd'));
+cd(PICASSO_DIR);
+initPicassoToolbox;
+clc;
+picassoProcHistoryData('$DATE', '$DATE', '$POLLY_FOLDER', ...
+    'PicassoConfigFile', '$PICASSO_CONFIG_FILE', ...
+    'pollyType', '$POLLY_TYPE');
+exit;
+ENDMATLAB
+
+  echo "Finish"
 }
 
 
