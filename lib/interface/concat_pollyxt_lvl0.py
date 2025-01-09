@@ -80,8 +80,6 @@ def main():
 
     get_pollyxt_logbook_files()
 
-    print(merging_flag)
-
     if merging_flag == True:
         sys.exit(0)  # Indicates success/True
     else:

@@ -178,9 +178,7 @@ main() {
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE
-            testmerge $DEVICE $DATE
-            exit 1
-            merging $DEVICE $DATE ## merging of level0 files and put into todo-list
+            merging $DEVICE $DATE ## merging of level0 files
             if [[ "$flagWriteIntoTodoList" == "true" ]];then
             	check_todo_list_consistency
 	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
@@ -235,28 +233,6 @@ get_polly_filename() {
 	fi
 
 }
-testmerge() {
-    DEVICE=$1
-    DATE=$2
-
-    local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
-    mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
-    echo "start merging... "
-    
-    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
-    exit_status=$?
-    echo $exit_status
-
-    if [ $exit_status -eq 0 ]; then
-        echo "The concatenating-script returned merging: TRUE."
-    else
-        echo "The concatenating-script returned merging: FALSE; processing individual files."
-        process_history $DEVICE $DATE
-        
-    fi
-
-
-}
 
 # Process history data
 process_history() {
@@ -293,6 +269,18 @@ merging() {
     echo "start merging... "
     
     "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
+
+    exit_status=$?
+
+    if [ $exit_status -eq 0 ]; then
+        echo "The concatenating-script returned merging: TRUE."
+    else
+        echo "The concatenating-script returned merging: FALSE; processing individual files."
+        process_history $DEVICE $DATE
+        delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
+		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+        exit 1
+    fi
 }
 
 write_job_into_todo_list() {
