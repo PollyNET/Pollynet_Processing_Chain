@@ -138,8 +138,8 @@ main() {
             YYYY=${DATE:0:4}
             MM=${DATE:4:2}
             DD=${DATE:6:2}
-#            POLLY_LEVEL1_BASEFOLDER="/data/level1b/polly24h"
-            POLLY_LEVEL1_BASEFOLDER="/pollyhome/Bildermacher2/experimental/akl"
+            POLLY_LEVEL1_BASEFOLDER="/data/level1b/polly24h"
+#            POLLY_LEVEL1_BASEFOLDER="/pollyhome/Bildermacher2/experimental/akl"
             POLLY_LEVEL1_FOLDER="$POLLY_LEVEL1_BASEFOLDER/$DEVICE/$YYYY/$MM/$DD"
             file_count=$(find "$POLLY_LEVEL1_FOLDER" -type f -name "$PATTERN" | wc -l)
             if [ "$file_count" -eq 0 ]; then
