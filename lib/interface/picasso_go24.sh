@@ -177,8 +177,8 @@ main() {
 	for DEVICE in ${DEVICE_LS[@]}; do
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
-	        echo $DATE	
-            merging $DEVICE $DATE ## merging of level0 files and put into todo-list
+	        echo $DATE
+            merging $DEVICE $DATE ## merging of level0 files
             if [[ "$flagWriteIntoTodoList" == "true" ]];then
             	check_todo_list_consistency
 	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
@@ -234,6 +234,29 @@ get_polly_filename() {
 
 }
 
+# Process history data
+process_history() {
+  DEVICE=$1
+  DATE=$2
+  local POLLY_FOLDER="/data/level0/polly/${DEVICE}"
+  local POLLY_TYPE=$DEVICE
+
+  echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$DATE\nEND_DATE=$DATE\n\n"
+
+  $MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
+PICASSO_DIR = fileparts(fileparts('$cwd'));
+cd(PICASSO_DIR);
+initPicassoToolbox;
+clc;
+picassoProcHistoryData('$DATE', '$DATE', '$POLLY_FOLDER', ...
+    'PicassoConfigFile', '$PICASSO_CONFIG_FILE', ...
+    'pollyType', '$POLLY_TYPE');
+exit;
+ENDMATLAB
+
+  echo "Finish"
+}
+
 
 merging() {
 ## define function of merging
@@ -246,6 +269,18 @@ merging() {
     echo "start merging... "
     
     "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
+
+    exit_status=$?
+
+    if [ $exit_status -eq 0 ]; then
+        echo "The concatenating-script returned merging: TRUE."
+    else
+        echo "The concatenating-script returned merging: FALSE; processing individual files."
+        process_history $DEVICE $DATE
+        delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
+		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+        exit 1
+    fi
 }
 
 write_job_into_todo_list() {
