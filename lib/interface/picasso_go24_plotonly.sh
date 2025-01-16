@@ -145,8 +145,7 @@ main() {
             file_count=$(find "$POLLY_LEVEL1_FOLDER" -type f -name "$PATTERN" | wc -l)
             if [ "$file_count" -eq 0 ]; then
                 echo "No matching file exists in $POLLY_LEVEL1_FOLDER."
-                echo "Exiting."
-                exit 1
+                echo "Continuing..."
             elif [ "$file_count" -eq 1 ]; then
                 echo "One matching file exists in $POLLY_LEVEL1_FOLDER."
                 "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL --donefilelist $flagDONEFILELIST
