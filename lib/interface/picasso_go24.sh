@@ -244,8 +244,8 @@ process_history() {
   echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$DATE\nEND_DATE=$DATE\n\n"
 
   $MATLABEXEC -nodisplay -nodesktop -nosplash <<ENDMATLAB
-PICASSO_DIR = fileparts(fileparts('$cwd'));
-cd(PICASSO_DIR);
+
+cd $PICASSO_DIR;
 initPicassoToolbox;
 clc;
 picassoProcHistoryData('$DATE', '$DATE', '$POLLY_FOLDER', ...
