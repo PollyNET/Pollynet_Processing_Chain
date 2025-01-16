@@ -511,6 +511,8 @@ def main():
                 print(f"Klett-profiles")
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='high_range',donefilelist_dict=donefilelist_dict)
                 display_profiles.pollyDisplay_profile_summary(nc_dict_profile=nc_dict_profile,nc_dict_profile_NR=nc_dict_profile_NR,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,method='klett',ymax='low_range',donefilelist_dict=donefilelist_dict)
+                print("Meteorological profiles")
+                display_profiles.pollyDisplay_profile_summary_meteo(nc_dict_profile=nc_dict_profile,config_dict=config_dict,polly_conf_dict=polly_conf_dict,outdir=outputfolder,ymax='high_range',donefilelist_dict=donefilelist_dict)
         except Exception as e:
             logging.exception("An error occurred")
 
