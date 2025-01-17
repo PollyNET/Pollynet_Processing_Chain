@@ -1641,7 +1641,7 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
                   "temperature": {"FR": ['temperature'],
                                  "NR": []
                                 },
-                  "RH": {"FR": ['RH'],
+                  "RH": {"FR": [],
                                  "NR": []
                                 },
                 }
@@ -1650,7 +1650,7 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
 
         ax[col].set_xlabel(xlabel, fontsize=axes_fontsize)
         ax[col].grid(True)
-        ax[col].tick_params(axis='both', which='major', labelsize=15,
+        ax[col].tick_params(axis='both', which='major', labelsize=18,
                        right=True, top=True, width=2, length=5)
         ax[col].tick_params(axis='both', which='minor', width=1.5,
                        length=3.5, right=True, top=True)
@@ -1658,7 +1658,7 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
         for n,p in enumerate(param_dict[parameter]["FR"]):
             if p == None:
                 continue
-            label=f'{p}_FR'
+            label=f'model {p}'
             if parameter == 'pressure':
                     color_ls = ['blue']
             elif parameter == 'temperature':
@@ -1698,11 +1698,11 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
 
         ax[col].set_xlim(xlim[0],xlim[1])
         ax[col].set_ylim(ylim[0],ylim[1]/1000)
-        ax[col].legend(loc='upper right',fontsize=14)
+        ax[col].legend(loc='upper right',fontsize=16)
     
     fig, ax = plt.subplots(1,cols, figsize=(25, 17))
 
-    axes_fontsize = 18
+    axes_fontsize = 20
 
 #    ## water-vapor calib-constant
 #    try:
@@ -1725,7 +1725,7 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
 
     plt.tight_layout(rect=[0.05, 0.07, 0.98, 0.95])
         
-    ax[0].set_ylabel("Height [km]",fontsize=18)
+    ax[0].set_ylabel("Height [km]",fontsize=20)
 
     fig.suptitle(
         'Summary of meteorological profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
@@ -1736,7 +1736,7 @@ def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_di
 #            starttime=starttime.strftime('%Y%m%d %H:%M'),
 #            endtime=endtime.strftime('%H:%M')
             ),
-        fontsize=20
+        fontsize=22
         )
 
 
