@@ -279,7 +279,6 @@ merging() {
         process_history $DEVICE $DATE
         delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
 		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
-        exit 1
     fi
 }
 
