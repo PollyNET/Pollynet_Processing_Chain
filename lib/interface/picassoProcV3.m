@@ -3658,9 +3658,6 @@ TimeM=floor(data.mTime(1)*24/3)*3/24-3/24:3/24:ceil(data.mTime(end)*24/3)*3/24+3
 [TimeMg, HeightMg] = meshgrid(data.height, TimeM); %mehsgrids for 2d interpolation
 [mTimeg, Heightg] = meshgrid(data.height, data.mTime);
 
-
-  %      mBsc355 = transpose(interp2(TimeMg, HeightMg, mBsc355, mTimeg, Heightg, 'linear'));
-  %  mExt355 = transpose(interp2(TimeMg, HeightMg, mExt355, mTimeg, Heightg, 'linear'));
 if (sum(flag387) == 1) && (sum(flag407 == 1))
 
     sig387 = squeeze(data.signal(flag387, :, :));
