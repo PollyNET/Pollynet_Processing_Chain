@@ -75,11 +75,16 @@ def main():
 #    get_pollyxt_files()
 #    checking_timestamp()
 
-    concat_files()
+    merging_flag = False
+    merging_flag = concat_files()
 
     get_pollyxt_logbook_files()
 
-    return ()
+    if merging_flag == True:
+        sys.exit(0)  # Indicates success/True
+    else:
+        sys.exit(1)  # Indicates failure/False
+
 ### end of main function
 
 def get_input_path(timestamp,device,raw_folder):
@@ -360,10 +365,12 @@ def checking_vars():
             add_to_list(-1,polly_files_list,selected_var_nc_ls)
             print('\ndifferences found in selected variables! But will be force-merged.\n')
         else:
-            print('\ndifferences found in selected variables! Selected Date will be skipped.\n')
-            for el in polly_files_list:
-                os.remove(el)
-            sys.exit()
+            #print('\ndifferences found in selected variables! Selected Date will be skipped.\n')
+            print('\ndifferences found in selected variables! Files will not be merged.\n')
+            #for el in polly_files_list:
+            #    os.remove(el)
+            #sys.exit()
+            selected_var_nc_ls = []
 
     return selected_var_nc_ls
         
@@ -448,10 +455,13 @@ def checking_attr():
             add_to_list(-1,selected_var_nc_ls,selected_att_nc_ls)
             print('\ndifferences found in global attributes! But will be force-merged.\n')
         else:
-            print('\ndifferences found in global attributes! Selected Date will be skipped.\n')
-            for el in polly_files_list:
-                os.remove(el)
-            sys.exit()
+            #print('\ndifferences found in global attributes! Selected Date will be skipped.\n')
+            print('\ndifferences found in global attributes! Files will not be merged.\n')
+            #for el in polly_files_list:
+            #    os.remove(el)
+            #sys.exit()
+            selected_att_nc_ls = []
+
 
     if diff_var_att==0:
         print('\nno differences found in variable attributes!\n')
@@ -470,6 +480,8 @@ def checking_attr():
 
 def checking_timestamp():
     selected_timestamp_nc_ls = checking_attr()
+    if len(selected_timestamp_nc_ls) == 0:
+        return selected_timestamp_nc_ls
 #    if len(selected_timestamp_nc_ls) == 1:
 #        return selected_timestamp_nc_ls
     selected_cor_timestamp_nc_ls = []
@@ -570,8 +582,8 @@ def concat_files():
     sel_polly_files_list = checking_timestamp()
 
     if len(sel_polly_files_list) == 0:
-        print('no files found for this day. no merging.')
-        return ()
+        print('No files found for this day. OR differences found in files for this day. No merging.')
+        return False
     polly_files_no_path = Path(sel_polly_files_list[0]).name
     filestring_left = str(re.split(r'_[0-9][0-9]_[0-9][0-9]_[0-9][0-9]', polly_files_no_path)[0])
     filestring_dummy = f"{filestring_left}_00_00_01_dummy.nc"       
@@ -580,7 +592,7 @@ def concat_files():
     if len(sel_polly_files_list) == 1:
         print("\nOnly one file found. Nothing to merge!\n")
         os.rename(sel_polly_files_list[0],Path(output_path,filestring))
-        return ()
+        return True
     else:
 #        sel_polly_files_list = [ str(el) for el in sel_polly_files_list]
         ## parameters for controlling the merging process
@@ -622,7 +634,7 @@ def concat_files():
         os.remove(destination_file)  # Remove the existing destination file
     os.rename(Path(output_path,filestring_dummy),destination_file)
     print('done!')
-    return ()
+    return True
 
 
 ### call of main function

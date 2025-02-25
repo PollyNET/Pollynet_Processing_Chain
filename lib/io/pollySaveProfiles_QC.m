@@ -19,8 +19,12 @@ flagCh355FR = PollyConfig.isFR & PollyConfig.is355nm & PollyConfig.isTot;
 flagCh532FR = PollyConfig.isFR & PollyConfig.is532nm & PollyConfig.isTot;
 flagCh1064FR = PollyConfig.isFR & PollyConfig.is1064nm & PollyConfig.isTot;
 
-missing_value = -999;
 
+%%%%%%%%%%%%%%%%Works currently only for advanced systems like arielle,
+%%%%%%%%%%%%%%%%lacros, cvo etc...NOT for CGE
+missing_value = -999;
+%%%%%%%%%%%%%%%%%%%%%here QC starts%%%%%%%%%%%%%%%%%%%%%
+if size(PollyConfig.heightFullOverlap,2) >= 12 
 for iGrp = 1:size(data.clFreGrps, 1)
     no_fill_low_profile =false;
     % QC flags will yet be implemetned only for standard products
@@ -30,7 +34,7 @@ for iGrp = 1:size(data.clFreGrps, 1)
     if no_fill_low_profile
         % UV FF
         data.aerBsc355_raman(iGrp,(data.height <= 300)) = missing_value;
-        data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
+        data.aerExt355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value; %these numbers in the array  are hardcoded and should be chnages accoridng to chanel tags
         data.LR355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
         data.pdr355_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
         data.pdr_klett_355(iGrp,(data.height <= PollyConfig.heightFullOverlap(3))) = missing_value;
@@ -224,6 +228,10 @@ for iGrp = 1:size(data.clFreGrps, 1)
     varID_pdr_raman_1064 = netcdf.defVar(ncID, 'parDepol_raman_1064', 'NC_FLOAT', dimID_height);
     varID_pdrStd_klett_1064 = netcdf.defVar(ncID, 'uncertainty_parDepol_klett_1064', 'NC_FLOAT', dimID_height);
     varID_pdrStd_raman_1064 = netcdf.defVar(ncID, 'uncertainty_parDepol_raman_1064', 'NC_FLOAT', dimID_height);
+    varID_molBsc_355 = netcdf.defVar(ncID, 'molBsc_355', 'NC_FLOAT', dimID_height);
+    varID_molBsc_532 = netcdf.defVar(ncID, 'molBsc_532', 'NC_FLOAT', dimID_height);
+    varID_molBsc_1064 = netcdf.defVar(ncID, 'molBsc_1064', 'NC_FLOAT', dimID_height);
+   
     
     varID_WVMR = netcdf.defVar(ncID, 'WVMR', 'NC_FLOAT', dimID_height);
     varID_WVMR_no_QC = netcdf.defVar(ncID, 'WVMR_no_QC', 'NC_FLOAT', dimID_height);
@@ -312,7 +320,11 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarFill(ncID, varID_pdrStd_klett_1064, false, missing_value);
     netcdf.defVarFill(ncID, varID_pdr_raman_1064, false, missing_value);
     netcdf.defVarFill(ncID, varID_pdrStd_raman_1064, false, missing_value);
-   
+    netcdf.defVarFill(ncID, varID_molBsc_355, false, missing_value);
+    netcdf.defVarFill(ncID, varID_molBsc_532, false, missing_value);
+    netcdf.defVarFill(ncID, varID_molBsc_1064, false, missing_value);
+    
+    
     netcdf.defVarFill(ncID, varID_WVMR, false, missing_value);
     netcdf.defVarFill(ncID, varID_WVMR_no_QC, false, missing_value);
     netcdf.defVarFill(ncID, varID_WVMR_error, false, missing_value);
@@ -400,6 +412,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.defVarDeflate(ncID, varID_pdrStd_klett_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pdr_raman_1064, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_pdrStd_raman_1064, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_molBsc_355, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_molBsc_532, true, true, 5);
+    netcdf.defVarDeflate(ncID, varID_molBsc_1064, true, true, 5);
     
     netcdf.defVarDeflate(ncID, varID_WVMR, true, true, 5);
     netcdf.defVarDeflate(ncID, varID_WVMR_error, true, true, 5);
@@ -501,6 +516,9 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putVar(ncID, varID_pdrStd_klett_1064, single(fillmissing(data.pdrStd1064_klett(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pdr_raman_1064, single(fillmissing(data.pdr1064_raman(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_pdrStd_raman_1064, single(fillmissing(data.pdrStd1064_raman(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_molBsc_355, single(fillmissing(data.molBsc355(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_molBsc_532, single(fillmissing(data.molBsc532(iGrp, :), missing_value)));
+    netcdf.putVar(ncID, varID_molBsc_1064, single(fillmissing(data.molBsc1064(iGrp, :), missing_value)));
     
     netcdf.putVar(ncID, varID_WVMR, single(fillmissing(data.wvmr(iGrp, :), missing_value)));
     netcdf.putVar(ncID, varID_WVMR_no_QC, single(fillmissing(data.wvmr_no_QC(iGrp, :), missing_value)));
@@ -1287,6 +1305,33 @@ for iGrp = 1:size(data.clFreGrps, 1)
     netcdf.putAtt(ncID, varID_pdrStd_raman_1064, 'retrieving_info', sprintf('Smoothing window: %d [m]; eta: %f', PollyConfig.smoothWin_raman_1064 * data.hRes, data.polCaliEta1064));
     netcdf.putAtt(ncID, varID_pdrStd_raman_1064, 'comment', sprintf('The aerosol backscatter profile was retrieved by Raman method. The uncertainty of particle depolarization ratio will be very large at aerosol-free altitude. Please take care!'));
 
+    % molBsc_355
+    netcdf.putAtt(ncID, varID_molBsc_355, 'unit', 'sr^-1 m^-1');
+    netcdf.putAtt(ncID, varID_molBsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
+    netcdf.putAtt(ncID, varID_molBsc_355, 'long_name', 'molecular backscatter coefficient at 355 nm');
+    netcdf.putAtt(ncID, varID_molBsc_355, 'standard_name', 'beta (mol, 355 nm)');
+    netcdf.putAtt(ncID, varID_molBsc_355, 'plot_range', PollyConfig.xLim_Profi_Bsc/1e6);
+    netcdf.putAtt(ncID, varID_molBsc_355, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_molBsc_355, 'source', CampaignConfig.name);
+        
+    % molBsc_532
+    netcdf.putAtt(ncID, varID_molBsc_532, 'unit', 'sr^-1 m^-1');
+    netcdf.putAtt(ncID, varID_molBsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
+    netcdf.putAtt(ncID, varID_molBsc_532, 'long_name', 'molecular backscatter coefficient at 532 nm');
+    netcdf.putAtt(ncID, varID_molBsc_532, 'standard_name', 'beta (mol, 532 nm)');
+    netcdf.putAtt(ncID, varID_molBsc_532, 'plot_range', PollyConfig.xLim_Profi_Bsc/1e6);
+    netcdf.putAtt(ncID, varID_molBsc_532, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_molBsc_532, 'source', CampaignConfig.name);
+    
+    % molBsc_1064
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'unit', 'sr^-1 m^-1');
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>')
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'long_name', 'molecular backscatter coefficient at 1064 nm');
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'standard_name', 'beta (mol, 1064 nm)');
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'plot_range', PollyConfig.xLim_Profi_Bsc/1e6);
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'plot_scale', 'linear');
+    netcdf.putAtt(ncID, varID_molBsc_1064, 'source', CampaignConfig.name);
+    
     % WVMR
     netcdf.putAtt(ncID, varID_WVMR, 'unit', 'g kg^-1');
     netcdf.putAtt(ncID, varID_WVMR, 'unit_html', 'g kg<sup>-1</sup>');
@@ -1444,5 +1489,5 @@ for iGrp = 1:size(data.clFreGrps, 1)
 
     % close file
     netcdf.close(ncID);
-
+end
 end

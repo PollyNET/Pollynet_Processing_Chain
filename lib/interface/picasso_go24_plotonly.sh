@@ -101,6 +101,9 @@ done
 # getting "pic_folder" from config_file
 #PIC_FOLDER=`cat ${PICASSO_CONFIG_FILE} | jq -r ."pic_folder"`
 
+# getting "results_folder" from config_file
+POLLY_LEVEL1_BASEFOLDER=`cat ${PICASSO_CONFIG_FILE} | jq -r ."results_folder"`
+
 # getting "python_folder" from config_file
 PY_FOLDER=`cat ${PICASSO_CONFIG_FILE} | jq -r ."pyBinDir"`
 echo $PY_FOLDER
@@ -132,8 +135,25 @@ main() {
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE
-#            exit 1
-            "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL --donefilelist $flagDONEFILELIST
+            ## check number of available level1-files
+            ## 24h-file vs. multiple individual processed files
+            PATTERN="*[0-9][0-9]_att_bsc*.nc"
+            YYYY=${DATE:0:4}
+            MM=${DATE:4:2}
+            DD=${DATE:6:2}
+            POLLY_LEVEL1_FOLDER="$POLLY_LEVEL1_BASEFOLDER/$DEVICE/$YYYY/$MM/$DD"
+            file_count=$(find "$POLLY_LEVEL1_FOLDER" -type f -name "$PATTERN" | wc -l)
+            if [ "$file_count" -eq 0 ]; then
+                echo "No matching file exists in $POLLY_LEVEL1_FOLDER."
+                echo "Continuing..."
+            elif [ "$file_count" -eq 1 ]; then
+                echo "One matching file exists in $POLLY_LEVEL1_FOLDER."
+                "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL --donefilelist $flagDONEFILELIST
+            elif [ "$file_count" -gt 1 ]; then
+                echo "More than one matching file exists in $POLLY_LEVEL1_FOLDER."
+                "$PY_FOLDER"python "$PICASSO_DIR"/lib/visualization/pypolly_display_all.py --date $DATE --device $DEVICE --picasso_config $PICASSO_CONFIG_FILE  --retrieval $RETRIEVAL --donefilelist $flagDONEFILELIST
+            fi
+
 #            if [[ "$flagWriteIntoTodoList" == "true" ]];then
 #            	check_todo_list_consistency
 #	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list

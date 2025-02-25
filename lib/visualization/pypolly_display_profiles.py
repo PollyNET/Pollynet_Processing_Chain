@@ -56,6 +56,9 @@ def pollyDisplay_profile(nc_dict_profile,profile_translator,profilename,config_d
     2022-09-01. First edition by Andi
     """
 
+    if not nc_dict_profile :
+        return
+
     ## read from config file
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
@@ -862,6 +865,9 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     2022-09-01. First edition by Andi
     """
 
+    if not nc_dict_profile :
+        return
+
     ## read from config file
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
@@ -889,15 +895,15 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
 
     if ymax == 'high_range':
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = ymax
         xmax_depol = [0,0.6]
     elif ymax == 'low_range':
-        y_max_FR = 5000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_low_range']
         ymax_prod_type = ymax
         xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
     else:
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = 'high_range'
         xmax_depol = [0,0.6]
 
@@ -1150,16 +1156,16 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
 
 
 
-    plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=[0,y_max_FR])
+    plotting_procedure(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=y_max_FR)
     
-    plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
+    plotting_procedure(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=y_max_FR)
 
-    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
-    plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
+    plotting_procedure(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=y_max_FR)
+    plotting_procedure(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=y_max_FR)
     
     ## Ext.Klett (with fixed LidarRatio)
     if method == 'klett' and len(fixed_LR_ls) > 0:
@@ -1262,6 +1268,9 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
     2022-09-01. First edition by Andi
     """
 
+    if not nc_dict_profile :
+        return
+
     ## read from config file
     figDPI = config_dict['figDPI']
     flagWatermarkOn = config_dict['flagWatermarkOn']
@@ -1289,15 +1298,15 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
 
 
     if ymax == 'high_range':
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = ymax
         xmax_depol = [0,0.6]
     elif ymax == 'low_range':
-        y_max_FR = 5000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_low_range']
         ymax_prod_type = ymax
         xmax_depol = polly_conf_dict['zLim_VolDepol_1064']
     else:
-        y_max_FR = 18000
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
         ymax_prod_type = 'high_range'
         xmax_depol = [0,0.6]
 
@@ -1471,16 +1480,16 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
 
 
 
-    plotting_procedure_QC(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure_QC(col=0,param_dict=param_dict,parameter="backscatter",xlabel="Backsc. coeff. [Msr$^{-1}$ m$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Bsc'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure_QC(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=[0,y_max_FR],scaling_factor=10**6)
+    plotting_procedure_QC(col=1,param_dict=param_dict,parameter="extinction",xlabel="Extinct. coeff. [Mm$^{-1}$]",xlim = polly_conf_dict['xLim_Profi_Ext'],ylim=y_max_FR,scaling_factor=10**6)
     
-    plotting_procedure_QC(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=2,param_dict=param_dict,parameter="lidarratio",xlabel="Lidar ratio [Sr]",xlim = polly_conf_dict['xLim_Profi_LR'],ylim=y_max_FR)
     
-    plotting_procedure_QC(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=3,param_dict=param_dict,parameter="angstroem",xlabel="$\AA$ngström Exp.",xlim = polly_conf_dict['xLim_Profi_AE'],ylim=y_max_FR)
 
-    plotting_procedure_QC(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=[0,y_max_FR])
-    plotting_procedure_QC(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=[0,y_max_FR])
+    plotting_procedure_QC(col=4,param_dict=param_dict,parameter="depolarization",xlabel="Depol. ratio",xlim = xmax_depol,ylim=y_max_FR)
+    plotting_procedure_QC(col=5,param_dict=param_dict,parameter="wvmr",xlabel="WVMR [$g*kg^{-1}$]",xlim = polly_conf_dict['xLim_Profi_WVMR'],ylim=y_max_FR)
     
     if len(fixed_LR_ls) > 0:
         ax[1].text(
@@ -1558,4 +1567,228 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
                                     product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
                                     )
+
+
+
+def pollyDisplay_profile_summary_meteo(nc_dict_profile,config_dict,polly_conf_dict,outdir,ymax,donefilelist_dict):
+    """
+    Description
+    -----------
+    Display the water vapor mixing ratio WVMR from level1 polly nc-file.
+
+    Parameters
+    ----------
+    nc_dict_profile: dict
+        dict wich stores the WV data.
+
+    Usage
+    -----
+    pollyDisplayWVMR_profile(nc_dict_profile,config_dict,polly_conf_dict)
+
+    History
+    -------
+    2022-09-01. First edition by Andi
+    """
+
+    if not nc_dict_profile :
+        return
+
+    ## read from config file
+    figDPI = config_dict['figDPI']
+    flagWatermarkOn = config_dict['flagWatermarkOn']
+    fontname = config_dict['fontname']
+
+
+    partnerLabel = polly_conf_dict['partnerLabel']
+    imgFormat = polly_conf_dict['imgFormat']
+
+    ## read from nc-file
+    starttime = nc_dict_profile['start_time']
+    endtime = nc_dict_profile['end_time']
+#    var_err_ls = [ nc_dict_profile[parameter_err] for parameter_err in profile_translator[profilename]['var_err_name_ls'] ]
+    height_FR = nc_dict_profile['height']
+
+    pollyVersion = nc_dict_profile['PollyVersion']
+    location = nc_dict_profile['location']
+    version = nc_dict_profile['PicassoVersion']
+    dataFilename = re.split(r'_profiles',nc_dict_profile['PollyDataFile'])[0]
+    # set the default font
+    matplotlib.rcParams['font.sans-serif'] = fontname
+    matplotlib.rcParams['font.family'] = "sans-serif"
+
+
+    if ymax == 'high_range':
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
+        ymax_prod_type = ymax
+    elif ymax == 'low_range':
+        y_max_FR = polly_conf_dict['yLim_all_profiles_low_range']
+        ymax_prod_type = ymax
+    else:
+        y_max_FR = polly_conf_dict['yLim_all_profiles_high_range']
+        ymax_prod_type = 'high_range'
+
+    plotfile = f"{dataFilename}_profile_summary_meteo_pTRH_{ymax_prod_type}.{imgFormat}"
+    saveFolder = outdir
+    saveFilename = os.path.join(saveFolder,plotfile)
+
+    cols = 3
+
+    param_dict = {
+                  "pressure":
+                                {"FR": ['pressure'],
+                                 "NR": []
+                                },
+                  "temperature": {"FR": ['temperature'],
+                                 "NR": []
+                                },
+                  "RH": {"FR": [],
+                                 "NR": []
+                                },
+                }
+
+    def plotting_procedure(col,param_dict,parameter,xlabel,xlim=[0,1],ylim=[0,1],scaling_factor=1):
+
+        ax[col].set_xlabel(xlabel, fontsize=axes_fontsize)
+        ax[col].grid(True)
+        ax[col].tick_params(axis='both', which='major', labelsize=18,
+                       right=True, top=True, width=2, length=5)
+        ax[col].tick_params(axis='both', which='minor', width=1.5,
+                       length=3.5, right=True, top=True)
+
+        for n,p in enumerate(param_dict[parameter]["FR"]):
+            if p == None:
+                continue
+            label=f'model {p}'
+            if parameter == 'pressure':
+                    color_ls = ['blue']
+            elif parameter == 'temperature':
+                    color_ls = ['red']
+            elif parameter == 'RH':
+                    color_ls = ['green']
+
+            line_style = '-'
+
+#            if parameter == 'RH':
+#                ax.set_xlabel('Rel.Humidity [%]', fontsize=axes_fontsize)
+#                ax.set_xlim(0,100)
+#                ax.tick_params(axis='both', which='major', labelsize=15,
+#                       right=True, top=True, width=2, length=5)
+#                ax.tick_params(axis='both', which='minor', width=1.5,
+#                       length=3.5, right=True, top=True)
+#                p_RH = ax.plot(nc_dict_profile['RH']*scaling_factor, height_FR/1000,\
+#                    linestyle=line_style,\
+#                    #color=color_ls[n],\
+#                    color='green',
+#                    zorder=2,\
+#                    alpha=1,\
+#                    label='RH')
+#                ax.legend(fontsize=14, loc='upper right', bbox_to_anchor=(0.9, 0.95))
+#            else:
+#                p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor*fixed_LR, height_FR/1000,\
+#                    linestyle=line_style,\
+#                    color=color_ls[n],\
+#                    zorder=2,\
+#                    label=label)
+            p_FR = ax[col].plot(nc_dict_profile[p]*scaling_factor, height_FR/1000,\
+                linestyle=line_style,\
+                color=color_ls[n],\
+                zorder=2,\
+                label=label)
+
+
+        ax[col].set_xlim(xlim[0],xlim[1])
+        ax[col].set_ylim(ylim[0],ylim[1]/1000)
+        ax[col].legend(loc='upper right',fontsize=16)
+    
+    fig, ax = plt.subplots(1,cols, figsize=(25, 17))
+
+    axes_fontsize = 20
+
+#    ## water-vapor calib-constant
+#    try:
+#        wv_calib = float(nc_dict_profile['WVMR___wv_calibration_constant_used'])
+#    except:
+#        wv_calib  = np.nan
+#    fig.text(
+#        0.85, 0.05,
+#        f'WV-calib.const.: {wv_calib:.1f}',fontsize=14, backgroundcolor=[0.94, 0.95, 0.96, 0.8], alpha=1)
+
+
+
+    plotting_procedure(col=0,param_dict=param_dict,parameter="pressure",xlabel="Pressure [hPa]",xlim = [0,1000],ylim=y_max_FR,scaling_factor=1)
+    
+    plotting_procedure(col=1,param_dict=param_dict,parameter="temperature",xlabel="Temperature [°C]",xlim = [-60,40],ylim=y_max_FR,scaling_factor=1)
+    
+    plotting_procedure(col=2,param_dict=param_dict,parameter="RH",xlabel="Rel. Humidity [%]",xlim = [0,100],ylim=y_max_FR)
+    
+    
+
+    plt.tight_layout(rect=[0.05, 0.07, 0.98, 0.95])
+        
+    ax[0].set_ylabel("Height [km]",fontsize=20)
+
+    fig.suptitle(
+        'Summary of meteorological profile plots for {instrument} at {location} {starttime}-{endtime}'.format(
+            instrument=pollyVersion,
+            location=location,
+            starttime=datetime.utcfromtimestamp(int(starttime)).strftime('%Y%m%d %H:%M'),
+            endtime=datetime.utcfromtimestamp(int(endtime)).strftime('%H:%M'),
+#            starttime=starttime.strftime('%Y%m%d %H:%M'),
+#            endtime=endtime.strftime('%H:%M')
+            ),
+        fontsize=22
+        )
+
+
+    # add watermark
+    if flagWatermarkOn:
+        rootDir = os.path.dirname(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        #rootDir = os.getcwd()
+        im_license = matplotlib.image.imread(
+            os.path.join(rootDir, 'img', 'by-sa.png'))
+
+        newax_license = fig.add_axes([0.33, 0.006, 0.14, 0.07], zorder=10)
+        newax_license.imshow(im_license, alpha=0.8, aspect='equal')
+        newax_license.axis('off')
+
+        fig.text(0.5, 0.01, 'Preliminary\nResults.',
+                 fontweight='bold', fontsize=12, color='red',
+                 ha='left', va='bottom', alpha=0.8, zorder=10)
+
+        fig.text(
+            0.75, 0.01,
+            u"\u00A9 {1} {0}.\nCC BY SA 4.0 License.".format(
+                datetime.now().strftime('%Y'), partnerLabel),
+            fontweight='bold', fontsize=10, color='black', ha='left',
+            va='bottom', alpha=1, zorder=10)
+
+    
+    fig.savefig(saveFilename, dpi=figDPI)
+    
+    plt.close()
+
+    ## write2donefilelist
+    readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
+                                    lidar = pollyVersion,
+                                    location = nc_dict_profile['location'],
+                                    starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    last_update = datetime.now(timezone.utc).strftime("%Y%m%d %H:%M:%S"),
+                                    wavelength = 355,
+                                    filename = saveFilename,
+                                    level = 0,
+                                    info = "overview of meteorological parameters for profiles",
+                                    nc_zip_file = nc_dict_profile['PollyDataFile'],
+                                    nc_zip_file_size = 9000000,
+                                    active = 1,
+                                    GDAS = 0,
+                                    GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d')} 12:00:00",
+                                    lidar_ratio = 50,
+                                    software_version = version,
+                                    product_type = f'Profile_summary_meteo_pTRH',
+                                    product_starttime = datetime.utcfromtimestamp(int(nc_dict_profile['start_time'])).strftime('%Y%m%d %H:%M:%S'),
+                                    product_stoptime = datetime.utcfromtimestamp(int(nc_dict_profile['end_time'])).strftime('%Y%m%d %H:%M:%S')
+                                    )
+
 

@@ -38,6 +38,7 @@ config_T15/pollyDefaults/template_polly_defaults.json
 config_T15/template_pollynet_processing_chain_config.json
 config_T15/pollynet_processing_chain_config_links.xlsx
 config_T15/template_pollynet_processing_chain_config_links.xlsx
+lib/io/*.m.bak
 
 # untrack lib/config folder, except template configs
 !lib/config
