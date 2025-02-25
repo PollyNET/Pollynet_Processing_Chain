@@ -54,6 +54,8 @@ function [temp, pres, relh, wins, wind, meteorAttri] = loadMeteor(mTime, asl, va
 %
 % HISTORY:
 %    - 2021-05-22: first edition by Zhenping
+%    - 2025-02-19: modified by C. Jimenez (smoothing added into meteo
+%    profiles)
 %
 % .. Authors: - zhenping@tropos.de
 
@@ -72,6 +74,8 @@ addParameter(p, 'flagTemporalInterp', false, @islogical);
 addParameter(p, 'flagReadLess', false, @islogical);
 addParameter(p, 'method', 'nearest', @ischar);
 addParameter(p, 'isUseLatestGDAS', true, @islogical);
+addParameter(p, 'SmoothMeteo', 7, @isnumeric);
+
 
 parse(p, mTime, asl, varargin{:});
 meteorAttri.dataSource = cell(0);
@@ -114,11 +118,11 @@ for iTime = 1:length(mTimeQry)
     meteorAttri.datetime = cat(2, meteorAttri.datetime, attri.datetime);
 
     % interp the parameters
-    tempI = interpMeteor(altRaw, tempRaw, asl);
-    presI = interpMeteor(altRaw, presRaw, asl);
-    relhI = interpMeteor(altRaw, relhRaw, asl);
-    winsI = interpMeteor(altRaw, winsRaw, asl);
-    windI = interpMeteor(altRaw, windRaw, asl);
+    tempI = transpose(smooth(interpMeteor(altRaw, tempRaw, asl),p.Results.SmoothMeteo,'moving'));
+    presI = transpose(smooth(interpMeteor(altRaw, presRaw, asl),p.Results.SmoothMeteo,'moving'));
+    relhI = transpose(smooth(interpMeteor(altRaw, relhRaw, asl),p.Results.SmoothMeteo,'moving'));
+    winsI = transpose(smooth(interpMeteor(altRaw, winsRaw, asl),p.Results.SmoothMeteo,'moving'));
+    windI = transpose(smooth(interpMeteor(altRaw, windRaw, asl),p.Results.SmoothMeteo,'moving'));
 
     % concatenate the parameters
     tempQry = cat(1, tempQry, tempI);
