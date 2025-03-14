@@ -50,9 +50,14 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        processing report.
 %
 % HISTORY:
-%    - 2021-06-25: first edition by Zhenping
+%    - 2021-06-25: first edition by Zhenping Yin
+%    - 2023-06-06: Overlap function using Raman method was added by Cristofer Jimenez
+%    - 2023-06-14: POLIPHON method (step 1) added by Athena Floutsi
+%    - 2024-08-28: GHK formalism for depol calculation implemented by Moritz Haarig
+%    - 2025-02-19: Smoothing added into meteo profiles, read all meteo data for HR products and interpolate, recalculation of signals using mean shot_number by Cristofer Jimenez 
+%    - 2025-03-14: Compute and save attenuated backscatter co and cross polarized by Cristofer Jimenez
 %
-% .. Authors: - zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de, jimenez@tropos.de, floutsi@tropos.de, haarig@tropos.de
 
 global PicassoConfig
 global CampaignConfig
@@ -4316,6 +4321,27 @@ else
 end
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% Co (para) and cross (perp) polarized components in attenuated backscatter
+print_msg('Start calculating co and cross attenuated backscatter.\n', 'flagTimestamp', true);
+
+data.att_beta_para_355 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355t) == 1) && (sum(flag355c) == 1)
+data.att_beta_para_355=data.att_beta_355./(1+PollyConfig.TR(flag355t)*data.vdr355);
+data.att_beta_perp_355=data.att_beta_para_355.*data.vdr355;
+end
+data.att_beta_para_532 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532t) == 1) && (sum(flag532c) == 1)
+data.att_beta_para_532=data.att_beta_532./(1+PollyConfig.TR(flag532t)*data.vdr532);
+data.att_beta_perp_532=data.att_beta_para_532.*data.vdr532;
+end
+data.att_beta_para_1064 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064t) == 1) && (sum(flag1064c) == 1)
+data.att_beta_para_1064=data.att_beta_1064./(1+PollyConfig.TR(flag1064t)*data.vdr1064);
+data.att_beta_perp_1064=data.att_beta_para_1064.*data.vdr1064;
+end
 %% Quasi-retrieval (V1)
 print_msg('Start quasi-retrieval (V1).\n', 'flagTimestamp', true);
 
