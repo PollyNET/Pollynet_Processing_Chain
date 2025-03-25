@@ -11,8 +11,9 @@ function pollySaveAttnBeta(data)
 %    - 2019-01-10: First Edition by Zhenping
 %    - 2019-05-16: Extended the attributes for all the variables and comply with the ACTRIS convention.
 %    - 2019-09-27: Turn on the netCDF4 compression.
+%    - 2025-03-14: co and cross polarized components were added to the saving list by Cristofer Jimenez
 %
-% .. Authors: - zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de, jimenez@tropos.de
 
 missing_value = -999;
 
@@ -38,8 +39,14 @@ varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
 varID_tilt_angle = netcdf.defVar(ncID, 'tilt_angle', 'NC_FLOAT', dimID_constant);
 varID_att_bsc_355 = netcdf.defVar(ncID, 'attenuated_backscatter_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_para_355 = netcdf.defVar(ncID, 'attenuated_backscatter_para_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_perp_355 = netcdf.defVar(ncID, 'attenuated_backscatter_perp_355nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_att_bsc_532 = netcdf.defVar(ncID, 'attenuated_backscatter_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_para_532 = netcdf.defVar(ncID, 'attenuated_backscatter_para_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_perp_532 = netcdf.defVar(ncID, 'attenuated_backscatter_perp_532nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_att_bsc_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_para_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_para_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_att_bsc_perp_1064 = netcdf.defVar(ncID, 'attenuated_backscatter_perp_1064nm', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quality_mask_355 = netcdf.defVar(ncID, 'quality_mask_355nm', 'NC_BYTE', [dimID_height, dimID_time]);
 varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532nm', 'NC_BYTE', [dimID_height, dimID_time]);
 varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064nm', 'NC_BYTE', [dimID_height, dimID_time]);
@@ -51,6 +58,12 @@ varID_SNR_1064 = netcdf.defVar(ncID, 'SNR_1064nm', 'NC_FLOAT', [dimID_height, di
 netcdf.defVarFill(ncID, varID_att_bsc_355, false, missing_value);
 netcdf.defVarFill(ncID, varID_att_bsc_532, false, missing_value);
 netcdf.defVarFill(ncID, varID_att_bsc_1064, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_para_355, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_para_532, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_para_1064, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_perp_355, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_perp_532, false, missing_value);
+netcdf.defVarFill(ncID, varID_att_bsc_perp_1064, false, missing_value);
 netcdf.defVarFill(ncID, varID_quality_mask_355, false, 1);
 netcdf.defVarFill(ncID, varID_quality_mask_532, false, 1);
 netcdf.defVarFill(ncID, varID_quality_mask_1064, false, 1);
@@ -62,6 +75,12 @@ netcdf.defVarFill(ncID, varID_SNR_1064, false, missing_value);
 netcdf.defVarDeflate(ncID, varID_att_bsc_355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_att_bsc_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_att_bsc_1064, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_para_355, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_para_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_para_1064, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_perp_355, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_perp_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_att_bsc_perp_1064, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quality_mask_355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quality_mask_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quality_mask_1064, true, true, 5);
@@ -87,6 +106,12 @@ netcdf.putVar(ncID, varID_tilt_angle, single(data.angle));
 netcdf.putVar(ncID, varID_att_bsc_355, single(fillmissing(data.att_beta_355, missing_value)));
 netcdf.putVar(ncID, varID_att_bsc_532, single(fillmissing(data.att_beta_532, missing_value)));
 netcdf.putVar(ncID, varID_att_bsc_1064, single(fillmissing(data.att_beta_1064, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_para_355, single(fillmissing(data.att_beta_para_355, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_para_532, single(fillmissing(data.att_beta_para_532, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_para_1064, single(fillmissing(data.att_beta_para_1064, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_perp_355, single(fillmissing(data.att_beta_perp_355, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_perp_532, single(fillmissing(data.att_beta_perp_532, missing_value)));
+netcdf.putVar(ncID, varID_att_bsc_perp_1064, single(fillmissing(data.att_beta_perp_1064, missing_value)));
 netcdf.putVar(ncID, varID_quality_mask_355, int8(fillmissing(data.quality_mask_355, 1)));
 netcdf.putVar(ncID, varID_quality_mask_532, int8(fillmissing(data.quality_mask_532, 1)));
 netcdf.putVar(ncID, varID_quality_mask_1064, int8(fillmissing(data.quality_mask_1064, 1)));
@@ -184,6 +209,85 @@ netcdf.putAtt(ncID, varID_att_bsc_1064, 'Lidar_calibration_constant_used', data.
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'error_variable', 'att_beta_1064_error');
 % netcdf.putAtt(ncID, varID_att_bsc_1064, 'bias_variable', 'att_beta_1064_bias');
 netcdf.putAtt(ncID, varID_att_bsc_1064, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter.');
+
+% att_bsc_para_355
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'long_name', 'co polarized attenuated backscatter at 355 nm');
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'standard_name', 'att_beta_para_355');
+%netcdf.putAtt(ncID, varID_att_bsc_para_355, 'plot_range', PollyConfig.zLim_att_beta_355/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_para_355, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_para_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
+% netcdf.putAtt(ncID, varID_att_bsc_para_355, 'error_variable', 'att_beta_355_error');
+% netcdf.putAtt(ncID, varID_att_bsc_para_355, 'bias_variable', 'att_beta_355_bias');
+netcdf.putAtt(ncID, varID_att_bsc_para_355, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter. It also make uses of the volume depolarization ratio to get the co polarized component');
+
+% att_bsc_para_532
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'long_name', 'co polarized attenuated backscatter at 532 nm');
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'standard_name', 'att_beta_532');
+%netcdf.putAtt(ncID, varID_att_bsc_para_532, 'plot_range', PollyConfig.zLim_att_beta_532/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_para_532, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_para_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
+% netcdf.putAtt(ncID, varID_att_bsc_para_532, 'error_variable', 'att_beta_532_error');
+% netcdf.putAtt(ncID, varID_att_bsc_para_532, 'bias_variable', 'att_beta_532_bias');
+netcdf.putAtt(ncID, varID_att_bsc_para_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter. It also make uses of the volume depolarization ratio to get the co polarized component');
+
+% att_bsc_para_1064
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'long_name', 'co polarized attenuated backscatter at 1064 nm');
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'standard_name', 'att_beta_1064');
+%netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'plot_range', PollyConfig.zLim_att_beta_1064/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
+% netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'error_variable', 'att_beta_1064_error');
+% netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'bias_variable', 'att_beta_1064_bias');
+netcdf.putAtt(ncID, varID_att_bsc_para_1064, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter. It also make uses of the volume depolarization ratio to get the cross polarized component');
+
+
+% att_bsc_perp_355
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'long_name', 'cross polarized attenuated backscatter at 355 nm');
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'standard_name', 'att_beta_perp_355');
+%netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'plot_range', PollyConfig.zLim_att_beta_355/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
+% netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'error_variable', 'att_beta_355_error');
+% netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'bias_variable', 'att_beta_355_bias');
+netcdf.putAtt(ncID, varID_att_bsc_perp_355, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter. It also make uses of the volume depolarization ratio to get the cross polarized component');
+
+% att_bsc_perp_532
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'long_name', 'cross polarized attenuated backscatter at 532 nm');
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'standard_name', 'att_beta_532');
+%netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'plot_range', PollyConfig.zLim_att_beta_532/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
+% netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'error_variable', 'att_beta_532_error');
+% netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'bias_variable', 'att_beta_532_bias');
+netcdf.putAtt(ncID, varID_att_bsc_perp_532, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter. It also make uses of the volume depolarization ratio to get the cross polarized component');
+
+% att_bsc_perp_1064
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'long_name', 'cross polarized attenuated backscatter at 1064 nm');
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'standard_name', 'att_beta_1064');
+%netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'plot_range', PollyConfig.zLim_att_beta_1064/1e6);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'source', CampaignConfig.name);
+%netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
+% netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'error_variable', 'att_beta_1064_error');
+% netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'bias_variable', 'att_beta_1064_bias');
+netcdf.putAtt(ncID, varID_att_bsc_perp_1064, 'comment', 'This parameter is calculated with taking into account of the effects of lidar constants. Therefore, it reflects the concentration of aerosol and molecule backscatter.');
 
 % quality_mask_355
 netcdf.putAtt(ncID, varID_quality_mask_355, 'unit', '');
