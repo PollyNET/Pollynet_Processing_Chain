@@ -1,4 +1,4 @@
-function data = pollyPreprocess(data, varargin)
+function data = pollyPreprocess(data,PollyConfig, varargin)
 % POLLYPREPROCESS Deadtime correction, background correction, first-bin shift, mask for low-SNR and mask for depolarization-calibration process.
 %
 % USAGE:
@@ -199,6 +199,8 @@ addParameter(p, 'flag355nmRotRaman', false, @islogical);
 addParameter(p, 'flag532nmRotRaman', false, @islogical);
 addParameter(p, 'flag1064nmRotRaman', false, @islogical);
 addParameter(p, 'flagUseLatestGDAS', false, @islogical);
+addParameter(p, 'depol_cali_mode', 1, @isnumeric);
+%addParameter(p,PollyConfig.depol_cal_time_fixed_p_start, config.depol_cal_time_fixed_p_start
 
 parse(p, data, varargin{:});
 
@@ -341,11 +343,20 @@ for iChannel = 1: size(data.signal, 1)
 end
 
 %% Mask for polarization calibration
+if config.depol_cali_mode==1 
 [data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
  data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
  depCalMask] = pollyPolCaliTime(data.depCalAng, data.mTime, ...
                                 config.initialPolAngle, config.maskPolCalAngle);
 data.depCalMask = transpose(depCalMask);
+elseif config.depol_cali_mode==2
+    [data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, data.depCalMask] = polly_depolCal_fixed_time(data.mTime, PollyConfig.depol_cal_time_fixed_p_start, PollyConfig.depol_cal_time_fixed_p_end, PollyConfig.depol_cal_time_fixed_m_start, PollyConfig.depol_cal_time_fixed_m_end);
+else
+   fprintf('No depol calibration possible.\n');
+end
+
+    
+    
 
 %% Mask for laser shutter
 flagChannel532FR = config.flagFarRangeChannel & config.flag532nmChannel & config.flagTotalChannel;
