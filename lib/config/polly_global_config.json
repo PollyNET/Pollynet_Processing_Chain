@@ -260,6 +260,7 @@
     "zLim_quasi_beta_532": [0, 6],
     "zLim_quasi_beta_1064": [0, 3],
     "zLim_quasi_Par_DR_532": [0, 0.4],
+    "zLim_quasi_ANG": [-1,3],
     "zLim_FR_RCS_355": [1e-2, 30],
     "zLim_FR_RCS_387": [1e-2, 30],
     "zLim_FR_RCS_407": [1e-2, 35],
