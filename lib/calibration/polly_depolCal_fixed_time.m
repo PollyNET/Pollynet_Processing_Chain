@@ -143,16 +143,16 @@ end
 % convert timestamp to matlab datenum
  
 
-p_start_dn = seconds(datenum([depCal_p_start{:}], 'HH:MM:SS'));   % ATTENTION: no date information
+p_start_dn = datenum([depCal_p_start{:}], 'HH:MM:SS')- datenum('00:00:00', 'HH:MM:SS');   % ATTENTION: no date information
  
 
-p_end_dn = seconds(datenum([depCal_p_end{:}], 'HH:MM:SS'));
+p_end_dn = datenum([depCal_p_end{:}], 'HH:MM:SS')- datenum('00:00:00', 'HH:MM:SS');
  
 
-m_start_dn = seconds(datenum([depCal_m_start{:}], 'HH:MM:SS'));
+m_start_dn = datenum([depCal_m_start{:}], 'HH:MM:SS')- datenum('00:00:00', 'HH:MM:SS');
  
 
-m_end_dn = seconds(datenum([depCal_m_end{:}], 'HH:MM:SS'));
+m_end_dn = datenum([depCal_m_end{:}], 'HH:MM:SS')- datenum('00:00:00', 'HH:MM:SS');
  
 
 
