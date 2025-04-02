@@ -80,12 +80,19 @@ end
 
 maskDepCal = transpose(p_depcal_mask | m_depcal_mask);
  
-for iCal = 1:num_m
-    i_p_depcal_time = mTime(L_p == iCal);   % timestamp for the ith depolarization calibration at positive angle.
-    depCal_P_Ang_time_start = cat(2, depCal_P_Ang_time_start, i_p_depcal_time(1));
-    depCal_P_Ang_time_end = cat(2, depCal_P_Ang_time_end, i_p_depcal_time(end));
-    i_m_depcal_time = mTime(L_m == iCal);   % timestamp for the ith depolarization calibration at negative angle.
-    depCal_N_Ang_time_start = cat(2, depCal_N_Ang_time_start, i_m_depcal_time(1));
-    depCal_N_Ang_time_end = cat(2, depCal_N_Ang_time_end, i_m_depcal_time(end));
-end
+depCal_P_Ang_time_start = datenum([depCal_p_start{:}], 'HH:MM:SS');   % ATTENTION: no date information
+depCal_P_Ang_time_end   = datenum([depCal_p_end{:}], 'HH:MM:SS');
+depCal_N_Ang_time_start = datenum([depCal_m_start{:}], 'HH:MM:SS');
+depCal_N_Ang_time_end   = datenum([depCal_m_end{:}], 'HH:MM:SS');
+
+
+
+% for iCal = 1:num_m
+%     i_p_depcal_time = mTime(L_p == iCal);   % timestamp for the ith depolarization calibration at positive angle.
+%     depCal_P_Ang_time_start = cat(2, depCal_P_Ang_time_start, i_p_depcal_time(1));
+%     depCal_P_Ang_time_end = cat(2, depCal_P_Ang_time_end, i_p_depcal_time(end));
+%     i_m_depcal_time = mTime(L_m == iCal);   % timestamp for the ith depolarization calibration at negative angle.
+%     depCal_N_Ang_time_start = cat(2, depCal_N_Ang_time_start, i_m_depcal_time(1));
+%     depCal_N_Ang_time_end = cat(2, depCal_N_Ang_time_end, i_m_depcal_time(end));
+% end
 end
