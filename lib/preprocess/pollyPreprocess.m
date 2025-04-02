@@ -352,8 +352,13 @@ if config.depol_cali_mode==1
 elseif config.depol_cali_mode==2
    [data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, depCalMask] = polly_depolCal_fixed_time(data.mTime, PollyConfig.depol_cal_time_fixed_p_start, PollyConfig.depol_cal_time_fixed_p_end, PollyConfig.depol_cal_time_fixed_m_start, PollyConfig.depol_cal_time_fixed_m_end);
     data.depCalMask = transpose(depCalMask);
-else
-  fprintf('No depol calibration possible.\n');
+else  %no clue why this is needed
+  fprintf('No depol calibration possible.\n')
+  [data.depol_cal_ang_p_time_start, data.depol_cal_ang_p_time_end, ...
+  data.depol_cal_ang_n_time_start, data.depol_cal_ang_n_time_end, ...
+  depCalMask] = pollyPolCaliTime(data.depCalAng, data.mTime, ...
+  config.initialPolAngle, config.maskPolCalAngle);
+  data.depCalMask = transpose(depCalMask);
 end
 
     
