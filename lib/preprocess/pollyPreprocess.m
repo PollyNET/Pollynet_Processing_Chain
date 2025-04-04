@@ -298,10 +298,11 @@ data.signal = sigBGCor;
 
 %% Height (first bin height correction)
 data.height = double((0:(size(data.signal, 2)-1)) * data.hRes * ...
-    cos(data.zenithAng / 180 * pi) + config.firstBinHeight);   % [m]
+    cos(data.zenithAng / 180 * pi) + config.firstBinHeight * cos(data.zenithAng / 180 * pi));   % [m]
 data.alt = double(data.height + config.asl);   % geopotential height
 % distance between range bin and system.
-data.distance0 = double(data.height ./ cos(data.zenithAng / 180 * pi));
+%data.distance0 = double(data.height ./ cos(data.zenithAng / 180 * pi));
+data.distance0 = double((0:(size(data.signal, 2)-1)) * data.hRes + config.firstBinHeight);
 
 %% Temperature effect correction (for Raman signal)
 if config.flagSigTempCor
