@@ -761,14 +761,14 @@ print_msg('Finish\n', 'flagTimestamp', true);
 
 %% Calculate molecular scattering properties
 for iGrp = 1:size(clFreGrps, 1)
-        [mBsc355(iGrp,:), mExt355(iGrp,:)] = rayleigh_scattering(355,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc387(iGrp,:), mExt387(iGrp,:)] = rayleigh_scattering(387,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc407(iGrp,:), mExt407(iGrp,:)] = rayleigh_scattering(407,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc532(iGrp,:), mExt532(iGrp,:)] = rayleigh_scattering(532,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc607(iGrp,:), mExt607(iGrp,:)] = rayleigh_scattering(607,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc1058(iGrp,:), mExt1058(iGrp,:)] = rayleigh_scattering(1058,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        [mBsc1064(iGrp,:), mExt1064(iGrp,:)] = rayleigh_scattering(1064,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17, 380, 70);
-        number_density(iGrp,:) = number_density_at_pt(data.pressure(iGrp, :), data.temperature(iGrp, :)+ 273.17, 70, true);
+        [mBsc355(iGrp,:), mExt355(iGrp,:)] = rayleigh_scattering(355,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc387(iGrp,:), mExt387(iGrp,:)] = rayleigh_scattering(387,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc407(iGrp,:), mExt407(iGrp,:)] = rayleigh_scattering(407,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc532(iGrp,:), mExt532(iGrp,:)] = rayleigh_scattering(532,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc607(iGrp,:), mExt607(iGrp,:)] = rayleigh_scattering(607,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc1058(iGrp,:), mExt1058(iGrp,:)] = rayleigh_scattering(1058,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        [mBsc1064(iGrp,:), mExt1064(iGrp,:)] = rayleigh_scattering(1064,  data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15, 380, 70);
+        number_density(iGrp,:) = number_density_at_pt(data.pressure(iGrp, :), data.temperature(iGrp, :)+ 273.15, 70, true);
         data.molBsc355(iGrp,:)= mBsc355(iGrp,:);
         data.molBsc532(iGrp,:)= mBsc532(iGrp,:);
         data.molBsc1064(iGrp,:)= mBsc1064(iGrp,:);
@@ -3421,7 +3421,7 @@ if PollyConfig.flagWVCalibration
 
         trans387 = exp(-cumsum(mExt387(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
         trans407 = exp(-cumsum(mExt407(iGrp,:) .* [data.distance0(1), diff(data.distance0)]));
-        rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
+        rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15);
 
         [thisWVconst, thisWVconstStd, thisWVAttri] = pollyWVCali(data.height, ...
             sig387, bg387, sig407, E_tot_1064_IWV, E_tot_1064_cali, E_tot_1064_cali_std, ...
@@ -3489,7 +3489,7 @@ for iGrp = 1:size(clFreGrps, 1)
 
     % calculate saturated water vapor pressure
     es = saturated_vapor_pres(data.temperature(iGrp, :));
-    rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.17);
+    rhoAir = rho_air(data.pressure(iGrp, :), data.temperature(iGrp, :) + 273.15);
 
     % calculate wvmr and rh
     data.wvmr(iGrp, :) = sig407 ./ sig387 .* trans387 ./ trans407 .* data.wvconstUsed;
@@ -3578,8 +3578,8 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     temperature = transpose(interp2(TimeMg, HeightMg, temp, mTimeg, Heightg, 'linear'));
     pressure = transpose(interp2(TimeMg, HeightMg, pres, mTimeg, Heightg, 'linear'));
     % calculate the molecule optical properties
-    [~, mExt387_highres] = rayleigh_scattering(387, pres, temp + 273.17, 380, 70);
-    [~, mExt407_highres] = rayleigh_scattering(407, pres, temp + 273.17, 380, 70);
+    [~, mExt387_highres] = rayleigh_scattering(387, pres, temp + 273.15, 380, 70);
+    [~, mExt407_highres] = rayleigh_scattering(407, pres, temp + 273.15, 380, 70);
     trans387 = exp(- cumsum(mExt387_highres .* [data.distance0(1), diff(data.distance0)]));
     trans407 = exp(- cumsum(mExt407_highres .* [data.distance0(1), diff(data.distance0)]));
     TRANS387 = transpose(interp2(TimeMg, HeightMg, trans387, mTimeg, Heightg, 'linear'));
@@ -3589,7 +3589,7 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     ES = saturated_vapor_pres(temperature);
 
 
-    % rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.17);
+    % rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.15);
     % RHOAIR = repmat(rhoAir, 1, length(data.mTime));
     % DIFFHeight = repmat(transpose([data.height(1), diff(data.height)]), 1, length(data.mTime));
 
@@ -4371,7 +4371,7 @@ if (sum(flag355t) == 1)
 
     % Rayleigh scattering
 %---------------achtung
-    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
+    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.15, 380, 70);
     mBsc355 = transpose(interp2(TimeMg, HeightMg, mBsc355, mTimeg, Heightg, 'linear'));
     mExt355 = transpose(interp2(TimeMg, HeightMg, mExt355, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
@@ -4396,7 +4396,7 @@ if (sum(flag532t) == 1)
     att_beta_532_qsi = smooth2(att_beta_532_qsi, PollyConfig.quasi_smooth_h(flag532t), PollyConfig.quasi_smooth_t(flag532t));
 
     % Rayleigh scattering
-    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
   %achtung
     mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
     mExt532 = transpose(interp2(TimeMg, HeightMg, mExt532, mTimeg, Heightg, 'linear'));
@@ -4423,7 +4423,7 @@ if (sum(flag1064t) == 1)
 
     % Rayleigh scattering
 %achtung
-    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
+    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.15, 380, 70);
     mBsc1064 = transpose(interp2(TimeMg, HeightMg, mBsc1064, mTimeg, Heightg, 'linear'));
     mExt1064 = transpose(interp2(TimeMg, HeightMg, mExt1064, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
@@ -4452,7 +4452,7 @@ if flagGHK
         sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532c), PollyConfig.quasi_smooth_t(flag532c));
 
         % Rayleigh scattering
-        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
         mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
@@ -4476,7 +4476,7 @@ else
         sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532c), PollyConfig.quasi_smooth_t(flag532c));
 
         % Rayleigh scattering
-        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
         mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
@@ -4558,8 +4558,8 @@ if (sum(flag355t) == 1) && (sum(flag387FR) == 1)
     att_beta_387_qsi = smooth2(att_beta_387_qsi, PollyConfig.quasi_smooth_h(flag387FR), PollyConfig.quasi_smooth_t(flag387FR));
 
     % Rayleigh scattering
-    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
-    [~, mExt387] = rayleigh_scattering(387, pressure, temperature + 273.17, 380, 70);
+    [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.15, 380, 70);
+    [~, mExt387] = rayleigh_scattering(387, pressure, temperature + 273.15, 380, 70);
     mBsc355 = transpose(interp2(TimeMg, HeightMg, mBsc355, mTimeg, Heightg, 'linear'));
     mExt355 = transpose(interp2(TimeMg, HeightMg, mExt355, mTimeg, Heightg, 'linear'));
     mExt387 = transpose(interp2(TimeMg, HeightMg, mExt387, mTimeg, Heightg, 'linear'));
@@ -4582,8 +4582,8 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607FR), PollyConfig.quasi_smooth_t(flag607FR));
 
     % Rayleigh scattering
-    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-    [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
+    [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
+    [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.15, 380, 70);
     mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
     mExt532 = transpose(interp2(TimeMg, HeightMg, mExt532, mTimeg, Heightg, 'linear'));
     mExt607 = transpose(interp2(TimeMg, HeightMg, mExt607, mTimeg, Heightg, 'linear'));
@@ -4606,8 +4606,8 @@ if (sum(flag1064t) == 1) && (sum(flag607FR) == 1)
     att_beta_607_qsi = smooth2(att_beta_607_qsi, PollyConfig.quasi_smooth_h(flag607FR), PollyConfig.quasi_smooth_t(flag607FR));
 
     % Rayleigh scattering
-    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
-    [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
+    [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.15, 380, 70);
+    [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.15, 380, 70);
     mBsc1064 = transpose(interp2(TimeMg, HeightMg, mBsc1064, mTimeg, Heightg, 'linear'));
     mExt1064 = transpose(interp2(TimeMg, HeightMg, mExt1064, mTimeg, Heightg, 'linear'));
     mExt607 = transpose(interp2(TimeMg, HeightMg, mExt607, mTimeg, Heightg, 'linear'));
@@ -4632,7 +4632,7 @@ if flagGHK
         sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532c), PollyConfig.quasi_smooth_t(flag532c));
 
         % Rayleigh scattering
-        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
         mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));    
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
@@ -4656,7 +4656,7 @@ else
         sig532CSm = smooth2(sig532C, PollyConfig.quasi_smooth_h(flag532c), PollyConfig.quasi_smooth_t(flag532c));
 
         % Rayleigh scattering
-        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
+        [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.15, 380, 70);
         mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));    
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;

@@ -315,7 +315,7 @@ if config.flagSigTempCor
         'radiosondeType', config.radiosondeType, ...
         'method', 'linear', ...
         'isUseLatestGDAS', config.flagUseLatestGDAS);
-    absTemp = temperature + 273.17;
+    absTemp = temperature + 273.15;
 
     for iCh = 1:size(data.signal, 1)
         leadingChar = config.tempCorFunc{iCh}(1);
