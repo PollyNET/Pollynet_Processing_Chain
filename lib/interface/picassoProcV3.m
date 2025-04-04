@@ -50,9 +50,14 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %        processing report.
 %
 % HISTORY:
-%    - 2021-06-25: first edition by Zhenping
+%    - 2021-06-25: first edition by Zhenping Yin
+%    - 2023-06-06: Overlap function using Raman method was added by Cristofer Jimenez
+%    - 2023-06-14: POLIPHON method (step 1) added by Athena Floutsi
+%    - 2024-08-28: GHK formalism for depol calculation implemented by Moritz Haarig
+%    - 2025-02-19: Smoothing added into meteo profiles, read all meteo data for HR products and interpolate, recalculation of signals using mean shot_number by Cristofer Jimenez 
+%    - 2025-03-14: Compute and save attenuated backscatter co and cross polarized by Cristofer Jimenez
 %
-% .. Authors: - zhenping@tropos.de
+% .. Authors: - zhenping@tropos.de, jimenez@tropos.de, floutsi@tropos.de, haarig@tropos.de
 
 global PicassoConfig
 global CampaignConfig
@@ -3528,6 +3533,11 @@ data.quality_mask_WVMR = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 data.quality_mask_RH = 3 * ones(size(data.signal, 2), size(data.signal, 3));
 ones_WV=  ones(size(data.signal, 2), size(data.signal, 3));
 
+TimeM=floor(data.mTime(1)*24/3)*3/24-3/24:3/24:ceil(data.mTime(end)*24/3)*3/24+3/24; %timegrid to search gdas files (3h step)
+
+[TimeMg, HeightMg] = meshgrid(data.height, TimeM); %mehsgrids for 2d interpolation
+[mTimeg, Heightg] = meshgrid(data.height, data.mTime);
+
 if (sum(flag387FR) == 1) && (sum(flag407 == 1))
 
     sig387 = squeeze(data.signal(flag387FR, :, :));
@@ -3556,7 +3566,7 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
 
     % read the meteorological data
     [temp, pres, ~, ~] = loadMeteor(...
-                            mean(data.mTime), data.alt, ...
+                            TimeM, data.alt, ...
                             'meteorDataSource', PollyConfig.meteorDataSource, ...
                             'gdas1Site', PollyConfig.gdas1Site, ...
                             'meteo_folder', PollyConfig.meteo_folder, ...
@@ -3565,19 +3575,19 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
                             'radiosondeType', PollyConfig.radiosondeType);
 
     % repmat the array to matrix as the size of data.signal
-    temperature = repmat(transpose(temp), 1, length(data.mTime));
-    pressure = repmat(transpose(pres), 1, length(data.mTime));
+    temperature = transpose(interp2(TimeMg, HeightMg, temp, mTimeg, Heightg, 'linear'));
+    pressure = transpose(interp2(TimeMg, HeightMg, pres, mTimeg, Heightg, 'linear'));
     % calculate the molecule optical properties
-    [~, mExt387_highres] = rayleigh_scattering(387, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
-    [~, mExt407_highres] = rayleigh_scattering(407, transpose(pressure(:, 1)), transpose(temperature(:, 1)) + 273.17, 380, 70);
+    [~, mExt387_highres] = rayleigh_scattering(387, pres, temp + 273.17, 380, 70);
+    [~, mExt407_highres] = rayleigh_scattering(407, pres, temp + 273.17, 380, 70);
     trans387 = exp(- cumsum(mExt387_highres .* [data.distance0(1), diff(data.distance0)]));
     trans407 = exp(- cumsum(mExt407_highres .* [data.distance0(1), diff(data.distance0)]));
-    TRANS387 = repmat(transpose(trans387), 1, length(data.mTime));
-    TRANS407 = repmat(transpose(trans407), 1, length(data.mTime));
+    TRANS387 = transpose(interp2(TimeMg, HeightMg, trans387, mTimeg, Heightg, 'linear'));
+    TRANS407 = transpose(interp2(TimeMg, HeightMg, trans407, mTimeg, Heightg, 'linear'));
 
     % calculate the saturation water vapor pressure
-    es = saturated_vapor_pres(temperature(:, 1));
-    ES = repmat(es, 1, length(data.mTime));
+    ES = saturated_vapor_pres(temperature);
+
 
     % rhoAir = rho_air(pressure(:, 1), temperature(:, 1) + 273.17);
     % RHOAIR = repmat(rhoAir, 1, length(data.mTime));
@@ -4170,75 +4180,75 @@ print_msg('Finish\n', 'flagTimestamp', true);
 %% attenuated backscatter
 print_msg('Start calculating attenuated backscatter.\n', 'flagTimestamp', true);
 
-data.att_beta_355 = NaN(length(data.height), length(data.mTime));
+data.att_beta_355 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag355t) == 1)
-    data.att_beta_355 = squeeze(data.signal(flag355t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
+    data.att_beta_355 = squeeze(data.signal(flag355t, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_355(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_532 = NaN(length(data.height), length(data.mTime));
+data.att_beta_532 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag532t) == 1)
-    data.att_beta_532 = squeeze(data.signal(flag532t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
+    data.att_beta_532 = squeeze(data.signal(flag532t, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_532(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_1064 = NaN(length(data.height), length(data.mTime));
+data.att_beta_1064 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag1064t) == 1)
-    data.att_beta_1064 = squeeze(data.signal(flag1064t, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
+    data.att_beta_1064 = squeeze(data.signal(flag1064t, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_1064(:, data.depCalMask) = NaN;
 end
 
-att_beta_387 = NaN(length(data.height), length(data.mTime));
+att_beta_387 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag387FR) == 1)
-    att_beta_387 = squeeze(data.signal(flag387FR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
+    att_beta_387 = squeeze(data.signal(flag387FR, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
     att_beta_387(:, data.depCalMask) = NaN;
 end
 
-att_beta_607 = NaN(length(data.height), length(data.mTime));
+att_beta_607 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag607FR) == 1)
-    att_beta_607 = squeeze(data.signal(flag607FR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
+    att_beta_607 = squeeze(data.signal(flag607FR, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
     att_beta_607(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_OC_355 = NaN(length(data.height), length(data.mTime));
+data.att_beta_OC_355 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag355t) == 1)
-    data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
+    data.att_beta_OC_355 = data.sigOLCor355 .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355;
     data.att_beta_OC_355(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_OC_532 = NaN(length(data.height), length(data.mTime));
+data.att_beta_OC_532 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag532t) == 1)
-    data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
+    data.att_beta_OC_532 = data.sigOLCor532 .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532;
     data.att_beta_OC_532(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_OC_1064 = NaN(length(data.height), length(data.mTime));
+data.att_beta_OC_1064 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag1064t) == 1)
-    data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
+    data.att_beta_OC_1064 = data.sigOLCor1064 .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed1064;
     data.att_beta_OC_1064(:, data.depCalMask) = NaN;
 end
 
-% att_beta_OC_387 = NaN(length(data.height), length(data.mTime));
+% att_beta_OC_387 = NaN(length(data.distance0), length(data.mTime));
 % if (sum(flag387FR) == 1)
-%     att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
+%     att_beta_OC_387 = sigOLCor387 .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed387;
 %     att_beta_OC_387(:, data.depCalMask) = NaN;
 % end
 
-% att_beta_OC_607 = NaN(length(data.height), length(data.mTime));
+% att_beta_OC_607 = NaN(length(data.distance0), length(data.mTime));
 % if (sum(flag607FR) == 1)
-%     att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
+%     att_beta_OC_607 = sigOLCor607 .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed607;
 %     att_beta_OC_607(:, data.depCalMask) = NaN;
 % end
 
-data.att_beta_NR_355 = NaN(length(data.height), length(data.mTime));
+data.att_beta_NR_355 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag355NR) == 1)
-    data.att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355NR;
+    data.att_beta_NR_355 = squeeze(data.signal(flag355NR, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed355NR;
     data.att_beta_NR_355(:, data.depCalMask) = NaN;
 end
 
-data.att_beta_NR_532 = NaN(length(data.height), length(data.mTime));
+data.att_beta_NR_532 = NaN(length(data.distance0), length(data.mTime));
 if (sum(flag532NR) == 1)
-    data.att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.height), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532NR;
+    data.att_beta_NR_532 = squeeze(data.signal(flag532NR, :, :)) .* repmat(transpose(data.distance0), 1, length(data.mTime)).^2 / data.LCUsed.LCUsed532NR;
     data.att_beta_NR_532(:, data.depCalMask) = NaN;
 end
 
@@ -4311,11 +4321,32 @@ else
 end
 print_msg('Finish.\n', 'flagTimestamp', true);
 
+%% Co (para) and cross (perp) polarized components in attenuated backscatter
+print_msg('Start calculating co and cross attenuated backscatter.\n', 'flagTimestamp', true);
+
+data.att_beta_para_355 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_355 = NaN(length(data.height), length(data.mTime));
+if (sum(flag355t) == 1) && (sum(flag355c) == 1)
+data.att_beta_para_355=data.att_beta_355./(1+PollyConfig.TR(flag355t)*data.vdr355);
+data.att_beta_perp_355=data.att_beta_para_355.*data.vdr355;
+end
+data.att_beta_para_532 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_532 = NaN(length(data.height), length(data.mTime));
+if (sum(flag532t) == 1) && (sum(flag532c) == 1)
+data.att_beta_para_532=data.att_beta_532./(1+PollyConfig.TR(flag532t)*data.vdr532);
+data.att_beta_perp_532=data.att_beta_para_532.*data.vdr532;
+end
+data.att_beta_para_1064 = NaN(length(data.height), length(data.mTime));
+data.att_beta_perp_1064 = NaN(length(data.height), length(data.mTime));
+if (sum(flag1064t) == 1) && (sum(flag1064c) == 1)
+data.att_beta_para_1064=data.att_beta_1064./(1+PollyConfig.TR(flag1064t)*data.vdr1064);
+data.att_beta_perp_1064=data.att_beta_para_1064.*data.vdr1064;
+end
 %% Quasi-retrieval (V1)
 print_msg('Start quasi-retrieval (V1).\n', 'flagTimestamp', true);
 
 % load meteorological data
-[temperature, pressure, ~, ~, ~, thisMeteorAttri] = loadMeteor(mean(data.mTime), data.alt, ...
+[temperature, pressure, ~, ~, ~, thisMeteorAttri] = loadMeteor(TimeM, data.alt, ...
     'meteorDataSource', PollyConfig.meteorDataSource, ...
     'gdas1Site', PollyConfig.gdas1Site, ...
     'meteo_folder', PollyConfig.meteo_folder, ...
@@ -4341,8 +4372,8 @@ if (sum(flag355t) == 1)
     % Rayleigh scattering
 %---------------achtung
     [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
-    mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
-    mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
+    mBsc355 = transpose(interp2(TimeMg, HeightMg, mBsc355, mTimeg, Heightg, 'linear'));
+    mExt355 = transpose(interp2(TimeMg, HeightMg, mExt355, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4367,8 +4398,8 @@ if (sum(flag532t) == 1)
     % Rayleigh scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
   %achtung
-    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
-    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
+    mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
+    mExt532 = transpose(interp2(TimeMg, HeightMg, mExt532, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4393,8 +4424,8 @@ if (sum(flag1064t) == 1)
     % Rayleigh scattering
 %achtung
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
-    mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
-    mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
+    mBsc1064 = transpose(interp2(TimeMg, HeightMg, mBsc1064, mTimeg, Heightg, 'linear'));
+    mExt1064 = transpose(interp2(TimeMg, HeightMg, mExt1064, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4422,7 +4453,7 @@ if flagGHK
 
         % Rayleigh scattering
         [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+        mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4446,7 +4477,7 @@ else
 
         % Rayleigh scattering
         [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+        mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4529,9 +4560,9 @@ if (sum(flag355t) == 1) && (sum(flag387FR) == 1)
     % Rayleigh scattering
     [mBsc355, mExt355] = rayleigh_scattering(355, pressure, temperature + 273.17, 380, 70);
     [~, mExt387] = rayleigh_scattering(387, pressure, temperature + 273.17, 380, 70);
-    mBsc355 = repmat(transpose(mBsc355), 1, length(data.mTime));
-    mExt355 = repmat(transpose(mExt355), 1, length(data.mTime));
-    mExt387 = repmat(transpose(mExt387), 1, length(data.mTime));
+    mBsc355 = transpose(interp2(TimeMg, HeightMg, mBsc355, mTimeg, Heightg, 'linear'));
+    mExt355 = transpose(interp2(TimeMg, HeightMg, mExt355, mTimeg, Heightg, 'linear'));
+    mExt387 = transpose(interp2(TimeMg, HeightMg, mExt387, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4553,9 +4584,9 @@ if (sum(flag532t) == 1) && (sum(flag607FR) == 1)
     % Rayleigh scattering
     [mBsc532, mExt532] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
     [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
-    mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
-    mExt532 = repmat(transpose(mExt532), 1, length(data.mTime));
-    mExt607 = repmat(transpose(mExt607), 1, length(data.mTime));
+    mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));
+    mExt532 = transpose(interp2(TimeMg, HeightMg, mExt532, mTimeg, Heightg, 'linear'));
+    mExt607 = transpose(interp2(TimeMg, HeightMg, mExt607, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4577,9 +4608,9 @@ if (sum(flag1064t) == 1) && (sum(flag607FR) == 1)
     % Rayleigh scattering
     [mBsc1064, mExt1064] = rayleigh_scattering(1064, pressure, temperature + 273.17, 380, 70);
     [~, mExt607] = rayleigh_scattering(607, pressure, temperature + 273.17, 380, 70);
-    mBsc1064 = repmat(transpose(mBsc1064), 1, length(data.mTime));
-    mExt1064 = repmat(transpose(mExt1064), 1, length(data.mTime));
-    mExt607 = repmat(transpose(mExt607), 1, length(data.mTime));
+    mBsc1064 = transpose(interp2(TimeMg, HeightMg, mBsc1064, mTimeg, Heightg, 'linear'));
+    mExt1064 = transpose(interp2(TimeMg, HeightMg, mExt1064, mTimeg, Heightg, 'linear'));
+    mExt607 = transpose(interp2(TimeMg, HeightMg, mExt607, mTimeg, Heightg, 'linear'));
     data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
     data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
     data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4602,7 +4633,7 @@ if flagGHK
 
         % Rayleigh scattering
         [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+        mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));    
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
@@ -4626,7 +4657,7 @@ else
 
         % Rayleigh scattering
         [mBsc532, ~] = rayleigh_scattering(532, pressure, temperature + 273.17, 380, 70);
-        mBsc532 = repmat(transpose(mBsc532), 1, length(data.mTime));
+        mBsc532 = transpose(interp2(TimeMg, HeightMg, mBsc532, mTimeg, Heightg, 'linear'));    
         data.quasiAttri.flagGDAS1 = strcmpi(thisMeteorAttri.dataSource, 'gdas1');
         data.quasiAttri.meteorSource = thisMeteorAttri.dataSource;
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
