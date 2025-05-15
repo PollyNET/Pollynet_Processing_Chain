@@ -189,6 +189,24 @@ case 'nc_cloudnet'
         attri.datetime = measTime;
     end
 
+case 'ERA5'
+    [alt, temp, pres, relh, wins, wind, gdas1File] = readMETncERA5(measTime, ...
+        p.Results.gdas1Site, p.Results.meteo_folder, ...
+        'isUseLatestGDAS', p.Results.isUseLatestGDAS);
+
+    if isempty(alt)
+        alt = [];
+        temp = [];
+        pres = [];
+        relh = [];
+        wins = [];
+        wind = [];
+    else
+        attri.dataSource = p.Results.meteorDataSource;
+        attri.URL = gdas1File;
+        attri.datetime = measTime;
+    end
+    
 otherwise
     error('Unknown meteorological data source.\n%s\n', ...
           p.Results.meteorDataSource)
