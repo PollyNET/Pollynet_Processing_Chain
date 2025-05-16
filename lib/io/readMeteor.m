@@ -189,7 +189,7 @@ case 'nc_cloudnet'
         attri.datetime = measTime;
     end
 
-case 'ERA5'
+case 'era5'
     [alt, temp, pres, relh, wins, wind, gdas1File] = readMETncERA5(measTime, ...
         p.Results.gdas1Site, p.Results.meteo_folder, ...
         'isUseLatestGDAS', p.Results.isUseLatestGDAS);
