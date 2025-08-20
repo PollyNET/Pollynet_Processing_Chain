@@ -78,7 +78,8 @@ def main():
     merging_flag = False
     merging_flag = concat_files()
 
-    get_pollyxt_logbook_files()
+    if device != "martha":
+        get_pollyxt_logbook_files()
 
     if merging_flag == True:
         sys.exit(0)  # Indicates success/True
@@ -94,7 +95,129 @@ def get_input_path(timestamp,device,raw_folder):
     print(input_path)
     return input_path
 
+def get_input_path_martha(timestamp,device,raw_folder):
+    #raw_folder="/data/level0/martha/MARTHA_DATA"
+    YYYY=timestamp[0:4]
+    MM=timestamp[4:6]
+    #input_path = Path(raw_folder,device,"data_zip",f"{YYYY}{MM}")
+    input_path = Path(raw_folder)
+    print(input_path)
+    return input_path
+
 ### start of function concat_pollyxt_files
+def get_martha_files():
+    '''
+        This function locates multiple pollyxt level0 nc-zip files from one day measurements,
+        unzipps the files to output_path
+        and returns a list of files to be merged
+        and the title of the new merged nc-file
+    '''
+    input_path = get_input_path_martha(timestamp,device,raw_folder) 
+    path_exist = Path(input_path)
+    
+    if path_exist.exists() == True:
+        
+        ## set the searchpattern for the zipped-nc-files:
+        YYYY=timestamp[0:4]
+        MM=timestamp[4:6]
+        DD=timestamp[6:8]
+        
+        zip_searchpattern = str(YYYY)+'_'+str(MM)+'_'+str(DD)+'*_*[0-9].nc'
+        
+        polly_files       = Path(r'{}'.format(input_path)).glob('{}'.format(zip_searchpattern))
+        polly_zip_files_list0 = [x for x in polly_files if x.is_file()]
+
+        
+        
+        ## convert type path to type string
+        polly_zip_files_list = []
+        for file in polly_zip_files_list0:
+            polly_zip_files_list.append(str(file))
+        
+        if len(polly_zip_files_list) < 1:
+            print('no files found!')
+            sys.exit()
+        else:
+            print(polly_zip_files_list)
+
+        # Ensure the destination directory exists
+        Path(output_path).mkdir(parents=True, exist_ok=True)
+
+        polly_files_list = []
+        to_unzip_list = []
+        for zip_file in polly_zip_files_list:
+            ## check for size of zip-files to ensure to exclude bad measurement files with wrong timestamp e.g. 19700101
+            f_size = os.path.getsize(zip_file)
+            print(zip_file)
+            if f_size > 150000:
+                print(f_size)
+                print("filesize passes")
+            else:
+                print(f_size)
+                print("filesize too small, file will be skipped!")
+                continue ## go to next file
+
+#            ## check if zipfile is a valid zip-file
+#            if not is_zipfile(zip_file):
+#                print(f"invalid zip-file: {zip_file}\nskipping file.")
+#                #polly_zip_files_list.remove(zip_file)
+#                continue
+#            else:
+#                pass
+
+            #unzipped_nc = Path(zip_file).name
+            #unzipped_nc = Path(unzipped_nc)
+            #unzipped_nc = Path(output_path,unzipped_nc)
+            #print('here....')
+            #polly_files_list.append(unzipped_nc)
+            path = Path(zip_file)
+            polly_files_list.append(path)
+
+            ### check if unzipped files already exists in outputfolder
+            #if path.is_file() == False:
+            #    to_unzip_list.append(zip_file)
+            #if path.is_file() == True:
+            #    os.remove(unzipped_nc)
+            #    to_unzip_list.append(zip_file)
+        
+#        ## unzipping
+#        date_pattern = str(YYYY)+'_'+str(MM)+'_'+str(DD)
+#        if len(to_unzip_list) > 0:
+#            ## if working remotly on windows, copy zipped files first, than unzip
+#            if os_name.lower() == 'windows':
+#                print("\nCopy zipped files to local drive...")
+#                for zip_file in to_unzip_list:
+#                    print(zip_file)
+#                    shutil.copy2(Path(zip_file), Path(output_path) / Path(zip_file).name)
+#                print("\nUnzipping...")
+#                for zip_file in Path(output_path).iterdir():
+#                    if zip_file.is_file() and date_pattern in zip_file.stem and zip_file.suffix == '.zip': 
+#                        with ZipFile(zip_file, 'r') as zip_ref:
+#                            print("unzipping "+str(zip_file))
+#                            zip_ref.extractall(output_path)
+#                        print("Removing .zip file...")
+#                        os.remove(zip_file)
+#
+#            else:
+#                print("\nUnzipping...")
+#                for zip_file in to_unzip_list:
+#                    with ZipFile(zip_file, 'r') as zip_ref:
+#                        print("unzipping "+zip_file)
+#                        zip_ref.extractall(output_path)
+       
+
+        ## sort lists
+        polly_files_list.sort()
+
+        print("\n"+str(len(polly_files_list))+" files found:\n")
+        print(polly_files_list)
+        print("\n")
+
+    else:
+        print("\nNo data was found in {}. Correct path?\n".format(input_path))
+        sys.exit()
+    return polly_files_list
+
 def get_pollyxt_files():
     '''
         This function locates multiple pollyxt level0 nc-zip files from one day measurements,
@@ -315,7 +438,10 @@ def checking_vars():
                         'zenithangle'
                         ]
 
-    polly_files_list = get_pollyxt_files()
+    if device == "martha":
+        polly_files_list = get_martha_files()
+    else:
+        polly_files_list = get_pollyxt_files()
     if len(polly_files_list) == 1:
         return polly_files_list
 
@@ -625,10 +751,11 @@ def concat_files():
 
         ds.close()
 
-    print("\ndeleting individual .nc files ...")
-    for el in sel_polly_files_list:
-        print(el)
-        os.remove(el)
+    if device != "martha":
+        print("\ndeleting individual .nc files ...")
+        for el in sel_polly_files_list:
+            print(el)
+            os.remove(el)
     destination_file = Path(output_path,filestring)
     if os.path.exists(destination_file):
         os.remove(destination_file)  # Remove the existing destination file
