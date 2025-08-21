@@ -1673,6 +1673,9 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
+    sig532(1:10)=sig532(10);
+    sig607(1:10)=sig607(10);
+    
     thisAerExt532_raman_tmp = thisAerExt532_raman;
     thisAerExt532_raman(1:hBaseInd532) = thisAerExt532_raman(hBaseInd532);
     [thisAerBsc532_raman, thisAerBscStd532_raman, ~] = pollyRamanBsc_smart_MC(data.distance0, sig532, sig607, thisAerExt532_raman, PollyConfig.angstrexp, mExt532(iGrp,:), mBsc532(iGrp,:),mExt607(iGrp,:), mBsc607(iGrp,:), refH532,      PollyConfig.refBeta532, PollyConfig.smoothWin_raman_532,  true, 532, 607,  bg532, bg607, thisAerExtStd532_raman, sigma_angstroem, MC_count, 'monte-carlo');
@@ -1738,6 +1741,9 @@ for iGrp = 1:size(clFreGrps, 1)
     if (SNRRef1064 < PollyConfig.minRamanRefSNR1064) || (SNRRef607 < PollyConfig.minRamanRefSNR607)
         continue;
     end
+    
+    sig1064(1:10)=sig1064(10);
+    sig607(1:10)=sig607(10);
 
     thisAerExt1064_raman_tmp = thisAerExt1064_raman;
     thisAerExt1064_raman(1:hBaseInd1064) = thisAerExt1064_raman(hBaseInd1064);
