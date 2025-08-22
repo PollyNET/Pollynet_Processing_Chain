@@ -12,6 +12,7 @@ display_help() {
   echo "   -d, --device         specify device, e.g. pollyxt_lacros"
   echo "   -c, --config_file    specify Picasso configuration file, e.g.: ~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config_rsd2_andi.json"
 #  echo "   -o, --output         specify folder where to put merged nc-file, e.g.: ~/todo_filelist"
+  echo "   -b, --base_folder     specify folder where level0 files are located; default is set to polly-folder, can be switched to e.g. martha-folder"
   echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; default: false"
   echo "   --todolist       write merged level0-file into todo-list (set to true or false); default: true"
   echo "   --matlab         specify location of matlab-executable; default is just set to: matlab"
@@ -27,6 +28,7 @@ display_help() {
 ## initialize parameters
 FORCE_MERGING="false"
 MATLABEXEC="matlab"
+BASE_FOLDER="/data/level0/polly"
 PICASSO_CONFIG_FILE=""
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"
 PICASSO_DIR="$(dirname "$(dirname "$PICASSO_DIR_interface")")"
@@ -71,6 +73,13 @@ while :; do
   -c | --config_file)
     if [ $# -ne 0 ]; then
       PICASSO_CONFIG_FILE="$2"
+    fi
+    shift 2
+    ;;
+
+  -b | --base_folder)
+    if [ $# -ne 0 ]; then
+      BASE_FOLDER="$2"
     fi
     shift 2
     ;;
@@ -215,11 +224,16 @@ get_polly_filename() {
 	local device=$1
 	local date=$2
     # /data/level0/polly/pollyxt_lacros/data_zip/201907
-        local YYYY=${date:0:4}
+    local YYYY=${date:0:4}
 	local MM=${date:4:2}
 	local DD=${date:6:2}
-	local input_path="/data/level0/polly/${device}/data_zip/${YYYY}${MM}"
-	local searchpattern="${YYYY}_${MM}_${DD}*_*[0-9].nc.zip"
+    if [[ "$DEVICE" == "martha" ]]; then
+        local input_path="${BASE_FOLDER}"
+	    local searchpattern="${YYYY}_${MM}_${DD}*_*[0-9].nc"
+    else
+    	local input_path="${BASE_FOLDER}/${device}/data_zip/${YYYY}${MM}"
+	    local searchpattern="${YYYY}_${MM}_${DD}*_*[0-9].nc.zip"
+    fi
 	local polly_files=`ls ${input_path}/${searchpattern}`
 #	echo $polly_files
 #	return ${polly_files}
@@ -238,7 +252,11 @@ get_polly_filename() {
 process_history() {
   DEVICE=$1
   DATE=$2
-  local POLLY_FOLDER="/data/level0/polly/${DEVICE}"
+  if [[ "$DEVICE" == "martha" ]]; then
+      local POLLY_FOLDER="$BASE_FOLDER"
+  else
+      local POLLY_FOLDER="${BASE_FOLDER}/${DEVICE}"
+  fi
   local POLLY_TYPE=$DEVICE
 
   echo -e "\nSettings:\nPOLLY_FOLDER=$POLLY_FOLDER\nPOLLY_TYPE=$POLLY_TYPE\nPICASSO_CONFIG_FILE=$PICASSO_CONFIG_FILE\nSTART_DATE=$DATE\nEND_DATE=$DATE\n\n"
@@ -268,7 +286,7 @@ merging() {
     mkdir -p $OUTPUT_FOLDER ## create folder if not existing, else skip
     echo "start merging... "
     
-    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -f ${FORCE_MERGING^}
+    "$PY_FOLDER"python "$PICASSO_DIR_interface"/concat_pollyxt_lvl0.py -t $DATE -d $DEVICE -o $OUTPUT_FOLDER -r $BASE_FOLDER -f ${FORCE_MERGING^}
 
     exit_status=$?
 
@@ -287,7 +305,10 @@ write_job_into_todo_list() {
     DEVICE=$1
     DATE=$2
     local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+    #echo "$OUTPUT_FOLDER"
     local filename=$(get_polly_filename $DEVICE $DATE)
+    
+    #echo "$filename"
 #    echo $filename
     already_in_list=0
     if grep -q "$filename" $PICASSO_TODO_FILE

@@ -2076,7 +2076,7 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir,donefilelist
 
     ## read from global config file
     xLim = [-0.1, 1.1]
-    yLim = polly_conf_dict['yLim_att_beta_NR']
+    yLim = polly_conf_dict['yLim_overlap']
     partnerLabel = polly_conf_dict['partnerLabel']
     imgFormat = polly_conf_dict['imgFormat']
 
