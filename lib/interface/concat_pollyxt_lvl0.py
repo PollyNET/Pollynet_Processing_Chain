@@ -717,7 +717,10 @@ def concat_files():
 
     if len(sel_polly_files_list) == 1:
         print("\nOnly one file found. Nothing to merge!\n")
-        os.rename(sel_polly_files_list[0],Path(output_path,filestring))
+        if device == "martha":
+            shutil.copy2(sel_polly_files_list[0],Path(output_path,filestring))
+        else:
+            os.rename(sel_polly_files_list[0],Path(output_path,filestring))
         return True
     else:
 #        sel_polly_files_list = [ str(el) for el in sel_polly_files_list]
