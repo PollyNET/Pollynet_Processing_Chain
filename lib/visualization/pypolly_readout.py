@@ -18,6 +18,7 @@ import pandas as pd
 import sqlite3
 from zipfile import ZipFile, ZIP_DEFLATED
 import logging
+import fcntl ## for locking donelist-file
 logging.basicConfig(level=logging.WARNING)
 
 # load colormap
@@ -503,10 +504,13 @@ def write2donefile(picassoconfigfile_dict,donefilelist_dict):
     donefile = picassoconfigfile_dict['doneListFile']
 
     with open(donefile, 'a') as file:
+        ## request exclusive lock
+        fcntl.flock(file, fcntl.LOCK_EX)
         for key in donefilelist_dict.keys():
             for keyname in donefilelist_dict[key]:
                 file.write(f'{keyname}={donefilelist_dict[key][keyname]}\n')
             file.write(f'------\n')
+        file.flush()
     
     return None
 
