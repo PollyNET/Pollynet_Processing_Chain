@@ -7,9 +7,12 @@ function pollySavePOLIPHON(data, POLIPHON1)
 %
 % HISTORY:
 %    - 2023-06-26: first edition by Athena A. Floutsi
-%    - 2024-05-17: updates on startTime/endTime writing and on variable name 
+%    - 2024-05-17: updates on startTime/endTime writing and on variable name
+%    - 2025-09-15: updates to fix bug that didn't allow proper time
+%                  writting 
 %
 % .. Authors: - floutsi@tropos.de
+
 global PicassoConfig CampaignConfig PollyDataInfo PollyConfig
 missing_value = -999;
 
@@ -28,7 +31,6 @@ dimID_height = netcdf.defDim(ncID, 'height', length(data.height));
 dimID_method = netcdf.defDim(ncID, 'method', 1);
 dimID_time = netcdf.defDim(ncID, 'time', length(data.mTime));
 
-
 % define variables
 varID_altitude  = netcdf.defVar(ncID, 'altitude', 'NC_FLOAT', dimID_method);
 varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_method);
@@ -36,7 +38,7 @@ varID_latitude  = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_method);
 varID_startTime = netcdf.defVar(ncID, 'start_time', 'NC_DOUBLE', dimID_method);
 varID_endTime   = netcdf.defVar(ncID, 'end_time', 'NC_DOUBLE', dimID_method);
 varID_height    = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
-varID_time      = netcdf.defVar(ncID, 'time', 'NC_FLOAT', dimID_time);
+varID_time      = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 
 varID_aerBsc_klett_355     = netcdf.defVar(ncID, 'aerBsc_klett_355', 'NC_FLOAT', dimID_height);
 varID_aerBscStd_klett_355  = netcdf.defVar(ncID, 'uncertainty_aerBsc_klett_355', 'NC_FLOAT', dimID_height);
@@ -163,6 +165,7 @@ netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_startTime, datenum_2_unix_timestamp(startTime));
 netcdf.putVar(ncID, varID_endTime, datenum_2_unix_timestamp(endTime));
 netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));
 
 netcdf.putVar(ncID, varID_aerBsc_klett_355, single(fillmissing(data.aerBsc355_klett(iGrp, :), missing_value)));
 netcdf.putVar(ncID, varID_aerBscStd_klett_355, single(fillmissing(data.aerBscStd355_klett(iGrp, :), missing_value)));
