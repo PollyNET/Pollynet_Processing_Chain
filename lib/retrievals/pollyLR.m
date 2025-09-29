@@ -82,6 +82,6 @@ else
     aerBscStd = p.Results.aerBscStd;
 end
 
-aerLRStd = aerLR .* sqrt(aerExtStd.^2 ./ aerExt.^2 + aerBscStd.^2 ./ aerBsc.^2);
+aerLRStd = real(aerLR .* sqrt(aerExtStd.^2 ./ aerExt.^2 + aerBscStd.^2 ./ aerBsc.^2));
 
 end
