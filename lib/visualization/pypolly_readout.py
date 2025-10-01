@@ -278,7 +278,8 @@ def read_config(configfile):
 def read_excel_config_file(excel_file, timestamp, device):
     pd.set_option('display.width', 1500)
     pd.set_option('display.max_columns', None)
-    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl',usecols = 'A:Z')
+    #excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl',usecols = 'A:Z')
+    excel_file_ds = pd.read_excel(f'{excel_file}', engine='openpyxl')
     print(excel_file)
     ## search for timerange for given timestamp
     filtered_device = excel_file_ds.loc[(excel_file_ds['Instrument'] == device)]

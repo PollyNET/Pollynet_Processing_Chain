@@ -865,8 +865,9 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
     2022-09-01. First edition by Andi
     """
 
-    if not nc_dict_profile :
+    if not nc_dict_profile:
         return
+
 
     ## read from config file
     figDPI = config_dict['figDPI']
@@ -922,13 +923,16 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         
             param_dict = {
                           "backscatter":
-                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
+                                        {"FR":
+                                              ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064','aerBsc_RR_355','aerBsc_RR_532','aerBsc_RR_1064'],
                                          "NR":['aerBsc_raman_355','aerBsc_raman_532']
                                         },
-                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                          "extinction": {"FR":
+                                               ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064','aerExt_RR_355','aerExt_RR_532','aerExt_RR_1064'],
                                          "NR": ['aerExt_raman_355','aerExt_raman_532']
                                         },
-                          "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
+                          "lidarratio": {"FR": 
+                                               ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064','aerLR_RR_355','aerLR_RR_532','aerLR_RR_1064'],
                                          "NR": ['aerLR_raman_355','aerLR_raman_532']
                                         },
                           "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
@@ -970,16 +974,19 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
         if method == 'raman':
             param_dict = {
                           "backscatter":
-                                        {"FR": ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064'],
+                                        {"FR": 
+                                               ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064','aerBsc_RR_355','aerBsc_RR_532','aerBsc_RR_1064'],
                                          "NR": []
                                         },
-                          "extinction": {"FR": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064'],
+                          "extinction": {"FR": 
+                                               ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064','aerExt_RR_355','aerExt_RR_532','aerExt_RR_1064'],
                                          "NR": []
                                         },
                           "lidarratio": {"FR": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064'],
                                          "NR": []
                                         },
-                          "angstroem": {"FR": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman'],
+                          "angstroem": {"FR": 
+                                              ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064','aerLR_RR_355','aerLR_RR_532','aerLR_RR_1064'],
                                         "NR": []
                                        },
                           "depolarization": {"FR": ['parDepol_raman_355','parDepol_raman_532','parDepol_raman_1064'],
@@ -1031,9 +1038,13 @@ def pollyDisplay_profile_summary(nc_dict_profile,nc_dict_profile_NR,config_dict,
             if parameter == 'angstroem':
                     color_ls = ['orange','magenta','black']
             else:
-                    color_ls = ['blue','green','red']
+                    color_ls = ['blue','green','red','purple','olive','lightsalmon']
 
-            line_style = '-'
+            if 'RR' in p:
+                line_style = 'dashed'
+            else:
+                line_style = '-'
+            #line_style = '-'
 
             if parameter == 'wvmr':
 #                ax2 = ax[col].secondary_xaxis('top')
@@ -1322,13 +1333,16 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
     param_dict = {
                   "backscatter":
                                 {"Klett": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
-                                 "Raman":['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064']
+                                 "Raman":['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064','aerBsc_RR_355','aerBsc_RR_532','aerBsc_RR_1064']
+#                                 "Raman":['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064']
                                 },
                   "extinction": {"Klett": ['aerBsc_klett_355','aerBsc_klett_532','aerBsc_klett_1064'],
-                                 "Raman": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064']
+                                 #"Raman": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064']
+                                 "Raman": ['aerExt_raman_355','aerExt_raman_532','aerExt_raman_1064','aerExt_RR_355','aerExt_RR_532','aerExt_RR_1064'],
                                 },
                   "lidarratio": {"Klett": [],
-                                 "Raman": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064']
+                                 "Raman": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064','aerLR_RR_355','aerLR_RR_532','aerLR_RR_1064'],
+                                 #"Raman": ['aerLR_raman_355','aerLR_raman_532','aerLR_raman_1064']
                                 },
                   "angstroem": {"Klett": [],
                                 "Raman": ['AE_beta_355_532_Raman','AE_beta_532_1064_Raman','AE_parExt_355_532_Raman']
@@ -1359,9 +1373,13 @@ def pollyDisplay_profile_summary_QC(nc_dict_profile,config_dict,polly_conf_dict,
             if parameter == 'angstroem':
                     color_ls = ['orange','magenta','black']
             else:
-                    color_ls = ['blue','green','red']
+                    color_ls = ['blue','green','red','purple','olive','lightsalmon']
 
-            line_style = '-'
+
+            if 'RR' in p:
+                line_style = 'dashed'
+            else:
+                line_style = '-'
 
             if parameter == 'wvmr':
 #                ax2 = ax[col].secondary_xaxis('top')
