@@ -1673,6 +1673,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
 
+    %here the lower end of the extinction profiles is set to contant values
+    %better be done via config file
     sig532(1:10)=sig532(10);
     sig607(1:10)=sig607(10);
     
@@ -1742,6 +1744,8 @@ for iGrp = 1:size(clFreGrps, 1)
         continue;
     end
     
+    %again lower end of the extinction profiles is set to contant values
+    %better be done via config file
     sig1064(1:10)=sig1064(10);
     sig607(1:10)=sig607(10);
 
