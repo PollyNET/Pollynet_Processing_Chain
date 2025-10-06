@@ -1,4 +1,4 @@
-function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, varargin)
+function [report,LidarLCexport] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, calibration_on, LC_input, varargin)
 % PICASSOPROCV3 Picasso processing main program (Version 3.0).
 %End changed to UNIX Line changed to LF
 % USAGE:
@@ -4186,6 +4186,27 @@ data.LCUsed = struct();
         'default_liconstStd', PollyDefaults.LCStd(flag387NR));
 
 print_msg('Finish\n', 'flagTimestamp', true);
+
+%% export lidar constants
+if calibration_on
+    LidarLCexport(1,:)=data.LC.LC_raman_532;
+    LidarLCexport(2,:)=data.LC.LC_raman_607;
+    LidarLCexport(3,:)=data.LC.LC_raman_532_NR;
+    LidarLCexport(4,:)=data.LC.LC_raman_607_NR;
+    LidarLCexport(5,:)=data.LC.LC_raman_1064;
+    return
+else
+    data.LCUsed.LCUsed532=LC_input(1);
+    data.LCUsed.LCUsed607=LC_input(2);
+    data.LCUsed.LCUsed532NR=LC_input(3);
+    data.LCUsed.LCUsed607NR=LC_input(4);
+    data.LCUsed.LCUsed1064=LC_input(5);
+    LidarLCexport(1,:)=data.LCUsed.LCUsed532;
+    LidarLCexport(2,:)=data.LCUsed.LCUsed607;
+    LidarLCexport(3,:)=data.LCUsed.LCUsed532NR;
+    LidarLCexport(4,:)=data.LCUsed.LCUsed607NR;
+    LidarLCexport(5,:)=data.LCUsed.LCUsed1064;
+end
 
 %% attenuated backscatter
 print_msg('Start calculating attenuated backscatter.\n', 'flagTimestamp', true);
