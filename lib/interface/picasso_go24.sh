@@ -14,6 +14,7 @@ display_help() {
 #  echo "   -o, --output         specify folder where to put merged nc-file, e.g.: ~/todo_filelist"
   echo "   -b, --base_folder     specify folder where level0 files are located; default is set to polly-folder, can be switched to e.g. martha-folder"
   echo "   --force_merging      specify whether files will be merged independently if attributes have changed or not; default: false"
+  echo "   --no_merging     activate this flag to directly run picasso without merging to 24h-file"
   echo "   --todolist       write merged level0-file into todo-list (set to true or false); default: true"
   echo "   --matlab         specify location of matlab-executable; default is just set to: matlab"
   echo "   --proc 	        execute picasso-processing-chain (set to true or false); default: true"
@@ -40,6 +41,8 @@ flagProc="true"
 flagFProc="false"
 flagDeleteMergedFiles="true"
 flagPlotonly="false"
+flag_no_merging="false
+"
 filename=""
 filesize=""
 
@@ -119,6 +122,12 @@ while :; do
     flagPlotonly="true"
     shift 1
     ;;
+  
+  --no_merging)
+    flag_no_merging="true"
+    shift 1
+    ;;
+  
 
   -h | --help)
     display_help # Call your function
@@ -187,6 +196,11 @@ main() {
 	    echo $DEVICE
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE
+            if [[ "$flag_no_merging" == "true" ]];then
+                echo "processing without merging"
+                process_without_merging $DEVICE $DATE
+                exit 1
+            fi
             merging $DEVICE $DATE ## merging of level0 files
             if [[ "$flagWriteIntoTodoList" == "true" ]];then
             	check_todo_list_consistency
@@ -298,6 +312,16 @@ merging() {
         delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
 		delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
     fi
+}
+
+process_without_merging() {
+    DEVICE=$1
+    DATE=$2
+    process_history $DEVICE $DATE
+    delete_laserlogbookfile $DEVICE $DATE ## delete laserlogbook-file
+	delete_entry_from_todo_list $DEVICE $DATE ## delete entry from todo_list file
+
+
 }
 
 write_job_into_todo_list() {
