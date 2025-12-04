@@ -4497,7 +4497,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
@@ -4656,7 +4657,8 @@ if flagGHK
                            PollyConfig.G(flag532t),PollyConfig.G(flag532c), ...
                            PollyConfig.H(flag532t),PollyConfig.H(flag532c), ... 
                            data.polCaliEta532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 else
@@ -4677,7 +4679,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
