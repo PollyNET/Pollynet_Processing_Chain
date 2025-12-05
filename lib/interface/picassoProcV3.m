@@ -513,6 +513,7 @@ else
 end
        
 %% Polarization calibration
+print_msg('Polarization calibration. \n', 'flagTimestamp', true);
 data.polCaliFac355=NaN;
 data.polCaliFac532=NaN;
 data.polCaliFac1064=NaN;
@@ -540,6 +541,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali355Attri.polCaliEtaStd);
             data.polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
+            print_msg('Depol cali 355 etas: \n');
+            disp(data.polCali355Attri.polCaliEta);
+            print_msg('Depol Cali eta used355:\n');
+            disp(data.polCaliEta355);
         else
             warning('Cross or total channel at 355 nm does not exist.');
             data.polCaliEta355=NaN;
@@ -570,6 +575,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali532Attri.polCaliEtaStd);
             data.polCaliEta532=data.polCali532Attri.polCaliEta(index_min);
+            print_msg('Depol cali 532 etas: \n');
+            disp(data.polCali532Attri.polCaliEta);
+            print_msg('Depol Cali eta used532:\n');
+            disp(data.polCaliEta532);
         else
             warning('Cross or total channel at 532 nm does not exist.');
             data.polCaliEta532=NaN;
@@ -600,6 +609,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali1064Attri.polCaliEtaStd);
             data.polCaliEta1064=data.polCali1064Attri.polCaliEta(index_min);
+            print_msg('Depol cali 1064 etas: \n');
+            disp(data.polCali1064Attri.polCaliEta);
+            print_msg('Depol Cali eta used1064:\n');
+            disp(data.polCaliEta1064);
         else
             warning('Cross or total channel at 1064 nm does not exist.')
             data.polCaliEta1064=NaN;
@@ -4462,7 +4475,8 @@ if flagGHK
                            PollyConfig.G(flag532t),PollyConfig.G(flag532c), ...
                            PollyConfig.H(flag532t),PollyConfig.H(flag532c), ... 
                            data.polCaliEta532);
-        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 else
@@ -4483,7 +4497,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
@@ -4642,7 +4657,8 @@ if flagGHK
                            PollyConfig.G(flag532t),PollyConfig.G(flag532c), ...
                            PollyConfig.H(flag532t),PollyConfig.H(flag532c), ... 
                            data.polCaliEta532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 else
@@ -4663,7 +4679,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
