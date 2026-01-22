@@ -91,8 +91,13 @@ end
 RCS = reshape(signal, 1, numel(signal)) .* reshape(alt, 1, numel(alt)).^2;
 
 indRefMid = int32(mean(indRefAlt));
+
 % smooth the signal at the reference height region
-RCS = smooth(RCS, window_size, 'moving');
+% RCS = smooth(RCS, window_size, 'moving'); %old function
+%RCS = dynamic_smooth(RCS, window_size, 'moving'); %new function
+RCS = dynamic_smooth(RCS, window_size, 'dynamic_window'); %new method (full bins)
+%RCS = dynamic_smooth(RCS, window_size, 'dynamic_window2'); %new method (partial bins)
+
 RCS(indRefMid) = mean(RCS(indRefAlt(1):indRefAlt(2)));
 
 % intialize some parameters and set the value at the reference altitude.
