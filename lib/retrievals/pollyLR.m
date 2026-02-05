@@ -1,4 +1,4 @@
-function [aerLR, effRes, aerLRStd] = pollyLR(aerExt, aerBsc, varargin)
+function [aerLR, aerLRStd, effRes] = pollyLR(aerExt, aerBsc, varargin)
 % POLLYLR calculate aerosol lidar ratio.
 %
 % USAGE:
@@ -82,6 +82,6 @@ else
     aerBscStd = p.Results.aerBscStd;
 end
 
-aerLRStd = aerLR .* sqrt(aerExtStd.^2 ./ aerExt.^2 + aerBscStd.^2 ./ aerBsc.^2);
+aerLRStd = real(aerLR .* sqrt(aerExtStd.^2 ./ aerExt.^2 + aerBscStd.^2 ./ aerBsc.^2));
 
 end

@@ -109,7 +109,7 @@ case 'standard_atmosphere'
     wind = NaN(size(temp));
     wins = NaN(size(temp));
     alt = alt * 1e3;   % convert to [m]
-    temp = temp - 273.17;   % convert to [\circC]
+    temp = temp - 273.15;   % convert to [\circC]
     attri.dataSource = p.Results.meteorDataSource;
     attri.URL = '';
     attri.datetime = datenum(0,1,0,0,0,0);
@@ -189,6 +189,24 @@ case 'nc_cloudnet'
         attri.datetime = measTime;
     end
 
+case 'era5'
+    [alt, temp, pres, relh, wins, wind, gdas1File] = readMETncERA5(measTime, ...
+        p.Results.gdas1Site, p.Results.meteo_folder, ...
+        'isUseLatestGDAS', p.Results.isUseLatestGDAS);
+
+    if isempty(alt)
+        alt = [];
+        temp = [];
+        pres = [];
+        relh = [];
+        wins = [];
+        wind = [];
+    else
+        attri.dataSource = p.Results.meteorDataSource;
+        attri.URL = gdas1File;
+        attri.datetime = measTime;
+    end
+    
 otherwise
     error('Unknown meteorological data source.\n%s\n', ...
           p.Results.meteorDataSource)
@@ -217,7 +235,7 @@ if isempty(alt) || (all(isnan(alt))) || (length(unique(alt)) < 2 || alt_diff_is_
     [alt, ~, ~, temp, pres] = atmo(60, 0.03, 1);
     alt = alt * 1e3;
     pres = pres / 1e2;
-    temp = temp - 273.17;   % convert to [\circC]
+    temp = temp - 273.15;   % convert to [\circC]
     relh = NaN(size(temp));
     wins = NaN(size(temp));
     wind = NaN(size(temp));

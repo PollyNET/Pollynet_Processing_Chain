@@ -34,7 +34,7 @@ function [sigO] = pollyDTCor(sigI, mShots, hRes, varargin)
 %
 % HISTORY:
 %    - 2021-05-16: first edition by Zhenping
-%
+%    - 2025-02-19: edition by Cristofer Jimenez
 % .. Authors: - zhenping@tropos.de
 
 p = inputParser;
@@ -56,6 +56,9 @@ MShots = repmat(...
     reshape(mShots, size(mShots, 1), 1, size(mShots, 2)), ...
     [1, size(sigI, 2), 1]);   % reshape mShots to the same dimensions of sigI
 
+MShots_back = repmat(...
+    nanmedian(mShots,2),[1, size(sigI, 2), size(mShots, 2)]); %take median value over time to recalculate Photocount signal normalized to a common integration time. 
+
 %% Deadtime correction
 if p.Results.flagDeadTimeCorrection
     PCR = sigI ./ MShots * 150.0 ./ hRes;   % convert photon counts to phton 
@@ -66,7 +69,7 @@ if p.Results.flagDeadTimeCorrection
         for iCh = 1:size(sigI, 1)
             PCR_Cor = polyval(p.Results.deadtime(iCh, end:-1:1), ...
                               PCR(iCh, :, :));
-            sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots(iCh, :, :);
+            sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots_back(iCh, :, :);
         end
 
     % nonparalyzable correction
@@ -75,7 +78,7 @@ if p.Results.flagDeadTimeCorrection
             PCR_Cor = PCR(iCh, :, :) ./ ...
                       (1.0 - p.Results.deadtimeParams(iCh) * 1e-3 * ...
                       PCR(iCh, :, :));
-            sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots(iCh, :, :);
+            sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots_back(iCh, :, :);
         end
 
     % user defined deadtime.
@@ -85,7 +88,7 @@ if p.Results.flagDeadTimeCorrection
             for iCh = 1:size(sigI, 1)
                 PCR_Cor = polyval(p.Results.deadtimeParams(iCh, end:-1:1), ...
                                   PCR(iCh, :, :));
-                sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots(iCh, :, :);
+                sigO(iCh, :, :) = PCR_Cor / (150.0 / hRes) .* MShots_back(iCh, :, :);
             end
         else
             warning(['User defined deadtime parameters were not found. ', ...

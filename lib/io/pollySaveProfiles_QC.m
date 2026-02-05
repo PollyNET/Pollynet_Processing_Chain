@@ -88,8 +88,10 @@ for iGrp = 1:size(data.clFreGrps, 1)
         data.aerBsc532_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6))) = data.aerBsc532_NR_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(6)));
         %IR FF
         data.aerBsc1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
-        data.aerExt1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
-        data.LR1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+        %data.aerExt1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+        %data.LR1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
+        data.aerExt1064_raman(iGrp,:) = missing_value;
+        data.LR1064_raman(iGrp,:) = missing_value;
         data.pdr1064_raman(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
         data.pdr1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;
         data.aerBsc1064_klett(iGrp,(data.height <= PollyConfig.heightFullOverlap(8))) = missing_value;

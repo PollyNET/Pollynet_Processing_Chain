@@ -90,8 +90,8 @@ olAttri = struct();
 
 if size(p.Results.aerBsc,1)>0
     
-    [mBscRa, mExtRa] = rayleigh_scattering(Lambda_Ra, p.Results.pressure, p.Results.temperature + 273.17, 380, 70);
-    [~, mExtel] = rayleigh_scattering(Lambda_el, p.Results.pressure, p.Results.temperature + 273.17, 380, 70); % mBscel
+    [mBscRa, mExtRa] = rayleigh_scattering(Lambda_Ra, p.Results.pressure, p.Results.temperature + 273.15, 380, 70);
+    [~, mExtel] = rayleigh_scattering(Lambda_el, p.Results.pressure, p.Results.temperature + 273.15, 380, 70); % mBscel
     
     mExtRa=mean(mExtRa,1);
     mBscRa=mean(mBscRa,1);

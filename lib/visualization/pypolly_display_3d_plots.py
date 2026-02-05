@@ -1819,8 +1819,10 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
 
     ## read from global config file
     yLim = polly_conf_dict['yLim_Quasi_Params']
-    if q_param == "angexp" or q_param == "bsc_1064":
+    if q_param == "bsc_1064":
         zLim = polly_conf_dict['zLim_quasi_beta_1064']
+    elif q_param == "angexp":
+        zLim = polly_conf_dict['zLim_quasi_ANG']
     elif q_param == "bsc_532":
         zLim = polly_conf_dict['zLim_quasi_beta_532']        
     elif q_param == "par_depol_532":
@@ -1890,6 +1892,7 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
         quasi_title = f'Quasi particle depolarization ratio ({q_version}) at 532 nm from {pollyVersion} at {location}'
 
     saveFilename = os.path.join(saveFolder,plotfile)
+    print(plotfile)
 
     ## fill time gaps in att_bsc matrix
     matrix, quality_mask = readout.fill_time_gaps_of_matrix(time, matrix, quality_mask)
@@ -2017,6 +2020,12 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
     plt.close()
 
     ## write2donefilelist
+    if q_version == "V1":
+        prod_type_q = ""
+    elif q_version == "V2":
+        q = q_version.lower()
+        prod_type_q = f"_{q}"
+
     readout.write2donefilelist_dict(donefilelist_dict = donefilelist_dict,
                                     lidar = pollyVersion,
                                     location = nc_dict['location'],
@@ -2034,7 +2043,7 @@ def pollyDisplayQR(nc_dict,config_dict, polly_conf_dict, saveFolder, q_param, q_
                                     GDAS_timestamp = f"{datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d')} 12:00:00",
                                     lidar_ratio = 50,
                                     software_version = version,
-                                    product_type = f'{prodtype}',
+                                    product_type = f'{prodtype}{prod_type_q}',
                                     product_starttime = datetime.utcfromtimestamp(int(nc_dict['time'][0])).strftime('%Y%m%d %H:%M:%S'),
                                     product_stoptime = datetime.utcfromtimestamp(int(nc_dict['time'][-1])).strftime('%Y%m%d %H:%M:%S')
                                     )
@@ -2067,7 +2076,7 @@ def pollyDisplay_Overlap(nc_dict,config_dict,polly_conf_dict,outdir,donefilelist
 
     ## read from global config file
     xLim = [-0.1, 1.1]
-    yLim = polly_conf_dict['yLim_att_beta_NR']
+    yLim = polly_conf_dict['yLim_overlap']
     partnerLabel = polly_conf_dict['partnerLabel']
     imgFormat = polly_conf_dict['imgFormat']
 

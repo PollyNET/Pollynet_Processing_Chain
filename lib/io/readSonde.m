@@ -135,7 +135,17 @@ case 3 %Mosaic new
         relh = str2num(char(strData{1,5}(22:end)));
         wind = str2num(char(strData{1,6}(22:end)));
         wins = str2num(char(strData{1,7}(22:end)));
-    
+case 4   % Meteor radiosonde standard file
+
+    thisFilename = basename(file);
+    datetime = datenum(thisFilename(end-15:end-3), 'yyyymmdd_HHMMSS');
+
+    alt = ncread(file, 'altitude'); 
+    temp = ncread(file, 'temperature');
+    pres = ncread(file, 'pressure'); 
+    relh = ncread(file, 'RH');
+    wind = ncread(file, 'wind_direction');
+    wins = ncread(file, 'wind_speed');    
     
 otherwise
     error('Unknown fileType %d', fileType);
