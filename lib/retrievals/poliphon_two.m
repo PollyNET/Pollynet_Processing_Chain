@@ -126,7 +126,9 @@ for i=1:3
 end
 
 % mixing ratio of fine dust and non dust -> dndfd
-mr      = (0:2.500625156289073e-04:1);
+%mr      = (0:2.500625156289073e-04:1);
+step = size(aerBsc355_klett,2);
+mr = linspace(0, 1, step);
 dgndfd  = (size(mr,2):2); 
 dndfd_e = (size(mr,2):2); %estimated depol of fine mode and non dust, depending on mixing ratio
 for i=1:3
@@ -135,7 +137,6 @@ for i=1:3
         dndfd_e(i,c) = dgndfd(i,c)/(2-dgndfd(i,c));
     end
 end
-
 %% klett 355
 for i=1:size(aerBsc355_klett,1) % this loop shall be repeated for each bsc  % every retrieval profile
     for n=1:size(aerBsc355_klett,2) % every height 
