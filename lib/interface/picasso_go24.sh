@@ -197,14 +197,17 @@ main() {
 	    for DATE in ${DATE_LS[@]}; do
 	        echo $DATE
             if [[ "$flag_no_merging" == "true" ]];then
-                echo "processing without merging"
-                process_without_merging $DEVICE $DATE
+                if [[ "$flagProc" == "true" ]];then
+                    echo "processing without merging"
+                    process_without_merging $DEVICE $DATE
+                fi
                 exit 1
             fi
             merging $DEVICE $DATE ## merging of level0 files
             if [[ "$flagWriteIntoTodoList" == "true" ]];then
             	check_todo_list_consistency
-	            write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
+	            #write_job_into_todo_list $DEVICE $DATE ## writing job to todo_list
+	            write_job_into_todo_list_new $DEVICE $DATE ## writing job to todo_list
             fi
             copy_level0_merged_file_to_level0b $DEVICE $DATE ## copy merged level0-24h-file to level0b
 		    ## OPTION 1: process every single task???
@@ -346,6 +349,38 @@ write_job_into_todo_list() {
                 local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
 	        local filesize=`stat -c %s $OUTPUT_FOLDER/$filename2`
 	    	echo -n "$TODO_FOLDER, " >> $PICASSO_TODO_FILE
+	    	echo -n "${DEVICE}/data_zip/${DATE:0:6}, " >> $PICASSO_TODO_FILE
+	    	echo -n "$filename2, " >> $PICASSO_TODO_FILE
+	    	echo -n "$filename2.zip, " >> $PICASSO_TODO_FILE
+	    	echo -n "$filesize, " >> $PICASSO_TODO_FILE
+	    	echo -n "${DEVICE}" >> $PICASSO_TODO_FILE
+		echo ""  >> $PICASSO_TODO_FILE
+    else
+        echo "no files to add to todo_list"
+    fi
+}
+write_job_into_todo_list_new() {
+## writing job to todo_list, but overwrite all existing entries
+    DEVICE=$1
+    DATE=$2
+    local OUTPUT_FOLDER=$TODO_FOLDER/$DEVICE/data_zip/${DATE:0:6}
+    #echo "$OUTPUT_FOLDER"
+    local filename=$(get_polly_filename $DEVICE $DATE)
+    
+    #echo "$filename"
+#    echo $filename
+    already_in_list=0
+    if grep -q "$filename" $PICASSO_TODO_FILE
+	then
+                already_in_list=1
+		echo "${filename} already in todo_list"
+    elif [ -n "$filename" ] && [ "$already_in_list" -eq 0 ] ## check if variable string of $filename is greater than 0 and not already in list
+        then
+    		echo "add $filename to todo_list"
+		#local filename2=`ls $OUTPUT_FOLDER | grep "${DATE:0:4}_${DATE:4:2}_${DATE:6:2}"`
+                local filename2=$(ls ${OUTPUT_FOLDER}/${DATE:0:4}_${DATE:4:2}_${DATE:6:2}_*[0-9].nc | awk  -F '/' '{print $NF}')
+	        local filesize=`stat -c %s $OUTPUT_FOLDER/$filename2`
+	    	echo -n "$TODO_FOLDER, " > $PICASSO_TODO_FILE
 	    	echo -n "${DEVICE}/data_zip/${DATE:0:6}, " >> $PICASSO_TODO_FILE
 	    	echo -n "$filename2, " >> $PICASSO_TODO_FILE
 	    	echo -n "$filename2.zip, " >> $PICASSO_TODO_FILE

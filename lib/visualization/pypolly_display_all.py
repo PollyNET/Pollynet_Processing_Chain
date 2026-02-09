@@ -194,7 +194,8 @@ def main():
         except Exception as e:
             logging.exception("An error occurred")
 
-    if ('all' in args.retrieval) or ('cloudinfo' in args.retrieval):
+    #if ('all' in args.retrieval) or ('cloudinfo' in args.retrieval):
+    if ('cloudinfo' in args.retrieval):
         ## plotting ATT_BETA_FR plots + cloudinfo
         try:
             nc_files = readout.get_nc_filename(date, device, inputfolder, param='att_bsc')
