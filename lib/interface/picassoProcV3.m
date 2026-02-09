@@ -56,6 +56,7 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %    - 2024-08-28: GHK formalism for depol calculation implemented by Moritz Haarig
 %    - 2025-02-19: Smoothing added into meteo profiles, read all meteo data for HR products and interpolate, recalculation of signals using mean shot_number by Cristofer Jimenez 
 %    - 2025-03-14: Compute and save attenuated backscatter co and cross polarized by Cristofer Jimenez
+%    - 2026-02-09: POLIPHON step 2 added
 %
 % .. Authors: - zhenping@tropos.de, jimenez@tropos.de, floutsi@tropos.de, haarig@tropos.de
 
@@ -199,9 +200,7 @@ end
 %% Search for campaign information
 print_msg('Start searching polly campaign information and polly configurations.\n', 'flagTimestamp', true);
 try
-    [~, fName, fExt] = fileparts(pollyDataFile);
-    [PollyConfig, CampaignConfig] = searchCampConfig([fName, fExt], pollyType, PicassoConfig.pollynet_config_link_file);
-    %[PollyConfig, CampaignConfig] = searchCampConfig(pollyDataFile, pollyType, PicassoConfig.pollynet_config_link_file);
+    [PollyConfig, CampaignConfig] = searchCampConfig(pollyDataFile, pollyType, PicassoConfig.pollynet_config_link_file);
 catch ErrMsg
     if strcmp(ErrMsg.identifier, 'PICASSO:InvaliFile')
         return;
@@ -515,6 +514,7 @@ else
 end
        
 %% Polarization calibration
+print_msg('Polarization calibration. \n', 'flagTimestamp', true);
 data.polCaliFac355=NaN;
 data.polCaliFac532=NaN;
 data.polCaliFac1064=NaN;
@@ -542,6 +542,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali355Attri.polCaliEtaStd);
             data.polCaliEta355=data.polCali355Attri.polCaliEta(index_min);
+            print_msg('Depol cali 355 etas: \n');
+            disp(data.polCali355Attri.polCaliEta);
+            print_msg('Depol Cali eta used355:\n');
+            disp(data.polCaliEta355);
         else
             warning('Cross or total channel at 355 nm does not exist.');
             data.polCaliEta355=NaN;
@@ -572,6 +576,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali532Attri.polCaliEtaStd);
             data.polCaliEta532=data.polCali532Attri.polCaliEta(index_min);
+            print_msg('Depol cali 532 etas: \n');
+            disp(data.polCali532Attri.polCaliEta);
+            print_msg('Depol Cali eta used532:\n');
+            disp(data.polCaliEta532);
         else
             warning('Cross or total channel at 532 nm does not exist.');
             data.polCaliEta532=NaN;
@@ -602,6 +610,10 @@ if flagGHK
             %Taking the eta with lowest standard deviation
             [~, index_min] = min(data.polCali1064Attri.polCaliEtaStd);
             data.polCaliEta1064=data.polCali1064Attri.polCaliEta(index_min);
+            print_msg('Depol cali 1064 etas: \n');
+            disp(data.polCali1064Attri.polCaliEta);
+            print_msg('Depol Cali eta used1064:\n');
+            disp(data.polCaliEta1064);
         else
             warning('Cross or total channel at 1064 nm does not exist.')
             data.polCaliEta1064=NaN;
@@ -3140,7 +3152,7 @@ data.AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt532_NR_klett(iGrp, 60)))  %check what the 60 mean HB
+    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt355_NR_klett(iGrp, 60)))  %check what the 60 mean HB
         [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(data.aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
         data.AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
         data.AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
@@ -3277,8 +3289,6 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% POLIPHON (2-step)
- print_msg('Start 2-step POLIPHON\n', 'flagTimestamp', true);
-
 [data.POLIPHON2] = poliphon_two ...
     (data.aerBsc355_klett, data.pdr355_klett, ...
     data.aerBsc532_klett, data.pdr532_klett, data.aerBsc1064_klett, data.pdr1064_klett,...
@@ -3286,6 +3296,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
     data.aerBsc1064_raman, data.pdr1064_raman);
 
 print_msg('Finish. \n', 'flagTimestamp', true);
+
 
 %% Signal status
 data.SNR = NaN(size(data.signal));
@@ -4475,7 +4486,8 @@ if flagGHK
                            PollyConfig.G(flag532t),PollyConfig.G(flag532c), ...
                            PollyConfig.H(flag532t),PollyConfig.H(flag532c), ... 
                            data.polCaliEta532);
-        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 else
@@ -4496,7 +4508,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V1 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V1 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V1((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
@@ -4655,7 +4668,8 @@ if flagGHK
                            PollyConfig.G(flag532t),PollyConfig.G(flag532c), ...
                            PollyConfig.H(flag532t),PollyConfig.H(flag532c), ... 
                            data.polCaliEta532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 else
@@ -4676,7 +4690,8 @@ else
         data.quasiAttri.timestamp = thisMeteorAttri.datetime;
 
         vdr532Sm = pollyVDR2(sig532TSm, sig532CSm, PollyConfig.TR(flag532t), PollyConfig.TR(flag532c), data.polCaliFac532);
-        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        %data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) .* (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
+        data.qsiPDR532V2 = (vdr532Sm + 1) ./ (mBsc532 .* (PollyDefaults.molDepol532 - vdr532Sm) ./ (data.qsiBsc532V2 .* (1 + PollyDefaults.molDepol532)) + 1) - 1;
         data.qsiPDR532V2((data.quality_mask_vdr_532 ~= 0) | (data.quality_mask_532 ~= 0)) = NaN;
     end
 end
@@ -5091,7 +5106,7 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                 %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %end
             end
-
+        
         case 'poliphon_two'
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving POLIPHON 2 products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
