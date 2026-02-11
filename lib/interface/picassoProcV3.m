@@ -56,6 +56,7 @@ function [report] = picassoProcV3(pollyDataFile, pollyType, PicassoConfigFile, v
 %    - 2024-08-28: GHK formalism for depol calculation implemented by Moritz Haarig
 %    - 2025-02-19: Smoothing added into meteo profiles, read all meteo data for HR products and interpolate, recalculation of signals using mean shot_number by Cristofer Jimenez 
 %    - 2025-03-14: Compute and save attenuated backscatter co and cross polarized by Cristofer Jimenez
+%    - 2026-02-09: POLIPHON step 2 added
 %
 % .. Authors: - zhenping@tropos.de, jimenez@tropos.de, floutsi@tropos.de, haarig@tropos.de
 
@@ -3151,7 +3152,7 @@ data.AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt355_NR_klett(iGrp, 60)))  %check what the 60 mean HB
+    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt532_NR_klett(iGrp, 60)))  %check what the 60 mean HB
         [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(data.aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
         data.AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
         data.AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
@@ -3286,6 +3287,16 @@ print_msg('Finish.\n', 'flagTimestamp', true);
     data.aerBsc1064_raman, data.pdr1064_raman);
 
 print_msg('Finish.\n', 'flagTimestamp', true);
+
+%% POLIPHON (2-step)
+[data.POLIPHON2] = poliphon_two ...
+    (data.aerBsc355_klett, data.pdr355_klett, ...
+    data.aerBsc532_klett, data.pdr532_klett, data.aerBsc1064_klett, data.pdr1064_klett,...
+    data.aerBsc355_raman, data.pdr355_raman, data.aerBsc532_raman, data.pdr532_raman,...
+    data.aerBsc1064_raman, data.pdr1064_raman);
+
+print_msg('Finish. \n', 'flagTimestamp', true);
+
 
 %% Signal status
 data.SNR = NaN(size(data.signal));
@@ -5094,6 +5105,16 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
                 %catch
                 %print_msg('--> WARNING, could not save with', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 %end
+            end
+        
+        case 'poliphon_two'
+            if PicassoConfig.flagSaveProfiles
+                print_msg('--> start saving POLIPHON 2 products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                % try
+                pollySavePOLIPHON2(data, data.POLIPHON2);
+                print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                % catch
+                % print_msg('--> WARNING, could not save POLIPHON 2 products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             end
         
         otherwise
