@@ -3152,7 +3152,7 @@ data.AEStd_Bsc_355_532_NR_raman = NaN(size(clFreGrps, 1), length(data.height));
 for iGrp = 1:size(clFreGrps, 1)
 
     % Angstroem exponent 355-532 (based on parameters by Klett method)
-    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt355_NR_klett(iGrp, 60)))  %check what the 60 mean HB
+    if (~ isnan(data.aerExt355_NR_klett(iGrp, 60))) && (~ isnan(data.aerExt532_NR_klett(iGrp, 60)))  %check what the 60 mean HB
         [thisAE_Bsc_355_532_NR_klett, thisAEStd_Bsc_355_532_NR_klett] = pollyAE(data.aerBsc355_NR_klett(iGrp, :), zeros(size(data.height)), data.aerBsc532_NR_klett(iGrp, :), zeros(size(data.height)), 355, 532, PollyConfig.smoothWin_klett_NR_532);
         data.AE_Bsc_355_532_NR_klett(iGrp, :) = thisAE_Bsc_355_532_NR_klett;
         data.AEStd_Bsc_355_532_NR_klett(iGrp, :) = thisAEStd_Bsc_355_532_NR_klett;
