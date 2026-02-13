@@ -1,4 +1,4 @@
-certifi==2024.2.2
+certifi==2024.7.4
 cftime==1.6.3
 contourpy==1.1.1
 cycler==0.12.1
