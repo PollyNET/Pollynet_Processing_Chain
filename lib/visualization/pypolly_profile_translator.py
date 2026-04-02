@@ -522,7 +522,7 @@ def POLIPHON_profile_translator_function():
 def POLIPHON2_profile_translator_function():
     ## POLIPHON2_profile_translator
     
-    profilename_ls = ['POLIPHON2_Bsc_Raman']
+    profilename_ls = ['POLIPHON2_Bsc_Raman_355','POLIPHON2_Bsc_Raman_532','POLIPHON2_Bsc_Raman_1064']
 
     profile_dict_key_ls = profile_dict_keys()
 
@@ -533,37 +533,47 @@ def POLIPHON2_profile_translator_function():
         for n,key in enumerate(profile_dict_key_ls):
             profile_translator[profilename][key] = ''
 
-    ## Bsc_Raman POLIPHON2
-    profile_translator['POLIPHON2_Bsc_Raman']['method'] = 'Raman'
-    profile_translator['POLIPHON2_Bsc_Raman']['misc'] = ''
-    profile_translator['POLIPHON2_Bsc_Raman']['var_name_ls'] = ['aerBsc_raman_355','aerBsc_raman_532','aerBsc_raman_1064', ## bsc total
-                                                                'aerBsc355_raman_d2','aerBsc532_raman_d2','aerBsc1064_raman_d2', ## dust
-                                                                'aerBsc355_raman_nd2','aerBsc532_raman_nd2','aerBsc1064_raman_nd2', ## non dust
-                                                                'aerBsc355_raman_df2','aerBsc532_raman_df2','aerBsc1064_raman_df2', ## fine dust
-                                                                'aerBsc355_raman_dc2','aerBsc532_raman_dc2','aerBsc1064_raman_dc2' ## coarse dust
-                                                                ]
-    profile_translator['POLIPHON2_Bsc_Raman']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_355','uncertainty_aerBsc_raman_532',
-                                                                    'uncertainty_aerBsc355_raman_d2','uncertainty_aerBsc532_raman_d2','uncertainty_aerBsc1064_raman_d2',
-                                                                    'uncertainty_aerBsc355_raman_nd2','uncertainty_aerBsc532_raman_nd2','uncertainty_aerBsc1064_raman_nd2',
-                                                                    'uncertainty_aerBsc355_raman_df2','uncertainty_aerBsc532_raman_df2','uncertainty_aerBsc1064_raman_df2',
-                                                                    'uncertainty_aerBsc355_raman_dc2','uncertainty_aerBsc532_raman_dc2','uncertainty_aerBsc1064_raman_dc2'
-                                                                    ]
-    profile_translator['POLIPHON2_Bsc_Raman']['var_color_ls'] = ['blue','green','red',
-                                                                'blue','green','red',
-                                                                'blue','green','red',
-                                                                'blue','green','red',
-                                                                'blue','green','red']
-    profile_translator['POLIPHON2_Bsc_Raman']['var_style_ls'] = ['-','-','-',
-                                                                '--','--','--',
-                                                                '-.','-.','-.',
-                                                                (0, (3, 5, 1, 5, 1, 5)),(0, (3, 5, 1, 5, 1, 5)),(0, (3, 5, 1, 5, 1, 5)),
-                                                                'dotted','dotted','dotted']
-    profile_translator['POLIPHON2_Bsc_Raman']['scaling_factor'] = 10**6
-    profile_translator['POLIPHON2_Bsc_Raman']['xlim_name'] = 'xLim_beta_532_Poliphon'
-    profile_translator['POLIPHON2_Bsc_Raman']['ylim_name'] = 'yLim_beta_532_Poliphon'
-    profile_translator['POLIPHON2_Bsc_Raman']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
-    profile_translator['POLIPHON2_Bsc_Raman']['plot_filename'] = 'Bsc_Raman_POLIPHON_2'
-    profile_translator['POLIPHON2_Bsc_Raman']['product_type'] = 'POLIPHON_step2_Raman'
+    ## Bsc_Raman POLIPHON2_355
+    profile_translator['POLIPHON2_Bsc_Raman_355']['method'] = 'Raman'
+    profile_translator['POLIPHON2_Bsc_Raman_355']['misc'] = ''
+    profile_translator['POLIPHON2_Bsc_Raman_355']['var_name_ls'] = ['aerBsc_raman_355','aerBsc355_raman_d2','aerBsc355_raman_nd2','aerBsc355_raman_df2','aerBsc355_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_355']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_355','uncertainty_aerBsc355_raman_d2','uncertainty_aerBsc355_raman_nd2','uncertainty_aerBsc355_raman_df2','uncertainty_aerBsc355_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_355']['var_color_ls'] = ['black','blue','gray','darkviolet','darkviolet']
+    profile_translator['POLIPHON2_Bsc_Raman_355']['var_style_ls'] = ['-','-','--',':','dashdot']
+    profile_translator['POLIPHON2_Bsc_Raman_355']['scaling_factor'] = 10**6
+    profile_translator['POLIPHON2_Bsc_Raman_355']['xlim_name'] = 'xLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_355']['ylim_name'] = 'yLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_355']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+    profile_translator['POLIPHON2_Bsc_Raman_355']['plot_filename'] = 'Bsc_Raman_POLIPHON_2_355'
+    profile_translator['POLIPHON2_Bsc_Raman_355']['product_type'] = 'POLIPHON_step2_Raman_355'
+
+    ## Bsc_Raman POLIPHON2_532
+    profile_translator['POLIPHON2_Bsc_Raman_532']['method'] = 'Raman'
+    profile_translator['POLIPHON2_Bsc_Raman_532']['misc'] = ''
+    profile_translator['POLIPHON2_Bsc_Raman_532']['var_name_ls'] = ['aerBsc_raman_532','aerBsc532_raman_d2','aerBsc532_raman_nd2','aerBsc532_raman_df2','aerBsc532_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_532']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_532','uncertainty_aerBsc532_raman_d2','uncertainty_aerBsc532_raman_nd2','uncertainty_aerBsc532_raman_df2','uncertainty_aerBsc532_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_532']['var_color_ls'] = ['black','blue','gray','darkviolet','darkviolet']
+    profile_translator['POLIPHON2_Bsc_Raman_532']['var_style_ls'] = ['-','-','--',':','dashdot']
+    profile_translator['POLIPHON2_Bsc_Raman_532']['scaling_factor'] = 10**6
+    profile_translator['POLIPHON2_Bsc_Raman_532']['xlim_name'] = 'xLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_532']['ylim_name'] = 'yLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_532']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+    profile_translator['POLIPHON2_Bsc_Raman_532']['plot_filename'] = 'Bsc_Raman_POLIPHON_2_532'
+    profile_translator['POLIPHON2_Bsc_Raman_532']['product_type'] = 'POLIPHON_step2_Raman_532'
+
+    ## Bsc_Raman POLIPHON2_1064
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['method'] = 'Raman'
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['misc'] = ''
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['var_name_ls'] = ['aerBsc_raman_1064','aerBsc1064_raman_d2','aerBsc1064_raman_nd2','aerBsc1064_raman_df2','aerBsc1064_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['var_err_name_ls'] = ['uncertainty_aerBsc_raman_1064','uncertainty_aerBsc1064_raman_d2','uncertainty_aerBsc1064_raman_nd2','uncertainty_aerBsc1064_raman_df2','uncertainty_aerBsc1064_raman_dc2']
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['var_color_ls'] = ['black','blue','gray','darkviolet','darkviolet']
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['var_style_ls'] = ['-','-','--',':','dashdot']
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['scaling_factor'] = 10**6
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['xlim_name'] = 'xLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['ylim_name'] = 'yLim_beta_532_Poliphon'
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['x_label'] = 'Backscatter Coefficient [$Mm^{-1}*sr^{-1}$]'
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['plot_filename'] = 'Bsc_Raman_POLIPHON_2_1064'
+    profile_translator['POLIPHON2_Bsc_Raman_1064']['product_type'] = 'POLIPHON_step2_Raman_1064'
 
     return profile_translator
 
