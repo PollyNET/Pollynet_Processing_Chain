@@ -12,7 +12,7 @@ display_help() {
   echo "   -d, --device         specify device, e.g. pollyxt_lacros"
   echo "   -c, --config_file    specify Picasso configuration file, e.g.: ~/Pollynet_Processing_Chain/config/pollynet_processing_chain_config_rsd2_andi.json"
   echo "   --flag_donefilelist   set flag for writing metainfo of plotted files into donefilelist, specified in picasso-config"
-  echo "   -r, --retrieval    specify retrieval to be plotted [choices: 'all', 'attbsc', 'voldepol', 'cloudinfo', 'target_class', 'wvmr_rh', 'quasi_results', 'profiles', 'overlap']; default is set to 'all'"
+  echo "   -r, --retrieval    specify retrieval to be plotted [choices: 'all', 'attbsc', 'voldepol', 'cloudinfo', 'target_class', 'wvmr_rh', 'quasi_results', 'profiles', 'overlap', 'poliphon']; default is set to 'all'"
   echo "   -h, --help           show help message"
   echo
   exit 1
