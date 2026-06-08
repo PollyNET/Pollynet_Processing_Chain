@@ -3289,17 +3289,83 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% POLIPHON (2-step)
-[data.POLIPHON2] = poliphon_two ...
-    (data.aerBsc355_klett, data.pdr355_klett, ...
-    data.aerBsc532_klett, data.pdr532_klett, data.aerBsc1064_klett, data.pdr1064_klett,...
-    data.aerBsc355_raman, data.pdr355_raman, data.aerBsc532_raman, data.pdr532_raman,...
-    data.aerBsc1064_raman, data.pdr1064_raman);
+[data.POLIPHON2] = poliphon_two( ...
+    data.aerBsc355_klett, data.pdr355_klett, ... 
+    data.aerBsc532_klett, data.pdr532_klett, ...
+    data.aerBsc1064_klett, data.pdr1064_klett, ... 
+    data.aerBsc355_raman, data.pdr355_raman, ... 
+    data.aerBsc532_raman, data.pdr532_raman, ... 
+    data.aerBsc1064_raman, data.pdr1064_raman, ...
+    data.POLIPHON1.aerBsc355_klett_d1, data.POLIPHON1.aerBsc355_klett_nd1, ... 
+    data.POLIPHON1.aerBsc532_klett_d1, data.POLIPHON1.aerBsc532_klett_nd1, ... 
+    data.POLIPHON1.aerBsc1064_klett_d1, data.POLIPHON1.aerBsc1064_klett_nd1, ... 
+    data.POLIPHON1.aerBsc355_raman_d1, data.POLIPHON1.aerBsc355_raman_nd1, ... 
+    data.POLIPHON1.aerBsc532_raman_d1, data.POLIPHON1.aerBsc532_raman_nd1, ... 
+    data.POLIPHON1.aerBsc1064_raman_d1, data.POLIPHON1.aerBsc1064_raman_nd1, ... 
+    data.POLIPHON1.err_aerBsc355_klett_d1, data.POLIPHON1.err_aerBsc355_klett_nd1, ... 
+    data.POLIPHON1.err_aerBsc532_klett_d1, data.POLIPHON1.err_aerBsc532_klett_nd1, ... 
+    data.POLIPHON1.err_aerBsc1064_klett_d1, data.POLIPHON1.err_aerBsc1064_klett_nd1, ... 
+    data.POLIPHON1.err_aerBsc355_raman_d1, data.POLIPHON1.err_aerBsc355_raman_nd1, ... 
+    data.POLIPHON1.err_aerBsc532_raman_d1, data.POLIPHON1.err_aerBsc532_raman_nd1, ... 
+    data.POLIPHON1.err_aerBsc1064_raman_d1, data.POLIPHON1.err_aerBsc1064_raman_nd1, ... 
+    data.temperature, data.pressure); 
 
 print_msg('Finish. \n', 'flagTimestamp', true);
 
+% plotting CCN for 532nm
+figure; 
+hold on; 
+
+plot(data.POLIPHON2.n_ccn_raman_532, data.height.', 'r--', 'LineWidth', 1.5, 'DisplayName', 'Total CCN (only d+m)');
+plot(data.POLIPHON2.n_ccn_d_raman_532 + data.POLIPHON2.n_ccn_bb_raman_532, data.height.', 'b--', 'LineWidth', 1.5, 'DisplayName', 'Total CCN (only d+bb)');
+plot(data.POLIPHON2.n_ccn_d_raman_532, data.height.', 'k', 'LineWidth', 1.5, 'DisplayName', 'Dust CCN');
+plot(data.POLIPHON2.n_ccn_m_raman_532, data.height.', 'b-', 'LineWidth', 1.5, 'DisplayName', 'Marine CCN');
+plot(data.POLIPHON2.n_ccn_c_raman_532, data.height.', 'Color', [0.5 0.5 0.5], 'LineWidth', 1.5, 'DisplayName', 'Continental CCN');
+plot(data.POLIPHON2.n_ccn_bb_raman_532, data.height.', 'g-', 'LineWidth', 1.5, 'DisplayName', 'Biomass Burning CCN');
+plot(data.POLIPHON2.n_ccn_vsf_raman_532, data.height.', 'm-', 'LineWidth', 1.5, 'DisplayName', 'Fresh Volcanic Sulfate CCN');
+plot(data.POLIPHON2.n_ccn_vsa_raman_532, data.height.', 'c-', 'LineWidth', 1.5, 'DisplayName', 'Aged Volcanic Sulfate CCN');
+
+hold off;
+xlabel('CCN Concentration (cm^{-3})');
+ylabel('Height (m)');
+title('CCN Profiles at 532 nm (raman)');
+legend('Location', 'best'); 
+grid on;
+
+xlabel('CCN Concentration (cm^{-3})')
+ylabel('Height (m)')
+
+ylim([0, 7000]);
+xlim([0, 1300])
+
+
+% plotting INP
+figure; 
+hold on; 
+
+plot(data.POLIPHON2.n_inp_d_d10_raman_532, data.height.', 'k', 'LineWidth', 1.5, 'DisplayName', 'Dust INP'); % (heights, wavelengths, temperatures)
+plot(data.POLIPHON2.n_inp_m_d10_raman_532, data.height.', 'b-', 'LineWidth', 1.5, 'DisplayName', 'Marine INP');
+plot(data.POLIPHON2.n_inp_c_d10_raman_532, data.height.', 'Color', [0.5 0.5 0.5], 'LineWidth', 1.5, 'DisplayName', 'Continental INP');
+plot(data.POLIPHON2.n_inp_bb_d10_raman_532, data.height.', 'g-', 'LineWidth', 1.5, 'DisplayName', 'Biomass Burning Smoke INP');
+plot(data.POLIPHON2.n_inp_vsf_d10_raman_532, data.height.', 'm-', 'LineWidth', 1.5, 'DisplayName', 'Fresh Volcanic Sulfate INP');
+plot(data.POLIPHON2.n_inp_vsa_d10_raman_532, data.height.', 'c-', 'LineWidth', 1.5, 'DisplayName', 'Aged Volcanic Sulfate INP');
+
+hold off;
+xlabel('INP Concentration (L^{-1})');
+ylabel('Height (m)');
+title('INP Profiles at 532 nm after DeMott 2010 (raman)');
+legend('Location', 'best'); 
+grid on;
+
+xlabel('CCN Concentration (cm^{-3})')
+ylabel('Height (m)')
+
+ylim([0, 7000]);
+xlim([0, 0.03]);
+
 
 %% Signal status
-data.SNR = NaN(size(data.signal));
+    data.SNR = NaN(size(data.signal));
 for iCh = 1:size(data.signal, 1)
     signal_sm = smooth2(squeeze(data.signal(iCh, :, :)), PollyConfig.quasi_smooth_h(iCh), PollyConfig.quasi_smooth_t(iCh));
     signal_int = signal_sm * (PollyConfig.quasi_smooth_h(iCh) * PollyConfig.quasi_smooth_t(iCh));
