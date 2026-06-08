@@ -606,7 +606,7 @@ for method = 1:2
         Bfd_profile = [aerBsc355_klett_df2(1,:).', aerBsc532_klett_df2(1,:).', aerBsc1064_klett_df2(1,:).'];
         Bnd2_profile = [aerBsc355_klett_nd2(1,:).', aerBsc532_klett_nd2(1,:).', aerBsc1064_klett_nd2(1,:).'];
     else
-        disp("NO VALID METHOD")
+        disp('NO VALID METHOD')
     end
 
     %% Convert backscatter from m^-1 sr^-1 to Mm^-1 sr^-1 
