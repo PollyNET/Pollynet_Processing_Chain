@@ -375,7 +375,7 @@ def main():
         ## using profile_translator
 
         POLIPHON_profile_translator = p_translator.POLIPHON_profile_translator_function()
-        POLIPHON2_profile_translator = p_translator.POLIPHON2_profile_translator_function()
+        POLIPHON2_RAMAN_profile_translator = p_translator.POLIPHON2_RAMAN_profile_translator_function()
 
         ## POLIPHON
         try:
@@ -393,16 +393,19 @@ def main():
             logging.exception("An error occurred")
         ## POLIPHON2
         try:
-            nc_profiles_POLIPHON = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON_2')
+            #nc_profiles_POLIPHON_klett = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON_2_klett')
+            nc_profiles_POLIPHON_raman = readout.get_nc_filename(date, device, inputfolder, param='POLIPHON_2_raman')
+            #print(nc_profiles_POLIPHON_klett)
+            print(nc_profiles_POLIPHON_raman)
             print(f'plotting profiles to {outputfolder}')
-            for POLIPHON in nc_profiles_POLIPHON:
+            for POLIPHON in nc_profiles_POLIPHON_raman:
                 nc_dict_profile_POLI = readout.read_nc_file(POLIPHON,date,device,location)
                 starttime=datetime.utcfromtimestamp(int(nc_dict_profile_POLI['start_time'])).strftime('%H:%M')
                 endtime=datetime.utcfromtimestamp(int(nc_dict_profile_POLI['end_time'])).strftime('%H:%M')
-                print(f"POLIPHON-profile: {starttime} - {endtime}")
-                for profilename in POLIPHON2_profile_translator.keys():
+                print(f"POLIPHON2_RAMAN-profile: {starttime} - {endtime}")
+                for profilename in POLIPHON2_RAMAN_profile_translator.keys():
                     print(f"{profilename}")
-                    display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON2_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
+                    display_profiles.pollyDisplay_profile(nc_dict_profile_POLI,POLIPHON2_RAMAN_profile_translator,profilename,config_dict,polly_conf_dict,outputfolder,donefilelist_dict=donefilelist_dict)
         except Exception as e:
             logging.exception("An error occurred")
     ## add plotted files to donefile
