@@ -3289,6 +3289,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 print_msg('Finish.\n', 'flagTimestamp', true);
 
 %% POLIPHON (2-step)
+if size(clFreGrps,1) > 0 % checks if profile producs are available
 [data.POLIPHON2] = poliphon_two( ...
     data.aerBsc355_klett, data.pdr355_klett, ... 
     data.aerBsc532_klett, data.pdr532_klett, ...
@@ -3311,7 +3312,7 @@ print_msg('Finish.\n', 'flagTimestamp', true);
     data.temperature, data.pressure); 
 
 print_msg('Finish. \n', 'flagTimestamp', true);
-
+end
 %% Signal status
     data.SNR = NaN(size(data.signal));
 for iCh = 1:size(data.signal, 1)
@@ -5125,8 +5126,12 @@ data.PollyDataInfo_saving_info=struct2char(PollyDataInfo);
             if PicassoConfig.flagSaveProfiles
                 print_msg('--> start saving POLIPHON 2 products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
                 % try
-                pollySavePOLIPHON2(data, data.POLIPHON2);
-                print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                if size(clFreGrps,1) > 0
+                    pollySavePOLIPHON2(data, data.POLIPHON2);
+                    print_msg('--> finish!\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                else
+                    print_msg('--> Warning no profiles available \n', 'flagSimpleMsg', true, 'flagTimestamp', true);
+                end
                 % catch
                 % print_msg('--> WARNING, could not save POLIPHON 2 products.\n', 'flagSimpleMsg', true, 'flagTimestamp', true);
             end

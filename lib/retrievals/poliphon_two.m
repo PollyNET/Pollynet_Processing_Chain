@@ -47,7 +47,7 @@ Dnd = [0.05, 0.05, 0.05];   %depol non dust for 355, 532,1064 nm
 % add new conversion factors
 % names from BERTHA script
 % preallocate the variables 
-sz        = size(aerBsc532_raman);
+sz        = size(aerBsc532_raman);   % DANGER! This is the problem, in case there is no 532nm bsc.
 Pndfd     = NaN(sz);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 aerBsc355_raman_d1        = NaN(sz);
