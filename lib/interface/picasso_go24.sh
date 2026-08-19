@@ -28,7 +28,7 @@ display_help() {
 
 ## initialize parameters
 FORCE_MERGING="false"
-MATLABEXEC="matlab"
+MATLABEXEC="/usr/local/bin/matlab/R2022a/bin/matlab"
 BASE_FOLDER="/data/level0/polly"
 PICASSO_CONFIG_FILE=""
 PICASSO_DIR_interface="$( cd "$(dirname "$0")" ; pwd -P )"

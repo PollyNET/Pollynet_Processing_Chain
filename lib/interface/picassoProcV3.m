@@ -742,6 +742,8 @@ print_msg('Finish.\n', 'flagTimestamp', true);
 %% Meteorological data loading
 print_msg('Start loading meteorological data.\n', 'flagTimestamp', true);
 
+print_msg(sprintf('meteo folder? %s \n ', PollyConfig.meteo_folder), 'flagTimestamp', true);
+
 clFreGrpTimes = nanmean(data.mTime(clFreGrps), 2);
 [temp, pres, relh, ~, ~, data.meteorAttri] = loadMeteor(clFreGrpTimes, data.alt, ...
     'meteorDataSource', PollyConfig.meteorDataSource, ...
@@ -3619,8 +3621,10 @@ if (sum(flag387FR) == 1) && (sum(flag407 == 1))
     % calculate the molecule optical properties
     [~, mExt387_highres] = rayleigh_scattering(387, pres, temp + 273.15, 380, 70);
     [~, mExt407_highres] = rayleigh_scattering(407, pres, temp + 273.15, 380, 70);
-    trans387 = exp(- cumsum(mExt387_highres .* [data.distance0(1), diff(data.distance0)]));
-    trans407 = exp(- cumsum(mExt407_highres .* [data.distance0(1), diff(data.distance0)]));
+    %trans387 = exp(- cumsum(mExt387_highres .* [data.distance0(1), diff(data.distance0)]));
+    %trans407 = exp(- cumsum(mExt407_highres .* [data.distance0(1), diff(data.distance0)]));
+    trans387 = exp(- cumsum(bsxfun(@times, mExt387_highres, [data.distance0(1), diff(data.distance0)])));
+    trans407 = exp(- cumsum(bsxfun(@times, mExt407_highres, [data.distance0(1), diff(data.distance0)])));
     TRANS387 = transpose(interp2(TimeMg, HeightMg, trans387, mTimeg, Heightg, 'linear'));
     TRANS407 = transpose(interp2(TimeMg, HeightMg, trans407, mTimeg, Heightg, 'linear'));
 
