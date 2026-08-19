@@ -47,6 +47,8 @@ end
 filename = fullfile(filepath, filenameList(1).name);
 fid = fopen(filename, 'r');
 
+fprintf('file %s \n', filename);
+
 % if file does not exist or cannot be opened
 if fid == -1
     fprintf('File (%s) does not exist or cannot be opened.\n', filename);
@@ -65,6 +67,7 @@ temperature = NaN(23, 1);
 relh        = NaN(23, 1);
 wind        = NaN(23, 1);
 wins        = NaN(23, 1);
+
 
 % read relevant lines
 for k = 1:23
@@ -88,6 +91,7 @@ for k = 1:23
     wins(k)        = str2double(line(58:63));
 end
 fclose(fid);
+
 
 % if the sonde file has not been updated with actual data the entries are 0
 % therefore the data needs a check

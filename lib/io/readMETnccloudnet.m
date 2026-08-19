@@ -53,9 +53,16 @@ midTime = mean(tRange);
 
 [thisyear, thismonth, thisday, thishour, ~, ~] = datevec(midTime);
 % /oceanethome/model/ecmwf/profiles/ecmwf/2023/20230512_neumayer_ecmwf.nc
-fname = fullfile(folder, sprintf('%04d', thisyear), ...
+
+if contains(folder, 'ecmwf-open')
+    fname = fullfile(folder, sprintf('%04d', thisyear), ...
+            sprintf('%04d%02d%02d_%s_ecmwf-open.nc', ...
+            thisyear, thismonth, thisday, site));
+else
+    fname = fullfile(folder, sprintf('%04d', thisyear), ...
             sprintf('%04d%02d%02d_%s_ecmwf.nc', ...
             thisyear, thismonth, thisday, site));
+end
 
 disp(fname);
 
