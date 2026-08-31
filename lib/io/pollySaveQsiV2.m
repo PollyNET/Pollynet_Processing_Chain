@@ -33,8 +33,14 @@ varID_longitude = netcdf.defVar(ncID, 'longitude', 'NC_FLOAT', dimID_constant);
 varID_latitude = netcdf.defVar(ncID, 'latitude', 'NC_FLOAT', dimID_constant);
 varID_time = netcdf.defVar(ncID, 'time', 'NC_DOUBLE', dimID_time);
 varID_height = netcdf.defVar(ncID, 'height', 'NC_FLOAT', dimID_height);
+varID_quasi_bsc_355 = netcdf.defVar(ncID, 'quasi_bsc_355', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quasi_bsc_532 = netcdf.defVar(ncID, 'quasi_bsc_532', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quasi_bsc_1064 = netcdf.defVar(ncID, 'quasi_bsc_1064', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_OC_355 = netcdf.defVar(ncID, 'quasi_bsc_OC_355', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_OC_532 = netcdf.defVar(ncID, 'quasi_bsc_OC_532', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_OC_1064 = netcdf.defVar(ncID, 'quasi_bsc_OC_1064', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_NR_355 = netcdf.defVar(ncID, 'quasi_bsc_NR_355', 'NC_FLOAT', [dimID_height, dimID_time]);
+varID_quasi_bsc_NR_532 = netcdf.defVar(ncID, 'quasi_bsc_NR_532', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quasi_pardepol_532 = netcdf.defVar(ncID, 'quasi_pardepol_532', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quasi_ang_532_1064 = netcdf.defVar(ncID, 'quasi_ang_532_1064', 'NC_FLOAT', [dimID_height, dimID_time]);
 varID_quality_mask_532 = netcdf.defVar(ncID, 'quality_mask_532', 'NC_BYTE', [dimID_height, dimID_time]);
@@ -42,8 +48,14 @@ varID_quality_mask_1064 = netcdf.defVar(ncID, 'quality_mask_1064', 'NC_BYTE', [d
 varID_quality_mask_voldepol_532 = netcdf.defVar(ncID, 'quality_mask_voldepol_532', 'NC_BYTE', [dimID_height, dimID_time]);
 
 % define the filling value
+netcdf.defVarFill(ncID, varID_quasi_bsc_355, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_bsc_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_bsc_1064, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_OC_355, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_OC_532, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_OC_1064, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_NR_355, false, -999);
+netcdf.defVarFill(ncID, varID_quasi_bsc_NR_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_pardepol_532, false, -999);
 netcdf.defVarFill(ncID, varID_quasi_ang_532_1064, false, -999);
 netcdf.defVarFill(ncID, varID_quality_mask_532, false, 1);
@@ -51,8 +63,14 @@ netcdf.defVarFill(ncID, varID_quality_mask_1064, false, 1);
 netcdf.defVarFill(ncID, varID_quality_mask_voldepol_532, false, 1);
 
 % define the data compression
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_355, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quasi_bsc_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quasi_bsc_1064, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_OC_355, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_OC_532, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_OC_1064, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_NR_355, true, true, 5);
+netcdf.defVarDeflate(ncID, varID_quasi_bsc_NR_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quasi_pardepol_532, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quasi_ang_532_1064, true, true, 5);
 netcdf.defVarDeflate(ncID, varID_quality_mask_532, true, true, 5);
@@ -68,8 +86,14 @@ netcdf.putVar(ncID, varID_longitude, single(data.lon));
 netcdf.putVar(ncID, varID_latitude, single(data.lat));
 netcdf.putVar(ncID, varID_time, datenum_2_unix_timestamp(data.mTime));   % do the conversion
 netcdf.putVar(ncID, varID_height, single(data.height));
+netcdf.putVar(ncID, varID_quasi_bsc_355, single(data.qsiBsc355V2));
 netcdf.putVar(ncID, varID_quasi_bsc_532, single(data.qsiBsc532V2));
 netcdf.putVar(ncID, varID_quasi_bsc_1064, single(data.qsiBsc1064V2));
+netcdf.putVar(ncID, varID_quasi_bsc_OC_355, single(data.qsiBscOC355V2));
+netcdf.putVar(ncID, varID_quasi_bsc_OC_532, single(data.qsiBscOC532V2));
+netcdf.putVar(ncID, varID_quasi_bsc_OC_1064, single(data.qsiBscOC1064V2));
+netcdf.putVar(ncID, varID_quasi_bsc_NR_355, single(data.qsiBscNR355V2));
+netcdf.putVar(ncID, varID_quasi_bsc_NR_532, single(data.qsiBscNR532V2));
 netcdf.putVar(ncID, varID_quasi_pardepol_532, single(data.qsiPDR532V2));
 netcdf.putVar(ncID, varID_quasi_ang_532_1064, single(data.qsiAE_532_1064_V2));
 netcdf.putVar(ncID, varID_quality_mask_532, int8(data.quality_mask_532_V2));
@@ -111,6 +135,21 @@ netcdf.putAtt(ncID, varID_height, 'long_name', 'Height above the ground');
 netcdf.putAtt(ncID, varID_height, 'standard_name', 'height');
 netcdf.putAtt(ncID, varID_height, 'axis', 'Z');
 
+% quasi_bsc_355
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'long_name', 'quasi aerosol backscatter coefficients at 355 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'standard_name', 'quasi_bsc_355');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'plot_range', PollyConfig.zLim_quasi_beta_355/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'error_variable', 'quasi_beta_355_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'bias_variable', 'quasi_beta_355_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'Lidar_ratio_used', PollyConfig.LR355);
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR355));
+netcdf.putAtt(ncID, varID_quasi_bsc_355, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
 % quasi_bsc_532
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit', 'sr^-1 m^-1');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
@@ -121,6 +160,8 @@ netcdf.putAtt(ncID, varID_quasi_bsc_532, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'error_variable', 'quasi_beta_532_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'bias_variable', 'quasi_beta_532_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
+netcdf.putAtt(ncID, varID_quasi_bsc_532, 'Lidar_ratio_used', PollyConfig.LR532);
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR532));
 netcdf.putAtt(ncID, varID_quasi_bsc_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
 
@@ -134,8 +175,85 @@ netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'plot_scale', 'linear');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'source', CampaignConfig.name);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'error_variable', 'quasi_beta_1064_error');
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'bias_variable', 'quasi_beta_1064_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
+netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'Lidar_ratio_used', PollyConfig.LR1064);
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR1064));
 netcdf.putAtt(ncID, varID_quasi_bsc_1064, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
+% quasi_bsc_OC_355
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'long_name', 'quasi aerosol backscatter coefficients overlap corrected at 355 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'standard_name', 'quasi_bsc_OC_355');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'plot_range', PollyConfig.zLim_quasi_beta_355/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'error_variable', 'quasi_beta_355_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'bias_variable', 'quasi_beta_355_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'Lidar_ratio_used', PollyConfig.LR355);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR355));
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_355, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
+% quasi_bsc_OC_532
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'long_name', 'quasi aerosol backscatter coefficients overlap corrected at 532 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'standard_name', 'quasi_bsc_OC_532');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'plot_range', PollyConfig.zLim_quasi_beta_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'error_variable', 'quasi_beta_532_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'bias_variable', 'quasi_beta_532_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'Lidar_ratio_used', PollyConfig.LR532);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR532));
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
+% quasi_bsc_OC_1064
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'long_name', 'quasi aerosol backscatter coefficients overlap corrected at 1064 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'standard_name', 'quasi_bsc_OC_1064');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'plot_range', PollyConfig.zLim_quasi_beta_1064/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'error_variable', 'quasi_beta_1064_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'bias_variable', 'quasi_beta_1064_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed1064);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'Lidar_ratio_used', PollyConfig.LR1064);
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR1064));
+netcdf.putAtt(ncID, varID_quasi_bsc_OC_1064, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
+% quasi_bsc_NR_355
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'long_name', 'quasi aerosol backscatter coefficients near range at 355 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'standard_name', 'quasi_bsc_NR_355');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'plot_range', PollyConfig.zLim_quasi_beta_355/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'error_variable', 'quasi_beta_355_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'bias_variable', 'quasi_beta_355_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed355NR);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'Lidar_ratio_used', PollyConfig.LR355);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR355));
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_355, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
+
+% quasi_bsc_NR_532
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'unit', 'sr^-1 m^-1');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'unit_html', 'sr<sup>-1</sup> m<sup>-1</sup>');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'long_name', 'quasi aerosol backscatter coefficients near range at 532 nm');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'standard_name', 'quasi_bsc_NR_532');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'plot_range', PollyConfig.zLim_quasi_beta_532/1e6);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'plot_scale', 'linear');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'source', CampaignConfig.name);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'error_variable', 'quasi_beta_532_error');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'bias_variable', 'quasi_beta_532_bias');
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'Lidar_calibration_constant_used', data.LCUsed.LCUsed532NR);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'Lidar_ratio_used', PollyConfig.LR532);
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'retrieved_info', sprintf('Fixed Lidar ratio: %5.1f[Sr]', PollyConfig.LR532));
+netcdf.putAtt(ncID, varID_quasi_bsc_NR_532, 'comment', 'This parameter is retrieved by the method demonstrated in (Holger, ATM, 2017). The retrieved results are dependent on the lidar constants and the AOD below the current bin. If the AOD is greater than 0.2, the relative uncertainty can be as large as 20%. Be careful about that!');
 
 % quasi_pardepol_532
 netcdf.putAtt(ncID, varID_quasi_pardepol_532, 'unit', '');
