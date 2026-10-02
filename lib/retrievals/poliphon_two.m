@@ -26,7 +26,7 @@ function [POLIPHON2] = poliphon_two(aerBsc355_raman, pdr355_raman, aerBsc532_ram
 %       - Error estimates
 %
 %
-% HISTORY:
+% HISTORY: 10.09.2026 Bug fix: pdr532_raman was used for every seperation
 %
 % .. Authors: - jneumann@tropos.de
 %             - floutsi@tropos.de
@@ -164,8 +164,8 @@ for i=1:size(aerBsc355_klett,1) % this loop shall be repeated for each bsc  % ev
 
             aerBsc355_klett_nddf2(i,n) = aerBsc355_klett(i,n)-aerBsc355_klett_dc2(i,n);
         end
-        if pdr532_raman(i,n)<=dndfd_e(1,n)                
-            Pndfd(i,n) = pdr532_raman(i,n);
+        if pdr355_klett(i,n)<=dndfd_e(1,n)                
+            Pndfd(i,n) = pdr355_klett(i,n);
         else
             Pndfd(i,n) = dndfd_e(1,n);
         end
@@ -202,13 +202,13 @@ for i=1:size(aerBsc532_klett,1) % klett 532
             elseif pdr532_klett(i,n)>Dcd(2)
                 aerBsc532_klett_dc2(i,n) = aerBsc532_klett(i,n);
             else
-                    aerBsc532_klett_dc2(i,n) = aerBsc532_klett(i,n)*(pdr532_klett(i,n)-dndfd_e(2,n))*(1+Dcd(2))/(Dcd(2)-dndfd_e(2,n))/(1+pdr532_klett(i,n));
+                aerBsc532_klett_dc2(i,n) = aerBsc532_klett(i,n)*(pdr532_klett(i,n)-dndfd_e(2,n))*(1+Dcd(2))/(Dcd(2)-dndfd_e(2,n))/(1+pdr532_klett(i,n));
             end
 
             aerBsc532_klett_nddf2(i,n) = aerBsc532_klett(i,n)-aerBsc532_klett_dc2(i,n);
         end
-        if pdr532_raman(i,n)<=dndfd_e(2,n)                
-            Pndfd(i,n) = pdr532_raman(i,n);
+        if pdr532_klett(i,n)<=dndfd_e(2,n)                
+            Pndfd(i,n) = pdr532_klett(i,n);
         else
             Pndfd(i,n) = dndfd_e(2,n);
         end
@@ -251,8 +251,8 @@ for i=1:size(aerBsc1064_klett,1)
 
             aerBsc1064_klett_nddf2(i,n) = aerBsc1064_klett(i,n)-aerBsc1064_klett_dc2(i,n);
         end
-        if pdr532_raman(i,n)<=dndfd_e(3,n)                
-            Pndfd(i,n) = pdr532_raman(i,n); 
+        if pdr1064_klett(i,n)<=dndfd_e(3,n)                
+            Pndfd(i,n) = pdr1064_klett(i,n); 
         else
             Pndfd(i,n) = dndfd_e(3,n);
         end
@@ -294,8 +294,8 @@ for i=1:size(aerBsc355_raman,1)
                 
             aerBsc355_raman_nddf2(i,n) = aerBsc355_raman(i,n)-aerBsc355_raman_dc2(i,n);
         end
-        if pdr532_raman(i,n)<=dndfd_e(1,n)                
-            Pndfd(i,n) = pdr532_raman(i,n); 
+        if pdr355_raman(i,n)<=dndfd_e(1,n)                
+            Pndfd(i,n) = pdr355_raman(i,n); 
         else
             Pndfd(i,n) = dndfd_e(1,n);
         end
@@ -381,8 +381,8 @@ for i=1:size(aerBsc1064_raman,1)
                 
             aerBsc1064_raman_nddf2(i,n) = aerBsc1064_raman(i,n)-aerBsc1064_raman_dc2(i,n);
         end
-        if pdr532_raman(i,n)<=dndfd_e(3,n)                
-            Pndfd(i,n) = pdr532_raman(i,n);
+        if pdr1064_raman(i,n)<=dndfd_e(3,n)                
+            Pndfd(i,n) = pdr1064_raman(i,n);
         else
             Pndfd(i,n) = dndfd_e(3,n);
         end
@@ -413,16 +413,16 @@ POLIPHON2.err_aerBsc355_klett_df2 = err_aerBsc355_klett_df2;
 POLIPHON2.err_aerBsc355_klett_nddf2 = err_aerBsc355_klett_nddf2;
 POLIPHON2.err_aerBsc355_klett_nd2 = err_aerBsc355_klett_nd2;
 %% 532 klett
-POLIPHON2.aerBsc532_klett_d2 = aerBsc532_klett_d2;
-POLIPHON2.aerBsc532_klett_dc2 = aerBsc532_klett_dc2;
-POLIPHON2.aerBsc532_klett_df2 = aerBsc532_klett_df2;
-POLIPHON2.aerBsc532_klett_nddf2 = aerBsc532_klett_nddf2;
-POLIPHON2.aerBsc532_klett_nd2 = aerBsc532_klett_nd2;
-POLIPHON2.err_aerBsc532_klett_d2 = err_aerBsc532_klett_d2;
-POLIPHON2.err_aerBsc532_klett_dc2 = err_aerBsc532_klett_dc2;
-POLIPHON2.err_aerBsc532_klett_df2 = err_aerBsc532_klett_df2;
+POLIPHON2.aerBsc532_klett_d2        = aerBsc532_klett_d2;
+POLIPHON2.aerBsc532_klett_dc2       = aerBsc532_klett_dc2;
+POLIPHON2.aerBsc532_klett_df2       = aerBsc532_klett_df2;
+POLIPHON2.aerBsc532_klett_nddf2     = aerBsc532_klett_nddf2;
+POLIPHON2.aerBsc532_klett_nd2       = aerBsc532_klett_nd2;
+POLIPHON2.err_aerBsc532_klett_d2    = err_aerBsc532_klett_d2;
+POLIPHON2.err_aerBsc532_klett_dc2   = err_aerBsc532_klett_dc2;
+POLIPHON2.err_aerBsc532_klett_df2   = err_aerBsc532_klett_df2;
 POLIPHON2.err_aerBsc532_klett_nddf2 = err_aerBsc532_klett_nddf2;
-POLIPHON2.err_aerBsc532_klett_nd2 = err_aerBsc532_klett_nd2;
+POLIPHON2.err_aerBsc532_klett_nd2   = err_aerBsc532_klett_nd2;
 %% 1064 klett
 POLIPHON2.aerBsc1064_klett_d2 = aerBsc1064_klett_d2;
 POLIPHON2.aerBsc1064_klett_dc2 = aerBsc1064_klett_dc2;
@@ -1538,22 +1538,7 @@ for method = 1:2
         POLIPHON2.aerBsc1064_klett_dc2 = aerBsc1064_klett_dc2;
         POLIPHON2.aerBsc1064_klett_df2 = aerBsc1064_klett_df2;
         %POLIPHON2.aerBsc1064_klett_nddf2 = aerBsc1064_klett_nnddf2;
-    
-        POLIPHON2.err_aerBsc355_klett_d2 = err_aerBsc355_klett_d2;
-        POLIPHON2.err_aerBsc355_klett_nd2 = err_aerBsc355_klett_nd2;
-        POLIPHON2.err_aerBsc355_klett_dc2 = err_aerBsc355_klett_dc2;
-        POLIPHON2.err_aerBsc355_klett_df2 = err_aerBsc355_klett_df2;
-    
-        POLIPHON2.err_aerBsc532_klett_d2 = err_aerBsc532_klett_d2;
-        POLIPHON2.err_aerBsc532_klett_nd2 = err_aerBsc532_klett_nd2;
-        POLIPHON2.err_aerBsc532_klett_dc2 = err_aerBsc532_klett_dc2;
-        POLIPHON2.err_aerBsc532_klett_df2 = err_aerBsc532_klett_df2;
-    
-        POLIPHON2.err_aerBsc1064_klett_d2 = err_aerBsc1064_klett_d2;
-        POLIPHON2.err_aerBsc1064_klett_nd2 = err_aerBsc1064_klett_nd2;
-        POLIPHON2.err_aerBsc1064_klett_dc2 = err_aerBsc1064_klett_dc2;
-        POLIPHON2.err_aerBsc1064_klett_df2 = err_aerBsc1064_klett_df2;
-    
+        
         % err
         POLIPHON2.err_aerBsc355_klett_d2 = err_aerBsc355_klett_d2;
         POLIPHON2.err_aerBsc355_klett_nd2 = err_aerBsc355_klett_nd2;
